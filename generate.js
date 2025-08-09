@@ -18,7 +18,7 @@ var BASE_PATH = BASE_URL
   : (process.env.BASE_PATH || autoBasePath);
 
 var ADS_CLIENT = process.env.ADSENSE_CLIENT || ''; // 예: ca-pub-XXXXXXXX
-var PUB_ID = ADS_CLIENT.replace('ca-', '');
+var PUB_ID = ADS_CLIENT.replace('ca-pub-', '');
 
 var categories = [
   { key: 'bio', name: '인스타 바이오' },
