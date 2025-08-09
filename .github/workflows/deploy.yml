@@ -18,13 +18,13 @@ jobs:
         with:
           node-version: 20
       - name: Build static site
-        env:
-          BASE_URL: ${{ vars.BASE_URL }}
-          ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }} 
-        working-directory: ./Money-making  # 이 줄 추가
-        run: |
-          npm ci --ignore-scripts --prefer-offline || true
-          npm run build
+         env:
+             BASE_URL: ${{ vars.BASE_URL }}
+             ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}
+         run: |
+             cd Money-making
+             npm ci --ignore-scripts --prefer-offline || true
+             npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
