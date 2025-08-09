@@ -1,0 +1,8 @@
+{
+  "name": "auto-pseo-ads-site",
+  "private": true,
+  "scripts": {
+    "build": "node generate.js"
+  },
+  "dependencies": {}
+}
