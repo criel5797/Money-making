@@ -17,7 +17,6 @@ var BASE_PATH = BASE_URL
   ? (new URL(BASE_URL).pathname.replace(/\/$/, '') || '')
   : (process.env.BASE_PATH || autoBasePath);
 
-// 광고
 var ADS_CLIENT = process.env.ADSENSE_CLIENT || ''; // 예: ca-pub-XXXXXXXX
 var PUB_ID = ADS_CLIENT.replace('ca-', '');
 
