@@ -22,13 +22,12 @@ jobs:
           BASE_URL: ${{ vars.BASE_URL }}
           ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}
         run: |
-          cd Money-making
           npm ci --ignore-scripts --prefer-offline || true
           npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: Money-making/dist
+          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
