@@ -197,7 +197,6 @@ function build(){
   for(i = 0; i < urls.length; i++) sm.push('<url><loc>' + abs(urls[i]) + '</loc></url>');
   sm.push('</urlset>');
   write(path.join(OUT, 'sitemap.xml'), sm.join('\n'));
-
   write(path.join(OUT, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: ' + abs('/sitemap.xml'));
 
   if(PUB_ID){
