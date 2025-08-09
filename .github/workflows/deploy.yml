@@ -20,7 +20,8 @@ jobs:
       - name: Build static site
         env:
           BASE_URL: ${{ vars.BASE_URL }}
-          ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}
+          ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }} 
+        working-directory: ./Money-making  # 이 줄 추가
         run: |
           npm ci --ignore-scripts --prefer-offline || true
           npm run build
