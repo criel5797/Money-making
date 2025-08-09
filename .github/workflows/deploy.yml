@@ -1,39 +1,44 @@
 name: Build & Deploy (Auto)
 on:
-  push:
-    branches: [ main ]
-  schedule:
-    - cron: "17 2 * * 1,4"  # 매주 월/목 KST 오전 11:17 전후
-  workflow_dispatch: {}
+push:
+branches: [ main ]
+schedule:
+- cron: "17 2 * * 1,4"  # 매주 월/목 KST 오전 11:17
+workflow_dispatch: {}
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+contents: write
+pages: write
+id-token: write
+concurrency:
+group: "pages"
+cancel-in-progress: true
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Build static site
-        env:
-          BASE_URL: ${{ vars.BASE_URL }}
-          ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}
-        run: |
-          npm ci --ignore-scripts --prefer-offline || true
-          npm run build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+build:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v4
+- uses: actions/setup-node@v4
+with:
+node-version: 20
+- name: Compute BASE_URL automatically
+run: echo "BASE_URL=https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+- name: Build static site
+env:
+BASE_URL: ${{ env.BASE_URL }}
+ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}  # 없으면 빈값
+run: |
+npm ci --ignore-scripts --prefer-offline || true
+npm run build
+- name: Upload artifact
+uses: actions/upload-pages-artifact@v3
+with:
+path: dist
+deploy:
+needs: build
+runs-on: ubuntu-latest
+environment:
+name: github-pages
+url: ${{ steps.deployment.outputs.page_url }}
+steps:
+- id: deployment
+uses: actions/deploy-pages@v4
