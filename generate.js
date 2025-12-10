@@ -59,41 +59,57 @@ function layout(title, pathname, body, includeAdScript){
     '<meta name="robots" content="index,follow">' +
     adsScript +
     '<style>' +
-    'body{font-family:system-ui,-apple-system,sans-serif;max-width:900px;margin:0 auto;padding:24px;line-height:1.6;background:#f5f5f5}' +
-    'h1{font-size:32px;margin:16px 0;text-align:center;color:#333}' +
-    'h2{font-size:24px;margin:16px 0;color:#444}' +
-    'h3{font-size:20px;margin:12px 0;color:#555}' +
-    'a{color:#0a66c2;text-decoration:none} a:hover{text-decoration:underline}' +
-    '.game-card{background:white;border-radius:12px;padding:24px;margin:16px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:transform 0.2s}' +
-    '.game-card:hover{transform:translateY(-4px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}' +
-    '.game-emoji{font-size:48px;margin:16px 0;text-align:center}' +
-    '.game-title{font-size:24px;font-weight:bold;margin:12px 0;color:#333}' +
-    '.game-description{color:#666;margin:8px 0}' +
-    '.game-category{display:inline-block;background:#e3f2fd;color:#1976d2;padding:4px 12px;border-radius:12px;font-size:12px;margin:8px 0}' +
-    '.play-btn{display:inline-block;background:#0a66c2;color:white;padding:12px 32px;border-radius:8px;margin:16px 0;font-size:18px;font-weight:bold;cursor:pointer;border:none;transition:background 0.2s;text-align:center}' +
-    '.play-btn:hover{background:#084a8f;text-decoration:none}' +
-    '.btn{padding:12px 24px;font-size:16px;font-weight:bold;border:none;border-radius:8px;cursor:pointer;transition:all 0.2s}' +
-    '.btn-primary{background:#0a66c2;color:white}.btn-primary:hover{background:#084a8f}' +
-    '.btn-success{background:#27ae60;color:white}.btn-success:hover{background:#1e8449}' +
-    '.btn-danger{background:#e74c3c;color:white}.btn-danger:hover{background:#c0392b}' +
-    'input,textarea{padding:12px;font-size:16px;border:2px solid #ddd;border-radius:8px;width:100%;box-sizing:border-box;margin:8px 0}' +
-    'input:focus,textarea:focus{outline:none;border-color:#0a66c2}' +
-    'footer{color:#777;margin:32px 0;text-align:center;font-size:14px}' +
-    '.placeholder{height:90px;background:#f2f2f2;border:1px dashed #ddd;display:flex;align-items:center;justify-content:center;color:#888;font-size:12px;border-radius:8px;margin:24px 0}' +
-    'nav{text-align:center;margin:24px 0}' +
-    'nav a{margin:0 12px;font-size:16px}' +
-    '.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}' +
-    '.stat-box{background:#f8f9fa;padding:16px;border-radius:8px;text-align:center}' +
-    '.stat-label{font-size:14px;color:#666}' +
-    '.stat-value{font-size:32px;font-weight:bold;color:#333;margin-top:8px}' +
+    '@keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}' +
+    '@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}' +
+    '@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}' +
+    '@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}' +
+    'body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;margin:0;padding:0;min-height:100vh;background:linear-gradient(-45deg,#667eea,#764ba2,#f093fb,#4facfe);background-size:400% 400%;animation:gradient 15s ease infinite;overflow-x:hidden}' +
+    '.container{max-width:1200px;margin:0 auto;padding:24px;animation:fadeIn 0.8s ease-out}' +
+    'h1{font-size:clamp(36px,5vw,56px);margin:32px 0 16px;text-align:center;color:#fff;font-weight:900;text-shadow:0 4px 12px rgba(0,0,0,0.2);letter-spacing:-1px;animation:fadeIn 1s ease-out}' +
+    'h2{font-size:28px;margin:24px 0;color:#fff;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,0.15)}' +
+    'h3{font-size:22px;margin:16px 0;color:#fff;font-weight:600}' +
+    'p{color:#fff;font-size:18px;text-shadow:0 2px 4px rgba(0,0,0,0.1)}' +
+    'a{color:#fff;text-decoration:none;transition:all 0.3s}a:hover{opacity:0.8}' +
+    '.game-card{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:32px;margin:16px 0;box-shadow:0 8px 32px rgba(0,0,0,0.1);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);border:1px solid rgba(255,255,255,0.3);position:relative;overflow:hidden;animation:fadeIn 0.6s ease-out backwards}' +
+    '.game-card::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);pointer-events:none}' +
+    '.game-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 16px 48px rgba(0,0,0,0.15)}' +
+    '.game-card:nth-child(1){animation-delay:0.1s}.game-card:nth-child(2){animation-delay:0.2s}.game-card:nth-child(3){animation-delay:0.3s}.game-card:nth-child(4){animation-delay:0.4s}.game-card:nth-child(5){animation-delay:0.5s}.game-card:nth-child(6){animation-delay:0.6s}.game-card:nth-child(7){animation-delay:0.7s}.game-card:nth-child(8){animation-delay:0.8s}.game-card:nth-child(9){animation-delay:0.9s}.game-card:nth-child(10){animation-delay:1s}' +
+    '.game-emoji{font-size:64px;margin:16px 0;text-align:center;animation:bounce 2s ease-in-out infinite;display:inline-block}' +
+    '.game-card:hover .game-emoji{animation:pulse 0.6s ease-in-out}' +
+    '.game-title{font-size:28px;font-weight:800;margin:16px 0;color:#1a1a1a;text-align:center}' +
+    '.game-description{color:#555;margin:12px 0;text-align:center;font-size:15px;line-height:1.6}' +
+    '.game-category{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:6px 16px;border-radius:20px;font-size:12px;margin:8px 0;font-weight:600;box-shadow:0 2px 8px rgba(102,126,234,0.3);text-transform:uppercase;letter-spacing:0.5px}' +
+    '.play-btn{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:14px 40px;border-radius:50px;margin:16px 0;font-size:18px;font-weight:700;cursor:pointer;border:none;transition:all 0.3s;text-align:center;box-shadow:0 4px 15px rgba(102,126,234,0.4);position:relative;overflow:hidden}' +
+    '.play-btn::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left 0.5s}' +
+    '.play-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,0.5)}.play-btn:hover::before{left:100%}' +
+    '.play-btn:active{transform:translateY(0)}' +
+    '.btn{padding:14px 28px;font-size:16px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1)}' +
+    '.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(102,126,234,0.4)}' +
+    '.btn-success{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff}.btn-success:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(56,239,125,0.4)}' +
+    '.btn-danger{background:linear-gradient(135deg,#eb3349,#f45c43);color:#fff}.btn-danger:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(235,51,73,0.4)}' +
+    'input,textarea{padding:14px;font-size:16px;border:2px solid rgba(255,255,255,0.3);border-radius:12px;width:100%;box-sizing:border-box;margin:8px 0;background:rgba(255,255,255,0.9);transition:all 0.3s}' +
+    'input:focus,textarea:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1);background:#fff}' +
+    'footer{color:rgba(255,255,255,0.9);margin:48px 0 24px;text-align:center;font-size:14px;text-shadow:0 2px 4px rgba(0,0,0,0.1)}' +
+    'footer a{color:#fff;font-weight:600}' +
+    '.placeholder{height:90px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border:2px dashed rgba(102,126,234,0.3);display:flex;align-items:center;justify-content:center;color:#666;font-size:13px;border-radius:16px;margin:24px 0}' +
+    'nav{text-align:center;margin:24px 0;padding:16px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:16px;display:inline-block;box-shadow:0 4px 12px rgba(0,0,0,0.1)}' +
+    'nav a{margin:0 16px;font-size:16px;font-weight:600;color:#fff;padding:8px 16px;border-radius:8px;transition:all 0.3s}' +
+    'nav a:hover{background:rgba(255,255,255,0.2)}' +
+    '.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin:32px 0}' +
+    '.stat-box{background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));backdrop-filter:blur(10px);padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid rgba(255,255,255,0.3)}' +
+    '.stat-label{font-size:14px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}' +
+    '.stat-value{font-size:40px;font-weight:900;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:8px}' +
+    '.header-section{text-align:center;margin-bottom:48px;padding:32px 0}' +
+    '@media(max-width:768px){.grid{grid-template-columns:1fr;gap:16px}h1{font-size:36px}.game-emoji{font-size:48px}}' +
     '</style>' +
     '</head><body>' +
+    '<div class="container">' +
     '<nav><a href="' + href('/') + '">🏠 홈</a></nav>';
 
   var tail =
     '<div class="ad">' + ads + '</div>' +
     '<footer>© ' + (new Date().getFullYear()) + ' Fun Mini Games | <a href="' + href('/') + '">전체 게임 보기</a></footer>' +
-    '</body></html>';
+    '</div></body></html>';
 
   return head + body + tail;
 }
@@ -369,13 +385,16 @@ function renderIndex(){
       '<div class="game-category">' + g.category + '</div>' +
       '<div class="game-title">' + g.title + '</div>' +
       '<div class="game-description">' + g.description + '</div>' +
-      '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn">플레이하기</a>' +
+      '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn">플레이하기 →</a>' +
       '</div>';
   }
 
   var body =
+    '<div class="header-section">' +
     '<h1>🎮 미니게임 모음집</h1>' +
-    '<p style="text-align:center;color:#666;font-size:18px;margin-bottom:32px">재미있는 무료 미니게임으로 두뇌를 훈련하세요!</p>' +
+    '<p style="text-align:center;font-size:20px;margin:16px 0;font-weight:500">재미있는 무료 미니게임으로 두뇌를 훈련하세요!</p>' +
+    '<p style="text-align:center;font-size:16px;margin:8px 0;opacity:0.9">총 ' + games.length + '개의 게임이 준비되어 있습니다</p>' +
+    '</div>' +
     '<div class="grid">' + gameList + '</div>';
 
   write(path.join(OUT, 'index.html'), layout('미니게임 모음집 - 두뇌 훈련 & 반응속도 게임', '/', body, true));
