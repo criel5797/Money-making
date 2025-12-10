@@ -20,31 +20,31 @@ var BASE_PATH = BASE_URL
 var ADS_CLIENT = process.env.ADSENSE_CLIENT || ''; // 예: ca-pub-XXXXXXXX
 var PUB_ID = ADS_CLIENT.replace('ca-pub-', '');
 
-var categories = [
-  { key: 'bio', name: '인스타 바이오' },
-  { key: 'caption', name: '캡션 아이디어' },
-  { key: 'hashtag', name: '해시태그 아이디어' }
+// 게임 목록
+var games = [
+  {
+    id: 'reaction-time',
+    title: '순발력 테스트',
+    description: '당신의 반응 속도를 측정해보세요!',
+    emoji: '⚡'
+  }
+  // 추후 더 많은 게임 추가 가능
 ];
-
-var niches = [
-  '피트니스 코치','카페','사진작가','부동산 중개','뷰티 살롱','스타트업','이커머스','여행 블로거',
-  '개발자','마케터','요리사','영어 과외','도예 공방','꽃집','펫샵','PT 센터','디자이너','서점'
-];
-
-var adjectives = ['감성','미니멀','대담','따뜻','세련','유머','진정성','활기','담백','프리미엄'];
-var hooks = ['지금 시작해요','DM 환영','오늘도 한 걸음','변화를 기록합니다','매일 성장','소소한 행복','작은 습관 큰 변화'];
 
 function ensureDir(p){ fs.mkdirSync(p, { recursive: true }); }
 function write(p, c){ ensureDir(path.dirname(p)); fs.writeFileSync(p, c); }
-function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9ㄱ-ㅎ가-힣]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,''); }
 function canonical(pathname){ return BASE_URL ? (BASE_URL + pathname) : (BASE_PATH + pathname); }
 function href(p){ return BASE_PATH + p; }
 
-function layout(title, pathname, body){
+function layout(title, pathname, body, includeAdScript){
+  var adsScript = '';
+  if (includeAdScript && ADS_CLIENT) {
+    adsScript = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADS_CLIENT + '" crossorigin="anonymous"></script>';
+  }
+
   var ads = ADS_CLIENT
     ? (
-      '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADS_CLIENT + '" crossorigin="anonymous"></script>' +
-      '<ins class="adsbygoogle" style="display:block" data-ad-format="auto" data-full-width-responsive="true"></ins>' +
+      '<ins class="adsbygoogle" style="display:block;margin:24px 0" data-ad-format="auto" data-full-width-responsive="true"></ins>' +
       '<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>'
     )
     : '<div class="placeholder">AdSense 승인 후 광고가 표시됩니다</div>';
@@ -53,148 +53,200 @@ function layout(title, pathname, body){
     '<!doctype html><html lang="ko"><head>' +
     '<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
     '<title>' + title + '</title>' +
-    '<meta name="description" content="' + title + ' - 바로 복사 가능한 아이디어">' +
+    '<meta name="description" content="' + title + ' - 무료 미니게임 모음집">' +
     '<link rel="canonical" href="' + canonical(pathname) + '"/>' +
     '<meta name="robots" content="index,follow">' +
+    adsScript +
     '<style>' +
-    'body{font-family:system-ui,-apple-system,sans-serif;max-width:900px;margin:0 auto;padding:24px;line-height:1.6}' +
-    'h1{font-size:28px;margin:8px 0 12px}' +
+    'body{font-family:system-ui,-apple-system,sans-serif;max-width:900px;margin:0 auto;padding:24px;line-height:1.6;background:#f5f5f5}' +
+    'h1{font-size:32px;margin:16px 0;text-align:center;color:#333}' +
+    'h2{font-size:24px;margin:16px 0;color:#444}' +
     'a{color:#0a66c2;text-decoration:none} a:hover{text-decoration:underline}' +
-    '.card{border:1px solid #eee;border-radius:8px;padding:16px;margin:16px 0}' +
-    'li.item{cursor:pointer;border:1px dashed #ddd;border-radius:6px;padding:8px;margin:6px 0}' +
-    'li.item:hover{background:#fafafa}' +
-    'footer{color:#777;margin:32px 0}' +
-    '.ad{margin:24px 0}' +
-    '.placeholder{height:90px;background:#f2f2f2;border:1px dashed #ddd;display:flex;align-items:center;justify-content:center;color:#888;font-size:12px}' +
-    'nav a{margin-right:12px}' +
+    '.game-card{background:white;border-radius:12px;padding:24px;margin:16px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:transform 0.2s}' +
+    '.game-card:hover{transform:translateY(-4px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}' +
+    '.game-emoji{font-size:48px;margin:16px 0}' +
+    '.game-title{font-size:24px;font-weight:bold;margin:12px 0;color:#333}' +
+    '.game-description{color:#666;margin:8px 0}' +
+    '.play-btn{display:inline-block;background:#0a66c2;color:white;padding:12px 32px;border-radius:8px;margin:16px 0;font-size:18px;font-weight:bold;cursor:pointer;border:none;transition:background 0.2s}' +
+    '.play-btn:hover{background:#084a8f;text-decoration:none}' +
+    'footer{color:#777;margin:32px 0;text-align:center;font-size:14px}' +
+    '.placeholder{height:90px;background:#f2f2f2;border:1px dashed #ddd;display:flex;align-items:center;justify-content:center;color:#888;font-size:12px;border-radius:8px;margin:24px 0}' +
+    'nav{text-align:center;margin:24px 0}' +
+    'nav a{margin:0 12px;font-size:16px}' +
     '</style>' +
     '</head><body>' +
-    '<nav><a href="' + href('/') + '">홈</a> <a href="' + href('/topics/') + '">전체 주제</a></nav>';
+    '<nav><a href="' + href('/') + '">🏠 홈</a></nav>';
 
   var tail =
     '<div class="ad">' + ads + '</div>' +
-    '<footer>© ' + (new Date().getFullYear()) + ' Auto Text Lab</footer>' +
-    '<script>function copyTxt(t){if(navigator.clipboard){navigator.clipboard.writeText(t);}alert("복사되었습니다!");}</script>' +
+    '<footer>© ' + (new Date().getFullYear()) + ' Fun Mini Games</footer>' +
     '</body></html>';
 
   return head + body + tail;
 }
 
-function exampleLines(catKey, niche){
-  var out = [];
-  var i, adj, hk, base;
-  var max = Math.min(40, adjectives.length * hooks.length);
-  for(i = 0; i < max; i++){
-    adj = adjectives[i % adjectives.length];
-    hk = hooks[i % hooks.length];
-    if(catKey === 'bio'){
-      out.push(adj + ' ' + niche + ' | ' + hk);
-    }else if(catKey === 'caption'){
-      out.push(adj + ' 무드의 ' + niche + ' 일상. ' + hk);
-    }else{
-      base = slugify(niche).split('-').slice(0,2).join('');
-      out.push('#' + base + ' #' + adj + ' #' + hk.replace(/\s/g,''));
-    }
-  }
-  // 유니크 처리
-  var seen = Object.create(null);
-  var uniq = [];
-  for(i = 0; i < out.length; i++){
-    if(!seen[out[i]]){ seen[out[i]] = true; uniq.push(out[i]); }
-  }
-  return uniq;
-}
+// 순발력 테스트 게임 HTML 생성
+function generateReactionGame(){
+  var gameHTML = `
+    <h1>⚡ 순발력 테스트</h1>
+    <div class="game-card" style="text-align:center">
+      <div id="instructions" style="margin:24px 0;font-size:18px">
+        <p>아래 박스가 <span style="color:#e74c3c;font-weight:bold">빨간색</span>에서 <span style="color:#27ae60;font-weight:bold">초록색</span>으로 바뀌면 최대한 빠르게 클릭하세요!</p>
+        <p style="color:#888;font-size:14px">너무 일찍 클릭하면 실패입니다.</p>
+      </div>
 
-function renderIndex(pages){
-  var i, c, list, cats = [];
-  for(i = 0; i < categories.length; i++){
-    c = categories[i];
-    list = '<div class="card"><h2>' + c.name + '</h2><ul>';
-    var cnt = 0;
-    var j;
-    for(j = 0; j < pages.length; j++){
-      if(pages[j].cat === c.key && cnt < 20){
-        list += '<li><a href="' + href('/t/' + pages[j].slug + '/') + '">' + pages[j].title + '</a></li>';
-        cnt++;
+      <div id="reaction-box" style="width:100%;height:300px;background:#e74c3c;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:bold;cursor:pointer;user-select:none">
+        클릭해서 시작
+      </div>
+
+      <div id="result" style="margin:24px 0;font-size:24px;font-weight:bold;min-height:40px"></div>
+
+      <div id="stats" style="margin:24px 0">
+        <h3>📊 통계</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:center">
+          <div class="stat-box" style="background:#f8f9fa;padding:16px;border-radius:8px">
+            <div style="font-size:14px;color:#666">시도 횟수</div>
+            <div id="attempts" style="font-size:32px;font-weight:bold;color:#333">0</div>
+          </div>
+          <div class="stat-box" style="background:#f8f9fa;padding:16px;border-radius:8px">
+            <div style="font-size:14px;color:#666">최고 기록</div>
+            <div id="best" style="font-size:32px;font-weight:bold;color:#27ae60">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var box = document.getElementById('reaction-box');
+      var result = document.getElementById('result');
+      var attemptsEl = document.getElementById('attempts');
+      var bestEl = document.getElementById('best');
+
+      var state = 'ready'; // ready, waiting, green, tooEarly
+      var startTime = 0;
+      var attempts = 0;
+      var bestTime = null;
+      var timeout = null;
+
+      function resetBox() {
+        box.style.background = '#e74c3c';
+        box.textContent = '클릭해서 시작';
+        state = 'ready';
+        result.textContent = '';
+        result.style.color = '#333';
       }
-    }
-    list += '</ul><a href="' + href('/topics/' + c.key + '/') + '">더 보기 →</a></div>';
-    cats.push(list);
+
+      function startGame() {
+        if (state !== 'ready') return;
+
+        state = 'waiting';
+        box.style.background = '#e74c3c';
+        box.textContent = '초록색이 될 때까지 기다리세요...';
+        result.textContent = '';
+
+        // 2-5초 사이 랜덤 대기
+        var waitTime = 2000 + Math.random() * 3000;
+
+        timeout = setTimeout(function() {
+          state = 'green';
+          box.style.background = '#27ae60';
+          box.textContent = '지금 클릭!';
+          startTime = Date.now();
+        }, waitTime);
+      }
+
+      function handleClick() {
+        if (state === 'ready') {
+          startGame();
+        } else if (state === 'waiting') {
+          // 너무 일찍 클릭
+          clearTimeout(timeout);
+          state = 'tooEarly';
+          box.style.background = '#95a5a6';
+          box.textContent = '너무 빨라요! 다시 시도';
+          result.textContent = '❌ 초록색으로 바뀔 때까지 기다리세요!';
+          result.style.color = '#e74c3c';
+          attempts++;
+          attemptsEl.textContent = attempts;
+
+          setTimeout(resetBox, 2000);
+        } else if (state === 'green') {
+          // 성공!
+          var reactionTime = Date.now() - startTime;
+          attempts++;
+          attemptsEl.textContent = attempts;
+
+          result.textContent = '✅ ' + reactionTime + 'ms';
+          result.style.color = '#27ae60';
+
+          if (bestTime === null || reactionTime < bestTime) {
+            bestTime = reactionTime;
+            bestEl.textContent = reactionTime + 'ms';
+            result.textContent += ' 🎉 신기록!';
+          }
+
+          // 평가 메시지
+          var message = '';
+          if (reactionTime < 200) message = ' 🔥 놀라워요!';
+          else if (reactionTime < 250) message = ' 👍 훌륭해요!';
+          else if (reactionTime < 300) message = ' 😊 좋아요!';
+          else if (reactionTime < 400) message = ' 👌 괜찮아요!';
+          else message = ' 💪 연습하면 더 잘할 수 있어요!';
+
+          result.textContent += message;
+
+          setTimeout(resetBox, 2000);
+        }
+      }
+
+      box.addEventListener('click', handleClick);
+    </script>
+  `;
+
+  return layout('순발력 테스트', '/games/reaction-time/', gameHTML, true);
+}
+
+// 메인 페이지 생성
+function renderIndex(){
+  var gameList = '';
+  for (var i = 0; i < games.length; i++) {
+    var g = games[i];
+    gameList +=
+      '<div class="game-card">' +
+      '<div class="game-emoji">' + g.emoji + '</div>' +
+      '<div class="game-title">' + g.title + '</div>' +
+      '<div class="game-description">' + g.description + '</div>' +
+      '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn">플레이하기</a>' +
+      '</div>';
   }
+
   var body =
-    '<h1>인스타 바이오·캡션·해시태그 아이디어 생성기</h1>' +
-    '<p>클릭하면 복사됩니다. 광고로 운영되는 무료 서비스입니다.</p>' +
-    cats.join('');
-  write(path.join(OUT, 'index.html'), layout('인스타 아이디어 생성기', '/', body));
-}
+    '<h1>🎮 미니게임 모음집</h1>' +
+    '<p style="text-align:center;color:#666;font-size:18px">재미있는 무료 미니게임을 즐겨보세요!</p>' +
+    gameList;
 
-function renderTopicList(catKey, pages){
-  var list = '<h1>' + (categories.filter(function(c){return c.key===catKey;})[0].name) + ' 전체 목록</h1><ul>';
-  var i;
-  for(i = 0; i < pages.length; i++){
-    if(pages[i].cat === catKey){
-      list += '<li><a href="' + href('/t/' + pages[i].slug + '/') + '">' + pages[i].title + '</a></li>';
-    }
-  }
-  list += '</ul>';
-  write(path.join(OUT, 'topics', catKey, 'index.html'), layout('' + (categories.filter(function(c){return c.key===catKey;})[0].name) + ' 전체 목록', '/topics/' + catKey + '/', list));
-}
-
-function renderTopicPage(page){
-  var i, items = '<h1>' + page.title + '</h1><p>아래 문구를 클릭하면 복사됩니다.</p><ul>';
-  for(i = 0; i < page.examples.length; i++){
-    var ex = page.examples[i].replace(/'/g, "\\'");
-    items += '<li class="item" onclick="copyTxt(\'' + ex + '\')">' + page.examples[i] + '</li>';
-  }
-  items += '</ul>';
-  var rel = '<section class="card"><h3>관련 주제</h3><ul>';
-  for(i = 0; i < page.related.length; i++){
-    rel += '<li><a href="' + href('/t/' + page.related[i].slug + '/') + '">' + page.related[i].title + '</a></li>';
-  }
-  rel += '</ul></section>';
-  write(path.join(OUT, 't', page.slug, 'index.html'), layout(page.title, '/t/' + page.slug + '/', items + rel));
+  write(path.join(OUT, 'index.html'), layout('미니게임 모음집', '/', body, true));
 }
 
 function build(){
   if(fs.existsSync(OUT)) fs.rmSync(OUT, { recursive: true, force: true });
   ensureDir(OUT);
 
-  var pages = [];
-  var i, j, c, n, slug, title, examples;
-  for(i = 0; i < categories.length; i++){
-    c = categories[i];
-    for(j = 0; j < niches.length; j++){
-      n = niches[j];
-      slug = slugify(c.key + '-' + n);
-      title = c.name + ' 예시 - ' + n;
-      examples = exampleLines(c.key, n);
-      pages.push({ cat: c.key, slug: slug, title: title, examples: examples });
-    }
-  }
+  // 메인 페이지 생성
+  renderIndex();
 
-  for(i = 0; i < pages.length; i++){
-    pages[i].related = [];
-    var added = 0;
-    for(j = 0; j < pages.length && added < 10; j++){
-      if(pages[j].cat === pages[i].cat && pages[j].slug !== pages[i].slug){
-        pages[i].related.push({ slug: pages[j].slug, title: pages[j].title });
-        added++;
-      }
-    }
-  }
-
-  renderIndex(pages);
-  for(i = 0; i < categories.length; i++) renderTopicList(categories[i].key, pages);
-  for(i = 0; i < pages.length; i++) renderTopicPage(pages[i]);
+  // 순발력 테스트 게임 생성
+  write(path.join(OUT, 'games', 'reaction-time', 'index.html'), generateReactionGame());
 
   // sitemap / robots
   var urls = ['/'];
-  for(i = 0; i < categories.length; i++) urls.push('/topics/' + categories[i].key + '/');
-  for(i = 0; i < pages.length; i++) urls.push('/t/' + pages[i].slug + '/');
+  for (var i = 0; i < games.length; i++) {
+    urls.push('/games/' + games[i].id + '/');
+  }
 
   var abs = function(p){ return BASE_URL ? (BASE_URL + p) : (BASE_PATH + p); };
   var sm = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
-  for(i = 0; i < urls.length; i++) sm.push('<url><loc>' + abs(urls[i]) + '</loc></url>');
+  for(var i = 0; i < urls.length; i++) sm.push('<url><loc>' + abs(urls[i]) + '</loc></url>');
   sm.push('</urlset>');
   write(path.join(OUT, 'sitemap.xml'), sm.join('\n'));
   write(path.join(OUT, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: ' + abs('/sitemap.xml'));
@@ -203,8 +255,7 @@ function build(){
     write(path.join(OUT, 'ads.txt'), 'google.com, ' + PUB_ID + ', DIRECT, f08c47fec0942fa0');
   }
 
-  write(path.join(OUT, 'topics', 'index.html'), layout('전체 주제 목록', '/topics/', '<h1>전체 주제</h1><ul>' + categories.map(function(c){return '<li><a href="' + href('/topics/' + c.key + '/') + '">' + c.name + '</a></li>';}).join('') + '</ul>'));
-  console.log('Generated ' + pages.length + ' pages');
+  console.log('Generated ' + games.length + ' game(s) and main page');
 }
 
 build();
