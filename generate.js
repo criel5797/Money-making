@@ -255,6 +255,9 @@ function build(){
     write(path.join(OUT, 'ads.txt'), 'google.com, ' + PUB_ID + ', DIRECT, f08c47fec0942fa0');
   }
 
+  // CNAME 파일 생성 (커스텀 도메인용)
+  write(path.join(OUT, 'CNAME'), 'instaidea.org');
+
   console.log('Generated ' + games.length + ' game(s) and main page');
 }
 
