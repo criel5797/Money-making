@@ -647,12 +647,9 @@ function layout(title, pathname, body, includeAdScript){
     'var i18nData=' + i18nData + ';' +
     'var currentLang=localStorage.getItem("lang")||navigator.language.split("-")[0]||"ko";' +
     'if(!i18nData[currentLang])currentLang="ko";' +
-    'window.i18n=i18nData;' +
-    'window.currentLang=currentLang;' +
     'function setLanguage(lang){' +
     'if(!i18nData[lang])return;' +
     'currentLang=lang;' +
-    'window.currentLang=lang;' +
     'localStorage.setItem("lang",lang);' +
     'document.documentElement.lang=lang;' +
     'document.querySelectorAll("[data-i18n]").forEach(function(el){' +
@@ -662,21 +659,6 @@ function layout(title, pathname, body, includeAdScript){
     'document.querySelectorAll("[data-i18n-key]").forEach(function(el){' +
     'var key=el.getAttribute("data-i18n-key");' +
     'if(i18nData[lang][key]){el.textContent=i18nData[lang][key];document.title=i18nData[lang][key];}' +
-    '});' +
-    'document.querySelectorAll("[data-i18n-game]").forEach(function(el){' +
-    'var key=el.getAttribute("data-i18n-game");' +
-    'var keys=key.split(".");' +
-    'if(keys.length===2&&i18nData[lang].games[keys[0]]&&i18nData[lang].games[keys[0]][keys[1]]){' +
-    'var value=i18nData[lang].games[keys[0]][keys[1]];' +
-    'if(el.tagName==="P"||el.tagName==="DIV"||el.tagName==="BUTTON"||el.tagName==="SPAN"){el.innerHTML=value;}else{el.textContent=value;}' +
-    '}' +
-    '});' +
-    'document.querySelectorAll("[data-i18n-game-placeholder]").forEach(function(el){' +
-    'var key=el.getAttribute("data-i18n-game-placeholder");' +
-    'var keys=key.split(".");' +
-    'if(keys.length===2&&i18nData[lang].games[keys[0]]&&i18nData[lang].games[keys[0]][keys[1]]){' +
-    'el.placeholder=i18nData[lang].games[keys[0]][keys[1]];' +
-    '}' +
     '});' +
     'document.querySelectorAll(".lang-btn").forEach(function(btn){' +
     'btn.classList.toggle("active",btn.getAttribute("data-lang")===lang);' +
@@ -724,20 +706,20 @@ function generateReactionGame(){
     <h1>⚡ ${title.ko}</h1>
     ${getGameTitleScript('reaction-time', '⚡')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="reaction.desc">빨간색에서 초록색으로 바뀌면 최대한 빠르게 클릭하세요!</p>
-      <div id="reaction-box" style="width:100%;height:300px;background:#e74c3c;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;font-weight:bold;cursor:pointer;user-select:none;margin:24px 0;transition:background 0.1s" data-i18n-game="reaction.clickToStart">클릭해서 시작</div>
+      <p style="color:#666">빨간색에서 초록색으로 바뀌면 최대한 빠르게 클릭하세요!</p>
+      <div id="reaction-box" style="width:100%;height:300px;background:#e74c3c;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;font-weight:bold;cursor:pointer;user-select:none;margin:24px 0;transition:background 0.1s">클릭해서 시작</div>
       <div id="result" style="margin:16px 0;font-size:20px;font-weight:bold;min-height:30px;color:#333"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="reaction.attempts">시도 횟수</div><div id="attempts" class="stat-value">0</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="reaction.average">평균</div><div id="average" class="stat-value">-</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="reaction.best">최고 기록</div><div id="best" class="stat-value">-</div></div>
+        <div class="stat-box"><div class="stat-label">시도 횟수</div><div id="attempts" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">평균</div><div id="average" class="stat-value">-</div></div>
+        <div class="stat-box"><div class="stat-label">최고 기록</div><div id="best" class="stat-value">-</div></div>
       </div>
     </div>
     <script>
       var box=document.getElementById('reaction-box'),result=document.getElementById('result'),attemptsEl=document.getElementById('attempts'),averageEl=document.getElementById('average'),bestEl=document.getElementById('best'),state='ready',startTime=0,attempts=0,bestTime=null,totalTime=0,validAttempts=0,timeout=null;
-      function resetBox(){setTimeout(function(){box.style.background='#3498db';box.textContent=window.i18n[window.currentLang].games.reaction.clickNext;state='ready';},1500);}
-      function startGame(){if(state!=='ready')return;state='countdown';var count=3;box.style.background='#f39c12';box.textContent=window.i18n[window.currentLang].games.reaction.ready+count;var countInterval=setInterval(function(){count--;if(count>0){box.textContent=window.i18n[window.currentLang].games.reaction.ready+count;}else{clearInterval(countInterval);state='waiting';box.style.background='#e74c3c';box.textContent=window.i18n[window.currentLang].games.reaction.waitGreen;result.textContent='';var waitTime=2000+Math.random()*3000;timeout=setTimeout(function(){if(state==='waiting'){state='green';box.style.background='#27ae60';box.textContent=window.i18n[window.currentLang].games.reaction.clickNow;startTime=Date.now();}},waitTime);}},1000);}
-      box.addEventListener('click',function(){if(state==='ready'){startGame();}else if(state==='countdown'){result.textContent=window.i18n[window.currentLang].games.reaction.waitCountdown;result.style.color='#f39c12';}else if(state==='waiting'){clearTimeout(timeout);state='tooEarly';box.style.background='#95a5a6';box.textContent=window.i18n[window.currentLang].games.reaction.tooFast;result.textContent=window.i18n[window.currentLang].games.reaction.waitUntilGreen;result.style.color='#e74c3c';attempts++;attemptsEl.textContent=attempts;resetBox();}else if(state==='green'){var reactionTime=Date.now()-startTime;attempts++;validAttempts++;totalTime+=reactionTime;attemptsEl.textContent=attempts;var avg=Math.round(totalTime/validAttempts);averageEl.textContent=avg+'ms';result.textContent='✅ '+reactionTime+'ms';result.style.color='#27ae60';if(bestTime===null||reactionTime<bestTime){bestTime=reactionTime;bestEl.textContent=reactionTime+'ms';result.textContent+=window.i18n[window.currentLang].games.reaction.newRecord;}var message='';if(reactionTime<200)message=window.i18n[window.currentLang].games.reaction.msg1;else if(reactionTime<250)message=window.i18n[window.currentLang].games.reaction.msg2;else if(reactionTime<300)message=window.i18n[window.currentLang].games.reaction.msg3;else if(reactionTime<400)message=window.i18n[window.currentLang].games.reaction.msg4;else message=window.i18n[window.currentLang].games.reaction.msg5;result.textContent+=message;state='done';resetBox();}});
+      function resetBox(){setTimeout(function(){box.style.background='#3498db';box.textContent='클릭해서 다음 라운드';state='ready';},1500);}
+      function startGame(){if(state!=='ready')return;state='countdown';var count=3;box.style.background='#f39c12';box.textContent='준비... '+count;var countInterval=setInterval(function(){count--;if(count>0){box.textContent='준비... '+count;}else{clearInterval(countInterval);state='waiting';box.style.background='#e74c3c';box.textContent='초록색이 될 때까지 기다리세요...';result.textContent='';var waitTime=2000+Math.random()*3000;timeout=setTimeout(function(){if(state==='waiting'){state='green';box.style.background='#27ae60';box.textContent='지금 클릭!';startTime=Date.now();}},waitTime);}},1000);}
+      box.addEventListener('click',function(){if(state==='ready'){startGame();}else if(state==='countdown'){result.textContent='⏳ 카운트다운을 기다리세요!';result.style.color='#f39c12';}else if(state==='waiting'){clearTimeout(timeout);state='tooEarly';box.style.background='#95a5a6';box.textContent='너무 빨라요!';result.textContent='❌ 초록색으로 바뀔 때까지 기다리세요!';result.style.color='#e74c3c';attempts++;attemptsEl.textContent=attempts;resetBox();}else if(state==='green'){var reactionTime=Date.now()-startTime;attempts++;validAttempts++;totalTime+=reactionTime;attemptsEl.textContent=attempts;var avg=Math.round(totalTime/validAttempts);averageEl.textContent=avg+'ms';result.textContent='✅ '+reactionTime+'ms';result.style.color='#27ae60';if(bestTime===null||reactionTime<bestTime){bestTime=reactionTime;bestEl.textContent=reactionTime+'ms';result.textContent+=' 🎉 신기록!';}var message='';if(reactionTime<200)message=' 🔥 놀라워요!';else if(reactionTime<250)message=' 👍 훌륭해요!';else if(reactionTime<300)message=' 😊 좋아요!';else if(reactionTime<400)message=' 👌 괜찮아요!';else message=' 💪 연습하면 더 잘할 수 있어요!';result.textContent+=message;state='done';resetBox();}});
     </script>
   `;
   return layout('순발력 테스트', '/games/reaction-time/', gameHTML, true);
@@ -750,22 +732,22 @@ function generateMemoryNumberGame(){
     <h1>🧠 ${title.ko}</h1>
     ${getGameTitleScript('memory-number', '🧠')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="memoryNumber.desc">숫자를 기억하고 입력하세요. 단계가 올라갈수록 길어집니다!</p>
+      <p style="color:#666">숫자를 기억하고 입력하세요. 단계가 올라갈수록 길어집니다!</p>
       <div id="number-display" style="min-height:200px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:bold;color:#333;margin:24px 0;font-family:monospace"></div>
-      <input type="text" id="number-input" data-i18n-game-placeholder="memoryNumber.placeholder" placeholder="숫자 입력" style="font-size:24px;text-align:center;display:none;font-family:monospace" maxlength="25">
-      <button id="start-btn" class="btn btn-primary" style="font-size:18px;padding:16px 48px" data-i18n-game="memoryNumber.start">시작하기</button>
-      <button id="submit-btn" class="btn btn-success" style="font-size:18px;padding:16px 48px;display:none;margin-left:8px" data-i18n-game="memoryNumber.submit">제출</button>
+      <input type="text" id="number-input" placeholder="숫자 입력" style="font-size:24px;text-align:center;display:none;font-family:monospace" maxlength="25">
+      <button id="start-btn" class="btn btn-primary" style="font-size:18px;padding:16px 48px">시작하기</button>
+      <button id="submit-btn" class="btn btn-success" style="font-size:18px;padding:16px 48px;display:none;margin-left:8px">제출</button>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="memoryNumber.currentLevel">현재 단계</div><div id="level" class="stat-value">1</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="memoryNumber.digits">자릿수</div><div id="digits" class="stat-value">3</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="memoryNumber.bestLevel">최고 단계</div><div id="best-level" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">현재 단계</div><div id="level" class="stat-value">1</div></div>
+        <div class="stat-box"><div class="stat-label">자릿수</div><div id="digits" class="stat-value">3</div></div>
+        <div class="stat-box"><div class="stat-label">최고 단계</div><div id="best-level" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
       var display=document.getElementById('number-display'),input=document.getElementById('number-input'),startBtn=document.getElementById('start-btn'),submitBtn=document.getElementById('submit-btn'),levelEl=document.getElementById('level'),digitsEl=document.getElementById('digits'),bestLevelEl=document.getElementById('best-level'),level=1,bestLevel=0,currentNumber='',state='ready';
       function generateNumber(len){var num='';for(var i=0;i<len;i++)num+=Math.floor(Math.random()*10);return num;}
       function showNumber(){var numDigits=level+2;currentNumber=generateNumber(numDigits);digitsEl.textContent=numDigits;display.textContent=currentNumber;var showTime=Math.min(2000+level*300,5000);setTimeout(function(){display.textContent='?';input.style.display='block';submitBtn.style.display='inline-block';input.value='';input.focus();},showTime);}
-      function checkAnswer(){if(input.value===currentNumber){level++;levelEl.textContent=level;if(level>bestLevel){bestLevel=level;bestLevelEl.textContent=bestLevel;}display.textContent=window.i18n[window.currentLang].games.memoryNumber.correct;display.style.color='#27ae60';input.style.display='none';submitBtn.style.display='none';setTimeout(showNumber,1500);}else{display.textContent=window.i18n[window.currentLang].games.memoryNumber.wrong+currentNumber;display.style.color='#e74c3c';level=1;levelEl.textContent=level;setTimeout(function(){display.textContent='';display.style.color='#333';startBtn.style.display='inline-block';input.style.display='none';submitBtn.style.display='none';state='ready';},3000);}input.style.display='none';submitBtn.style.display='none';}
+      function checkAnswer(){if(input.value===currentNumber){level++;levelEl.textContent=level;if(level>bestLevel){bestLevel=level;bestLevelEl.textContent=bestLevel;}display.textContent='✅ 정답!';display.style.color='#27ae60';input.style.display='none';submitBtn.style.display='none';setTimeout(showNumber,1500);}else{display.textContent='❌ 틀렸습니다! 정답: '+currentNumber;display.style.color='#e74c3c';level=1;levelEl.textContent=level;setTimeout(function(){display.textContent='';display.style.color='#333';startBtn.style.display='inline-block';input.style.display='none';submitBtn.style.display='none';state='ready';},3000);}input.style.display='none';submitBtn.style.display='none';}
       startBtn.addEventListener('click',function(){if(state==='ready'){state='playing';startBtn.style.display='none';showNumber();}});
       submitBtn.addEventListener('click',checkAnswer);
       input.addEventListener('keypress',function(e){if(e.key==='Enter')checkAnswer();});
@@ -781,15 +763,15 @@ function generateTypingSpeedGame(){
     <h1>⌨️ ${title.ko}</h1>
     ${getGameTitleScript('typing-speed', '⌨️')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="typing.desc">아래 문장을 빠르고 정확하게 타이핑하세요!</p>
+      <p style="color:#666">아래 문장을 빠르고 정확하게 타이핑하세요!</p>
       <div id="target-text" style="font-size:20px;padding:24px;background:#f8f9fa;border-radius:8px;margin:24px 0;line-height:1.8;font-family:monospace"></div>
-      <textarea id="typing-input" data-i18n-game-placeholder="typing.placeholder" placeholder="여기에 입력하세요..." style="height:120px;font-size:18px;resize:none;font-family:monospace" disabled></textarea>
-      <button id="typing-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin-top:16px" data-i18n-game="typing.start">시작하기</button>
+      <textarea id="typing-input" placeholder="여기에 입력하세요..." style="height:120px;font-size:18px;resize:none;font-family:monospace" disabled></textarea>
+      <button id="typing-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin-top:16px">시작하기</button>
       <div id="typing-result" style="margin:16px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="typing.wpm">WPM</div><div id="wpm" class="stat-value">-</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="typing.accuracyLabel">정확도</div><div id="accuracy" class="stat-value">-</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="typing.bestWpm">최고 WPM</div><div id="best-wpm" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">WPM</div><div id="wpm" class="stat-value">-</div></div>
+        <div class="stat-box"><div class="stat-label">정확도</div><div id="accuracy" class="stat-value">-</div></div>
+        <div class="stat-box"><div class="stat-label">최고 WPM</div><div id="best-wpm" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
@@ -798,7 +780,7 @@ function generateTypingSpeedGame(){
       function startTyping(){currentText=texts[Math.floor(Math.random()*texts.length)];targetText.innerHTML=currentText;typingInput.value='';errors=0;typingInput.disabled=false;typingInput.focus();typingStart.style.display='none';typingResult.textContent='';wpmEl.textContent='0';accuracyEl.textContent='100%';startTime=Date.now();}
       function updateDisplay(){var typed=typingInput.value;var html='';errors=0;for(var i=0;i<currentText.length;i++){if(i<typed.length){if(typed[i]===currentText[i]){html+='<span style="color:#27ae60;background:#d4edda">'+currentText[i]+'</span>';}else{html+='<span style="color:#e74c3c;background:#f8d7da;text-decoration:underline">'+currentText[i]+'</span>';errors++;}}else if(i===typed.length){html+='<span style="background:#fff3cd">'+currentText[i]+'</span>';}else{html+='<span style="color:#666">'+currentText[i]+'</span>';}}targetText.innerHTML=html;var elapsed=(Date.now()-startTime)/1000/60;if(elapsed>0){var wpm=Math.round((typed.length/5)/elapsed);wpmEl.textContent=wpm;}var acc=typed.length>0?Math.round(((typed.length-errors)/typed.length)*100):100;accuracyEl.textContent=acc+'%';}
       typingStart.addEventListener('click',startTyping);
-      typingInput.addEventListener('input',function(){updateDisplay();if(typingInput.value===currentText){var elapsed=(Date.now()-startTime)/1000/60;var wpm=Math.round(currentText.length/5/elapsed);wpmEl.textContent=wpm;var finalAcc=Math.round(((currentText.length-errors)/currentText.length)*100);accuracyEl.textContent=finalAcc+'%';typingResult.textContent=window.i18n[window.currentLang].games.typing.complete+wpm+window.i18n[window.currentLang].games.typing.accuracy+finalAcc+'%';typingResult.style.color='#27ae60';if(wpm>bestWpm){bestWpm=wpm;bestWpmEl.textContent=wpm;}typingInput.disabled=true;typingStart.style.display='inline-block';}});
+      typingInput.addEventListener('input',function(){updateDisplay();if(typingInput.value===currentText){var elapsed=(Date.now()-startTime)/1000/60;var wpm=Math.round(currentText.length/5/elapsed);wpmEl.textContent=wpm;var finalAcc=Math.round(((currentText.length-errors)/currentText.length)*100);accuracyEl.textContent=finalAcc+'%';typingResult.textContent='✅ 완료! WPM: '+wpm+', 정확도: '+finalAcc+'%';typingResult.style.color='#27ae60';if(wpm>bestWpm){bestWpm=wpm;bestWpmEl.textContent=wpm;}typingInput.disabled=true;typingStart.style.display='inline-block';}});
     </script>
   `;
   return layout('타이핑 속도', '/games/typing-speed/', gameHTML, true);
@@ -811,27 +793,27 @@ function generateColorMatchGame(){
     <h1>🎨 ${title.ko}</h1>
     ${getGameTitleScript('color-match', '🎨')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="colorMatch.desc">글자의 <strong>색깔</strong>이 글자의 <strong>의미</strong>와 일치하나요?</p>
+      <p style="color:#666">글자의 <strong>색깔</strong>이 글자의 <strong>의미</strong>와 일치하나요?</p>
       <div id="color-timer" style="font-size:36px;font-weight:bold;color:#e74c3c;margin:16px 0">60</div>
       <div id="color-word" style="font-size:64px;font-weight:bold;margin:48px 0;min-height:80px"></div>
       <div style="display:flex;gap:16px;justify-content:center;margin:24px 0">
-        <button id="yes-btn" class="btn btn-success" style="font-size:20px;padding:20px 48px" disabled data-i18n-game="colorMatch.match">일치 ✓</button>
-        <button id="no-btn" class="btn btn-danger" style="font-size:20px;padding:20px 48px" disabled data-i18n-game="colorMatch.noMatch">불일치 ✗</button>
+        <button id="yes-btn" class="btn btn-success" style="font-size:20px;padding:20px 48px" disabled>일치 ✓</button>
+        <button id="no-btn" class="btn btn-danger" style="font-size:20px;padding:20px 48px" disabled>불일치 ✗</button>
       </div>
-      <button id="color-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin:16px 0" data-i18n-game="colorMatch.start">시작하기</button>
+      <button id="color-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin:16px 0">시작하기</button>
       <div id="color-result" style="margin:16px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="colorMatch.score">점수</div><div id="score" class="stat-value">0</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="colorMatch.streakLabel">연속</div><div id="streak" class="stat-value">0</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="colorMatch.bestScore">최고점</div><div id="best-score" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">점수</div><div id="score" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">연속</div><div id="streak" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">최고점</div><div id="best-score" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
-      var getColorNames=function(){var lang=window.currentLang||'ko';var colorData=window.i18n[lang].games.colorMatch.colors;return[{name:colorData.red,hex:'#e74c3c'},{name:colorData.blue,hex:'#3498db'},{name:colorData.green,hex:'#27ae60'},{name:colorData.yellow,hex:'#f1c40f'},{name:colorData.purple,hex:'#9b59b6'}];};
+      var colors=[{name:'빨강',hex:'#e74c3c'},{name:'파랑',hex:'#3498db'},{name:'초록',hex:'#27ae60'},{name:'노랑',hex:'#f1c40f'},{name:'보라',hex:'#9b59b6'}];
       var colorWord=document.getElementById('color-word'),colorTimer=document.getElementById('color-timer'),yesBtn=document.getElementById('yes-btn'),noBtn=document.getElementById('no-btn'),colorStart=document.getElementById('color-start'),colorResult=document.getElementById('color-result'),scoreEl=document.getElementById('score'),streakEl=document.getElementById('streak'),bestScoreEl=document.getElementById('best-score'),score=0,streak=0,bestScore=0,isMatch=false,timeLeft=60,started=false,timerInterval=null;
-      function nextRound(){var colors=getColorNames();var wordColor=colors[Math.floor(Math.random()*colors.length)];var displayColor=colors[Math.floor(Math.random()*colors.length)];isMatch=(wordColor.name===displayColor.name);colorWord.textContent=wordColor.name;colorWord.style.color=displayColor.hex;colorResult.textContent='';}
-      function checkAnswer(answer){if(!started)return;var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.colorMatch;if(answer===isMatch){score++;streak++;scoreEl.textContent=score;streakEl.textContent=streak;if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}colorResult.textContent=txt.correct;if(streak>=5)colorResult.textContent+=txt.streak+streak+txt.streakText;colorResult.style.color='#27ae60';}else{if(streak>=5)colorResult.textContent=txt.streakEnd+streak+txt.streakEndText;else colorResult.textContent=txt.wrong;colorResult.style.color='#e74c3c';streak=0;streakEl.textContent=streak;}setTimeout(nextRound,600);}
-      function startGame(){started=true;score=0;streak=0;timeLeft=60;scoreEl.textContent=score;streakEl.textContent=streak;yesBtn.disabled=false;noBtn.disabled=false;colorStart.style.display='none';colorResult.textContent='';nextRound();timerInterval=setInterval(function(){timeLeft--;colorTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(timerInterval);started=false;yesBtn.disabled=true;noBtn.disabled=true;var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.colorMatch;colorWord.textContent=txt.timeUp;colorWord.style.color='#666';if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}colorResult.textContent=txt.totalScore+score+txt.points;colorResult.style.color='#0a66c2';colorStart.style.display='inline-block';}},1000);}
+      function nextRound(){var wordColor=colors[Math.floor(Math.random()*colors.length)];var displayColor=colors[Math.floor(Math.random()*colors.length)];isMatch=(wordColor.name===displayColor.name);colorWord.textContent=wordColor.name;colorWord.style.color=displayColor.hex;colorResult.textContent='';}
+      function checkAnswer(answer){if(!started)return;if(answer===isMatch){score++;streak++;scoreEl.textContent=score;streakEl.textContent=streak;if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}colorResult.textContent='✅ 정답!';if(streak>=5)colorResult.textContent+=' 🔥 '+streak+' 연속!';colorResult.style.color='#27ae60';}else{if(streak>=5)colorResult.textContent='💔 '+streak+' 연속 종료!';else colorResult.textContent='❌ 틀렸습니다!';colorResult.style.color='#e74c3c';streak=0;streakEl.textContent=streak;}setTimeout(nextRound,600);}
+      function startGame(){started=true;score=0;streak=0;timeLeft=60;scoreEl.textContent=score;streakEl.textContent=streak;yesBtn.disabled=false;noBtn.disabled=false;colorStart.style.display='none';colorResult.textContent='';nextRound();timerInterval=setInterval(function(){timeLeft--;colorTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(timerInterval);started=false;yesBtn.disabled=true;noBtn.disabled=true;colorWord.textContent='시간 종료!';colorWord.style.color='#666';if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}colorResult.textContent='총 '+score+'점!';colorResult.style.color='#0a66c2';colorStart.style.display='inline-block';}},1000);}
       yesBtn.addEventListener('click',function(){checkAnswer(true);});
       noBtn.addEventListener('click',function(){checkAnswer(false);});
       colorStart.addEventListener('click',startGame);
@@ -847,22 +829,22 @@ function generateMathQuizGame(){
     <h1>🔢 ${title.ko}</h1>
     ${getGameTitleScript('math-quiz', '🔢')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="math.desc">수학 문제를 빠르게 풀어보세요!</p>
+      <p style="color:#666">수학 문제를 빠르게 풀어보세요!</p>
       <div id="timer" style="font-size:48px;font-weight:bold;color:#e74c3c;margin:16px 0">60</div>
       <div id="math-question" style="font-size:48px;font-weight:bold;color:#333;margin:32px 0;min-height:60px"></div>
-      <input type="number" id="math-input" data-i18n-game-placeholder="math.placeholder" placeholder="답 입력" style="font-size:32px;text-align:center;width:200px" disabled>
-      <button id="math-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin-top:16px" data-i18n-game="math.start">시작하기</button>
+      <input type="number" id="math-input" placeholder="답 입력" style="font-size:32px;text-align:center;width:200px" disabled>
+      <button id="math-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin-top:16px">시작하기</button>
       <div id="math-result" style="margin:16px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="math.correctLabel">맞춘 문제</div><div id="correct" class="stat-value">0</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="math.bestLabel">최고 기록</div><div id="best-correct" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">맞춘 문제</div><div id="correct" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">최고 기록</div><div id="best-correct" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
       var timerEl=document.getElementById('timer'),mathQuestion=document.getElementById('math-question'),mathInput=document.getElementById('math-input'),mathStart=document.getElementById('math-start'),mathResult=document.getElementById('math-result'),correctEl=document.getElementById('correct'),bestCorrectEl=document.getElementById('best-correct'),timeLeft=60,correct=0,bestCorrect=0,currentAnswer=0,timerInterval=null;
       function generateQuestion(){var a=Math.floor(Math.random()*20)+1;var b=Math.floor(Math.random()*20)+1;var ops=['+','-','×'];var op=ops[Math.floor(Math.random()*ops.length)];if(op==='+'){currentAnswer=a+b;mathQuestion.textContent=a+' + '+b+' = ?';}else if(op==='-'){if(a<b){var temp=a;a=b;b=temp;}currentAnswer=a-b;mathQuestion.textContent=a+' - '+b+' = ?';}else{currentAnswer=a*b;mathQuestion.textContent=a+' × '+b+' = ?';}}
-      function startGame(){timeLeft=60;correct=0;correctEl.textContent=correct;mathInput.disabled=false;mathInput.value='';mathInput.focus();mathStart.style.display='none';mathResult.textContent='';generateQuestion();timerInterval=setInterval(function(){timeLeft--;timerEl.textContent=timeLeft;if(timeLeft<=0){clearInterval(timerInterval);mathInput.disabled=true;var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.math;mathQuestion.textContent=txt.timeUp;if(correct>bestCorrect){bestCorrect=correct;bestCorrectEl.textContent=bestCorrect;}mathResult.textContent=txt.totalCorrect+correct+txt.problems;mathResult.style.color='#0a66c2';mathStart.style.display='inline-block';}},1000);}
-      function checkAnswer(){var userAnswer=parseInt(mathInput.value);var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.math;if(isNaN(userAnswer)){mathResult.textContent=txt.enterNumber;mathResult.style.color='#f39c12';return;}if(userAnswer===currentAnswer){correct++;correctEl.textContent=correct;mathResult.textContent=txt.correct;mathResult.style.color='#27ae60';mathInput.value='';setTimeout(generateQuestion,300);}else{mathResult.textContent=txt.wrong+currentAnswer;mathResult.style.color='#e74c3c';setTimeout(function(){mathInput.value='';generateQuestion();mathResult.textContent='';},1500);}}
+      function startGame(){timeLeft=60;correct=0;correctEl.textContent=correct;mathInput.disabled=false;mathInput.value='';mathInput.focus();mathStart.style.display='none';mathResult.textContent='';generateQuestion();timerInterval=setInterval(function(){timeLeft--;timerEl.textContent=timeLeft;if(timeLeft<=0){clearInterval(timerInterval);mathInput.disabled=true;mathQuestion.textContent='시간 종료!';if(correct>bestCorrect){bestCorrect=correct;bestCorrectEl.textContent=bestCorrect;}mathResult.textContent='총 '+correct+'문제 맞춤!';mathResult.style.color='#0a66c2';mathStart.style.display='inline-block';}},1000);}
+      function checkAnswer(){var userAnswer=parseInt(mathInput.value);if(isNaN(userAnswer)){mathResult.textContent='⚠️ 숫자를 입력하세요!';mathResult.style.color='#f39c12';return;}if(userAnswer===currentAnswer){correct++;correctEl.textContent=correct;mathResult.textContent='✅ 정답!';mathResult.style.color='#27ae60';mathInput.value='';setTimeout(generateQuestion,300);}else{mathResult.textContent='❌ 오답! 정답은 '+currentAnswer;mathResult.style.color='#e74c3c';setTimeout(function(){mathInput.value='';generateQuestion();mathResult.textContent='';},1500);}}
       mathStart.addEventListener('click',startGame);
       mathInput.addEventListener('keypress',function(e){if(e.key==='Enter')checkAnswer();});
     </script>
@@ -877,19 +859,19 @@ function generatePatternMemoryGame(){
     <h1>🔲 ${title.ko}</h1>
     ${getGameTitleScript('pattern-memory', '🔲')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="pattern.desc">깜빡이는 패턴을 기억하고 순서대로 클릭하세요!</p>
+      <p style="color:#666">깜빡이는 패턴을 기억하고 순서대로 클릭하세요!</p>
       <div id="pattern-grid" style="display:grid;grid-template-columns:repeat(3,120px);gap:12px;justify-content:center;margin:32px auto"></div>
-      <button id="pattern-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin-top:16px" data-i18n-game="pattern.start">시작하기</button>
+      <button id="pattern-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin-top:16px">시작하기</button>
       <div id="pattern-result" style="margin:16px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="pattern.currentLevel">현재 단계</div><div id="pattern-level" class="stat-value">1</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="pattern.bestLevel">최고 단계</div><div id="pattern-best" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">현재 단계</div><div id="pattern-level" class="stat-value">1</div></div>
+        <div class="stat-box"><div class="stat-label">최고 단계</div><div id="pattern-best" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
       var patternGrid=document.getElementById('pattern-grid'),patternStart=document.getElementById('pattern-start'),patternResult=document.getElementById('pattern-result'),patternLevelEl=document.getElementById('pattern-level'),patternBestEl=document.getElementById('pattern-best'),level=1,bestLevel=0,pattern=[],playerPattern=[],playing=false;
-      for(var i=0;i<9;i++){var btn=document.createElement('div');btn.style.cssText='width:120px;height:120px;background:#3498db;border-radius:12px;cursor:pointer;transition:all 0.2s';btn.dataset.index=i;btn.addEventListener('click',function(){if(!playing)return;var idx=parseInt(this.dataset.index);this.style.background='#2980b9';setTimeout(function(){document.querySelectorAll('#pattern-grid div')[idx].style.background='#3498db';}.bind(this),200);playerPattern.push(idx);var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.pattern;if(playerPattern[playerPattern.length-1]!==pattern[playerPattern.length-1]){patternResult.textContent=txt.wrong;patternResult.style.color='#e74c3c';playing=false;level=1;patternLevelEl.textContent=level;patternStart.style.display='inline-block';}else if(playerPattern.length===pattern.length){level++;patternLevelEl.textContent=level;if(level>bestLevel){bestLevel=level;patternBestEl.textContent=bestLevel;}patternResult.textContent=txt.correct;patternResult.style.color='#27ae60';setTimeout(showPattern,1500);}});patternGrid.appendChild(btn);}
-      function showPattern(){playing=false;playerPattern=[];pattern.push(Math.floor(Math.random()*9));var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.pattern;patternResult.textContent=txt.remember;var i=0;var interval=setInterval(function(){if(i>=pattern.length){clearInterval(interval);patternResult.textContent=txt.clickNow;playing=true;return;}var idx=pattern[i];var cells=document.querySelectorAll('#pattern-grid div');cells[idx].style.background='#f1c40f';setTimeout(function(){cells[idx].style.background='#3498db';},400);i++;},800);}
+      for(var i=0;i<9;i++){var btn=document.createElement('div');btn.style.cssText='width:120px;height:120px;background:#3498db;border-radius:12px;cursor:pointer;transition:all 0.2s';btn.dataset.index=i;btn.addEventListener('click',function(){if(!playing)return;var idx=parseInt(this.dataset.index);this.style.background='#2980b9';setTimeout(function(){document.querySelectorAll('#pattern-grid div')[idx].style.background='#3498db';}.bind(this),200);playerPattern.push(idx);if(playerPattern[playerPattern.length-1]!==pattern[playerPattern.length-1]){patternResult.textContent='❌ 틀렸습니다!';patternResult.style.color='#e74c3c';playing=false;level=1;patternLevelEl.textContent=level;patternStart.style.display='inline-block';}else if(playerPattern.length===pattern.length){level++;patternLevelEl.textContent=level;if(level>bestLevel){bestLevel=level;patternBestEl.textContent=bestLevel;}patternResult.textContent='✅ 정답! 다음 단계...';patternResult.style.color='#27ae60';setTimeout(showPattern,1500);}});patternGrid.appendChild(btn);}
+      function showPattern(){playing=false;playerPattern=[];pattern.push(Math.floor(Math.random()*9));patternResult.textContent='패턴을 기억하세요...';var i=0;var interval=setInterval(function(){if(i>=pattern.length){clearInterval(interval);patternResult.textContent='이제 클릭하세요!';playing=true;return;}var idx=pattern[i];var cells=document.querySelectorAll('#pattern-grid div');cells[idx].style.background='#f1c40f';setTimeout(function(){cells[idx].style.background='#3498db';},400);i++;},800);}
       patternStart.addEventListener('click',function(){patternStart.style.display='none';pattern=[];level=1;patternLevelEl.textContent=level;showPattern();});
     </script>
   `;
@@ -903,18 +885,18 @@ function generateClickSpeedGame(){
     <h1>👆 ${title.ko}</h1>
     ${getGameTitleScript('click-speed', '👆')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="clickSpeed.desc">10초 동안 최대한 많이 클릭하세요!</p>
+      <p style="color:#666">10초 동안 최대한 많이 클릭하세요!</p>
       <div id="click-timer" style="font-size:48px;font-weight:bold;color:#e74c3c;margin:24px 0">10.0</div>
-      <div id="click-area" style="width:100%;height:300px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:bold;cursor:pointer;user-select:none;margin:24px 0" data-i18n-game="clickSpeed.clickToStart">클릭해서 시작!</div>
+      <div id="click-area" style="width:100%;height:300px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:bold;cursor:pointer;user-select:none;margin:24px 0">클릭해서 시작!</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="clickSpeed.clicks">클릭 수</div><div id="clicks" class="stat-value">0</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="clickSpeed.cps">CPS</div><div id="cps" class="stat-value">0.0</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="clickSpeed.bestCps">최고 CPS</div><div id="best-cps" class="stat-value">0.0</div></div>
+        <div class="stat-box"><div class="stat-label">클릭 수</div><div id="clicks" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">CPS</div><div id="cps" class="stat-value">0.0</div></div>
+        <div class="stat-box"><div class="stat-label">최고 CPS</div><div id="best-cps" class="stat-value">0.0</div></div>
       </div>
     </div>
     <script>
       var clickTimer=document.getElementById('click-timer'),clickArea=document.getElementById('click-area'),clicksEl=document.getElementById('clicks'),cpsEl=document.getElementById('cps'),bestCpsEl=document.getElementById('best-cps'),clicks=0,timeLeft=10,started=false,bestCps=0,interval=null;
-      clickArea.addEventListener('click',function(){var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.clickSpeed;if(!started){started=true;clicks=0;timeLeft=10;clickArea.textContent=txt.clicking;interval=setInterval(function(){timeLeft-=0.1;if(timeLeft<=0){timeLeft=0;clearInterval(interval);started=false;var finalCps=(clicks/10).toFixed(1);cpsEl.textContent=finalCps;if(parseFloat(finalCps)>bestCps){bestCps=parseFloat(finalCps);bestCpsEl.textContent=bestCps.toFixed(1);}clickArea.textContent=txt.complete;clickArea.style.background='linear-gradient(135deg,#f093fb 0%,#f5576c 100%)';}clickTimer.textContent=timeLeft.toFixed(1);},100);}if(started&&timeLeft>0){clicks++;clicksEl.textContent=clicks;}});
+      clickArea.addEventListener('click',function(){if(!started){started=true;clicks=0;timeLeft=10;clickArea.textContent='클릭하세요!';interval=setInterval(function(){timeLeft-=0.1;if(timeLeft<=0){timeLeft=0;clearInterval(interval);started=false;var finalCps=(clicks/10).toFixed(1);cpsEl.textContent=finalCps;if(parseFloat(finalCps)>bestCps){bestCps=parseFloat(finalCps);bestCpsEl.textContent=bestCps.toFixed(1);}clickArea.textContent='완료! 다시 클릭해서 시작';clickArea.style.background='linear-gradient(135deg,#f093fb 0%,#f5576c 100%)';}clickTimer.textContent=timeLeft.toFixed(1);},100);}if(started&&timeLeft>0){clicks++;clicksEl.textContent=clicks;}});
     </script>
   `;
   return layout('클릭 속도', '/games/click-speed/', gameHTML, true);
@@ -927,20 +909,20 @@ function generateAimTrainerGame(){
     <h1>🎯 ${title.ko}</h1>
     ${getGameTitleScript('aim-trainer', '🎯')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="aim.desc">30초 동안 나타나는 원을 빠르게 클릭하세요!</p>
+      <p style="color:#666">30초 동안 나타나는 원을 빠르게 클릭하세요!</p>
       <div id="aim-timer" style="font-size:36px;font-weight:bold;color:#e74c3c;margin:16px 0">30</div>
-      <div id="aim-area" style="width:100%;height:400px;background:#f8f9fa;border-radius:12px;position:relative;cursor:crosshair;margin:24px 0;display:flex;align-items:center;justify-content:center;font-size:24px;color:#666" data-i18n-game="aim.clickToStart">클릭해서 시작</div>
+      <div id="aim-area" style="width:100%;height:400px;background:#f8f9fa;border-radius:12px;position:relative;cursor:crosshair;margin:24px 0;display:flex;align-items:center;justify-content:center;font-size:24px;color:#666">클릭해서 시작</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="aim.hitsLabel">명중</div><div id="hits" class="stat-value">0</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="aim.accuracy">정확도</div><div id="aim-accuracy" class="stat-value">0%</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="aim.bestHits">최고 점수</div><div id="best-hits" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">명중</div><div id="hits" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">정확도</div><div id="aim-accuracy" class="stat-value">0%</div></div>
+        <div class="stat-box"><div class="stat-label">최고 점수</div><div id="best-hits" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
       var aimTimer=document.getElementById('aim-timer'),aimArea=document.getElementById('aim-area'),hitsEl=document.getElementById('hits'),aimAccuracyEl=document.getElementById('aim-accuracy'),bestHitsEl=document.getElementById('best-hits'),hits=0,misses=0,timeLeft=30,started=false,bestHits=0,interval=null,target=null,countdown=null;
       function createTarget(){if(target)target.remove();target=document.createElement('div');var size=Math.random()*30+50;var maxX=aimArea.offsetWidth-size-10;var maxY=aimArea.offsetHeight-size-10;var x=Math.max(10,Math.random()*maxX);var y=Math.max(10,Math.random()*maxY);target.style.cssText='position:absolute;width:'+size+'px;height:'+size+'px;background:#e74c3c;border-radius:50%;cursor:pointer;transition:transform 0.1s;box-shadow:0 2px 8px rgba(231,76,60,0.4)';target.style.left=x+'px';target.style.top=y+'px';target.addEventListener('mouseenter',function(){this.style.transform='scale(1.1)';});target.addEventListener('mouseleave',function(){this.style.transform='scale(1)';});target.addEventListener('click',function(e){e.stopPropagation();hits++;hitsEl.textContent=hits;aimAccuracyEl.textContent=Math.round(hits/(hits+misses)*100)+'%';this.style.background='#27ae60';this.style.transform='scale(0)';setTimeout(createTarget,100);});aimArea.appendChild(target);}
-      function startCountdown(){countdown=3;aimArea.innerHTML='<div style="font-size:72px;font-weight:bold;color:#667eea">'+countdown+'</div>';var countInterval=setInterval(function(){countdown--;if(countdown>0){aimArea.innerHTML='<div style="font-size:72px;font-weight:bold;color:#667eea">'+countdown+'</div>';}else{clearInterval(countInterval);aimArea.textContent='';started=true;hits=0;misses=0;timeLeft=30;hitsEl.textContent=hits;aimAccuracyEl.textContent='0%';createTarget();interval=setInterval(function(){timeLeft--;aimTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(interval);started=false;if(target)target.remove();if(hits>bestHits){bestHits=hits;bestHitsEl.textContent=bestHits;}var acc=hits+misses>0?Math.round(hits/(hits+misses)*100):0;var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.aim;aimArea.innerHTML='<span style="font-size:24px;color:#666">'+txt.complete+hits+txt.hits+acc+'%)'+txt.clickAgain+'</span>';}},1000);}},1000);}
-      aimArea.addEventListener('click',function(e){if(e.target!==aimArea)return;if(!started&&!countdown){startCountdown();}else if(started){misses++;aimAccuracyEl.textContent=Math.round(hits/(hits+misses)*100)+'%';var missIndicator=document.createElement('div');var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.aim;missIndicator.textContent=txt.miss;missIndicator.style.cssText='position:absolute;left:'+e.offsetX+'px;top:'+e.offsetY+'px;color:#e74c3c;font-weight:bold;font-size:20px;pointer-events:none;animation:fadeOut 0.5s forwards';aimArea.appendChild(missIndicator);setTimeout(function(){missIndicator.remove();},500);}});
+      function startCountdown(){countdown=3;aimArea.innerHTML='<div style="font-size:72px;font-weight:bold;color:#667eea">'+countdown+'</div>';var countInterval=setInterval(function(){countdown--;if(countdown>0){aimArea.innerHTML='<div style="font-size:72px;font-weight:bold;color:#667eea">'+countdown+'</div>';}else{clearInterval(countInterval);aimArea.textContent='';started=true;hits=0;misses=0;timeLeft=30;hitsEl.textContent=hits;aimAccuracyEl.textContent='0%';createTarget();interval=setInterval(function(){timeLeft--;aimTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(interval);started=false;if(target)target.remove();if(hits>bestHits){bestHits=hits;bestHitsEl.textContent=bestHits;}var acc=hits+misses>0?Math.round(hits/(hits+misses)*100):0;aimArea.innerHTML='<span style="font-size:24px;color:#666">완료! '+hits+'개 명중 (정확도 '+acc+'%)<br><br>클릭해서 다시 시작</span>';}},1000);}},1000);}
+      aimArea.addEventListener('click',function(e){if(e.target!==aimArea)return;if(!started&&!countdown){startCountdown();}else if(started){misses++;aimAccuracyEl.textContent=Math.round(hits/(hits+misses)*100)+'%';var missIndicator=document.createElement('div');missIndicator.textContent='Miss!';missIndicator.style.cssText='position:absolute;left:'+e.offsetX+'px;top:'+e.offsetY+'px;color:#e74c3c;font-weight:bold;font-size:20px;pointer-events:none;animation:fadeOut 0.5s forwards';aimArea.appendChild(missIndicator);setTimeout(function(){missIndicator.remove();},500);}});
     </script>
   `;
   return layout('목표물 클릭', '/games/aim-trainer/', gameHTML, true);
@@ -953,19 +935,19 @@ function generateSequenceMemoryGame(){
     <h1>🔢 ${title.ko}</h1>
     ${getGameTitleScript('sequence-memory', '🔢')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="sequence.desc">숫자가 나타나는 순서를 기억하고 순서대로 클릭하세요!</p>
+      <p style="color:#666">숫자가 나타나는 순서를 기억하고 순서대로 클릭하세요!</p>
       <div id="seq-grid" style="display:grid;grid-template-columns:repeat(3,100px);gap:12px;justify-content:center;margin:32px auto"></div>
-      <button id="seq-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin-top:16px" data-i18n-game="sequence.start">시작하기</button>
+      <button id="seq-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin-top:16px">시작하기</button>
       <div id="seq-result" style="margin:16px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="sequence.currentLevel">현재 단계</div><div id="seq-level" class="stat-value">1</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="sequence.bestLevel">최고 단계</div><div id="seq-best" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">현재 단계</div><div id="seq-level" class="stat-value">1</div></div>
+        <div class="stat-box"><div class="stat-label">최고 단계</div><div id="seq-best" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
       var seqGrid=document.getElementById('seq-grid'),seqStart=document.getElementById('seq-start'),seqResult=document.getElementById('seq-result'),seqLevelEl=document.getElementById('seq-level'),seqBestEl=document.getElementById('seq-best'),level=1,bestLevel=0,sequence=[],playerSeq=[],playing=false;
-      for(var i=0;i<9;i++){var btn=document.createElement('div');btn.style.cssText='width:100px;height:100px;background:#ecf0f1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:bold;color:#34495e;cursor:pointer;transition:all 0.2s';btn.dataset.index=i;btn.addEventListener('click',function(){if(!playing)return;var idx=parseInt(this.dataset.index);this.style.background='#3498db';setTimeout(function(el){el.style.background='#ecf0f1';},200,this);playerSeq.push(idx);var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.sequence;if(playerSeq[playerSeq.length-1]!==sequence[playerSeq.length-1]){seqResult.textContent=txt.wrong;seqResult.style.color='#e74c3c';playing=false;level=1;seqLevelEl.textContent=level;seqStart.style.display='inline-block';}else if(playerSeq.length===sequence.length){level++;seqLevelEl.textContent=level;if(level>bestLevel){bestLevel=level;seqBestEl.textContent=bestLevel;}seqResult.textContent=txt.correct;seqResult.style.color='#27ae60';setTimeout(showSequence,1500);}});seqGrid.appendChild(btn);}
-      function showSequence(){playing=false;playerSeq=[];sequence.push(Math.floor(Math.random()*9));var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.sequence;seqResult.textContent=txt.remember;var cells=document.querySelectorAll('#seq-grid div');cells.forEach(function(c){c.textContent='';});var i=0;var interval=setInterval(function(){if(i>=sequence.length){clearInterval(interval);setTimeout(function(){seqResult.textContent=txt.clickNow;playing=true;},500);return;}cells[sequence[i]].textContent=i+1;cells[sequence[i]].style.background='#f39c12';setTimeout(function(idx){cells[idx].textContent='';cells[idx].style.background='#ecf0f1';},600,sequence[i]);i++;},800);}
+      for(var i=0;i<9;i++){var btn=document.createElement('div');btn.style.cssText='width:100px;height:100px;background:#ecf0f1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:bold;color:#34495e;cursor:pointer;transition:all 0.2s';btn.dataset.index=i;btn.addEventListener('click',function(){if(!playing)return;var idx=parseInt(this.dataset.index);this.style.background='#3498db';setTimeout(function(el){el.style.background='#ecf0f1';},200,this);playerSeq.push(idx);if(playerSeq[playerSeq.length-1]!==sequence[playerSeq.length-1]){seqResult.textContent='❌ 틀렸습니다!';seqResult.style.color='#e74c3c';playing=false;level=1;seqLevelEl.textContent=level;seqStart.style.display='inline-block';}else if(playerSeq.length===sequence.length){level++;seqLevelEl.textContent=level;if(level>bestLevel){bestLevel=level;seqBestEl.textContent=bestLevel;}seqResult.textContent='✅ 정답! 다음 단계...';seqResult.style.color='#27ae60';setTimeout(showSequence,1500);}});seqGrid.appendChild(btn);}
+      function showSequence(){playing=false;playerSeq=[];sequence.push(Math.floor(Math.random()*9));seqResult.textContent='순서를 기억하세요...';var cells=document.querySelectorAll('#seq-grid div');cells.forEach(function(c){c.textContent='';});var i=0;var interval=setInterval(function(){if(i>=sequence.length){clearInterval(interval);setTimeout(function(){seqResult.textContent='이제 순서대로 클릭하세요!';playing=true;},500);return;}cells[sequence[i]].textContent=i+1;cells[sequence[i]].style.background='#f39c12';setTimeout(function(idx){cells[idx].textContent='';cells[idx].style.background='#ecf0f1';},600,sequence[i]);i++;},800);}
       seqStart.addEventListener('click',function(){seqStart.style.display='none';sequence=[];level=1;seqLevelEl.textContent=level;showSequence();});
     </script>
   `;
@@ -979,20 +961,20 @@ function generateWordPuzzleGame(){
     <h1>📝 ${title.ko}</h1>
     ${getGameTitleScript('word-puzzle', '📝')}
     <div class="game-card" style="text-align:center">
-      <p style="color:#666" data-i18n-game="wordPuzzle.desc">주어진 글자들로 2글자 이상의 단어를 만드세요!</p>
+      <p style="color:#666">주어진 글자들로 2글자 이상의 단어를 만드세요!</p>
       <div id="word-timer" style="font-size:36px;font-weight:bold;color:#e74c3c;margin:16px 0">60</div>
       <div id="word-letters" style="font-size:48px;font-weight:bold;letter-spacing:12px;color:#333;margin:24px 0"></div>
-      <input type="text" id="word-input" data-i18n-game-placeholder="wordPuzzle.placeholder" placeholder="단어 입력" style="font-size:24px;text-align:center;width:300px" disabled>
-      <button id="word-submit" class="btn btn-success" style="font-size:18px;padding:12px 32px;margin:16px 8px" disabled data-i18n-game="wordPuzzle.submit">제출</button>
-      <button id="word-start" class="btn btn-primary" style="font-size:18px;padding:12px 32px;margin:16px 8px" data-i18n-game="wordPuzzle.start">시작하기</button>
+      <input type="text" id="word-input" placeholder="단어 입력" style="font-size:24px;text-align:center;width:300px" disabled>
+      <button id="word-submit" class="btn btn-success" style="font-size:18px;padding:12px 32px;margin:16px 8px" disabled>제출</button>
+      <button id="word-start" class="btn btn-primary" style="font-size:18px;padding:12px 32px;margin:16px 8px">시작하기</button>
       <div id="word-feedback" style="margin:16px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div id="word-list" style="margin:24px 0;min-height:100px">
-        <div style="color:#666;font-size:14px" data-i18n-game="wordPuzzle.displayHere">만든 단어들이 여기에 표시됩니다</div>
+        <div style="color:#666;font-size:14px">만든 단어들이 여기에 표시됩니다</div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="wordPuzzle.wordCount">단어 수</div><div id="round-words" class="stat-value">0</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="wordPuzzle.score">점수</div><div id="score" class="stat-value">0</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="wordPuzzle.bestScore">최고 점수</div><div id="best-score" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">단어 수</div><div id="round-words" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">점수</div><div id="score" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">최고 점수</div><div id="best-score" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
@@ -1014,8 +996,8 @@ function generateWordPuzzleGame(){
         {letters:'밥국물반찬',words:['밥','국물','반찬','물반','찬국','밥국','반국','밥물','찬밥','국반']}
       ];
       var wordLetters=document.getElementById('word-letters'),wordTimer=document.getElementById('word-timer'),wordInput=document.getElementById('word-input'),wordSubmit=document.getElementById('word-submit'),wordStart=document.getElementById('word-start'),wordFeedback=document.getElementById('word-feedback'),wordList=document.getElementById('word-list'),roundWordsEl=document.getElementById('round-words'),scoreEl=document.getElementById('score'),bestScoreEl=document.getElementById('best-score'),currentSet=null,foundWords=[],score=0,bestScore=0,timeLeft=60,timerInterval=null;
-      function startRound(){var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.wordPuzzle;var idx=Math.floor(Math.random()*wordData.length);currentSet=wordData[idx];wordLetters.textContent=currentSet.letters.split('').join(' ');foundWords=[];score=0;timeLeft=60;wordList.innerHTML='<div style="color:#666;font-size:14px">'+txt.makeWords+'</div>';roundWordsEl.textContent='0';scoreEl.textContent='0';wordFeedback.textContent='';wordInput.value='';wordInput.disabled=false;wordSubmit.disabled=false;wordStart.textContent=txt.newRound;wordInput.focus();timerInterval=setInterval(function(){timeLeft--;wordTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(timerInterval);wordInput.disabled=true;wordSubmit.disabled=true;if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}wordFeedback.textContent=txt.timeUp+foundWords.length+txt.words+score+txt.pointsText;wordFeedback.style.color='#e74c3c';wordStart.style.display='inline-block';}},1000);}
-      function submitWord(){var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.wordPuzzle;var word=wordInput.value.trim();if(word.length<2){wordFeedback.textContent=txt.tooShort;wordFeedback.style.color='#e74c3c';return;}var valid=true;var letterCount={};for(var i=0;i<currentSet.letters.length;i++){var c=currentSet.letters[i];letterCount[c]=(letterCount[c]||0)+1;}for(var i=0;i<word.length;i++){var c=word[i];if(!letterCount[c]||letterCount[c]<=0){valid=false;break;}letterCount[c]--;}if(!valid){wordFeedback.textContent=txt.useGiven;wordFeedback.style.color='#e74c3c';return;}if(foundWords.indexOf(word)!==-1){wordFeedback.textContent=txt.alreadyUsed;wordFeedback.style.color='#f39c12';return;}if(currentSet.words.indexOf(word)===-1){wordFeedback.textContent=txt.invalid;wordFeedback.style.color='#e74c3c';return;}var points=word.length;score+=points;foundWords.push(word);roundWordsEl.textContent=foundWords.length;scoreEl.textContent=score;wordFeedback.textContent=txt.plusPoints+points+txt.pointsText;wordFeedback.style.color='#27ae60';var wordDiv='<div style="display:inline-block;background:#e3f2fd;padding:8px 16px;border-radius:8px;margin:4px;font-weight:bold;color:#1976d2">'+word+' (+'+points+')</div>';if(wordList.querySelector('div').textContent.includes(txt.makeWords)){wordList.innerHTML=wordDiv;}else{wordList.innerHTML+=wordDiv;}wordInput.value='';wordInput.focus();}
+      function startRound(){var idx=Math.floor(Math.random()*wordData.length);currentSet=wordData[idx];wordLetters.textContent=currentSet.letters.split('').join(' ');foundWords=[];score=0;timeLeft=60;wordList.innerHTML='<div style="color:#666;font-size:14px">단어를 만들어보세요!</div>';roundWordsEl.textContent='0';scoreEl.textContent='0';wordFeedback.textContent='';wordInput.value='';wordInput.disabled=false;wordSubmit.disabled=false;wordStart.textContent='새 라운드';wordInput.focus();timerInterval=setInterval(function(){timeLeft--;wordTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(timerInterval);wordInput.disabled=true;wordSubmit.disabled=true;if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}wordFeedback.textContent='시간 종료! 총 '+foundWords.length+'개 단어, '+score+'점';wordFeedback.style.color='#e74c3c';wordStart.style.display='inline-block';}},1000);}
+      function submitWord(){var word=wordInput.value.trim();if(word.length<2){wordFeedback.textContent='❌ 2글자 이상 입력하세요!';wordFeedback.style.color='#e74c3c';return;}var valid=true;var letterCount={};for(var i=0;i<currentSet.letters.length;i++){var c=currentSet.letters[i];letterCount[c]=(letterCount[c]||0)+1;}for(var i=0;i<word.length;i++){var c=word[i];if(!letterCount[c]||letterCount[c]<=0){valid=false;break;}letterCount[c]--;}if(!valid){wordFeedback.textContent='❌ 주어진 글자만 사용하세요!';wordFeedback.style.color='#e74c3c';return;}if(foundWords.indexOf(word)!==-1){wordFeedback.textContent='⚠️ 이미 입력한 단어입니다!';wordFeedback.style.color='#f39c12';return;}if(currentSet.words.indexOf(word)===-1){wordFeedback.textContent='❌ 유효하지 않은 단어입니다!';wordFeedback.style.color='#e74c3c';return;}var points=word.length;score+=points;foundWords.push(word);roundWordsEl.textContent=foundWords.length;scoreEl.textContent=score;wordFeedback.textContent='✅ +'+points+'점!';wordFeedback.style.color='#27ae60';var wordDiv='<div style="display:inline-block;background:#e3f2fd;padding:8px 16px;border-radius:8px;margin:4px;font-weight:bold;color:#1976d2">'+word+' (+'+points+')</div>';if(wordList.querySelector('div').textContent.includes('만들어보세요')){wordList.innerHTML=wordDiv;}else{wordList.innerHTML+=wordDiv;}wordInput.value='';wordInput.focus();}
       wordStart.addEventListener('click',startRound);
       wordSubmit.addEventListener('click',submitWord);
       wordInput.addEventListener('keypress',function(e){if(e.key==='Enter')submitWord();});
