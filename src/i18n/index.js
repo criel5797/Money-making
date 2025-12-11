@@ -151,6 +151,18 @@ var i18n = {
         wordCount: '단어 수',
         score: '점수',
         bestScore: '최고 점수'
+      },
+      history: {
+        title: '기록',
+        noHistory: '아직 기록이 없습니다',
+        showHistory: '기록 보기',
+        hideHistory: '기록 숨기기',
+        date: '날짜',
+        result: '결과',
+        bestRecord: '최고 기록',
+        recentRecords: '최근 기록',
+        improvement: '향상',
+        firstRecord: '첫 기록!'
       }
     },
     privacy: {
@@ -330,6 +342,18 @@ var i18n = {
         wordCount: 'Words',
         score: 'Score',
         bestScore: 'Best'
+      },
+      history: {
+        title: 'History',
+        noHistory: 'No records yet',
+        showHistory: 'Show History',
+        hideHistory: 'Hide History',
+        date: 'Date',
+        result: 'Result',
+        bestRecord: 'Best Record',
+        recentRecords: 'Recent Records',
+        improvement: 'Improvement',
+        firstRecord: 'First record!'
       }
     },
     privacy: {
@@ -509,6 +533,18 @@ var i18n = {
         wordCount: '単語数',
         score: 'スコア',
         bestScore: '最高得点'
+      },
+      history: {
+        title: '記録',
+        noHistory: 'まだ記録がありません',
+        showHistory: '記録を見る',
+        hideHistory: '記録を隠す',
+        date: '日付',
+        result: '結果',
+        bestRecord: '最高記録',
+        recentRecords: '最近の記録',
+        improvement: '向上',
+        firstRecord: '初記録！'
       }
     },
     privacy: {

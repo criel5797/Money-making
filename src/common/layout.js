@@ -61,9 +61,51 @@ nav a:hover{background:rgba(255,255,255,0.2)}
 @media(hover:none){.game-card:hover{transform:none}.play-btn:hover{transform:none}.btn:hover{transform:none}}
 `;
 
+// 게임 기록 저장/불러오기 유틸리티 스크립트
+function getGameRecordScript() {
+  return `
+window.GameRecord={
+  save:function(gameId,recordType,value,timestamp){
+    var key='game_'+gameId+'_'+recordType;
+    var history=this.getHistory(gameId,recordType);
+    history.push({value:value,date:timestamp||new Date().toISOString()});
+    if(history.length>20)history=history.slice(-20);
+    localStorage.setItem(key+'_history',JSON.stringify(history));
+    var best=this.getBest(gameId,recordType);
+    var isHigherBetter=this.isHigherBetter(recordType);
+    if(best===null||(isHigherBetter?value>best:value<best)){
+      localStorage.setItem(key+'_best',value.toString());
+      return true;
+    }
+    return false;
+  },
+  getBest:function(gameId,recordType){
+    var key='game_'+gameId+'_'+recordType+'_best';
+    var val=localStorage.getItem(key);
+    return val===null?null:parseFloat(val);
+  },
+  getHistory:function(gameId,recordType){
+    var key='game_'+gameId+'_'+recordType+'_history';
+    var data=localStorage.getItem(key);
+    return data?JSON.parse(data):[];
+  },
+  isHigherBetter:function(recordType){
+    var lowerBetter=['reactionTime'];
+    return lowerBetter.indexOf(recordType)===-1;
+  },
+  formatValue:function(value,recordType){
+    if(recordType==='reactionTime')return value+'ms';
+    if(recordType==='wpm'||recordType==='cps')return value.toFixed?value.toFixed(1):value;
+    if(recordType==='accuracy')return value+'%';
+    return value.toString();
+  }
+};
+`;
+}
+
 // 공통 i18n 스크립트
 function getI18nScript(i18nData) {
-  return `
+  return getGameRecordScript() + `
 var i18nData=${JSON.stringify(i18nData)};
 var currentLang=localStorage.getItem("lang")||navigator.language.split("-")[0]||"ko";
 if(!i18nData[currentLang])currentLang="ko";
