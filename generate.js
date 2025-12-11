@@ -120,18 +120,19 @@ function generateReactionGame(){
     <h1>⚡ 순발력 테스트</h1>
     <div class="game-card" style="text-align:center">
       <p style="color:#666">빨간색에서 초록색으로 바뀌면 최대한 빠르게 클릭하세요!</p>
-      <div id="reaction-box" style="width:100%;height:300px;background:#e74c3c;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;font-weight:bold;cursor:pointer;user-select:none;margin:24px 0">클릭해서 시작</div>
+      <div id="reaction-box" style="width:100%;height:300px;background:#e74c3c;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;font-weight:bold;cursor:pointer;user-select:none;margin:24px 0;transition:background 0.1s">클릭해서 시작</div>
       <div id="result" style="margin:16px 0;font-size:20px;font-weight:bold;min-height:30px;color:#333"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
         <div class="stat-box"><div class="stat-label">시도 횟수</div><div id="attempts" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">평균</div><div id="average" class="stat-value">-</div></div>
         <div class="stat-box"><div class="stat-label">최고 기록</div><div id="best" class="stat-value">-</div></div>
       </div>
     </div>
     <script>
-      var box=document.getElementById('reaction-box'),result=document.getElementById('result'),attemptsEl=document.getElementById('attempts'),bestEl=document.getElementById('best'),state='ready',startTime=0,attempts=0,bestTime=null,timeout=null;
-      function resetBox(){box.style.background='#e74c3c';box.textContent='클릭해서 시작';state='ready';result.textContent='';result.style.color='#333';}
-      function startGame(){if(state!=='ready')return;state='waiting';box.style.background='#e74c3c';box.textContent='초록색이 될 때까지 기다리세요...';result.textContent='';var waitTime=2000+Math.random()*3000;timeout=setTimeout(function(){state='green';box.style.background='#27ae60';box.textContent='지금 클릭!';startTime=Date.now();},waitTime);}
-      box.addEventListener('click',function(){if(state==='ready'){startGame();}else if(state==='waiting'){clearTimeout(timeout);state='tooEarly';box.style.background='#95a5a6';box.textContent='너무 빨라요!';result.textContent='❌ 초록색으로 바뀔 때까지 기다리세요!';result.style.color='#e74c3c';attempts++;attemptsEl.textContent=attempts;setTimeout(resetBox,2000);}else if(state==='green'){var reactionTime=Date.now()-startTime;attempts++;attemptsEl.textContent=attempts;result.textContent='✅ '+reactionTime+'ms';result.style.color='#27ae60';if(bestTime===null||reactionTime<bestTime){bestTime=reactionTime;bestEl.textContent=reactionTime+'ms';result.textContent+=' 🎉 신기록!';}var message='';if(reactionTime<200)message=' 🔥 놀라워요!';else if(reactionTime<250)message=' 👍 훌륭해요!';else if(reactionTime<300)message=' 😊 좋아요!';else if(reactionTime<400)message=' 👌 괜찮아요!';else message=' 💪 연습하면 더 잘할 수 있어요!';result.textContent+=message;setTimeout(resetBox,2000);}});
+      var box=document.getElementById('reaction-box'),result=document.getElementById('result'),attemptsEl=document.getElementById('attempts'),averageEl=document.getElementById('average'),bestEl=document.getElementById('best'),state='ready',startTime=0,attempts=0,bestTime=null,totalTime=0,validAttempts=0,timeout=null;
+      function resetBox(){setTimeout(function(){box.style.background='#3498db';box.textContent='클릭해서 다음 라운드';state='ready';},1500);}
+      function startGame(){if(state!=='ready')return;state='countdown';var count=3;box.style.background='#f39c12';box.textContent='준비... '+count;var countInterval=setInterval(function(){count--;if(count>0){box.textContent='준비... '+count;}else{clearInterval(countInterval);state='waiting';box.style.background='#e74c3c';box.textContent='초록색이 될 때까지 기다리세요...';result.textContent='';var waitTime=2000+Math.random()*3000;timeout=setTimeout(function(){if(state==='waiting'){state='green';box.style.background='#27ae60';box.textContent='지금 클릭!';startTime=Date.now();}},waitTime);}},1000);}
+      box.addEventListener('click',function(){if(state==='ready'){startGame();}else if(state==='countdown'){result.textContent='⏳ 카운트다운을 기다리세요!';result.style.color='#f39c12';}else if(state==='waiting'){clearTimeout(timeout);state='tooEarly';box.style.background='#95a5a6';box.textContent='너무 빨라요!';result.textContent='❌ 초록색으로 바뀔 때까지 기다리세요!';result.style.color='#e74c3c';attempts++;attemptsEl.textContent=attempts;resetBox();}else if(state==='green'){var reactionTime=Date.now()-startTime;attempts++;validAttempts++;totalTime+=reactionTime;attemptsEl.textContent=attempts;var avg=Math.round(totalTime/validAttempts);averageEl.textContent=avg+'ms';result.textContent='✅ '+reactionTime+'ms';result.style.color='#27ae60';if(bestTime===null||reactionTime<bestTime){bestTime=reactionTime;bestEl.textContent=reactionTime+'ms';result.textContent+=' 🎉 신기록!';}var message='';if(reactionTime<200)message=' 🔥 놀라워요!';else if(reactionTime<250)message=' 👍 훌륭해요!';else if(reactionTime<300)message=' 😊 좋아요!';else if(reactionTime<400)message=' 👌 괜찮아요!';else message=' 💪 연습하면 더 잘할 수 있어요!';result.textContent+=message;state='done';resetBox();}});
     </script>
   `;
   return layout('순발력 테스트', '/games/reaction-time/', gameHTML, true);
@@ -143,20 +144,23 @@ function generateMemoryNumberGame(){
     <h1>🧠 숫자 기억력</h1>
     <div class="game-card" style="text-align:center">
       <p style="color:#666">숫자를 기억하고 입력하세요. 단계가 올라갈수록 길어집니다!</p>
-      <div id="number-display" style="min-height:200px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:bold;color:#333;margin:24px 0"></div>
-      <input type="text" id="number-input" placeholder="숫자 입력" style="font-size:24px;text-align:center;display:none" maxlength="20">
+      <div id="number-display" style="min-height:200px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:bold;color:#333;margin:24px 0;font-family:monospace"></div>
+      <input type="text" id="number-input" placeholder="숫자 입력" style="font-size:24px;text-align:center;display:none;font-family:monospace" maxlength="25">
       <button id="start-btn" class="btn btn-primary" style="font-size:18px;padding:16px 48px">시작하기</button>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
+      <button id="submit-btn" class="btn btn-success" style="font-size:18px;padding:16px 48px;display:none;margin-left:8px">제출</button>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
         <div class="stat-box"><div class="stat-label">현재 단계</div><div id="level" class="stat-value">1</div></div>
+        <div class="stat-box"><div class="stat-label">자릿수</div><div id="digits" class="stat-value">3</div></div>
         <div class="stat-box"><div class="stat-label">최고 단계</div><div id="best-level" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
-      var display=document.getElementById('number-display'),input=document.getElementById('number-input'),startBtn=document.getElementById('start-btn'),levelEl=document.getElementById('level'),bestLevelEl=document.getElementById('best-level'),level=1,bestLevel=0,currentNumber='',state='ready';
+      var display=document.getElementById('number-display'),input=document.getElementById('number-input'),startBtn=document.getElementById('start-btn'),submitBtn=document.getElementById('submit-btn'),levelEl=document.getElementById('level'),digitsEl=document.getElementById('digits'),bestLevelEl=document.getElementById('best-level'),level=1,bestLevel=0,currentNumber='',state='ready';
       function generateNumber(len){var num='';for(var i=0;i<len;i++)num+=Math.floor(Math.random()*10);return num;}
-      function showNumber(){currentNumber=generateNumber(level+2);display.textContent=currentNumber;setTimeout(function(){display.textContent='?';input.style.display='block';input.value='';input.focus();},2000);}
-      function checkAnswer(){if(input.value===currentNumber){level++;levelEl.textContent=level;if(level>bestLevel){bestLevel=level;bestLevelEl.textContent=bestLevel;}display.textContent='✅ 정답!';display.style.color='#27ae60';setTimeout(showNumber,1500);}else{display.textContent='❌ 틀렸습니다! 정답: '+currentNumber;display.style.color='#e74c3c';level=1;levelEl.textContent=level;setTimeout(function(){display.textContent='';display.style.color='#333';startBtn.style.display='inline-block';input.style.display='none';state='ready';},3000);}input.style.display='none';}
+      function showNumber(){var numDigits=level+2;currentNumber=generateNumber(numDigits);digitsEl.textContent=numDigits;display.textContent=currentNumber;var showTime=Math.min(2000+level*300,5000);setTimeout(function(){display.textContent='?';input.style.display='block';submitBtn.style.display='inline-block';input.value='';input.focus();},showTime);}
+      function checkAnswer(){if(input.value===currentNumber){level++;levelEl.textContent=level;if(level>bestLevel){bestLevel=level;bestLevelEl.textContent=bestLevel;}display.textContent='✅ 정답!';display.style.color='#27ae60';input.style.display='none';submitBtn.style.display='none';setTimeout(showNumber,1500);}else{display.textContent='❌ 틀렸습니다! 정답: '+currentNumber;display.style.color='#e74c3c';level=1;levelEl.textContent=level;setTimeout(function(){display.textContent='';display.style.color='#333';startBtn.style.display='inline-block';input.style.display='none';submitBtn.style.display='none';state='ready';},3000);}input.style.display='none';submitBtn.style.display='none';}
       startBtn.addEventListener('click',function(){if(state==='ready'){state='playing';startBtn.style.display='none';showNumber();}});
+      submitBtn.addEventListener('click',checkAnswer);
       input.addEventListener('keypress',function(e){if(e.key==='Enter')checkAnswer();});
     </script>
   `;
@@ -169,8 +173,8 @@ function generateTypingSpeedGame(){
     <h1>⌨️ 타이핑 속도</h1>
     <div class="game-card" style="text-align:center">
       <p style="color:#666">아래 문장을 빠르고 정확하게 타이핑하세요!</p>
-      <div id="target-text" style="font-size:20px;padding:24px;background:#f8f9fa;border-radius:8px;margin:24px 0;line-height:1.8;color:#333"></div>
-      <textarea id="typing-input" placeholder="여기에 입력하세요..." style="height:120px;font-size:16px;resize:none" disabled></textarea>
+      <div id="target-text" style="font-size:20px;padding:24px;background:#f8f9fa;border-radius:8px;margin:24px 0;line-height:1.8;font-family:monospace"></div>
+      <textarea id="typing-input" placeholder="여기에 입력하세요..." style="height:120px;font-size:18px;resize:none;font-family:monospace" disabled></textarea>
       <button id="typing-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin-top:16px">시작하기</button>
       <div id="typing-result" style="margin:16px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
@@ -180,11 +184,12 @@ function generateTypingSpeedGame(){
       </div>
     </div>
     <script>
-      var texts=['빠른 갈색 여우가 게으른 개를 뛰어넘는다','인생은 자전거를 타는 것과 같다','꿈을 이루는 비결은 시작하는 것이다','성공은 매일의 작은 노력이 쌓여 만들어진다','오늘 할 수 있는 일을 내일로 미루지 마라'];
-      var targetText=document.getElementById('target-text'),typingInput=document.getElementById('typing-input'),typingStart=document.getElementById('typing-start'),typingResult=document.getElementById('typing-result'),wpmEl=document.getElementById('wpm'),accuracyEl=document.getElementById('accuracy'),bestWpmEl=document.getElementById('best-wpm'),startTime=0,bestWpm=0,currentText='';
-      function startTyping(){currentText=texts[Math.floor(Math.random()*texts.length)];targetText.textContent=currentText;typingInput.value='';typingInput.disabled=false;typingInput.focus();typingStart.style.display='none';typingResult.textContent='';wpmEl.textContent='-';accuracyEl.textContent='-';startTime=Date.now();}
+      var texts=['빠른 갈색 여우가 게으른 개를 뛰어넘는다','인생은 자전거를 타는 것과 같다','꿈을 이루는 비결은 시작하는 것이다','성공은 매일의 작은 노력이 쌓여 만들어진다','오늘 할 수 있는 일을 내일로 미루지 마라','천 리 길도 한 걸음부터 시작한다','실패는 성공의 어머니이다','시간은 금이다 낭비하지 말자','노력은 결코 배신하지 않는다','인내는 쓰지만 그 열매는 달다','최선을 다하면 후회가 없다','행복은 마음먹기에 달려있다','건강이 최고의 재산이다','웃는 얼굴에 침 못 뱉는다','백문이 불여일견이다','가는 말이 고와야 오는 말이 곱다','지금 이 순간을 소중히 여기자','배움에는 끝이 없다','긍정적인 생각이 긍정적인 결과를 만든다','하루하루 최선을 다하며 살자','모든 것은 마음먹기에 달려있다','작은 것에 감사하는 마음을 가지자','함께하면 더 큰 힘이 된다','꾸준함이 재능을 이긴다','변화는 항상 지금 이 순간부터 시작된다'];
+      var targetText=document.getElementById('target-text'),typingInput=document.getElementById('typing-input'),typingStart=document.getElementById('typing-start'),typingResult=document.getElementById('typing-result'),wpmEl=document.getElementById('wpm'),accuracyEl=document.getElementById('accuracy'),bestWpmEl=document.getElementById('best-wpm'),startTime=0,bestWpm=0,currentText='',errors=0;
+      function startTyping(){currentText=texts[Math.floor(Math.random()*texts.length)];targetText.innerHTML=currentText;typingInput.value='';errors=0;typingInput.disabled=false;typingInput.focus();typingStart.style.display='none';typingResult.textContent='';wpmEl.textContent='0';accuracyEl.textContent='100%';startTime=Date.now();}
+      function updateDisplay(){var typed=typingInput.value;var html='';errors=0;for(var i=0;i<currentText.length;i++){if(i<typed.length){if(typed[i]===currentText[i]){html+='<span style="color:#27ae60;background:#d4edda">'+currentText[i]+'</span>';}else{html+='<span style="color:#e74c3c;background:#f8d7da;text-decoration:underline">'+currentText[i]+'</span>';errors++;}}else if(i===typed.length){html+='<span style="background:#fff3cd">'+currentText[i]+'</span>';}else{html+='<span style="color:#666">'+currentText[i]+'</span>';}}targetText.innerHTML=html;var elapsed=(Date.now()-startTime)/1000/60;if(elapsed>0){var wpm=Math.round((typed.length/5)/elapsed);wpmEl.textContent=wpm;}var acc=typed.length>0?Math.round(((typed.length-errors)/typed.length)*100):100;accuracyEl.textContent=acc+'%';}
       typingStart.addEventListener('click',startTyping);
-      typingInput.addEventListener('input',function(){if(typingInput.value===currentText){var elapsed=(Date.now()-startTime)/1000/60;var wpm=Math.round(currentText.length/5/elapsed);wpmEl.textContent=wpm;accuracyEl.textContent='100%';typingResult.textContent='✅ 완료!';typingResult.style.color='#27ae60';if(wpm>bestWpm){bestWpm=wpm;bestWpmEl.textContent=wpm;}typingInput.disabled=true;typingStart.style.display='inline-block';}});
+      typingInput.addEventListener('input',function(){updateDisplay();if(typingInput.value===currentText){var elapsed=(Date.now()-startTime)/1000/60;var wpm=Math.round(currentText.length/5/elapsed);wpmEl.textContent=wpm;var finalAcc=Math.round(((currentText.length-errors)/currentText.length)*100);accuracyEl.textContent=finalAcc+'%';typingResult.textContent='✅ 완료! WPM: '+wpm+', 정확도: '+finalAcc+'%';typingResult.style.color='#27ae60';if(wpm>bestWpm){bestWpm=wpm;bestWpmEl.textContent=wpm;}typingInput.disabled=true;typingStart.style.display='inline-block';}});
     </script>
   `;
   return layout('타이핑 속도', '/games/typing-speed/', gameHTML, true);
@@ -196,11 +201,13 @@ function generateColorMatchGame(){
     <h1>🎨 색깔 맞추기</h1>
     <div class="game-card" style="text-align:center">
       <p style="color:#666">글자의 <strong>색깔</strong>이 글자의 <strong>의미</strong>와 일치하나요?</p>
+      <div id="color-timer" style="font-size:36px;font-weight:bold;color:#e74c3c;margin:16px 0">60</div>
       <div id="color-word" style="font-size:64px;font-weight:bold;margin:48px 0;min-height:80px"></div>
       <div style="display:flex;gap:16px;justify-content:center;margin:24px 0">
-        <button id="yes-btn" class="btn btn-success" style="font-size:20px;padding:20px 48px">일치 ✓</button>
-        <button id="no-btn" class="btn btn-danger" style="font-size:20px;padding:20px 48px">불일치 ✗</button>
+        <button id="yes-btn" class="btn btn-success" style="font-size:20px;padding:20px 48px" disabled>일치 ✓</button>
+        <button id="no-btn" class="btn btn-danger" style="font-size:20px;padding:20px 48px" disabled>불일치 ✗</button>
       </div>
+      <button id="color-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px;margin:16px 0">시작하기</button>
       <div id="color-result" style="margin:16px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
         <div class="stat-box"><div class="stat-label">점수</div><div id="score" class="stat-value">0</div></div>
@@ -210,12 +217,13 @@ function generateColorMatchGame(){
     </div>
     <script>
       var colors=[{name:'빨강',hex:'#e74c3c'},{name:'파랑',hex:'#3498db'},{name:'초록',hex:'#27ae60'},{name:'노랑',hex:'#f1c40f'},{name:'보라',hex:'#9b59b6'}];
-      var colorWord=document.getElementById('color-word'),yesBtn=document.getElementById('yes-btn'),noBtn=document.getElementById('no-btn'),colorResult=document.getElementById('color-result'),scoreEl=document.getElementById('score'),streakEl=document.getElementById('streak'),bestScoreEl=document.getElementById('best-score'),score=0,streak=0,bestScore=0,isMatch=false;
+      var colorWord=document.getElementById('color-word'),colorTimer=document.getElementById('color-timer'),yesBtn=document.getElementById('yes-btn'),noBtn=document.getElementById('no-btn'),colorStart=document.getElementById('color-start'),colorResult=document.getElementById('color-result'),scoreEl=document.getElementById('score'),streakEl=document.getElementById('streak'),bestScoreEl=document.getElementById('best-score'),score=0,streak=0,bestScore=0,isMatch=false,timeLeft=60,started=false,timerInterval=null;
       function nextRound(){var wordColor=colors[Math.floor(Math.random()*colors.length)];var displayColor=colors[Math.floor(Math.random()*colors.length)];isMatch=(wordColor.name===displayColor.name);colorWord.textContent=wordColor.name;colorWord.style.color=displayColor.hex;colorResult.textContent='';}
-      function checkAnswer(answer){if(answer===isMatch){score++;streak++;scoreEl.textContent=score;streakEl.textContent=streak;if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}colorResult.textContent='✅ 정답!';colorResult.style.color='#27ae60';}else{streak=0;streakEl.textContent=streak;colorResult.textContent='❌ 틀렸습니다!';colorResult.style.color='#e74c3c';}setTimeout(nextRound,800);}
+      function checkAnswer(answer){if(!started)return;if(answer===isMatch){score++;streak++;scoreEl.textContent=score;streakEl.textContent=streak;if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}colorResult.textContent='✅ 정답!';if(streak>=5)colorResult.textContent+=' 🔥 '+streak+' 연속!';colorResult.style.color='#27ae60';}else{if(streak>=5)colorResult.textContent='💔 '+streak+' 연속 종료!';else colorResult.textContent='❌ 틀렸습니다!';colorResult.style.color='#e74c3c';streak=0;streakEl.textContent=streak;}setTimeout(nextRound,600);}
+      function startGame(){started=true;score=0;streak=0;timeLeft=60;scoreEl.textContent=score;streakEl.textContent=streak;yesBtn.disabled=false;noBtn.disabled=false;colorStart.style.display='none';colorResult.textContent='';nextRound();timerInterval=setInterval(function(){timeLeft--;colorTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(timerInterval);started=false;yesBtn.disabled=true;noBtn.disabled=true;colorWord.textContent='시간 종료!';colorWord.style.color='#666';if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}colorResult.textContent='총 '+score+'점!';colorResult.style.color='#0a66c2';colorStart.style.display='inline-block';}},1000);}
       yesBtn.addEventListener('click',function(){checkAnswer(true);});
       noBtn.addEventListener('click',function(){checkAnswer(false);});
-      nextRound();
+      colorStart.addEventListener('click',startGame);
     </script>
   `;
   return layout('색깔 맞추기', '/games/color-match/', gameHTML, true);
@@ -241,7 +249,7 @@ function generateMathQuizGame(){
       var timerEl=document.getElementById('timer'),mathQuestion=document.getElementById('math-question'),mathInput=document.getElementById('math-input'),mathStart=document.getElementById('math-start'),mathResult=document.getElementById('math-result'),correctEl=document.getElementById('correct'),bestCorrectEl=document.getElementById('best-correct'),timeLeft=60,correct=0,bestCorrect=0,currentAnswer=0,timerInterval=null;
       function generateQuestion(){var a=Math.floor(Math.random()*20)+1;var b=Math.floor(Math.random()*20)+1;var ops=['+','-','×'];var op=ops[Math.floor(Math.random()*ops.length)];if(op==='+'){currentAnswer=a+b;mathQuestion.textContent=a+' + '+b+' = ?';}else if(op==='-'){if(a<b){var temp=a;a=b;b=temp;}currentAnswer=a-b;mathQuestion.textContent=a+' - '+b+' = ?';}else{currentAnswer=a*b;mathQuestion.textContent=a+' × '+b+' = ?';}}
       function startGame(){timeLeft=60;correct=0;correctEl.textContent=correct;mathInput.disabled=false;mathInput.value='';mathInput.focus();mathStart.style.display='none';mathResult.textContent='';generateQuestion();timerInterval=setInterval(function(){timeLeft--;timerEl.textContent=timeLeft;if(timeLeft<=0){clearInterval(timerInterval);mathInput.disabled=true;mathQuestion.textContent='시간 종료!';if(correct>bestCorrect){bestCorrect=correct;bestCorrectEl.textContent=bestCorrect;}mathResult.textContent='총 '+correct+'문제 맞춤!';mathResult.style.color='#0a66c2';mathStart.style.display='inline-block';}},1000);}
-      function checkAnswer(){if(parseInt(mathInput.value)===currentAnswer){correct++;correctEl.textContent=correct;mathResult.textContent='✅ 정답!';mathResult.style.color='#27ae60';mathInput.value='';generateQuestion();}else{mathResult.textContent='❌ 오답!';mathResult.style.color='#e74c3c';}}
+      function checkAnswer(){var userAnswer=parseInt(mathInput.value);if(isNaN(userAnswer)){mathResult.textContent='⚠️ 숫자를 입력하세요!';mathResult.style.color='#f39c12';return;}if(userAnswer===currentAnswer){correct++;correctEl.textContent=correct;mathResult.textContent='✅ 정답!';mathResult.style.color='#27ae60';mathInput.value='';setTimeout(generateQuestion,300);}else{mathResult.textContent='❌ 오답! 정답은 '+currentAnswer;mathResult.style.color='#e74c3c';setTimeout(function(){mathInput.value='';generateQuestion();mathResult.textContent='';},1500);}}
       mathStart.addEventListener('click',startGame);
       mathInput.addEventListener('keypress',function(e){if(e.key==='Enter')checkAnswer();});
     </script>
@@ -310,9 +318,10 @@ function generateAimTrainerGame(){
       </div>
     </div>
     <script>
-      var aimTimer=document.getElementById('aim-timer'),aimArea=document.getElementById('aim-area'),hitsEl=document.getElementById('hits'),aimAccuracyEl=document.getElementById('aim-accuracy'),bestHitsEl=document.getElementById('best-hits'),hits=0,misses=0,timeLeft=30,started=false,bestHits=0,interval=null,target=null;
-      function createTarget(){if(target)target.remove();target=document.createElement('div');var size=Math.random()*40+40;target.style.cssText='position:absolute;width:'+size+'px;height:'+size+'px;background:#e74c3c;border-radius:50%;cursor:pointer';target.style.left=(Math.random()*(aimArea.offsetWidth-size))+'px';target.style.top=(Math.random()*(aimArea.offsetHeight-size))+'px';target.addEventListener('click',function(e){e.stopPropagation();hits++;hitsEl.textContent=hits;aimAccuracyEl.textContent=Math.round(hits/(hits+misses)*100)+'%';createTarget();});aimArea.appendChild(target);}
-      aimArea.addEventListener('click',function(e){if(e.target!==aimArea)return;if(!started){started=true;hits=0;misses=0;timeLeft=30;hitsEl.textContent=hits;aimAccuracyEl.textContent='0%';aimArea.textContent='';createTarget();interval=setInterval(function(){timeLeft--;aimTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(interval);started=false;if(target)target.remove();if(hits>bestHits){bestHits=hits;bestHitsEl.textContent=bestHits;}aimArea.innerHTML='<span style="font-size:24px;color:#666">완료! '+hits+'개 명중<br><br>클릭해서 다시 시작</span>';}},1000);}else{misses++;aimAccuracyEl.textContent=Math.round(hits/(hits+misses)*100)+'%';}});
+      var aimTimer=document.getElementById('aim-timer'),aimArea=document.getElementById('aim-area'),hitsEl=document.getElementById('hits'),aimAccuracyEl=document.getElementById('aim-accuracy'),bestHitsEl=document.getElementById('best-hits'),hits=0,misses=0,timeLeft=30,started=false,bestHits=0,interval=null,target=null,countdown=null;
+      function createTarget(){if(target)target.remove();target=document.createElement('div');var size=Math.random()*30+50;var maxX=aimArea.offsetWidth-size-10;var maxY=aimArea.offsetHeight-size-10;var x=Math.max(10,Math.random()*maxX);var y=Math.max(10,Math.random()*maxY);target.style.cssText='position:absolute;width:'+size+'px;height:'+size+'px;background:#e74c3c;border-radius:50%;cursor:pointer;transition:transform 0.1s;box-shadow:0 2px 8px rgba(231,76,60,0.4)';target.style.left=x+'px';target.style.top=y+'px';target.addEventListener('mouseenter',function(){this.style.transform='scale(1.1)';});target.addEventListener('mouseleave',function(){this.style.transform='scale(1)';});target.addEventListener('click',function(e){e.stopPropagation();hits++;hitsEl.textContent=hits;aimAccuracyEl.textContent=Math.round(hits/(hits+misses)*100)+'%';this.style.background='#27ae60';this.style.transform='scale(0)';setTimeout(createTarget,100);});aimArea.appendChild(target);}
+      function startCountdown(){countdown=3;aimArea.innerHTML='<div style="font-size:72px;font-weight:bold;color:#667eea">'+countdown+'</div>';var countInterval=setInterval(function(){countdown--;if(countdown>0){aimArea.innerHTML='<div style="font-size:72px;font-weight:bold;color:#667eea">'+countdown+'</div>';}else{clearInterval(countInterval);aimArea.textContent='';started=true;hits=0;misses=0;timeLeft=30;hitsEl.textContent=hits;aimAccuracyEl.textContent='0%';createTarget();interval=setInterval(function(){timeLeft--;aimTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(interval);started=false;if(target)target.remove();if(hits>bestHits){bestHits=hits;bestHitsEl.textContent=bestHits;}var acc=hits+misses>0?Math.round(hits/(hits+misses)*100):0;aimArea.innerHTML='<span style="font-size:24px;color:#666">완료! '+hits+'개 명중 (정확도 '+acc+'%)<br><br>클릭해서 다시 시작</span>';}},1000);}},1000);}
+      aimArea.addEventListener('click',function(e){if(e.target!==aimArea)return;if(!started&&!countdown){startCountdown();}else if(started){misses++;aimAccuracyEl.textContent=Math.round(hits/(hits+misses)*100)+'%';var missIndicator=document.createElement('div');missIndicator.textContent='Miss!';missIndicator.style.cssText='position:absolute;left:'+e.offsetX+'px;top:'+e.offsetY+'px;color:#e74c3c;font-weight:bold;font-size:20px;pointer-events:none;animation:fadeOut 0.5s forwards';aimArea.appendChild(missIndicator);setTimeout(function(){missIndicator.remove();},500);}});
     </script>
   `;
   return layout('목표물 클릭', '/games/aim-trainer/', gameHTML, true);
@@ -347,25 +356,43 @@ function generateWordPuzzleGame(){
   var gameHTML = `
     <h1>📝 단어 만들기</h1>
     <div class="game-card" style="text-align:center">
-      <p style="color:#666">주어진 글자들로 3글자 이상의 단어를 만드세요!</p>
-      <div id="word-letters" style="font-size:48px;font-weight:bold;letter-spacing:12px;color:#333;margin:32px 0"></div>
+      <p style="color:#666">주어진 글자들로 2글자 이상의 단어를 만드세요!</p>
+      <div id="word-timer" style="font-size:36px;font-weight:bold;color:#e74c3c;margin:16px 0">60</div>
+      <div id="word-letters" style="font-size:48px;font-weight:bold;letter-spacing:12px;color:#333;margin:24px 0"></div>
       <input type="text" id="word-input" placeholder="단어 입력" style="font-size:24px;text-align:center;width:300px" disabled>
       <button id="word-submit" class="btn btn-success" style="font-size:18px;padding:12px 32px;margin:16px 8px" disabled>제출</button>
       <button id="word-start" class="btn btn-primary" style="font-size:18px;padding:12px 32px;margin:16px 8px">시작하기</button>
+      <div id="word-feedback" style="margin:16px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div id="word-list" style="margin:24px 0;min-height:100px">
         <div style="color:#666;font-size:14px">만든 단어들이 여기에 표시됩니다</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label">이번 라운드</div><div id="round-words" class="stat-value">0</div></div>
-        <div class="stat-box"><div class="stat-label">최고 기록</div><div id="best-words" class="stat-value">0</div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
+        <div class="stat-box"><div class="stat-label">단어 수</div><div id="round-words" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">점수</div><div id="score" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">최고 점수</div><div id="best-score" class="stat-value">0</div></div>
       </div>
     </div>
     <script>
-      var letterSets=['가나다라마','사랑행복기','친구가족집','학교공부책','음악노래춤','여행바다산','요리음식맛','운동건강몸','게임놀이재','꽃나무풀'];
-      var validWords={'가나다':1,'나라':1,'다리':1,'라마':1,'사랑':1,'행복':1,'기쁨':1,'친구':1,'가족':1,'학교':1,'공부':1,'음악':1,'노래':1,'여행':1,'바다':1,'요리':1,'음식':1,'운동':1,'건강':1,'게임':1,'놀이':1};
-      var wordLetters=document.getElementById('word-letters'),wordInput=document.getElementById('word-input'),wordSubmit=document.getElementById('word-submit'),wordStart=document.getElementById('word-start'),wordList=document.getElementById('word-list'),roundWordsEl=document.getElementById('round-words'),bestWordsEl=document.getElementById('best-words'),currentLetters='',foundWords=[],bestWords=0;
-      function startRound(){currentLetters=letterSets[Math.floor(Math.random()*letterSets.length)];wordLetters.textContent=currentLetters.split('').join(' ');foundWords=[];wordList.innerHTML='<div style="color:#666;font-size:14px">단어를 만들어보세요!</div>';roundWordsEl.textContent='0';wordInput.value='';wordInput.disabled=false;wordSubmit.disabled=false;wordStart.textContent='새 라운드';wordInput.focus();}
-      function submitWord(){var word=wordInput.value.trim();if(word.length<2){alert('2글자 이상 입력하세요!');return;}var valid=true;for(var i=0;i<word.length;i++){if(currentLetters.indexOf(word[i])===-1){valid=false;break;}}if(!valid){alert('주어진 글자만 사용하세요!');return;}if(foundWords.indexOf(word)!==-1){alert('이미 입력한 단어입니다!');return;}foundWords.push(word);roundWordsEl.textContent=foundWords.length;if(foundWords.length>bestWords){bestWords=foundWords.length;bestWordsEl.textContent=bestWords;}var wordDiv='<div style="display:inline-block;background:#e3f2fd;padding:8px 16px;border-radius:8px;margin:4px;font-weight:bold;color:#1976d2">'+word+'</div>';if(wordList.querySelector('div').textContent.includes('만들어보세요')){wordList.innerHTML=wordDiv;}else{wordList.innerHTML+=wordDiv;}wordInput.value='';}
+      var wordData=[
+        {letters:'가나다라마',words:['가나다','나라','다람','라마','가다','나다','다가','마라','나가','가마','다라','마나']},
+        {letters:'사랑행복기',words:['사랑','행복','복사','사기','행사','복기','기사','랑기','사행']},
+        {letters:'친구가족집',words:['친구','가족','친가','구가','가구','친족','족구','집구','구족']},
+        {letters:'학교공부책',words:['학교','공부','학부','교부','책상','부교','학책','교책','부책','공교','공학']},
+        {letters:'음악노래춤',words:['음악','노래','춤','악기','노음','래음','음노','악노','악춤']},
+        {letters:'여행바다산',words:['여행','바다','산','행바','다산','여산','바행','산행','여다','다행']},
+        {letters:'요리음식맛',words:['요리','음식','맛','식요','리음','맛있','식음','요음','리맛','식맛']},
+        {letters:'운동건강몸',words:['운동','건강','몸','동강','강몸','운강','건몸','동몸','운건','강동']},
+        {letters:'게임놀이재',words:['게임','놀이','재미','놀재','임재','게재','이재','게놀','임이','놀임']},
+        {letters:'꽃나무풀밭',words:['꽃','나무','풀','밭','꽃밭','나풀','풀밭','무풀','나밭','꽃풀']},
+        {letters:'하늘구름달',words:['하늘','구름','달','늘구','름달','하구','달구','하늘구','늘름','구달']},
+        {letters:'강물고기낚',words:['강물','고기','낚시','물고','기낚','강고','물기','낚물','고물','강기']},
+        {letters:'책가방연필',words:['책','가방','연필','책방','방연','필가','가연','책필','방필','연가']},
+        {letters:'컴퓨터게임',words:['컴퓨터','게임','퓨터','컴게','터게','컴임','퓨임','터임','게터']},
+        {letters:'밥국물반찬',words:['밥','국물','반찬','물반','찬국','밥국','반국','밥물','찬밥','국반']}
+      ];
+      var wordLetters=document.getElementById('word-letters'),wordTimer=document.getElementById('word-timer'),wordInput=document.getElementById('word-input'),wordSubmit=document.getElementById('word-submit'),wordStart=document.getElementById('word-start'),wordFeedback=document.getElementById('word-feedback'),wordList=document.getElementById('word-list'),roundWordsEl=document.getElementById('round-words'),scoreEl=document.getElementById('score'),bestScoreEl=document.getElementById('best-score'),currentSet=null,foundWords=[],score=0,bestScore=0,timeLeft=60,timerInterval=null;
+      function startRound(){var idx=Math.floor(Math.random()*wordData.length);currentSet=wordData[idx];wordLetters.textContent=currentSet.letters.split('').join(' ');foundWords=[];score=0;timeLeft=60;wordList.innerHTML='<div style="color:#666;font-size:14px">단어를 만들어보세요!</div>';roundWordsEl.textContent='0';scoreEl.textContent='0';wordFeedback.textContent='';wordInput.value='';wordInput.disabled=false;wordSubmit.disabled=false;wordStart.textContent='새 라운드';wordInput.focus();timerInterval=setInterval(function(){timeLeft--;wordTimer.textContent=timeLeft;if(timeLeft<=0){clearInterval(timerInterval);wordInput.disabled=true;wordSubmit.disabled=true;if(score>bestScore){bestScore=score;bestScoreEl.textContent=bestScore;}wordFeedback.textContent='시간 종료! 총 '+foundWords.length+'개 단어, '+score+'점';wordFeedback.style.color='#e74c3c';wordStart.style.display='inline-block';}},1000);}
+      function submitWord(){var word=wordInput.value.trim();if(word.length<2){wordFeedback.textContent='❌ 2글자 이상 입력하세요!';wordFeedback.style.color='#e74c3c';return;}var valid=true;var letterCount={};for(var i=0;i<currentSet.letters.length;i++){var c=currentSet.letters[i];letterCount[c]=(letterCount[c]||0)+1;}for(var i=0;i<word.length;i++){var c=word[i];if(!letterCount[c]||letterCount[c]<=0){valid=false;break;}letterCount[c]--;}if(!valid){wordFeedback.textContent='❌ 주어진 글자만 사용하세요!';wordFeedback.style.color='#e74c3c';return;}if(foundWords.indexOf(word)!==-1){wordFeedback.textContent='⚠️ 이미 입력한 단어입니다!';wordFeedback.style.color='#f39c12';return;}if(currentSet.words.indexOf(word)===-1){wordFeedback.textContent='❌ 유효하지 않은 단어입니다!';wordFeedback.style.color='#e74c3c';return;}var points=word.length;score+=points;foundWords.push(word);roundWordsEl.textContent=foundWords.length;scoreEl.textContent=score;wordFeedback.textContent='✅ +'+points+'점!';wordFeedback.style.color='#27ae60';var wordDiv='<div style="display:inline-block;background:#e3f2fd;padding:8px 16px;border-radius:8px;margin:4px;font-weight:bold;color:#1976d2">'+word+' (+'+points+')</div>';if(wordList.querySelector('div').textContent.includes('만들어보세요')){wordList.innerHTML=wordDiv;}else{wordList.innerHTML+=wordDiv;}wordInput.value='';wordInput.focus();}
       wordStart.addEventListener('click',startRound);
       wordSubmit.addEventListener('click',submitWord);
       wordInput.addEventListener('keypress',function(e){if(e.key==='Enter')submitWord();});

@@ -1,115 +1,19 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>순발력 테스트</title><meta name="description" content="순발력 테스트 - 무료 미니게임 모음집"><link rel="canonical" href="/games/reaction-time/"/><meta name="robots" content="index,follow"><style>body{font-family:system-ui,-apple-system,sans-serif;max-width:900px;margin:0 auto;padding:24px;line-height:1.6;background:#f5f5f5}h1{font-size:32px;margin:16px 0;text-align:center;color:#333}h2{font-size:24px;margin:16px 0;color:#444}a{color:#0a66c2;text-decoration:none} a:hover{text-decoration:underline}.game-card{background:white;border-radius:12px;padding:24px;margin:16px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:transform 0.2s}.game-card:hover{transform:translateY(-4px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}.game-emoji{font-size:48px;margin:16px 0}.game-title{font-size:24px;font-weight:bold;margin:12px 0;color:#333}.game-description{color:#666;margin:8px 0}.play-btn{display:inline-block;background:#0a66c2;color:white;padding:12px 32px;border-radius:8px;margin:16px 0;font-size:18px;font-weight:bold;cursor:pointer;border:none;transition:background 0.2s}.play-btn:hover{background:#084a8f;text-decoration:none}footer{color:#777;margin:32px 0;text-align:center;font-size:14px}.placeholder{height:90px;background:#f2f2f2;border:1px dashed #ddd;display:flex;align-items:center;justify-content:center;color:#888;font-size:12px;border-radius:8px;margin:24px 0}nav{text-align:center;margin:24px 0}nav a{margin:0 12px;font-size:16px}</style></head><body><nav><a href="/">🏠 홈</a></nav>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>순발력 테스트</title><meta name="description" content="순발력 테스트 - 무료 미니게임 모음집"><link rel="canonical" href="/games/reaction-time/"/><meta name="robots" content="index,follow"><style>@keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;margin:0;padding:0;min-height:100vh;background:linear-gradient(-45deg,#667eea,#764ba2,#f093fb,#4facfe);background-size:400% 400%;animation:gradient 15s ease infinite;overflow-x:hidden}.container{max-width:1200px;margin:0 auto;padding:24px;animation:fadeIn 0.8s ease-out}h1{font-size:clamp(36px,5vw,56px);margin:32px 0 16px;text-align:center;color:#fff;font-weight:900;text-shadow:0 4px 12px rgba(0,0,0,0.2);letter-spacing:-1px;animation:fadeIn 1s ease-out}h2{font-size:28px;margin:24px 0;color:#fff;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,0.15)}h3{font-size:22px;margin:16px 0;color:#fff;font-weight:600}p{color:#fff;font-size:18px;text-shadow:0 2px 4px rgba(0,0,0,0.1)}a{color:#fff;text-decoration:none;transition:all 0.3s}a:hover{opacity:0.8}.game-card{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:32px;margin:16px 0;box-shadow:0 8px 32px rgba(0,0,0,0.1);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);border:1px solid rgba(255,255,255,0.3);position:relative;overflow:hidden;animation:fadeIn 0.6s ease-out backwards}.game-card::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);pointer-events:none}.game-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 16px 48px rgba(0,0,0,0.15)}.game-card:nth-child(1){animation-delay:0.1s}.game-card:nth-child(2){animation-delay:0.2s}.game-card:nth-child(3){animation-delay:0.3s}.game-card:nth-child(4){animation-delay:0.4s}.game-card:nth-child(5){animation-delay:0.5s}.game-card:nth-child(6){animation-delay:0.6s}.game-card:nth-child(7){animation-delay:0.7s}.game-card:nth-child(8){animation-delay:0.8s}.game-card:nth-child(9){animation-delay:0.9s}.game-card:nth-child(10){animation-delay:1s}.game-emoji{font-size:64px;margin:16px 0;text-align:center;animation:bounce 2s ease-in-out infinite;display:inline-block}.game-card:hover .game-emoji{animation:pulse 0.6s ease-in-out}.game-title{font-size:28px;font-weight:800;margin:16px 0;color:#1a1a1a;text-align:center}.game-description{color:#555;margin:12px 0;text-align:center;font-size:15px;line-height:1.6}.game-category{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:6px 16px;border-radius:20px;font-size:12px;margin:8px 0;font-weight:600;box-shadow:0 2px 8px rgba(102,126,234,0.3);text-transform:uppercase;letter-spacing:0.5px}.play-btn{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:14px 40px;border-radius:50px;margin:16px 0;font-size:18px;font-weight:700;cursor:pointer;border:none;transition:all 0.3s;text-align:center;box-shadow:0 4px 15px rgba(102,126,234,0.4);position:relative;overflow:hidden}.play-btn::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left 0.5s}.play-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,0.5)}.play-btn:hover::before{left:100%}.play-btn:active{transform:translateY(0)}.btn{padding:14px 28px;font-size:16px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1)}.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(102,126,234,0.4)}.btn-success{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff}.btn-success:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(56,239,125,0.4)}.btn-danger{background:linear-gradient(135deg,#eb3349,#f45c43);color:#fff}.btn-danger:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(235,51,73,0.4)}input,textarea{padding:14px;font-size:16px;border:2px solid rgba(255,255,255,0.3);border-radius:12px;width:100%;box-sizing:border-box;margin:8px 0;background:rgba(255,255,255,0.9);transition:all 0.3s}input:focus,textarea:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1);background:#fff}footer{color:rgba(255,255,255,0.9);margin:48px 0 24px;text-align:center;font-size:14px;text-shadow:0 2px 4px rgba(0,0,0,0.1)}footer a{color:#fff;font-weight:600}.placeholder{height:90px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border:2px dashed rgba(102,126,234,0.3);display:flex;align-items:center;justify-content:center;color:#666;font-size:13px;border-radius:16px;margin:24px 0}nav{text-align:center;margin:24px 0;padding:16px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:16px;display:inline-block;box-shadow:0 4px 12px rgba(0,0,0,0.1)}nav a{margin:0 16px;font-size:16px;font-weight:600;color:#fff;padding:8px 16px;border-radius:8px;transition:all 0.3s}nav a:hover{background:rgba(255,255,255,0.2)}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin:32px 0}.stat-box{background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));backdrop-filter:blur(10px);padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid rgba(255,255,255,0.3)}.stat-label{font-size:14px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}.stat-value{font-size:40px;font-weight:900;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:8px}.header-section{text-align:center;margin-bottom:48px;padding:32px 0}@media(max-width:768px){.grid{grid-template-columns:1fr;gap:16px}h1{font-size:36px}.game-emoji{font-size:48px}}</style></head><body><div class="container"><nav><a href="/">🏠 홈</a></nav>
     <h1>⚡ 순발력 테스트</h1>
     <div class="game-card" style="text-align:center">
-      <div id="instructions" style="margin:24px 0;font-size:18px">
-        <p>아래 박스가 <span style="color:#e74c3c;font-weight:bold">빨간색</span>에서 <span style="color:#27ae60;font-weight:bold">초록색</span>으로 바뀌면 최대한 빠르게 클릭하세요!</p>
-        <p style="color:#888;font-size:14px">너무 일찍 클릭하면 실패입니다.</p>
-      </div>
-
-      <div id="reaction-box" style="width:100%;height:300px;background:#e74c3c;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:bold;cursor:pointer;user-select:none">
-        클릭해서 시작
-      </div>
-
-      <div id="result" style="margin:24px 0;font-size:24px;font-weight:bold;min-height:40px"></div>
-
-      <div id="stats" style="margin:24px 0">
-        <h3>📊 통계</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:center">
-          <div class="stat-box" style="background:#f8f9fa;padding:16px;border-radius:8px">
-            <div style="font-size:14px;color:#666">시도 횟수</div>
-            <div id="attempts" style="font-size:32px;font-weight:bold;color:#333">0</div>
-          </div>
-          <div class="stat-box" style="background:#f8f9fa;padding:16px;border-radius:8px">
-            <div style="font-size:14px;color:#666">최고 기록</div>
-            <div id="best" style="font-size:32px;font-weight:bold;color:#27ae60">-</div>
-          </div>
-        </div>
+      <p style="color:#666">빨간색에서 초록색으로 바뀌면 최대한 빠르게 클릭하세요!</p>
+      <div id="reaction-box" style="width:100%;height:300px;background:#e74c3c;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;font-weight:bold;cursor:pointer;user-select:none;margin:24px 0;transition:background 0.1s">클릭해서 시작</div>
+      <div id="result" style="margin:16px 0;font-size:20px;font-weight:bold;min-height:30px;color:#333"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
+        <div class="stat-box"><div class="stat-label">시도 횟수</div><div id="attempts" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label">평균</div><div id="average" class="stat-value">-</div></div>
+        <div class="stat-box"><div class="stat-label">최고 기록</div><div id="best" class="stat-value">-</div></div>
       </div>
     </div>
-
     <script>
-      var box = document.getElementById('reaction-box');
-      var result = document.getElementById('result');
-      var attemptsEl = document.getElementById('attempts');
-      var bestEl = document.getElementById('best');
-
-      var state = 'ready'; // ready, waiting, green, tooEarly
-      var startTime = 0;
-      var attempts = 0;
-      var bestTime = null;
-      var timeout = null;
-
-      function resetBox() {
-        box.style.background = '#e74c3c';
-        box.textContent = '클릭해서 시작';
-        state = 'ready';
-        result.textContent = '';
-        result.style.color = '#333';
-      }
-
-      function startGame() {
-        if (state !== 'ready') return;
-
-        state = 'waiting';
-        box.style.background = '#e74c3c';
-        box.textContent = '초록색이 될 때까지 기다리세요...';
-        result.textContent = '';
-
-        // 2-5초 사이 랜덤 대기
-        var waitTime = 2000 + Math.random() * 3000;
-
-        timeout = setTimeout(function() {
-          state = 'green';
-          box.style.background = '#27ae60';
-          box.textContent = '지금 클릭!';
-          startTime = Date.now();
-        }, waitTime);
-      }
-
-      function handleClick() {
-        if (state === 'ready') {
-          startGame();
-        } else if (state === 'waiting') {
-          // 너무 일찍 클릭
-          clearTimeout(timeout);
-          state = 'tooEarly';
-          box.style.background = '#95a5a6';
-          box.textContent = '너무 빨라요! 다시 시도';
-          result.textContent = '❌ 초록색으로 바뀔 때까지 기다리세요!';
-          result.style.color = '#e74c3c';
-          attempts++;
-          attemptsEl.textContent = attempts;
-
-          setTimeout(resetBox, 2000);
-        } else if (state === 'green') {
-          // 성공!
-          var reactionTime = Date.now() - startTime;
-          attempts++;
-          attemptsEl.textContent = attempts;
-
-          result.textContent = '✅ ' + reactionTime + 'ms';
-          result.style.color = '#27ae60';
-
-          if (bestTime === null || reactionTime < bestTime) {
-            bestTime = reactionTime;
-            bestEl.textContent = reactionTime + 'ms';
-            result.textContent += ' 🎉 신기록!';
-          }
-
-          // 평가 메시지
-          var message = '';
-          if (reactionTime < 200) message = ' 🔥 놀라워요!';
-          else if (reactionTime < 250) message = ' 👍 훌륭해요!';
-          else if (reactionTime < 300) message = ' 😊 좋아요!';
-          else if (reactionTime < 400) message = ' 👌 괜찮아요!';
-          else message = ' 💪 연습하면 더 잘할 수 있어요!';
-
-          result.textContent += message;
-
-          setTimeout(resetBox, 2000);
-        }
-      }
-
-      box.addEventListener('click', handleClick);
+      var box=document.getElementById('reaction-box'),result=document.getElementById('result'),attemptsEl=document.getElementById('attempts'),averageEl=document.getElementById('average'),bestEl=document.getElementById('best'),state='ready',startTime=0,attempts=0,bestTime=null,totalTime=0,validAttempts=0,timeout=null;
+      function resetBox(){setTimeout(function(){box.style.background='#3498db';box.textContent='클릭해서 다음 라운드';state='ready';},1500);}
+      function startGame(){if(state!=='ready')return;state='countdown';var count=3;box.style.background='#f39c12';box.textContent='준비... '+count;var countInterval=setInterval(function(){count--;if(count>0){box.textContent='준비... '+count;}else{clearInterval(countInterval);state='waiting';box.style.background='#e74c3c';box.textContent='초록색이 될 때까지 기다리세요...';result.textContent='';var waitTime=2000+Math.random()*3000;timeout=setTimeout(function(){if(state==='waiting'){state='green';box.style.background='#27ae60';box.textContent='지금 클릭!';startTime=Date.now();}},waitTime);}},1000);}
+      box.addEventListener('click',function(){if(state==='ready'){startGame();}else if(state==='countdown'){result.textContent='⏳ 카운트다운을 기다리세요!';result.style.color='#f39c12';}else if(state==='waiting'){clearTimeout(timeout);state='tooEarly';box.style.background='#95a5a6';box.textContent='너무 빨라요!';result.textContent='❌ 초록색으로 바뀔 때까지 기다리세요!';result.style.color='#e74c3c';attempts++;attemptsEl.textContent=attempts;resetBox();}else if(state==='green'){var reactionTime=Date.now()-startTime;attempts++;validAttempts++;totalTime+=reactionTime;attemptsEl.textContent=attempts;var avg=Math.round(totalTime/validAttempts);averageEl.textContent=avg+'ms';result.textContent='✅ '+reactionTime+'ms';result.style.color='#27ae60';if(bestTime===null||reactionTime<bestTime){bestTime=reactionTime;bestEl.textContent=reactionTime+'ms';result.textContent+=' 🎉 신기록!';}var message='';if(reactionTime<200)message=' 🔥 놀라워요!';else if(reactionTime<250)message=' 👍 훌륭해요!';else if(reactionTime<300)message=' 😊 좋아요!';else if(reactionTime<400)message=' 👌 괜찮아요!';else message=' 💪 연습하면 더 잘할 수 있어요!';result.textContent+=message;state='done';resetBox();}});
     </script>
-  <div class="ad"><div class="placeholder">AdSense 승인 후 광고가 표시됩니다</div></div><footer>© 2025 Fun Mini Games</footer></body></html>
+  <div class="ad"><div class="placeholder">AdSense 승인 후 광고가 표시됩니다</div></div><footer>© 2025 Fun Mini Games | <a href="/">전체 게임 보기</a></footer></div></body></html>

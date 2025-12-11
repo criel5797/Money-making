@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node generate.js:*)"
+      "Bash(node generate.js:*)",
+      "Bash(cat:*)",
+      "Bash(timeout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

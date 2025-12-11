@@ -2,4 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>/</loc></url>
 <url><loc>/games/reaction-time/</loc></url>
+<url><loc>/games/memory-number/</loc></url>
+<url><loc>/games/typing-speed/</loc></url>
+<url><loc>/games/color-match/</loc></url>
+<url><loc>/games/math-quiz/</loc></url>
+<url><loc>/games/pattern-memory/</loc></url>
+<url><loc>/games/click-speed/</loc></url>
+<url><loc>/games/aim-trainer/</loc></url>
+<url><loc>/games/sequence-memory/</loc></url>
+<url><loc>/games/word-puzzle/</loc></url>
 </urlset>
