@@ -64,9 +64,10 @@ function getGameTitleScript(gameId, emoji) {
 }
 
 // Layout wrapper using the createLayout function from layout.js
-function layout(title, pathname, body, includeAdScript) {
+function layout(title, pathname, body, includeAdScript, description) {
   return createLayout({
     title: title,
+    description: description || title + ' - 무료 두뇌 훈련 미니게임. 반응속도, 기억력, 집중력을 테스트하세요!',
     pathname: pathname,
     body: body,
     includeAdScript: includeAdScript,
@@ -85,52 +86,62 @@ var templateOptions = {
 
 function wrapReactionGame() {
   var gameHTML = generateReactionGame(templateOptions);
-  return layout('순발력 테스트', '/games/reaction-time/', gameHTML, true);
+  return layout('순발력 테스트', '/games/reaction-time/', gameHTML, true,
+    '무료 반응속도 테스트 게임. 초록색이 되면 최대한 빠르게 클릭하여 당신의 반응속도를 측정하세요!');
 }
 
 function wrapMemoryNumberGame() {
   var gameHTML = generateMemoryNumberGame(templateOptions);
-  return layout('숫자 기억력', '/games/memory-number/', gameHTML, true);
+  return layout('숫자 기억력', '/games/memory-number/', gameHTML, true,
+    '무료 숫자 기억력 테스트. 점점 길어지는 숫자를 기억하고 입력하여 기억력을 향상시키세요!');
 }
 
 function wrapTypingSpeedGame() {
   var gameHTML = generateTypingSpeedGame(templateOptions);
-  return layout('타이핑 속도', '/games/typing-speed/', gameHTML, true);
+  return layout('타이핑 속도', '/games/typing-speed/', gameHTML, true,
+    '무료 타이핑 속도 테스트. 문장을 빠르고 정확하게 타이핑하여 WPM을 측정하세요!');
 }
 
 function wrapColorMatchGame() {
   var gameHTML = generateColorMatchGame(templateOptions);
-  return layout('색깔 맞추기', '/games/color-match/', gameHTML, true);
+  return layout('색깔 맞추기', '/games/color-match/', gameHTML, true,
+    '무료 색깔 맞추기 게임. 글자의 색깔과 의미가 일치하는지 빠르게 판단하여 집중력을 테스트하세요!');
 }
 
 function wrapMathQuizGame() {
   var gameHTML = generateMathQuizGame(templateOptions);
-  return layout('암산 게임', '/games/math-quiz/', gameHTML, true);
+  return layout('암산 게임', '/games/math-quiz/', gameHTML, true,
+    '무료 암산 게임. 수학 문제를 빠르게 풀어 두뇌를 훈련하고 계산 능력을 향상시키세요!');
 }
 
 function wrapPatternMemoryGame() {
   var gameHTML = generatePatternMemoryGame(templateOptions);
-  return layout('패턴 기억', '/games/pattern-memory/', gameHTML, true);
+  return layout('패턴 기억', '/games/pattern-memory/', gameHTML, true,
+    '무료 패턴 기억 게임. 깜빡이는 패턴을 기억하고 순서대로 클릭하여 시각적 기억력을 훈련하세요!');
 }
 
 function wrapClickSpeedGame() {
   var gameHTML = generateClickSpeedGame(templateOptions);
-  return layout('클릭 속도', '/games/click-speed/', gameHTML, true);
+  return layout('클릭 속도', '/games/click-speed/', gameHTML, true,
+    '무료 클릭 속도 테스트. 10초 동안 최대한 많이 클릭하여 CPS(초당 클릭 수)를 측정하세요!');
 }
 
 function wrapAimTrainerGame() {
   var gameHTML = generateAimTrainerGame(templateOptions);
-  return layout('목표물 클릭', '/games/aim-trainer/', gameHTML, true);
+  return layout('목표물 클릭', '/games/aim-trainer/', gameHTML, true,
+    '무료 에임 트레이너 게임. 나타나는 원을 빠르게 클릭하여 마우스 정확도와 반응속도를 훈련하세요!');
 }
 
 function wrapSequenceMemoryGame() {
   var gameHTML = generateSequenceMemoryGame(templateOptions);
-  return layout('순서 기억', '/games/sequence-memory/', gameHTML, true);
+  return layout('순서 기억', '/games/sequence-memory/', gameHTML, true,
+    '무료 순서 기억 게임. 숫자가 나타나는 순서를 기억하고 클릭하여 순차적 기억력을 테스트하세요!');
 }
 
 function wrapWordPuzzleGame() {
   var gameHTML = generateWordPuzzleGame(templateOptions);
-  return layout('단어 만들기', '/games/word-puzzle/', gameHTML, true);
+  return layout('단어 만들기', '/games/word-puzzle/', gameHTML, true,
+    '무료 단어 만들기 게임. 주어진 글자들로 단어를 만들어 어휘력과 창의력을 테스트하세요!');
 }
 
 // Main page generation
@@ -178,7 +189,53 @@ function renderIndex(){
     'setLanguage(currentLang);' +
     '</script>';
 
-  write(path.join(OUT, 'index.html'), layout('미니게임 모음집 - 두뇌 훈련 & 반응속도 게임', '/', body, true));
+  write(path.join(OUT, 'index.html'), layout('미니게임 모음집 - 두뇌 훈련 & 반응속도 게임', '/', body, true,
+    '무료 미니게임 모음집 - 10가지 두뇌 훈련 게임으로 반응속도, 기억력, 집중력, 타이핑 속도를 테스트하세요!'));
+}
+
+// Privacy Policy 페이지 생성
+function renderPrivacy() {
+  var body =
+    '<h1>Privacy Policy</h1>' +
+    '<div class="game-card">' +
+    '<h2 style="color:#333;margin-top:0">개인정보처리방침 / Privacy Policy</h2>' +
+
+    '<h3 style="color:#333">1. 수집하는 정보 (Information We Collect)</h3>' +
+    '<p style="color:#555">본 웹사이트는 사용자로부터 직접적인 개인정보를 수집하지 않습니다. 다만, 서비스 개선을 위해 다음과 같은 정보가 자동으로 수집될 수 있습니다:</p>' +
+    '<ul style="color:#555">' +
+    '<li>브라우저 유형 및 버전</li>' +
+    '<li>운영 체제</li>' +
+    '<li>방문 일시</li>' +
+    '<li>언어 설정</li>' +
+    '</ul>' +
+
+    '<h3 style="color:#333">2. 쿠키 및 광고 (Cookies & Advertising)</h3>' +
+    '<p style="color:#555">본 웹사이트는 Google AdSense를 통해 광고를 게재합니다. Google은 사용자의 관심사에 기반한 광고를 표시하기 위해 쿠키를 사용할 수 있습니다.</p>' +
+    '<p style="color:#555">사용자는 <a href="https://www.google.com/settings/ads" style="color:#667eea" target="_blank" rel="noopener">Google 광고 설정</a>에서 맞춤 광고를 비활성화할 수 있습니다.</p>' +
+
+    '<h3 style="color:#333">3. 로컬 스토리지 (Local Storage)</h3>' +
+    '<p style="color:#555">게임 점수 및 언어 설정을 저장하기 위해 브라우저의 로컬 스토리지를 사용합니다. 이 데이터는 사용자의 기기에만 저장되며 서버로 전송되지 않습니다.</p>' +
+
+    '<h3 style="color:#333">4. 제3자 서비스 (Third-Party Services)</h3>' +
+    '<p style="color:#555">본 웹사이트는 다음 제3자 서비스를 사용합니다:</p>' +
+    '<ul style="color:#555">' +
+    '<li>Google AdSense (광고)</li>' +
+    '<li>GitHub Pages (호스팅)</li>' +
+    '</ul>' +
+
+    '<h3 style="color:#333">5. 아동 개인정보 보호 (Children\'s Privacy)</h3>' +
+    '<p style="color:#555">본 웹사이트는 13세 미만 아동의 개인정보를 의도적으로 수집하지 않습니다.</p>' +
+
+    '<h3 style="color:#333">6. 문의 (Contact)</h3>' +
+    '<p style="color:#555">개인정보처리방침에 관한 문의사항이 있으시면 이메일로 연락해 주세요.</p>' +
+
+    '<h3 style="color:#333">7. 변경사항 (Changes)</h3>' +
+    '<p style="color:#555">본 개인정보처리방침은 필요에 따라 변경될 수 있습니다. 변경 시 이 페이지에 업데이트됩니다.</p>' +
+    '<p style="color:#555">최종 업데이트: ' + new Date().toISOString().split('T')[0] + '</p>' +
+    '</div>';
+
+  write(path.join(OUT, 'privacy', 'index.html'), layout('Privacy Policy - 개인정보처리방침', '/privacy/', body, false,
+    '미니게임 모음집 개인정보처리방침. 쿠키, 광고, 데이터 수집에 관한 정책을 확인하세요.'));
 }
 
 function build(){
@@ -187,6 +244,9 @@ function build(){
 
   // 메인 페이지 생성
   renderIndex();
+
+  // Privacy Policy 페이지 생성
+  renderPrivacy();
 
   // 각 게임 페이지 생성
   write(path.join(OUT, 'games', 'reaction-time', 'index.html'), wrapReactionGame());
@@ -201,7 +261,7 @@ function build(){
   write(path.join(OUT, 'games', 'word-puzzle', 'index.html'), wrapWordPuzzleGame());
 
   // sitemap / robots
-  var urls = ['/'];
+  var urls = ['/', '/privacy/'];
   for (var i = 0; i < games.length; i++) {
     urls.push('/games/' + games[i].id + '/');
   }
