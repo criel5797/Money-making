@@ -236,6 +236,7 @@ function renderPrivacy() {
     '<p style="color:#555"><span data-i18n-privacy="lastUpdate">최종 업데이트: </span>' + today + '</p>' +
     '</div>' +
     '<script>' +
+    'window.addEventListener("load",function(){' +
     'var origSetLang=setLanguage;' +
     'setLanguage=function(lang){' +
     'origSetLang(lang);' +
@@ -249,6 +250,7 @@ function renderPrivacy() {
     '}' +
     '};' +
     'setLanguage(currentLang);' +
+    '});' +
     '</script>';
 
   write(path.join(OUT, 'privacy', 'index.html'), layout('Privacy Policy - 개인정보처리방침', '/privacy/', body, false,
