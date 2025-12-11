@@ -172,6 +172,7 @@ function renderIndex(){
     '</div>' +
     '<div class="grid">' + gameList + '</div>' +
     '<script>' +
+    'window.addEventListener("load",function(){' +
     'var originalSetLanguage=setLanguage;' +
     'setLanguage=function(lang){' +
     'originalSetLanguage(lang);' +
@@ -187,6 +188,7 @@ function renderIndex(){
     '});' +
     '};' +
     'setLanguage(currentLang);' +
+    '});' +
     '</script>';
 
   write(path.join(OUT, 'index.html'), layout('미니게임 모음집 - 두뇌 훈련 & 반응속도 게임', '/', body, true,
