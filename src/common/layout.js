@@ -1,0 +1,168 @@
+'use strict';
+
+// 공통 CSS 스타일
+var styles = `
+@keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;margin:0;padding:0;min-height:100vh;background:linear-gradient(-45deg,#667eea,#764ba2,#f093fb,#4facfe);background-size:400% 400%;animation:gradient 15s ease infinite;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:24px;animation:fadeIn 0.8s ease-out}
+h1{font-size:clamp(36px,5vw,56px);margin:32px 0 16px;text-align:center;color:#fff;font-weight:900;text-shadow:0 4px 12px rgba(0,0,0,0.2);letter-spacing:-1px;animation:fadeIn 1s ease-out}
+h2{font-size:28px;margin:24px 0;color:#fff;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,0.15)}
+h3{font-size:22px;margin:16px 0;color:#fff;font-weight:600}
+p{color:#fff;font-size:18px;text-shadow:0 2px 4px rgba(0,0,0,0.1)}
+a{color:#fff;text-decoration:none;transition:all 0.3s}a:hover{opacity:0.8}
+.game-card{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:32px;margin:16px 0;box-shadow:0 8px 32px rgba(0,0,0,0.1);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);border:1px solid rgba(255,255,255,0.3);position:relative;overflow:hidden;animation:fadeIn 0.6s ease-out backwards}
+.game-card::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);pointer-events:none}
+.game-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 16px 48px rgba(0,0,0,0.15)}
+.game-card:nth-child(1){animation-delay:0.1s}.game-card:nth-child(2){animation-delay:0.2s}.game-card:nth-child(3){animation-delay:0.3s}.game-card:nth-child(4){animation-delay:0.4s}.game-card:nth-child(5){animation-delay:0.5s}.game-card:nth-child(6){animation-delay:0.6s}.game-card:nth-child(7){animation-delay:0.7s}.game-card:nth-child(8){animation-delay:0.8s}.game-card:nth-child(9){animation-delay:0.9s}.game-card:nth-child(10){animation-delay:1s}
+.game-emoji{font-size:64px;margin:16px 0;text-align:center;animation:bounce 2s ease-in-out infinite;display:inline-block}
+.game-card:hover .game-emoji{animation:pulse 0.6s ease-in-out}
+.game-title{font-size:28px;font-weight:800;margin:16px 0;color:#1a1a1a;text-align:center}
+.game-description{color:#555;margin:12px 0;text-align:center;font-size:15px;line-height:1.6}
+.game-category{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:6px 16px;border-radius:20px;font-size:12px;margin:8px 0;font-weight:600;box-shadow:0 2px 8px rgba(102,126,234,0.3);text-transform:uppercase;letter-spacing:0.5px}
+.play-btn{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:14px 40px;border-radius:50px;margin:16px 0;font-size:18px;font-weight:700;cursor:pointer;border:none;transition:all 0.3s;text-align:center;box-shadow:0 4px 15px rgba(102,126,234,0.4);position:relative;overflow:hidden}
+.play-btn::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left 0.5s}
+.play-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,0.5)}.play-btn:hover::before{left:100%}
+.play-btn:active{transform:translateY(0)}
+.btn{padding:14px 28px;font-size:16px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(102,126,234,0.4)}
+.btn-success{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff}.btn-success:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(56,239,125,0.4)}
+.btn-danger{background:linear-gradient(135deg,#eb3349,#f45c43);color:#fff}.btn-danger:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(235,51,73,0.4)}
+input,textarea{padding:14px;font-size:16px;border:2px solid rgba(255,255,255,0.3);border-radius:12px;width:100%;box-sizing:border-box;margin:8px 0;background:rgba(255,255,255,0.9);transition:all 0.3s}
+input:focus,textarea:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1);background:#fff}
+footer{color:rgba(255,255,255,0.9);margin:48px 0 24px;text-align:center;font-size:14px;text-shadow:0 2px 4px rgba(0,0,0,0.1)}
+footer a{color:#fff;font-weight:600}
+.placeholder{height:90px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border:2px dashed rgba(102,126,234,0.3);display:flex;align-items:center;justify-content:center;color:#666;font-size:13px;border-radius:16px;margin:24px 0}
+nav{text-align:center;margin:24px 0;padding:16px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+nav a{margin:0 8px;font-size:16px;font-weight:600;color:#fff;padding:8px 16px;border-radius:8px;transition:all 0.3s}
+nav a:hover{background:rgba(255,255,255,0.2)}
+.lang-switcher{display:flex;gap:8px}
+.lang-btn{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;transition:all 0.3s;font-size:14px}
+.lang-btn:hover{background:rgba(255,255,255,0.3)}
+.lang-btn.active{background:rgba(255,255,255,0.4);box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin:32px 0}
+.stat-box{background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));backdrop-filter:blur(10px);padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid rgba(255,255,255,0.3)}
+.stat-label{font-size:14px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.stat-value{font-size:40px;font-weight:900;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:8px}
+.header-section{text-align:center;margin-bottom:48px;padding:32px 0}
+@media(max-width:768px){.grid{grid-template-columns:1fr;gap:16px}h1{font-size:36px}.game-emoji{font-size:48px}nav{flex-direction:column;gap:12px}}
+`;
+
+// 공통 i18n 스크립트
+function getI18nScript(i18nData) {
+  return `
+var i18nData=${JSON.stringify(i18nData)};
+var currentLang=localStorage.getItem("lang")||navigator.language.split("-")[0]||"ko";
+if(!i18nData[currentLang])currentLang="ko";
+window.i18n=i18nData;
+window.currentLang=currentLang;
+function setLanguage(lang){
+  if(!i18nData[lang])return;
+  currentLang=lang;
+  window.currentLang=lang;
+  localStorage.setItem("lang",lang);
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i18n]").forEach(function(el){
+    var key=el.getAttribute("data-i18n");
+    if(i18nData[lang][key])el.textContent=i18nData[lang][key];
+  });
+  document.querySelectorAll("[data-i18n-key]").forEach(function(el){
+    var key=el.getAttribute("data-i18n-key");
+    if(i18nData[lang][key]){
+      el.textContent=i18nData[lang][key];
+      document.title=i18nData[lang][key];
+    }
+  });
+  document.querySelectorAll("[data-i18n-game]").forEach(function(el){
+    var key=el.getAttribute("data-i18n-game");
+    var keys=key.split(".");
+    if(keys.length===2&&i18nData[lang].games[keys[0]]&&i18nData[lang].games[keys[0]][keys[1]]){
+      var value=i18nData[lang].games[keys[0]][keys[1]];
+      if(el.tagName==="P"||el.tagName==="DIV"||el.tagName==="BUTTON"||el.tagName==="SPAN"){
+        el.innerHTML=value;
+      }else{
+        el.textContent=value;
+      }
+    }
+  });
+  document.querySelectorAll("[data-i18n-game-placeholder]").forEach(function(el){
+    var key=el.getAttribute("data-i18n-game-placeholder");
+    var keys=key.split(".");
+    if(keys.length===2&&i18nData[lang].games[keys[0]]&&i18nData[lang].games[keys[0]][keys[1]]){
+      el.placeholder=i18nData[lang].games[keys[0]][keys[1]];
+    }
+  });
+  document.querySelectorAll(".lang-btn").forEach(function(btn){
+    btn.classList.toggle("active",btn.getAttribute("data-lang")===lang);
+  });
+}
+document.querySelectorAll(".lang-btn").forEach(function(btn){
+  btn.addEventListener("click",function(){
+    setLanguage(this.getAttribute("data-lang"));
+  });
+});
+setLanguage(currentLang);
+`;
+}
+
+// HTML 레이아웃 생성 함수
+function createLayout(options) {
+  var title = options.title;
+  var pathname = options.pathname;
+  var body = options.body;
+  var includeAdScript = options.includeAdScript || false;
+  var adsClient = options.adsClient || '';
+  var basePath = options.basePath || '';
+  var baseUrl = options.baseUrl || '';
+  var i18nData = options.i18nData;
+
+  var adsScript = '';
+  if (includeAdScript && adsClient) {
+    adsScript = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + adsClient + '" crossorigin="anonymous"></script>';
+  }
+
+  var canonical = baseUrl ? (baseUrl + pathname) : (basePath + pathname);
+  var href = function(p) { return basePath + p; };
+
+  var adsPlaceholder = adsClient
+    ? (
+      '<ins class="adsbygoogle" style="display:block;margin:24px 0" data-ad-format="auto" data-full-width-responsive="true"></ins>' +
+      '<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>'
+    )
+    : '<div class="placeholder" data-i18n="adPlaceholder">AdSense 승인 후 광고가 표시됩니다</div>';
+
+  var html =
+    '<!doctype html><html><head>' +
+    '<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+    '<title data-i18n-key="siteTitle">' + title + '</title>' +
+    '<meta name="description" content="' + title + ' - 무료 미니게임 모음집">' +
+    '<link rel="canonical" href="' + canonical + '"/>' +
+    '<meta name="robots" content="index,follow">' +
+    adsScript +
+    '<style>' + styles + '</style>' +
+    '</head><body>' +
+    '<div class="container">' +
+    '<nav>' +
+    '<a href="' + href('/') + '" data-i18n="home">🏠 홈</a>' +
+    '<div class="lang-switcher">' +
+    '<button class="lang-btn" data-lang="ko">한국어</button>' +
+    '<button class="lang-btn" data-lang="en">English</button>' +
+    '<button class="lang-btn" data-lang="ja">日本語</button>' +
+    '</div>' +
+    '</nav>' +
+    body +
+    '<div class="ad">' + adsPlaceholder + '</div>' +
+    '<footer>© ' + (new Date().getFullYear()) + ' Fun Mini Games | <a href="' + href('/') + '" data-i18n="footer">전체 게임 보기</a></footer>' +
+    '</div>' +
+    '<script>' + getI18nScript(i18nData) + '</script>' +
+    '</body></html>';
+
+  return html;
+}
+
+module.exports = {
+  createLayout: createLayout,
+  styles: styles
+};
