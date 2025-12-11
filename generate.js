@@ -18,18 +18,133 @@ var BASE_PATH = BASE_URL
 var ADS_CLIENT = process.env.ADSENSE_CLIENT || '';
 var PUB_ID = ADS_CLIENT.replace('ca-pub-', '');
 
-// 게임 목록
+// 다국어 텍스트
+var i18n = {
+  ko: {
+    siteTitle: '미니게임 모음집 - 두뇌 훈련 & 반응속도 게임',
+    mainTitle: '🎮 미니게임 모음집',
+    mainDesc: '재미있는 무료 미니게임으로 두뇌를 훈련하세요!',
+    gameCount: '총 {count}개의 게임이 준비되어 있습니다',
+    home: '🏠 홈',
+    playBtn: '플레이하기 →',
+    footer: '전체 게임 보기',
+    adPlaceholder: 'AdSense 승인 후 광고가 표시됩니다',
+    categories: {
+      reaction: '반응속도',
+      memory: '기억력',
+      speed: '속도',
+      focus: '집중력',
+      brain: '두뇌'
+    }
+  },
+  en: {
+    siteTitle: 'Mini Game Collection - Brain Training & Reaction Games',
+    mainTitle: '🎮 Mini Game Collection',
+    mainDesc: 'Train your brain with fun free mini games!',
+    gameCount: '{count} games ready to play',
+    home: '🏠 Home',
+    playBtn: 'Play →',
+    footer: 'View All Games',
+    adPlaceholder: 'Ads will be displayed after AdSense approval',
+    categories: {
+      reaction: 'Reaction',
+      memory: 'Memory',
+      speed: 'Speed',
+      focus: 'Focus',
+      brain: 'Brain'
+    }
+  },
+  ja: {
+    siteTitle: 'ミニゲームコレクション - 脳トレ＆反応速度ゲーム',
+    mainTitle: '🎮 ミニゲームコレクション',
+    mainDesc: '楽しい無料ミニゲームで脳を鍛えよう！',
+    gameCount: '全{count}個のゲームが用意されています',
+    home: '🏠 ホーム',
+    playBtn: 'プレイ →',
+    footer: '全ゲームを見る',
+    adPlaceholder: 'AdSense承認後に広告が表示されます',
+    categories: {
+      reaction: '反応速度',
+      memory: '記憶力',
+      speed: 'スピード',
+      focus: '集中力',
+      brain: '脳トレ'
+    }
+  }
+};
+
+// 게임 목록 (다국어)
 var games = [
-  { id: 'reaction-time', title: '순발력 테스트', description: '당신의 반응 속도를 측정해보세요!', emoji: '⚡', category: '반응속도' },
-  { id: 'memory-number', title: '숫자 기억력', description: '점점 길어지는 숫자를 기억하세요!', emoji: '🧠', category: '기억력' },
-  { id: 'typing-speed', title: '타이핑 속도', description: '당신의 타이핑 속도를 측정하세요!', emoji: '⌨️', category: '속도' },
-  { id: 'color-match', title: '색깔 맞추기', description: '글자와 색깔이 일치하는지 판단하세요!', emoji: '🎨', category: '집중력' },
-  { id: 'math-quiz', title: '암산 게임', description: '빠르게 수학 문제를 풀어보세요!', emoji: '🔢', category: '두뇌' },
-  { id: 'pattern-memory', title: '패턴 기억', description: '패턴을 기억하고 따라하세요!', emoji: '🔲', category: '기억력' },
-  { id: 'click-speed', title: '클릭 속도', description: '10초 동안 최대한 많이 클릭하세요!', emoji: '👆', category: '속도' },
-  { id: 'aim-trainer', title: '목표물 클릭', description: '나타나는 원을 빠르게 클릭하세요!', emoji: '🎯', category: '반응속도' },
-  { id: 'sequence-memory', title: '순서 기억', description: '숫자를 순서대로 클릭하세요!', emoji: '🔢', category: '기억력' },
-  { id: 'word-puzzle', title: '단어 만들기', description: '주어진 글자로 단어를 만드세요!', emoji: '📝', category: '두뇌' }
+  {
+    id: 'reaction-time',
+    title: { ko: '순발력 테스트', en: 'Reaction Time Test', ja: '反射神経テスト' },
+    description: { ko: '당신의 반응 속도를 측정해보세요!', en: 'Test your reaction speed!', ja: '反応速度を測定しましょう！' },
+    emoji: '⚡',
+    category: 'reaction'
+  },
+  {
+    id: 'memory-number',
+    title: { ko: '숫자 기억력', en: 'Number Memory', ja: '数字記憶' },
+    description: { ko: '점점 길어지는 숫자를 기억하세요!', en: 'Remember increasingly long numbers!', ja: 'どんどん長くなる数字を覚えよう！' },
+    emoji: '🧠',
+    category: 'memory'
+  },
+  {
+    id: 'typing-speed',
+    title: { ko: '타이핑 속도', en: 'Typing Speed', ja: 'タイピング速度' },
+    description: { ko: '당신의 타이핑 속도를 측정하세요!', en: 'Measure your typing speed!', ja: 'タイピング速度を測定しよう！' },
+    emoji: '⌨️',
+    category: 'speed'
+  },
+  {
+    id: 'color-match',
+    title: { ko: '색깔 맞추기', en: 'Color Match', ja: '色合わせ' },
+    description: { ko: '글자와 색깔이 일치하는지 판단하세요!', en: 'Match the text with its color!', ja: '文字と色が一致するか判断しよう！' },
+    emoji: '🎨',
+    category: 'focus'
+  },
+  {
+    id: 'math-quiz',
+    title: { ko: '암산 게임', en: 'Math Quiz', ja: '暗算ゲーム' },
+    description: { ko: '빠르게 수학 문제를 풀어보세요!', en: 'Solve math problems quickly!', ja: '素早く数学問題を解こう！' },
+    emoji: '🔢',
+    category: 'brain'
+  },
+  {
+    id: 'pattern-memory',
+    title: { ko: '패턴 기억', en: 'Pattern Memory', ja: 'パターン記憶' },
+    description: { ko: '패턴을 기억하고 따라하세요!', en: 'Remember and repeat patterns!', ja: 'パターンを覚えて真似しよう！' },
+    emoji: '🔲',
+    category: 'memory'
+  },
+  {
+    id: 'click-speed',
+    title: { ko: '클릭 속도', en: 'Click Speed', ja: 'クリック速度' },
+    description: { ko: '10초 동안 최대한 많이 클릭하세요!', en: 'Click as many times as you can in 10 seconds!', ja: '10秒間にできるだけ多くクリックしよう！' },
+    emoji: '👆',
+    category: 'speed'
+  },
+  {
+    id: 'aim-trainer',
+    title: { ko: '목표물 클릭', en: 'Aim Trainer', ja: 'エイムトレーナー' },
+    description: { ko: '나타나는 원을 빠르게 클릭하세요!', en: 'Click the appearing circles quickly!', ja: '現れる円を素早くクリックしよう！' },
+    emoji: '🎯',
+    category: 'reaction'
+  },
+  {
+    id: 'sequence-memory',
+    title: { ko: '순서 기억', en: 'Sequence Memory', ja: '順序記憶' },
+    description: { ko: '숫자를 순서대로 클릭하세요!', en: 'Click numbers in order!', ja: '数字を順番にクリックしよう！' },
+    emoji: '🔢',
+    category: 'memory'
+  },
+  {
+    id: 'word-puzzle',
+    title: { ko: '단어 만들기', en: 'Word Puzzle', ja: '単語パズル' },
+    description: { ko: '주어진 글자로 단어를 만드세요!', en: 'Create words from given letters!', ja: '与えられた文字で単語を作ろう！' },
+    emoji: '📝',
+    category: 'brain'
+  }
 ];
 
 function ensureDir(p){ fs.mkdirSync(p, { recursive: true }); }
@@ -43,17 +158,12 @@ function layout(title, pathname, body, includeAdScript){
     adsScript = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADS_CLIENT + '" crossorigin="anonymous"></script>';
   }
 
-  var ads = ADS_CLIENT
-    ? (
-      '<ins class="adsbygoogle" style="display:block;margin:24px 0" data-ad-format="auto" data-full-width-responsive="true"></ins>' +
-      '<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>'
-    )
-    : '<div class="placeholder">AdSense 승인 후 광고가 표시됩니다</div>';
+  var i18nData = JSON.stringify(i18n);
 
   var head =
-    '<!doctype html><html lang="ko"><head>' +
+    '<!doctype html><html><head>' +
     '<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
-    '<title>' + title + '</title>' +
+    '<title data-i18n-key="siteTitle">' + title + '</title>' +
     '<meta name="description" content="' + title + ' - 무료 미니게임 모음집">' +
     '<link rel="canonical" href="' + canonical(pathname) + '"/>' +
     '<meta name="robots" content="index,follow">' +
@@ -92,32 +202,104 @@ function layout(title, pathname, body, includeAdScript){
     'footer{color:rgba(255,255,255,0.9);margin:48px 0 24px;text-align:center;font-size:14px;text-shadow:0 2px 4px rgba(0,0,0,0.1)}' +
     'footer a{color:#fff;font-weight:600}' +
     '.placeholder{height:90px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border:2px dashed rgba(102,126,234,0.3);display:flex;align-items:center;justify-content:center;color:#666;font-size:13px;border-radius:16px;margin:24px 0}' +
-    'nav{text-align:center;margin:24px 0;padding:16px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:16px;display:inline-block;box-shadow:0 4px 12px rgba(0,0,0,0.1)}' +
-    'nav a{margin:0 16px;font-size:16px;font-weight:600;color:#fff;padding:8px 16px;border-radius:8px;transition:all 0.3s}' +
+    'nav{text-align:center;margin:24px 0;padding:16px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 12px rgba(0,0,0,0.1)}' +
+    'nav a{margin:0 8px;font-size:16px;font-weight:600;color:#fff;padding:8px 16px;border-radius:8px;transition:all 0.3s}' +
     'nav a:hover{background:rgba(255,255,255,0.2)}' +
+    '.lang-switcher{display:flex;gap:8px}' +
+    '.lang-btn{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;transition:all 0.3s;font-size:14px}' +
+    '.lang-btn:hover{background:rgba(255,255,255,0.3)}' +
+    '.lang-btn.active{background:rgba(255,255,255,0.4);box-shadow:0 2px 8px rgba(0,0,0,0.2)}' +
     '.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin:32px 0}' +
     '.stat-box{background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));backdrop-filter:blur(10px);padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid rgba(255,255,255,0.3)}' +
     '.stat-label{font-size:14px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}' +
     '.stat-value{font-size:40px;font-weight:900;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:8px}' +
     '.header-section{text-align:center;margin-bottom:48px;padding:32px 0}' +
-    '@media(max-width:768px){.grid{grid-template-columns:1fr;gap:16px}h1{font-size:36px}.game-emoji{font-size:48px}}' +
+    '@media(max-width:768px){.grid{grid-template-columns:1fr;gap:16px}h1{font-size:36px}.game-emoji{font-size:48px}nav{flex-direction:column;gap:12px}}' +
     '</style>' +
     '</head><body>' +
     '<div class="container">' +
-    '<nav><a href="' + href('/') + '">🏠 홈</a></nav>';
+    '<nav>' +
+    '<a href="' + href('/') + '" data-i18n="home">🏠 홈</a>' +
+    '<div class="lang-switcher">' +
+    '<button class="lang-btn" data-lang="ko">한국어</button>' +
+    '<button class="lang-btn" data-lang="en">English</button>' +
+    '<button class="lang-btn" data-lang="ja">日本語</button>' +
+    '</div>' +
+    '</nav>';
+
+  var adsPlaceholder = ADS_CLIENT
+    ? (
+      '<ins class="adsbygoogle" style="display:block;margin:24px 0" data-ad-format="auto" data-full-width-responsive="true"></ins>' +
+      '<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>'
+    )
+    : '<div class="placeholder" data-i18n="adPlaceholder">AdSense 승인 후 광고가 표시됩니다</div>';
 
   var tail =
-    '<div class="ad">' + ads + '</div>' +
-    '<footer>© ' + (new Date().getFullYear()) + ' Fun Mini Games | <a href="' + href('/') + '">전체 게임 보기</a></footer>' +
-    '</div></body></html>';
+    '<div class="ad">' + adsPlaceholder + '</div>' +
+    '<footer>© ' + (new Date().getFullYear()) + ' Fun Mini Games | <a href="' + href('/') + '" data-i18n="footer">전체 게임 보기</a></footer>' +
+    '</div>' +
+    '<script>' +
+    'var i18nData=' + i18nData + ';' +
+    'var currentLang=localStorage.getItem("lang")||navigator.language.split("-")[0]||"ko";' +
+    'if(!i18nData[currentLang])currentLang="ko";' +
+    'function setLanguage(lang){' +
+    'if(!i18nData[lang])return;' +
+    'currentLang=lang;' +
+    'localStorage.setItem("lang",lang);' +
+    'document.documentElement.lang=lang;' +
+    'document.querySelectorAll("[data-i18n]").forEach(function(el){' +
+    'var key=el.getAttribute("data-i18n");' +
+    'if(i18nData[lang][key])el.textContent=i18nData[lang][key];' +
+    '});' +
+    'document.querySelectorAll("[data-i18n-key]").forEach(function(el){' +
+    'var key=el.getAttribute("data-i18n-key");' +
+    'if(i18nData[lang][key]){el.textContent=i18nData[lang][key];document.title=i18nData[lang][key];}' +
+    '});' +
+    'document.querySelectorAll(".lang-btn").forEach(function(btn){' +
+    'btn.classList.toggle("active",btn.getAttribute("data-lang")===lang);' +
+    '});' +
+    '}' +
+    'document.querySelectorAll(".lang-btn").forEach(function(btn){' +
+    'btn.addEventListener("click",function(){setLanguage(this.getAttribute("data-lang"));});' +
+    '});' +
+    'setLanguage(currentLang);' +
+    '</script>' +
+    '</body></html>';
 
   return head + body + tail;
 }
 
+// 게임 제목 헬퍼 함수
+function getGameTitle(gameId) {
+  var game = games.find(function(g) { return g.id === gameId; });
+  return game ? game.title : {};
+}
+
+// 게임 제목 스크립트 생성
+function getGameTitleScript(gameId, emoji) {
+  var title = getGameTitle(gameId);
+  return (
+    '<script>' +
+    'var gameTitle=' + JSON.stringify(title) + ';' +
+    'var titleEmoji="' + emoji + '";' +
+    'if(typeof window.setLanguage!=="undefined"){' +
+    'var origSetLang=window.setLanguage;' +
+    'window.setLanguage=function(lang){' +
+    'origSetLang(lang);' +
+    'var h1=document.querySelector("h1");' +
+    'if(h1&&gameTitle[lang])h1.textContent=titleEmoji+" "+gameTitle[lang];' +
+    '};' +
+    '}' +
+    '</script>'
+  );
+}
+
 // 1. 순발력 테스트 게임
 function generateReactionGame(){
+  var title = getGameTitle('reaction-time');
   var gameHTML = `
-    <h1>⚡ 순발력 테스트</h1>
+    <h1>⚡ ${title.ko}</h1>
+    ${getGameTitleScript('reaction-time', '⚡')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">빨간색에서 초록색으로 바뀌면 최대한 빠르게 클릭하세요!</p>
       <div id="reaction-box" style="width:100%;height:300px;background:#e74c3c;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;font-weight:bold;cursor:pointer;user-select:none;margin:24px 0;transition:background 0.1s">클릭해서 시작</div>
@@ -140,8 +322,10 @@ function generateReactionGame(){
 
 // 2. 숫자 기억력 게임
 function generateMemoryNumberGame(){
+  var title = getGameTitle('memory-number');
   var gameHTML = `
-    <h1>🧠 숫자 기억력</h1>
+    <h1>🧠 ${title.ko}</h1>
+    ${getGameTitleScript('memory-number', '🧠')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">숫자를 기억하고 입력하세요. 단계가 올라갈수록 길어집니다!</p>
       <div id="number-display" style="min-height:200px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:bold;color:#333;margin:24px 0;font-family:monospace"></div>
@@ -169,8 +353,10 @@ function generateMemoryNumberGame(){
 
 // 3. 타이핑 속도 테스트
 function generateTypingSpeedGame(){
+  var title = getGameTitle('typing-speed');
   var gameHTML = `
-    <h1>⌨️ 타이핑 속도</h1>
+    <h1>⌨️ ${title.ko}</h1>
+    ${getGameTitleScript('typing-speed', '⌨️')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">아래 문장을 빠르고 정확하게 타이핑하세요!</p>
       <div id="target-text" style="font-size:20px;padding:24px;background:#f8f9fa;border-radius:8px;margin:24px 0;line-height:1.8;font-family:monospace"></div>
@@ -197,8 +383,10 @@ function generateTypingSpeedGame(){
 
 // 4. 색깔 맞추기 게임 (Stroop Effect)
 function generateColorMatchGame(){
+  var title = getGameTitle('color-match');
   var gameHTML = `
-    <h1>🎨 색깔 맞추기</h1>
+    <h1>🎨 ${title.ko}</h1>
+    ${getGameTitleScript('color-match', '🎨')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">글자의 <strong>색깔</strong>이 글자의 <strong>의미</strong>와 일치하나요?</p>
       <div id="color-timer" style="font-size:36px;font-weight:bold;color:#e74c3c;margin:16px 0">60</div>
@@ -231,8 +419,10 @@ function generateColorMatchGame(){
 
 // 5. 암산 게임
 function generateMathQuizGame(){
+  var title = getGameTitle('math-quiz');
   var gameHTML = `
-    <h1>🔢 암산 게임</h1>
+    <h1>🔢 ${title.ko}</h1>
+    ${getGameTitleScript('math-quiz', '🔢')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">수학 문제를 빠르게 풀어보세요!</p>
       <div id="timer" style="font-size:48px;font-weight:bold;color:#e74c3c;margin:16px 0">60</div>
@@ -259,8 +449,10 @@ function generateMathQuizGame(){
 
 // 6. 패턴 기억 게임 (Simon Says)
 function generatePatternMemoryGame(){
+  var title = getGameTitle('pattern-memory');
   var gameHTML = `
-    <h1>🔲 패턴 기억</h1>
+    <h1>🔲 ${title.ko}</h1>
+    ${getGameTitleScript('pattern-memory', '🔲')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">깜빡이는 패턴을 기억하고 순서대로 클릭하세요!</p>
       <div id="pattern-grid" style="display:grid;grid-template-columns:repeat(3,120px);gap:12px;justify-content:center;margin:32px auto"></div>
@@ -283,8 +475,10 @@ function generatePatternMemoryGame(){
 
 // 7. 클릭 속도 측정
 function generateClickSpeedGame(){
+  var title = getGameTitle('click-speed');
   var gameHTML = `
-    <h1>👆 클릭 속도</h1>
+    <h1>👆 ${title.ko}</h1>
+    ${getGameTitleScript('click-speed', '👆')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">10초 동안 최대한 많이 클릭하세요!</p>
       <div id="click-timer" style="font-size:48px;font-weight:bold;color:#e74c3c;margin:24px 0">10.0</div>
@@ -305,8 +499,10 @@ function generateClickSpeedGame(){
 
 // 8. 목표물 클릭 게임 (Aim Trainer)
 function generateAimTrainerGame(){
+  var title = getGameTitle('aim-trainer');
   var gameHTML = `
-    <h1>🎯 목표물 클릭</h1>
+    <h1>🎯 ${title.ko}</h1>
+    ${getGameTitleScript('aim-trainer', '🎯')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">30초 동안 나타나는 원을 빠르게 클릭하세요!</p>
       <div id="aim-timer" style="font-size:36px;font-weight:bold;color:#e74c3c;margin:16px 0">30</div>
@@ -329,8 +525,10 @@ function generateAimTrainerGame(){
 
 // 9. 순서 기억 게임
 function generateSequenceMemoryGame(){
+  var title = getGameTitle('sequence-memory');
   var gameHTML = `
-    <h1>🔢 순서 기억</h1>
+    <h1>🔢 ${title.ko}</h1>
+    ${getGameTitleScript('sequence-memory', '🔢')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">숫자가 나타나는 순서를 기억하고 순서대로 클릭하세요!</p>
       <div id="seq-grid" style="display:grid;grid-template-columns:repeat(3,100px);gap:12px;justify-content:center;margin:32px auto"></div>
@@ -353,8 +551,10 @@ function generateSequenceMemoryGame(){
 
 // 10. 단어 만들기 게임
 function generateWordPuzzleGame(){
+  var title = getGameTitle('word-puzzle');
   var gameHTML = `
-    <h1>📝 단어 만들기</h1>
+    <h1>📝 ${title.ko}</h1>
+    ${getGameTitleScript('word-puzzle', '📝')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666">주어진 글자들로 2글자 이상의 단어를 만드세요!</p>
       <div id="word-timer" style="font-size:36px;font-weight:bold;color:#e74c3c;margin:16px 0">60</div>
@@ -406,23 +606,44 @@ function renderIndex(){
   var gameList = '';
   for (var i = 0; i < games.length; i++) {
     var g = games[i];
+    var gameData = JSON.stringify({
+      title: g.title,
+      description: g.description,
+      category: g.category
+    });
     gameList +=
-      '<div class="game-card">' +
+      '<div class="game-card" data-game=\'' + gameData + '\'>' +
       '<div class="game-emoji">' + g.emoji + '</div>' +
-      '<div class="game-category">' + g.category + '</div>' +
-      '<div class="game-title">' + g.title + '</div>' +
-      '<div class="game-description">' + g.description + '</div>' +
-      '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn">플레이하기 →</a>' +
+      '<div class="game-category" data-category="' + g.category + '">' + i18n.ko.categories[g.category] + '</div>' +
+      '<div class="game-title" data-game-title>' + g.title.ko + '</div>' +
+      '<div class="game-description" data-game-desc>' + g.description.ko + '</div>' +
+      '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn" data-i18n="playBtn">플레이하기 →</a>' +
       '</div>';
   }
 
   var body =
     '<div class="header-section">' +
-    '<h1>🎮 미니게임 모음집</h1>' +
-    '<p style="text-align:center;font-size:20px;margin:16px 0;font-weight:500">재미있는 무료 미니게임으로 두뇌를 훈련하세요!</p>' +
-    '<p style="text-align:center;font-size:16px;margin:8px 0;opacity:0.9">총 ' + games.length + '개의 게임이 준비되어 있습니다</p>' +
+    '<h1 data-i18n="mainTitle">🎮 미니게임 모음집</h1>' +
+    '<p style="text-align:center;font-size:20px;margin:16px 0;font-weight:500" data-i18n="mainDesc">재미있는 무료 미니게임으로 두뇌를 훈련하세요!</p>' +
+    '<p id="game-count" style="text-align:center;font-size:16px;margin:8px 0;opacity:0.9" data-count="' + games.length + '">총 ' + games.length + '개의 게임이 준비되어 있습니다</p>' +
     '</div>' +
-    '<div class="grid">' + gameList + '</div>';
+    '<div class="grid">' + gameList + '</div>' +
+    '<script>' +
+    'var originalSetLanguage=setLanguage;' +
+    'setLanguage=function(lang){' +
+    'originalSetLanguage(lang);' +
+    'var count=document.getElementById("game-count").getAttribute("data-count");' +
+    'document.getElementById("game-count").textContent=i18nData[lang].gameCount.replace("{count}",count);' +
+    'document.querySelectorAll(".game-card").forEach(function(card){' +
+    'var data=JSON.parse(card.getAttribute("data-game"));' +
+    'card.querySelector("[data-game-title]").textContent=data.title[lang];' +
+    'card.querySelector("[data-game-desc]").textContent=data.description[lang];' +
+    'var cat=card.querySelector("[data-category]").getAttribute("data-category");' +
+    'card.querySelector("[data-category]").textContent=i18nData[lang].categories[cat];' +
+    '});' +
+    '};' +
+    'setLanguage(currentLang);' +
+    '</script>';
 
   write(path.join(OUT, 'index.html'), layout('미니게임 모음집 - 두뇌 훈련 & 반응속도 게임', '/', body, true));
 }
