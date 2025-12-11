@@ -146,9 +146,9 @@ function renderIndex(){
     gameList +=
       '<div class="game-card" data-game=\'' + gameData + '\'>' +
       '<div class="game-emoji">' + g.emoji + '</div>' +
-      '<div class="game-category" data-category="' + g.category + '">' + i18n.ko.categories[g.category] + '</div>' +
-      '<div class="game-title" data-game-title>' + g.title.ko + '</div>' +
-      '<div class="game-description" data-game-desc>' + g.description.ko + '</div>' +
+      '<span class="game-category" data-i18n-category="' + g.category + '">' + i18n.ko.categories[g.category] + '</span>' +
+      '<div class="game-title" data-i18n-game-title>' + g.title.ko + '</div>' +
+      '<div class="game-description" data-i18n-game-desc>' + g.description.ko + '</div>' +
       '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn" data-i18n="playBtn">플레이하기 →</a>' +
       '</div>';
   }
@@ -168,10 +168,11 @@ function renderIndex(){
     'document.getElementById("game-count").textContent=i18nData[lang].gameCount.replace("{count}",count);' +
     'document.querySelectorAll(".game-card").forEach(function(card){' +
     'var data=JSON.parse(card.getAttribute("data-game"));' +
-    'card.querySelector("[data-game-title]").textContent=data.title[lang];' +
-    'card.querySelector("[data-game-desc]").textContent=data.description[lang];' +
-    'var cat=card.querySelector("[data-category]").getAttribute("data-category");' +
-    'card.querySelector("[data-category]").textContent=i18nData[lang].categories[cat];' +
+    'card.querySelector("[data-i18n-game-title]").textContent=data.title[lang];' +
+    'card.querySelector("[data-i18n-game-desc]").textContent=data.description[lang];' +
+    'var catEl=card.querySelector("[data-i18n-category]");' +
+    'var cat=catEl.getAttribute("data-i18n-category");' +
+    'catEl.textContent=i18nData[lang].categories[cat];' +
     '});' +
     '};' +
     'setLanguage(currentLang);' +
