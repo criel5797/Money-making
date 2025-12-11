@@ -152,6 +152,33 @@ var i18n = {
         score: '점수',
         bestScore: '최고 점수'
       }
+    },
+    privacy: {
+      title: '개인정보처리방침',
+      heading: '개인정보처리방침',
+      section1Title: '1. 수집하는 정보',
+      section1Desc: '본 웹사이트는 사용자로부터 직접적인 개인정보를 수집하지 않습니다. 다만, 서비스 개선을 위해 다음과 같은 정보가 자동으로 수집될 수 있습니다:',
+      section1Item1: '브라우저 유형 및 버전',
+      section1Item2: '운영 체제',
+      section1Item3: '방문 일시',
+      section1Item4: '언어 설정',
+      section2Title: '2. 쿠키 및 광고',
+      section2Desc1: '본 웹사이트는 Google AdSense를 통해 광고를 게재합니다. Google은 사용자의 관심사에 기반한 광고를 표시하기 위해 쿠키를 사용할 수 있습니다.',
+      section2Desc2: '사용자는 Google 광고 설정에서 맞춤 광고를 비활성화할 수 있습니다.',
+      section2Link: 'Google 광고 설정',
+      section3Title: '3. 로컬 스토리지',
+      section3Desc: '게임 점수 및 언어 설정을 저장하기 위해 브라우저의 로컬 스토리지를 사용합니다. 이 데이터는 사용자의 기기에만 저장되며 서버로 전송되지 않습니다.',
+      section4Title: '4. 제3자 서비스',
+      section4Desc: '본 웹사이트는 다음 제3자 서비스를 사용합니다:',
+      section4Item1: 'Google AdSense (광고)',
+      section4Item2: 'GitHub Pages (호스팅)',
+      section5Title: '5. 아동 개인정보 보호',
+      section5Desc: '본 웹사이트는 13세 미만 아동의 개인정보를 의도적으로 수집하지 않습니다.',
+      section6Title: '6. 문의',
+      section6Desc: '개인정보처리방침에 관한 문의사항이 있으시면 아래 이메일로 연락해 주세요:',
+      section7Title: '7. 변경사항',
+      section7Desc: '본 개인정보처리방침은 필요에 따라 변경될 수 있습니다. 변경 시 이 페이지에 업데이트됩니다.',
+      lastUpdate: '최종 업데이트: '
     }
   },
   en: {
@@ -304,6 +331,33 @@ var i18n = {
         score: 'Score',
         bestScore: 'Best'
       }
+    },
+    privacy: {
+      title: 'Privacy Policy',
+      heading: 'Privacy Policy',
+      section1Title: '1. Information We Collect',
+      section1Desc: 'This website does not collect personal information directly from users. However, the following information may be automatically collected for service improvement:',
+      section1Item1: 'Browser type and version',
+      section1Item2: 'Operating system',
+      section1Item3: 'Visit date and time',
+      section1Item4: 'Language settings',
+      section2Title: '2. Cookies & Advertising',
+      section2Desc1: 'This website displays ads through Google AdSense. Google may use cookies to show interest-based advertisements.',
+      section2Desc2: 'Users can disable personalized ads in Google Ad Settings.',
+      section2Link: 'Google Ad Settings',
+      section3Title: '3. Local Storage',
+      section3Desc: 'We use browser local storage to save game scores and language settings. This data is stored only on your device and is not transmitted to servers.',
+      section4Title: '4. Third-Party Services',
+      section4Desc: 'This website uses the following third-party services:',
+      section4Item1: 'Google AdSense (Advertising)',
+      section4Item2: 'GitHub Pages (Hosting)',
+      section5Title: '5. Children\'s Privacy',
+      section5Desc: 'This website does not intentionally collect personal information from children under 13.',
+      section6Title: '6. Contact',
+      section6Desc: 'If you have any questions about this privacy policy, please contact us at:',
+      section7Title: '7. Changes',
+      section7Desc: 'This privacy policy may be changed as needed. Changes will be updated on this page.',
+      lastUpdate: 'Last updated: '
     }
   },
   ja: {
@@ -456,6 +510,33 @@ var i18n = {
         score: 'スコア',
         bestScore: '最高得点'
       }
+    },
+    privacy: {
+      title: 'プライバシーポリシー',
+      heading: 'プライバシーポリシー',
+      section1Title: '1. 収集する情報',
+      section1Desc: '本ウェブサイトはユーザーから直接個人情報を収集しません。ただし、サービス改善のため、以下の情報が自動的に収集される場合があります：',
+      section1Item1: 'ブラウザの種類とバージョン',
+      section1Item2: 'オペレーティングシステム',
+      section1Item3: '訪問日時',
+      section1Item4: '言語設定',
+      section2Title: '2. クッキーと広告',
+      section2Desc1: '本ウェブサイトはGoogle AdSenseを通じて広告を掲載しています。Googleはユーザーの興味に基づいた広告を表示するためにクッキーを使用する場合があります。',
+      section2Desc2: 'ユーザーはGoogle広告設定でパーソナライズ広告を無効にできます。',
+      section2Link: 'Google広告設定',
+      section3Title: '3. ローカルストレージ',
+      section3Desc: 'ゲームスコアと言語設定を保存するためにブラウザのローカルストレージを使用しています。このデータはお使いのデバイスにのみ保存され、サーバーには送信されません。',
+      section4Title: '4. 第三者サービス',
+      section4Desc: '本ウェブサイトは以下の第三者サービスを使用しています：',
+      section4Item1: 'Google AdSense（広告）',
+      section4Item2: 'GitHub Pages（ホスティング）',
+      section5Title: '5. 児童のプライバシー',
+      section5Desc: '本ウェブサイトは13歳未満の児童から意図的に個人情報を収集しません。',
+      section6Title: '6. お問い合わせ',
+      section6Desc: 'プライバシーポリシーに関するご質問は、以下のメールアドレスまでお問い合わせください：',
+      section7Title: '7. 変更について',
+      section7Desc: '本プライバシーポリシーは必要に応じて変更される場合があります。変更時はこのページで更新されます。',
+      lastUpdate: '最終更新日: '
     }
   }
 };

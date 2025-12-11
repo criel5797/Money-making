@@ -195,44 +195,59 @@ function renderIndex(){
 
 // Privacy Policy 페이지 생성
 function renderPrivacy() {
+  var today = new Date().toISOString().split('T')[0];
   var body =
-    '<h1>Privacy Policy</h1>' +
+    '<h1 data-i18n-privacy="heading">개인정보처리방침</h1>' +
     '<div class="game-card">' +
-    '<h2 style="color:#333;margin-top:0">개인정보처리방침 / Privacy Policy</h2>' +
 
-    '<h3 style="color:#333">1. 수집하는 정보 (Information We Collect)</h3>' +
-    '<p style="color:#555">본 웹사이트는 사용자로부터 직접적인 개인정보를 수집하지 않습니다. 다만, 서비스 개선을 위해 다음과 같은 정보가 자동으로 수집될 수 있습니다:</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section1Title">1. 수집하는 정보</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section1Desc">본 웹사이트는 사용자로부터 직접적인 개인정보를 수집하지 않습니다. 다만, 서비스 개선을 위해 다음과 같은 정보가 자동으로 수집될 수 있습니다:</p>' +
     '<ul style="color:#555">' +
-    '<li>브라우저 유형 및 버전</li>' +
-    '<li>운영 체제</li>' +
-    '<li>방문 일시</li>' +
-    '<li>언어 설정</li>' +
+    '<li data-i18n-privacy="section1Item1">브라우저 유형 및 버전</li>' +
+    '<li data-i18n-privacy="section1Item2">운영 체제</li>' +
+    '<li data-i18n-privacy="section1Item3">방문 일시</li>' +
+    '<li data-i18n-privacy="section1Item4">언어 설정</li>' +
     '</ul>' +
 
-    '<h3 style="color:#333">2. 쿠키 및 광고 (Cookies & Advertising)</h3>' +
-    '<p style="color:#555">본 웹사이트는 Google AdSense를 통해 광고를 게재합니다. Google은 사용자의 관심사에 기반한 광고를 표시하기 위해 쿠키를 사용할 수 있습니다.</p>' +
-    '<p style="color:#555">사용자는 <a href="https://www.google.com/settings/ads" style="color:#667eea" target="_blank" rel="noopener">Google 광고 설정</a>에서 맞춤 광고를 비활성화할 수 있습니다.</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section2Title">2. 쿠키 및 광고</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section2Desc1">본 웹사이트는 Google AdSense를 통해 광고를 게재합니다. Google은 사용자의 관심사에 기반한 광고를 표시하기 위해 쿠키를 사용할 수 있습니다.</p>' +
+    '<p style="color:#555"><span data-i18n-privacy="section2Desc2">사용자는 Google 광고 설정에서 맞춤 광고를 비활성화할 수 있습니다.</span> <a href="https://www.google.com/settings/ads" style="color:#667eea" target="_blank" rel="noopener" data-i18n-privacy="section2Link">Google 광고 설정</a></p>' +
 
-    '<h3 style="color:#333">3. 로컬 스토리지 (Local Storage)</h3>' +
-    '<p style="color:#555">게임 점수 및 언어 설정을 저장하기 위해 브라우저의 로컬 스토리지를 사용합니다. 이 데이터는 사용자의 기기에만 저장되며 서버로 전송되지 않습니다.</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section3Title">3. 로컬 스토리지</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section3Desc">게임 점수 및 언어 설정을 저장하기 위해 브라우저의 로컬 스토리지를 사용합니다. 이 데이터는 사용자의 기기에만 저장되며 서버로 전송되지 않습니다.</p>' +
 
-    '<h3 style="color:#333">4. 제3자 서비스 (Third-Party Services)</h3>' +
-    '<p style="color:#555">본 웹사이트는 다음 제3자 서비스를 사용합니다:</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section4Title">4. 제3자 서비스</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section4Desc">본 웹사이트는 다음 제3자 서비스를 사용합니다:</p>' +
     '<ul style="color:#555">' +
-    '<li>Google AdSense (광고)</li>' +
-    '<li>GitHub Pages (호스팅)</li>' +
+    '<li data-i18n-privacy="section4Item1">Google AdSense (광고)</li>' +
+    '<li data-i18n-privacy="section4Item2">GitHub Pages (호스팅)</li>' +
     '</ul>' +
 
-    '<h3 style="color:#333">5. 아동 개인정보 보호 (Children\'s Privacy)</h3>' +
-    '<p style="color:#555">본 웹사이트는 13세 미만 아동의 개인정보를 의도적으로 수집하지 않습니다.</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section5Title">5. 아동 개인정보 보호</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section5Desc">본 웹사이트는 13세 미만 아동의 개인정보를 의도적으로 수집하지 않습니다.</p>' +
 
-    '<h3 style="color:#333">6. 문의 (Contact)</h3>' +
-    '<p style="color:#555">개인정보처리방침에 관한 문의사항이 있으시면 이메일로 연락해 주세요.</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section6Title">6. 문의</h3>' +
+    '<p style="color:#555"><span data-i18n-privacy="section6Desc">개인정보처리방침에 관한 문의사항이 있으시면 아래 이메일로 연락해 주세요:</span> <a href="mailto:pjhk579700@naver.com" style="color:#667eea">pjhk579700@naver.com</a></p>' +
 
-    '<h3 style="color:#333">7. 변경사항 (Changes)</h3>' +
-    '<p style="color:#555">본 개인정보처리방침은 필요에 따라 변경될 수 있습니다. 변경 시 이 페이지에 업데이트됩니다.</p>' +
-    '<p style="color:#555">최종 업데이트: ' + new Date().toISOString().split('T')[0] + '</p>' +
-    '</div>';
+    '<h3 style="color:#333" data-i18n-privacy="section7Title">7. 변경사항</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section7Desc">본 개인정보처리방침은 필요에 따라 변경될 수 있습니다. 변경 시 이 페이지에 업데이트됩니다.</p>' +
+    '<p style="color:#555"><span data-i18n-privacy="lastUpdate">최종 업데이트: </span>' + today + '</p>' +
+    '</div>' +
+    '<script>' +
+    'var origSetLang=setLanguage;' +
+    'setLanguage=function(lang){' +
+    'origSetLang(lang);' +
+    'if(i18nData[lang]&&i18nData[lang].privacy){' +
+    'var p=i18nData[lang].privacy;' +
+    'document.querySelectorAll("[data-i18n-privacy]").forEach(function(el){' +
+    'var key=el.getAttribute("data-i18n-privacy");' +
+    'if(p[key])el.textContent=p[key];' +
+    '});' +
+    'document.title=p.title;' +
+    '}' +
+    '};' +
+    'setLanguage(currentLang);' +
+    '</script>';
 
   write(path.join(OUT, 'privacy', 'index.html'), layout('Privacy Policy - 개인정보처리방침', '/privacy/', body, false,
     '미니게임 모음집 개인정보처리방침. 쿠키, 광고, 데이터 수집에 관한 정책을 확인하세요.'));
