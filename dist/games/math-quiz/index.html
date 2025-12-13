@@ -58,7 +58,7 @@ nav a:hover{background:rgba(255,255,255,0.2)}
 @media(hover:none){.game-card:hover{transform:none}.play-btn:hover{transform:none}.btn:hover{transform:none}}
 </style></head><body><a href="#main-content" class="skip-link">Skip to main content</a><div class="container"><nav role="navigation" aria-label="Main navigation"><a href="/" data-i18n="home" aria-label="Go to home page">🏠 홈</a><div class="lang-switcher" role="group" aria-label="Language selection"><button class="lang-btn" data-lang="ko" aria-label="한국어로 변경">한국어</button><button class="lang-btn" data-lang="en" aria-label="Change to English">English</button><button class="lang-btn" data-lang="ja" aria-label="日本語に変更">日本語</button></div></nav><main id="main-content" role="main">
     <h1 data-game-title="math-quiz">🔢 암산 게임</h1>
-    <script>var gameTitle={"ko":"암산 게임","en":"Math Quiz","ja":"暗算ゲーム"};var titleEmoji="🔢";window.addEventListener("load",function(){var h1=document.querySelector("h1[data-game-title]");if(h1&&gameTitle[window.currentLang])h1.textContent=titleEmoji+" "+gameTitle[window.currentLang];});if(typeof window.setLanguage!=="undefined"){var origSetLang=window.setLanguage;window.setLanguage=function(lang){origSetLang(lang);var h1=document.querySelector("h1[data-game-title]");if(h1&&gameTitle[lang])h1.textContent=titleEmoji+" "+gameTitle[lang];};}</script>
+    <script>window.gameTitle={"ko":"암산 게임","en":"Math Quiz","ja":"暗算ゲーム"};window.titleEmoji="🔢";</script>
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="math.desc">수학 문제를 빠르게 풀어보세요!</p>
       <div id="timer" style="font-size:48px;font-weight:bold;color:#e74c3c;margin:16px 0">60</div>
@@ -80,7 +80,7 @@ nav a:hover{background:rgba(255,255,255,0.2)}
       var timerEl=document.getElementById('timer'),mathQuestion=document.getElementById('math-question'),mathInput=document.getElementById('math-input'),mathStart=document.getElementById('math-start'),mathResult=document.getElementById('math-result'),correctEl=document.getElementById('correct'),bestCorrectEl=document.getElementById('best-correct'),timeLeft=60,correct=0,bestCorrect=0,currentAnswer=0,timerInterval=null;
       var historyBtn=document.getElementById('history-btn'),historyPanel=document.getElementById('history-panel'),historyList=document.getElementById('history-list'),historyVisible=false;
       function loadSavedBest(){if(!window.GameRecord)return;var saved=window.GameRecord.getBest('math-quiz','correct');if(saved!==null){bestCorrect=saved;bestCorrectEl.textContent=saved;}}
-      function renderHistory(){if(!window.GameRecord)return;var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.history;var history=window.GameRecord.getHistory('math-quiz','correct');if(history.length===0){historyList.innerHTML='<p style="color:#666;margin:0">'+txt.noHistory+'</p>';return;}var html='<table style="width:100%;border-collapse:collapse;font-size:14px">';html+='<tr style="border-bottom:1px solid #ddd"><th style="padding:8px;text-align:left">'+txt.date+'</th><th style="padding:8px;text-align:right">'+txt.result+'</th></tr>';for(var i=history.length-1;i>=0;i--){var h=history[i];var d=new Date(h.date);var dateStr=d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});html+='<tr style="border-bottom:1px solid #eee"><td style="padding:8px;color:#666">'+dateStr+'</td><td style="padding:8px;text-align:right;font-weight:bold;color:#667eea">'+h.value+'</td></tr>';}html+='</table>';historyList.innerHTML=html;}
+      function renderHistory(){if(!window.GameRecord)return;var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.history;var history=window.GameRecord.getHistory('math-quiz','correct');if(history.length===0){historyList.innerHTML='<p style="color:#666;margin:0">'+txt.noHistory+'</p>';return;}var html='<table style="width:100%;border-collapse:collapse;font-size:14px">';html+='<tr style="border-bottom:1px solid #ddd"><th style="padding:8px;text-align:left">'+txt.date+'</th><th style="padding:8px;text-align:right">'+txt.result+'</th></tr>';for(var i=history.length-1;i>=0;i--){var h=history[i];var dateStr=window.formatDateTime(h.date);html+='<tr style="border-bottom:1px solid #eee"><td style="padding:8px;color:#666">'+dateStr+'</td><td style="padding:8px;text-align:right;font-weight:bold;color:#667eea">'+h.value+'</td></tr>';}html+='</table>';historyList.innerHTML=html;}
       historyBtn.addEventListener('click',function(){var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.history;historyVisible=!historyVisible;historyPanel.style.display=historyVisible?'block':'none';historyBtn.textContent=historyVisible?txt.hideHistory:txt.showHistory;if(historyVisible)renderHistory();});
       window.addEventListener('load',loadSavedBest);
       function generateQuestion(){var a=Math.floor(Math.random()*20)+1;var b=Math.floor(Math.random()*20)+1;var ops=['+','-','×'];var op=ops[Math.floor(Math.random()*ops.length)];if(op==='+'){currentAnswer=a+b;mathQuestion.textContent=a+' + '+b+' = ?';}else if(op==='-'){if(a<b){var temp=a;a=b;b=temp;}currentAnswer=a-b;mathQuestion.textContent=a+' - '+b+' = ?';}else{currentAnswer=a*b;mathQuestion.textContent=a+' × '+b+' = ?';}}
@@ -90,6 +90,11 @@ nav a:hover{background:rgba(255,255,255,0.2)}
       mathInput.addEventListener('keypress',function(e){if(e.key==='Enter')checkAnswer();});
     </script>
   </main><div class="ad" role="complementary" aria-label="Advertisement"><div class="placeholder" data-i18n="adPlaceholder">AdSense 승인 후 광고가 표시됩니다</div></div><footer role="contentinfo"><p>© 2025 Fun Mini Games</p><nav aria-label="Footer navigation"><a href="/" data-i18n="footer">전체 게임 보기</a><a href="/privacy/">Privacy Policy</a></nav></footer></div><script>
+window.formatDateTime=function(dateStr){
+  var d=new Date(dateStr);
+  var locale=window.currentLang==='ko'?'ko-KR':window.currentLang==='ja'?'ja-JP':'en-US';
+  return d.toLocaleDateString(locale)+' '+d.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'});
+};
 window.GameRecord={
   save:function(gameId,recordType,value,timestamp){
     var key='game_'+gameId+'_'+recordType;
@@ -171,6 +176,10 @@ function setLanguage(lang){
   document.querySelectorAll(".lang-btn").forEach(function(btn){
     btn.classList.toggle("active",btn.getAttribute("data-lang")===lang);
   });
+  var h1=document.querySelector("h1[data-game-title]");
+  if(h1&&window.gameTitle&&window.gameTitle[lang]){
+    h1.textContent=window.titleEmoji+" "+window.gameTitle[lang];
+  }
 }
 document.querySelectorAll(".lang-btn").forEach(function(btn){
   btn.addEventListener("click",function(){

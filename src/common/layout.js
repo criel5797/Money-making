@@ -64,6 +64,11 @@ nav a:hover{background:rgba(255,255,255,0.2)}
 // 게임 기록 저장/불러오기 유틸리티 스크립트
 function getGameRecordScript() {
   return `
+window.formatDateTime=function(dateStr){
+  var d=new Date(dateStr);
+  var locale=window.currentLang==='ko'?'ko-KR':window.currentLang==='ja'?'ja-JP':'en-US';
+  return d.toLocaleDateString(locale)+' '+d.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'});
+};
 window.GameRecord={
   save:function(gameId,recordType,value,timestamp){
     var key='game_'+gameId+'_'+recordType;
@@ -150,6 +155,10 @@ function setLanguage(lang){
   document.querySelectorAll(".lang-btn").forEach(function(btn){
     btn.classList.toggle("active",btn.getAttribute("data-lang")===lang);
   });
+  var h1=document.querySelector("h1[data-game-title]");
+  if(h1&&window.gameTitle&&window.gameTitle[lang]){
+    h1.textContent=window.titleEmoji+" "+window.gameTitle[lang];
+  }
 }
 document.querySelectorAll(".lang-btn").forEach(function(btn){
   btn.addEventListener("click",function(){

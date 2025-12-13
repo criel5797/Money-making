@@ -58,7 +58,7 @@ nav a:hover{background:rgba(255,255,255,0.2)}
 @media(hover:none){.game-card:hover{transform:none}.play-btn:hover{transform:none}.btn:hover{transform:none}}
 </style></head><body><a href="#main-content" class="skip-link">Skip to main content</a><div class="container"><nav role="navigation" aria-label="Main navigation"><a href="/" data-i18n="home" aria-label="Go to home page">🏠 홈</a><div class="lang-switcher" role="group" aria-label="Language selection"><button class="lang-btn" data-lang="ko" aria-label="한국어로 변경">한국어</button><button class="lang-btn" data-lang="en" aria-label="Change to English">English</button><button class="lang-btn" data-lang="ja" aria-label="日本語に変更">日本語</button></div></nav><main id="main-content" role="main">
     <h1 data-game-title="click-speed">👆 클릭 속도</h1>
-    <script>var gameTitle={"ko":"클릭 속도","en":"Click Speed","ja":"クリック速度"};var titleEmoji="👆";window.addEventListener("load",function(){var h1=document.querySelector("h1[data-game-title]");if(h1&&gameTitle[window.currentLang])h1.textContent=titleEmoji+" "+gameTitle[window.currentLang];});if(typeof window.setLanguage!=="undefined"){var origSetLang=window.setLanguage;window.setLanguage=function(lang){origSetLang(lang);var h1=document.querySelector("h1[data-game-title]");if(h1&&gameTitle[lang])h1.textContent=titleEmoji+" "+gameTitle[lang];};}</script>
+    <script>window.gameTitle={"ko":"클릭 속도","en":"Click Speed","ja":"クリック速度"};window.titleEmoji="👆";</script>
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="clickSpeed.desc">10초 동안 최대한 많이 클릭하세요!</p>
       <div id="click-timer" style="font-size:48px;font-weight:bold;color:#e74c3c;margin:24px 0">10.0</div>
@@ -78,12 +78,17 @@ nav a:hover{background:rgba(255,255,255,0.2)}
       var clickTimer=document.getElementById('click-timer'),clickArea=document.getElementById('click-area'),clicksEl=document.getElementById('clicks'),cpsEl=document.getElementById('cps'),bestCpsEl=document.getElementById('best-cps'),clicks=0,timeLeft=10,started=false,bestCps=0,interval=null;
       var historyBtn=document.getElementById('history-btn'),historyPanel=document.getElementById('history-panel'),historyList=document.getElementById('history-list'),historyVisible=false;
       function loadSavedBest(){if(!window.GameRecord)return;var saved=window.GameRecord.getBest('click-speed','cps');if(saved!==null){bestCps=saved;bestCpsEl.textContent=saved.toFixed(1);}}
-      function renderHistory(){if(!window.GameRecord)return;var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.history;var history=window.GameRecord.getHistory('click-speed','cps');if(history.length===0){historyList.innerHTML='<p style="color:#666;margin:0">'+txt.noHistory+'</p>';return;}var html='<table style="width:100%;border-collapse:collapse;font-size:14px">';html+='<tr style="border-bottom:1px solid #ddd"><th style="padding:8px;text-align:left">'+txt.date+'</th><th style="padding:8px;text-align:right">'+txt.result+'</th></tr>';for(var i=history.length-1;i>=0;i--){var h=history[i];var d=new Date(h.date);var dateStr=d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});html+='<tr style="border-bottom:1px solid #eee"><td style="padding:8px;color:#666">'+dateStr+'</td><td style="padding:8px;text-align:right;font-weight:bold;color:#667eea">'+(typeof h.value==='number'?h.value.toFixed(1):h.value)+' CPS</td></tr>';}html+='</table>';historyList.innerHTML=html;}
+      function renderHistory(){if(!window.GameRecord)return;var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.history;var history=window.GameRecord.getHistory('click-speed','cps');if(history.length===0){historyList.innerHTML='<p style="color:#666;margin:0">'+txt.noHistory+'</p>';return;}var html='<table style="width:100%;border-collapse:collapse;font-size:14px">';html+='<tr style="border-bottom:1px solid #ddd"><th style="padding:8px;text-align:left">'+txt.date+'</th><th style="padding:8px;text-align:right">'+txt.result+'</th></tr>';for(var i=history.length-1;i>=0;i--){var h=history[i];var dateStr=window.formatDateTime(h.date);html+='<tr style="border-bottom:1px solid #eee"><td style="padding:8px;color:#666">'+dateStr+'</td><td style="padding:8px;text-align:right;font-weight:bold;color:#667eea">'+(typeof h.value==='number'?h.value.toFixed(1):h.value)+' CPS</td></tr>';}html+='</table>';historyList.innerHTML=html;}
       historyBtn.addEventListener('click',function(){var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.history;historyVisible=!historyVisible;historyPanel.style.display=historyVisible?'block':'none';historyBtn.textContent=historyVisible?txt.hideHistory:txt.showHistory;if(historyVisible)renderHistory();});
       window.addEventListener('load',loadSavedBest);
       clickArea.addEventListener('click',function(){var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.clickSpeed;if(!started){started=true;clicks=0;timeLeft=10;clickArea.textContent=txt.clicking;clickArea.style.background='linear-gradient(135deg,#667eea 0%,#764ba2 100%)';interval=setInterval(function(){timeLeft-=0.1;if(timeLeft<=0){timeLeft=0;clearInterval(interval);started=false;var finalCps=parseFloat((clicks/10).toFixed(1));cpsEl.textContent=finalCps.toFixed(1);window.GameRecord.save('click-speed','cps',finalCps);if(finalCps>bestCps){bestCps=finalCps;bestCpsEl.textContent=bestCps.toFixed(1);}if(historyVisible)renderHistory();clickArea.textContent=txt.complete;clickArea.style.background='linear-gradient(135deg,#f093fb 0%,#f5576c 100%)';}clickTimer.textContent=timeLeft.toFixed(1);},100);}if(started&&timeLeft>0){clicks++;clicksEl.textContent=clicks;}});
     </script>
   </main><div class="ad" role="complementary" aria-label="Advertisement"><div class="placeholder" data-i18n="adPlaceholder">AdSense 승인 후 광고가 표시됩니다</div></div><footer role="contentinfo"><p>© 2025 Fun Mini Games</p><nav aria-label="Footer navigation"><a href="/" data-i18n="footer">전체 게임 보기</a><a href="/privacy/">Privacy Policy</a></nav></footer></div><script>
+window.formatDateTime=function(dateStr){
+  var d=new Date(dateStr);
+  var locale=window.currentLang==='ko'?'ko-KR':window.currentLang==='ja'?'ja-JP':'en-US';
+  return d.toLocaleDateString(locale)+' '+d.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'});
+};
 window.GameRecord={
   save:function(gameId,recordType,value,timestamp){
     var key='game_'+gameId+'_'+recordType;
@@ -165,6 +170,10 @@ function setLanguage(lang){
   document.querySelectorAll(".lang-btn").forEach(function(btn){
     btn.classList.toggle("active",btn.getAttribute("data-lang")===lang);
   });
+  var h1=document.querySelector("h1[data-game-title]");
+  if(h1&&window.gameTitle&&window.gameTitle[lang]){
+    h1.textContent=window.titleEmoji+" "+window.gameTitle[lang];
+  }
 }
 document.querySelectorAll(".lang-btn").forEach(function(btn){
   btn.addEventListener("click",function(){
