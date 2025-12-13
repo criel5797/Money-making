@@ -6,7 +6,7 @@ module.exports = function(options) {
 
   var title = getGameTitle('pattern-memory');
   var gameHTML = `
-    <h1>🔲 ${title.ko}</h1>
+    <h1 data-game-title="pattern-memory">🔲 ${title.ko}</h1>
     ${getGameTitleScript('pattern-memory', '🔲')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="pattern.desc">깜빡이는 패턴을 기억하고 순서대로 클릭하세요!</p>

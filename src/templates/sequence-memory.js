@@ -6,7 +6,7 @@ module.exports = function(options) {
 
   var title = getGameTitle('sequence-memory');
   var gameHTML = `
-    <h1>🔢 ${title.ko}</h1>
+    <h1 data-game-title="sequence-memory">🔢 ${title.ko}</h1>
     ${getGameTitleScript('sequence-memory', '🔢')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="sequence.desc">숫자가 나타나는 순서를 기억하고 순서대로 클릭하세요!</p>

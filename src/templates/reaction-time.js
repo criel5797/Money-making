@@ -6,7 +6,7 @@ module.exports = function(options) {
 
   var title = getGameTitle('reaction-time');
   var gameHTML = `
-    <h1>⚡ ${title.ko}</h1>
+    <h1 data-game-title="reaction-time">⚡ ${title.ko}</h1>
     ${getGameTitleScript('reaction-time', '⚡')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="reaction.desc">빨간색에서 초록색으로 바뀌면 최대한 빠르게 클릭하세요!</p>

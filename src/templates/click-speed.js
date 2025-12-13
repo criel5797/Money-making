@@ -6,7 +6,7 @@ module.exports = function(options) {
 
   var title = getGameTitle('click-speed');
   var gameHTML = `
-    <h1>👆 ${title.ko}</h1>
+    <h1 data-game-title="click-speed">👆 ${title.ko}</h1>
     ${getGameTitleScript('click-speed', '👆')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="clickSpeed.desc">10초 동안 최대한 많이 클릭하세요!</p>

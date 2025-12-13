@@ -58,7 +58,8 @@ var i18n = {
         accuracy: ', 정확도: ',
         wpm: 'WPM',
         accuracyLabel: '정확도',
-        bestWpm: '최고 WPM'
+        bestWpm: '최고 WPM',
+        texts: ['빠른 갈색 여우가 게으른 개를 뛰어넘는다','인생은 자전거를 타는 것과 같다','꿈을 이루는 비결은 시작하는 것이다','성공은 매일의 작은 노력이 쌓여 만들어진다','오늘 할 수 있는 일을 내일로 미루지 마라','천 리 길도 한 걸음부터 시작한다','실패는 성공의 어머니이다','시간은 금이다 낭비하지 말자','노력은 결코 배신하지 않는다','인내는 쓰지만 그 열매는 달다','최선을 다하면 후회가 없다','행복은 마음먹기에 달려있다','건강이 최고의 재산이다','웃는 얼굴에 침 못 뱉는다','백문이 불여일견이다','가는 말이 고와야 오는 말이 곱다','지금 이 순간을 소중히 여기자','배움에는 끝이 없다','긍정적인 생각이 긍정적인 결과를 만든다','하루하루 최선을 다하며 살자']
       },
       colorMatch: {
         desc: '글자의 <strong>색깔</strong>이 글자의 <strong>의미</strong>와 일치하나요?',
@@ -150,7 +151,19 @@ var i18n = {
         plusPoints: '✅ +',
         wordCount: '단어 수',
         score: '점수',
-        bestScore: '최고 점수'
+        bestScore: '최고 점수',
+        wordData: [
+          {letters:'가나다라마',words:['가나다','나라','다람','라마','가다','나다','다가','마라','나가','가마','다라','마나']},
+          {letters:'사랑행복기',words:['사랑','행복','복사','사기','행사','복기','기사','랑기','사행']},
+          {letters:'친구가족집',words:['친구','가족','친가','구가','가구','친족','족구','집구','구족']},
+          {letters:'학교공부책',words:['학교','공부','학부','교부','책상','부교','학책','교책','부책','공교','공학']},
+          {letters:'음악노래춤',words:['음악','노래','춤','악기','노음','래음','음노','악노','악춤']},
+          {letters:'여행바다산',words:['여행','바다','산','행바','다산','여산','바행','산행','여다','다행']},
+          {letters:'요리음식맛',words:['요리','음식','맛','식요','리음','맛있','식음','요음','리맛','식맛']},
+          {letters:'운동건강몸',words:['운동','건강','몸','동강','강몸','운강','건몸','동몸','운건','강동']},
+          {letters:'게임놀이재',words:['게임','놀이','재미','놀재','임재','게재','이재','게놀','임이','놀임']},
+          {letters:'꽃나무풀밭',words:['꽃','나무','풀','밭','꽃밭','나풀','풀밭','무풀','나밭','꽃풀']}
+        ]
       },
       history: {
         title: '기록',
@@ -249,7 +262,8 @@ var i18n = {
         accuracy: ', Accuracy: ',
         wpm: 'WPM',
         accuracyLabel: 'Accuracy',
-        bestWpm: 'Best WPM'
+        bestWpm: 'Best WPM',
+        texts: ['The quick brown fox jumps over the lazy dog','Life is like riding a bicycle to keep balance you must keep moving','The secret to getting ahead is getting started','Success is the sum of small efforts repeated day in and day out','Do not put off until tomorrow what you can do today','A journey of a thousand miles begins with a single step','Failure is the mother of success','Time is money do not waste it','Hard work never betrays you','Patience is bitter but its fruit is sweet','If you do your best you will have no regrets','Happiness depends on your mindset','Health is the greatest wealth','A smile opens many doors','Seeing is believing','Kind words bring kind responses','Treasure every moment of your life','Learning never ends','Positive thinking leads to positive results','Live each day to the fullest']
       },
       colorMatch: {
         desc: 'Does the <strong>color</strong> match the <strong>meaning</strong> of the word?',
@@ -341,7 +355,19 @@ var i18n = {
         plusPoints: '✅ +',
         wordCount: 'Words',
         score: 'Score',
-        bestScore: 'Best'
+        bestScore: 'Best',
+        wordData: [
+          {letters:'STREAM',words:['STREAM','STEAM','MASTER','SMART','STAR','TEAM','MEAT','RATE','TEAR','MARS','TRAM','ARMS','RATS','MAST','REST','EARS','SEAT','EATS','SAME','TARE']},
+          {letters:'PLANET',words:['PLANET','PLANT','PLATE','PLAN','PANT','LEAN','LATE','PALE','TALE','LANE','PETAL','PANEL','TAPE','NEAT','LEAP','PLEA','ANTE','PLANE']},
+          {letters:'GARDEN',words:['GARDEN','GRADE','GRAND','RANG','DEAR','GEAR','EARN','RAGE','READ','NEAR','DARE','RAGED','RANGED','DANGER','DANCE','EDGE','DEAN']},
+          {letters:'BRIGHT',words:['BRIGHT','RIGHT','GRIT','BIRTH','BRIT','GIRTH','BRIG','THIGH','BIG','RIG','BIT','HIT','GIT']},
+          {letters:'CLEANS',words:['CLEANS','CLEAN','LANES','SCALE','LANCE','LEANS','CANES','CLAN','LENS','SEAL','LEAN','SALE','SANE','LACE','CASE','CANS','SCAN','SEALN']},
+          {letters:'FOREST',words:['FOREST','FORTE','STORE','FROST','SORT','REST','FORE','ROSE','SOFT','TOES','FORT','ROTS','FOES','FEST','SORE','ORES','TORE']},
+          {letters:'SHOWER',words:['SHOWER','SHREW','SHORE','SHOW','WORSE','ROWS','WORE','HERO','HOSE','HORSE','ORES','HEWS','SORE','SHOW','WHORE','SWORE','HOWSE']},
+          {letters:'TABLES',words:['TABLES','TABLE','BLAST','STALE','BEAST','STEAL','LEAST','BEATS','SLATE','TALES','ABLE','BEAT','SALT','LATE','SEAL','LABS','LAST','BEST','BELT']},
+          {letters:'REMAIN',words:['REMAIN','MARINE','MINER','RAIN','MAIN','NAME','MINE','NEAR','REIN','MANIA','AIRMEN','MEAN','MANE','AMEN','EARN','MARE']},
+          {letters:'CHANGE',words:['CHANGE','EACH','CAGE','CANE','ACHE','HANG','ACNE','HAGEN','CHANCE','GANG','CHAIN','CHINA','ENCH','MANGE']}
+        ]
       },
       history: {
         title: 'History',
@@ -440,7 +466,8 @@ var i18n = {
         accuracy: '、正確度：',
         wpm: 'WPM',
         accuracyLabel: '正確度',
-        bestWpm: '最高WPM'
+        bestWpm: '最高WPM',
+        texts: ['素早い茶色の狐が怠け者の犬を飛び越える','人生は自転車に乗るようなものだ','夢を叶える秘訣は始めることだ','成功は毎日の小さな努力の積み重ねだ','今日できることを明日に延ばすな','千里の道も一歩から始まる','失敗は成功の母である','時は金なり無駄にするな','努力は決して裏切らない','忍耐は苦いがその実は甘い','最善を尽くせば後悔はない','幸せは心の持ち方次第だ','健康が最高の財産である','笑顔は多くの扉を開く','百聞は一見にしかず','優しい言葉は優しい返事を生む','今この瞬間を大切にしよう','学びに終わりはない','前向きな考えが前向きな結果を生む','一日一日を全力で生きよう']
       },
       colorMatch: {
         desc: '文字の<strong>色</strong>が文字の<strong>意味</strong>と一致しますか？',
@@ -532,7 +559,19 @@ var i18n = {
         plusPoints: '✅ +',
         wordCount: '単語数',
         score: 'スコア',
-        bestScore: '最高得点'
+        bestScore: '最高得点',
+        wordData: [
+          {letters:'あいうえお',words:['あい','いえ','うえ','おい','あお','いう','あう','えい','うお','おう']},
+          {letters:'かきくけこ',words:['かき','きく','くけ','けこ','かく','きけ','くこ','けか','こき','かこ']},
+          {letters:'さしすせそ',words:['さし','しす','すせ','せそ','さす','しせ','すそ','せさ','そし','さそ']},
+          {letters:'たちつてと',words:['たち','ちつ','つて','てと','たつ','ちて','つと','てた','とち','たと']},
+          {letters:'なにぬねの',words:['なに','にぬ','ぬね','ねの','なぬ','にね','ぬの','ねな','のに','なの']},
+          {letters:'はひふへほ',words:['はひ','ひふ','ふへ','へほ','はふ','ひへ','ふほ','へは','ほひ','はほ']},
+          {letters:'まみむめも',words:['まみ','みむ','むめ','めも','まむ','みめ','むも','めま','もみ','まも']},
+          {letters:'やゆよわん',words:['やゆ','ゆよ','よわ','わん','やよ','ゆわ','よん','わや','んゆ','やん']},
+          {letters:'らりるれろ',words:['らり','りる','るれ','れろ','らる','りれ','るろ','れら','ろり','らろ']},
+          {letters:'がぎぐげご',words:['がぎ','ぎぐ','ぐげ','げご','がぐ','ぎげ','ぐご','げが','ごぎ','がご']}
+        ]
       },
       history: {
         title: '記録',

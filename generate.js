@@ -51,11 +51,15 @@ function getGameTitleScript(gameId, emoji) {
     '<script>' +
     'var gameTitle=' + JSON.stringify(title) + ';' +
     'var titleEmoji="' + emoji + '";' +
+    'window.addEventListener("load",function(){' +
+    'var h1=document.querySelector("h1[data-game-title]");' +
+    'if(h1&&gameTitle[window.currentLang])h1.textContent=titleEmoji+" "+gameTitle[window.currentLang];' +
+    '});' +
     'if(typeof window.setLanguage!=="undefined"){' +
     'var origSetLang=window.setLanguage;' +
     'window.setLanguage=function(lang){' +
     'origSetLang(lang);' +
-    'var h1=document.querySelector("h1");' +
+    'var h1=document.querySelector("h1[data-game-title]");' +
     'if(h1&&gameTitle[lang])h1.textContent=titleEmoji+" "+gameTitle[lang];' +
     '};' +
     '}' +

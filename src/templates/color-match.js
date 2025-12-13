@@ -6,7 +6,7 @@ module.exports = function(options) {
 
   var title = getGameTitle('color-match');
   var gameHTML = `
-    <h1>🎨 ${title.ko}</h1>
+    <h1 data-game-title="color-match">🎨 ${title.ko}</h1>
     ${getGameTitleScript('color-match', '🎨')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="colorMatch.desc">글자의 <strong>색깔</strong>이 글자의 <strong>의미</strong>와 일치하나요?</p>

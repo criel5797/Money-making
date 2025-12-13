@@ -6,7 +6,7 @@ module.exports = function(options) {
 
   var title = getGameTitle('aim-trainer');
   var gameHTML = `
-    <h1>🎯 ${title.ko}</h1>
+    <h1 data-game-title="aim-trainer">🎯 ${title.ko}</h1>
     ${getGameTitleScript('aim-trainer', '🎯')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="aim.desc">30초 동안 나타나는 원을 빠르게 클릭하세요!</p>

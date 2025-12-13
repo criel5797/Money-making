@@ -6,7 +6,7 @@ module.exports = function(options) {
 
   var title = getGameTitle('memory-number');
   var gameHTML = `
-    <h1>🧠 ${title.ko}</h1>
+    <h1 data-game-title="memory-number">🧠 ${title.ko}</h1>
     ${getGameTitleScript('memory-number', '🧠')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="memoryNumber.desc">숫자를 기억하고 입력하세요. 단계가 올라갈수록 길어집니다!</p>

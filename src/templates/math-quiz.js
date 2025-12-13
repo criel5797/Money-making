@@ -6,7 +6,7 @@ module.exports = function(options) {
 
   var title = getGameTitle('math-quiz');
   var gameHTML = `
-    <h1>🔢 ${title.ko}</h1>
+    <h1 data-game-title="math-quiz">🔢 ${title.ko}</h1>
     ${getGameTitleScript('math-quiz', '🔢')}
     <div class="game-card" style="text-align:center">
       <p style="color:#666" data-i18n-game="math.desc">수학 문제를 빠르게 풀어보세요!</p>
