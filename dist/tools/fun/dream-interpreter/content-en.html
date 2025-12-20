@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 꿈 해몽 - 무료 꿈 해석, 꿈풀이</title>
+    <meta name="description" content="꿈을 입력하면 AI가 해몽해드립니다. 무료 꿈 해석, 꿈풀이, 길몽 흉몽 판단. 돼지꿈, 뱀꿈, 물꿈 등 모든 꿈 해몽.">
+    <meta name="keywords" content="꿈해몽, 꿈풀이, 꿈해석, 길몽, 흉몽, 돼지꿈, 뱀꿈, 물꿈, 치아꿈, AI해몽">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0d0d1a;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #16213e;
+            --text-primary: #eee;
+            --text-secondary: #a0a0c0;
+            --accent: #e94560;
+            --accent-secondary: #7b2cbf;
+            --gold: #ffd700;
+            --border: #2a2a4a;
+        }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            background-image:
+                radial-gradient(ellipse at top, #1a1a3e 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, #0d0d1a 0%, transparent 50%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .logo { font-size: 4rem; margin-bottom: 15px; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #e94560, #7b2cbf, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 35px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .input-section { margin-bottom: 25px; }
+        .input-label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        textarea {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            font-size: 1rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            min-height: 150px;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.7;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.2);
+        }
+        textarea::placeholder { color: var(--text-secondary); }
+
+        .quick-dreams {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .quick-btn {
+            padding: 10px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .quick-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .interpret-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .interpret-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+        .interpret-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+        }
+        .result-section.show { display: block; }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .fortune-type {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .fortune-good {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #333;
+        }
+        .fortune-neutral {
+            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+            color: white;
+        }
+        .fortune-bad {
+            background: linear-gradient(135deg, #666, #888);
+            color: white;
+        }
+        .fortune-percent {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .result-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        .result-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .result-text {
+            line-height: 1.9;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .symbols-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .symbol-item {
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .symbol-icon { font-size: 2rem; margin-bottom: 8px; }
+        .symbol-name { font-weight: 500; margin-bottom: 5px; }
+        .symbol-meaning { font-size: 0.85rem; color: var(--text-secondary); }
+
+        .lucky-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .lucky-item {
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .lucky-label { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
+        .lucky-value { font-size: 1.3rem; font-weight: 600; color: var(--gold); }
+
+        .share-section {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        .share-btn {
+            padding: 12px 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .share-btn:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+
+        .popular-dreams {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+        .popular-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .popular-item {
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .popular-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.2);
+        }
+        .popular-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .popular-name { font-size: 0.95rem; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading-animation {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .main-card { padding: 25px 20px; }
+            .lucky-section { grid-template-columns: 1fr; }
+        }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"AI 꿈 해몽","en":"AI Dream Interpreter","ja":"AI夢占い"},"desc":{"ko":"무료 꿈 해석, 꿈풀이","en":"Free Dream Interpretation","ja":"無料夢解釈"}},"header":{"title":{"ko":"AI 꿈 해몽","en":"AI Dream Interpreter","ja":"AI夢占い"},"subtitle":{"ko":"당신의 꿈이 전하는 메시지를 해석해드려요","en":"Interpret the messages from your dreams","ja":"あなたの夢が伝えるメッセージを解釈します"}},"input":{"label":{"ko":"✨ 어젯밤 어떤 꿈을 꾸셨나요?","en":"✨ What did you dream about last night?","ja":"✨ 昨夜どんな夢を見ましたか？"},"placeholder":{"ko":"꿈의 내용을 자세히 적어주세요.\n\n예: 하늘을 나는 꿈을 꿨어요...","en":"Describe your dream in detail.\n\ne.g., I dreamed of flying in the sky...","ja":"夢の内容を詳しく書いてください。\n\n例：空を飛ぶ夢を見ました..."}},"quickDreams":{"pig":{"ko":"🐷 돼지꿈","en":"🐷 Pig Dream","ja":"🐷 豚の夢"},"snake":{"ko":"🐍 뱀꿈","en":"🐍 Snake Dream","ja":"🐍 蛇の夢"},"teeth":{"ko":"🦷 이빨꿈","en":"🦷 Teeth Dream","ja":"🦷 歯の夢"},"water":{"ko":"🌊 물꿈","en":"🌊 Water Dream","ja":"🌊 水の夢"},"flying":{"ko":"🦅 비행꿈","en":"🦅 Flying Dream","ja":"🦅 飛行の夢"},"deceased":{"ko":"👻 고인꿈","en":"👻 Deceased Dream","ja":"👻 故人の夢"}},"buttons":{"interpret":{"ko":"🔮 꿈 해몽하기","en":"🔮 Interpret Dream","ja":"🔮 夢を解釈する"},"copy":{"ko":"📋 결과 복사","en":"📋 Copy Result","ja":"📋 結果をコピー"},"share":{"ko":"📤 공유하기","en":"📤 Share","ja":"📤 共有する"},"newDream":{"ko":"🔄 새로운 꿈","en":"🔄 New Dream","ja":"🔄 新しい夢"}},"loading":{"ko":"해몽 중...","en":"Interpreting...","ja":"解釈中..."},"result":{"fortuneGood":{"ko":"길몽","en":"Good Fortune","ja":"吉夢"},"fortuneNeutral":{"ko":"평몽","en":"Neutral","ja":"普通の夢"},"fortuneBad":{"ko":"주의가 필요한 꿈","en":"Caution Needed","ja":"注意が必要な夢"},"fortuneIndex":{"ko":"행운 지수:","en":"Fortune Index:","ja":"幸運指数:"},"interpretation":{"ko":"📖 꿈의 해석","en":"📖 Dream Interpretation","ja":"📖 夢の解釈"},"symbols":{"ko":"🎯 상징과 의미","en":"🎯 Symbols & Meanings","ja":"🎯 象徴と意味"},"luck":{"ko":"💫 오늘의 행운","en":"💫 Today's Luck","ja":"💫 今日の幸運"},"luckyNumber":{"ko":"행운의 숫자","en":"Lucky Number","ja":"ラッキーナンバー"},"luckyColor":{"ko":"행운의 색","en":"Lucky Color","ja":"ラッキーカラー"},"luckyDirection":{"ko":"행운의 방향","en":"Lucky Direction","ja":"ラッキー方向"},"advice":{"ko":"💡 조언","en":"💡 Advice","ja":"💡 アドバイス"}},"popular":{"title":{"ko":"🌟 자주 찾는 꿈 해몽","en":"🌟 Popular Dream Interpretations","ja":"🌟 人気の夢解釈"}},"footer":{"ko":"꿈은 무의식이 보내는 메시지입니다 🌙","en":"Dreams are messages from the unconscious 🌙","ja":"夢は無意識からのメッセージです 🌙"}};</script></head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">🔮</div>
+            <h1>AI 꿈 해몽</h1>
+            <p class="subtitle">당신의 꿈이 전하는 메시지를 해석해드려요</p>
+        </header>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="main-card">
+            <div class="input-section">
+                <label class="input-label">✨ 어젯밤 어떤 꿈을 꾸셨나요?</label>
+                <textarea id="dreamInput" placeholder="꿈의 내용을 자세히 적어주세요.&#10;&#10;예: 하늘을 나는 꿈을 꿨어요. 구름 위를 자유롭게 날아다녔는데 기분이 너무 좋았어요..."></textarea>
+            </div>
+
+            <div class="quick-dreams">
+                <button class="quick-btn" onclick="setQuickDream('돼지가 나오는 꿈')">🐷 돼지꿈</button>
+                <button class="quick-btn" onclick="setQuickDream('뱀이 나오는 꿈')">🐍 뱀꿈</button>
+                <button class="quick-btn" onclick="setQuickDream('이빨이 빠지는 꿈')">🦷 이빨꿈</button>
+                <button class="quick-btn" onclick="setQuickDream('물에 빠지는 꿈')">🌊 물꿈</button>
+                <button class="quick-btn" onclick="setQuickDream('하늘을 나는 꿈')">🦅 비행꿈</button>
+                <button class="quick-btn" onclick="setQuickDream('죽은 사람이 나오는 꿈')">👻 고인꿈</button>
+            </div>
+
+            <button class="interpret-btn" id="interpretBtn" onclick="interpretDream()">
+                🔮 꿈 해몽하기
+            </button>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="fortune-type" id="fortuneType">길몽</div>
+                    <div class="fortune-percent" id="fortunePercent">행운 지수: 85%</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">📖 꿈의 해석</div>
+                    <div class="result-text" id="interpretation"></div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">🎯 상징과 의미</div>
+                    <div class="symbols-grid" id="symbolsGrid"></div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">💫 오늘의 행운</div>
+                    <div class="lucky-section">
+                        <div class="lucky-item">
+                            <div class="lucky-label">행운의 숫자</div>
+                            <div class="lucky-value" id="luckyNumber">7, 14, 28</div>
+                        </div>
+                        <div class="lucky-item">
+                            <div class="lucky-label">행운의 색</div>
+                            <div class="lucky-value" id="luckyColor">금색</div>
+                        </div>
+                        <div class="lucky-item">
+                            <div class="lucky-label">행운의 방향</div>
+                            <div class="lucky-value" id="luckyDirection">동쪽</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">💡 조언</div>
+                    <div class="result-text" id="advice"></div>
+                </div>
+
+                <div class="share-section">
+                    <button class="share-btn" onclick="copyResult()">📋 결과 복사</button>
+                    <button class="share-btn" onclick="shareResult()">📤 공유하기</button>
+                    <button class="share-btn" onclick="newDream()">🔄 새로운 꿈</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="popular-dreams">
+            <div class="popular-title">🌟 자주 찾는 꿈 해몽</div>
+            <div class="popular-grid">
+                <div class="popular-item" onclick="setQuickDream('황금 돼지가 집에 들어오는 꿈')">
+                    <div class="popular-icon">🐷</div>
+                    <div class="popular-name">황금돼지 꿈</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('뱀이 몸을 감는 꿈')">
+                    <div class="popular-icon">🐍</div>
+                    <div class="popular-name">뱀에 감기는 꿈</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('시험에 떨어지는 꿈')">
+                    <div class="popular-icon">📝</div>
+                    <div class="popular-name">시험 꿈</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('쫓기는 꿈')">
+                    <div class="popular-icon">🏃</div>
+                    <div class="popular-name">쫓기는 꿈</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('돈을 줍는 꿈')">
+                    <div class="popular-icon">💰</div>
+                    <div class="popular-name">돈 줍는 꿈</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('결혼하는 꿈')">
+                    <div class="popular-icon">💒</div>
+                    <div class="popular-name">결혼 꿈</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('아기를 낳는 꿈')">
+                    <div class="popular-icon">👶</div>
+                    <div class="popular-name">출산 꿈</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('집이 무너지는 꿈')">
+                    <div class="popular-icon">🏚️</div>
+                    <div class="popular-name">집 무너지는 꿈</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <footer>
+            <p>꿈은 무의식이 보내는 메시지입니다 🌙</p>
+            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p style="margin-top: 15px; font-size: 0.85rem; color: #666;">
+                ※ 본 서비스는 재미를 위한 것으로, 실제 운세나 미래를 예측하지 않습니다.
+            </p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        const dreamInterpretations = {
+            '돼지': {
+                icon: '🐷',
+                meaning: '재물과 풍요',
+                good: true,
+                interpretation: '돼지는 전통적으로 재물과 복을 상징합니다. 특히 황금빛 돼지나 살찐 돼지는 큰 재물운을 암시합니다.',
+                advice: '금전적인 기회가 찾아올 수 있으니 주변을 잘 살펴보세요. 투자나 사업에 좋은 시기일 수 있습니다.'
+            },
+            '뱀': {
+                icon: '🐍',
+                meaning: '변화와 지혜',
+                good: true,
+                interpretation: '뱀은 변화, 치유, 지혜를 상징합니다. 뱀이 허물을 벗듯 당신도 새로운 시작을 앞두고 있을 수 있습니다.',
+                advice: '변화를 두려워하지 마세요. 새로운 기회가 될 수 있습니다.'
+            },
+            '이빨': {
+                icon: '🦷',
+                meaning: '불안과 변화',
+                good: false,
+                interpretation: '이빨이 빠지는 꿈은 자신감 상실이나 변화에 대한 두려움을 나타낼 수 있습니다.',
+                advice: '최근 스트레스나 불안감이 있다면 충분한 휴식을 취하세요.'
+            },
+            '물': {
+                icon: '🌊',
+                meaning: '감정과 무의식',
+                good: null,
+                interpretation: '물은 감정의 상태를 반영합니다. 맑은 물은 평온함을, 탁한 물은 혼란스러운 감정을 의미할 수 있습니다.',
+                advice: '자신의 감정 상태를 돌아보고 정리하는 시간을 가져보세요.'
+            },
+            '나는': {
+                icon: '🦅',
+                meaning: '자유와 성취',
+                good: true,
+                interpretation: '하늘을 나는 꿈은 자유에 대한 갈망이나 목표 달성에 대한 자신감을 나타냅니다.',
+                advice: '당신의 능력을 믿고 도전하세요. 좋은 결과가 있을 것입니다.'
+            },
+            '죽은': {
+                icon: '👻',
+                meaning: '그리움과 메시지',
+                good: null,
+                interpretation: '돌아가신 분이 나오는 꿈은 그리움의 표현이거나 무의식에서 보내는 메시지일 수 있습니다.',
+                advice: '고인을 추모하는 시간을 갖거나, 삶에서 중요한 것이 무엇인지 되돌아보세요.'
+            },
+            '쫓기': {
+                icon: '🏃',
+                meaning: '회피와 두려움',
+                good: false,
+                interpretation: '쫓기는 꿈은 현실에서 피하고 싶은 문제나 두려움을 상징합니다.',
+                advice: '회피하고 있는 문제가 있다면 용기를 내어 마주해보세요.'
+            },
+            '돈': {
+                icon: '💰',
+                meaning: '가치와 기회',
+                good: true,
+                interpretation: '돈과 관련된 꿈은 자기 가치에 대한 인식이나 기회를 상징합니다.',
+                advice: '자신의 가치를 믿고, 다가오는 기회를 놓치지 마세요.'
+            },
+            '결혼': {
+                icon: '💒',
+                meaning: '결합과 새로운 시작',
+                good: true,
+                interpretation: '결혼 꿈은 새로운 시작, 파트너십, 또는 자아의 통합을 의미할 수 있습니다.',
+                advice: '인간관계에서 좋은 일이 있을 수 있으니 주변 사람들을 소중히 하세요.'
+            },
+            '아기': {
+                icon: '👶',
+                meaning: '새로운 시작',
+                good: true,
+                interpretation: '아기는 새로운 시작, 창의성, 가능성을 상징합니다.',
+                advice: '새로운 프로젝트나 아이디어를 시작하기 좋은 때입니다.'
+            },
+            '집': {
+                icon: '🏠',
+                meaning: '자아와 안정',
+                good: null,
+                interpretation: '집은 자아와 내면을 상징합니다. 집의 상태가 현재 심리 상태를 반영할 수 있습니다.',
+                advice: '내면의 안정을 찾는 시간을 가져보세요.'
+            },
+            '시험': {
+                icon: '📝',
+                meaning: '평가와 준비',
+                good: false,
+                interpretation: '시험 꿈은 자신에 대한 평가나 준비 부족에 대한 불안을 나타냅니다.',
+                advice: '현실에서 중요한 일이 있다면 미리 준비하세요. 준비가 불안을 줄여줍니다.'
+            }
+        };
+
+        const colors = ['금색', '붉은색', '파란색', '녹색', '보라색', '흰색', '노란색'];
+        const directions = ['동쪽', '서쪽', '남쪽', '북쪽', '동남쪽', '북서쪽'];
+
+        function setQuickDream(dream) {
+            document.getElementById('dreamInput').value = dream + '을 꾸었어요.';
+        }
+
+        function interpretDream() {
+            const dream = document.getElementById('dreamInput').value.trim();
+
+            if (!dream) {
+                showToast('꿈 내용을 입력해주세요');
+                return;
+            }
+
+            const btn = document.getElementById('interpretBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-animation"></span> 해몽 중...';
+
+            setTimeout(() => {
+                generateInterpretation(dream);
+                btn.disabled = false;
+                btn.innerHTML = '🔮 꿈 해몽하기';
+            }, 2000);
+        }
+
+        function generateInterpretation(dream) {
+            // Find matching symbols
+            const foundSymbols = [];
+            let isGood = null;
+            let mainInterpretation = '';
+            let mainAdvice = '';
+
+            for (const [keyword, data] of Object.entries(dreamInterpretations)) {
+                if (dream.includes(keyword)) {
+                    foundSymbols.push(data);
+                    if (isGood === null) isGood = data.good;
+                    if (!mainInterpretation) {
+                        mainInterpretation = data.interpretation;
+                        mainAdvice = data.advice;
+                    }
+                }
+            }
+
+            // Default interpretation if no keywords found
+            if (foundSymbols.length === 0) {
+                foundSymbols.push({
+                    icon: '🌙',
+                    meaning: '무의식의 메시지',
+                    good: null
+                });
+                mainInterpretation = '이 꿈은 당신의 무의식이 보내는 개인적인 메시지입니다. 꿈에서 느꼈던 감정이 현재 당신의 심리 상태를 반영할 수 있습니다. 기분 좋은 꿈이었다면 긍정적인 에너지가 함께하고 있는 것이고, 불안한 꿈이었다면 해소되지 않은 감정이 있을 수 있습니다.';
+                mainAdvice = '꿈에서 느꼈던 감정을 되돌아보고, 현실에서 비슷한 감정을 느끼는 상황이 있는지 생각해보세요.';
+                isGood = Math.random() > 0.5;
+            }
+
+            // Calculate fortune
+            const fortuneScore = isGood === true ? Math.floor(Math.random() * 20) + 75 :
+                                 isGood === false ? Math.floor(Math.random() * 30) + 30 :
+                                 Math.floor(Math.random() * 30) + 50;
+
+            const fortuneType = fortuneScore >= 70 ? '길몽' : fortuneScore >= 50 ? '평몽' : '주의가 필요한 꿈';
+            const fortuneClass = fortuneScore >= 70 ? 'fortune-good' : fortuneScore >= 50 ? 'fortune-neutral' : 'fortune-bad';
+
+            // Update UI
+            document.getElementById('fortuneType').textContent = fortuneType;
+            document.getElementById('fortuneType').className = `fortune-type ${fortuneClass}`;
+            document.getElementById('fortunePercent').textContent = `행운 지수: ${fortuneScore}%`;
+            document.getElementById('interpretation').textContent = mainInterpretation;
+            document.getElementById('advice').textContent = mainAdvice;
+
+            // Generate symbols
+            const symbolsGrid = document.getElementById('symbolsGrid');
+            symbolsGrid.innerHTML = foundSymbols.slice(0, 4).map(s => `
+                <div class="symbol-item">
+                    <div class="symbol-icon">${s.icon}</div>
+                    <div class="symbol-name">${s.meaning}</div>
+                </div>
+            `).join('');
+
+            // Generate lucky info
+            const luckyNums = [];
+            while (luckyNums.length < 3) {
+                const n = Math.floor(Math.random() * 45) + 1;
+                if (!luckyNums.includes(n)) luckyNums.push(n);
+            }
+            document.getElementById('luckyNumber').textContent = luckyNums.sort((a,b) => a-b).join(', ');
+            document.getElementById('luckyColor').textContent = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById('luckyDirection').textContent = directions[Math.floor(Math.random() * directions.length)];
+
+            document.getElementById('resultSection').classList.add('show');
+            showToast('해몽이 완료되었습니다!');
+        }
+
+        function copyResult() {
+            const fortune = document.getElementById('fortuneType').textContent;
+            const score = document.getElementById('fortunePercent').textContent;
+            const interpretation = document.getElementById('interpretation').textContent;
+            const advice = document.getElementById('advice').textContent;
+
+            const text = `🔮 AI 꿈 해몽 결과\n\n` +
+                        `[${fortune}] ${score}\n\n` +
+                        `📖 해석:\n${interpretation}\n\n` +
+                        `💡 조언:\n${advice}\n\n` +
+                        `꿈 해몽 더 보기 👉 [사이트주소]`;
+
+            navigator.clipboard.writeText(text);
+            showToast('결과가 복사되었습니다!');
+        }
+
+        function shareResult() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI 꿈 해몽 결과',
+                    text: document.getElementById('interpretation').textContent,
+                    url: window.location.href
+                });
+            } else {
+                copyResult();
+                showToast('복사되었습니다! 공유해보세요!');
+            }
+        }
+
+        function newDream() {
+            document.getElementById('dreamInput').value = '';
+            document.getElementById('resultSection').classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

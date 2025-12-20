@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 궁합 테스트 - 무료 이름 궁합, 연애 궁합 | 사랑 테스트</title>
+    <meta name="description" content="무료 AI 궁합 테스트! 이름 궁합, 생년월일 궁합으로 연애 운명을 확인하세요. 두 사람의 궁합 점수와 상세 분석을 제공합니다.">
+    <meta name="keywords" content="궁합, 이름궁합, 연애궁합, 사랑테스트, 커플테스트, 궁합테스트, 무료궁합">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI 궁합 테스트 - 무료 연애 궁합">
+    <meta property="og:description" content="이름과 생년월일로 알아보는 두 사람의 궁합!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=AI+궁합+테스트">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44dff 50%, #6b5ce7 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: floatHeart 15s infinite linear;
+            opacity: 0.3;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .disclaimer {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .person-section {
+            background: linear-gradient(135deg, #fff5f8, #fff0f5);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .person-section.person2 {
+            background: linear-gradient(135deg, #f0f5ff, #f5f0ff);
+        }
+
+        .person-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #ff6b9d;
+            font-size: 18px;
+        }
+
+        .person-section.person2 .person-label {
+            color: #6b5ce7;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ff6b9d;
+        }
+
+        .person-section.person2 .input-group input:focus,
+        .person-section.person2 .input-group select:focus {
+            border-color: #6b5ce7;
+        }
+
+        .birth-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .check-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .heart-animation {
+            font-size: 80px;
+            animation: pulse 1s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .names-display {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .names-display span {
+            color: #ff6b9d;
+            font-weight: 600;
+        }
+
+        .score-container {
+            margin: 30px 0;
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .score-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .score-circle circle {
+            fill: none;
+            stroke-width: 12;
+        }
+
+        .score-circle .bg {
+            stroke: #f0f0f0;
+        }
+
+        .score-circle .progress {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .score-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-label {
+            color: #888;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .result-message {
+            font-size: 22px;
+            color: #333;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .analysis-section {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .analysis-item {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .analysis-item h4 {
+            color: #c44dff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .analysis-item p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .category-scores {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .category-item {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .category-item .cat-name {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .category-item .cat-score {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bar-container {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading-heart {
+            font-size: 60px;
+            animation: heartBeat 1s ease infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .card { padding: 25px; }
+            .names-display { font-size: 18px; }
+            .category-scores { grid-template-columns: 1fr; }
+        }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"AI 궁합 테스트","en":"AI Compatibility Test","ja":"AI相性テスト"},"desc":{"ko":"무료 이름 궁합, 연애 궁합","en":"Free Name & Love Compatibility","ja":"無料名前相性・恋愛相性"}},"header":{"title":{"ko":"AI 궁합 테스트","en":"AI Compatibility Test","ja":"AI相性テスト"},"subtitle":{"ko":"이름과 생년월일로 알아보는 두 사람의 운명","en":"Discover your destiny through names and birth dates","ja":"名前と生年月日で二人の運命を知る"}},"disclaimer":{"ko":"재미로 즐기는 궁합 테스트입니다. 결과는 참고용으로만 봐주세요!","en":"This is for entertainment. Results are for reference only!","ja":"娯楽用の相性テストです。結果は参考程度に！"},"person":{"first":{"ko":"💗 첫 번째 사람","en":"💗 First Person","ja":"💗 一人目"},"second":{"ko":"💜 두 번째 사람","en":"💜 Second Person","ja":"💜 二人目"}},"input":{"name":{"ko":"이름","en":"Name","ja":"名前"},"namePlaceholder":{"ko":"이름을 입력하세요","en":"Enter name","ja":"名前を入力"},"birthDate":{"ko":"생년월일","en":"Birth Date","ja":"生年月日"},"year":{"ko":"년도","en":"Year","ja":"年"},"month":{"ko":"월","en":"Month","ja":"月"},"day":{"ko":"일","en":"Day","ja":"日"}},"buttons":{"check":{"ko":"💕 궁합 확인하기","en":"💕 Check Compatibility","ja":"💕 相性を確認"},"share":{"ko":"결과 공유하기","en":"Share Result","ja":"結果を共有"},"retry":{"ko":"다시 하기","en":"Try Again","ja":"もう一度"}},"loading":{"ko":"두 분의 궁합을 분석하고 있어요...","en":"Analyzing your compatibility...","ja":"二人の相性を分析中..."},"result":{"score":{"ko":"궁합 점수","en":"Compatibility Score","ja":"相性スコア"},"categories":{"love":{"ko":"💗 애정운","en":"💗 Love","ja":"💗 愛情運"},"communication":{"ko":"💬 소통력","en":"💬 Communication","ja":"💬 コミュニケーション"},"trust":{"ko":"🤝 신뢰도","en":"🤝 Trust","ja":"🤝 信頼度"},"future":{"ko":"🌟 미래","en":"🌟 Future","ja":"🌟 未来"}},"messages":{"perfect":{"ko":"운명적인 만남! 천생연분이에요! 💕","en":"Destined encounter! Soulmates! 💕","ja":"運命の出会い！天生の縁！💕"},"great":{"ko":"환상의 궁합! 서로를 위해 태어났어요! ✨","en":"Perfect match! Made for each other! ✨","ja":"最高の相性！お互いのために生まれた！✨"},"good":{"ko":"좋은 궁합! 함께라면 행복해요! 😊","en":"Good compatibility! Happy together! 😊","ja":"良い相性！一緒にいれば幸せ！😊"},"okay":{"ko":"괜찮은 궁합! 노력하면 더 좋아져요! 💪","en":"Decent match! Will improve with effort! 💪","ja":"まずまずの相性！努力で良くなる！💪"},"average":{"ko":"보통 궁합! 서로 이해가 필요해요! 🤔","en":"Average! Understanding needed! 🤔","ja":"普通の相性！理解が必要！🤔"},"challenging":{"ko":"도전적인 궁합! 많은 노력이 필요해요! 💭","en":"Challenging! Requires much effort! 💭","ja":"挑戦的な相性！多くの努力が必要！💭"}}},"footer":{"ko":"이 테스트는 재미를 위한 것입니다.\n실제 관계는 서로의 노력으로 만들어집니다.","en":"This test is for entertainment.\nReal relationships are built through mutual effort.","ja":"このテストは娯楽用です。\n実際の関係はお互いの努力で築かれます。"}};</script></head>
+<body>
+    <div class="hearts-bg" id="heartsContainer"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>AI 궁합 테스트</h1>
+            <p class="subtitle">이름과 생년월일로 알아보는 두 사람의 운명</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            재미로 즐기는 궁합 테스트입니다. 결과는 참고용으로만 봐주세요!
+        </div>
+
+        <div class="card">
+            <div id="inputSection">
+                <div class="person-section">
+                    <div class="person-label">
+                        <span>💗</span> 첫 번째 사람
+                    </div>
+                    <div class="input-group">
+                        <label>이름</label>
+                        <input type="text" id="name1" placeholder="이름을 입력하세요">
+                    </div>
+                    <div class="input-group">
+                        <label>생년월일</label>
+                        <div class="birth-row">
+                            <select id="year1">
+                                <option value="">년도</option>
+                            </select>
+                            <select id="month1">
+                                <option value="">월</option>
+                            </select>
+                            <select id="day1">
+                                <option value="">일</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="person-section person2">
+                    <div class="person-label">
+                        <span>💜</span> 두 번째 사람
+                    </div>
+                    <div class="input-group">
+                        <label>이름</label>
+                        <input type="text" id="name2" placeholder="이름을 입력하세요">
+                    </div>
+                    <div class="input-group">
+                        <label>생년월일</label>
+                        <div class="birth-row">
+                            <select id="year2">
+                                <option value="">년도</option>
+                            </select>
+                            <select id="month2">
+                                <option value="">월</option>
+                            </select>
+                            <select id="day2">
+                                <option value="">일</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="check-btn" onclick="checkCompatibility()">
+                    💕 궁합 확인하기
+                </button>
+            </div>
+
+            <div class="loading" id="loadingSection">
+                <div class="loading-heart">💗</div>
+                <p style="color:#888; margin-top:20px;">두 분의 궁합을 분석하고 있어요...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="heart-animation">💕</div>
+
+                <div class="names-display">
+                    <span id="displayName1">홍길동</span> ❤️ <span id="displayName2">김철수</span>
+                </div>
+
+                <div class="score-container">
+                    <div class="score-circle">
+                        <svg width="180" height="180" viewBox="0 0 180 180">
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#ff6b9d"/>
+                                    <stop offset="100%" stop-color="#c44dff"/>
+                                </linearGradient>
+                            </defs>
+                            <circle class="bg" cx="90" cy="90" r="78"/>
+                            <circle class="progress" id="progressCircle" cx="90" cy="90" r="78"
+                                stroke-dasharray="490" stroke-dashoffset="490"/>
+                        </svg>
+                        <div class="score-number" id="scoreNumber">0%</div>
+                    </div>
+                    <div class="score-label">궁합 점수</div>
+                </div>
+
+                <div class="result-message" id="resultMessage">
+                    두 분은 환상의 궁합!
+                </div>
+
+                <div class="category-scores" id="categoryScores"></div>
+
+                <div class="analysis-section" id="analysisSection"></div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
+                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>이 테스트는 재미를 위한 것입니다.<br>실제 관계는 서로의 노력으로 만들어집니다.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 하트 배경 생성
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💕';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // 날짜 선택 옵션 생성
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+
+            ['year1', 'year2'].forEach(id => {
+                const select = document.getElementById(id);
+                for (let y = currentYear; y >= 1950; y--) {
+                    select.innerHTML += `<option value="${y}">${y}년</option>`;
+                }
+            });
+
+            ['month1', 'month2'].forEach(id => {
+                const select = document.getElementById(id);
+                for (let m = 1; m <= 12; m++) {
+                    select.innerHTML += `<option value="${m}">${m}월</option>`;
+                }
+            });
+
+            ['day1', 'day2'].forEach(id => {
+                const select = document.getElementById(id);
+                for (let d = 1; d <= 31; d++) {
+                    select.innerHTML += `<option value="${d}">${d}일</option>`;
+                }
+            });
+        }
+        initDateSelects();
+
+        let resultData = {};
+
+        function checkCompatibility() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+            const year1 = document.getElementById('year1').value;
+            const month1 = document.getElementById('month1').value;
+            const day1 = document.getElementById('day1').value;
+            const year2 = document.getElementById('year2').value;
+            const month2 = document.getElementById('month2').value;
+            const day2 = document.getElementById('day2').value;
+
+            if (!name1 || !name2) {
+                showToast('⚠️ 이름을 입력해주세요!');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loadingSection').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name1, name2,
+                    { year: year1, month: month1, day: day1 },
+                    { year: year2, month: month2, day: day2 }
+                );
+            }, 2000);
+        }
+
+        function calculateResult(name1, name2, birth1, birth2) {
+            // 이름 기반 점수 계산
+            const nameScore = calculateNameScore(name1, name2);
+
+            // 생년월일 기반 점수 계산
+            let birthScore = 50;
+            if (birth1.year && birth2.year) {
+                birthScore = calculateBirthScore(birth1, birth2);
+            }
+
+            // 최종 점수 계산
+            const finalScore = Math.round((nameScore * 0.4 + birthScore * 0.6));
+
+            // 카테고리별 점수
+            const categories = {
+                love: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
+                communication: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
+                trust: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
+                future: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15)))
+            };
+
+            resultData = {
+                name1,
+                name2,
+                score: finalScore,
+                categories
+            };
+
+            displayResult();
+        }
+
+        function calculateNameScore(name1, name2) {
+            // 이름 문자열 기반 시드 생성
+            const combined = name1 + name2;
+            let hash = 0;
+            for (let i = 0; i < combined.length; i++) {
+                hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+                hash = hash & hash;
+            }
+
+            // 50-100 사이 점수
+            return 50 + (Math.abs(hash) % 51);
+        }
+
+        function calculateBirthScore(birth1, birth2) {
+            const y1 = parseInt(birth1.year);
+            const m1 = parseInt(birth1.month);
+            const d1 = parseInt(birth1.day);
+            const y2 = parseInt(birth2.year);
+            const m2 = parseInt(birth2.month);
+            const d2 = parseInt(birth2.day);
+
+            // 나이 차이 점수
+            const ageDiff = Math.abs(y1 - y2);
+            let ageScore = 100;
+            if (ageDiff > 10) ageScore = 60;
+            else if (ageDiff > 5) ageScore = 80;
+            else if (ageDiff > 2) ageScore = 90;
+
+            // 월/일 조합 점수
+            const dateHash = (m1 * d1 + m2 * d2) % 100;
+            const dateScore = 50 + (dateHash % 51);
+
+            return Math.round((ageScore + dateScore) / 2);
+        }
+
+        function randomRange(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function displayResult() {
+            document.getElementById('loadingSection').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('displayName1').textContent = resultData.name1;
+            document.getElementById('displayName2').textContent = resultData.name2;
+
+            // 점수 애니메이션
+            const circumference = 2 * Math.PI * 78;
+            const offset = circumference - (resultData.score / 100) * circumference;
+
+            setTimeout(() => {
+                document.getElementById('progressCircle').style.strokeDashoffset = offset;
+                animateNumber('scoreNumber', 0, resultData.score, 1000);
+            }, 100);
+
+            // 결과 메시지
+            document.getElementById('resultMessage').textContent = getResultMessage(resultData.score);
+
+            // 카테고리 점수
+            const catNames = {
+                love: '💗 애정운',
+                communication: '💬 소통력',
+                trust: '🤝 신뢰도',
+                future: '🌟 미래'
+            };
+
+            let catHtml = '';
+            for (const [key, value] of Object.entries(resultData.categories)) {
+                catHtml += `
+                    <div class="category-item">
+                        <div class="cat-name">${catNames[key]}</div>
+                        <div class="cat-score">${value}%</div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: ${value}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('categoryScores').innerHTML = catHtml;
+
+            // 분석 내용
+            document.getElementById('analysisSection').innerHTML = generateAnalysis(resultData);
+        }
+
+        function animateNumber(elementId, start, end, duration) {
+            const element = document.getElementById(elementId);
+            const range = end - start;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const value = Math.round(start + range * progress);
+                element.textContent = value + '%';
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        function getResultMessage(score) {
+            if (score >= 90) return "운명적인 만남! 천생연분이에요! 💕";
+            if (score >= 80) return "환상의 궁합! 서로를 위해 태어났어요! ✨";
+            if (score >= 70) return "좋은 궁합! 함께라면 행복해요! 😊";
+            if (score >= 60) return "괜찮은 궁합! 노력하면 더 좋아져요! 💪";
+            if (score >= 50) return "보통 궁합! 서로 이해가 필요해요! 🤔";
+            return "도전적인 궁합! 많은 노력이 필요해요! 💭";
+        }
+
+        function generateAnalysis(data) {
+            const analyses = [
+                {
+                    title: "💕 두 사람의 케미",
+                    texts: [
+                        `${data.name1}님과 ${data.name2}님은 서로를 보완하는 관계입니다. 한 사람의 부족한 점을 다른 사람이 채워줄 수 있어요.`,
+                        `두 분이 함께할 때 시너지가 발생합니다. 서로의 장점을 살리면 더 큰 결과를 만들 수 있어요.`,
+                        `첫인상과 달리 알면 알수록 매력을 느낄 수 있는 조합입니다.`
+                    ]
+                },
+                {
+                    title: "💬 소통 스타일",
+                    texts: [
+                        `서로 다른 표현 방식을 가지고 있어요. ${data.name1}님은 더 직접적이고, ${data.name2}님은 더 섬세한 편입니다.`,
+                        `대화할 때 서로의 말을 끝까지 듣는 것이 중요해요. 작은 오해가 큰 갈등이 될 수 있습니다.`,
+                        `솔직한 대화를 나눌수록 관계가 깊어질 거예요.`
+                    ]
+                },
+                {
+                    title: "✨ 앞으로의 조언",
+                    texts: [
+                        `서로의 취미나 관심사를 공유해보세요. 새로운 공감대를 발견할 수 있어요.`,
+                        `작은 것에도 감사를 표현하면 관계가 더 좋아집니다.`,
+                        `가끔은 서로에게 시간을 주는 것도 중요해요. 개인 시간도 존중해주세요.`
+                    ]
+                }
+            ];
+
+            return analyses.map(item => `
+                <div class="analysis-item">
+                    <h4>${item.title}</h4>
+                    <p>${item.texts[Math.floor(Math.random() * item.texts.length)]}</p>
+                </div>
+            `).join('');
+        }
+
+        function shareResult() {
+            const text = `💕 ${resultData.name1} ❤️ ${resultData.name2} 궁합 결과\n\n` +
+                        `궁합 점수: ${resultData.score}%\n` +
+                        `${getResultMessage(resultData.score)}\n\n` +
+                        `나도 궁합 확인하기 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'AI 궁합 테스트 결과', text: text }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 결과가 복사되었어요!');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+
+            // 입력 초기화
+            document.getElementById('name1').value = '';
+            document.getElementById('name2').value = '';
+            document.getElementById('year1').value = '';
+            document.getElementById('month1').value = '';
+            document.getElementById('day1').value = '';
+            document.getElementById('year2').value = '';
+            document.getElementById('month2').value = '';
+            document.getElementById('day2').value = '';
+
+            // 점수 원 초기화
+            document.getElementById('progressCircle').style.strokeDashoffset = 490;
+            document.getElementById('scoreNumber').textContent = '0%';
+        }
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

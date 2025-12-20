@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이모지 피커 - 이모지 즉시 복사</title>
+    <meta name="description" content="무료 이모지 피커 도구. 이모지를 찾고, 검색하고, 즉시 복사하세요. 메시지, 소셜 미디어, 문서에 완벽한 이모지를 찾아보세요.">
+    <meta name="keywords" content="이모지 피커, 이모지 복사, 이모지 검색, 이모티콘, 이모지 키보드, 복사 붙여넣기 이모지">
+
+    <meta property="og:title" content="이모지 피커 - 이모지 즉시 복사">
+    <meta property="og:description" content="클릭 한 번으로 이모지를 찾고 복사하세요. 무료 이모지 피커 도구.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 40px 0; position: relative; }
+
+        .lang-switch {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .lang-switch a {
+            color: #888;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .lang-switch a:hover {
+            border-color: #feca57;
+            color: #feca57;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #888; font-size: 1.1rem; }
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .search-section { margin-bottom: 25px; }
+        .search-box { display: flex; gap: 15px; }
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-input:focus { border-color: #feca57; }
+        .search-input::placeholder { color: #666; }
+
+        .recent-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .section-title { color: #feca57; font-size: 1rem; font-weight: 600; }
+        .clear-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: #888;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        .clear-btn:hover { border-color: #ff6b6b; color: #ff6b6b; }
+        .recent-emojis { display: flex; flex-wrap: wrap; gap: 8px; }
+        .recent-empty { color: #666; font-size: 14px; }
+
+        .categories {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .category-btn {
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+        .category-btn:hover { background: rgba(255,255,255,0.1); }
+        .category-btn.active {
+            background: rgba(254, 202, 87, 0.1);
+            border-color: #feca57;
+            color: #feca57;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .emoji-btn {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            background: rgba(255,255,255,0.03);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .emoji-btn:hover {
+            background: rgba(254, 202, 87, 0.2);
+            transform: scale(1.15);
+        }
+
+        .emoji-preview {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: rgba(30, 30, 50, 0.95);
+            border: 2px solid #feca57;
+            padding: 20px 40px;
+            border-radius: 16px;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        .emoji-preview.show { transform: translateX(-50%) scale(1); opacity: 1; }
+        .preview-emoji { font-size: 4rem; margin-bottom: 10px; }
+        .preview-name { color: #888; font-size: 14px; }
+
+        .copied-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        .copied-section h3 { color: #feca57; margin-bottom: 15px; font-size: 1rem; }
+        .copied-area { display: flex; gap: 15px; }
+        .copied-input {
+            flex: 1;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #e4e4e4;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+        .copy-all-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            border: none;
+            border-radius: 10px;
+            color: #1a1a2e;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .copy-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(254, 202, 87, 0.3);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            color: #1a1a2e;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        .no-results { text-align: center; padding: 40px; color: #666; }
+        .no-results span { font-size: 3rem; display: block; margin-bottom: 15px; }
+
+        footer { text-align: center; padding: 40px 20px; color: #666; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .emoji-grid { grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); }
+            .emoji-btn { font-size: 1.5rem; }
+            .copied-area { flex-direction: column; }
+            .lang-switch { position: static; margin-bottom: 20px; }
+            header { padding-top: 20px; }
+        }
+
+        .emoji-grid::-webkit-scrollbar { width: 8px; }
+        .emoji-grid::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 4px; }
+        .emoji-grid::-webkit-scrollbar-thumb { background: rgba(254, 202, 87, 0.3); border-radius: 4px; }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"이모지 선택","en":"Emoji Picker","ja":"絵文字ピッカー"},"desc":{"ko":"이모지 찾기 및 복사","en":"Find and copy emojis","ja":"絵文字を検索してコピー"}},"header":{"title":{"ko":"이모지 선택","en":"Emoji Picker","ja":"絵文字ピッカー"},"subtitle":{"ko":"이모지를 찾아 복사하세요","en":"Find and copy emojis","ja":"絵文字を探してコピー"}},"categories":{"smileys":{"ko":"표정","en":"Smileys","ja":"顔"},"people":{"ko":"사람","en":"People","ja":"人"},"animals":{"ko":"동물","en":"Animals","ja":"動物"},"food":{"ko":"음식","en":"Food","ja":"食べ物"},"travel":{"ko":"여행","en":"Travel","ja":"旅行"},"objects":{"ko":"물건","en":"Objects","ja":"物"},"symbols":{"ko":"기호","en":"Symbols","ja":"記号"},"flags":{"ko":"국기","en":"Flags","ja":"旗"}},"search":{"placeholder":{"ko":"이모지 검색...","en":"Search emojis...","ja":"絵文字を検索..."}},"copied":{"ko":"복사됨!","en":"Copied!","ja":"コピー完了！"}};</script></head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lang-switch">
+                <a href="index.html">English</a>
+            </div>
+            <h1>이모지 피커</h1>
+            <p class="subtitle">클릭해서 복사, 검색해서 찾기</p>
+        </header>
+
+        <div class="ad-banner">광고</div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="이모지 검색... (예: 웃음, 하트, 불)" oninput="searchEmojis()">
+            </div>
+        </div>
+
+        <div class="recent-section" id="recentSection">
+            <div class="section-header">
+                <span class="section-title">최근 사용</span>
+                <button class="clear-btn" onclick="clearRecent()">지우기</button>
+            </div>
+            <div class="recent-emojis" id="recentEmojis">
+                <span class="recent-empty">최근 사용한 이모지가 없습니다</span>
+            </div>
+        </div>
+
+        <div class="categories" id="categories"></div>
+
+        <div class="emoji-grid" id="emojiGrid"></div>
+
+        <div class="copied-section">
+            <h3>수집한 이모지</h3>
+            <div class="copied-area">
+                <input type="text" class="copied-input" id="collectedEmojis" readonly placeholder="이모지를 클릭하여 수집">
+                <button class="copy-all-btn" onclick="copyAll()">모두 복사</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고</div>
+
+        <footer>
+            <p>무료 이모지 피커 | 이모지 즉시 복사</p>
+        </footer>
+    </div>
+
+    <div class="emoji-preview" id="emojiPreview">
+        <div class="preview-emoji" id="previewEmoji"></div>
+        <div class="preview-name" id="previewName">복사됨!</div>
+    </div>
+
+    <div class="toast" id="toast">복사됨!</div>
+
+    <script>
+        const emojiData = {
+            '웃는 얼굴': [
+                { emoji: '😀', name: '활짝 웃는 얼굴' },
+                { emoji: '😃', name: '큰 눈으로 웃는 얼굴' },
+                { emoji: '😄', name: '웃는 눈으로 웃는 얼굴' },
+                { emoji: '😁', name: '빛나는 얼굴' },
+                { emoji: '😆', name: '눈을 찡그리며 웃는 얼굴' },
+                { emoji: '😅', name: '땀 흘리며 웃는 얼굴' },
+                { emoji: '🤣', name: '바닥 구르며 웃기' },
+                { emoji: '😂', name: '기쁨의 눈물' },
+                { emoji: '🙂', name: '살짝 웃는 얼굴' },
+                { emoji: '🙃', name: '뒤집힌 얼굴' },
+                { emoji: '😉', name: '윙크' },
+                { emoji: '😊', name: '웃는 눈으로 미소' },
+                { emoji: '😇', name: '후광 있는 미소' },
+                { emoji: '🥰', name: '하트 있는 미소' },
+                { emoji: '😍', name: '하트 눈' },
+                { emoji: '🤩', name: '스타 눈' },
+                { emoji: '😘', name: '키스 보내기' },
+                { emoji: '😗', name: '키스 얼굴' },
+                { emoji: '😚', name: '눈 감은 키스' },
+                { emoji: '😋', name: '맛있는 얼굴' },
+                { emoji: '😛', name: '혀 내민 얼굴' },
+                { emoji: '😜', name: '윙크하며 혀 내밈' },
+                { emoji: '🤪', name: '장난스러운 얼굴' },
+                { emoji: '😝', name: '눈 찡그리며 혀 내밈' },
+                { emoji: '🤑', name: '돈 입 얼굴' },
+                { emoji: '🤗', name: '포옹 얼굴' },
+                { emoji: '🤭', name: '입 가린 얼굴' },
+                { emoji: '🤫', name: '쉿 얼굴' },
+                { emoji: '🤔', name: '생각하는 얼굴' },
+                { emoji: '🤐', name: '지퍼 입' },
+                { emoji: '😐', name: '무표정' },
+                { emoji: '😑', name: '표현 없는 얼굴' },
+                { emoji: '😶', name: '입 없는 얼굴' },
+                { emoji: '😏', name: '히죽 웃는 얼굴' },
+                { emoji: '😒', name: '시큰둥한 얼굴' },
+                { emoji: '🙄', name: '눈 굴리기' },
+                { emoji: '😬', name: '찡그린 얼굴' },
+                { emoji: '🤥', name: '거짓말 얼굴' },
+                { emoji: '😌', name: '안도한 얼굴' },
+                { emoji: '😔', name: '생각에 잠긴 얼굴' },
+                { emoji: '😪', name: '졸린 얼굴' },
+                { emoji: '🤤', name: '침 흘리는 얼굴' },
+                { emoji: '😴', name: '자는 얼굴' },
+                { emoji: '😎', name: '선글라스 쓴 미소' },
+                { emoji: '🤓', name: '안경 쓴 얼굴' },
+                { emoji: '🧐', name: '모노클 쓴 얼굴' },
+                { emoji: '🥳', name: '파티 얼굴' }
+            ],
+            '감정': [
+                { emoji: '😟', name: '걱정하는 얼굴' },
+                { emoji: '🙁', name: '살짝 찌푸린 얼굴' },
+                { emoji: '😮', name: '입 벌린 얼굴' },
+                { emoji: '😯', name: '조용한 얼굴' },
+                { emoji: '😲', name: '놀란 얼굴' },
+                { emoji: '😳', name: '상기된 얼굴' },
+                { emoji: '🥺', name: '애원하는 얼굴' },
+                { emoji: '😦', name: '입 벌리고 찌푸림' },
+                { emoji: '😧', name: '괴로운 얼굴' },
+                { emoji: '😨', name: '무서운 얼굴' },
+                { emoji: '😰', name: '땀 흘리는 불안' },
+                { emoji: '😥', name: '슬프지만 안도' },
+                { emoji: '😢', name: '우는 얼굴' },
+                { emoji: '😭', name: '크게 우는 얼굴' },
+                { emoji: '😱', name: '공포에 비명' },
+                { emoji: '😖', name: '당혹스러운 얼굴' },
+                { emoji: '😣', name: '인내하는 얼굴' },
+                { emoji: '😞', name: '실망한 얼굴' },
+                { emoji: '😓', name: '땀 흘리며 풀 죽은' },
+                { emoji: '😩', name: '지친 얼굴' },
+                { emoji: '😫', name: '피곤한 얼굴' },
+                { emoji: '🥱', name: '하품하는 얼굴' },
+                { emoji: '😤', name: '김 나는 얼굴' },
+                { emoji: '😡', name: '뿔난 얼굴' },
+                { emoji: '😠', name: '화난 얼굴' },
+                { emoji: '🤬', name: '욕하는 얼굴' },
+                { emoji: '😈', name: '뿔 달린 미소' },
+                { emoji: '👿', name: '뿔 달린 화난' },
+                { emoji: '💀', name: '해골' },
+                { emoji: '💩', name: '똥' },
+                { emoji: '🤡', name: '광대' },
+                { emoji: '👻', name: '유령' },
+                { emoji: '👽', name: '외계인' },
+                { emoji: '🤖', name: '로봇' },
+                { emoji: '🤯', name: '머리 터짐' }
+            ],
+            '손동작': [
+                { emoji: '👋', name: '손 흔들기' },
+                { emoji: '🤚', name: '손등 들기' },
+                { emoji: '🖐️', name: '손가락 펴기' },
+                { emoji: '✋', name: '손 들기' },
+                { emoji: '🖖', name: '벌칸 인사' },
+                { emoji: '👌', name: 'OK 손' },
+                { emoji: '🤌', name: '손가락 모으기' },
+                { emoji: '🤏', name: '꼬집기 손' },
+                { emoji: '✌️', name: '브이' },
+                { emoji: '🤞', name: '손가락 교차' },
+                { emoji: '🤟', name: '사랑해 제스처' },
+                { emoji: '🤘', name: '뿔 사인' },
+                { emoji: '🤙', name: '전화해 손' },
+                { emoji: '👈', name: '왼쪽 가리키기' },
+                { emoji: '👉', name: '오른쪽 가리키기' },
+                { emoji: '👆', name: '위 가리키기' },
+                { emoji: '👇', name: '아래 가리키기' },
+                { emoji: '☝️', name: '검지 위' },
+                { emoji: '👍', name: '엄지 척' },
+                { emoji: '👎', name: '엄지 아래' },
+                { emoji: '✊', name: '주먹 들기' },
+                { emoji: '👊', name: '주먹' },
+                { emoji: '🤛', name: '왼쪽 주먹' },
+                { emoji: '🤜', name: '오른쪽 주먹' },
+                { emoji: '👏', name: '박수' },
+                { emoji: '🙌', name: '만세' },
+                { emoji: '👐', name: '열린 손' },
+                { emoji: '🤲', name: '손바닥 위로' },
+                { emoji: '🤝', name: '악수' },
+                { emoji: '🙏', name: '합장' },
+                { emoji: '✍️', name: '쓰는 손' },
+                { emoji: '💪', name: '근육' }
+            ],
+            '하트': [
+                { emoji: '❤️', name: '빨간 하트' },
+                { emoji: '🧡', name: '주황 하트' },
+                { emoji: '💛', name: '노란 하트' },
+                { emoji: '💚', name: '초록 하트' },
+                { emoji: '💙', name: '파란 하트' },
+                { emoji: '💜', name: '보라 하트' },
+                { emoji: '🖤', name: '검은 하트' },
+                { emoji: '🤍', name: '하얀 하트' },
+                { emoji: '🤎', name: '갈색 하트' },
+                { emoji: '💔', name: '깨진 하트' },
+                { emoji: '💕', name: '두 하트' },
+                { emoji: '💞', name: '회전하는 하트' },
+                { emoji: '💓', name: '뛰는 하트' },
+                { emoji: '💗', name: '커지는 하트' },
+                { emoji: '💖', name: '반짝이는 하트' },
+                { emoji: '💘', name: '화살 맞은 하트' },
+                { emoji: '💝', name: '리본 하트' },
+                { emoji: '💟', name: '하트 장식' },
+                { emoji: '💌', name: '러브레터' },
+                { emoji: '💋', name: '키스 마크' },
+                { emoji: '💯', name: '백점' },
+                { emoji: '💢', name: '분노 기호' },
+                { emoji: '💥', name: '충돌' },
+                { emoji: '💫', name: '어지러움' },
+                { emoji: '💦', name: '땀방울' },
+                { emoji: '💨', name: '후다닥' },
+                { emoji: '💬', name: '말풍선' },
+                { emoji: '💭', name: '생각풍선' },
+                { emoji: '💤', name: 'zzz' }
+            ],
+            '동물': [
+                { emoji: '🐶', name: '강아지' },
+                { emoji: '🐱', name: '고양이' },
+                { emoji: '🐭', name: '쥐' },
+                { emoji: '🐹', name: '햄스터' },
+                { emoji: '🐰', name: '토끼' },
+                { emoji: '🦊', name: '여우' },
+                { emoji: '🐻', name: '곰' },
+                { emoji: '🐼', name: '판다' },
+                { emoji: '🐨', name: '코알라' },
+                { emoji: '🐯', name: '호랑이' },
+                { emoji: '🦁', name: '사자' },
+                { emoji: '🐮', name: '소' },
+                { emoji: '🐷', name: '돼지' },
+                { emoji: '🐸', name: '개구리' },
+                { emoji: '🐵', name: '원숭이' },
+                { emoji: '🙈', name: '눈 가린 원숭이' },
+                { emoji: '🙉', name: '귀 막은 원숭이' },
+                { emoji: '🙊', name: '입 막은 원숭이' },
+                { emoji: '🐔', name: '닭' },
+                { emoji: '🐧', name: '펭귄' },
+                { emoji: '🐦', name: '새' },
+                { emoji: '🦆', name: '오리' },
+                { emoji: '🦅', name: '독수리' },
+                { emoji: '🦉', name: '올빼미' },
+                { emoji: '🦇', name: '박쥐' },
+                { emoji: '🐺', name: '늑대' },
+                { emoji: '🐴', name: '말' },
+                { emoji: '🦄', name: '유니콘' },
+                { emoji: '🐝', name: '꿀벌' },
+                { emoji: '🐛', name: '벌레' },
+                { emoji: '🦋', name: '나비' },
+                { emoji: '🐌', name: '달팽이' },
+                { emoji: '🐢', name: '거북이' },
+                { emoji: '🐍', name: '뱀' },
+                { emoji: '🦖', name: '공룡' },
+                { emoji: '🐙', name: '문어' },
+                { emoji: '🦐', name: '새우' },
+                { emoji: '🦀', name: '게' },
+                { emoji: '🐠', name: '열대어' },
+                { emoji: '🐬', name: '돌고래' },
+                { emoji: '🐳', name: '고래' },
+                { emoji: '🦈', name: '상어' }
+            ],
+            '음식': [
+                { emoji: '🍎', name: '사과' },
+                { emoji: '🍐', name: '배' },
+                { emoji: '🍊', name: '귤' },
+                { emoji: '🍋', name: '레몬' },
+                { emoji: '🍌', name: '바나나' },
+                { emoji: '🍉', name: '수박' },
+                { emoji: '🍇', name: '포도' },
+                { emoji: '🍓', name: '딸기' },
+                { emoji: '🍑', name: '복숭아' },
+                { emoji: '🥭', name: '망고' },
+                { emoji: '🍍', name: '파인애플' },
+                { emoji: '🥑', name: '아보카도' },
+                { emoji: '🍆', name: '가지' },
+                { emoji: '🥕', name: '당근' },
+                { emoji: '🌽', name: '옥수수' },
+                { emoji: '🌶️', name: '고추' },
+                { emoji: '🥒', name: '오이' },
+                { emoji: '🥦', name: '브로콜리' },
+                { emoji: '🍄', name: '버섯' },
+                { emoji: '🍞', name: '빵' },
+                { emoji: '🥐', name: '크루아상' },
+                { emoji: '🧀', name: '치즈' },
+                { emoji: '🥚', name: '달걀' },
+                { emoji: '🍳', name: '프라이' },
+                { emoji: '🥓', name: '베이컨' },
+                { emoji: '🥩', name: '고기' },
+                { emoji: '🍗', name: '닭다리' },
+                { emoji: '🌭', name: '핫도그' },
+                { emoji: '🍔', name: '햄버거' },
+                { emoji: '🍟', name: '감자튀김' },
+                { emoji: '🍕', name: '피자' },
+                { emoji: '🥪', name: '샌드위치' },
+                { emoji: '🌮', name: '타코' },
+                { emoji: '🌯', name: '부리토' },
+                { emoji: '🍜', name: '라면' },
+                { emoji: '🍝', name: '스파게티' },
+                { emoji: '🍣', name: '초밥' },
+                { emoji: '🍱', name: '도시락' },
+                { emoji: '🍛', name: '카레' },
+                { emoji: '🍚', name: '밥' },
+                { emoji: '🍰', name: '케이크' },
+                { emoji: '🧁', name: '컵케이크' },
+                { emoji: '🍩', name: '도넛' },
+                { emoji: '🍪', name: '쿠키' },
+                { emoji: '🍫', name: '초콜릿' },
+                { emoji: '🍭', name: '막대사탕' },
+                { emoji: '🍦', name: '아이스크림' },
+                { emoji: '☕', name: '커피' },
+                { emoji: '🍵', name: '차' },
+                { emoji: '🧃', name: '주스' },
+                { emoji: '🍺', name: '맥주' },
+                { emoji: '🍷', name: '와인' }
+            ],
+            '기호': [
+                { emoji: '✅', name: '체크' },
+                { emoji: '❌', name: 'X 표시' },
+                { emoji: '⭐', name: '별' },
+                { emoji: '🌟', name: '빛나는 별' },
+                { emoji: '✨', name: '반짝임' },
+                { emoji: '⚡', name: '번개' },
+                { emoji: '🔥', name: '불' },
+                { emoji: '💧', name: '물방울' },
+                { emoji: '🌈', name: '무지개' },
+                { emoji: '☀️', name: '태양' },
+                { emoji: '🌙', name: '초승달' },
+                { emoji: '⭕', name: '빈 원' },
+                { emoji: '❗', name: '느낌표' },
+                { emoji: '❓', name: '물음표' },
+                { emoji: '✔️', name: '체크 표시' },
+                { emoji: '➕', name: '더하기' },
+                { emoji: '➖', name: '빼기' },
+                { emoji: '➗', name: '나누기' },
+                { emoji: '♾️', name: '무한' },
+                { emoji: '🔴', name: '빨간 원' },
+                { emoji: '🟠', name: '주황 원' },
+                { emoji: '🟡', name: '노란 원' },
+                { emoji: '🟢', name: '초록 원' },
+                { emoji: '🔵', name: '파란 원' },
+                { emoji: '🟣', name: '보라 원' },
+                { emoji: '⚫', name: '검은 원' },
+                { emoji: '⚪', name: '하얀 원' },
+                { emoji: '▶️', name: '재생' },
+                { emoji: '⏸️', name: '일시정지' },
+                { emoji: '⏹️', name: '정지' }
+            ],
+            '국기': [
+                { emoji: '🇰🇷', name: '한국' },
+                { emoji: '🇺🇸', name: '미국' },
+                { emoji: '🇯🇵', name: '일본' },
+                { emoji: '🇨🇳', name: '중국' },
+                { emoji: '🇬🇧', name: '영국' },
+                { emoji: '🇫🇷', name: '프랑스' },
+                { emoji: '🇩🇪', name: '독일' },
+                { emoji: '🇮🇹', name: '이탈리아' },
+                { emoji: '🇪🇸', name: '스페인' },
+                { emoji: '🇧🇷', name: '브라질' },
+                { emoji: '🇨🇦', name: '캐나다' },
+                { emoji: '🇦🇺', name: '호주' },
+                { emoji: '🇮🇳', name: '인도' },
+                { emoji: '🇷🇺', name: '러시아' },
+                { emoji: '🇲🇽', name: '멕시코' },
+                { emoji: '🏳️', name: '하얀 깃발' },
+                { emoji: '🏴', name: '검은 깃발' },
+                { emoji: '🏁', name: '체크 깃발' },
+                { emoji: '🚩', name: '삼각 깃발' },
+                { emoji: '🏳️‍🌈', name: '무지개 깃발' }
+            ]
+        };
+
+        let currentCategory = '웃는 얼굴';
+        let recentEmojis = JSON.parse(localStorage.getItem('recentEmojis') || '[]');
+        let collectedEmojis = '';
+
+        function renderCategories() {
+            const container = document.getElementById('categories');
+            container.innerHTML = Object.keys(emojiData).map(cat =>
+                `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="selectCategory('${cat}')">${cat}</button>`
+            ).join('');
+        }
+
+        function selectCategory(category) {
+            currentCategory = category;
+            renderCategories();
+            renderEmojis(emojiData[category]);
+        }
+
+        function renderEmojis(emojis) {
+            const container = document.getElementById('emojiGrid');
+            if (emojis.length === 0) {
+                container.innerHTML = '<div class="no-results"><span>🔍</span>이모지를 찾을 수 없습니다</div>';
+                return;
+            }
+            container.innerHTML = emojis.map(e =>
+                `<button class="emoji-btn" onclick="selectEmoji('${e.emoji}', '${e.name}')" title="${e.name}">${e.emoji}</button>`
+            ).join('');
+        }
+
+        function selectEmoji(emoji, name) {
+            navigator.clipboard.writeText(emoji);
+
+            collectedEmojis += emoji;
+            document.getElementById('collectedEmojis').value = collectedEmojis;
+
+            const preview = document.getElementById('emojiPreview');
+            document.getElementById('previewEmoji').textContent = emoji;
+            document.getElementById('previewName').textContent = name;
+            preview.classList.add('show');
+            setTimeout(() => preview.classList.remove('show'), 1000);
+
+            addToRecent(emoji, name);
+            showToast(`${emoji} 복사됨!`);
+        }
+
+        function addToRecent(emoji, name) {
+            recentEmojis = recentEmojis.filter(e => e.emoji !== emoji);
+            recentEmojis.unshift({ emoji, name });
+            recentEmojis = recentEmojis.slice(0, 20);
+            localStorage.setItem('recentEmojis', JSON.stringify(recentEmojis));
+            renderRecentEmojis();
+        }
+
+        function renderRecentEmojis() {
+            const container = document.getElementById('recentEmojis');
+            if (recentEmojis.length === 0) {
+                container.innerHTML = '<span class="recent-empty">최근 사용한 이모지가 없습니다</span>';
+                return;
+            }
+            container.innerHTML = recentEmojis.map(e =>
+                `<button class="emoji-btn" onclick="selectEmoji('${e.emoji}', '${e.name}')" title="${e.name}">${e.emoji}</button>`
+            ).join('');
+        }
+
+        function clearRecent() {
+            recentEmojis = [];
+            localStorage.removeItem('recentEmojis');
+            renderRecentEmojis();
+            showToast('최근 이모지 삭제됨');
+        }
+
+        function searchEmojis() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!query) {
+                selectCategory(currentCategory);
+                return;
+            }
+
+            const allEmojis = Object.values(emojiData).flat();
+            const results = allEmojis.filter(e =>
+                e.name.toLowerCase().includes(query)
+            );
+
+            renderEmojis(results);
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        }
+
+        function copyAll() {
+            if (collectedEmojis) {
+                navigator.clipboard.writeText(collectedEmojis).then(() => {
+                    showToast('모든 이모지 복사됨!');
+                });
+            } else {
+                showToast('수집한 이모지가 없습니다');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        renderCategories();
+        renderEmojis(emojiData[currentCategory]);
+        renderRecentEmojis();
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

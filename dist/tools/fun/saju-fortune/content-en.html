@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 사주 풀이 - 무료 사주팔자 운세 | 생년월일 운세</title>
+    <meta name="description" content="무료 AI 사주 풀이! 생년월일시로 알아보는 당신의 사주팔자. 성격, 재물운, 연애운, 직업운까지 상세한 사주 분석을 제공합니다.">
+    <meta name="keywords" content="사주, 사주풀이, 사주팔자, 무료사주, 생년월일운세, 오늘의운세, 사주보기">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI 사주 풀이 - 무료 사주팔자 운세">
+    <meta property="og:description" content="생년월일로 알아보는 나의 사주팔자!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=AI+사주+풀이">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #c44dff);
+            color: #1a1a2e;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .mystic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #555;
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        select, input {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 14px;
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: #ffd700;
+        }
+
+        select option {
+            background: #1a1a2e;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .gender-option {
+            flex: 1;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .gender-option:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .gender-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .gender-option span {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .bagua {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .result-section {
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .saju-chart {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .saju-pillar {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(196,77,255,0.1));
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .pillar-title {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .pillar-char {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .pillar-char.chun {
+            color: #ffd700;
+        }
+
+        .pillar-char.ji {
+            color: #c44dff;
+        }
+
+        .pillar-element {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .analysis-section {
+            margin-bottom: 25px;
+        }
+
+        .analysis-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .analysis-content {
+            color: #ccc;
+            line-height: 1.9;
+            font-size: 15px;
+        }
+
+        .fortune-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .fortune-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .fortune-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .fortune-name {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .fortune-score {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .fortune-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .fortune-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            border-radius: 2px;
+            transition: width 1s ease;
+        }
+
+        .element-section {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .element-item {
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .element-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .element-item.wood { background: rgba(0, 200, 83, 0.2); color: #00c853; }
+        .element-item.fire { background: rgba(255, 82, 82, 0.2); color: #ff5252; }
+        .element-item.earth { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        .element-item.metal { background: rgba(255, 255, 255, 0.2); color: #fff; }
+        .element-item.water { background: rgba(33, 150, 243, 0.2); color: #2196f3; }
+
+        .element-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .element-count {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            color: #1a1a2e;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .card { padding: 25px; }
+            .saju-chart { grid-template-columns: repeat(2, 1fr); }
+            .element-section { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"사주 풀이","en":"Saju Fortune","ja":"四柱推命"},"desc":{"ko":"생년월일 사주팔자","en":"Birth Date Fortune","ja":"生年月日運勢"}},"header":{"title":{"ko":"사주 풀이","en":"Saju Fortune","ja":"四柱推命"},"subtitle":{"ko":"생년월일로 알아보는 나의 운명","en":"Your destiny through birth date","ja":"生年月日で知る私の運命"}},"input":{"birthDate":{"ko":"생년월일","en":"Birth Date","ja":"生年月日"},"birthTime":{"ko":"태어난 시간","en":"Birth Time","ja":"生まれた時間"},"gender":{"ko":"성별","en":"Gender","ja":"性別"},"male":{"ko":"남성","en":"Male","ja":"男性"},"female":{"ko":"여성","en":"Female","ja":"女性"}},"buttons":{"analyze":{"ko":"🔮 사주 분석하기","en":"🔮 Analyze Fortune","ja":"🔮 四柱分析"},"share":{"ko":"공유하기","en":"Share","ja":"共有"},"retry":{"ko":"다시 하기","en":"Try Again","ja":"もう一度"}},"result":{"personality":{"ko":"성격","en":"Personality","ja":"性格"},"career":{"ko":"직업운","en":"Career","ja":"仕事運"},"love":{"ko":"연애운","en":"Love","ja":"恋愛運"},"money":{"ko":"재물운","en":"Money","ja":"金運"},"health":{"ko":"건강운","en":"Health","ja":"健康運"},"advice":{"ko":"조언","en":"Advice","ja":"アドバイス"}},"disclaimer":{"ko":"참고용입니다.","en":"For reference only.","ja":"参考用です。"}};</script></head>
+<body>
+    <div class="mystic-bg"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>AI 사주 풀이</h1>
+            <p class="subtitle">생년월일시로 알아보는 당신의 운명</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            재미로 즐기는 사주 풀이입니다. 중요한 결정의 근거로 삼지 마세요.
+        </div>
+
+        <div class="card" id="inputSection">
+            <div class="input-section">
+                <h2>생년월일시를 입력하세요</h2>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>성별</label>
+                        <div class="gender-options">
+                            <div class="gender-option selected" onclick="selectGender('male', this)">
+                                <span>&#9794;</span>
+                                남자
+                            </div>
+                            <div class="gender-option" onclick="selectGender('female', this)">
+                                <span>&#9792;</span>
+                                여자
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>양력/음력</label>
+                            <select id="calendarType">
+                                <option value="solar">양력</option>
+                                <option value="lunar">음력</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>출생년도</label>
+                            <select id="year"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>월</label>
+                            <select id="month"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>일</label>
+                            <select id="day"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>태어난 시간</label>
+                            <select id="hour">
+                                <option value="-1">모름</option>
+                                <option value="0">자시 (23:30-01:30)</option>
+                                <option value="1">축시 (01:30-03:30)</option>
+                                <option value="2">인시 (03:30-05:30)</option>
+                                <option value="3">묘시 (05:30-07:30)</option>
+                                <option value="4">진시 (07:30-09:30)</option>
+                                <option value="5">사시 (09:30-11:30)</option>
+                                <option value="6">오시 (11:30-13:30)</option>
+                                <option value="7">미시 (13:30-15:30)</option>
+                                <option value="8">신시 (15:30-17:30)</option>
+                                <option value="9">유시 (17:30-19:30)</option>
+                                <option value="10">술시 (19:30-21:30)</option>
+                                <option value="11">해시 (21:30-23:30)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" onclick="analyzeSaju()">
+                        사주 풀이 보기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="bagua">☯</div>
+            <p style="color:#ffd700;">사주팔자를 분석하고 있습니다...</p>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="card">
+                <h2 style="color:#ffd700; text-align:center; margin-bottom:25px;">당신의 사주팔자</h2>
+
+                <div class="saju-chart" id="sajuChart"></div>
+
+                <div class="element-section" id="elementSection"></div>
+            </div>
+
+            <div class="card">
+                <div class="fortune-grid" id="fortuneGrid"></div>
+            </div>
+
+            <div class="card">
+                <div id="analysisContent"></div>
+            </div>
+
+            <div class="share-buttons">
+                <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
+                <button class="share-btn secondary" onclick="retryAnalysis()">다시 하기</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>이 사주 풀이는 재미를 위한 것입니다.<br>중요한 결정은 전문가와 상담하세요.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 천간
+        const heavenlyStems = ['갑', '을', '병', '정', '무', '기', '경', '신', '임', '계'];
+        const stemElements = ['목', '목', '화', '화', '토', '토', '금', '금', '수', '수'];
+
+        // 지지
+        const earthlyBranches = ['자', '축', '인', '묘', '진', '사', '오', '미', '신', '유', '술', '해'];
+        const branchElements = ['수', '토', '목', '목', '토', '화', '화', '토', '금', '금', '토', '수'];
+
+        // 오행
+        const elements = { '목': 'wood', '화': 'fire', '토': 'earth', '금': 'metal', '수': 'water' };
+        const elementNames = { 'wood': '목(木)', 'fire': '화(火)', 'earth': '토(土)', 'metal': '금(金)', 'water': '수(水)' };
+
+        let selectedGender = 'male';
+        let resultData = {};
+
+        // 초기화
+        function init() {
+            const yearSelect = document.getElementById('year');
+            const currentYear = new Date().getFullYear();
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}년</option>`;
+            }
+
+            const monthSelect = document.getElementById('month');
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${m}월</option>`;
+            }
+
+            const daySelect = document.getElementById('day');
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}일</option>`;
+            }
+        }
+        init();
+
+        function selectGender(gender, element) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function calculateSaju(year, month, day, hour) {
+            // 년주 계산
+            const yearStemIdx = (year - 4) % 10;
+            const yearBranchIdx = (year - 4) % 12;
+
+            // 월주 계산 (간략화)
+            const monthStemIdx = ((year - 4) % 5 * 2 + month + 1) % 10;
+            const monthBranchIdx = (month + 1) % 12;
+
+            // 일주 계산 (간략화 - 실제로는 만세력 필요)
+            const dayOffset = Math.floor((year - 1900) * 365.25 + (month - 1) * 30.44 + day);
+            const dayStemIdx = dayOffset % 10;
+            const dayBranchIdx = dayOffset % 12;
+
+            // 시주 계산
+            let hourStemIdx = 0;
+            let hourBranchIdx = 0;
+            if (hour >= 0) {
+                hourBranchIdx = hour;
+                hourStemIdx = (dayStemIdx % 5 * 2 + hour) % 10;
+            }
+
+            return {
+                year: { stem: yearStemIdx, branch: yearBranchIdx },
+                month: { stem: monthStemIdx, branch: monthBranchIdx },
+                day: { stem: dayStemIdx, branch: dayBranchIdx },
+                hour: hour >= 0 ? { stem: hourStemIdx, branch: hourBranchIdx } : null
+            };
+        }
+
+        function analyzeSaju() {
+            const year = parseInt(document.getElementById('year').value);
+            const month = parseInt(document.getElementById('month').value);
+            const day = parseInt(document.getElementById('day').value);
+            const hour = parseInt(document.getElementById('hour').value);
+
+            if (!year || !month || !day) {
+                showToast('⚠️ 생년월일을 입력해주세요.');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                const saju = calculateSaju(year, month, day, hour);
+                resultData = generateAnalysis(saju, selectedGender);
+                displayResult(saju);
+            }, 2500);
+        }
+
+        function generateAnalysis(saju, gender) {
+            // 오행 분포 계산
+            const elementCount = { '목': 0, '화': 0, '토': 0, '금': 0, '수': 0 };
+
+            const pillars = ['year', 'month', 'day'];
+            if (saju.hour) pillars.push('hour');
+
+            pillars.forEach(pillar => {
+                elementCount[stemElements[saju[pillar].stem]]++;
+                elementCount[branchElements[saju[pillar].branch]]++;
+            });
+
+            // 일간(일주 천간) 기준 분석
+            const dayMaster = stemElements[saju.day.stem];
+
+            // 운세 점수 생성
+            const fortunes = {
+                overall: 60 + Math.floor(Math.random() * 35),
+                love: 50 + Math.floor(Math.random() * 45),
+                wealth: 55 + Math.floor(Math.random() * 40),
+                career: 55 + Math.floor(Math.random() * 40),
+                health: 60 + Math.floor(Math.random() * 35)
+            };
+
+            return { elementCount, dayMaster, fortunes, gender };
+        }
+
+        function displayResult(saju) {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            // 사주 차트
+            const chartHtml = `
+                <div class="saju-pillar">
+                    <div class="pillar-title">년주</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.year.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.year.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.year.stem]} / ${branchElements[saju.year.branch]}</div>
+                </div>
+                <div class="saju-pillar">
+                    <div class="pillar-title">월주</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.month.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.month.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.month.stem]} / ${branchElements[saju.month.branch]}</div>
+                </div>
+                <div class="saju-pillar">
+                    <div class="pillar-title">일주</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.day.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.day.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.day.stem]} / ${branchElements[saju.day.branch]}</div>
+                </div>
+                ${saju.hour ? `
+                <div class="saju-pillar">
+                    <div class="pillar-title">시주</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.hour.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.hour.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.hour.stem]} / ${branchElements[saju.hour.branch]}</div>
+                </div>
+                ` : `
+                <div class="saju-pillar" style="opacity:0.5">
+                    <div class="pillar-title">시주</div>
+                    <div class="pillar-char">?</div>
+                    <div class="pillar-char">?</div>
+                    <div class="pillar-element">시간 미입력</div>
+                </div>
+                `}
+            `;
+            document.getElementById('sajuChart').innerHTML = chartHtml;
+
+            // 오행 분포
+            let elementHtml = '';
+            for (const [elem, cls] of Object.entries(elements)) {
+                elementHtml += `
+                    <div class="element-item ${cls}">
+                        <div class="element-name">${elem}</div>
+                        <div class="element-count">${resultData.elementCount[elem]}개</div>
+                    </div>
+                `;
+            }
+            document.getElementById('elementSection').innerHTML = elementHtml;
+
+            // 운세 그리드
+            const fortuneIcons = {
+                overall: '⭐', love: '💕', wealth: '💰', career: '💼', health: '❤️'
+            };
+            const fortuneNames = {
+                overall: '종합운', love: '연애운', wealth: '재물운', career: '직업운', health: '건강운'
+            };
+
+            let fortuneHtml = '';
+            for (const [key, score] of Object.entries(resultData.fortunes)) {
+                fortuneHtml += `
+                    <div class="fortune-item">
+                        <div class="fortune-icon">${fortuneIcons[key]}</div>
+                        <div class="fortune-name">${fortuneNames[key]}</div>
+                        <div class="fortune-score">${score}점</div>
+                        <div class="fortune-bar">
+                            <div class="fortune-fill" style="width:${score}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('fortuneGrid').innerHTML = fortuneHtml;
+
+            // 상세 분석
+            document.getElementById('analysisContent').innerHTML = generateDetailedAnalysis();
+        }
+
+        function generateDetailedAnalysis() {
+            const analyses = {
+                personality: {
+                    title: '성격 분석',
+                    icon: '👤',
+                    texts: [
+                        '당신은 깊은 내면의 세계를 가진 사람입니다. 겉으로는 차분해 보이지만, 내면에는 뜨거운 열정을 품고 있습니다. 타인의 감정을 잘 이해하며, 공감 능력이 뛰어납니다.',
+                        '리더십과 추진력이 강한 편입니다. 목표를 정하면 끝까지 해내는 집념이 있으며, 어려운 상황에서도 포기하지 않는 강인함을 가지고 있습니다.',
+                        '창의적이고 독창적인 사고방식을 가지고 있습니다. 남들과 다른 시각으로 세상을 바라보며, 새로운 아이디어를 떠올리는 것을 좋아합니다.'
+                    ]
+                },
+                love: {
+                    title: '연애운',
+                    icon: '💕',
+                    texts: [
+                        '사랑에 있어서 진지하고 헌신적인 타입입니다. 한 번 마음을 주면 쉽게 변하지 않으며, 상대방을 위해 많은 것을 희생할 준비가 되어 있습니다.',
+                        '연애 초반에는 조심스럽지만, 관계가 깊어질수록 깊은 애정을 표현합니다. 안정적이고 신뢰할 수 있는 파트너가 될 수 있습니다.',
+                        '감정 표현이 서툴 수 있지만, 행동으로 사랑을 보여주는 타입입니다. 상대방의 작은 것까지 세심하게 챙기는 다정함이 있습니다.'
+                    ]
+                },
+                career: {
+                    title: '직업운',
+                    icon: '💼',
+                    texts: [
+                        '전문성을 살릴 수 있는 분야에서 두각을 나타낼 수 있습니다. 꾸준한 노력으로 분야의 전문가가 될 가능성이 높습니다.',
+                        '조직 내에서 중요한 역할을 맡게 될 운입니다. 신뢰를 바탕으로 점점 더 큰 책임을 맡게 될 것입니다.',
+                        '창업이나 자영업에도 적성이 있습니다. 독립적으로 일할 때 더 큰 성과를 낼 수 있는 기운이 있습니다.'
+                    ]
+                },
+                wealth: {
+                    title: '재물운',
+                    icon: '💰',
+                    texts: [
+                        '안정적인 재물 축적이 가능한 사주입니다. 큰 행운보다는 꾸준한 노력으로 재산을 모으는 타입입니다.',
+                        '투자에 있어서는 신중한 접근이 필요합니다. 안전한 투자 방식이 당신에게 더 맞을 수 있습니다.',
+                        '중년 이후로 재물운이 상승하는 흐름입니다. 젊을 때 쌓은 경험과 인맥이 나중에 큰 도움이 됩니다.'
+                    ]
+                },
+                advice: {
+                    title: '조언',
+                    icon: '💡',
+                    texts: [
+                        '때로는 남의 의견도 귀 기울여 들을 필요가 있습니다. 고집을 버리고 유연하게 대처하면 더 좋은 결과를 얻을 수 있습니다.',
+                        '건강 관리에 신경 쓰세요. 특히 스트레스 관리가 중요합니다. 규칙적인 운동과 충분한 휴식을 권장합니다.',
+                        '인간관계를 소홀히 하지 마세요. 좋은 인연이 당신의 운을 크게 바꿀 수 있습니다.'
+                    ]
+                }
+            };
+
+            let html = '';
+            for (const [key, data] of Object.entries(analyses)) {
+                const randomText = data.texts[Math.floor(Math.random() * data.texts.length)];
+                html += `
+                    <div class="analysis-section">
+                        <div class="analysis-title">
+                            <span>${data.icon}</span>
+                            <span>${data.title}</span>
+                        </div>
+                        <div class="analysis-content">${randomText}</div>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function shareResult() {
+            const text = `나의 사주 풀이 결과\n` +
+                        `종합운: ${resultData.fortunes.overall}점\n` +
+                        `연애운: ${resultData.fortunes.love}점\n` +
+                        `재물운: ${resultData.fortunes.wealth}점\n\n` +
+                        `나도 사주 보기 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'AI 사주 풀이', text: text }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 결과가 복사되었어요!');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function retryAnalysis() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+        }
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

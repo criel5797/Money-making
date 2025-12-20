@@ -6,6 +6,10 @@ function createToolWrapper(toolId, toolName, category, availableLanguages) {
   // Determine default language: ko > en > ja
   var defaultLang = availableLanguages.ko ? 'ko' : (availableLanguages.en ? 'en' : 'ja');
 
+  // Home link text based on default language
+  var homeTexts = { ko: '홈으로', en: 'Home', ja: 'ホーム' };
+  var defaultHomeText = homeTexts[defaultLang] || 'Home';
+
   // Build language buttons only for available languages
   var langButtons = '';
   if (availableLanguages.ko) {
@@ -103,7 +107,7 @@ function createToolWrapper(toolId, toolName, category, availableLanguages) {
 <body>
   <div class="tool-header">
     <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈으로</span></a>
+      <a href="/" class="home-link">🏠 <span>${defaultHomeText}</span></a>
     </div>
     <div class="lang-switcher">
       ${langButtons}

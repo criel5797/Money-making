@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랜덤 이름 생성기 - 무료 가짜 이름 생성 도구</title>
+    <meta name="description" content="무료 랜덤 이름 생성기. 테스트, 캐릭터, 익명성을 위한 가짜 이름을 생성하세요. 실감나는 이름과 성을 즉시 만들어드립니다.">
+    <meta name="keywords" content="랜덤 이름 생성기, 가짜 이름, 이름 생성기, 캐릭터 이름, 테스트 데이터">
+
+    <meta property="og:title" content="랜덤 이름 생성기 - 무료 가짜 이름 도구">
+    <meta property="og:description" content="실감나는 랜덤 이름을 즉시 생성하세요. 테스트나 캐릭터에 완벽.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 30px 0; position: relative; }
+
+        .lang-switch {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .lang-switch a {
+            color: #888;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .lang-switch a:hover {
+            border-color: #f093fb;
+            color: #f093fb;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #888; font-size: 1.1rem; }
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: #666;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option-group label {
+            color: #aaa;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        select, input[type="number"] {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e4e4e4;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        select:focus, input:focus { border-color: #f093fb; }
+        select option { background: #1a1a2e; }
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.3);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .results-header h3 { color: #f093fb; }
+        .results-actions { display: flex; gap: 10px; }
+        .btn-small { padding: 8px 16px; font-size: 13px; }
+        .names-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .name-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 18px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .name-card:hover {
+            background: rgba(240, 147, 251, 0.1);
+            border-color: rgba(240, 147, 251, 0.3);
+            transform: translateY(-2px);
+        }
+        .name-card.copied {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+        .name-full {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .name-meta { font-size: 12px; color: #888; }
+        .name-meta span { margin-right: 10px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #666; }
+        .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .feature {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .feature-icon { font-size: 2rem; margin-bottom: 15px; }
+        .feature h3 { color: #f093fb; margin-bottom: 10px; font-size: 16px; }
+        .feature p { color: #888; font-size: 14px; }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        footer { text-align: center; padding: 40px 20px; color: #666; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .names-grid { grid-template-columns: 1fr; }
+            .lang-switch { position: static; margin-bottom: 20px; }
+            header { padding-top: 20px; }
+        }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"랜덤 이름 생성","en":"Random Name Generator","ja":"ランダム名前生成"},"desc":{"ko":"무작위 이름 생성","en":"Generate random names","ja":"ランダムな名前を生成"}},"header":{"title":{"ko":"랜덤 이름 생성","en":"Name Generator","ja":"名前生成"},"subtitle":{"ko":"무작위 이름을 생성하세요","en":"Generate random names","ja":"ランダムな名前を生成"}},"options":{"gender":{"ko":"성별","en":"Gender","ja":"性別"},"male":{"ko":"남성","en":"Male","ja":"男性"},"female":{"ko":"여성","en":"Female","ja":"女性"},"any":{"ko":"무관","en":"Any","ja":"無関係"},"country":{"ko":"국가","en":"Country","ja":"国"}},"buttons":{"generate":{"ko":"생성","en":"Generate","ja":"生成"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}}};</script></head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lang-switch">
+                <a href="index.html">English</a>
+            </div>
+            <h1>랜덤 이름 생성기</h1>
+            <p class="subtitle">실감나는 랜덤 이름을 즉시 생성</p>
+        </header>
+
+        <div class="ad-banner">광고</div>
+
+        <div class="card">
+            <div class="options-grid">
+                <div class="option-group">
+                    <label>이름 유형</label>
+                    <select id="nameType">
+                        <option value="full">전체 이름</option>
+                        <option value="first">이름만</option>
+                        <option value="last">성만</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label>성별</label>
+                    <select id="gender">
+                        <option value="random">랜덤</option>
+                        <option value="male">남성</option>
+                        <option value="female">여성</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label>스타일</label>
+                    <select id="style">
+                        <option value="korean">한국 이름</option>
+                        <option value="common">일반 영어</option>
+                        <option value="classic">클래식 영어</option>
+                        <option value="fantasy">판타지</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label>생성 개수</label>
+                    <input type="number" id="count" value="10" min="1" max="100">
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" onclick="generateNames()">이름 생성</button>
+                <button class="btn btn-secondary" onclick="clearNames()">지우기</button>
+            </div>
+        </div>
+
+        <div class="card" id="resultsCard">
+            <div class="results-header">
+                <h3>생성된 이름</h3>
+                <div class="results-actions">
+                    <button class="btn btn-small btn-secondary" onclick="copyAllNames()">모두 복사</button>
+                    <button class="btn btn-small btn-secondary" onclick="downloadNames()">다운로드</button>
+                </div>
+            </div>
+
+            <div class="empty-state" id="emptyState">
+                <div class="icon">&#128100;</div>
+                <p>"이름 생성" 버튼을 클릭하여 랜덤 이름을 만드세요</p>
+            </div>
+
+            <div class="names-grid" id="namesGrid"></div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">&#127919;</div>
+                <h3>다양한 스타일</h3>
+                <p>한국, 영어, 클래식, 판타지 이름 스타일</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128100;</div>
+                <h3>성별 옵션</h3>
+                <p>남성, 여성, 또는 랜덤 성별 이름 생성</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128203;</div>
+                <h3>대량 생성</h3>
+                <p>한 번에 최대 100개의 이름 생성</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128190;</div>
+                <h3>쉬운 내보내기</h3>
+                <p>생성된 이름 복사 또는 다운로드</p>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고</div>
+
+        <footer>
+            <p>무료 랜덤 이름 생성기 | 테스트, 캐릭터 등에 완벽</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">복사됨!</div>
+
+    <script>
+        const nameData = {
+            korean: {
+                male: ['민준', '서준', '예준', '도윤', '시우', '주원', '하준', '지호', '지후', '준서', '건우', '우진', '선우', '준혁', '현우', '지훈', '유준', '승현', '승민', '태민', '정우', '준영', '현준', '민재', '민성', '우빈', '성민', '지성', '동현', '민규'],
+                female: ['서연', '서윤', '지우', '서현', '민서', '하은', '하윤', '윤서', '지민', '채원', '지윤', '수아', '은서', '예은', '지아', '수빈', '다은', '예린', '소율', '시은', '하린', '소윤', '유진', '예서', '민지', '아린', '서영', '유나', '예나', '지현'],
+                lastNames: ['김', '이', '박', '최', '정', '강', '조', '윤', '장', '임', '한', '오', '서', '신', '권', '황', '안', '송', '전', '홍', '유', '고', '문', '양', '손', '배', '백', '허', '남', '심']
+            },
+            male: {
+                common: ['James', 'John', 'Robert', 'Michael', 'William', 'David', 'Joseph', 'Thomas', 'Charles', 'Daniel', 'Matthew', 'Anthony', 'Mark', 'Steven', 'Andrew', 'Joshua', 'Kevin', 'Brian', 'Edward', 'Ronald'],
+                classic: ['Theodore', 'Frederick', 'Augustus', 'Reginald', 'Archibald', 'Bartholomew', 'Cornelius', 'Dominic', 'Edmund', 'Ferdinand', 'Gideon', 'Horatio', 'Ignatius', 'Leopold', 'Maximilian', 'Nathaniel', 'Percival', 'Sebastian', 'Valentine', 'Winston'],
+                fantasy: ['Aldric', 'Bastian', 'Cedric', 'Draven', 'Eldric', 'Finnian', 'Galen', 'Hadrian', 'Icarus', 'Jasper', 'Kieran', 'Lysander', 'Magnus', 'Noctis', 'Orion', 'Phoenix', 'Ragnar', 'Soren', 'Theron', 'Zephyr']
+            },
+            female: {
+                common: ['Mary', 'Patricia', 'Jennifer', 'Linda', 'Elizabeth', 'Barbara', 'Susan', 'Jessica', 'Sarah', 'Karen', 'Lisa', 'Nancy', 'Betty', 'Margaret', 'Sandra', 'Ashley', 'Kimberly', 'Emily', 'Donna', 'Michelle'],
+                classic: ['Adelaide', 'Beatrice', 'Cordelia', 'Dorothy', 'Eleanor', 'Florence', 'Gertrude', 'Harriet', 'Isadora', 'Josephine', 'Katherine', 'Lucille', 'Margaret', 'Millicent', 'Penelope', 'Rosalind', 'Sylvia', 'Theodora', 'Violet', 'Winifred'],
+                fantasy: ['Ariadne', 'Brielle', 'Celestia', 'Dahlia', 'Elowen', 'Freya', 'Guinevere', 'Havana', 'Isolde', 'Juniper', 'Kaelira', 'Lyanna', 'Maeven', 'Nerida', 'Ophelia', 'Persephone', 'Rhiannon', 'Seraphina', 'Thalia', 'Zara']
+            },
+            lastNames: {
+                common: ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin'],
+                classic: ['Wellington', 'Pemberton', 'Ashworth', 'Blackwood', 'Carmichael', 'Dalton', 'Everett', 'Fitzgerald', 'Gresham', 'Harrington', 'Kensington', 'Lancaster', 'Montgomery', 'Northwood', 'Pembroke', 'Rothschild', 'Sterling', 'Thornton', 'Westwood', 'Winchester'],
+                fantasy: ['Shadowmere', 'Stormwind', 'Ironforge', 'Silvervale', 'Darkhollow', 'Frostbane', 'Nightshade', 'Ravencrest', 'Thornwood', 'Winterfall', 'Blackthorn', 'Moonfire', 'Starweaver', 'Sunblade', 'Dawnbreaker', 'Ashford', 'Brightwater', 'Coldforge', 'Deepwood', 'Emberheart']
+            }
+        };
+
+        let generatedNames = [];
+
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function generateSingleName() {
+            const nameType = document.getElementById('nameType').value;
+            const gender = document.getElementById('gender').value;
+            const style = document.getElementById('style').value;
+
+            let selectedGender = gender === 'random' ?
+                (Math.random() > 0.5 ? 'male' : 'female') : gender;
+
+            let firstName = '';
+            let lastName = '';
+
+            if (style === 'korean') {
+                if (nameType === 'full' || nameType === 'last') {
+                    lastName = getRandomItem(nameData.korean.lastNames);
+                }
+                if (nameType === 'full' || nameType === 'first') {
+                    firstName = getRandomItem(nameData.korean[selectedGender]);
+                }
+                const fullName = nameType === 'full' ? `${lastName}${firstName}` :
+                                nameType === 'first' ? firstName : lastName;
+                return { name: fullName, firstName, lastName, gender: selectedGender };
+            }
+
+            if (nameType === 'full' || nameType === 'first') {
+                firstName = getRandomItem(nameData[selectedGender][style]);
+            }
+
+            if (nameType === 'full' || nameType === 'last') {
+                lastName = getRandomItem(nameData.lastNames[style]);
+            }
+
+            const fullName = nameType === 'full' ? `${firstName} ${lastName}` :
+                            nameType === 'first' ? firstName : lastName;
+
+            return {
+                name: fullName,
+                firstName,
+                lastName,
+                gender: selectedGender
+            };
+        }
+
+        function generateNames() {
+            const count = Math.min(Math.max(parseInt(document.getElementById('count').value) || 10, 1), 100);
+            generatedNames = [];
+
+            for (let i = 0; i < count; i++) {
+                generatedNames.push(generateSingleName());
+            }
+
+            displayNames();
+            showToast(`${count}개 이름 생성됨!`);
+        }
+
+        function displayNames() {
+            const grid = document.getElementById('namesGrid');
+            const empty = document.getElementById('emptyState');
+
+            if (generatedNames.length === 0) {
+                empty.style.display = 'block';
+                grid.innerHTML = '';
+                return;
+            }
+
+            empty.style.display = 'none';
+            grid.innerHTML = generatedNames.map((item, index) => `
+                <div class="name-card" onclick="copyName(${index}, this)">
+                    <div class="name-full">${item.name}</div>
+                    <div class="name-meta">
+                        <span>${item.gender === 'male' ? '♂' : '♀'} ${item.gender === 'male' ? '남성' : '여성'}</span>
+                        <span>클릭하여 복사</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function copyName(index, element) {
+            const name = generatedNames[index].name;
+            navigator.clipboard.writeText(name).then(() => {
+                element.classList.add('copied');
+                setTimeout(() => element.classList.remove('copied'), 1000);
+                showToast(`복사됨: ${name}`);
+            });
+        }
+
+        function copyAllNames() {
+            if (generatedNames.length === 0) {
+                showToast('복사할 이름이 없습니다');
+                return;
+            }
+            const text = generatedNames.map(n => n.name).join('\n');
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('모든 이름 복사됨!');
+            });
+        }
+
+        function downloadNames() {
+            if (generatedNames.length === 0) {
+                showToast('다운로드할 이름이 없습니다');
+                return;
+            }
+            const text = generatedNames.map(n => n.name).join('\n');
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'random-names.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('다운로드됨!');
+        }
+
+        function clearNames() {
+            generatedNames = [];
+            displayNames();
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

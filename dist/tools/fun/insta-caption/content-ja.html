@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 인스타 캡션 생성기 - 감성 문구, 해시태그 자동 생성</title>
+    <meta name="description" content="인스타그램 캡션이 고민될 때! AI가 감성 문구와 해시태그를 자동으로 생성해드려요. 여행, 카페, 일상, OOTD 등 상황별 맞춤 캡션.">
+    <meta name="keywords" content="인스타 캡션, 인스타그램 문구, 감성 캡션, 해시태그 생성, 인스타 글귀, SNS 문구">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --bg-card: rgba(255,255,255,0.95);
+            --text-primary: #262626;
+            --text-secondary: #666666;
+            --accent: #e1306c;
+            --accent2: #833ab4;
+            --accent3: #fd1d1d;
+            --purple: #833ab4;
+            --pink: #e1306c;
+            --orange: #f77737;
+            --yellow: #fcaf45;
+        }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 25px;
+            color: white;
+        }
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .ad-banner {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin: 15px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .main-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .category-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .category-scroll::-webkit-scrollbar { height: 0; }
+
+        .category-chip {
+            flex-shrink: 0;
+            padding: 12px 20px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .category-chip:hover {
+            background: #eee;
+        }
+        .category-chip.selected {
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            color: white;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 400px) {
+            .mood-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .mood-btn {
+            padding: 12px 8px;
+            background: #f5f5f5;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        .mood-btn:hover { background: #eee; }
+        .mood-btn.selected {
+            border-color: var(--accent);
+            background: #fef2f5;
+        }
+        .mood-emoji { font-size: 1.3rem; margin-bottom: 4px; }
+
+        .input-group { margin-bottom: 20px; }
+        .input-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #eee;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: none;
+            min-height: 80px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        textarea::placeholder { color: #aaa; }
+
+        .generate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, var(--purple), var(--pink), var(--orange));
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(225, 48, 108, 0.4);
+        }
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .results-section.show { display: block; }
+
+        .result-card {
+            background: #fafafa;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .result-caption {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+        }
+        .result-hashtags {
+            color: #00376b;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+        .result-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .more-btn {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .more-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tips-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .tips-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--purple);
+        }
+        .tips-list {
+            list-style: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .tips-list li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .tips-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        footer a { color: white; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 25px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            font-size: 0.95rem;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+<script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"인스타 캡션","en":"Insta Caption","ja":"インスタキャプション"},"desc":{"ko":"인스타그램 캡션 생성","en":"Generate Instagram captions","ja":"インスタグラムキャプション生成"}},"header":{"title":{"ko":"인스타 캡션","en":"Insta Caption","ja":"インスタキャプション"},"subtitle":{"ko":"멋진 캡션을 생성하세요","en":"Generate awesome captions","ja":"素敵なキャプションを生成"}},"categories":{"travel":{"ko":"여행","en":"Travel","ja":"旅行"},"food":{"ko":"음식","en":"Food","ja":"食べ物"},"selfie":{"ko":"셀카","en":"Selfie","ja":"セルフィー"},"nature":{"ko":"자연","en":"Nature","ja":"自然"},"mood":{"ko":"감성","en":"Mood","ja":"感性"}},"buttons":{"generate":{"ko":"생성","en":"Generate","ja":"生成"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}}};</script></head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">📸</div>
+            <h1>AI 인스타 캡션</h1>
+            <p class="subtitle">완벽한 감성 문구 + 해시태그 자동 생성</p>
+        </header>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="main-card">
+            <div class="section-title">📌 어떤 사진인가요?</div>
+            <div class="category-scroll" id="categoryScroll">
+                <button class="category-chip selected" onclick="selectCategory(this)" data-cat="daily">일상</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="cafe">카페</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="travel">여행</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="food">맛집</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="ootd">OOTD</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="selfie">셀카</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="nature">자연/풍경</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="pet">반려동물</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="fitness">운동</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="couple">커플</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="friend">친구</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="work">직장/공부</button>
+            </div>
+
+            <div class="section-title">💭 어떤 분위기?</div>
+            <div class="mood-grid" id="moodGrid">
+                <button class="mood-btn selected" onclick="selectMood(this)" data-mood="emotional">
+                    <div class="mood-emoji">🌙</div>
+                    <div>감성</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="happy">
+                    <div class="mood-emoji">✨</div>
+                    <div>행복</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="funny">
+                    <div class="mood-emoji">😆</div>
+                    <div>유머</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="chill">
+                    <div class="mood-emoji">☕</div>
+                    <div>여유</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="aesthetic">
+                    <div class="mood-emoji">🎨</div>
+                    <div>감각적</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="minimal">
+                    <div class="mood-emoji">🤍</div>
+                    <div>심플</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="motivation">
+                    <div class="mood-emoji">💪</div>
+                    <div>동기부여</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="love">
+                    <div class="mood-emoji">💕</div>
+                    <div>사랑</div>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">✍️ 추가 정보 (선택)</label>
+                <textarea id="additionalInfo" placeholder="예: 제주도 성산일출봉, 친구들이랑 여행, 날씨 좋음"></textarea>
+            </div>
+
+            <button class="generate-btn" id="generateBtn" onclick="generate()">
+                ✨ 캡션 생성하기
+            </button>
+
+            <div class="results-section" id="resultsSection">
+                <div id="resultsContainer"></div>
+                <button class="more-btn" onclick="generate()">🔄 다른 캡션 보기</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="tips-card">
+            <div class="tips-title">💡 인스타 꿀팁</div>
+            <ul class="tips-list">
+                <li>해시태그는 20~30개가 적당해요</li>
+                <li>첫 줄이 가장 중요! 호기심을 자극하세요</li>
+                <li>이모지를 적절히 사용하면 눈에 띄어요</li>
+                <li>업로드 시간: 점심(12시), 저녁(7-9시)이 최적!</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>인스타 감성, 여기서 완성 📸</p>
+            <p style="margin-top: 8px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let selectedCategory = 'daily';
+        let selectedMood = 'emotional';
+
+        const captionTemplates = {
+            daily: {
+                emotional: [
+                    "오늘 하루도 나답게 ✨\n작은 것에도 감사하는 하루가 되길",
+                    "평범한 하루가 특별해지는 순간들 🌙\n이런 날이 쌓여 인생이 되는 거겠지",
+                    "일상이 여행이 되는 순간\n매일이 새로운 발견 ☁️",
+                    "지금 이 순간이 내일의 추억이 될 테니까\n오늘도 열심히 살아보는 중 💫"
+                ],
+                happy: [
+                    "오늘 기분 최고 💛\n이유 없이 행복한 날!",
+                    "소소하지만 확실한 행복 ✨\n이런 날이 좋아",
+                    "행복은 멀리 있지 않아요\n바로 여기, 지금 이 순간에 💕"
+                ],
+                funny: [
+                    "오늘의 TMI: 아무것도 안 했는데 피곤함 😴",
+                    "월요일 싫어요 (매일 월요일 같음)\n그래도 살아야지 뭐 ㅎㅎ",
+                    "열심히 살고 있습니다\n(누워서)"
+                ],
+                minimal: [
+                    "today.",
+                    "✨",
+                    "그냥, 오늘"
+                ]
+            },
+            cafe: {
+                emotional: [
+                    "커피 한 잔의 여유 ☕\n이런 시간이 나를 살게 해",
+                    "달콤 쌉싸름한 오후\n카페인과 감성 충전 완료 ✨",
+                    "창밖을 바라보며 생각에 잠기는 시간\n이런 여유가 좋아 🌙"
+                ],
+                chill: [
+                    "커피 한 잔 하실래요? ☕️\n여유로운 오후의 행복",
+                    "카페에서 보내는 나만의 시간\n이게 진짜 힐링이지 ✨",
+                    "아메리카노 한 잔이면\n세상 다 가진 기분 💫"
+                ],
+                aesthetic: [
+                    "light & coffee ☕\n",
+                    "mood: cafe vibes ✨",
+                    "coffee o'clock ⏰☕"
+                ]
+            },
+            travel: {
+                emotional: [
+                    "여행은 또 다른 나를 만나는 시간 ✈️\n낯선 곳에서 찾은 익숙한 행복",
+                    "떠나야만 알 수 있는 것들이 있어\n이 순간을 영원히 기억할게 🌏",
+                    "일상을 벗어나 만난 새로운 세상\n여기서 나는 자유로워 ✨"
+                ],
+                happy: [
+                    "여행 왔으니까 칼로리 제로 🍽️\n먹고 또 먹고!",
+                    "여기 진짜 미쳤다 🤯\n사진으로는 1도 표현이 안 됨",
+                    "인생샷 건졌다 📸\n여행 올 때마다 느끼는 행복 ✨"
+                ],
+                aesthetic: [
+                    "somewhere new ✈️",
+                    "wanderlust 🌍",
+                    "lost in the moment ✨"
+                ]
+            },
+            food: {
+                emotional: [
+                    "맛있는 음식 앞에서는 모든 고민이 사라져 🍽️\n오늘도 행복 충전 완료",
+                    "이 맛을 뭐라고 표현해야 할까\n그냥... 행복 그 자체 ✨"
+                ],
+                happy: [
+                    "칼로리는 맛있으면 제로 🍕\n오늘도 행복하게 먹었습니다",
+                    "이거 진짜 맛집이다 😋\n또 올게요 사장님!",
+                    "먹는 게 남는 거야 🍜\n인생은 짧고 맛집은 많다"
+                ],
+                funny: [
+                    "다이어트는 내일부터 (매일 내일)",
+                    "이 정도면 먹방 유튜버 해도 되지 않나?\n구독 좋아요 알림설정 🔔",
+                    "배는 부르지만 마음은 아직 배고파"
+                ]
+            },
+            ootd: {
+                emotional: [
+                    "오늘의 나, 오늘의 옷 👗\n스타일은 나를 표현하는 언어",
+                    "옷장에서 찾은 오늘의 기분 ✨",
+                    "나다운 게 제일 멋진 거야 💫"
+                ],
+                aesthetic: [
+                    "today's fit ✨",
+                    "details 👀",
+                    "simple but not boring"
+                ],
+                minimal: [
+                    "ootd.",
+                    "🖤",
+                    "daily look"
+                ]
+            },
+            selfie: {
+                emotional: [
+                    "거울 속 나와 눈이 마주쳤어 👀\n오늘도 수고했어, 나",
+                    "있는 그대로의 내가 좋아 ✨\n오늘도 나답게"
+                ],
+                happy: [
+                    "오늘 컨디션 미쳤다 📸\n이럴 때 셀카 찍어야지",
+                    "거울아 거울아, 세상에서 누가 제일 예쁘니?\n나. 🪞✨"
+                ],
+                funny: [
+                    "100장 찍고 건진 1장\n노력의 결과물입니다 📸",
+                    "실물이 더 예쁩니다 (아님)\n그냥 사진빨 ㅎㅎ",
+                    "앞머리 잘 나온 날 = 인생샷"
+                ]
+            },
+            nature: {
+                emotional: [
+                    "자연 앞에서 나는 작아지고\n마음은 넓어지는 기분 🌿",
+                    "이런 풍경 앞에선 말이 필요 없어\n그냥 바라보는 것만으로 충분해 ✨",
+                    "자연이 주는 위로가 있어\n복잡한 마음이 정리되는 시간 🍃"
+                ],
+                chill: [
+                    "자연 속에서 찾은 평화 🌲\n이런 시간이 필요했어",
+                    "도시를 벗어나 만난 힐링 💚\n숨이 트이는 기분"
+                ]
+            },
+            pet: {
+                emotional: [
+                    "너와 함께라서 행복해 🐾\n매일이 선물 같아",
+                    "말 안 해도 통하는 우리 💕\n세상에서 제일 소중한 존재"
+                ],
+                happy: [
+                    "오늘도 귀여움 폭발 💣💕\n심장아 버텨",
+                    "이 귀여운 게 내 거라니 🥹\n매일 보는데 매일 새로워"
+                ],
+                love: [
+                    "사랑해 우리 아가 💕\n넌 내 인생 최고의 선물",
+                    "너만 보면 행복해지는 마법 ✨\n평생 함께하자 🐾"
+                ]
+            },
+            couple: {
+                emotional: [
+                    "너와 함께라서 빛나는 오늘 💑\n매 순간이 특별해",
+                    "사랑은 함께 걷는 거야\n오늘도 나란히 ✨"
+                ],
+                love: [
+                    "세상에서 제일 좋아하는 사람 💕\n오늘도 내일도 영원히",
+                    "너여서 다행이야 💑\n매일 고마워, 사랑해"
+                ],
+                happy: [
+                    "우리 오늘도 럽스타그램 📸💕\n행복하면 자랑해도 되는 거 아닌가요?",
+                    "최고의 데이트 💑\n또 만나자 (매일 만나는 사람)"
+                ]
+            },
+            friend: {
+                emotional: [
+                    "함께라서 더 빛나는 순간들 ✨\n친구야, 고마워",
+                    "시간이 지나도 변하지 않는 우리\n평생 친구 💫"
+                ],
+                happy: [
+                    "찐친과 함께하는 시간 💛\n이런 날이 좋아!",
+                    "우리가 만나면 = 웃음 폭발 😂\n오늘도 역시나"
+                ],
+                funny: [
+                    "친구 = 같이 바보짓 해줄 사람\n오늘도 열심히 바보짓 중 🤪",
+                    "이 조합 찐이다 👯‍♀️\n앞으로도 잘 부탁해 ㅋㅋ"
+                ]
+            },
+            fitness: {
+                motivation: [
+                    "오늘도 한계를 넘어 💪\n어제의 나보다 강해지는 중",
+                    "땀이 배신하지 않는다는 걸 알아\n오늘도 최선을 다했어 🏋️",
+                    "포기하고 싶을 때가 성장하는 때\n조금만 더 버텨보자 🔥"
+                ],
+                happy: [
+                    "운동 후의 뿌듯함 😤💪\n이 맛에 운동하지",
+                    "오운완! 🏋️‍♀️\n오늘도 열심히 살았다"
+                ]
+            },
+            work: {
+                emotional: [
+                    "오늘도 열심히 달리는 중 💼\n꿈을 향해 한 걸음씩",
+                    "지금의 노력이 미래의 나를 만들어\n화이팅 🌟"
+                ],
+                motivation: [
+                    "할 수 있다, 할 수 있다, 할 수 있다 💪\n오늘도 파이팅!",
+                    "성장하는 건 불편한 일이야\n그래도 계속 나아가는 중 🚀"
+                ],
+                funny: [
+                    "월급루팡이 되고 싶지만\n열심히 일하는 중입니다 💼",
+                    "퇴근 언제요? (출근하자마자)\n그래도 화이팅... 🥲"
+                ]
+            }
+        };
+
+        const hashtagSets = {
+            daily: ['#일상', '#데일리', '#데일리그램', '#일상스타그램', '#소통', '#좋아요', '#인스타그램', '#daily', '#instadaily', '#photooftheday', '#오늘', '#일상기록', '#맞팔', '#선팔', '#좋반'],
+            cafe: ['#카페', '#카페스타그램', '#커피', '#커피스타그램', '#카페투어', '#cafe', '#coffee', '#coffeetime', '#카페추천', '#감성카페', '#데이트', '#카페인', '#americano', '#☕'],
+            travel: ['#여행', '#여행스타그램', '#travel', '#travelphotography', '#여행기록', '#여행에미치다', '#trip', '#traveling', '#instatravel', '#풍경', '#풍경스타그램', '#여행중', '#해외여행', '#국내여행'],
+            food: ['#맛집', '#맛스타그램', '#먹스타그램', '#푸드스타그램', '#food', '#foodstagram', '#instafood', '#foodie', '#맛집투어', '#먹방', '#yummy', '#delicious', '#오늘뭐먹지', '#냠냠'],
+            ootd: ['#ootd', '#데일리룩', '#패션', '#코디', '#outfit', '#fashion', '#style', '#옷스타그램', '#데일리코디', '#오오티디', '#패션스타그램', '#스타일', '#dailylook', '#fashiongram'],
+            selfie: ['#셀카', '#셀피', '#selfie', '#selca', '#얼스타그램', '#셀스타그램', '#selfieoftheday', '#me', '#오늘의나', '#데일리셀카', '#거울샷', '#미러샷'],
+            nature: ['#자연', '#풍경', '#힐링', '#landscape', '#nature', '#naturephotography', '#풍경스타그램', '#하늘', '#sky', '#자연스타그램', '#healing', '#뷰', '#view'],
+            pet: ['#반려동물', '#펫스타그램', '#멍스타그램', '#냥스타그램', '#pet', '#dogstagram', '#catstagram', '#반려견', '#강아지', '#고양이', '#애견', '#펫', '#귀여워'],
+            fitness: ['#운동', '#헬스', '#fitness', '#workout', '#gym', '#헬스타그램', '#운동스타그램', '#오운완', '#건강', '#다이어트', '#fitnessmotivation', '#gymlife', '#홈트'],
+            couple: ['#커플', '#럽스타그램', '#couple', '#커플스타그램', '#데이트', '#연인', '#사랑', '#love', '#데이트스타그램', '#커플룩', '#우리', '#함께'],
+            friend: ['#친구', '#우정', '#friends', '#friendship', '#베프', '#찐친', '#추억', '#소중한', '#함께', '#우리', '#친구스타그램'],
+            work: ['#직장인', '#출근', '#회사', '#업무', '#work', '#office', '#직장인스타그램', '#화이팅', '#열공', '#공부', '#성장', '#자기계발']
+        };
+
+        function selectCategory(el) {
+            document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedCategory = el.dataset.cat;
+        }
+
+        function selectMood(el) {
+            document.querySelectorAll('.mood-btn').forEach(m => m.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedMood = el.dataset.mood;
+        }
+
+        function generate() {
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> 생성 중...';
+
+            setTimeout(() => {
+                const captions = generateCaptions();
+                displayResults(captions);
+                btn.disabled = false;
+                btn.innerHTML = '✨ 캡션 생성하기';
+            }, 1200);
+        }
+
+        function generateCaptions() {
+            const templates = captionTemplates[selectedCategory]?.[selectedMood] ||
+                             captionTemplates[selectedCategory]?.emotional ||
+                             captionTemplates.daily.emotional;
+
+            const hashtags = hashtagSets[selectedCategory] || hashtagSets.daily;
+            const additionalInfo = document.getElementById('additionalInfo').value;
+
+            // Shuffle and pick 3
+            const shuffled = [...templates].sort(() => Math.random() - 0.5);
+            const selectedCaptions = shuffled.slice(0, 3);
+
+            return selectedCaptions.map(caption => {
+                // Add additional info if provided
+                let finalCaption = caption;
+                if (additionalInfo) {
+                    finalCaption = caption + '\n\n📍 ' + additionalInfo;
+                }
+
+                // Generate hashtags
+                const shuffledTags = [...hashtags].sort(() => Math.random() - 0.5);
+                const selectedTags = shuffledTags.slice(0, 12);
+
+                return {
+                    caption: finalCaption,
+                    hashtags: selectedTags.join(' ')
+                };
+            });
+        }
+
+        function displayResults(captions) {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = captions.map((item, i) => `
+                <div class="result-card">
+                    <div class="result-caption">${item.caption}</div>
+                    <div class="result-hashtags">${item.hashtags}</div>
+                    <div class="result-actions">
+                        <button class="action-btn" onclick="copyCaption(${i})">📋 캡션만 복사</button>
+                        <button class="action-btn" onclick="copyAll(${i})">📎 전체 복사</button>
+                    </div>
+                </div>
+            `).join('');
+
+            window.generatedCaptions = captions;
+            document.getElementById('resultsSection').classList.add('show');
+            showToast('캡션이 생성되었어요! ✨');
+        }
+
+        function copyCaption(index) {
+            const caption = window.generatedCaptions[index].caption;
+            navigator.clipboard.writeText(caption);
+            showToast('캡션이 복사되었어요!');
+        }
+
+        function copyAll(index) {
+            const item = window.generatedCaptions[index];
+            const text = item.caption + '\n\n' + item.hashtags;
+            navigator.clipboard.writeText(text);
+            showToast('캡션+해시태그 복사 완료!');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

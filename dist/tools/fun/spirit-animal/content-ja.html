@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나를 동물로 표현하면? - 동물 성격 테스트 | 나의 동물 찾기</title>
+    <meta name="description" content="나를 동물로 표현하면 뭘까? 무료 동물 성격 테스트로 나의 동물을 찾아보세요. 고양이? 강아지? 여우? 지금 바로 확인!">
+    <meta name="keywords" content="동물테스트, 동물성격, 나를동물로, 동물성격테스트, 나의동물, 동물심리테스트">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="나를 동물로 표현하면? - 동물 성격 테스트">
+    <meta property="og:description" content="나의 동물을 찾아보세요!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a472a/90EE90?text=동물+성격+테스트">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #90EE90, #32CD32);
+            color: #1a472a;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5016 50%, #1a472a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .nature-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .leaf {
+            position: absolute;
+            font-size: 24px;
+            animation: falling 15s infinite linear;
+            opacity: 0.4;
+        }
+
+        @keyframes falling {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            background: linear-gradient(135deg, #90EE90, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #a8d5a8; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(144,238,144,0.1);
+            border: 1px solid rgba(144,238,144,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #90EE90;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .intro-section {
+            text-align: center;
+        }
+
+        .intro-section h2 {
+            color: #90EE90;
+            margin-bottom: 20px;
+        }
+
+        .intro-section p {
+            color: #a8d5a8;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .animal-preview {
+            font-size: 50px;
+            margin: 20px 0;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #90EE90, #32CD32);
+            color: #1a472a;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(144, 238, 144, 0.4);
+        }
+
+        .question-section {
+            display: none;
+        }
+
+        .question-section.active { display: block; }
+
+        .progress-container { margin-bottom: 25px; }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #90EE90, #32CD32);
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #a8d5a8;
+            font-size: 14px;
+        }
+
+        .question-card {
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .question-text {
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #c8e8c8;
+        }
+
+        .option:hover {
+            border-color: #90EE90;
+            background: rgba(144, 238, 144, 0.1);
+        }
+
+        .option.selected {
+            border-color: #90EE90;
+            background: rgba(144, 238, 144, 0.2);
+            color: #90EE90;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-header p { color: #a8d5a8; font-size: 14px; }
+
+        .animal-emoji {
+            font-size: 100px;
+            display: block;
+            margin: 20px 0;
+            filter: drop-shadow(0 0 30px rgba(144, 238, 144, 0.5));
+        }
+
+        .animal-name {
+            font-size: 2.5rem;
+            color: #90EE90;
+            margin: 10px 0;
+        }
+
+        .animal-title {
+            color: #FFD700;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #90EE90;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #c8e8c8;
+            line-height: 1.8;
+        }
+
+        .traits-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .trait-tag {
+            background: linear-gradient(135deg, rgba(144, 238, 144, 0.2), rgba(50, 205, 50, 0.2));
+            border: 1px solid rgba(144, 238, 144, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #90EE90;
+            font-size: 14px;
+        }
+
+        .match-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .match-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .match-item.good { border: 1px solid rgba(144, 238, 144, 0.3); }
+        .match-item.bad { border: 1px solid rgba(255, 99, 71, 0.3); }
+
+        .match-item .label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .match-item .emoji { font-size: 36px; }
+        .match-item .name { color: #fff; margin-top: 5px; font-weight: 600; }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #90EE90, #32CD32);
+            color: #1a472a;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.7rem; }
+            .animal-name { font-size: 1.8rem; }
+            .match-section { grid-template-columns: 1fr; }
+        }
+    </style>
+<script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"동물 성격 테스트","en":"Spirit Animal Test","ja":"動物性格テスト"},"desc":{"ko":"나와 닮은 동물 찾기","en":"Find your spirit animal","ja":"私に似た動物を探す"}},"header":{"title":{"ko":"동물 성격 테스트","en":"Spirit Animal Test","ja":"動物性格テスト"},"subtitle":{"ko":"나와 가장 닮은 동물은?","en":"Which animal are you most like?","ja":"私に一番似た動物は？"}},"buttons":{"start":{"ko":"시작하기","en":"Start","ja":"開始"},"next":{"ko":"다음","en":"Next","ja":"次へ"},"result":{"ko":"결과 보기","en":"View Result","ja":"結果を見る"},"share":{"ko":"공유하기","en":"Share","ja":"共有"},"retry":{"ko":"다시 하기","en":"Try Again","ja":"もう一度"}},"result":{"yourAnimal":{"ko":"당신의 동물:","en":"Your Animal:","ja":"あなたの動物:"}},"disclaimer":{"ko":"재미로 즐기는 테스트입니다.","en":"This is for entertainment.","ja":"娯楽用のテストです。"}};</script></head>
+<body>
+    <div class="nature-bg" id="natureBg"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>나를 동물로 표현하면?</h1>
+            <p class="subtitle">당신의 영혼 동물을 찾아보세요</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            재미로 즐기는 동물 성격 테스트입니다!
+        </div>
+
+        <div class="card">
+            <div class="intro-section" id="introSection">
+                <div class="animal-preview">🦊🐱🐶🦁</div>
+                <h2>당신은 어떤 동물일까요?</h2>
+                <p>
+                    모든 사람에게는 닮은 동물이 있어요.<br>
+                    8가지 질문으로 당신의 영혼 동물을 찾아드릴게요!<br><br>
+                    직관적으로 답해주세요.
+                </p>
+                <button class="start-btn" onclick="startTest()">테스트 시작하기</button>
+            </div>
+
+            <div class="question-section" id="questionSection">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">1 / 8</div>
+                </div>
+                <div class="question-card" id="questionCard"></div>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <p>당신의 영혼 동물은...</p>
+                    <span class="animal-emoji" id="animalEmoji">🦊</span>
+                    <div class="animal-name" id="animalName">여우</div>
+                    <div class="animal-title" id="animalTitle">"영리한 전략가"</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>🌟 성격 특징</h3>
+                    <p id="animalDescription"></p>
+                    <div class="traits-container" id="traitsContainer"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💪 장점</h3>
+                    <p id="animalStrength"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>⚠️ 주의할 점</h3>
+                    <p id="animalWeakness"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💕 궁합 동물</h3>
+                    <div class="match-section" id="matchSection"></div>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
+                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>이 테스트는 재미를 위한 것입니다.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 나뭇잎 배경
+        function createLeaves() {
+            const container = document.getElementById('natureBg');
+            const leaves = ['🍃', '🌿', '🍂', '🌱'];
+            for (let i = 0; i < 15; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.innerHTML = leaves[Math.floor(Math.random() * leaves.length)];
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 15 + 's';
+                leaf.style.animationDuration = (12 + Math.random() * 8) + 's';
+                container.appendChild(leaf);
+            }
+        }
+        createLeaves();
+
+        const questions = [
+            {
+                text: "주말 아침, 당신은?",
+                options: [
+                    { text: "일찍 일어나서 활동 시작!", type: "active" },
+                    { text: "늦잠 자고 느긋하게", type: "calm" },
+                    { text: "할 일 계획 세우기", type: "smart" },
+                    { text: "기분 따라 다름", type: "free" }
+                ]
+            },
+            {
+                text: "친구들 사이에서 나는?",
+                options: [
+                    { text: "분위기 메이커", type: "active" },
+                    { text: "조용한 관찰자", type: "calm" },
+                    { text: "조언해주는 역할", type: "smart" },
+                    { text: "혼자 다니는 편", type: "lone" }
+                ]
+            },
+            {
+                text: "스트레스 받을 때 나는?",
+                options: [
+                    { text: "운동하거나 밖에 나감", type: "active" },
+                    { text: "혼자 조용히 쉼", type: "calm" },
+                    { text: "문제 해결책을 찾음", type: "smart" },
+                    { text: "자유롭게 여행 떠남", type: "free" }
+                ]
+            },
+            {
+                text: "일할 때 나는?",
+                options: [
+                    { text: "리더 역할을 맡음", type: "leader" },
+                    { text: "팀원과 협력함", type: "social" },
+                    { text: "혼자 집중해서 일함", type: "lone" },
+                    { text: "창의적인 아이디어 냄", type: "free" }
+                ]
+            },
+            {
+                text: "새로운 사람을 만나면?",
+                options: [
+                    { text: "먼저 다가가서 말 검", type: "social" },
+                    { text: "천천히 관찰함", type: "calm" },
+                    { text: "상대를 파악함", type: "smart" },
+                    { text: "경계하는 편", type: "lone" }
+                ]
+            },
+            {
+                text: "갈등이 생기면?",
+                options: [
+                    { text: "직접적으로 해결함", type: "leader" },
+                    { text: "피하고 싶음", type: "calm" },
+                    { text: "전략적으로 대응함", type: "smart" },
+                    { text: "그냥 떠나버림", type: "free" }
+                ]
+            },
+            {
+                text: "가장 중요하게 생각하는 것은?",
+                options: [
+                    { text: "성취와 성공", type: "leader" },
+                    { text: "평화와 안정", type: "calm" },
+                    { text: "지식과 지혜", type: "smart" },
+                    { text: "자유와 모험", type: "free" }
+                ]
+            },
+            {
+                text: "이상적인 삶의 공간은?",
+                options: [
+                    { text: "활기찬 도시 중심", type: "social" },
+                    { text: "조용한 시골", type: "calm" },
+                    { text: "깔끔한 아파트", type: "smart" },
+                    { text: "자유롭게 이동하며", type: "free" }
+                ]
+            }
+        ];
+
+        const animals = {
+            lion: {
+                emoji: "🦁",
+                name: "사자",
+                title: "\"당당한 리더\"",
+                description: "당신은 타고난 리더입니다. 당당하고 자신감 있으며, 사람들이 자연스럽게 따르게 됩니다. 책임감이 강하고 목표를 향해 거침없이 나아갑니다.",
+                traits: ["리더십", "자신감", "책임감", "당당함", "카리스마"],
+                strength: "어떤 상황에서도 주눅 들지 않고 리더십을 발휘합니다. 팀을 이끌고 큰 일을 해낼 수 있는 능력이 있습니다.",
+                weakness: "때로는 너무 강해 보여 다가가기 어려울 수 있어요. 다른 사람의 의견도 경청해보세요.",
+                goodMatch: { emoji: "🐺", name: "늑대" },
+                badMatch: { emoji: "🦊", name: "여우" }
+            },
+            cat: {
+                emoji: "🐱",
+                name: "고양이",
+                title: "\"독립적인 귀족\"",
+                description: "당신은 독립적이고 자신만의 세계가 있습니다. 사람들과 어울리지만 혼자만의 시간도 중요하게 여깁니다. 우아하고 신비로운 매력이 있어요.",
+                traits: ["독립적", "신비로움", "우아함", "직관적", "까칠함"],
+                strength: "자기만의 영역을 지키면서도 매력적인 존재감을 뽐냅니다. 필요할 때 혼자서도 잘 해냅니다.",
+                weakness: "가끔 너무 쿨해 보여서 오해받을 수 있어요. 감정 표현을 조금 더 해보세요.",
+                goodMatch: { emoji: "🦉", name: "부엉이" },
+                badMatch: { emoji: "🐶", name: "강아지" }
+            },
+            dog: {
+                emoji: "🐶",
+                name: "강아지",
+                title: "\"충직한 친구\"",
+                description: "당신은 따뜻하고 친절한 사람입니다. 주변 사람들을 진심으로 아끼고, 그들과 함께할 때 행복을 느낍니다. 충성스럽고 믿을 수 있는 친구예요.",
+                traits: ["친절함", "충성심", "사교적", "따뜻함", "낙천적"],
+                strength: "진심 어린 마음으로 사람들에게 다가갑니다. 함께 있으면 편안하고 행복해지는 사람이에요.",
+                weakness: "너무 남에게 맞추다 자신을 잃을 수 있어요. 가끔은 자기 자신을 위한 시간도 가지세요.",
+                goodMatch: { emoji: "🐱", name: "고양이" },
+                badMatch: { emoji: "🦅", name: "독수리" }
+            },
+            fox: {
+                emoji: "🦊",
+                name: "여우",
+                title: "\"영리한 전략가\"",
+                description: "당신은 영리하고 눈치가 빠릅니다. 상황을 빠르게 파악하고 최선의 방법을 찾아냅니다. 적응력이 뛰어나고 위기 상황에서 빛을 발합니다.",
+                traits: ["영리함", "적응력", "관찰력", "전략적", "매력적"],
+                strength: "어떤 상황에서도 살아남는 방법을 알고 있습니다. 사람의 마음을 읽는 능력이 뛰어나요.",
+                weakness: "너무 계산적으로 보일 수 있어요. 가끔은 순수하게 마음을 열어보세요.",
+                goodMatch: { emoji: "🐰", name: "토끼" },
+                badMatch: { emoji: "🦁", name: "사자" }
+            },
+            owl: {
+                emoji: "🦉",
+                name: "부엉이",
+                title: "\"지혜로운 현자\"",
+                description: "당신은 깊이 생각하고 분석하는 것을 좋아합니다. 조용히 관찰하며 본질을 파악합니다. 지식과 지혜를 추구하는 사색가예요.",
+                traits: ["지혜로움", "관찰력", "분석적", "차분함", "신중함"],
+                strength: "복잡한 문제도 차분하게 분석해 해결책을 찾습니다. 조언을 구하면 믿을 수 있는 답을 줍니다.",
+                weakness: "너무 생각이 많아 행동이 늦어질 수 있어요. 때로는 먼저 움직이는 것도 필요합니다.",
+                goodMatch: { emoji: "🐱", name: "고양이" },
+                badMatch: { emoji: "🐵", name: "원숭이" }
+            },
+            wolf: {
+                emoji: "🐺",
+                name: "늑대",
+                title: "\"고독한 전사\"",
+                description: "당신은 강인하고 독립적입니다. 무리와 함께하지만 혼자서도 강합니다. 충성스럽고 가족과 친구를 끝까지 지킵니다.",
+                traits: ["강인함", "독립심", "충성심", "본능적", "신중함"],
+                strength: "위기 상황에서 진가를 발휘합니다. 소중한 것을 지키기 위해 무엇이든 합니다.",
+                weakness: "쉽게 마음을 열지 않아 외로울 수 있어요. 신뢰할 수 있는 사람에게는 마음을 열어보세요.",
+                goodMatch: { emoji: "🦁", name: "사자" },
+                badMatch: { emoji: "🦋", name: "나비" }
+            },
+            butterfly: {
+                emoji: "🦋",
+                name: "나비",
+                title: "\"자유로운 영혼\"",
+                description: "당신은 자유롭고 아름다운 영혼입니다. 한 곳에 머무르기보다 새로운 경험을 추구합니다. 창의적이고 예술적인 감성이 있어요.",
+                traits: ["자유로움", "창의성", "변화", "아름다움", "가벼움"],
+                strength: "변화를 두려워하지 않고 새로운 것에 도전합니다. 어디서든 아름다움을 찾아냅니다.",
+                weakness: "한 가지에 집중하기 어려울 수 있어요. 때로는 깊이 파고드는 것도 필요합니다.",
+                goodMatch: { emoji: "🌸", name: "꽃" },
+                badMatch: { emoji: "🐺", name: "늑대" }
+            },
+            rabbit: {
+                emoji: "🐰",
+                name: "토끼",
+                title: "\"귀여운 센스쟁이\"",
+                description: "당신은 귀엽고 센스 있는 사람입니다. 빠른 판단력과 민첩함을 가지고 있어요. 주변 분위기를 밝게 만드는 힘이 있습니다.",
+                traits: ["귀여움", "민첩함", "센스", "사교적", "예민함"],
+                strength: "분위기 파악이 빠르고 재치있게 대응합니다. 사람들에게 사랑받는 매력이 있어요.",
+                weakness: "너무 예민해서 작은 일에도 상처받을 수 있어요. 조금 더 강해져도 괜찮아요.",
+                goodMatch: { emoji: "🦊", name: "여우" },
+                badMatch: { emoji: "🦅", name: "독수리" }
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+        let resultData = {};
+
+        function startTest() {
+            document.getElementById('introSection').style.display = 'none';
+            document.getElementById('questionSection').classList.add('active');
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            const q = questions[index];
+            const container = document.getElementById('questionCard');
+
+            let optionsHtml = q.options.map((opt, i) =>
+                `<div class="option" onclick="selectOption(${i}, '${opt.type}')">${opt.text}</div>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+            `;
+
+            document.getElementById('progressFill').style.width = ((index + 1) / questions.length * 100) + '%';
+            document.getElementById('progressText').textContent = `${index + 1} / ${questions.length}`;
+        }
+
+        function selectOption(optionIndex, type) {
+            answers.push(type);
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                } else {
+                    calculateResult();
+                }
+            }, 400);
+        }
+
+        function calculateResult() {
+            // 유형 카운트
+            const counts = {};
+            answers.forEach(type => {
+                counts[type] = (counts[type] || 0) + 1;
+            });
+
+            // 동물 매칭
+            let animal = 'fox'; // 기본값
+
+            if (counts.leader >= 2 && counts.active >= 1) animal = 'lion';
+            else if (counts.calm >= 3 || (counts.lone >= 2 && counts.calm >= 1)) animal = 'cat';
+            else if (counts.social >= 3 || (counts.active >= 2 && counts.social >= 1)) animal = 'dog';
+            else if (counts.smart >= 3) animal = 'owl';
+            else if (counts.lone >= 3 || (counts.smart >= 2 && counts.calm >= 1)) animal = 'wolf';
+            else if (counts.free >= 3) animal = 'butterfly';
+            else if (counts.social >= 2 && counts.calm >= 1) animal = 'rabbit';
+            else if (counts.smart >= 2 || counts.calm >= 2) animal = 'fox';
+
+            resultData = animals[animal];
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('animalEmoji').textContent = resultData.emoji;
+            document.getElementById('animalName').textContent = resultData.name;
+            document.getElementById('animalTitle').textContent = resultData.title;
+            document.getElementById('animalDescription').textContent = resultData.description;
+            document.getElementById('animalStrength').textContent = resultData.strength;
+            document.getElementById('animalWeakness').textContent = resultData.weakness;
+
+            document.getElementById('traitsContainer').innerHTML = resultData.traits.map(t =>
+                `<span class="trait-tag">${t}</span>`
+            ).join('');
+
+            document.getElementById('matchSection').innerHTML = `
+                <div class="match-item good">
+                    <div class="label">잘 맞는 동물</div>
+                    <div class="emoji">${resultData.goodMatch.emoji}</div>
+                    <div class="name">${resultData.goodMatch.name}</div>
+                </div>
+                <div class="match-item bad">
+                    <div class="label">주의할 동물</div>
+                    <div class="emoji">${resultData.badMatch.emoji}</div>
+                    <div class="name">${resultData.badMatch.name}</div>
+                </div>
+            `;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `🌿 나를 동물로 표현하면?\n\n` +
+                        `${resultData.emoji} ${resultData.name}\n` +
+                        `${resultData.title}\n\n` +
+                        `✨ ${resultData.traits.slice(0, 3).join(' · ')}\n\n` +
+                        `나도 테스트하기 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: '동물 성격 테스트', text: text })
+                    .catch(err => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 결과가 복사되었어요!');
+                });
+            }
+        }
+
+        function resetTest() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('introSection').style.display = 'block';
+        }
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

@@ -86,14 +86,14 @@
       <a href="/" class="home-link">🏠 <span>홈으로</span></a>
     </div>
     <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button>
+      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
     </div>
   </div>
   <iframe id="toolFrame" class="tool-iframe" src="content-ko.html"></iframe>
 
   <script>
     var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":false,"ja":false};
+    var availableLangs = {"ko":true,"en":true,"ja":true};
 
     function switchToolLanguage(lang) {
       // Fallback: if language not available, try ko > en > ja

@@ -514,6 +514,9 @@
     </div>
 
     <script>
+        // i18n helper - uses global tKo if available
+        function _t(text) { return typeof tKo !== 'undefined' ? tKo(text) : text; }
+
         // 타로 카드 데이터 (메이저 아르카나)
         const tarotCards = [
             { id: 0, name: "광대", symbol: "🃏", meaning: { upright: "새로운 시작, 순수함, 자유로운 영혼, 모험", reversed: "무모함, 경솔함, 위험 감수" }},
@@ -603,8 +606,8 @@
                         </div>
                         <div class="card-front" style="${card.reversed ? 'transform: rotateY(180deg) rotateZ(180deg);' : ''}">
                             <div class="card-symbol">${card.symbol}</div>
-                            <div class="card-name">${card.name}</div>
-                            <div class="card-number">${card.reversed ? '(역방향)' : ''}</div>
+                            <div class="card-name">${_t(card.name)}</div>
+                            <div class="card-number">${card.reversed ? _t('(역방향)') : ''}</div>
                         </div>
                     </div>
                 `;
@@ -631,9 +634,9 @@
         function updateFlipInstruction() {
             const remaining = selectedSpread - flippedCount;
             if (remaining > 0) {
-                document.getElementById('flipInstruction').textContent = `남은 카드: ${remaining}장`;
+                document.getElementById('flipInstruction').textContent = _t('남은 카드:') + ' ' + remaining + _t('장');
             } else {
-                document.getElementById('flipInstruction').textContent = '모든 카드를 뒤집었습니다!';
+                document.getElementById('flipInstruction').textContent = _t('모든 카드를 뒤집었습니다!');
             }
         }
 
@@ -648,39 +651,39 @@
         }
 
         function generateReading() {
-            const question = document.getElementById('question').value || '오늘의 운세';
+            const question = document.getElementById('question').value || _t('오늘의 운세');
             const readingContent = document.getElementById('readingContent');
 
             let html = `
                 <div class="reading-card">
-                    <h3>🔮 질문</h3>
+                    <h3>🔮 ${_t('질문')}</h3>
                     <p style="color:#ffd700; font-size:18px;">"${question}"</p>
                 </div>
             `;
 
             const positions = {
-                1: ['오늘의 메시지'],
-                3: ['과거', '현재', '미래'],
-                5: ['나의 상태', '상대의 마음', '현재 관계', '조언', '미래 결과']
+                1: [_t('오늘의 메시지')],
+                3: [_t('과거'), _t('현재'), _t('미래')],
+                5: [_t('나의 상태'), _t('상대의 마음'), _t('현재 관계'), _t('조언'), _t('미래 결과')]
             };
 
             selectedCards.forEach((card, index) => {
                 const position = positions[selectedSpread][index];
-                const meaning = card.reversed ? card.meaning.reversed : card.meaning.upright;
-                const direction = card.reversed ? '(역방향)' : '(정방향)';
+                const meaning = card.reversed ? _t(card.meaning.reversed) : _t(card.meaning.upright);
+                const direction = card.reversed ? _t('(역방향)') : _t('(정방향)');
 
                 html += `
                     <div class="reading-card">
-                        <h3>${card.symbol} ${position}: ${card.name} ${direction}</h3>
+                        <h3>${card.symbol} ${position}: ${_t(card.name)} ${direction}</h3>
                         <p>${generateInterpretation(card, position, question)}</p>
                         <div class="card-meaning">
                             <div class="meaning-item">
-                                <h4>정방향 의미</h4>
-                                <p>${card.meaning.upright}</p>
+                                <h4>${_t('정방향 의미')}</h4>
+                                <p>${_t(card.meaning.upright)}</p>
                             </div>
                             <div class="meaning-item">
-                                <h4>역방향 의미</h4>
-                                <p>${card.meaning.reversed}</p>
+                                <h4>${_t('역방향 의미')}</h4>
+                                <p>${_t(card.meaning.reversed)}</p>
                             </div>
                         </div>
                     </div>
@@ -689,7 +692,7 @@
 
             html += `
                 <div class="reading-card overall-reading">
-                    <h3>✨ 종합 해석</h3>
+                    <h3>✨ ${_t('종합 해석')}</h3>
                     <p>${generateOverallReading()}</p>
                 </div>
             `;
@@ -720,19 +723,19 @@
         }
 
         function shareResult() {
-            const cardNames = selectedCards.map(c => c.name + (c.reversed ? '(역)' : '')).join(', ');
-            const text = `🔮 오늘의 타로: ${cardNames}\n나도 뽑아보기 👉`;
+            const cardNames = selectedCards.map(c => _t(c.name) + (c.reversed ? _t('(역방향)') : '')).join(', ');
+            const text = `🔮 ${_t('오늘의 타로:')}: ${cardNames}\n${_t('나도 뽑아보기')} 👉`;
 
             if (navigator.share) {
                 navigator.share({
-                    title: 'AI 타로 카드 결과',
+                    title: _t('AI 타로 카드') + ' ' + _t('결과'),
                     text: text
                 }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 ' + _t('결과가 복사되었어요!')));
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                    showToast('📋 ' + _t('결과가 복사되었어요!'));
                 });
             }
         }

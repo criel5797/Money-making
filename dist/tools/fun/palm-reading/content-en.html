@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 손금 보기 - 무료 손금 분석</title>
+    <meta name="description" content="무료 AI 손금 분석! 생명선, 두뇌선, 감정선, 운명선을 분석해 드립니다. 나의 손금으로 알아보는 운명과 성격.">
+    <meta name="keywords" content="손금, 손금 보기, 손금 분석, 생명선, 두뇌선, 감정선, 운명선, 무료 손금">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI 손금 보기 - 무료 손금 분석">
+    <meta property="og:description" content="AI가 분석하는 손금! 생명선, 두뇌선, 감정선으로 알아보는 나의 운명.">
+    <meta property="og:type" content="website">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 50%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .palm-visual {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .palm-emoji {
+            font-size: 8rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+        }
+
+        .palm-guide {
+            color: #ffd700;
+            font-size: 14px;
+        }
+
+        .line-selector {
+            margin-bottom: 25px;
+        }
+
+        .line-selector h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .lines-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .line-option {
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .line-option:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .line-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .line-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .line-name {
+            font-weight: 600;
+            color: #e4e4e4;
+            margin-bottom: 4px;
+        }
+
+        .line-desc {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .characteristics {
+            margin-bottom: 25px;
+        }
+
+        .characteristics h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .char-option {
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .char-option:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .char-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border: none;
+            border-radius: 12px;
+            color: #1a1a2e;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 140, 0, 0.15));
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .result-summary {
+            color: #e4e4e4;
+            line-height: 1.6;
+        }
+
+        .line-results {
+            display: grid;
+            gap: 20px;
+        }
+
+        .line-result {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 25px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .line-result-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .line-result-icon {
+            font-size: 1.8rem;
+        }
+
+        .line-result-name {
+            font-size: 1.2rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .line-score {
+            margin-bottom: 15px;
+        }
+
+        .score-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff8c00);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .score-label {
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .line-interpretation {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .overall-fortune {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .fortune-title {
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .fortune-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .fortune-item {
+            text-align: center;
+            padding: 15px 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+        }
+
+        .fortune-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .fortune-label {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .advice-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+        }
+
+        .advice-title {
+            color: #ffd700;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .advice-content {
+            color: #ccc;
+            line-height: 1.7;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
+        }
+
+        .retry-btn {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .disclaimer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .palm-emoji { font-size: 5rem; }
+            .lines-grid, .char-grid { grid-template-columns: 1fr; }
+            .fortune-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .action-buttons { flex-direction: column; }
+        }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"손금 보기","en":"Palm Reading","ja":"手相占い"},"desc":{"ko":"AI 손금 분석","en":"AI Palm Analysis","ja":"AI手相分析"}},"header":{"title":{"ko":"손금 보기","en":"Palm Reading","ja":"手相占い"},"subtitle":{"ko":"손금으로 알아보는 운세","en":"Fortune through palm lines","ja":"手相で知る運勢"}},"lines":{"life":{"ko":"생명선","en":"Life Line","ja":"生命線"},"head":{"ko":"두뇌선","en":"Head Line","ja":"頭脳線"},"heart":{"ko":"감정선","en":"Heart Line","ja":"感情線"},"fate":{"ko":"운명선","en":"Fate Line","ja":"運命線"},"marriage":{"ko":"결혼선","en":"Marriage Line","ja":"結婚線"}},"buttons":{"analyze":{"ko":"🖐️ 손금 분석하기","en":"🖐️ Analyze Palm","ja":"🖐️ 手相分析"},"share":{"ko":"공유하기","en":"Share","ja":"共有"},"retry":{"ko":"다시 하기","en":"Try Again","ja":"もう一度"}},"disclaimer":{"ko":"재미로 즐기는 손금 분석입니다.","en":"This is for entertainment.","ja":"娯楽用の手相分析です。"}};</script></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI 손금 보기</h1>
+            <p class="subtitle">손금으로 알아보는 나의 운명</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div id="inputSection">
+            <div class="card palm-visual">
+                <div class="palm-emoji">&#9995;</div>
+                <p class="palm-guide">왼손을 펴고 손금의 특징을 선택해주세요</p>
+            </div>
+
+            <div class="card">
+                <div class="line-selector">
+                    <h3>&#128587; 생명선 (엄지를 감싸는 선)</h3>
+                    <div class="char-grid" data-line="life">
+                        <div class="char-option" data-value="long">길고 깊음</div>
+                        <div class="char-option" data-value="short">짧거나 얕음</div>
+                        <div class="char-option" data-value="curved">크게 휘어짐</div>
+                        <div class="char-option" data-value="straight">직선에 가까움</div>
+                    </div>
+                </div>
+
+                <div class="line-selector">
+                    <h3>&#128161; 두뇌선 (손바닥 가로 중앙)</h3>
+                    <div class="char-grid" data-line="head">
+                        <div class="char-option" data-value="long">길고 선명함</div>
+                        <div class="char-option" data-value="short">짧음</div>
+                        <div class="char-option" data-value="curved">아래로 휨</div>
+                        <div class="char-option" data-value="straight">직선</div>
+                    </div>
+                </div>
+
+                <div class="line-selector">
+                    <h3>&#128150; 감정선 (손바닥 위쪽 가로선)</h3>
+                    <div class="char-grid" data-line="heart">
+                        <div class="char-option" data-value="long">길고 깊음</div>
+                        <div class="char-option" data-value="short">짧음</div>
+                        <div class="char-option" data-value="curved">위로 휨</div>
+                        <div class="char-option" data-value="wavy">물결 모양</div>
+                    </div>
+                </div>
+
+                <div class="line-selector">
+                    <h3>&#11088; 운명선 (세로선)</h3>
+                    <div class="char-grid" data-line="fate">
+                        <div class="char-option" data-value="clear">뚜렷함</div>
+                        <div class="char-option" data-value="faint">희미함</div>
+                        <div class="char-option" data-value="broken">끊어짐</div>
+                        <div class="char-option" data-value="none">없거나 안 보임</div>
+                    </div>
+                </div>
+
+                <button class="analyze-btn" id="analyzeBtn" onclick="analyzePalm()">&#128302; 손금 분석하기</button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section">
+            <div class="card">
+                <div class="result-header">
+                    <div class="result-title" id="resultTitle">손금 분석 결과</div>
+                    <p class="result-summary" id="resultSummary"></p>
+                </div>
+
+                <div class="line-results" id="lineResults"></div>
+
+                <div class="overall-fortune">
+                    <div class="fortune-title">&#127775; 종합 운세 지수</div>
+                    <div class="fortune-grid" id="fortuneGrid"></div>
+                </div>
+
+                <div class="advice-section">
+                    <div class="advice-title">&#128172; 조언</div>
+                    <p class="advice-content" id="adviceContent"></p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareResult()">공유하기</button>
+                    <button class="action-btn retry-btn" onclick="retry()">다시 보기</button>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                &#9888;&#65039; 본 손금 분석은 재미로 보는 것이며, 실제 운명과는 관련이 없습니다.
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>AI 손금 분석 | 무료 손금 보기</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let selectedLines = {
+            life: null,
+            head: null,
+            heart: null,
+            fate: null
+        };
+
+        const lineData = {
+            life: {
+                name: '생명선',
+                icon: '&#128587;',
+                interpretations: {
+                    long: { score: 90, text: '생명력이 넘치고 활력이 있습니다. 건강하고 긴 인생을 살 가능성이 높으며, 회복력도 뛰어납니다.' },
+                    short: { score: 65, text: '짧은 생명선은 효율적인 삶을 의미합니다. 질보다 양을 추구하며, 집중력 있는 삶을 살게 됩니다.' },
+                    curved: { score: 85, text: '풍부한 에너지와 열정을 가졌습니다. 삶을 적극적으로 즐기며, 다양한 경험을 하게 됩니다.' },
+                    straight: { score: 70, text: '신중하고 조심스러운 성격입니다. 안정적인 삶을 추구하며, 계획적으로 행동합니다.' }
+                }
+            },
+            head: {
+                name: '두뇌선',
+                icon: '&#128161;',
+                interpretations: {
+                    long: { score: 92, text: '뛰어난 지적 능력과 분석력을 가졌습니다. 복잡한 문제도 논리적으로 해결하며, 학습 능력이 탁월합니다.' },
+                    short: { score: 68, text: '직관적이고 실용적인 사고방식입니다. 빠른 판단력을 가지고 있으며, 행동 지향적입니다.' },
+                    curved: { score: 80, text: '창의적이고 상상력이 풍부합니다. 예술적 감각이 있으며, 독창적인 아이디어를 많이 냅니다.' },
+                    straight: { score: 75, text: '현실적이고 논리적인 사고를 합니다. 실용적인 해결책을 찾는 능력이 뛰어납니다.' }
+                }
+            },
+            heart: {
+                name: '감정선',
+                icon: '&#128150;',
+                interpretations: {
+                    long: { score: 88, text: '깊고 풍부한 감정을 가졌습니다. 사랑에 열정적이며, 관계를 소중히 여깁니다.' },
+                    short: { score: 62, text: '독립적이고 자기 중심적입니다. 감정보다 이성을 중시하며, 실용적인 관계를 선호합니다.' },
+                    curved: { score: 85, text: '따뜻하고 로맨틱한 성격입니다. 표현력이 뛰어나며, 주변 사람들에게 사랑받습니다.' },
+                    wavy: { score: 70, text: '감정 기복이 있지만 다양한 경험을 합니다. 여러 연애를 통해 성장하는 타입입니다.' }
+                }
+            },
+            fate: {
+                name: '운명선',
+                icon: '&#11088;',
+                interpretations: {
+                    clear: { score: 95, text: '뚜렷한 목표와 방향성을 가졌습니다. 성공적인 커리어를 쌓을 가능성이 높으며, 자기 운명을 개척합니다.' },
+                    faint: { score: 72, text: '유연한 삶의 태도를 가졌습니다. 다양한 가능성에 열려 있으며, 상황에 따라 적응합니다.' },
+                    broken: { score: 65, text: '인생의 전환점들을 경험합니다. 변화를 통해 성장하며, 새로운 시작을 두려워하지 않습니다.' },
+                    none: { score: 60, text: '자유로운 영혼의 소유자입니다. 정해진 길보다 자신만의 길을 개척해 나갑니다.' }
+                }
+            }
+        };
+
+        // Event listeners for selection
+        document.querySelectorAll('.char-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const line = this.parentElement.dataset.line;
+                const value = this.dataset.value;
+
+                // Toggle selection
+                this.parentElement.querySelectorAll('.char-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+
+                selectedLines[line] = value;
+                updateButtonState();
+            });
+        });
+
+        function updateButtonState() {
+            const allSelected = Object.values(selectedLines).every(v => v !== null);
+            document.getElementById('analyzeBtn').disabled = !allSelected;
+        }
+
+        function analyzePalm() {
+            // Calculate results
+            let totalScore = 0;
+            let resultHTML = '';
+
+            Object.keys(selectedLines).forEach(line => {
+                const value = selectedLines[line];
+                const data = lineData[line];
+                const interpretation = data.interpretations[value];
+
+                totalScore += interpretation.score;
+
+                resultHTML += `
+                    <div class="line-result">
+                        <div class="line-result-header">
+                            <span class="line-result-icon">${data.icon}</span>
+                            <span class="line-result-name">${data.name}</span>
+                        </div>
+                        <div class="line-score">
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 0%;" data-score="${interpretation.score}"></div>
+                            </div>
+                            <div class="score-label">
+                                <span>운세 지수</span>
+                                <span>${interpretation.score}점</span>
+                            </div>
+                        </div>
+                        <p class="line-interpretation">${interpretation.text}</p>
+                    </div>
+                `;
+            });
+
+            const avgScore = Math.round(totalScore / 4);
+
+            // Generate fortune scores
+            const loveScore = Math.round((lineData.heart.interpretations[selectedLines.heart].score + avgScore) / 2);
+            const careerScore = Math.round((lineData.fate.interpretations[selectedLines.fate].score + lineData.head.interpretations[selectedLines.head].score) / 2);
+            const healthScore = lineData.life.interpretations[selectedLines.life].score;
+
+            const fortuneHTML = `
+                <div class="fortune-item">
+                    <div class="fortune-value">${loveScore}</div>
+                    <div class="fortune-label">연애운</div>
+                </div>
+                <div class="fortune-item">
+                    <div class="fortune-value">${careerScore}</div>
+                    <div class="fortune-label">직업운</div>
+                </div>
+                <div class="fortune-item">
+                    <div class="fortune-value">${healthScore}</div>
+                    <div class="fortune-label">건강운</div>
+                </div>
+            `;
+
+            // Generate advice
+            const advices = [
+                avgScore >= 85 ? '당신의 손금은 매우 좋은 기운을 담고 있습니다. 자신감을 갖고 도전하세요!' : '',
+                avgScore >= 70 && avgScore < 85 ? '균형 잡힌 삶을 살고 있습니다. 현재의 방향을 유지하세요.' : '',
+                avgScore < 70 ? '새로운 도전과 변화가 당신에게 좋은 기회가 될 것입니다.' : '',
+                healthScore >= 80 ? '건강한 생활 습관을 유지하고 있군요. 계속 유지하세요!' : '규칙적인 운동과 충분한 휴식을 취하세요.',
+                loveScore >= 80 ? '사랑에 대해 긍정적인 기운이 있습니다.' : '마음을 열고 새로운 인연을 받아들여 보세요.'
+            ].filter(a => a).join(' ');
+
+            // Summary based on score
+            let summary = '';
+            if (avgScore >= 85) {
+                summary = '&#127775; 매우 좋은 손금입니다! 타고난 운이 강하며, 노력한 만큼 성과를 거둘 수 있는 운을 가지고 있습니다.';
+            } else if (avgScore >= 75) {
+                summary = '&#128170; 균형 잡힌 좋은 손금입니다. 안정적인 삶을 살아가며, 꾸준한 노력으로 성공할 수 있습니다.';
+            } else if (avgScore >= 65) {
+                summary = '&#127808; 발전 가능성이 있는 손금입니다. 변화를 두려워하지 않으면 더 좋은 운이 찾아올 것입니다.';
+            } else {
+                summary = '&#127793; 자유로운 영혼의 손금입니다. 자신만의 길을 개척하며 독특한 인생을 살게 될 것입니다.';
+            }
+
+            // Display results
+            document.getElementById('resultSummary').innerHTML = summary;
+            document.getElementById('lineResults').innerHTML = resultHTML;
+            document.getElementById('fortuneGrid').innerHTML = fortuneHTML;
+            document.getElementById('adviceContent').textContent = advices;
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('resultSection').classList.add('show');
+
+            // Animate score bars
+            setTimeout(() => {
+                document.querySelectorAll('.score-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.score + '%';
+                });
+            }, 100);
+        }
+
+        function shareResult() {
+            const text = '나의 AI 손금 분석 결과를 확인해보세요!';
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI 손금 보기 결과',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
+                    showToast('링크가 복사되었습니다!');
+                });
+            }
+        }
+
+        function retry() {
+            selectedLines = { life: null, head: null, heart: null, fate: null };
+            document.querySelectorAll('.char-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('resultSection').classList.remove('show');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>
