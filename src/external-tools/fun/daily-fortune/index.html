@@ -252,8 +252,41 @@
         function getStars(t){return"★".repeat(t)+"☆".repeat(5-t)}
         function getScoreText(t){return["Low","Fair","Good","Very Good","Excellent"][t-1]}
         
+        // Update labels based on language
+        function updateLabels() {
+            const lang = window.currentLang || 'ko';
+            const i18n = window.toolI18n || {};
+
+            // Update zodiac labels
+            document.querySelectorAll('#zodiac-options .option-btn').forEach(btn => {
+                const val = btn.dataset.value;
+                if (i18n.zodiac && i18n.zodiac[val] && i18n.zodiac[val][lang]) {
+                    btn.querySelector('.label').textContent = i18n.zodiac[val][lang];
+                }
+            });
+
+            // Update chinese zodiac labels
+            document.querySelectorAll('#chinese-options .option-btn').forEach(btn => {
+                const val = btn.dataset.value;
+                if (i18n.chinese && i18n.chinese[val] && i18n.chinese[val][lang]) {
+                    btn.querySelector('.label').textContent = i18n.chinese[val][lang];
+                }
+            });
+
+            // Update blood type labels
+            document.querySelectorAll('#blood-options .option-btn').forEach(btn => {
+                const val = btn.dataset.value;
+                if (i18n.blood && i18n.blood[val] && i18n.blood[val][lang]) {
+                    btn.querySelector('.label').textContent = i18n.blood[val][lang];
+                }
+            });
+        }
+
+        // Run after DOM ready and i18n loaded
+        if (window.toolI18n) updateLabels();
+
         document.getElementById("generateBtn").addEventListener("click",generateFortune);
-        
+
         function generateFortune(){
             const t=document.getElementById("loading"),e=document.getElementById("resultSection");
             t.classList.add("show"),e.classList.remove("show"),setTimeout(()=>{

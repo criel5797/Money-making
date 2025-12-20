@@ -217,8 +217,77 @@
         }
 
         function describeCron(fields) {
-            // Placeholder for description localization logic
-            return "Cron description"; 
+            const lang = window.currentLang || 'en';
+            const i18n = window.toolI18n?.desc || {};
+
+            // Helper for i18n
+            const t = (key, fallback) => i18n[key]?.[lang] || fallback;
+
+            let desc = [];
+
+            // Minute
+            if (fields.minute === '*') {
+                desc.push(t('everyMin', 'every minute'));
+            } else if (fields.minute.includes('/')) {
+                const interval = fields.minute.split('/')[1];
+                desc.push(t('everyNMin', 'every {n} minutes').replace('{n}', interval));
+            } else if (fields.minute.includes(',')) {
+                desc.push(t('atMinutes', 'at minutes {m}').replace('{m}', fields.minute));
+            } else {
+                desc.push(t('atMinute', 'at minute {m}').replace('{m}', fields.minute));
+            }
+
+            // Hour
+            if (fields.hour === '*') {
+                desc.push(t('everyHour', 'of every hour'));
+            } else if (fields.hour.includes('/')) {
+                const interval = fields.hour.split('/')[1];
+                desc.push(t('everyNHour', 'every {n} hours').replace('{n}', interval));
+            } else if (fields.hour.includes(',')) {
+                desc.push(t('atHours', 'at {h} o\'clock').replace('{h}', fields.hour));
+            } else {
+                desc.push(t('atHour', 'at {h}:00').replace('{h}', fields.hour));
+            }
+
+            // Day
+            if (fields.day !== '*') {
+                if (fields.day.includes(',')) {
+                    desc.push(t('onDays', 'on days {d}').replace('{d}', fields.day));
+                } else {
+                    desc.push(t('onDay', 'on day {d}').replace('{d}', fields.day));
+                }
+            }
+
+            // Month
+            const monthNames = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            if (fields.month !== '*') {
+                const monthNum = parseInt(fields.month);
+                const monthName = monthNames[monthNum] || fields.month;
+                desc.push(t('inMonth', 'in {m}').replace('{m}', monthName));
+            }
+
+            // Weekday
+            const weekdayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            if (fields.weekday !== '*') {
+                if (fields.weekday.includes(',')) {
+                    desc.push(t('onWeekdays', 'on {w}').replace('{w}', fields.weekday));
+                } else {
+                    const wdNum = parseInt(fields.weekday);
+                    const wdName = weekdayNames[wdNum] || fields.weekday;
+                    desc.push(t('onWeekday', 'on {w}').replace('{w}', wdName));
+                }
+            }
+
+            // Special cases
+            const expr = `${fields.minute} ${fields.hour} ${fields.day} ${fields.month} ${fields.weekday}`;
+            if (expr === '* * * * *') return t('everyMinute', 'Every minute');
+            if (expr === '0 * * * *') return t('everyHourAt0', 'Every hour at :00');
+            if (expr === '0 0 * * *') return t('dailyMidnight', 'Daily at midnight');
+            if (expr === '0 0 * * 0') return t('weeklySunday', 'Weekly on Sunday at midnight');
+            if (expr === '0 0 1 * *') return t('monthly1st', 'Monthly on the 1st at midnight');
+            if (expr === '0 0 1 1 *') return t('yearly', 'Yearly on Jan 1st at midnight');
+
+            return desc.join(' ') || t('custom', 'Custom schedule');
         }
 
         function calculateNextRuns() {

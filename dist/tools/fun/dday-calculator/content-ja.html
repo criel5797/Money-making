@@ -134,8 +134,10 @@
             }
 
             const weeks = Math.floor(Math.abs(diffDays) / 7);
-            const hours = Math.abs(Math.floor(diffTime / (1000 * 60 * 60)));
-            const minutes = Math.abs(Math.floor(diffTime / (1000 * 60)));
+            const totalHours = Math.abs(Math.floor(diffTime / (1000 * 60 * 60)));
+            const hours = totalHours % 24; // Hours within the current day
+            const totalMinutes = Math.abs(Math.floor(diffTime / (1000 * 60)));
+            const minutes = totalMinutes % 60; // Minutes within the current hour
             const formattedDate = target.toLocaleDateString();
 
             document.getElementById('resultEventName').textContent = eventName;

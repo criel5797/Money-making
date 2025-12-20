@@ -99,13 +99,23 @@
         // So I will use English names for now as fallback.
         
         const mbtiData = {
-            "INTJ": { name: "Architect", nickname: "Strategic Thinker", match: "ENFP, ENTP" },
-            "ENFP": { name: "Campaigner", nickname: "Enthusiastic Spirit", match: "INTJ, INFJ" },
-            // ... (others would go here)
+            "INTJ": { name: "Architect", nickname: "Strategic Mastermind", match: "ENFP, ENTP", description: "Independent, strategic thinkers with a long-term vision. You approach life with logic and creativity." },
+            "INTP": { name: "Logician", nickname: "Objective Analyst", match: "ENTJ, ESTJ", description: "Inventive thinkers who love theoretical concepts. You seek to understand the world through logic." },
+            "ENTJ": { name: "Commander", nickname: "Bold Leader", match: "INTP, ISTP", description: "Natural-born leaders who love a challenge. You are efficient, energetic, and highly organized." },
+            "ENTP": { name: "Debater", nickname: "Creative Challenger", match: "INTJ, INFJ", description: "Smart and curious thinkers who love intellectual challenges. You enjoy exploring new ideas." },
+            "INFJ": { name: "Advocate", nickname: "Idealistic Counselor", match: "ENFP, ENTP", description: "Quiet and mystical, yet inspiring. You have a deep sense of idealism and morality." },
+            "INFP": { name: "Mediator", nickname: "Poetic Idealist", match: "ENFJ, ENTJ", description: "Poetic, kind-hearted, and altruistic. You are always eager to help a good cause." },
+            "ENFJ": { name: "Protagonist", nickname: "Charismatic Leader", match: "INFP, ISFP", description: "Charismatic and inspiring leaders. You are able to mesmerize your listeners." },
+            "ENFP": { name: "Campaigner", nickname: "Enthusiastic Spirit", match: "INTJ, INFJ", description: "Enthusiastic, creative, and sociable. You can always find a reason to smile." },
+            "ISTJ": { name: "Logistician", nickname: "Responsible Realist", match: "ESFP, ESTP", description: "Practical and fact-minded. You are reliable and responsible in everything you do." },
+            "ISFJ": { name: "Defender", nickname: "Dedicated Protector", match: "ESFP, ESTP", description: "Very dedicated and warm protectors. You are always ready to defend loved ones." },
+            "ESTJ": { name: "Executive", nickname: "Efficient Organizer", match: "INTP, ISTP", description: "Excellent administrators. You are unsurpassed at managing things and people." },
+            "ESFJ": { name: "Consul", nickname: "Caring Helper", match: "ISFP, ISTP", description: "Extraordinarily caring, social, and popular. Always eager to help others." },
+            "ISTP": { name: "Virtuoso", nickname: "Bold Craftsman", match: "ESTJ, ESFJ", description: "Bold and practical experimenters. Masters of all kinds of tools." },
+            "ISFP": { name: "Adventurer", nickname: "Flexible Artist", match: "ENFJ, ESFJ", description: "Flexible and charming artists. Always ready to explore and experience life." },
+            "ESTP": { name: "Entrepreneur", nickname: "Energetic Doer", match: "ISTJ, ISFJ", description: "Smart, energetic, and very perceptive. You live on the edge and enjoy drama." },
+            "ESFP": { name: "Entertainer", nickname: "Spontaneous Performer", match: "ISTJ, ISFJ", description: "Spontaneous, energetic, and enthusiastic. Life is never boring around you." }
         };
-        // Quick fix to ensure it works even if I didn't paste all data
-        const types = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
-        types.forEach(t => { if(!mbtiData[t]) mbtiData[t] = {name: t, nickname: "Type "+t, match: "Any"}; });
 
         let currentQuestion = 0;
         let answers = [];
