@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Life Test - Who Were You in a Past Life? | Free Reincarnation Quiz</title>
+    <meta name="description" content="Free past life test! Discover who you were in a previous life based on your birthdate. Find out your past life occupation, era, and personality traits!">
+    <meta name="keywords" content="past life, past life test, reincarnation, past life quiz, who was I, previous life, soul journey">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Past Life Test - Who Were You in a Past Life?">
+    <meta property="og:description" content="Discover your past life identity! Take this free quiz now!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=Past+Life+Test">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #1a1a2e;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            overflow-x: hidden;
+        }
+
+        .mystical-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb1 { width: 300px; height: 300px; background: #e94560; top: 10%; left: -10%; animation-delay: 0s; }
+        .orb2 { width: 400px; height: 400px; background: #533483; top: 50%; right: -15%; animation-delay: -7s; }
+        .orb3 { width: 250px; height: 250px; background: #0f3460; bottom: 10%; left: 30%; animation-delay: -14s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle { color: #a0a0c0; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #a0a0c0;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .input-group input::placeholder { color: #666; }
+
+        .birth-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .gender-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .gender-option:hover { border-color: rgba(255, 215, 0, 0.5); }
+        .gender-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .gender-option span { font-size: 24px; display: block; margin-bottom: 5px; }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-icon {
+            font-size: 80px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+
+        .loading p { color: #a0a0c0; margin-top: 20px; font-size: 16px; }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .loading-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            width: 0%;
+            animation: loadingProgress 3s ease-out forwards;
+        }
+
+        @keyframes loadingProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-header p { color: #a0a0c0; font-size: 14px; }
+
+        .era-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #1a1a2e;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .past-life-title {
+            font-size: 2.2rem;
+            color: #ffd700;
+            margin: 10px 0;
+        }
+
+        .past-life-emoji {
+            font-size: 80px;
+            display: block;
+            margin: 20px 0;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+
+        .result-card p {
+            color: #c0c0d0;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .traits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .trait-item {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .trait-item span { color: #ffd700; font-weight: 600; }
+
+        .karma-section {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2), rgba(83, 52, 131, 0.2));
+            border: 1px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #1a1a2e;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .past-life-title { font-size: 1.6rem; }
+            .traits-grid { grid-template-columns: 1fr; }
+            .share-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mystical-bg">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>Past Life Test</h1>
+            <p class="subtitle">Who were you in a previous life?</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            This is an entertainment-only past life test. Results are for fun only!
+        </div>
+
+        <div class="card">
+            <div class="input-section" id="inputSection">
+                <h2>Enter Your Information</h2>
+
+                <div class="input-group">
+                    <label>Your Name</label>
+                    <input type="text" id="userName" placeholder="Enter your name">
+                </div>
+
+                <div class="input-group">
+                    <label>Date of Birth</label>
+                    <div class="birth-row">
+                        <select id="birthYear"><option value="">Year</option></select>
+                        <select id="birthMonth"><option value="">Month</option></select>
+                        <select id="birthDay"><option value="">Day</option></select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Gender</label>
+                    <div class="gender-options">
+                        <div class="gender-option" data-gender="male" onclick="selectGender('male')">
+                            <span>👨</span>
+                            Male
+                        </div>
+                        <div class="gender-option" data-gender="female" onclick="selectGender('female')">
+                            <span>👩</span>
+                            Female
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="startTest()">
+                    Discover My Past Life
+                </button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-icon">🔮</div>
+                <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+                <p>Opening the doors of time...</p>
+                <p style="font-size: 13px; margin-top: 10px; color: #666;">Searching your soul's records...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <p><span id="resultName">John</span>, in your past life you were...</p>
+                    <div class="era-badge" id="resultEra">Ancient Egypt</div>
+                    <span class="past-life-emoji" id="resultEmoji">👑</span>
+                    <div class="past-life-title" id="resultTitle">Royal Scribe</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📜 Your Past Life Story</h3>
+                    <p id="resultStory">You were a scholar in the royal palace...</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>✨ Past Life Personality</h3>
+                    <p id="resultPersonality">You were intellectually curious and loved seeking truth...</p>
+                    <div class="traits-grid" id="traitsGrid"></div>
+                </div>
+
+                <div class="result-card karma-section">
+                    <h3>🔄 Karma Carried to Present</h3>
+                    <p id="resultKarma">The scholarly karma from your past life manifests as a thirst for knowledge...</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💡 Advice from Your Past Self</h3>
+                    <p id="resultAdvice">Based on your past life experience...</p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">Share Result</button>
+                    <button class="share-btn secondary" onclick="resetTest()">Try Again</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>This test is for entertainment purposes only.<br>Not related to actual past lives.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize date selects
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+            const yearSelect = document.getElementById('birthYear');
+            const monthSelect = document.getElementById('birthMonth');
+            const daySelect = document.getElementById('birthDay');
+
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
+            }
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${months[m-1]}</option>`;
+            }
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}</option>`;
+            }
+        }
+        initDateSelects();
+
+        let selectedGender = null;
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.gender === gender);
+            });
+        }
+
+        // Past life data
+        const pastLives = {
+            ancient: [
+                { era: "Ancient Egypt", emoji: "🏛️", title: "Royal Scribe",
+                  story: "You were a scribe serving the Pharaoh in ancient Egypt. You recorded hieroglyphics and kept the secrets of the temples. You wrote construction plans for pyramids and predicted the flooding of the Nile.",
+                  personality: "You were excellent at keeping secrets and had a meticulous personality. You had a strong desire for knowledge and respected sacred things.",
+                  traits: ["Intellectual Curiosity", "Discretion", "Attention to Detail", "Mysticism"],
+                  karma: "Your past life as a keeper of records manifests now as skill in collecting and organizing information. This is why you're drawn to history and ancient civilizations.",
+                  advice: "Use the wisdom from your past life now. The habit of recording and organizing will serve you well." },
+                { era: "Ancient Greece", emoji: "🏺", title: "Philosopher's Student",
+                  story: "You were a student of philosophers in Athens. You debated in the Agora and spent your life pursuing truth. You learned the Socratic method and studied logic.",
+                  personality: "You were logical and curious, constantly questioning the nature of the world.",
+                  traits: ["Logical Thinking", "Curiosity", "Debate Skills", "Truth Seeking"],
+                  karma: "Your past life pursuit of truth means you often ask 'why?' in this life.",
+                  advice: "Never stop questioning. It's your essence." },
+                { era: "Ancient Rome", emoji: "⚔️", title: "Gladiator",
+                  story: "You were a gladiator fighting in Rome's Colosseum. You fought for survival amid the roaring crowds and won many victories. Eventually, you earned your freedom and opened a combat school.",
+                  personality: "You were brave and decisive, maintaining composure under pressure.",
+                  traits: ["Courage", "Decisiveness", "Survival Instinct", "Charisma"],
+                  karma: "Your past life fighting spirit manifests as competitiveness and drive to win.",
+                  advice: "Know when to fight and when to retreat. Not every battle is worth fighting." },
+                { era: "Ancient Egypt", emoji: "✨", title: "Cleopatra's Handmaiden",
+                  story: "You served Cleopatra, the last Pharaoh of Egypt. You knew the palace secrets and were skilled in perfumery and cosmetics.",
+                  personality: "You were loyal with excellent observation skills and talent for enhancing beauty.",
+                  traits: ["Loyalty", "Observation", "Aesthetic Sense", "Discretion"],
+                  karma: "Your royal past life experience manifests as an eye for elegance and refinement.",
+                  advice: "Cultivate inner beauty as well as outer beauty." },
+                { era: "Ancient Greece", emoji: "🏃", title: "Olympic Athlete",
+                  story: "You competed in the ancient Olympic Games. You won glory for your homeland in running and wrestling.",
+                  personality: "You were highly competitive with exceptional physical and mental strength.",
+                  traits: ["Competitiveness", "Endurance", "Physical Ability", "Glory Seeking"],
+                  karma: "Your athletic past life manifests as a challenging spirit and drive to succeed.",
+                  advice: "Enjoy healthy competition, but value the journey over the victory." }
+            ],
+            medieval: [
+                { era: "Medieval Europe", emoji: "🏰", title: "Knight of the Castle",
+                  story: "You were a knight defending a medieval European kingdom. You valued honor and loyalty, fighting in battles. You even joined the Crusades.",
+                  personality: "You were loyal and just, seeing the protection of the weak as your mission.",
+                  traits: ["Honor", "Loyalty", "Justice", "Protective Instinct"],
+                  karma: "Your chivalrous past life manifests as a sense of justice and care for the vulnerable.",
+                  advice: "Keep your sense of justice, but remember that flexibility is sometimes needed." },
+                { era: "Medieval Europe", emoji: "📿", title: "Monastery Monk",
+                  story: "You lived in a mountain monastery, praying in solitude. You pursued spiritual truth and copied precious manuscripts.",
+                  personality: "You were introspective, enjoyed meditation, and valued spiritual over material things.",
+                  traits: ["Meditative", "Introspective", "Spiritual Sensitivity", "Patience"],
+                  karma: "Your spiritual practice manifests as intuition and inner peace in this life.",
+                  advice: "Value your alone time. It recharges you." },
+                { era: "Medieval Arabia", emoji: "🌙", title: "Desert Merchant",
+                  story: "You were a merchant traveling the Silk Road, trading precious goods. You led camel caravans across deserts, connecting East and West.",
+                  personality: "You were skilled at negotiation, adventurous, and understood diverse cultures.",
+                  traits: ["Negotiation Skills", "Adventurous Spirit", "Cultural Understanding", "Patience"],
+                  karma: "Your trading experience manifests as communication skills and adaptability.",
+                  advice: "Don't fear new experiences. They help you grow." },
+                { era: "Medieval Europe", emoji: "🧙", title: "Alchemist",
+                  story: "You were a scholar studying alchemy in medieval Europe. While trying to turn lead into gold, you discovered the foundations of chemistry.",
+                  personality: "You had a strong experimental spirit, persistence, and believed nothing was impossible.",
+                  traits: ["Curiosity", "Persistence", "Experimental Spirit", "Secrecy"],
+                  karma: "Your alchemist experience manifests as scientific curiosity and belief in transformation.",
+                  advice: "Don't fear failure. Every failure is an ingredient for success." },
+                { era: "Medieval Europe", emoji: "🎪", title: "Wandering Minstrel",
+                  story: "You were a minstrel traveling from castle to castle in medieval Europe, singing songs of love and war.",
+                  personality: "You were a free spirit with a gift for storytelling.",
+                  traits: ["Artistry", "Freedom", "Communication", "Romance"],
+                  karma: "Your minstrel experience manifests as verbal talent and storytelling ability.",
+                  advice: "Share your stories with the world. Many will listen." }
+            ],
+            asian: [
+                { era: "Joseon Dynasty", emoji: "👑", title: "Royal Scholar",
+                  story: "You were a scholar in the Joseon palace, researching classics and advising the king. You even participated in creating the Korean alphabet.",
+                  personality: "You were intellectual, prudent, and valued ethics and morality.",
+                  traits: ["Scholarly Passion", "Prudence", "Morality", "Loyalty"],
+                  karma: "Your scholarly pursuit manifests as a thirst for knowledge in this life.",
+                  advice: "Never stop learning. It's what your soul desires." },
+                { era: "Joseon Dynasty", emoji: "🎭", title: "Traveling Performer",
+                  story: "You were part of a traveling entertainment troupe in Joseon Korea, bringing joy and laughter through dance and song.",
+                  personality: "You had an excellent sense of humor and a free spirit.",
+                  traits: ["Humor", "Freedom", "Expression", "Adaptability"],
+                  karma: "Your entertainer talent manifests as social skills and humor in this life.",
+                  advice: "Never lose your laughter. Your bright energy makes others happy." },
+                { era: "Edo Japan", emoji: "🗡️", title: "Samurai Warrior",
+                  story: "You were a samurai in Edo period Japan. You practiced the way of the sword and lived honorably. You valued loyalty to your lord above life itself.",
+                  personality: "You had strong self-control, sense of duty, and pursued perfection.",
+                  traits: ["Self-Control", "Duty", "Perfectionism", "Focus"],
+                  karma: "Your martial arts practice manifests as self-discipline and focus in this life.",
+                  advice: "Pursue perfection, but don't push yourself too hard." },
+                { era: "Tang Dynasty China", emoji: "🎨", title: "Imperial Painter",
+                  story: "You were a painter at the Tang dynasty court, creating art for the imperial family. You were famous for landscapes and portraits.",
+                  personality: "You had excellent artistic sense, were delicate, and pursued beauty.",
+                  traits: ["Artistry", "Delicacy", "Observation", "Creativity"],
+                  karma: "Your artistic soul manifests as aesthetic sense and creativity in this life.",
+                  advice: "Find your own form of expression, whether art or anything else." },
+                { era: "Joseon Dynasty", emoji: "🏺", title: "Royal Physician",
+                  story: "You were a royal physician in Joseon Korea, responsible for the health of the royal family. You studied traditional medicine and treated countless patients.",
+                  personality: "You had a deep healing spirit with excellent observation and judgment.",
+                  traits: ["Healing", "Observation", "Patience", "Service"],
+                  karma: "Your medical experience manifests as a caring nature for others in this life.",
+                  advice: "Don't stop your healing touch. Your presence is a great comfort to someone." },
+                { era: "Heian Japan", emoji: "📜", title: "Court Lady Writer",
+                  story: "You were a lady-in-waiting in Heian period Japan, creating beautiful literature like the Tale of Genji and expressing emotions through poetry.",
+                  personality: "You were emotionally rich with literary talent, capturing subtle feelings.",
+                  traits: ["Literary Sensibility", "Delicacy", "Expression", "Romance"],
+                  karma: "Your literary experience manifests as writing talent and emotional expression in this life.",
+                  advice: "Express your feelings through writing. You'll resonate with many." }
+            ],
+            mystical: [
+                { era: "Ancient Celtic", emoji: "🌿", title: "Druid Priest",
+                  story: "You were a Druid priest among the ancient Celts. You studied nature's mysteries in the forest and read the stars. You performed rituals beneath the oak trees.",
+                  personality: "You were one with nature and possessed mystical knowledge.",
+                  traits: ["Nature Affinity", "Intuition", "Mysticism", "Healing"],
+                  karma: "Your communion with nature manifests as closeness to plants and animals in this life.",
+                  advice: "Spend time in nature. You'll find healing and inspiration there." },
+                { era: "Ancient India", emoji: "🧘", title: "Yoga Practitioner",
+                  story: "You were a yoga practitioner at the foot of the Himalayas. You pursued enlightenment through meditation and taught many disciples.",
+                  personality: "You were peaceful and wise, transcending material desires.",
+                  traits: ["Peace", "Wisdom", "Patience", "Meditative"],
+                  karma: "Your practice manifests as inner peace and intuition in this life.",
+                  advice: "Try meditation or yoga. You'll find it familiar." },
+                { era: "Ancient Maya", emoji: "⭐", title: "Star-Reading Priest",
+                  story: "You were a priest in Maya civilization who observed star movements and made prophecies. You calculated the solar calendar and predicted the future.",
+                  personality: "You had a cosmic perspective and understood the flow of time.",
+                  traits: ["Insight", "Prophetic Ability", "Mathematical Mind", "Mysticism"],
+                  karma: "Your star-reading manifests as intuition about the future in this life.",
+                  advice: "Trust your instincts. They're a gift from your past life." },
+                { era: "Atlantis", emoji: "🔮", title: "Crystal Palace Sage",
+                  story: "You were a sage who worked with crystal energy in the legendary Atlantis. You performed healing and prophecy in an advanced civilization.",
+                  personality: "You possessed transcendent knowledge and the ability to sense and manipulate energy.",
+                  traits: ["Energy Sensing", "Healing Power", "Foresight", "Ancient Knowledge"],
+                  karma: "Your crystal energy experience manifests as intuition and healing ability in this life.",
+                  advice: "If you're drawn to crystals or natural stones, explore them. It may be past life memories." },
+                { era: "Viking Age", emoji: "⚡", title: "Rune Magician",
+                  story: "You were a rune magician in the Viking era. You interpreted rune letters, divined fate, and blessed warriors.",
+                  personality: "You wielded mystical powers and could read the threads of destiny.",
+                  traits: ["Fate Reading", "Magical Sense", "Wisdom", "Leadership"],
+                  karma: "Your rune magic experience manifests as ability to read symbols and patterns in this life.",
+                  advice: "If you're interested in tarot or divination, try it. You may discover amazing talent." },
+                { era: "Ancient Tibet", emoji: "🏔️", title: "Lama Monk",
+                  story: "You were a Lama monk practicing in a temple on the Tibetan plateau. You drew mandalas and received the secrets of esoteric Buddhism.",
+                  personality: "You were compassionate, sought enlightenment, and understood the cycle of reincarnation.",
+                  traits: ["Compassion", "Enlightenment", "Patience", "Spiritual Wisdom"],
+                  karma: "Your practice experience manifests as spiritual sensitivity and compassionate heart in this life.",
+                  advice: "Show compassion to all beings. It purifies your soul." }
+            ]
+        };
+
+        let resultData = {};
+
+        function startTest() {
+            const name = document.getElementById('userName').value.trim();
+            const year = document.getElementById('birthYear').value;
+            const month = document.getElementById('birthMonth').value;
+            const day = document.getElementById('birthDay').value;
+
+            if (!name) {
+                showToast('Please enter your name!');
+                return;
+            }
+            if (!year || !month || !day) {
+                showToast('Please select your birthdate!');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name, year, month, day);
+            }, 3000);
+        }
+
+        function calculateResult(name, year, month, day) {
+            // Generate seed from name and birthdate
+            let seed = 0;
+            for (let i = 0; i < name.length; i++) {
+                seed += name.charCodeAt(i);
+            }
+            seed += parseInt(year) + parseInt(month) * 100 + parseInt(day) * 10;
+
+            // Select era
+            const eras = Object.keys(pastLives);
+            const eraIndex = seed % eras.length;
+            const selectedEra = eras[eraIndex];
+
+            // Select life from era
+            const lives = pastLives[selectedEra];
+            const lifeIndex = (seed + parseInt(month)) % lives.length;
+            const selectedLife = lives[lifeIndex];
+
+            // Gender adjustments
+            let title = selectedLife.title;
+            if (selectedGender === 'female') {
+                title = title.replace('Knight', 'Noble Lady').replace('Samurai Warrior', 'Shrine Maiden').replace('Gladiator', 'Warrior Queen');
+            }
+
+            resultData = {
+                name: name,
+                era: selectedLife.era,
+                emoji: selectedLife.emoji,
+                title: title,
+                story: selectedLife.story,
+                personality: selectedLife.personality,
+                traits: selectedLife.traits,
+                karma: selectedLife.karma,
+                advice: selectedLife.advice
+            };
+
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('resultName').textContent = resultData.name;
+            document.getElementById('resultEra').textContent = resultData.era;
+            document.getElementById('resultEmoji').textContent = resultData.emoji;
+            document.getElementById('resultTitle').textContent = resultData.title;
+            document.getElementById('resultStory').textContent = resultData.story;
+            document.getElementById('resultPersonality').textContent = resultData.personality;
+            document.getElementById('resultKarma').textContent = resultData.karma;
+            document.getElementById('resultAdvice').textContent = resultData.advice;
+
+            const traitsGrid = document.getElementById('traitsGrid');
+            traitsGrid.innerHTML = resultData.traits.map(trait =>
+                `<div class="trait-item"><span>${trait}</span></div>`
+            ).join('');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `🔮 My Past Life Test Result\n\n` +
+                        `${resultData.name} was...\n` +
+                        `【${resultData.era}】\n` +
+                        `${resultData.emoji} ${resultData.title}\n\n` +
+                        `✨ "${resultData.story.substring(0, 80)}..."\n\n` +
+                        `Discover your past life too 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'Past Life Test Result', text: text, url: window.location.href })
+                    .catch(err => {
+                        navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => showToast('Result copied!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
+                    showToast('Result copied!');
+                });
+            }
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('userName').value = '';
+            document.getElementById('birthYear').value = '';
+            document.getElementById('birthMonth').value = '';
+            document.getElementById('birthDay').value = '';
+            selectedGender = null;
+            document.querySelectorAll('.gender-option').forEach(opt => opt.classList.remove('selected'));
+        }
+    </script>
+</body>
+</html>

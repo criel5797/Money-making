@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전생 테스트 - 나의 전생은? | 무료 전생 알아보기</title>
+    <meta name="description" content="무료 전생 테스트! 나는 전생에 누구였을까? 생년월일로 알아보는 나의 전생 직업, 성격, 시대. 지금 바로 확인하세요!">
+    <meta name="keywords" content="전생, 전생테스트, 전생알아보기, 전생확인, 윤회, 전생체험">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="전생 테스트 - 나의 전생은?">
+    <meta property="og:description" content="나는 전생에 누구였을까? 지금 바로 확인하세요!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=전생+테스트">
+    <link rel="canonical" href="">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #1a1a2e;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            overflow-x: hidden;
+        }
+
+        .mystical-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb1 { width: 300px; height: 300px; background: #e94560; top: 10%; left: -10%; animation-delay: 0s; }
+        .orb2 { width: 400px; height: 400px; background: #533483; top: 50%; right: -15%; animation-delay: -7s; }
+        .orb3 { width: 250px; height: 250px; background: #0f3460; bottom: 10%; left: 30%; animation-delay: -14s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle { color: #a0a0c0; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #a0a0c0;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .input-group input::placeholder { color: #666; }
+
+        .birth-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .gender-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .gender-option:hover { border-color: rgba(255, 215, 0, 0.5); }
+        .gender-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .gender-option span { font-size: 24px; display: block; margin-bottom: 5px; }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-icon {
+            font-size: 80px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+
+        .loading p { color: #a0a0c0; margin-top: 20px; font-size: 16px; }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .loading-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            width: 0%;
+            animation: loadingProgress 3s ease-out forwards;
+        }
+
+        @keyframes loadingProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-header p { color: #a0a0c0; font-size: 14px; }
+
+        .era-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #1a1a2e;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .past-life-title {
+            font-size: 2.2rem;
+            color: #ffd700;
+            margin: 10px 0;
+        }
+
+        .past-life-emoji {
+            font-size: 80px;
+            display: block;
+            margin: 20px 0;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+
+        .result-card p {
+            color: #c0c0d0;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .traits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .trait-item {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .trait-item span { color: #ffd700; font-weight: 600; }
+
+        .karma-section {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2), rgba(83, 52, 131, 0.2));
+            border: 1px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #1a1a2e;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .past-life-title { font-size: 1.6rem; }
+            .traits-grid { grid-template-columns: 1fr; }
+            .share-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mystical-bg">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>전생 테스트</h1>
+            <p class="subtitle">나는 전생에 누구였을까?</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            재미로 즐기는 전생 테스트입니다. 결과는 오락 목적으로만 참고하세요!
+        </div>
+
+        <div class="card">
+            <div class="input-section" id="inputSection">
+                <h2>당신의 정보를 알려주세요</h2>
+
+                <div class="input-group">
+                    <label>이름</label>
+                    <input type="text" id="userName" placeholder="이름을 입력하세요">
+                </div>
+
+                <div class="input-group">
+                    <label>생년월일</label>
+                    <div class="birth-row">
+                        <select id="birthYear"><option value="">년도</option></select>
+                        <select id="birthMonth"><option value="">월</option></select>
+                        <select id="birthDay"><option value="">일</option></select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>성별</label>
+                    <div class="gender-options">
+                        <div class="gender-option" data-gender="male" onclick="selectGender('male')">
+                            <span>👨</span>
+                            남성
+                        </div>
+                        <div class="gender-option" data-gender="female" onclick="selectGender('female')">
+                            <span>👩</span>
+                            여성
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="startTest()">
+                    전생 알아보기
+                </button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-icon">🔮</div>
+                <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+                <p>시간의 문을 열고 있습니다...</p>
+                <p style="font-size: 13px; margin-top: 10px; color: #666;">당신의 영혼 기록을 찾는 중...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <p><span id="resultName">홍길동</span>님의 전생은...</p>
+                    <div class="era-badge" id="resultEra">조선시대</div>
+                    <span class="past-life-emoji" id="resultEmoji">👑</span>
+                    <div class="past-life-title" id="resultTitle">왕실의 학자</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📜 전생의 삶</h3>
+                    <p id="resultStory">당신은 조선시대 왕실에서 학문을 연구하던 학자였습니다...</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>✨ 전생의 성격</h3>
+                    <p id="resultPersonality">지적 호기심이 강하고 진리를 탐구하는 것을 좋아했습니다...</p>
+                    <div class="traits-grid" id="traitsGrid"></div>
+                </div>
+
+                <div class="result-card karma-section">
+                    <h3>🔄 현생으로 이어온 것</h3>
+                    <p id="resultKarma">전생에서 쌓은 학문의 카르마로 현생에서도 지식에 대한 갈망이 있습니다...</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💡 전생이 주는 조언</h3>
+                    <p id="resultAdvice">전생의 경험을 바탕으로 현생에서는...</p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
+                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>이 테스트는 재미를 위한 것입니다.<br>실제 전생과는 관련이 없습니다.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 날짜 선택 초기화
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+            const yearSelect = document.getElementById('birthYear');
+            const monthSelect = document.getElementById('birthMonth');
+            const daySelect = document.getElementById('birthDay');
+
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}년</option>`;
+            }
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${m}월</option>`;
+            }
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}일</option>`;
+            }
+        }
+        initDateSelects();
+
+        let selectedGender = null;
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.gender === gender);
+            });
+        }
+
+        // 전생 데이터 - 확장된 버전
+        const pastLives = {
+            ancient: [
+                { era: "고대 이집트", emoji: "🏛️", title: "파라오의 서기관",
+                  story: "당신은 고대 이집트에서 파라오를 섬기는 서기관이었습니다. 상형문자를 기록하고 신전의 비밀을 지키는 중요한 역할을 맡았죠. 피라미드 건설 계획서를 작성하고, 나일강의 범람을 예측하는 기록도 남겼습니다.",
+                  personality: "비밀을 잘 지키고 꼼꼼한 성격이었습니다. 지식에 대한 욕구가 강했고, 신성한 것을 존중했습니다.",
+                  traits: ["지적 호기심", "비밀 유지", "꼼꼼함", "신비주의"],
+                  karma: "전생에서 기록하고 보존하는 일을 했기에, 현생에서도 정보를 수집하고 정리하는 것에 능숙합니다. 역사나 고대 문명에 끌리는 이유이기도 합니다.",
+                  advice: "전생의 지혜를 현생에서도 활용하세요. 기록하고 정리하는 습관이 큰 도움이 될 것입니다." },
+                { era: "고대 그리스", emoji: "🏺", title: "철학자의 제자",
+                  story: "당신은 아테네에서 철학자의 가르침을 받던 제자였습니다. 아고라 광장에서 토론하고, 진리를 탐구하며 살았습니다. 소크라테스의 문답법을 익히고 논리학을 연구했죠.",
+                  personality: "논리적이고 호기심이 많았으며, 세상의 본질에 대해 끊임없이 질문했습니다.",
+                  traits: ["논리적 사고", "호기심", "토론 능력", "진리 추구"],
+                  karma: "전생에서 진리를 탐구했기에, 현생에서도 '왜?'라는 질문을 자주 합니다.",
+                  advice: "질문하는 것을 멈추지 마세요. 그것이 당신의 본질입니다." },
+                { era: "고대 로마", emoji: "⚔️", title: "검투사",
+                  story: "당신은 로마의 콜로세움에서 싸우던 검투사였습니다. 관중의 함성 속에서 생존을 위해 싸웠고, 많은 승리를 거뒀습니다. 결국 자유민이 되어 검술 학교를 열었습니다.",
+                  personality: "용감하고 결단력이 있었으며, 압박감 속에서도 침착함을 유지했습니다.",
+                  traits: ["용기", "결단력", "생존 본능", "카리스마"],
+                  karma: "전생의 투쟁 본능이 현생에서 경쟁심과 승부욕으로 나타납니다.",
+                  advice: "싸울 때와 물러설 때를 구분하세요. 모든 싸움이 가치 있는 것은 아닙니다." },
+                { era: "고대 이집트", emoji: "✨", title: "클레오파트라의 시녀",
+                  story: "당신은 이집트 최후의 파라오 클레오파트라를 모시던 시녀였습니다. 왕궁의 비밀을 알고 있었고, 향료와 화장술에 능했습니다.",
+                  personality: "충성스럽고 관찰력이 뛰어났으며, 아름다움을 가꾸는 것에 재능이 있었습니다.",
+                  traits: ["충성심", "관찰력", "미적 감각", "비밀 유지"],
+                  karma: "전생의 왕실 경험이 현생에서 우아함과 품격에 대한 안목으로 나타납니다.",
+                  advice: "외적 아름다움뿐 아니라 내면의 아름다움도 가꾸세요." },
+                { era: "고대 그리스", emoji: "🏃", title: "올림피아 경기 선수",
+                  story: "당신은 고대 올림피아 경기에 출전한 선수였습니다. 달리기와 레슬링에서 승리하여 고향에 영광을 가져다주었습니다.",
+                  personality: "경쟁심이 강하고 체력과 정신력이 뛰어났습니다.",
+                  traits: ["경쟁심", "인내력", "신체 능력", "영광 추구"],
+                  karma: "전생의 운동 선수 경험이 현생에서 도전정신과 승부욕으로 나타납니다.",
+                  advice: "건강한 경쟁을 즐기되, 승리보다 과정을 중요시하세요." }
+            ],
+            medieval: [
+                { era: "중세 유럽", emoji: "🏰", title: "성의 기사",
+                  story: "당신은 중세 유럽의 왕국을 지키던 기사였습니다. 명예와 충성을 중시하며 전장에서 싸웠습니다. 십자군 원정에도 참여했죠.",
+                  personality: "의리가 강하고 정의로웠으며, 약자를 보호하는 것을 사명으로 여겼습니다.",
+                  traits: ["명예심", "충성심", "정의감", "보호 본능"],
+                  karma: "전생의 기사도 정신이 현생에서 정의감과 약자에 대한 배려로 나타납니다.",
+                  advice: "당신의 정의감을 잃지 마세요. 하지만 때로는 유연함도 필요합니다." },
+                { era: "중세 유럽", emoji: "📿", title: "수도원의 수도사",
+                  story: "당신은 깊은 산속 수도원에서 기도하며 살았습니다. 고요함 속에서 영적 진리를 추구하고, 귀한 필사본을 복사하는 일을 했습니다.",
+                  personality: "내성적이고 명상을 즐겼으며, 물질보다 정신적 가치를 중시했습니다.",
+                  traits: ["명상적", "내성적", "영적 감수성", "인내심"],
+                  karma: "전생의 영적 수행이 현생에서 직관력과 내면의 평화로 나타납니다.",
+                  advice: "혼자만의 시간을 소중히 여기세요. 그 시간이 당신을 충전시킵니다." },
+                { era: "중세 아라비아", emoji: "🌙", title: "사막의 상인",
+                  story: "당신은 실크로드를 오가며 귀한 물건을 거래하던 상인이었습니다. 낙타 대상을 이끌고 사막을 횡단하며 동서양의 문물을 연결했습니다.",
+                  personality: "협상에 능했고 모험심이 강했으며, 다양한 문화를 이해했습니다.",
+                  traits: ["협상 능력", "모험심", "문화 이해력", "인내심"],
+                  karma: "전생의 무역 경험이 현생에서 의사소통 능력과 적응력으로 나타납니다.",
+                  advice: "새로운 경험을 두려워하지 마세요. 그것이 당신을 성장시킵니다." },
+                { era: "중세 유럽", emoji: "🧙", title: "연금술사",
+                  story: "당신은 중세 유럽에서 연금술을 연구하던 학자였습니다. 납을 금으로 바꾸려 했지만, 그 과정에서 화학의 기초를 발견했습니다.",
+                  personality: "실험정신이 강하고 끈기가 있었으며, 불가능을 믿지 않았습니다.",
+                  traits: ["탐구심", "끈기", "실험정신", "비밀주의"],
+                  karma: "전생의 연금술 경험이 현생에서 과학적 호기심과 변화에 대한 믿음으로 나타납니다.",
+                  advice: "실패를 두려워하지 마세요. 모든 실패는 성공의 재료입니다." },
+                { era: "중세 유럽", emoji: "🎪", title: "떠돌이 음유시인",
+                  story: "당신은 중세 유럽의 성에서 성으로 떠돌며 노래하던 음유시인이었습니다. 사랑과 전쟁의 이야기를 노래로 전했습니다.",
+                  personality: "자유로운 영혼이었고, 이야기를 전하는 재능이 있었습니다.",
+                  traits: ["예술성", "자유로움", "소통력", "낭만"],
+                  karma: "전생의 음유시인 경험이 현생에서 언어적 재능과 스토리텔링 능력으로 나타납니다.",
+                  advice: "당신의 이야기를 세상에 전하세요. 많은 이들이 귀 기울일 것입니다." }
+            ],
+            asian: [
+                { era: "조선시대", emoji: "👑", title: "왕실의 학자",
+                  story: "당신은 조선의 궁궐에서 학문을 연구하던 학자였습니다. 경전을 연구하고 왕에게 조언을 드렸으며, 세종대왕의 한글 창제에도 참여했습니다.",
+                  personality: "지적이고 신중했으며, 예의와 도덕을 중시했습니다.",
+                  traits: ["학구열", "신중함", "도덕심", "충성심"],
+                  karma: "전생의 학문 추구가 현생에서 지식에 대한 갈망으로 나타납니다.",
+                  advice: "배움을 멈추지 마세요. 그것이 당신의 영혼이 원하는 것입니다." },
+                { era: "조선시대", emoji: "🎭", title: "광대패의 일원",
+                  story: "당신은 조선시대 마을을 돌아다니며 공연하던 광대패의 일원이었습니다. 탈춤과 판소리로 사람들에게 웃음과 즐거움을 선사했습니다.",
+                  personality: "유머 감각이 뛰어나고 자유로운 영혼이었습니다.",
+                  traits: ["유머 감각", "자유로움", "표현력", "적응력"],
+                  karma: "전생의 엔터테인먼트 재능이 현생에서 사교성과 유머로 나타납니다.",
+                  advice: "웃음을 잃지 마세요. 당신의 밝은 에너지가 주변을 행복하게 합니다." },
+                { era: "일본 에도시대", emoji: "🗡️", title: "사무라이",
+                  story: "당신은 에도시대 일본의 사무라이였습니다. 검의 도를 수행하며 명예롭게 살았습니다. 주군에 대한 충성을 목숨보다 중하게 여겼죠.",
+                  personality: "절제력이 강하고 의무감이 투철했으며, 완벽을 추구했습니다.",
+                  traits: ["절제력", "의무감", "완벽주의", "집중력"],
+                  karma: "전생의 무도 수행이 현생에서 자기 수양과 집중력으로 나타납니다.",
+                  advice: "완벽을 추구하되, 자신을 너무 몰아붙이지는 마세요." },
+                { era: "중국 당나라", emoji: "🎨", title: "궁중 화가",
+                  story: "당신은 당나라 궁궐에서 황실을 위해 그림을 그리던 화가였습니다. 산수화와 인물화로 이름을 떨쳤습니다.",
+                  personality: "예술적 감각이 뛰어나고 섬세했으며, 아름다움을 추구했습니다.",
+                  traits: ["예술성", "섬세함", "관찰력", "창의력"],
+                  karma: "전생의 예술 혼이 현생에서 미적 감각과 창의성으로 나타납니다.",
+                  advice: "당신만의 표현 방식을 찾으세요. 예술이든 다른 어떤 것이든." },
+                { era: "조선시대", emoji: "🏺", title: "명의 어의",
+                  story: "당신은 조선시대 궁중 어의였습니다. 왕실의 건강을 책임지며, 동의보감을 연구하고 수많은 환자를 치료했습니다.",
+                  personality: "인술을 베푸는 마음이 깊었고, 관찰력과 판단력이 뛰어났습니다.",
+                  traits: ["치유력", "관찰력", "인내심", "봉사정신"],
+                  karma: "전생의 의술 경험이 현생에서 타인을 돌보는 마음으로 나타납니다.",
+                  advice: "치유의 손길을 멈추지 마세요. 당신의 존재가 누군가에게 큰 위로입니다." },
+                { era: "일본 헤이안시대", emoji: "📜", title: "궁중 여관",
+                  story: "당신은 헤이안 시대 궁중 여관이었습니다. 겐지 이야기 같은 아름다운 문학을 창작하고, 와카(和歌)로 마음을 표현했습니다.",
+                  personality: "감수성이 풍부하고 문학적 재능이 뛰어났으며, 미묘한 감정을 포착했습니다.",
+                  traits: ["문학적 감성", "섬세함", "표현력", "낭만"],
+                  karma: "전생의 문학 경험이 현생에서 글쓰기 재능과 감성적 표현력으로 나타납니다.",
+                  advice: "당신의 감정을 글로 표현해보세요. 많은 이들의 공감을 얻을 것입니다." }
+            ],
+            mystical: [
+                { era: "고대 켈트", emoji: "🌿", title: "드루이드 사제",
+                  story: "당신은 고대 켈트족의 드루이드 사제였습니다. 숲에서 자연의 신비를 연구하고 별을 읽었습니다. 오크나무 아래서 의식을 거행했죠.",
+                  personality: "자연과 하나가 되었고, 신비로운 지식을 가지고 있었습니다.",
+                  traits: ["자연 친화", "직관력", "신비주의", "치유 능력"],
+                  karma: "전생의 자연과의 교감이 현생에서 식물이나 동물과의 친밀감으로 나타납니다.",
+                  advice: "자연 속에서 시간을 보내세요. 그곳에서 치유와 영감을 얻을 것입니다." },
+                { era: "인도 고대", emoji: "🧘", title: "요가 수행자",
+                  story: "당신은 히말라야 산자락에서 요가를 수행하던 수행자였습니다. 명상을 통해 깨달음을 추구하고, 많은 제자들을 가르쳤습니다.",
+                  personality: "평온하고 지혜로웠으며, 물질적 욕망을 초월했습니다.",
+                  traits: ["평온함", "지혜", "인내", "명상적"],
+                  karma: "전생의 수행이 현생에서 내면의 평화와 직관력으로 나타납니다.",
+                  advice: "명상이나 요가를 시도해보세요. 익숙함을 느낄 것입니다." },
+                { era: "고대 마야", emoji: "⭐", title: "별을 읽는 사제",
+                  story: "당신은 마야 문명에서 별의 움직임을 관찰하고 예언하던 사제였습니다. 태양력을 계산하고 미래를 예측했습니다.",
+                  personality: "우주적 시각을 가졌고, 시간의 흐름을 이해했습니다.",
+                  traits: ["통찰력", "예언 능력", "수학적 사고", "신비주의"],
+                  karma: "전생의 별 읽기가 현생에서 미래를 내다보는 직관으로 나타납니다.",
+                  advice: "당신의 직감을 믿으세요. 그것은 전생에서 온 선물입니다." },
+                { era: "아틀란티스", emoji: "🔮", title: "수정궁의 현자",
+                  story: "당신은 전설의 아틀란티스에서 수정 에너지를 다루던 현자였습니다. 고도의 문명에서 치유와 예언을 담당했습니다.",
+                  personality: "초월적 지식을 가졌고, 에너지를 느끼고 다루는 능력이 있었습니다.",
+                  traits: ["에너지 감지", "치유력", "예지력", "고대 지식"],
+                  karma: "전생의 수정 에너지 경험이 현생에서 직관과 치유 능력으로 나타납니다.",
+                  advice: "수정이나 천연석에 끌린다면 그것을 탐구해보세요. 전생의 기억일 수 있습니다." },
+                { era: "북유럽 바이킹", emoji: "⚡", title: "룬 마법사",
+                  story: "당신은 바이킹 시대의 룬 마법사였습니다. 룬 문자를 해석하고 운명을 점쳤으며, 전사들에게 축복을 내렸습니다.",
+                  personality: "신비로운 힘을 다루었고, 운명의 실타래를 읽을 수 있었습니다.",
+                  traits: ["운명 해석", "마법적 감각", "지혜", "리더십"],
+                  karma: "전생의 룬 마법 경험이 현생에서 상징과 패턴을 읽는 능력으로 나타납니다.",
+                  advice: "타로나 점술에 관심이 있다면 시도해보세요. 놀라운 재능을 발견할 수 있습니다." },
+                { era: "고대 티베트", emoji: "🏔️", title: "라마 승려",
+                  story: "당신은 티베트 고원의 사원에서 수행하던 라마 승려였습니다. 만다라를 그리고 밀교의 비밀을 전수받았습니다.",
+                  personality: "자비로웠고 깨달음을 추구했으며, 윤회의 순환을 이해했습니다.",
+                  traits: ["자비심", "깨달음", "인내", "영적 지혜"],
+                  karma: "전생의 수행 경험이 현생에서 영적 감수성과 자비로운 마음으로 나타납니다.",
+                  advice: "모든 존재에게 자비를 베푸세요. 그것이 당신의 영혼을 정화합니다." }
+            ]
+        };
+
+        let resultData = {};
+
+        function startTest() {
+            const name = document.getElementById('userName').value.trim();
+            const year = document.getElementById('birthYear').value;
+            const month = document.getElementById('birthMonth').value;
+            const day = document.getElementById('birthDay').value;
+
+            if (!name) {
+                showToast('⚠️ 이름을 입력해주세요!');
+                return;
+            }
+            if (!year || !month || !day) {
+                showToast('⚠️ 생년월일을 선택해주세요!');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name, year, month, day);
+            }, 3000);
+        }
+
+        function calculateResult(name, year, month, day) {
+            // 이름과 생년월일로 시드 생성
+            let seed = 0;
+            for (let i = 0; i < name.length; i++) {
+                seed += name.charCodeAt(i);
+            }
+            seed += parseInt(year) + parseInt(month) * 100 + parseInt(day) * 10;
+
+            // 시대 선택
+            const eras = Object.keys(pastLives);
+            const eraIndex = seed % eras.length;
+            const selectedEra = eras[eraIndex];
+
+            // 해당 시대의 직업 선택
+            const lives = pastLives[selectedEra];
+            const lifeIndex = (seed + parseInt(month)) % lives.length;
+            const selectedLife = lives[lifeIndex];
+
+            // 성별에 따른 수정
+            let title = selectedLife.title;
+            if (selectedGender === 'female') {
+                title = title.replace('기사', '귀부인').replace('사무라이', '무녀').replace('상인', '상인의 딸').replace('검투사', '여전사');
+            }
+
+            resultData = {
+                name: name,
+                era: selectedLife.era,
+                emoji: selectedLife.emoji,
+                title: title,
+                story: selectedLife.story,
+                personality: selectedLife.personality,
+                traits: selectedLife.traits,
+                karma: selectedLife.karma,
+                advice: selectedLife.advice
+            };
+
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('resultName').textContent = resultData.name;
+            document.getElementById('resultEra').textContent = resultData.era;
+            document.getElementById('resultEmoji').textContent = resultData.emoji;
+            document.getElementById('resultTitle').textContent = resultData.title;
+            document.getElementById('resultStory').textContent = resultData.story;
+            document.getElementById('resultPersonality').textContent = resultData.personality;
+            document.getElementById('resultKarma').textContent = resultData.karma;
+            document.getElementById('resultAdvice').textContent = resultData.advice;
+
+            const traitsGrid = document.getElementById('traitsGrid');
+            traitsGrid.innerHTML = resultData.traits.map(trait =>
+                `<div class="trait-item"><span>${trait}</span></div>`
+            ).join('');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `🔮 나의 전생 테스트 결과\n\n` +
+                        `${resultData.name}님은 전생에...\n` +
+                        `【${resultData.era}】\n` +
+                        `${resultData.emoji} ${resultData.title}\n\n` +
+                        `✨ "${resultData.story.substring(0, 50)}..."\n\n` +
+                        `나도 전생 알아보기 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: '전생 테스트 결과', text: text })
+                    .catch(err => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 결과가 복사되었어요!');
+                });
+            }
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('userName').value = '';
+            document.getElementById('birthYear').value = '';
+            document.getElementById('birthMonth').value = '';
+            document.getElementById('birthDay').value = '';
+            selectedGender = null;
+            document.querySelectorAll('.gender-option').forEach(opt => opt.classList.remove('selected'));
+        }
+    </script>
+</body>
+</html>

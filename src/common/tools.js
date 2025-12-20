@@ -1,0 +1,70 @@
+'use strict';
+
+// Web Tools (개발자 도구)
+var webTools = [
+  { id: 'password-generator', title: { ko: '비밀번호 생성기', en: 'Password Generator', ja: 'パスワード生成' }, emoji: '🔐', desc: { ko: '안전한 비밀번호 생성', en: 'Generate secure passwords', ja: '安全なパスワード生成' } },
+  { id: 'qr-generator', title: { ko: 'QR 코드 생성', en: 'QR Code Generator', ja: 'QRコード生成' }, emoji: '📱', desc: { ko: 'QR 코드 빠르게 생성', en: 'Generate QR codes', ja: 'QRコード生成' } },
+  { id: 'json-formatter', title: { ko: 'JSON 포매터', en: 'JSON Formatter', ja: 'JSONフォーマッター' }, emoji: '📋', desc: { ko: 'JSON 정리 및 검증', en: 'Format and validate JSON', ja: 'JSON整形と検証' } },
+  { id: 'uuid-generator', title: { ko: 'UUID 생성기', en: 'UUID Generator', ja: 'UUID生成' }, emoji: '🆔', desc: { ko: 'UUID v1/v4 생성', en: 'Generate UUID v1/v4', ja: 'UUID v1/v4生成' } },
+  { id: 'base64-tool', title: { ko: 'Base64 인코더', en: 'Base64 Encoder', ja: 'Base64エンコーダー' }, emoji: '🔤', desc: { ko: 'Base64 인코딩/디코딩', en: 'Base64 encode/decode', ja: 'Base64エンコード/デコード' } },
+  { id: 'color-converter', title: { ko: '색상 변환기', en: 'Color Converter', ja: 'カラーコンバーター' }, emoji: '🎨', desc: { ko: 'HEX/RGB/HSL 변환', en: 'HEX/RGB/HSL converter', ja: 'HEX/RGB/HSL変換' } },
+  { id: 'hash-generator', title: { ko: '해시 생성기', en: 'Hash Generator', ja: 'ハッシュ生成' }, emoji: '🔒', desc: { ko: 'MD5/SHA 해시 생성', en: 'Generate MD5/SHA hash', ja: 'MD5/SHAハッシュ生成' } },
+  { id: 'word-counter', title: { ko: '단어 수 세기', en: 'Word Counter', ja: '単語カウンター' }, emoji: '📊', desc: { ko: '단어/글자 수 계산', en: 'Count words and characters', ja: '単語/文字数カウント' } },
+  { id: 'url-encoder', title: { ko: 'URL 인코더', en: 'URL Encoder', ja: 'URLエンコーダー' }, emoji: '🔗', desc: { ko: 'URL 인코딩/디코딩', en: 'URL encode/decode', ja: 'URLエンコード/デコード' } },
+  { id: 'timestamp-converter', title: { ko: '타임스탬프 변환', en: 'Timestamp Converter', ja: 'タイムスタンプ変換' }, emoji: '⏰', desc: { ko: 'Unix 타임스탬프 변환', en: 'Unix timestamp converter', ja: 'Unixタイムスタンプ変換' } },
+  { id: 'regex-tester', title: { ko: '정규식 테스터', en: 'Regex Tester', ja: '正規表現テスター' }, emoji: '🔍', desc: { ko: '정규표현식 실시간 테스트', en: 'Test regex patterns', ja: '正規表現テスト' } },
+  { id: 'jwt-decoder', title: { ko: 'JWT 디코더', en: 'JWT Decoder', ja: 'JWTデコーダー' }, emoji: '🎫', desc: { ko: 'JWT 토큰 파싱', en: 'Parse JWT tokens', ja: 'JWTトークン解析' } },
+  { id: 'lorem-ipsum', title: { ko: '로렘 입숨', en: 'Lorem Ipsum', ja: 'Lorem Ipsum' }, emoji: '📝', desc: { ko: '더미 텍스트 생성', en: 'Generate dummy text', ja: 'ダミーテキスト生成' } },
+  { id: 'json-to-typescript', title: { ko: 'JSON→TypeScript', en: 'JSON→TypeScript', ja: 'JSON→TypeScript' }, emoji: '⚡', desc: { ko: 'JSON을 TS 타입으로 변환', en: 'Convert JSON to TS types', ja: 'JSONをTS型に変換' } },
+  { id: 'css-minifier', title: { ko: 'CSS 압축기', en: 'CSS Minifier', ja: 'CSS圧縮' }, emoji: '💨', desc: { ko: 'CSS 파일 압축', en: 'Minify CSS files', ja: 'CSSファイル圧縮' } },
+  { id: 'html-minifier', title: { ko: 'HTML 압축기', en: 'HTML Minifier', ja: 'HTML圧縮' }, emoji: '🗜️', desc: { ko: 'HTML 파일 압축', en: 'Minify HTML files', ja: 'HTMLファイル圧縮' } },
+  { id: 'sql-formatter', title: { ko: 'SQL 포매터', en: 'SQL Formatter', ja: 'SQLフォーマッター' }, emoji: '🗄️', desc: { ko: 'SQL 쿼리 정리', en: 'Format SQL queries', ja: 'SQLクエリ整形' } },
+  { id: 'markdown-to-html', title: { ko: '마크다운→HTML', en: 'Markdown→HTML', ja: 'Markdown→HTML' }, emoji: '📄', desc: { ko: '마크다운을 HTML로 변환', en: 'Convert Markdown to HTML', ja: 'MarkdownをHTMLに変換' } },
+  { id: 'image-to-base64', title: { ko: '이미지→Base64', en: 'Image→Base64', ja: '画像→Base64' }, emoji: '🖼️', desc: { ko: '이미지를 Base64로 변환', en: 'Convert images to Base64', ja: '画像をBase64に変換' } },
+  { id: 'name-generator', title: { ko: '랜덤 이름 생성', en: 'Random Name Generator', ja: 'ランダム名前生成' }, emoji: '👤', desc: { ko: '랜덤 이름 생성', en: 'Generate random names', ja: 'ランダム名前生成' } },
+  { id: 'color-palette', title: { ko: '컬러 팔레트', en: 'Color Palette', ja: 'カラーパレット' }, emoji: '🎨', desc: { ko: '컬러 팔레트 생성', en: 'Generate color palettes', ja: 'カラーパレット生成' } },
+  { id: 'cron-generator', title: { ko: 'Cron 생성기', en: 'Cron Generator', ja: 'Cron生成' }, emoji: '⏱️', desc: { ko: 'Cron 표현식 생성', en: 'Generate cron expressions', ja: 'Cron式生成' } },
+  { id: 'diff-checker', title: { ko: '텍스트 비교', en: 'Diff Checker', ja: 'テキスト比較' }, emoji: '🔄', desc: { ko: '텍스트 차이 비교', en: 'Compare text differences', ja: 'テキスト差分比較' } },
+  { id: 'pomodoro-timer', title: { ko: '뽀모도로 타이머', en: 'Pomodoro Timer', ja: 'ポモドーロタイマー' }, emoji: '🍅', desc: { ko: '집중 타이머', en: 'Focus timer', ja: '集中タイマー' } },
+  { id: 'slug-generator', title: { ko: 'URL 슬러그', en: 'Slug Generator', ja: 'スラッグ生成' }, emoji: '🔗', desc: { ko: 'URL 슬러그 생성', en: 'Generate URL slugs', ja: 'URLスラッグ生成' } },
+  { id: 'ip-info', title: { ko: 'IP 정보', en: 'IP Info', ja: 'IP情報' }, emoji: '🌐', desc: { ko: 'IP 주소 정보 조회', en: 'Lookup IP address info', ja: 'IPアドレス情報' } },
+  { id: 'css-gradient', title: { ko: 'CSS 그라디언트', en: 'CSS Gradient', ja: 'CSSグラデーション' }, emoji: '🌈', desc: { ko: 'CSS 그라디언트 생성', en: 'Generate CSS gradients', ja: 'CSSグラデーション生成' } },
+  { id: 'box-shadow', title: { ko: 'Box Shadow', en: 'Box Shadow', ja: 'ボックスシャドウ' }, emoji: '📦', desc: { ko: 'CSS 박스 쉐도우 생성', en: 'Generate CSS box shadow', ja: 'CSSボックスシャドウ生成' } },
+  { id: 'emoji-picker', title: { ko: '이모지 선택', en: 'Emoji Picker', ja: '絵文字ピッカー' }, emoji: '😀', desc: { ko: '이모지 검색 및 복사', en: 'Search and copy emoji', ja: '絵文字検索とコピー' } },
+  { id: 'text-case-converter', title: { ko: '텍스트 변환', en: 'Text Case Converter', ja: 'テキストケース変換' }, emoji: '🔡', desc: { ko: '대소문자 변환', en: 'Convert text case', ja: '大文字小文字変換' } },
+  { id: 'aspect-ratio', title: { ko: '비율 계산기', en: 'Aspect Ratio', ja: 'アスペクト比' }, emoji: '📐', desc: { ko: '이미지 비율 계산', en: 'Calculate aspect ratio', ja: 'アスペクト比計算' } },
+  { id: 'binary-hex', title: { ko: '진법 변환', en: 'Binary/Hex Converter', ja: '進数変換' }, emoji: '🔢', desc: { ko: '2/10/16진수 변환', en: 'Binary/Decimal/Hex converter', ja: '2/10/16進数変換' } },
+  { id: 'meta-tag-generator', title: { ko: '메타 태그 생성', en: 'Meta Tag Generator', ja: 'メタタグ生成' }, emoji: '🏷️', desc: { ko: 'SEO 메타 태그 생성', en: 'Generate SEO meta tags', ja: 'SEOメタタグ生成' } }
+];
+
+// Consumer Tools (일반 사용자 도구)
+var consumerTools = [
+  { id: 'daily-fortune', title: { ko: '오늘의 운세', en: 'Daily Fortune', ja: '今日の運勢' }, emoji: '🔮', desc: { ko: '별자리/띠/혈액형 운세', en: 'Zodiac & horoscope fortune', ja: '星座/干支/血液型占い' } },
+  { id: 'mbti-test', title: { ko: 'MBTI 테스트', en: 'MBTI Test', ja: 'MBTIテスト' }, emoji: '🧩', desc: { ko: '16가지 성격 유형 테스트', en: '16 personality types test', ja: '16性格タイプテスト' } },
+  { id: 'dream-interpreter', title: { ko: '꿈 해몽', en: 'Dream Interpreter', ja: '夢占い' }, emoji: '💭', desc: { ko: 'AI 꿈 해석', en: 'AI dream interpretation', ja: 'AI夢解釈' } },
+  { id: 'compatibility-test', title: { ko: '궁합 테스트', en: 'Compatibility Test', ja: '相性診断' }, emoji: '💕', desc: { ko: '이름/생년월일 궁합', en: 'Name & birthday compatibility', ja: '名前/誕生日相性' } },
+  { id: 'ai-tarot', title: { ko: 'AI 타로', en: 'AI Tarot', ja: 'AIタロット' }, emoji: '🃏', desc: { ko: '타로 카드 점', en: 'AI tarot card reading', ja: 'AIタロットカード占い' } },
+  { id: 'char-counter', title: { ko: '글자수 세기', en: 'Character Counter', ja: '文字数カウント' }, emoji: '📏', desc: { ko: '글자 수 계산기', en: 'Count characters', ja: '文字数カウンター' } },
+  { id: 'bmi-calculator', title: { ko: 'BMI 계산기', en: 'BMI Calculator', ja: 'BMI計算機' }, emoji: '⚖️', desc: { ko: '체질량 지수 계산', en: 'Calculate BMI', ja: 'BMI計算' } },
+  { id: 'dday-calculator', title: { ko: 'D-Day 계산기', en: 'D-Day Calculator', ja: 'Dデイ計算機' }, emoji: '📅', desc: { ko: '디데이 계산', en: 'Calculate D-Day', ja: 'Dデイ計算' } },
+  { id: 'age-calculator', title: { ko: '나이 계산기', en: 'Age Calculator', ja: '年齢計算機' }, emoji: '🎂', desc: { ko: '정확한 나이 계산', en: 'Calculate exact age', ja: '正確な年齢計算' } },
+  { id: 'percent-calculator', title: { ko: '퍼센트 계산기', en: 'Percent Calculator', ja: 'パーセント計算機' }, emoji: '💯', desc: { ko: '퍼센트 계산', en: 'Calculate percentages', ja: 'パーセント計算' } },
+  { id: 'unit-converter', title: { ko: '단위 변환기', en: 'Unit Converter', ja: '単位変換' }, emoji: '🔄', desc: { ko: '길이/무게/온도 변환', en: 'Convert units', ja: '長さ/重さ/温度変換' } },
+  { id: 'gpa-calculator', title: { ko: '학점 계산기', en: 'GPA Calculator', ja: '成績計算機' }, emoji: '📚', desc: { ko: '학점 평균 계산', en: 'Calculate GPA', ja: '成績平均計算' } },
+  { id: 'message-generator', title: { ko: '메시지 생성기', en: 'Message Generator', ja: 'メッセージ生成' }, emoji: '✉️', desc: { ko: '축하/감사 메시지 생성', en: 'Generate messages', ja: 'お祝い/感謝メッセージ生成' } },
+  { id: 'insta-caption', title: { ko: '인스타 캡션', en: 'Insta Caption', ja: 'インスタキャプション' }, emoji: '📸', desc: { ko: '인스타그램 캡션 생성', en: 'Generate Instagram captions', ja: 'Instagramキャプション生成' } },
+  { id: 'saju-fortune', title: { ko: '사주 풀이', en: 'Saju Fortune', ja: '四柱推命' }, emoji: '📿', desc: { ko: '사주팔자 분석', en: 'Four pillars reading', ja: '四柱推命分析' } },
+  { id: 'palm-reading', title: { ko: '손금 보기', en: 'Palm Reading', ja: '手相占い' }, emoji: '✋', desc: { ko: 'AI 손금 분석', en: 'AI palm reading', ja: 'AI手相占い' } },
+  { id: 'lotto-fortune', title: { ko: '로또 번호', en: 'Lotto Numbers', ja: 'ロト番号' }, emoji: '🎰', desc: { ko: '행운의 로또 번호 생성', en: 'Generate lucky lotto numbers', ja: '幸運のロト番号生成' } },
+  { id: 'biorhythm', title: { ko: '바이오리듬', en: 'Biorhythm', ja: 'バイオリズム' }, emoji: '📈', desc: { ko: '신체/감성/지성 리듬', en: 'Physical/Emotional/Intellectual rhythm', ja: '身体/感情/知性リズム' } },
+  { id: 'past-life', title: { ko: '전생 테스트', en: 'Past Life Test', ja: '前世テスト' }, emoji: '🌟', desc: { ko: '전생 직업 및 시대', en: 'Past life era & occupation', ja: '前世職業と時代' } },
+  { id: 'spirit-animal', title: { ko: '동물 성격 테스트', en: 'Spirit Animal Test', ja: '動物性格テスト' }, emoji: '🦁', desc: { ko: '나의 동물 성격 찾기', en: 'Find your spirit animal', ja: '自分の動物性格を探す' } },
+  { id: 'face-reading', title: { ko: '관상 분석', en: 'Face Reading', ja: '人相占い' }, emoji: '👤', desc: { ko: 'AI 관상 운세', en: 'AI face reading fortune', ja: 'AI人相占い' } },
+  { id: 'love-style', title: { ko: '연애 성향 테스트', en: 'Love Style Test', ja: '恋愛スタイルテスト' }, emoji: '💖', desc: { ko: '나의 연애 유형 찾기', en: 'Find your love style', ja: '自分の恋愛タイプを探す' } },
+  { id: 'past-life-couple', title: { ko: '전생의 인연', en: 'Past Life Couple', ja: '前世の縁' }, emoji: '💫', desc: { ko: '커플 전생 관계', en: 'Past life couple relationship', ja: 'カップル前世関係' } },
+  { id: 'new-year-2025', title: { ko: '2025 한마디', en: '2025 Message', ja: '2025メッセージ' }, emoji: '🎊', desc: { ko: '새해 운세 메시지', en: 'New year fortune message', ja: '新年運勢メッセージ' } },
+  { id: 'random-picker', title: { ko: '랜덤 뽑기', en: 'Random Picker', ja: 'ランダムピッカー' }, emoji: '🎲', desc: { ko: '랜덤 선택 도구', en: 'Random selection tool', ja: 'ランダム選択ツール' } },
+  { id: 'ladder-game', title: { ko: '사다리 게임', en: 'Ladder Game', ja: 'はしごゲーム' }, emoji: '🪜', desc: { ko: '온라인 사다리 타기', en: 'Online ladder game', ja: 'オンラインはしごゲーム' } }
+];
+
+module.exports = { webTools: webTools, consumerTools: consumerTools };

@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Picker - Copy Emojis Instantly</title>
+    <meta name="description" content="Free emoji picker tool. Browse, search, and copy emojis instantly. Find the perfect emoji for your messages, social media, and documents.">
+    <meta name="keywords" content="emoji picker, emoji copy, emoji search, emoticons, emoji keyboard, copy paste emoji">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="Emoji Picker - Copy Emojis Instantly">
+    <meta property="og:description" content="Browse and copy emojis with one click. Free emoji picker tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/feca57?text=Emoji+Picker">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="en" href="index.html">
+
+    <style>
+        .lang-switch {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .lang-switch a {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #16213e;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .lang-switch a:hover {
+            background: #feca57;
+            color: #1a1a2e;
+            border-color: #feca57;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .search-section {
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #feca57;
+        }
+
+        .search-input::placeholder {
+            color: #666;
+        }
+
+        .recent-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            color: #feca57;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .clear-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: #888;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .clear-btn:hover {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .recent-emojis {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .recent-empty {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .categories {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .category-btn {
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .category-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .category-btn.active {
+            background: rgba(254, 202, 87, 0.1);
+            border-color: #feca57;
+            color: #feca57;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .emoji-btn {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            background: rgba(255,255,255,0.03);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .emoji-btn:hover {
+            background: rgba(254, 202, 87, 0.2);
+            transform: scale(1.15);
+        }
+
+        .emoji-preview {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: rgba(30, 30, 50, 0.95);
+            border: 2px solid #feca57;
+            padding: 20px 40px;
+            border-radius: 16px;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .emoji-preview.show {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+
+        .preview-emoji {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .preview-name {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .copied-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .copied-section h3 {
+            color: #feca57;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .copied-area {
+            display: flex;
+            gap: 15px;
+        }
+
+        .copied-input {
+            flex: 1;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #e4e4e4;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+
+        .copy-all-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            border: none;
+            border-radius: 10px;
+            color: #1a1a2e;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(254, 202, 87, 0.3);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            color: #1a1a2e;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-results span {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .emoji-grid { grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); }
+            .emoji-btn { font-size: 1.5rem; }
+            .copied-area { flex-direction: column; }
+        }
+
+        /* Scrollbar styling */
+        .emoji-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .emoji-grid::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+
+        .emoji-grid::-webkit-scrollbar-thumb {
+            background: rgba(254, 202, 87, 0.3);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-switch"><a href="index-ko.html">한국어</a></div>
+    <div class="container">
+        <header>
+            <h1>Emoji Picker</h1>
+            <p class="subtitle">Click to copy, search to find</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search emojis... (e.g., smile, heart, fire)" oninput="searchEmojis()">
+            </div>
+        </div>
+
+        <div class="recent-section" id="recentSection">
+            <div class="section-header">
+                <span class="section-title">Recently Used</span>
+                <button class="clear-btn" onclick="clearRecent()">Clear</button>
+            </div>
+            <div class="recent-emojis" id="recentEmojis">
+                <span class="recent-empty">No recent emojis</span>
+            </div>
+        </div>
+
+        <div class="categories" id="categories"></div>
+
+        <div class="emoji-grid" id="emojiGrid"></div>
+
+        <div class="copied-section">
+            <h3>Collected Emojis</h3>
+            <div class="copied-area">
+                <input type="text" class="copied-input" id="collectedEmojis" readonly placeholder="Click emojis to collect">
+                <button class="copy-all-btn" onclick="copyAll()">Copy All</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>Free Emoji Picker | Copy Emojis Instantly</p>
+        </footer>
+    </div>
+
+    <div class="emoji-preview" id="emojiPreview">
+        <div class="preview-emoji" id="previewEmoji"></div>
+        <div class="preview-name" id="previewName">Copied!</div>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script>
+        const emojiData = {
+            'Smileys': [
+                { emoji: '😀', name: 'grinning face' },
+                { emoji: '😃', name: 'grinning face with big eyes' },
+                { emoji: '😄', name: 'grinning face with smiling eyes' },
+                { emoji: '😁', name: 'beaming face' },
+                { emoji: '😆', name: 'grinning squinting face' },
+                { emoji: '😅', name: 'grinning with sweat' },
+                { emoji: '🤣', name: 'rolling on floor laughing' },
+                { emoji: '😂', name: 'face with tears of joy' },
+                { emoji: '🙂', name: 'slightly smiling face' },
+                { emoji: '🙃', name: 'upside down face' },
+                { emoji: '😉', name: 'winking face' },
+                { emoji: '😊', name: 'smiling with smiling eyes' },
+                { emoji: '😇', name: 'smiling with halo' },
+                { emoji: '🥰', name: 'smiling with hearts' },
+                { emoji: '😍', name: 'heart eyes' },
+                { emoji: '🤩', name: 'star struck' },
+                { emoji: '😘', name: 'face blowing a kiss' },
+                { emoji: '😗', name: 'kissing face' },
+                { emoji: '😚', name: 'kissing closed eyes' },
+                { emoji: '😋', name: 'face savoring food' },
+                { emoji: '😛', name: 'face with tongue' },
+                { emoji: '😜', name: 'winking with tongue' },
+                { emoji: '🤪', name: 'zany face' },
+                { emoji: '😝', name: 'squinting with tongue' },
+                { emoji: '🤑', name: 'money mouth face' },
+                { emoji: '🤗', name: 'hugging face' },
+                { emoji: '🤭', name: 'face with hand over mouth' },
+                { emoji: '🤫', name: 'shushing face' },
+                { emoji: '🤔', name: 'thinking face' },
+                { emoji: '🤐', name: 'zipper mouth' },
+                { emoji: '😐', name: 'neutral face' },
+                { emoji: '😑', name: 'expressionless' },
+                { emoji: '😶', name: 'face without mouth' },
+                { emoji: '😏', name: 'smirking face' },
+                { emoji: '😒', name: 'unamused face' },
+                { emoji: '🙄', name: 'rolling eyes' },
+                { emoji: '😬', name: 'grimacing face' },
+                { emoji: '😮‍💨', name: 'exhaling face' },
+                { emoji: '🤥', name: 'lying face' },
+                { emoji: '😌', name: 'relieved face' },
+                { emoji: '😔', name: 'pensive face' },
+                { emoji: '😪', name: 'sleepy face' },
+                { emoji: '🤤', name: 'drooling face' },
+                { emoji: '😴', name: 'sleeping face' },
+                { emoji: '😷', name: 'face with mask' },
+                { emoji: '🤒', name: 'face with thermometer' },
+                { emoji: '🤕', name: 'face with bandage' },
+                { emoji: '🤢', name: 'nauseated face' },
+                { emoji: '🤮', name: 'vomiting face' },
+                { emoji: '🤧', name: 'sneezing face' },
+                { emoji: '🥵', name: 'hot face' },
+                { emoji: '🥶', name: 'cold face' },
+                { emoji: '🥴', name: 'woozy face' },
+                { emoji: '😵', name: 'dizzy face' },
+                { emoji: '🤯', name: 'exploding head' },
+                { emoji: '🤠', name: 'cowboy hat face' },
+                { emoji: '🥳', name: 'partying face' },
+                { emoji: '🥸', name: 'disguised face' },
+                { emoji: '😎', name: 'smiling with sunglasses' },
+                { emoji: '🤓', name: 'nerd face' },
+                { emoji: '🧐', name: 'face with monocle' }
+            ],
+            'Emotions': [
+                { emoji: '😟', name: 'worried face' },
+                { emoji: '🙁', name: 'slightly frowning' },
+                { emoji: '😮', name: 'face with open mouth' },
+                { emoji: '😯', name: 'hushed face' },
+                { emoji: '😲', name: 'astonished face' },
+                { emoji: '😳', name: 'flushed face' },
+                { emoji: '🥺', name: 'pleading face' },
+                { emoji: '😦', name: 'frowning open mouth' },
+                { emoji: '😧', name: 'anguished face' },
+                { emoji: '😨', name: 'fearful face' },
+                { emoji: '😰', name: 'anxious with sweat' },
+                { emoji: '😥', name: 'sad but relieved' },
+                { emoji: '😢', name: 'crying face' },
+                { emoji: '😭', name: 'loudly crying' },
+                { emoji: '😱', name: 'screaming in fear' },
+                { emoji: '😖', name: 'confounded face' },
+                { emoji: '😣', name: 'persevering face' },
+                { emoji: '😞', name: 'disappointed face' },
+                { emoji: '😓', name: 'downcast with sweat' },
+                { emoji: '😩', name: 'weary face' },
+                { emoji: '😫', name: 'tired face' },
+                { emoji: '🥱', name: 'yawning face' },
+                { emoji: '😤', name: 'face with steam' },
+                { emoji: '😡', name: 'pouting face' },
+                { emoji: '😠', name: 'angry face' },
+                { emoji: '🤬', name: 'face with symbols' },
+                { emoji: '😈', name: 'smiling with horns' },
+                { emoji: '👿', name: 'angry with horns' },
+                { emoji: '💀', name: 'skull' },
+                { emoji: '☠️', name: 'skull and crossbones' },
+                { emoji: '💩', name: 'pile of poo' },
+                { emoji: '🤡', name: 'clown face' },
+                { emoji: '👹', name: 'ogre' },
+                { emoji: '👺', name: 'goblin' },
+                { emoji: '👻', name: 'ghost' },
+                { emoji: '👽', name: 'alien' },
+                { emoji: '👾', name: 'alien monster' },
+                { emoji: '🤖', name: 'robot' }
+            ],
+            'Gestures': [
+                { emoji: '👋', name: 'waving hand' },
+                { emoji: '🤚', name: 'raised back of hand' },
+                { emoji: '🖐️', name: 'hand with fingers splayed' },
+                { emoji: '✋', name: 'raised hand' },
+                { emoji: '🖖', name: 'vulcan salute' },
+                { emoji: '👌', name: 'OK hand' },
+                { emoji: '🤌', name: 'pinched fingers' },
+                { emoji: '🤏', name: 'pinching hand' },
+                { emoji: '✌️', name: 'victory hand' },
+                { emoji: '🤞', name: 'crossed fingers' },
+                { emoji: '🤟', name: 'love you gesture' },
+                { emoji: '🤘', name: 'sign of the horns' },
+                { emoji: '🤙', name: 'call me hand' },
+                { emoji: '👈', name: 'pointing left' },
+                { emoji: '👉', name: 'pointing right' },
+                { emoji: '👆', name: 'pointing up' },
+                { emoji: '🖕', name: 'middle finger' },
+                { emoji: '👇', name: 'pointing down' },
+                { emoji: '☝️', name: 'index pointing up' },
+                { emoji: '👍', name: 'thumbs up' },
+                { emoji: '👎', name: 'thumbs down' },
+                { emoji: '✊', name: 'raised fist' },
+                { emoji: '👊', name: 'oncoming fist' },
+                { emoji: '🤛', name: 'left-facing fist' },
+                { emoji: '🤜', name: 'right-facing fist' },
+                { emoji: '👏', name: 'clapping hands' },
+                { emoji: '🙌', name: 'raising hands' },
+                { emoji: '👐', name: 'open hands' },
+                { emoji: '🤲', name: 'palms up together' },
+                { emoji: '🤝', name: 'handshake' },
+                { emoji: '🙏', name: 'folded hands' },
+                { emoji: '✍️', name: 'writing hand' },
+                { emoji: '💪', name: 'flexed biceps' }
+            ],
+            'Hearts': [
+                { emoji: '❤️', name: 'red heart' },
+                { emoji: '🧡', name: 'orange heart' },
+                { emoji: '💛', name: 'yellow heart' },
+                { emoji: '💚', name: 'green heart' },
+                { emoji: '💙', name: 'blue heart' },
+                { emoji: '💜', name: 'purple heart' },
+                { emoji: '🖤', name: 'black heart' },
+                { emoji: '🤍', name: 'white heart' },
+                { emoji: '🤎', name: 'brown heart' },
+                { emoji: '💔', name: 'broken heart' },
+                { emoji: '❤️‍🔥', name: 'heart on fire' },
+                { emoji: '❤️‍🩹', name: 'mending heart' },
+                { emoji: '💕', name: 'two hearts' },
+                { emoji: '💞', name: 'revolving hearts' },
+                { emoji: '💓', name: 'beating heart' },
+                { emoji: '💗', name: 'growing heart' },
+                { emoji: '💖', name: 'sparkling heart' },
+                { emoji: '💘', name: 'heart with arrow' },
+                { emoji: '💝', name: 'heart with ribbon' },
+                { emoji: '💟', name: 'heart decoration' },
+                { emoji: '💌', name: 'love letter' },
+                { emoji: '💋', name: 'kiss mark' },
+                { emoji: '💯', name: 'hundred points' },
+                { emoji: '💢', name: 'anger symbol' },
+                { emoji: '💥', name: 'collision' },
+                { emoji: '💫', name: 'dizzy' },
+                { emoji: '💦', name: 'sweat droplets' },
+                { emoji: '💨', name: 'dashing away' },
+                { emoji: '🕳️', name: 'hole' },
+                { emoji: '💬', name: 'speech balloon' },
+                { emoji: '💭', name: 'thought balloon' },
+                { emoji: '🗯️', name: 'right anger bubble' },
+                { emoji: '💤', name: 'zzz' }
+            ],
+            'Animals': [
+                { emoji: '🐶', name: 'dog face' },
+                { emoji: '🐱', name: 'cat face' },
+                { emoji: '🐭', name: 'mouse face' },
+                { emoji: '🐹', name: 'hamster' },
+                { emoji: '🐰', name: 'rabbit face' },
+                { emoji: '🦊', name: 'fox' },
+                { emoji: '🐻', name: 'bear' },
+                { emoji: '🐼', name: 'panda' },
+                { emoji: '🐻‍❄️', name: 'polar bear' },
+                { emoji: '🐨', name: 'koala' },
+                { emoji: '🐯', name: 'tiger face' },
+                { emoji: '🦁', name: 'lion' },
+                { emoji: '🐮', name: 'cow face' },
+                { emoji: '🐷', name: 'pig face' },
+                { emoji: '🐸', name: 'frog' },
+                { emoji: '🐵', name: 'monkey face' },
+                { emoji: '🙈', name: 'see no evil' },
+                { emoji: '🙉', name: 'hear no evil' },
+                { emoji: '🙊', name: 'speak no evil' },
+                { emoji: '🐔', name: 'chicken' },
+                { emoji: '🐧', name: 'penguin' },
+                { emoji: '🐦', name: 'bird' },
+                { emoji: '🐤', name: 'baby chick' },
+                { emoji: '🦆', name: 'duck' },
+                { emoji: '🦅', name: 'eagle' },
+                { emoji: '🦉', name: 'owl' },
+                { emoji: '🦇', name: 'bat' },
+                { emoji: '🐺', name: 'wolf' },
+                { emoji: '🐗', name: 'boar' },
+                { emoji: '🐴', name: 'horse face' },
+                { emoji: '🦄', name: 'unicorn' },
+                { emoji: '🐝', name: 'honeybee' },
+                { emoji: '🪱', name: 'worm' },
+                { emoji: '🐛', name: 'bug' },
+                { emoji: '🦋', name: 'butterfly' },
+                { emoji: '🐌', name: 'snail' },
+                { emoji: '🐞', name: 'lady beetle' },
+                { emoji: '🐜', name: 'ant' },
+                { emoji: '🪰', name: 'fly' },
+                { emoji: '🪲', name: 'beetle' },
+                { emoji: '🦗', name: 'cricket' },
+                { emoji: '🪳', name: 'cockroach' },
+                { emoji: '🕷️', name: 'spider' },
+                { emoji: '🦂', name: 'scorpion' },
+                { emoji: '🐢', name: 'turtle' },
+                { emoji: '🐍', name: 'snake' },
+                { emoji: '🦎', name: 'lizard' },
+                { emoji: '🦖', name: 'T-Rex' },
+                { emoji: '🦕', name: 'sauropod' },
+                { emoji: '🐙', name: 'octopus' },
+                { emoji: '🦑', name: 'squid' },
+                { emoji: '🦐', name: 'shrimp' },
+                { emoji: '🦞', name: 'lobster' },
+                { emoji: '🦀', name: 'crab' },
+                { emoji: '🐡', name: 'blowfish' },
+                { emoji: '🐠', name: 'tropical fish' },
+                { emoji: '🐟', name: 'fish' },
+                { emoji: '🐬', name: 'dolphin' },
+                { emoji: '🐳', name: 'whale' },
+                { emoji: '🦈', name: 'shark' }
+            ],
+            'Food': [
+                { emoji: '🍎', name: 'red apple' },
+                { emoji: '🍐', name: 'pear' },
+                { emoji: '🍊', name: 'tangerine' },
+                { emoji: '🍋', name: 'lemon' },
+                { emoji: '🍌', name: 'banana' },
+                { emoji: '🍉', name: 'watermelon' },
+                { emoji: '🍇', name: 'grapes' },
+                { emoji: '🍓', name: 'strawberry' },
+                { emoji: '🫐', name: 'blueberries' },
+                { emoji: '🍈', name: 'melon' },
+                { emoji: '🍒', name: 'cherries' },
+                { emoji: '🍑', name: 'peach' },
+                { emoji: '🥭', name: 'mango' },
+                { emoji: '🍍', name: 'pineapple' },
+                { emoji: '🥥', name: 'coconut' },
+                { emoji: '🥝', name: 'kiwi fruit' },
+                { emoji: '🍅', name: 'tomato' },
+                { emoji: '🥑', name: 'avocado' },
+                { emoji: '🍆', name: 'eggplant' },
+                { emoji: '🥔', name: 'potato' },
+                { emoji: '🥕', name: 'carrot' },
+                { emoji: '🌽', name: 'ear of corn' },
+                { emoji: '🌶️', name: 'hot pepper' },
+                { emoji: '🥒', name: 'cucumber' },
+                { emoji: '🥬', name: 'leafy green' },
+                { emoji: '🥦', name: 'broccoli' },
+                { emoji: '🧄', name: 'garlic' },
+                { emoji: '🧅', name: 'onion' },
+                { emoji: '🍄', name: 'mushroom' },
+                { emoji: '🥜', name: 'peanuts' },
+                { emoji: '🌰', name: 'chestnut' },
+                { emoji: '🍞', name: 'bread' },
+                { emoji: '🥐', name: 'croissant' },
+                { emoji: '🥖', name: 'baguette bread' },
+                { emoji: '🥨', name: 'pretzel' },
+                { emoji: '🧀', name: 'cheese wedge' },
+                { emoji: '🥚', name: 'egg' },
+                { emoji: '🍳', name: 'cooking' },
+                { emoji: '🧈', name: 'butter' },
+                { emoji: '🥞', name: 'pancakes' },
+                { emoji: '🧇', name: 'waffle' },
+                { emoji: '🥓', name: 'bacon' },
+                { emoji: '🥩', name: 'cut of meat' },
+                { emoji: '🍗', name: 'poultry leg' },
+                { emoji: '🍖', name: 'meat on bone' },
+                { emoji: '🌭', name: 'hot dog' },
+                { emoji: '🍔', name: 'hamburger' },
+                { emoji: '🍟', name: 'french fries' },
+                { emoji: '🍕', name: 'pizza' },
+                { emoji: '🥪', name: 'sandwich' },
+                { emoji: '🌮', name: 'taco' },
+                { emoji: '🌯', name: 'burrito' },
+                { emoji: '🥙', name: 'stuffed flatbread' },
+                { emoji: '🧆', name: 'falafel' },
+                { emoji: '🍜', name: 'steaming bowl' },
+                { emoji: '🍝', name: 'spaghetti' },
+                { emoji: '🍣', name: 'sushi' },
+                { emoji: '🍱', name: 'bento box' },
+                { emoji: '🍛', name: 'curry rice' },
+                { emoji: '🍚', name: 'cooked rice' }
+            ],
+            'Activities': [
+                { emoji: '⚽', name: 'soccer ball' },
+                { emoji: '🏀', name: 'basketball' },
+                { emoji: '🏈', name: 'american football' },
+                { emoji: '⚾', name: 'baseball' },
+                { emoji: '🥎', name: 'softball' },
+                { emoji: '🎾', name: 'tennis' },
+                { emoji: '🏐', name: 'volleyball' },
+                { emoji: '🏉', name: 'rugby football' },
+                { emoji: '🥏', name: 'flying disc' },
+                { emoji: '🎱', name: 'pool 8 ball' },
+                { emoji: '🪀', name: 'yo-yo' },
+                { emoji: '🏓', name: 'ping pong' },
+                { emoji: '🏸', name: 'badminton' },
+                { emoji: '🏒', name: 'ice hockey' },
+                { emoji: '🏑', name: 'field hockey' },
+                { emoji: '🥍', name: 'lacrosse' },
+                { emoji: '🏏', name: 'cricket game' },
+                { emoji: '🪃', name: 'boomerang' },
+                { emoji: '🥅', name: 'goal net' },
+                { emoji: '⛳', name: 'flag in hole' },
+                { emoji: '🪁', name: 'kite' },
+                { emoji: '🏹', name: 'bow and arrow' },
+                { emoji: '🎣', name: 'fishing pole' },
+                { emoji: '🤿', name: 'diving mask' },
+                { emoji: '🥊', name: 'boxing glove' },
+                { emoji: '🥋', name: 'martial arts uniform' },
+                { emoji: '🎽', name: 'running shirt' },
+                { emoji: '🛹', name: 'skateboard' },
+                { emoji: '🛼', name: 'roller skate' },
+                { emoji: '🛷', name: 'sled' },
+                { emoji: '⛸️', name: 'ice skate' },
+                { emoji: '🥌', name: 'curling stone' },
+                { emoji: '🎿', name: 'skis' },
+                { emoji: '⛷️', name: 'skier' },
+                { emoji: '🏂', name: 'snowboarder' },
+                { emoji: '🪂', name: 'parachute' },
+                { emoji: '🏋️', name: 'person lifting weights' },
+                { emoji: '🎮', name: 'video game' },
+                { emoji: '🕹️', name: 'joystick' },
+                { emoji: '🎲', name: 'game die' },
+                { emoji: '♟️', name: 'chess pawn' },
+                { emoji: '🎯', name: 'direct hit' },
+                { emoji: '🎳', name: 'bowling' },
+                { emoji: '🎰', name: 'slot machine' },
+                { emoji: '🎷', name: 'saxophone' },
+                { emoji: '🪗', name: 'accordion' },
+                { emoji: '🎸', name: 'guitar' },
+                { emoji: '🎹', name: 'musical keyboard' },
+                { emoji: '🎺', name: 'trumpet' },
+                { emoji: '🎻', name: 'violin' },
+                { emoji: '🪕', name: 'banjo' },
+                { emoji: '🥁', name: 'drum' }
+            ],
+            'Objects': [
+                { emoji: '⌚', name: 'watch' },
+                { emoji: '📱', name: 'mobile phone' },
+                { emoji: '💻', name: 'laptop' },
+                { emoji: '⌨️', name: 'keyboard' },
+                { emoji: '🖥️', name: 'desktop computer' },
+                { emoji: '🖨️', name: 'printer' },
+                { emoji: '🖱️', name: 'computer mouse' },
+                { emoji: '💽', name: 'computer disk' },
+                { emoji: '💾', name: 'floppy disk' },
+                { emoji: '💿', name: 'optical disk' },
+                { emoji: '📀', name: 'dvd' },
+                { emoji: '📷', name: 'camera' },
+                { emoji: '📹', name: 'video camera' },
+                { emoji: '🎥', name: 'movie camera' },
+                { emoji: '📺', name: 'television' },
+                { emoji: '📻', name: 'radio' },
+                { emoji: '🎙️', name: 'studio microphone' },
+                { emoji: '🎧', name: 'headphone' },
+                { emoji: '📞', name: 'telephone receiver' },
+                { emoji: '☎️', name: 'telephone' },
+                { emoji: '📟', name: 'pager' },
+                { emoji: '📠', name: 'fax machine' },
+                { emoji: '🔋', name: 'battery' },
+                { emoji: '🔌', name: 'electric plug' },
+                { emoji: '💡', name: 'light bulb' },
+                { emoji: '🔦', name: 'flashlight' },
+                { emoji: '🕯️', name: 'candle' },
+                { emoji: '💰', name: 'money bag' },
+                { emoji: '💵', name: 'dollar banknote' },
+                { emoji: '💳', name: 'credit card' },
+                { emoji: '✉️', name: 'envelope' },
+                { emoji: '📧', name: 'e-mail' },
+                { emoji: '📦', name: 'package' },
+                { emoji: '📝', name: 'memo' },
+                { emoji: '📁', name: 'file folder' },
+                { emoji: '📂', name: 'open file folder' },
+                { emoji: '📅', name: 'calendar' },
+                { emoji: '📆', name: 'tear-off calendar' },
+                { emoji: '📊', name: 'bar chart' },
+                { emoji: '📈', name: 'chart increasing' },
+                { emoji: '📉', name: 'chart decreasing' },
+                { emoji: '📋', name: 'clipboard' },
+                { emoji: '📌', name: 'pushpin' },
+                { emoji: '📎', name: 'paperclip' },
+                { emoji: '✂️', name: 'scissors' },
+                { emoji: '🔒', name: 'locked' },
+                { emoji: '🔓', name: 'unlocked' },
+                { emoji: '🔑', name: 'key' },
+                { emoji: '🔨', name: 'hammer' },
+                { emoji: '🪛', name: 'screwdriver' },
+                { emoji: '🔧', name: 'wrench' },
+                { emoji: '⚙️', name: 'gear' }
+            ],
+            'Symbols': [
+                { emoji: '❤️', name: 'red heart' },
+                { emoji: '✅', name: 'check mark button' },
+                { emoji: '❌', name: 'cross mark' },
+                { emoji: '⭐', name: 'star' },
+                { emoji: '🌟', name: 'glowing star' },
+                { emoji: '✨', name: 'sparkles' },
+                { emoji: '⚡', name: 'high voltage' },
+                { emoji: '🔥', name: 'fire' },
+                { emoji: '💧', name: 'droplet' },
+                { emoji: '🌈', name: 'rainbow' },
+                { emoji: '☀️', name: 'sun' },
+                { emoji: '🌙', name: 'crescent moon' },
+                { emoji: '⭕', name: 'hollow red circle' },
+                { emoji: '❗', name: 'exclamation mark' },
+                { emoji: '❓', name: 'question mark' },
+                { emoji: '‼️', name: 'double exclamation' },
+                { emoji: '⁉️', name: 'exclamation question' },
+                { emoji: '💲', name: 'heavy dollar sign' },
+                { emoji: '♻️', name: 'recycling symbol' },
+                { emoji: '✔️', name: 'check mark' },
+                { emoji: '☑️', name: 'check box' },
+                { emoji: '➕', name: 'plus' },
+                { emoji: '➖', name: 'minus' },
+                { emoji: '➗', name: 'divide' },
+                { emoji: '✖️', name: 'multiply' },
+                { emoji: '♾️', name: 'infinity' },
+                { emoji: '💠', name: 'diamond with dot' },
+                { emoji: '🔶', name: 'large orange diamond' },
+                { emoji: '🔷', name: 'large blue diamond' },
+                { emoji: '🔴', name: 'red circle' },
+                { emoji: '🟠', name: 'orange circle' },
+                { emoji: '🟡', name: 'yellow circle' },
+                { emoji: '🟢', name: 'green circle' },
+                { emoji: '🔵', name: 'blue circle' },
+                { emoji: '🟣', name: 'purple circle' },
+                { emoji: '⚫', name: 'black circle' },
+                { emoji: '⚪', name: 'white circle' },
+                { emoji: '🟥', name: 'red square' },
+                { emoji: '🟧', name: 'orange square' },
+                { emoji: '🟨', name: 'yellow square' },
+                { emoji: '🟩', name: 'green square' },
+                { emoji: '🟦', name: 'blue square' },
+                { emoji: '🟪', name: 'purple square' },
+                { emoji: '⬛', name: 'black large square' },
+                { emoji: '⬜', name: 'white large square' },
+                { emoji: '🔺', name: 'red triangle up' },
+                { emoji: '🔻', name: 'red triangle down' },
+                { emoji: '◀️', name: 'reverse button' },
+                { emoji: '▶️', name: 'play button' },
+                { emoji: '⏸️', name: 'pause button' },
+                { emoji: '⏹️', name: 'stop button' },
+                { emoji: '⏺️', name: 'record button' }
+            ],
+            'Flags': [
+                { emoji: '🏳️', name: 'white flag' },
+                { emoji: '🏴', name: 'black flag' },
+                { emoji: '🏁', name: 'checkered flag' },
+                { emoji: '🚩', name: 'triangular flag' },
+                { emoji: '🏳️‍🌈', name: 'rainbow flag' },
+                { emoji: '🇺🇸', name: 'US flag' },
+                { emoji: '🇬🇧', name: 'UK flag' },
+                { emoji: '🇯🇵', name: 'Japan flag' },
+                { emoji: '🇰🇷', name: 'South Korea flag' },
+                { emoji: '🇨🇳', name: 'China flag' },
+                { emoji: '🇫🇷', name: 'France flag' },
+                { emoji: '🇩🇪', name: 'Germany flag' },
+                { emoji: '🇮🇹', name: 'Italy flag' },
+                { emoji: '🇪🇸', name: 'Spain flag' },
+                { emoji: '🇧🇷', name: 'Brazil flag' },
+                { emoji: '🇨🇦', name: 'Canada flag' },
+                { emoji: '🇦🇺', name: 'Australia flag' },
+                { emoji: '🇮🇳', name: 'India flag' },
+                { emoji: '🇷🇺', name: 'Russia flag' },
+                { emoji: '🇲🇽', name: 'Mexico flag' }
+            ]
+        };
+
+        let currentCategory = 'Smileys';
+        let recentEmojis = JSON.parse(localStorage.getItem('recentEmojis') || '[]');
+        let collectedEmojis = '';
+
+        function renderCategories() {
+            const container = document.getElementById('categories');
+            container.innerHTML = Object.keys(emojiData).map(cat =>
+                `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="selectCategory('${cat}')">${cat}</button>`
+            ).join('');
+        }
+
+        function selectCategory(category) {
+            currentCategory = category;
+            renderCategories();
+            renderEmojis(emojiData[category]);
+        }
+
+        function renderEmojis(emojis) {
+            const container = document.getElementById('emojiGrid');
+            if (emojis.length === 0) {
+                container.innerHTML = '<div class="no-results"><span>🔍</span>No emojis found</div>';
+                return;
+            }
+            container.innerHTML = emojis.map(e =>
+                `<button class="emoji-btn" onclick="selectEmoji('${e.emoji}', '${e.name}')" title="${e.name}">${e.emoji}</button>`
+            ).join('');
+        }
+
+        function selectEmoji(emoji, name) {
+            // Copy to clipboard
+            navigator.clipboard.writeText(emoji);
+
+            // Add to collected
+            collectedEmojis += emoji;
+            document.getElementById('collectedEmojis').value = collectedEmojis;
+
+            // Show preview
+            const preview = document.getElementById('emojiPreview');
+            document.getElementById('previewEmoji').textContent = emoji;
+            document.getElementById('previewName').textContent = name;
+            preview.classList.add('show');
+            setTimeout(() => preview.classList.remove('show'), 1000);
+
+            // Add to recent
+            addToRecent(emoji, name);
+
+            showToast(`${emoji} copied!`);
+        }
+
+        function addToRecent(emoji, name) {
+            recentEmojis = recentEmojis.filter(e => e.emoji !== emoji);
+            recentEmojis.unshift({ emoji, name });
+            recentEmojis = recentEmojis.slice(0, 20);
+            localStorage.setItem('recentEmojis', JSON.stringify(recentEmojis));
+            renderRecentEmojis();
+        }
+
+        function renderRecentEmojis() {
+            const container = document.getElementById('recentEmojis');
+            if (recentEmojis.length === 0) {
+                container.innerHTML = '<span class="recent-empty">No recent emojis</span>';
+                return;
+            }
+            container.innerHTML = recentEmojis.map(e =>
+                `<button class="emoji-btn" onclick="selectEmoji('${e.emoji}', '${e.name}')" title="${e.name}">${e.emoji}</button>`
+            ).join('');
+        }
+
+        function clearRecent() {
+            recentEmojis = [];
+            localStorage.removeItem('recentEmojis');
+            renderRecentEmojis();
+            showToast('Recent emojis cleared');
+        }
+
+        function searchEmojis() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!query) {
+                selectCategory(currentCategory);
+                return;
+            }
+
+            const allEmojis = Object.values(emojiData).flat();
+            const results = allEmojis.filter(e =>
+                e.name.toLowerCase().includes(query)
+            );
+
+            renderEmojis(results);
+
+            // Deselect category buttons
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        }
+
+        function copyAll() {
+            if (collectedEmojis) {
+                navigator.clipboard.writeText(collectedEmojis).then(() => {
+                    showToast('All emojis copied!');
+                });
+            } else {
+                showToast('No emojis collected');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Initialize
+        renderCategories();
+        renderEmojis(emojiData[currentCategory]);
+        renderRecentEmojis();
+    </script>
+</body>
+</html>

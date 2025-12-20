@@ -6,6 +6,9 @@ var path = require('path');
 // Import modules
 var i18n = require('./src/i18n/index.js');
 var games = require('./src/common/games.js');
+var tools = require('./src/common/tools.js');
+var webTools = tools.webTools;
+var consumerTools = tools.consumerTools;
 var createLayout = require('./src/common/layout.js').createLayout;
 
 // Import game templates
@@ -156,21 +159,77 @@ function renderIndex(){
       '</div>';
   }
 
+  // Generate web tools cards
+  var webToolsList = '';
+  for (var i = 0; i < webTools.length; i++) {
+    var t = webTools[i];
+    var toolData = JSON.stringify({
+      title: t.title,
+      desc: t.desc
+    });
+    webToolsList +=
+      '<div class="game-card" data-tool=\'' + toolData + '\'>' +
+      '<div class="game-emoji">' + t.emoji + '</div>' +
+      '<div class="game-title" data-i18n-tool-title>' + t.title.ko + '</div>' +
+      '<div class="game-description" data-i18n-tool-desc>' + t.desc.ko + '</div>' +
+      '<a href="' + href('/tools/web/' + t.id + '/') + '" class="play-btn" data-i18n="useBtn">사용하기 →</a>' +
+      '</div>';
+  }
+
+  // Generate consumer tools cards
+  var consumerToolsList = '';
+  for (var i = 0; i < consumerTools.length; i++) {
+    var t = consumerTools[i];
+    var toolData = JSON.stringify({
+      title: t.title,
+      desc: t.desc
+    });
+    consumerToolsList +=
+      '<div class="game-card" data-tool=\'' + toolData + '\'>' +
+      '<div class="game-emoji">' + t.emoji + '</div>' +
+      '<div class="game-title" data-i18n-tool-title>' + t.title.ko + '</div>' +
+      '<div class="game-description" data-i18n-tool-desc>' + t.desc.ko + '</div>' +
+      '<a href="' + href('/tools/fun/' + t.id + '/') + '" class="play-btn" data-i18n="useBtn">사용하기 →</a>' +
+      '</div>';
+  }
+
+  var totalCount = games.length + webTools.length + consumerTools.length;
+
   var body =
     '<div class="header-section">' +
-    '<h1 data-i18n="mainTitle">🎮 미니게임 모음집</h1>' +
-    '<p style="text-align:center;font-size:20px;margin:16px 0;font-weight:500" data-i18n="mainDesc">재미있는 무료 미니게임으로 두뇌를 훈련하세요!</p>' +
-    '<p id="game-count" style="text-align:center;font-size:16px;margin:8px 0;opacity:0.9" data-count="' + games.length + '">총 ' + games.length + '개의 게임이 준비되어 있습니다</p>' +
+    '<h1 data-i18n="mainTitle">🎮 미니게임 & 도구 모음집</h1>' +
+    '<p style="text-align:center;font-size:20px;margin:16px 0;font-weight:500" data-i18n="mainDesc">재미있는 게임과 유용한 도구로 일상을 더 풍요롭게!</p>' +
+    '<p id="total-count" style="text-align:center;font-size:16px;margin:8px 0;opacity:0.9" data-count="' + totalCount + '">총 ' + totalCount + '개의 게임과 도구가 준비되어 있습니다</p>' +
+    '</div>' +
+
+    // Games Section
+    '<div style="margin:40px 0 20px">' +
+    '<h2 style="font-size:2rem;text-align:center;margin-bottom:10px" data-i18n="gamesSection">🎮 두뇌 훈련 게임</h2>' +
+    '<p style="text-align:center;color:#94a3b8;margin-bottom:30px" data-i18n="gamesSectionDesc">반응속도, 기억력, 집중력을 테스트하세요!</p>' +
     '</div>' +
     '<div class="grid">' + gameList + '</div>' +
+
+    // Web Tools Section
+    '<div style="margin:60px 0 20px">' +
+    '<h2 style="font-size:2rem;text-align:center;margin-bottom:10px" data-i18n="webToolsSection">🛠️ 개발자 도구</h2>' +
+    '<p style="text-align:center;color:#94a3b8;margin-bottom:30px" data-i18n="webToolsSectionDesc">개발과 디자인에 유용한 도구들</p>' +
+    '</div>' +
+    '<div class="grid">' + webToolsList + '</div>' +
+
+    // Consumer Tools Section
+    '<div style="margin:60px 0 20px">' +
+    '<h2 style="font-size:2rem;text-align:center;margin-bottom:10px" data-i18n="funToolsSection">✨ 재미 & 유틸리티</h2>' +
+    '<p style="text-align:center;color:#94a3b8;margin-bottom:30px" data-i18n="funToolsSectionDesc">운세, 계산기, 테스트 등 다양한 도구</p>' +
+    '</div>' +
+    '<div class="grid">' + consumerToolsList + '</div>' +
     '<script>' +
     'window.addEventListener("load",function(){' +
     'var originalSetLanguage=setLanguage;' +
     'setLanguage=function(lang){' +
     'originalSetLanguage(lang);' +
-    'var count=document.getElementById("game-count").getAttribute("data-count");' +
-    'document.getElementById("game-count").textContent=i18nData[lang].gameCount.replace("{count}",count);' +
-    'document.querySelectorAll(".game-card").forEach(function(card){' +
+    'var count=document.getElementById("total-count").getAttribute("data-count");' +
+    'document.getElementById("total-count").textContent=i18nData[lang].totalCount.replace("{count}",count);' +
+    'document.querySelectorAll(".game-card[data-game]").forEach(function(card){' +
     'var data=JSON.parse(card.getAttribute("data-game"));' +
     'card.querySelector("[data-i18n-game-title]").textContent=data.title[lang];' +
     'card.querySelector("[data-i18n-game-desc]").textContent=data.description[lang];' +
@@ -178,13 +237,18 @@ function renderIndex(){
     'var cat=catEl.getAttribute("data-i18n-category");' +
     'catEl.textContent=i18nData[lang].categories[cat];' +
     '});' +
+    'document.querySelectorAll(".game-card[data-tool]").forEach(function(card){' +
+    'var data=JSON.parse(card.getAttribute("data-tool"));' +
+    'card.querySelector("[data-i18n-tool-title]").textContent=data.title[lang];' +
+    'card.querySelector("[data-i18n-tool-desc]").textContent=data.desc[lang];' +
+    '});' +
     '};' +
     'setLanguage(currentLang);' +
     '});' +
     '</script>';
 
-  write(path.join(OUT, 'index.html'), layout('미니게임 모음집 - 두뇌 훈련 & 반응속도 게임', '/', body, true,
-    '무료 미니게임 모음집 - 10가지 두뇌 훈련 게임으로 반응속도, 기억력, 집중력, 타이핑 속도를 테스트하세요!'));
+  write(path.join(OUT, 'index.html'), layout('미니게임 & 도구 모음집 - 두뇌 훈련, 개발자 도구, 유틸리티', '/', body, true,
+    '무료 미니게임, 개발자 도구, 재미있는 유틸리티 모음집 - 70개 이상의 게임과 도구로 일상을 더 풍요롭게 만드세요!'));
 }
 
 // Privacy Policy 페이지 생성
@@ -249,6 +313,23 @@ function renderPrivacy() {
     '미니게임 모음집 개인정보처리방침. 쿠키, 광고, 데이터 수집에 관한 정책을 확인하세요.'));
 }
 
+// Copy directory recursively
+function copyDir(src, dest) {
+  if (!fs.existsSync(src)) return;
+  ensureDir(dest);
+  var entries = fs.readdirSync(src, { withFileTypes: true });
+  for (var i = 0; i < entries.length; i++) {
+    var entry = entries[i];
+    var srcPath = path.join(src, entry.name);
+    var destPath = path.join(dest, entry.name);
+    if (entry.isDirectory()) {
+      copyDir(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
 function build(){
   if(fs.existsSync(OUT)) fs.rmSync(OUT, { recursive: true, force: true });
   ensureDir(OUT);
@@ -271,10 +352,38 @@ function build(){
   write(path.join(OUT, 'games', 'sequence-memory', 'index.html'), wrapSequenceMemoryGame());
   write(path.join(OUT, 'games', 'word-puzzle', 'index.html'), wrapWordPuzzleGame());
 
+  // Copy Web Tools
+  var webToolsSrc = 'C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\431960\\Desktop\\Desktop\\Desktop\\돈기획\\WEB_TOOLS';
+  if (fs.existsSync(webToolsSrc)) {
+    for (var i = 0; i < webTools.length; i++) {
+      var toolId = webTools[i].id;
+      var srcPath = path.join(webToolsSrc, toolId);
+      var destPath = path.join(OUT, 'tools', 'web', toolId);
+      copyDir(srcPath, destPath);
+    }
+  }
+
+  // Copy Consumer Tools
+  var consumerToolsSrc = 'C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\431960\\Desktop\\Desktop\\Desktop\\돈기획\\CONSUMER_TOOLS';
+  if (fs.existsSync(consumerToolsSrc)) {
+    for (var i = 0; i < consumerTools.length; i++) {
+      var toolId = consumerTools[i].id;
+      var srcPath = path.join(consumerToolsSrc, toolId);
+      var destPath = path.join(OUT, 'tools', 'fun', toolId);
+      copyDir(srcPath, destPath);
+    }
+  }
+
   // sitemap / robots
   var urls = ['/', '/privacy/'];
   for (var i = 0; i < games.length; i++) {
     urls.push('/games/' + games[i].id + '/');
+  }
+  for (var i = 0; i < webTools.length; i++) {
+    urls.push('/tools/web/' + webTools[i].id + '/');
+  }
+  for (var i = 0; i < consumerTools.length; i++) {
+    urls.push('/tools/fun/' + consumerTools[i].id + '/');
   }
 
   var abs = function(p){ return BASE_URL ? (BASE_URL + p) : (BASE_PATH + p); };
@@ -291,7 +400,7 @@ function build(){
   // CNAME 파일 생성 (커스텀 도메인용)
   write(path.join(OUT, 'CNAME'), 'instaidea.org');
 
-  console.log('Generated ' + games.length + ' game(s) and main page');
+  console.log('Generated ' + games.length + ' game(s), ' + webTools.length + ' web tool(s), ' + consumerTools.length + ' consumer tool(s), and main page');
 }
 
 build();

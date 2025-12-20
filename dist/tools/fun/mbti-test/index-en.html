@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI Personality Test - Free Quick Test | 16 Personality Types</title>
+    <meta name="description" content="Free MBTI personality test. Discover your personality type with our quick 12-question quiz. Find out if you're INTJ, ENFP, or one of the other 16 types!">
+    <meta name="keywords" content="MBTI, MBTI test, personality test, free MBTI, 16 personalities, personality type, INTJ, ENFP, INFJ">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="MBTI Personality Test - Free Quick Test">
+    <meta property="og:description" content="Discover your personality type with our quick 12-question MBTI quiz">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/667eea/ffffff?text=MBTI+Personality+Test">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            text-align: center;
+        }
+
+        .intro h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .intro p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .progress-container {
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .question-section {
+            display: none;
+        }
+
+        .question-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-number {
+            color: #667eea;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 18px 24px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .prev-btn {
+            background: #f5f5f5;
+            border: none;
+            color: #666;
+        }
+
+        .prev-btn:hover {
+            background: #eee;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .next-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .result-section {
+            display: none;
+            text-align: center;
+        }
+
+        .result-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-type {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+        }
+
+        .result-name {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .result-nickname {
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .result-description {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .result-description h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .result-description p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .traits {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .trait {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .trait-label {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .trait-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .trait-name {
+            font-size: 12px;
+            color: #555;
+        }
+
+        .compatibility {
+            background: #fff5f8;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        .compatibility h4 {
+            color: #e91e63;
+            margin-bottom: 10px;
+        }
+
+        .compatibility p {
+            color: #666;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .result-type { font-size: 3.5rem; }
+            .traits { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="toast" id="toast"></div>
+    <div class="container">
+        <header>
+            <h1>MBTI Personality Test</h1>
+            <p class="subtitle">Discover your personality type in 12 questions</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="card">
+            <!-- Intro -->
+            <div class="intro" id="introSection">
+                <h2>What's Your MBTI?</h2>
+                <p>
+                    MBTI (Myers-Briggs Type Indicator) categorizes personalities<br>
+                    into 16 different types based on four dimensions.<br><br>
+                    Take this quick 12-question quiz to discover your type!<br>
+                    Don't overthink it - go with your gut feeling.
+                </p>
+                <button class="start-btn" onclick="startTest()">Start Test</button>
+            </div>
+
+            <!-- Question Section -->
+            <div class="question-section" id="questionSection">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">1 / 12</div>
+                </div>
+
+                <div id="questionContainer"></div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn prev-btn" onclick="prevQuestion()" id="prevBtn" style="visibility:hidden;">Back</button>
+                    <button class="nav-btn next-btn" onclick="nextQuestion()" id="nextBtn" disabled>Next</button>
+                </div>
+            </div>
+
+            <!-- Result Section -->
+            <div class="result-section" id="resultSection">
+                <p style="color:#888; font-size:14px;">Your MBTI type is</p>
+                <div class="result-type" id="resultType">ENFP</div>
+                <div class="result-name" id="resultName">The Campaigner</div>
+                <div class="result-nickname" id="resultNickname">"Everything is possible!"</div>
+
+                <div class="traits" id="traitsContainer"></div>
+
+                <div class="result-description" id="resultDescription">
+                    <h3>Personality Traits</h3>
+                    <p id="descriptionText"></p>
+                </div>
+
+                <div class="compatibility" id="compatibilitySection">
+                    <h4>Best Matches</h4>
+                    <p id="compatibilityText"></p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">Share Result</button>
+                    <button class="share-btn secondary" onclick="retakeTest()">Retake Test</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>This is a simplified test for entertainment purposes.<br>For accurate MBTI assessment, please consult a professional.</p>
+        </footer>
+    </div>
+
+    <script>
+        const questions = [
+            // E vs I (3 questions)
+            {
+                text: "How do you recharge on weekends?",
+                options: [
+                    { text: "Meeting friends and socializing", value: "E" },
+                    { text: "Staying home and relaxing alone", value: "I" }
+                ]
+            },
+            {
+                text: "When meeting new people, you typically:",
+                options: [
+                    { text: "Start conversations and introduce yourself", value: "E" },
+                    { text: "Wait for others to approach you first", value: "I" }
+                ]
+            },
+            {
+                text: "When organizing your thoughts, you prefer:",
+                options: [
+                    { text: "Talking them through with someone", value: "E" },
+                    { text: "Thinking quietly by yourself", value: "I" }
+                ]
+            },
+            // S vs N (3 questions)
+            {
+                text: "Which type of information do you trust more?",
+                options: [
+                    { text: "Direct experience and verified facts", value: "S" },
+                    { text: "Intuition and hidden possibilities", value: "N" }
+                ]
+            },
+            {
+                text: "When learning something new, you tend to:",
+                options: [
+                    { text: "Follow step-by-step instructions", value: "S" },
+                    { text: "Understand the big picture first", value: "N" }
+                ]
+            },
+            {
+                text: "In conversations, you usually talk about:",
+                options: [
+                    { text: "Real events and specific details", value: "S" },
+                    { text: "Ideas, possibilities, and imagination", value: "N" }
+                ]
+            },
+            // T vs F (3 questions)
+            {
+                text: "When making decisions, what matters more?",
+                options: [
+                    { text: "What's logically correct", value: "T" },
+                    { text: "How it affects people's feelings", value: "F" }
+                ]
+            },
+            {
+                text: "When a friend shares their problems, you:",
+                options: [
+                    { text: "Offer solutions and advice", value: "T" },
+                    { text: "Listen and empathize", value: "F" }
+                ]
+            },
+            {
+                text: "During a disagreement, you tend to:",
+                options: [
+                    { text: "Stand firm if you believe you're right", value: "T" },
+                    { text: "Compromise to maintain harmony", value: "F" }
+                ]
+            },
+            // J vs P (3 questions)
+            {
+                text: "When going on a trip, you prefer to:",
+                options: [
+                    { text: "Plan everything in advance", value: "J" },
+                    { text: "Go with the flow and decide spontaneously", value: "P" }
+                ]
+            },
+            {
+                text: "With deadlines, you typically:",
+                options: [
+                    { text: "Finish well before the deadline", value: "J" },
+                    { text: "Work best under last-minute pressure", value: "P" }
+                ]
+            },
+            {
+                text: "In daily life, you prefer:",
+                options: [
+                    { text: "Having a regular routine", value: "J" },
+                    { text: "Flexibility and spontaneity", value: "P" }
+                ]
+            }
+        ];
+
+        const mbtiData = {
+            "INTJ": { name: "The Architect", nickname: "\"I have a plan for everything\"", description: "Strategic and independent thinkers with a strong drive for achievement. You set goals and pursue them relentlessly with logical, analytical thinking. You're a perfectionist with intense intellectual curiosity.", match: "ENFP, ENTP" },
+            "INTP": { name: "The Logician", nickname: "\"Endless thirst for knowledge\"", description: "Logical and analytical theorists who love exploring ideas. You enjoy discovering new possibilities and solving complex problems. Quiet but passionate about intellectual discussions.", match: "ENTJ, ENFJ" },
+            "ENTJ": { name: "The Commander", nickname: "\"Bold leader\"", description: "Natural leaders with decisiveness and determination. Goal-oriented and efficiency-focused. You enjoy challenges and excel at seeing the big picture.", match: "INTP, INFP" },
+            "ENTP": { name: "The Debater", nickname: "\"Loves intellectual challenges\"", description: "Curious and witty debaters who enjoy intellectual sparring. You propose new ideas and challenge the status quo. Quick-thinking with excellent verbal skills.", match: "INTJ, INFJ" },
+            "INFJ": { name: "The Advocate", nickname: "\"Quiet inspiration\"", description: "Insightful and idealistic advocates for change. You want to help others and make the world better. Deep empathy combined with strong intuition.", match: "ENTP, ENFP" },
+            "INFP": { name: "The Mediator", nickname: "\"Warm-hearted idealist\"", description: "Idealistic and empathetic mediators who value authentic connections. Creative and guided by inner values. You care deeply about meaningful relationships.", match: "ENTJ, ENFJ" },
+            "ENFJ": { name: "The Protagonist", nickname: "\"Born leader\"", description: "Warm and influential leaders who inspire others. You help people grow and drive positive change. Exceptional communication skills with natural empathy.", match: "INTP, INFP" },
+            "ENFP": { name: "The Campaigner", nickname: "\"Free-spirited enthusiast\"", description: "Creative and enthusiastic campaigners full of energy. You explore possibilities and love connecting with people. A free spirit who inspires others.", match: "INTJ, INFJ" },
+            "ISTJ": { name: "The Logistician", nickname: "\"Duty fulfiller\"", description: "Reliable and responsible realists who value tradition. You follow through on commitments and complete tasks thoroughly. Practical and systematic.", match: "ESFP, ESTP" },
+            "ISFJ": { name: "The Defender", nickname: "\"Devoted protector\"", description: "Warm and dedicated defenders who care for others. You create harmonious environments and are incredibly reliable. Detail-oriented with strong sense of duty.", match: "ESFP, ESTP" },
+            "ESTJ": { name: "The Executive", nickname: "\"Efficient organizer\"", description: "Organized and practical executives who get things done. You lead effectively and manage efficiently. Value tradition and take responsibility seriously.", match: "ISFP, ISTP" },
+            "ESFJ": { name: "The Consul", nickname: "\"Caring socialite\"", description: "Social and caring consuls who prioritize harmony. You help others and value relationships. Warm, cooperative, and community-minded.", match: "ISFP, ISTP" },
+            "ISTP": { name: "The Virtuoso", nickname: "\"Bold craftsman\"", description: "Logical and practical virtuosos who excel at problem-solving. You stay calm under pressure and have excellent troubleshooting skills. Curious with great hands-on abilities.", match: "ESFJ, ESTJ" },
+            "ISFP": { name: "The Adventurer", nickname: "\"Flexible artist\"", description: "Gentle and artistic adventurers who live in the moment. You have excellent aesthetic sense and care about others. A free spirit who embraces flexibility.", match: "ESFJ, ESTJ" },
+            "ESTP": { name: "The Entrepreneur", nickname: "\"Thrill seeker\"", description: "Energetic and adventurous entrepreneurs who love action. Quick decision-makers with great adaptability. Spontaneous and practical problem solvers.", match: "ISFJ, ISTJ" },
+            "ESFP": { name: "The Entertainer", nickname: "\"Life of the party\"", description: "Vibrant and fun-loving entertainers who spread joy. Social butterflies who make everyone feel welcome. Living in the moment with natural charm.", match: "ISFJ, ISTJ" }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function startTest() {
+            document.getElementById('introSection').style.display = 'none';
+            document.getElementById('questionSection').classList.add('active');
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            const q = questions[index];
+            const container = document.getElementById('questionContainer');
+
+            let optionsHtml = q.options.map((opt, i) => `
+                <div class="option ${answers[index] === opt.value ? 'selected' : ''}" onclick="selectOption(${i}, '${opt.value}')">
+                    ${opt.text}
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="question-number">Question ${index + 1}</div>
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+            `;
+
+            updateProgress();
+            updateButtons();
+        }
+
+        function selectOption(optionIndex, value) {
+            answers[currentQuestion] = value;
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.classList.toggle('selected', i === optionIndex);
+            });
+            updateButtons();
+        }
+
+        function updateProgress() {
+            const percent = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = `${currentQuestion + 1} / ${questions.length}`;
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').style.visibility = currentQuestion > 0 ? 'visible' : 'hidden';
+            document.getElementById('nextBtn').disabled = !answers[currentQuestion];
+            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? 'See Results' : 'Next';
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function nextQuestion() {
+            if (!answers[currentQuestion]) return;
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                showResult();
+            }
+        }
+
+        function calculateMBTI() {
+            let E = 0, I = 0, S = 0, N = 0, T = 0, F = 0, J = 0, P = 0;
+
+            answers.forEach(answer => {
+                if (answer === 'E') E++;
+                if (answer === 'I') I++;
+                if (answer === 'S') S++;
+                if (answer === 'N') N++;
+                if (answer === 'T') T++;
+                if (answer === 'F') F++;
+                if (answer === 'J') J++;
+                if (answer === 'P') P++;
+            });
+
+            return {
+                type: (E >= I ? 'E' : 'I') + (S >= N ? 'S' : 'N') + (T >= F ? 'T' : 'F') + (J >= P ? 'J' : 'P'),
+                scores: { E, I, S, N, T, F, J, P }
+            };
+        }
+
+        function showResult() {
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('resultSection').classList.add('active');
+
+            const result = calculateMBTI();
+            const data = mbtiData[result.type];
+
+            document.getElementById('resultType').textContent = result.type;
+            document.getElementById('resultName').textContent = data.name;
+            document.getElementById('resultNickname').textContent = data.nickname;
+            document.getElementById('descriptionText').textContent = data.description;
+            document.getElementById('compatibilityText').textContent = `You match well with ${data.match}!`;
+
+            const scores = result.scores;
+            document.getElementById('traitsContainer').innerHTML = `
+                <div class="trait">
+                    <div class="trait-label">Energy</div>
+                    <div class="trait-value">${scores.E > scores.I ? 'E' : 'I'}</div>
+                    <div class="trait-name">${scores.E > scores.I ? 'Extrovert' : 'Introvert'}</div>
+                </div>
+                <div class="trait">
+                    <div class="trait-label">Information</div>
+                    <div class="trait-value">${scores.S > scores.N ? 'S' : 'N'}</div>
+                    <div class="trait-name">${scores.S > scores.N ? 'Sensing' : 'Intuition'}</div>
+                </div>
+                <div class="trait">
+                    <div class="trait-label">Decisions</div>
+                    <div class="trait-value">${scores.T > scores.F ? 'T' : 'F'}</div>
+                    <div class="trait-name">${scores.T > scores.F ? 'Thinking' : 'Feeling'}</div>
+                </div>
+                <div class="trait">
+                    <div class="trait-label">Lifestyle</div>
+                    <div class="trait-value">${scores.J > scores.P ? 'J' : 'P'}</div>
+                    <div class="trait-name">${scores.J > scores.P ? 'Judging' : 'Perceiving'}</div>
+                </div>
+            `;
+        }
+
+        function shareResult() {
+            const result = calculateMBTI();
+            const data = mbtiData[result.type];
+            const text = `My MBTI is ${result.type} (${data.name})!\n${data.nickname}\n\nTake the test:`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'MBTI Personality Test Result', text: text, url: window.location.href }).catch(err => {
+                    navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => showToast('Result copied!'));
+                });
+            } else {
+                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
+                    showToast('Result copied!');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function retakeTest() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('resultSection').classList.remove('active');
+            document.getElementById('introSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
