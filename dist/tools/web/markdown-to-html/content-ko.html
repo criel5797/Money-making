@@ -266,7 +266,7 @@
         }
         .toast.show { opacity: 1; transform: translateY(0); }
     </style>
-</head>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"마크다운 변환기","en":"Markdown Converter","ja":"Markdown変換"},"desc":{"ko":"마크다운 → HTML","en":"Markdown → HTML","ja":"Markdown → HTML"}},"header":{"title":{"ko":"마크다운 → HTML","en":"Markdown to HTML","ja":"Markdown → HTML"},"subtitle":{"ko":"실시간 변환 도구","en":"Live Converter","ja":"リアルタイム変換"}},"input":{"title":{"ko":"마크다운 입력","en":"Markdown Input","ja":"Markdown入力"},"placeholder":{"ko":"여기에 마크다운을 입력하세요...","en":"Type Markdown here...","ja":"ここにMarkdownを入力..."},"sample":{"ko":"샘플","en":"Sample","ja":"サンプル"},"clear":{"ko":"지우기","en":"Clear","ja":"クリア"}},"output":{"tabs":{"preview":{"ko":"미리보기","en":"Preview","ja":"プレビュー"},"code":{"ko":"HTML 코드","en":"HTML Code","ja":"HTMLコード"}},"copy":{"ko":"복사","en":"Copy","ja":"コピー"},"download":{"ko":"다운로드","en":"Download","ja":"DL"}},"cheatsheet":{"title":{"ko":"치트시트","en":"Cheatsheet","ja":"チートシート"}},"info":{"title":{"ko":"마크다운이란?","en":"About Markdown","ja":"Markdownとは？"}}};</script></head>
 <body>
     <div class="container">
         <header>
@@ -484,7 +484,7 @@
 </head>
 <body>
 ${html}
-</body>
+<script src="/common/tool-i18n-handler.js"></script></body>
 </html>`;
             const blob = new Blob([fullHTML], { type: 'text/html' });
             const url = URL.createObjectURL(blob);

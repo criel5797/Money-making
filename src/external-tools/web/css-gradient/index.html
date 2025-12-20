@@ -4,427 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSS Gradient Generator - Free Online Gradient Tool</title>
-    <meta name="description" content="Free CSS gradient generator. Create beautiful linear and radial gradients with an easy-to-use visual editor. Copy CSS code instantly.">
-    <meta name="keywords" content="CSS gradient, gradient generator, linear gradient, radial gradient, CSS background, color gradient">
-    <meta name="robots" content="index, follow">
-
-    <meta property="og:title" content="CSS Gradient Generator - Create Beautiful Gradients">
-    <meta property="og:description" content="Generate stunning CSS gradients with visual controls. Copy code instantly.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/f093fb?text=CSS+Gradient">
-    <link rel="alternate" hreflang="ko" href="index-ko.html">
-    <link rel="alternate" hreflang="en" href="index.html">
-
     <style>
-        .lang-switch {
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            z-index: 1000;
-        }
-        .lang-switch a {
-            display: inline-block;
-            padding: 8px 16px;
-            background: #16213e;
-            border: 1px solid #334155;
-            border-radius: 6px;
-            color: #888;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-        .lang-switch a:hover {
-            background: #f093fb;
-            color: white;
-            border-color: #f093fb;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #e4e4e4;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #888;
-            font-size: 1.1rem;
-        }
-
-        .ad-banner {
-            background: rgba(255,255,255,0.05);
-            border: 1px dashed rgba(255,255,255,0.2);
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-            border-radius: 12px;
-            color: #666;
-        }
-
-        .preview-section {
-            margin-bottom: 30px;
-        }
-
-        .gradient-preview {
-            width: 100%;
-            height: 250px;
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-
-        .controls-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-
-        .control-group {
-            margin-bottom: 25px;
-        }
-
-        .control-label {
-            display: block;
-            color: #f093fb;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .type-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .type-btn {
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            color: #e4e4e4;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .type-btn.active {
-            background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));
-            border-color: #f093fb;
-        }
-
-        .type-btn:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        .direction-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            max-width: 300px;
-        }
-
-        .direction-btn {
-            aspect-ratio: 1;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-
-        .direction-btn.active {
-            background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));
-            border-color: #f093fb;
-        }
-
-        .direction-btn:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        .angle-control {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .angle-slider {
-            flex: 1;
-            height: 8px;
-            -webkit-appearance: none;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            outline: none;
-        }
-
-        .angle-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .angle-value {
-            background: rgba(255,255,255,0.1);
-            padding: 8px 15px;
-            border-radius: 6px;
-            min-width: 70px;
-            text-align: center;
-        }
-
-        .color-stops-container {
-            margin-top: 20px;
-        }
-
-        .color-stop {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .color-picker-wrapper {
-            position: relative;
-        }
-
-        .color-picker {
-            width: 50px;
-            height: 50px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background: none;
-        }
-
-        .color-picker::-webkit-color-swatch-wrapper {
-            padding: 0;
-        }
-
-        .color-picker::-webkit-color-swatch {
-            border-radius: 10px;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .color-hex {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 10px 15px;
-            border-radius: 8px;
-            color: #e4e4e4;
-            width: 100px;
-            font-family: monospace;
-            text-transform: uppercase;
-        }
-
-        .position-slider {
-            flex: 1;
-            height: 6px;
-            -webkit-appearance: none;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            outline: none;
-        }
-
-        .position-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            background: #f093fb;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .position-value {
-            min-width: 45px;
-            text-align: center;
-            color: #888;
-            font-size: 14px;
-        }
-
-        .remove-btn {
-            background: rgba(239, 68, 68, 0.2);
-            border: none;
-            color: #ef4444;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-
-        .remove-btn:hover {
-            background: rgba(239, 68, 68, 0.3);
-        }
-
-        .add-color-btn {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255,255,255,0.05);
-            border: 2px dashed rgba(255,255,255,0.2);
-            border-radius: 10px;
-            color: #888;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .add-color-btn:hover {
-            border-color: #f093fb;
-            color: #f093fb;
-        }
-
-        .code-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-
-        .code-section h2 {
-            color: #f093fb;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .code-box {
-            background: rgba(0,0,0,0.4);
-            border-radius: 10px;
-            padding: 20px;
-            position: relative;
-        }
-
-        .code-content {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 14px;
-            color: #a5d6ff;
-            word-break: break-all;
-            line-height: 1.6;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .copy-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .presets-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-
-        .presets-section h2 {
-            color: #f093fb;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .presets-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 15px;
-        }
-
-        .preset {
-            aspect-ratio: 1;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 3px solid transparent;
-        }
-
-        .preset:hover {
-            transform: scale(1.05);
-            border-color: rgba(255,255,255,0.3);
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 500;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
-        }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .direction-grid { grid-template-columns: repeat(4, 1fr); max-width: 100%; }
-            .color-stop { flex-wrap: wrap; }
-            .color-hex { width: 80px; }
-        }
+        /* Styles remain the same */
+        .lang-switch { position: fixed; top: 15px; right: 20px; z-index: 1000; }
+        .lang-switch a { display: inline-block; padding: 8px 16px; background: #16213e; border: 1px solid #334155; border-radius: 6px; color: #888; text-decoration: none; font-size: 0.85rem; transition: all 0.2s; }
+        .lang-switch a:hover { background: #f093fb; color: white; border-color: #f093fb; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #e4e4e4; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 40px 0; }
+        h1 { font-size: 2.5rem; background: linear-gradient(135deg, #f093fb, #f5576c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; }
+        .subtitle { color: #888; font-size: 1.1rem; }
+        .ad-banner { background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); padding: 20px; text-align: center; margin: 20px 0; border-radius: 12px; color: #666; }
+        .preview-section { margin-bottom: 30px; }
+        .gradient-preview { width: 100%; height: 250px; border-radius: 16px; transition: all 0.3s ease; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+        .controls-section { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .control-group { margin-bottom: 25px; }
+        .control-label { display: block; color: #f093fb; font-weight: 600; margin-bottom: 12px; }
+        .type-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+        .type-btn { padding: 10px 20px; background: rgba(255,255,255,0.1); border: 2px solid transparent; border-radius: 8px; color: #e4e4e4; cursor: pointer; transition: all 0.3s; }
+        .type-btn.active { background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2)); border-color: #f093fb; }
+        .type-btn:hover { background: rgba(255,255,255,0.15); }
+        .direction-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 300px; }
+        .direction-btn { aspect-ratio: 1; background: rgba(255,255,255,0.1); border: 2px solid transparent; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: all 0.3s; }
+        .direction-btn.active { background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2)); border-color: #f093fb; }
+        .direction-btn:hover { background: rgba(255,255,255,0.15); }
+        .angle-control { display: flex; align-items: center; gap: 15px; margin-top: 15px; }
+        .angle-slider { flex: 1; height: 8px; -webkit-appearance: none; background: rgba(255,255,255,0.1); border-radius: 4px; outline: none; }
+        .angle-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 50%; cursor: pointer; }
+        .angle-value { background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 6px; min-width: 70px; text-align: center; }
+        .color-stops-container { margin-top: 20px; }
+        .color-stop { display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; margin-bottom: 10px; }
+        .color-picker-wrapper { position: relative; }
+        .color-picker { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; background: none; }
+        .color-picker::-webkit-color-swatch-wrapper { padding: 0; }
+        .color-picker::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-hex { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 10px 15px; border-radius: 8px; color: #e4e4e4; width: 100px; font-family: monospace; text-transform: uppercase; }
+        .position-slider { flex: 1; height: 6px; -webkit-appearance: none; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; }
+        .position-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #f093fb; border-radius: 50%; cursor: pointer; }
+        .position-value { min-width: 45px; text-align: center; color: #888; font-size: 14px; }
+        .remove-btn { background: rgba(239, 68, 68, 0.2); border: none; color: #ef4444; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; transition: all 0.3s; }
+        .remove-btn:hover { background: rgba(239, 68, 68, 0.3); }
+        .add-color-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 2px dashed rgba(255,255,255,0.2); border-radius: 10px; color: #888; cursor: pointer; transition: all 0.3s; }
+        .add-color-btn:hover { border-color: #f093fb; color: #f093fb; }
+        .code-section { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .code-section h2 { color: #f093fb; margin-bottom: 20px; font-size: 1.2rem; }
+        .code-box { background: rgba(0,0,0,0.4); border-radius: 10px; padding: 20px; position: relative; }
+        .code-content { font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; font-size: 14px; color: #a5d6ff; word-break: break-all; line-height: 1.6; }
+        .copy-btn { position: absolute; top: 15px; right: 15px; padding: 8px 16px; background: linear-gradient(135deg, #f093fb, #f5576c); border: none; border-radius: 6px; color: white; font-weight: 500; cursor: pointer; transition: all 0.3s; }
+        .copy-btn:hover { transform: translateY(-2px); }
+        .presets-section { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .presets-section h2 { color: #f093fb; margin-bottom: 20px; font-size: 1.2rem; }
+        .presets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; }
+        .preset { aspect-ratio: 1; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 3px solid transparent; }
+        .preset:hover { transform: scale(1.05); border-color: rgba(255,255,255,0.3); }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 12px 24px; border-radius: 8px; font-weight: 500; opacity: 0; transition: all 0.3s ease; z-index: 1000; }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        footer { text-align: center; padding: 40px 20px; color: #666; }
+        @media (max-width: 600px) { h1 { font-size: 1.8rem; } .direction-grid { grid-template-columns: repeat(4, 1fr); max-width: 100%; } .color-stop { flex-wrap: wrap; } .color-hex { width: 80px; } }
     </style>
 </head>
 <body>
     <div class="lang-switch"><a href="index-ko.html">한국어</a></div>
     <div class="container">
         <header>
-            <h1>CSS Gradient Generator</h1>
-            <p class="subtitle">Create beautiful gradients with visual controls</p>
+            <h1 data-i18n="header.title">CSS Gradient Generator</h1>
+            <p class="subtitle" data-i18n="header.subtitle">Create beautiful gradients with visual controls</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
@@ -435,7 +80,7 @@
 
         <div class="controls-section">
             <div class="control-group">
-                <label class="control-label">Gradient Type</label>
+                <label class="control-label" data-i18n="controls.type">Gradient Type</label>
                 <div class="type-buttons">
                     <button class="type-btn active" data-type="linear" onclick="setType('linear')">Linear</button>
                     <button class="type-btn" data-type="radial" onclick="setType('radial')">Radial</button>
@@ -444,7 +89,7 @@
             </div>
 
             <div class="control-group" id="directionControl">
-                <label class="control-label">Direction</label>
+                <label class="control-label" data-i18n="controls.dir">Direction</label>
                 <div class="direction-grid">
                     <button class="direction-btn" data-dir="to top left" onclick="setDirection('to top left')">&#8598;</button>
                     <button class="direction-btn" data-dir="to top" onclick="setDirection('to top')">&#8593;</button>
@@ -456,50 +101,44 @@
                     <button class="direction-btn active" data-dir="to left" onclick="setDirection('to left')">&#8592;</button>
                 </div>
                 <div class="angle-control">
-                    <span>Custom Angle:</span>
+                    <span data-i18n="controls.angle">Custom Angle:</span>
                     <input type="range" class="angle-slider" id="angleSlider" min="0" max="360" value="90" oninput="setAngle(this.value)">
                     <span class="angle-value" id="angleValue">90°</span>
                 </div>
             </div>
 
             <div class="control-group">
-                <label class="control-label">Color Stops</label>
+                <label class="control-label" data-i18n="controls.stops">Color Stops</label>
                 <div class="color-stops-container" id="colorStops"></div>
-                <button class="add-color-btn" onclick="addColorStop()">+ Add Color</button>
+                <button class="add-color-btn" onclick="addColorStop()" data-i18n="controls.add">+ Add Color</button>
             </div>
         </div>
 
         <div class="code-section">
-            <h2>CSS Code</h2>
+            <h2 data-i18n="code.title">CSS Code</h2>
             <div class="code-box">
                 <pre class="code-content" id="cssCode"></pre>
-                <button class="copy-btn" onclick="copyCode()">Copy</button>
+                <button class="copy-btn" onclick="copyCode()" data-i18n="code.copy">Copy</button>
             </div>
         </div>
 
         <div class="presets-section">
-            <h2>Presets</h2>
+            <h2 data-i18n="presets.title">Presets</h2>
             <div class="presets-grid" id="presets"></div>
         </div>
 
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>Free CSS Gradient Generator | Create Beautiful Backgrounds</p>
+            Free CSS Gradient Generator
         </footer>
     </div>
 
     <div class="toast" id="toast">Copied!</div>
 
     <script>
-        let gradientType = 'linear';
-        let direction = '90deg';
-        let useAngle = true;
-        let colorStops = [
-            { color: '#f093fb', position: 0 },
-            { color: '#f5576c', position: 100 }
-        ];
-
+        let gradientType = 'linear', direction = '90deg', useAngle = true;
+        let colorStops = [{ color: '#f093fb', position: 0 }, { color: '#f5576c', position: 100 }];
         const presets = [
             { colors: ['#667eea', '#764ba2'], name: 'Purple Love' },
             { colors: ['#f093fb', '#f5576c'], name: 'Pink Sunset' },
@@ -517,43 +156,28 @@
 
         function setType(type) {
             gradientType = type;
-            document.querySelectorAll('.type-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.type === type);
-            });
-
-            // Show/hide direction control
-            const dirControl = document.getElementById('directionControl');
-            dirControl.style.display = type === 'radial' ? 'none' : 'block';
-
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.type === type));
+            document.getElementById('directionControl').style.display = type === 'radial' ? 'none' : 'block';
             updateGradient();
         }
 
         function setDirection(dir) {
-            useAngle = false;
-            direction = dir;
-            document.querySelectorAll('.direction-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.dir === dir);
-            });
+            useAngle = false; direction = dir;
+            document.querySelectorAll('.direction-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.dir === dir));
             updateGradient();
         }
 
         function setAngle(angle) {
-            useAngle = true;
-            direction = angle + 'deg';
+            useAngle = true; direction = angle + 'deg';
             document.getElementById('angleValue').textContent = angle + '°';
-            document.querySelectorAll('.direction-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.direction-btn').forEach(btn => btn.classList.remove('active'));
             updateGradient();
         }
 
         function renderColorStops() {
-            const container = document.getElementById('colorStops');
-            container.innerHTML = colorStops.map((stop, index) => `
+            document.getElementById('colorStops').innerHTML = colorStops.map((stop, index) => `
                 <div class="color-stop">
-                    <div class="color-picker-wrapper">
-                        <input type="color" class="color-picker" value="${stop.color}" onchange="updateColor(${index}, this.value)">
-                    </div>
+                    <div class="color-picker-wrapper"><input type="color" class="color-picker" value="${stop.color}" onchange="updateColor(${index}, this.value)"></div>
                     <input type="text" class="color-hex" value="${stop.color}" onchange="updateColorHex(${index}, this.value)">
                     <input type="range" class="position-slider" min="0" max="100" value="${stop.position}" oninput="updatePosition(${index}, this.value)">
                     <span class="position-value">${stop.position}%</span>
@@ -562,106 +186,51 @@
             `).join('');
         }
 
-        function updateColor(index, color) {
-            colorStops[index].color = color;
-            document.querySelectorAll('.color-hex')[index].value = color;
-            updateGradient();
-        }
-
-        function updateColorHex(index, hex) {
-            if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
-                colorStops[index].color = hex;
-                document.querySelectorAll('.color-picker')[index].value = hex;
-                updateGradient();
-            }
-        }
-
-        function updatePosition(index, position) {
-            colorStops[index].position = parseInt(position);
-            document.querySelectorAll('.position-value')[index].textContent = position + '%';
-            updateGradient();
-        }
-
+        function updateColor(i, c) { colorStops[i].color = c; document.querySelectorAll('.color-hex')[i].value = c; updateGradient(); }
+        function updateColorHex(i, h) { if (/^#[0-9A-Fa-f]{6}$/.test(h)) { colorStops[i].color = h; document.querySelectorAll('.color-picker')[i].value = h; updateGradient(); } }
+        function updatePosition(i, p) { colorStops[i].position = parseInt(p); document.querySelectorAll('.position-value')[i].textContent = p + '%'; updateGradient(); }
         function addColorStop() {
-            const lastColor = colorStops[colorStops.length - 1];
-            const newPosition = Math.min(lastColor.position + 20, 100);
-            colorStops.push({
-                color: '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'),
-                position: newPosition
-            });
-            renderColorStops();
-            updateGradient();
+            const last = colorStops[colorStops.length - 1];
+            colorStops.push({ color: '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'), position: Math.min(last.position + 20, 100) });
+            renderColorStops(); updateGradient();
         }
-
-        function removeColorStop(index) {
-            if (colorStops.length > 2) {
-                colorStops.splice(index, 1);
-                renderColorStops();
-                updateGradient();
-            }
-        }
+        function removeColorStop(i) { if (colorStops.length > 2) { colorStops.splice(i, 1); renderColorStops(); updateGradient(); } }
 
         function generateGradientCSS() {
-            const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
-            const stopsStr = sortedStops.map(s => `${s.color} ${s.position}%`).join(', ');
-
-            switch (gradientType) {
-                case 'linear':
-                    return `linear-gradient(${direction}, ${stopsStr})`;
-                case 'radial':
-                    return `radial-gradient(circle, ${stopsStr})`;
-                case 'conic':
-                    return `conic-gradient(from ${direction}, ${stopsStr})`;
-                default:
-                    return `linear-gradient(${direction}, ${stopsStr})`;
-            }
+            const sorted = [...colorStops].sort((a, b) => a.position - b.position);
+            const stops = sorted.map(s => `${s.color} ${s.position}%`).join(', ');
+            if (gradientType === 'linear') return `linear-gradient(${direction}, ${stops})`;
+            if (gradientType === 'radial') return `radial-gradient(circle, ${stops})`;
+            return `conic-gradient(from ${direction}, ${stops})`;
         }
 
         function updateGradient() {
-            const gradient = generateGradientCSS();
-            document.getElementById('preview').style.background = gradient;
-            document.getElementById('cssCode').textContent = `background: ${gradient};`;
+            const g = generateGradientCSS();
+            document.getElementById('preview').style.background = g;
+            document.getElementById('cssCode').textContent = `background: ${g};`;
         }
 
         function copyCode() {
-            const code = `background: ${generateGradientCSS()};`;
-            navigator.clipboard.writeText(code).then(() => {
-                showToast('CSS copied to clipboard!');
+            navigator.clipboard.writeText(`background: ${generateGradientCSS()};`).then(() => {
+                const t = document.getElementById('toast'); t.textContent = 'Copied!'; t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 2000);
             });
         }
 
         function renderPresets() {
-            const container = document.getElementById('presets');
-            container.innerHTML = presets.map((preset, index) => {
-                const stopsStr = preset.colors.map((c, i) =>
-                    `${c} ${Math.round(i * 100 / (preset.colors.length - 1))}%`
-                ).join(', ');
-                return `<div class="preset" style="background: linear-gradient(135deg, ${stopsStr})" onclick="applyPreset(${index})" title="${preset.name}"></div>`;
+            document.getElementById('presets').innerHTML = presets.map((p, index) => {
+                const stops = p.colors.map((c, i) => `${c} ${Math.round(i * 100 / (p.colors.length - 1))}%`).join(', ');
+                return `<div class="preset" style="background: linear-gradient(135deg, ${stops})" onclick="applyPreset(${index})" title="${p.name}"></div>`;
             }).join('');
         }
 
         function applyPreset(index) {
-            const preset = presets[index];
-            colorStops = preset.colors.map((color, i) => ({
-                color,
-                position: Math.round(i * 100 / (preset.colors.length - 1))
-            }));
-            renderColorStops();
-            updateGradient();
-            showToast(`Applied: ${preset.name}`);
+            const p = presets[index];
+            colorStops = p.colors.map((c, i) => ({ color: c, position: Math.round(i * 100 / (p.colors.length - 1)) }));
+            renderColorStops(); updateGradient();
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
-        }
-
-        // Initialize
-        renderColorStops();
-        renderPresets();
-        updateGradient();
+        renderColorStops(); renderPresets(); updateGradient();
     </script>
 </body>
 </html>

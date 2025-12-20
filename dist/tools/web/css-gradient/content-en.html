@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 그라데이션 생성기 - 무료 온라인 그라데이션 도구</title>
+    <meta name="description" content="무료 CSS 그라데이션 생성기. 간편한 비주얼 에디터로 아름다운 선형 및 원형 그라데이션을 만들고 CSS 코드를 바로 복사하세요.">
+    <meta name="keywords" content="CSS 그라데이션, 그라데이션 생성기, 선형 그라데이션, 원형 그라데이션, CSS 배경, 색상 그라데이션">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="CSS 그라데이션 생성기 - 아름다운 그라데이션 만들기">
+    <meta property="og:description" content="비주얼 컨트롤로 멋진 CSS 그라데이션을 생성하세요. 코드 즉시 복사.">
+    <meta property="og:type" content="website">
+
+    <link rel="alternate" hreflang="en" href="index.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .lang-switch {
+            text-align: right;
+            padding: 10px 0;
+        }
+
+        .lang-switch a {
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .lang-switch a:hover {
+            color: #f093fb;
+            border-color: #f093fb;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .preview-section {
+            margin-bottom: 30px;
+        }
+
+        .gradient-preview {
+            width: 100%;
+            height: 250px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .controls-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-label {
+            display: block;
+            color: #f093fb;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .type-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .type-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: #e4e4e4;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .type-btn.active {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));
+            border-color: #f093fb;
+        }
+
+        .type-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .direction-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 300px;
+        }
+
+        .direction-btn {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .direction-btn.active {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));
+            border-color: #f093fb;
+        }
+
+        .direction-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .angle-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .angle-slider {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .angle-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .angle-value {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 6px;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .color-stops-container {
+            margin-top: 20px;
+        }
+
+        .color-stop {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .color-picker-wrapper {
+            position: relative;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: none;
+        }
+
+        .color-picker::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-picker::-webkit-color-swatch {
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .color-hex {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #e4e4e4;
+            width: 100px;
+            font-family: monospace;
+            text-transform: uppercase;
+        }
+
+        .position-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .position-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #f093fb;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .position-value {
+            min-width: 45px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .remove-btn {
+            background: rgba(239, 68, 68, 0.2);
+            border: none;
+            color: #ef4444;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .add-color-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-color-btn:hover {
+            border-color: #f093fb;
+            color: #f093fb;
+        }
+
+        .code-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .code-section h2 {
+            color: #f093fb;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .code-box {
+            background: rgba(0,0,0,0.4);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .code-content {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            color: #a5d6ff;
+            word-break: break-all;
+            line-height: 1.6;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .presets-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .presets-section h2 {
+            color: #f093fb;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+        }
+
+        .preset {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .preset:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .direction-grid { grid-template-columns: repeat(4, 1fr); max-width: 100%; }
+            .color-stop { flex-wrap: wrap; }
+            .color-hex { width: 80px; }
+        }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"CSS 그라디언트","en":"CSS Gradient","ja":"CSSグラデーション"},"desc":{"ko":"그라디언트 생성","en":"Create Gradient","ja":"グラデーション作成"}},"header":{"title":{"ko":"CSS 그라디언트","en":"CSS Gradient","ja":"CSSグラデーション"},"subtitle":{"ko":"그라디언트 배경 생성","en":"Create Backgrounds","ja":"背景作成"}},"controls":{"type":{"ko":"종류","en":"Type","ja":"種類"},"dir":{"ko":"방향","en":"Direction","ja":"方向"},"angle":{"ko":"각도","en":"Angle","ja":"角度"},"stops":{"ko":"색상 지점","en":"Color Stops","ja":"色分岐点"},"add":{"ko":"+ 색상 추가","en":"+ Add Color","ja":"+ 色追加"}},"code":{"title":{"ko":"CSS 코드","en":"CSS Code","ja":"CSSコード"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"presets":{"title":{"ko":"프리셋","en":"Presets","ja":"プリセット"}}};</script></head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a href="index.html">English</a>
+        </div>
+
+        <header>
+            <h1>CSS 그라데이션 생성기</h1>
+            <p class="subtitle">비주얼 컨트롤로 아름다운 그라데이션 만들기</p>
+        </header>
+
+        <div class="ad-banner">광고</div>
+
+        <div class="preview-section">
+            <div class="gradient-preview" id="preview"></div>
+        </div>
+
+        <div class="controls-section">
+            <div class="control-group">
+                <label class="control-label">그라데이션 유형</label>
+                <div class="type-buttons">
+                    <button class="type-btn active" data-type="linear" onclick="setType('linear')">선형</button>
+                    <button class="type-btn" data-type="radial" onclick="setType('radial')">원형</button>
+                    <button class="type-btn" data-type="conic" onclick="setType('conic')">원뿔형</button>
+                </div>
+            </div>
+
+            <div class="control-group" id="directionControl">
+                <label class="control-label">방향</label>
+                <div class="direction-grid">
+                    <button class="direction-btn" data-dir="to top left" onclick="setDirection('to top left')">&#8598;</button>
+                    <button class="direction-btn" data-dir="to top" onclick="setDirection('to top')">&#8593;</button>
+                    <button class="direction-btn" data-dir="to top right" onclick="setDirection('to top right')">&#8599;</button>
+                    <button class="direction-btn" data-dir="to right" onclick="setDirection('to right')">&#8594;</button>
+                    <button class="direction-btn" data-dir="to bottom right" onclick="setDirection('to bottom right')">&#8600;</button>
+                    <button class="direction-btn" data-dir="to bottom" onclick="setDirection('to bottom')">&#8595;</button>
+                    <button class="direction-btn" data-dir="to bottom left" onclick="setDirection('to bottom left')">&#8601;</button>
+                    <button class="direction-btn active" data-dir="to left" onclick="setDirection('to left')">&#8592;</button>
+                </div>
+                <div class="angle-control">
+                    <span>사용자 정의 각도:</span>
+                    <input type="range" class="angle-slider" id="angleSlider" min="0" max="360" value="90" oninput="setAngle(this.value)">
+                    <span class="angle-value" id="angleValue">90°</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">색상 정지점</label>
+                <div class="color-stops-container" id="colorStops"></div>
+                <button class="add-color-btn" onclick="addColorStop()">+ 색상 추가</button>
+            </div>
+        </div>
+
+        <div class="code-section">
+            <h2>CSS 코드</h2>
+            <div class="code-box">
+                <pre class="code-content" id="cssCode"></pre>
+                <button class="copy-btn" onclick="copyCode()">복사</button>
+            </div>
+        </div>
+
+        <div class="presets-section">
+            <h2>프리셋</h2>
+            <div class="presets-grid" id="presets"></div>
+        </div>
+
+        <div class="ad-banner">광고</div>
+
+        <footer>
+            <p>무료 CSS 그라데이션 생성기 | 아름다운 배경 만들기</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">복사 완료!</div>
+
+    <script>
+        let gradientType = 'linear';
+        let direction = '90deg';
+        let useAngle = true;
+        let colorStops = [
+            { color: '#f093fb', position: 0 },
+            { color: '#f5576c', position: 100 }
+        ];
+
+        const presets = [
+            { colors: ['#667eea', '#764ba2'], name: '퍼플 러브' },
+            { colors: ['#f093fb', '#f5576c'], name: '핑크 선셋' },
+            { colors: ['#4facfe', '#00f2fe'], name: '오션 블루' },
+            { colors: ['#43e97b', '#38f9d7'], name: '프레시 민트' },
+            { colors: ['#fa709a', '#fee140'], name: '선라이즈' },
+            { colors: ['#a8edea', '#fed6e3'], name: '소프트 핑크' },
+            { colors: ['#ff9a9e', '#fecfef'], name: '로즈 워터' },
+            { colors: ['#ffecd2', '#fcb69f'], name: '피치' },
+            { colors: ['#667eea', '#764ba2', '#f093fb'], name: '바이올렛' },
+            { colors: ['#11998e', '#38ef7d'], name: '민트 그린' },
+            { colors: ['#ee0979', '#ff6a00'], name: '웜 플레임' },
+            { colors: ['#2193b0', '#6dd5ed'], name: '쿨 스카이' }
+        ];
+
+        function setType(type) {
+            gradientType = type;
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === type);
+            });
+
+            const dirControl = document.getElementById('directionControl');
+            dirControl.style.display = type === 'radial' ? 'none' : 'block';
+
+            updateGradient();
+        }
+
+        function setDirection(dir) {
+            useAngle = false;
+            direction = dir;
+            document.querySelectorAll('.direction-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.dir === dir);
+            });
+            updateGradient();
+        }
+
+        function setAngle(angle) {
+            useAngle = true;
+            direction = angle + 'deg';
+            document.getElementById('angleValue').textContent = angle + '°';
+            document.querySelectorAll('.direction-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            updateGradient();
+        }
+
+        function renderColorStops() {
+            const container = document.getElementById('colorStops');
+            container.innerHTML = colorStops.map((stop, index) => `
+                <div class="color-stop">
+                    <div class="color-picker-wrapper">
+                        <input type="color" class="color-picker" value="${stop.color}" onchange="updateColor(${index}, this.value)">
+                    </div>
+                    <input type="text" class="color-hex" value="${stop.color}" onchange="updateColorHex(${index}, this.value)">
+                    <input type="range" class="position-slider" min="0" max="100" value="${stop.position}" oninput="updatePosition(${index}, this.value)">
+                    <span class="position-value">${stop.position}%</span>
+                    ${colorStops.length > 2 ? `<button class="remove-btn" onclick="removeColorStop(${index})">×</button>` : '<div style="width:36px"></div>'}
+                </div>
+            `).join('');
+        }
+
+        function updateColor(index, color) {
+            colorStops[index].color = color;
+            document.querySelectorAll('.color-hex')[index].value = color;
+            updateGradient();
+        }
+
+        function updateColorHex(index, hex) {
+            if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+                colorStops[index].color = hex;
+                document.querySelectorAll('.color-picker')[index].value = hex;
+                updateGradient();
+            }
+        }
+
+        function updatePosition(index, position) {
+            colorStops[index].position = parseInt(position);
+            document.querySelectorAll('.position-value')[index].textContent = position + '%';
+            updateGradient();
+        }
+
+        function addColorStop() {
+            const lastColor = colorStops[colorStops.length - 1];
+            const newPosition = Math.min(lastColor.position + 20, 100);
+            colorStops.push({
+                color: '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'),
+                position: newPosition
+            });
+            renderColorStops();
+            updateGradient();
+        }
+
+        function removeColorStop(index) {
+            if (colorStops.length > 2) {
+                colorStops.splice(index, 1);
+                renderColorStops();
+                updateGradient();
+            }
+        }
+
+        function generateGradientCSS() {
+            const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
+            const stopsStr = sortedStops.map(s => `${s.color} ${s.position}%`).join(', ');
+
+            switch (gradientType) {
+                case 'linear':
+                    return `linear-gradient(${direction}, ${stopsStr})`;
+                case 'radial':
+                    return `radial-gradient(circle, ${stopsStr})`;
+                case 'conic':
+                    return `conic-gradient(from ${direction}, ${stopsStr})`;
+                default:
+                    return `linear-gradient(${direction}, ${stopsStr})`;
+            }
+        }
+
+        function updateGradient() {
+            const gradient = generateGradientCSS();
+            document.getElementById('preview').style.background = gradient;
+            document.getElementById('cssCode').textContent = `background: ${gradient};`;
+        }
+
+        function copyCode() {
+            const code = `background: ${generateGradientCSS()};`;
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('CSS 코드가 복사되었습니다!');
+            });
+        }
+
+        function renderPresets() {
+            const container = document.getElementById('presets');
+            container.innerHTML = presets.map((preset, index) => {
+                const stopsStr = preset.colors.map((c, i) =>
+                    `${c} ${Math.round(i * 100 / (preset.colors.length - 1))}%`
+                ).join(', ');
+                return `<div class="preset" style="background: linear-gradient(135deg, ${stopsStr})" onclick="applyPreset(${index})" title="${preset.name}"></div>`;
+            }).join('');
+        }
+
+        function applyPreset(index) {
+            const preset = presets[index];
+            colorStops = preset.colors.map((color, i) => ({
+                color,
+                position: Math.round(i * 100 / (preset.colors.length - 1))
+            }));
+            renderColorStops();
+            updateGradient();
+            showToast(`적용됨: ${preset.name}`);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Initialize
+        renderColorStops();
+        renderPresets();
+        updateGradient();
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

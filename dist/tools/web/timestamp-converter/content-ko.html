@@ -212,7 +212,7 @@
         }
         .lang-switch a:hover { background: var(--bg-tertiary); }
     </style>
-</head>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"타임스탬프 변환기","en":"Timestamp Converter","ja":"タイムスタンプ変換"},"desc":{"ko":"Unix 타임스탬프 변환","en":"Unix Timestamp Conversion","ja":"Unixタイムスタンプ変換"}},"header":{"title":{"ko":"타임스탬프 변환기","en":"Timestamp Converter","ja":"タイムスタンプ変換"},"subtitle":{"ko":"Unix 시간 ↔ 날짜 변환","en":"Unix Time ↔ Date","ja":"Unix時間 ↔ 日付"}},"current":{"label":{"ko":"현재 타임스탬프","en":"Current Timestamp","ja":"現在のタイムスタンプ"}},"tsToDate":{"title":{"ko":"타임스탬프 → 날짜","en":"Timestamp → Date","ja":"タイムスタンプ → 日付"},"label":{"ko":"타임스탬프","en":"Timestamp","ja":"タイムスタンプ"},"format":{"ko":"형식","en":"Format","ja":"形式"},"btn":{"ko":"변환하기","en":"Convert","ja":"変換"}},"dateToTs":{"title":{"ko":"날짜 → 타임스탬프","en":"Date → Timestamp","ja":"日付 → タイムスタンプ"},"label":{"ko":"날짜 및 시간","en":"Date & Time","ja":"日時"},"outFormat":{"ko":"출력 형식","en":"Output Format","ja":"出力形式"},"btn":{"ko":"변환하기","en":"Convert","ja":"変換"}},"results":{"local":{"ko":"로컬 시간","en":"Local Time","ja":"現地時間"},"utc":{"ko":"UTC 시간","en":"UTC Time","ja":"UTC時間"},"iso":{"ko":"ISO 8601","en":"ISO 8601","ja":"ISO 8601"},"ts":{"ko":"Unix 타임스탬프","en":"Unix Timestamp","ja":"Unixタイムスタンプ"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"ref":{"title":{"ko":"빠른 참조","en":"Quick Reference","ja":"クイックリファレンス"}},"info":{"title":{"ko":"타임스탬프란?","en":"What is Timestamp?","ja":"タイムスタンプとは？"}}};</script></head>
 <body>
     <div class="lang-switch">
         <a href="index.html">English</a>
@@ -438,5 +438,5 @@
 
         document.getElementById('dateInput').addEventListener('change', dateToTimestamp);
     </script>
-</body>
+<script src="/common/tool-i18n-handler.js"></script></body>
 </html>

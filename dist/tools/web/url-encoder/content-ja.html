@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL 인코더/디코더 - 무료 온라인 URL 인코딩 도구</title>
+    <meta name="description" content="URL을 즉시 인코딩하고 디코딩하세요. 웹 개발과 SEO를 위한 무료 온라인 URL 인코더 및 디코더입니다.">
+    <meta name="keywords" content="url 인코더, url 디코더, 퍼센트 인코딩, uri 인코더, url 이스케이프, 온라인 url 인코딩">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --border: #475569;
+            --success: #22c55e;
+            --encode-color: #22c55e;
+            --decode-color: #f59e0b;
+        }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 30px 20px; position: relative; }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .lang-switch a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        .main-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 25px;
+        }
+        .mode-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mode-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+        .mode-btn:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        .input-section { margin-bottom: 20px; }
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .input-label { color: var(--text-secondary); font-size: 0.9rem; }
+        .char-count { color: var(--text-secondary); font-size: 0.85rem; }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        textarea::placeholder { color: var(--text-secondary); }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+        .checkbox-item label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-encode {
+            background: linear-gradient(135deg, var(--encode-color), #10b981);
+        }
+        .btn-encode:hover { box-shadow: 0 5px 20px rgba(34, 197, 94, 0.3); }
+        .btn-decode {
+            background: linear-gradient(135deg, var(--decode-color), #f97316);
+        }
+        .btn-decode:hover { box-shadow: 0 5px 20px rgba(245, 158, 11, 0.3); }
+
+        .output-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .output-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .output-actions { display: flex; gap: 10px; }
+        .btn-sm {
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-sm:hover { background: var(--border); }
+
+        .output-area {
+            color: var(--success);
+        }
+
+        .swap-btn {
+            display: block;
+            margin: 15px auto;
+            padding: 10px 20px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .swap-btn:hover { background: var(--border); }
+
+        .examples {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .examples h3 { color: var(--accent); margin-bottom: 15px; }
+        .example-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .example-item {
+            background: var(--bg-primary);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .example-item:hover { transform: translateX(5px); }
+        .example-label { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 5px; }
+        .example-original { color: var(--text-primary); font-family: monospace; margin-bottom: 5px; }
+        .example-encoded { color: var(--success); font-family: monospace; font-size: 0.9rem; word-break: break-all; }
+
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .info-section h3 { margin-bottom: 15px; color: var(--accent); }
+        .info-section p { color: var(--text-secondary); margin-bottom: 10px; line-height: 1.7; }
+
+        .char-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .char-table th, .char-table td {
+            padding: 10px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        .char-table th { background: var(--bg-tertiary); }
+        .char-table code {
+            background: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .lang-switch { position: static; margin-bottom: 20px; }
+            header { padding-top: 20px; }
+        }
+    </style>
+<script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"URL 인코더","en":"URL Encoder","ja":"URLエンコーダー"},"desc":{"ko":"URL 변환","en":"URL Convert","ja":"URL変換"}},"header":{"title":{"ko":"URL 인코더/디코더","en":"URL Encoder/Decoder","ja":"URLエンコーダー/デコーダー"},"subtitle":{"ko":"URL 변환 도구","en":"URL Tool","ja":"URLツール"}},"mode":{"encode":{"ko":"인코딩","en":"Encode","ja":"エンコード"},"decode":{"ko":"디코딩","en":"Decode","ja":"デコード"}},"input":{"labelEnc":{"ko":"변환할 텍스트","en":"Text","ja":"テキスト"},"labelDec":{"ko":"변환할 URL","en":"URL","ja":"URL"},"placeholderEnc":{"ko":"입력...","en":"Enter...","ja":"入力..."},"placeholderDec":{"ko":"URL 입력...","en":"Enter URL...","ja":"URL入力..."}},"options":{"all":{"ko":"전체 인코딩","en":"Encode All","ja":"全エンコード"},"plus":{"ko":"공백 +","en":"Space +","ja":"空白 +"}},"action":{"encode":{"ko":"인코딩","en":"Encode","ja":"エンコード"},"decode":{"ko":"디코딩","en":"Decode","ja":"デコード"}},"swap":{"ko":"↕️ 교체","en":"↕️ Swap","ja":"↕️ 入替"},"output":{"labelEnc":{"ko":"결과","en":"Result","ja":"結果"},"labelDec":{"ko":"결과","en":"Result","ja":"結果"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"},"clear":{"ko":"지우기","en":"Clear","ja":"クリア"}},"examples":{"title":{"ko":"예제","en":"Examples","ja":"例"}},"info":{"title":{"ko":"정보","en":"Info","ja":"情報"}}};</script></head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lang-switch">
+                <a href="index.html">English</a>
+            </div>
+            <h1>URL 인코더 / 디코더</h1>
+            <p class="subtitle">웹 개발을 위한 URL 인코딩 및 디코딩</p>
+        </header>
+
+        <div class="ad-banner">광고</div>
+
+        <div class="main-card">
+            <div class="mode-toggle">
+                <button class="mode-btn active" onclick="setMode('encode')" id="encodeTab">인코딩</button>
+                <button class="mode-btn" onclick="setMode('decode')" id="decodeTab">디코딩</button>
+            </div>
+
+            <div class="input-section">
+                <div class="input-header">
+                    <span class="input-label" id="inputLabel">인코딩할 텍스트</span>
+                    <span class="char-count"><span id="inputCount">0</span>자</span>
+                </div>
+                <textarea id="inputText" placeholder="인코딩할 텍스트 또는 URL을 입력하세요..."></textarea>
+            </div>
+
+            <div class="options">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="encodeAll">
+                    <label for="encodeAll">모든 문자 인코딩 (안전한 문자 포함)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="encodePlus">
+                    <label for="encodePlus">공백을 %20 대신 +로 인코딩</label>
+                </div>
+            </div>
+
+            <button class="action-btn btn-encode" id="actionBtn" onclick="process()">URL 인코딩</button>
+
+            <button class="swap-btn" onclick="swapContent()">↕️ 입력/출력 교환</button>
+
+            <div class="output-section">
+                <div class="output-header">
+                    <span class="output-label" id="outputLabel">인코딩된 결과</span>
+                    <div class="output-actions">
+                        <button class="btn-sm" onclick="copyOutput()">복사</button>
+                        <button class="btn-sm" onclick="clearAll()">지우기</button>
+                    </div>
+                </div>
+                <textarea id="outputText" class="output-area" readonly placeholder="결과가 여기에 표시됩니다..."></textarea>
+            </div>
+        </div>
+
+        <div class="examples">
+            <h3>자주 사용하는 예시</h3>
+            <div class="example-grid">
+                <div class="example-item" onclick="useExample('안녕하세요 세계!')">
+                    <div class="example-label">한글 인코딩</div>
+                    <div class="example-original">안녕하세요 세계!</div>
+                    <div class="example-encoded">%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94%20%EC%84%B8%EA%B3%84%21</div>
+                </div>
+                <div class="example-item" onclick="useExample('https://example.com/search?q=검색어&lang=ko')">
+                    <div class="example-label">쿼리 파라미터가 있는 URL</div>
+                    <div class="example-original">https://example.com/search?q=검색어&lang=ko</div>
+                    <div class="example-encoded">https%3A%2F%2Fexample.com%2Fsearch%3Fq%3D%EA%B2%80%EC%83%89%EC%96%B4%26lang%3Dko</div>
+                </div>
+                <div class="example-item" onclick="useExample('email@example.com')">
+                    <div class="example-label">이메일 주소</div>
+                    <div class="example-original">email@example.com</div>
+                    <div class="example-encoded">email%40example.com</div>
+                </div>
+                <div class="example-item" onclick="useExample('가격=$100&할인=20%')">
+                    <div class="example-label">특수 문자</div>
+                    <div class="example-original">가격=$100&할인=20%</div>
+                    <div class="example-encoded">%EA%B0%80%EA%B2%A9%3D%24100%26%ED%95%A0%EC%9D%B8%3D20%25</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고</div>
+
+        <div class="info-section">
+            <h3>URL 인코딩이란?</h3>
+            <p>URL 인코딩(퍼센트 인코딩이라고도 함)은 문자를 인터넷을 통해 전송할 수 있는 형식으로 변환합니다. URL은 ASCII 문자 집합의 제한된 문자만 포함할 수 있습니다.</p>
+            <p>이 집합 외의 문자는 퍼센트 기호(%)와 해당 문자의 ASCII 코드를 나타내는 두 자리 16진수를 사용하여 인코딩해야 합니다.</p>
+        </div>
+
+        <div class="info-section">
+            <h3>자주 인코딩되는 문자</h3>
+            <table class="char-table">
+                <tr>
+                    <th>문자</th>
+                    <th>인코딩</th>
+                    <th>설명</th>
+                </tr>
+                <tr>
+                    <td>(공백)</td>
+                    <td><code>%20</code> 또는 <code>+</code></td>
+                    <td>공백 문자</td>
+                </tr>
+                <tr>
+                    <td>!</td>
+                    <td><code>%21</code></td>
+                    <td>느낌표</td>
+                </tr>
+                <tr>
+                    <td>#</td>
+                    <td><code>%23</code></td>
+                    <td>해시/샵 기호</td>
+                </tr>
+                <tr>
+                    <td>$</td>
+                    <td><code>%24</code></td>
+                    <td>달러 기호</td>
+                </tr>
+                <tr>
+                    <td>&</td>
+                    <td><code>%26</code></td>
+                    <td>앰퍼샌드</td>
+                </tr>
+                <tr>
+                    <td>=</td>
+                    <td><code>%3D</code></td>
+                    <td>등호</td>
+                </tr>
+                <tr>
+                    <td>@</td>
+                    <td><code>%40</code></td>
+                    <td>골뱅이</td>
+                </tr>
+            </table>
+        </div>
+
+        <footer>
+            <p>웹 개발자를 위해 만들었습니다</p>
+            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentMode = 'encode';
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('encodeTab').classList.toggle('active', mode === 'encode');
+            document.getElementById('decodeTab').classList.toggle('active', mode === 'decode');
+
+            const actionBtn = document.getElementById('actionBtn');
+            const inputLabel = document.getElementById('inputLabel');
+            const outputLabel = document.getElementById('outputLabel');
+
+            if (mode === 'encode') {
+                actionBtn.textContent = 'URL 인코딩';
+                actionBtn.className = 'action-btn btn-encode';
+                inputLabel.textContent = '인코딩할 텍스트';
+                outputLabel.textContent = '인코딩된 결과';
+                document.getElementById('inputText').placeholder = '인코딩할 텍스트 또는 URL을 입력하세요...';
+            } else {
+                actionBtn.textContent = 'URL 디코딩';
+                actionBtn.className = 'action-btn btn-decode';
+                inputLabel.textContent = '디코딩할 텍스트';
+                outputLabel.textContent = '디코딩된 결과';
+                document.getElementById('inputText').placeholder = '디코딩할 인코딩된 URL을 입력하세요...';
+            }
+        }
+
+        function process() {
+            const input = document.getElementById('inputText').value;
+            const encodeAll = document.getElementById('encodeAll').checked;
+            const encodePlus = document.getElementById('encodePlus').checked;
+
+            if (!input) {
+                showToast('텍스트를 입력해주세요');
+                return;
+            }
+
+            let result;
+            try {
+                if (currentMode === 'encode') {
+                    if (encodeAll) {
+                        result = Array.from(input).map(char => {
+                            if (/[a-zA-Z0-9]/.test(char)) {
+                                return char;
+                            }
+                            if (char === ' ' && encodePlus) {
+                                return '+';
+                            }
+                            // Handle multi-byte characters (like Korean)
+                            const encoded = encodeURIComponent(char);
+                            return encoded;
+                        }).join('');
+                    } else {
+                        result = encodeURIComponent(input);
+                        if (encodePlus) {
+                            result = result.replace(/%20/g, '+');
+                        }
+                    }
+                } else {
+                    // Decode mode
+                    let decoded = input;
+                    if (encodePlus) {
+                        decoded = decoded.replace(/\+/g, ' ');
+                    }
+                    result = decodeURIComponent(decoded);
+                }
+
+                document.getElementById('outputText').value = result;
+                showToast(currentMode === 'encode' ? '인코딩 완료!' : '디코딩 완료!');
+            } catch (e) {
+                showToast('오류: 잘못된 입력입니다');
+            }
+        }
+
+        function swapContent() {
+            const input = document.getElementById('inputText');
+            const output = document.getElementById('outputText');
+            const temp = input.value;
+            input.value = output.value;
+            output.value = temp;
+            updateCount();
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (output) {
+                navigator.clipboard.writeText(output);
+                showToast('복사되었습니다!');
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+            updateCount();
+        }
+
+        function useExample(text) {
+            document.getElementById('inputText').value = text;
+            updateCount();
+            setMode('encode');
+            process();
+        }
+
+        function updateCount() {
+            document.getElementById('inputCount').textContent = document.getElementById('inputText').value.length;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Event listeners
+        document.getElementById('inputText').addEventListener('input', updateCount);
+        document.getElementById('inputText').addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                process();
+            }
+        });
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

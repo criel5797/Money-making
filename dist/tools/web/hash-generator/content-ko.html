@@ -243,7 +243,7 @@
         }
         .lang-switch a:hover { background: var(--bg-tertiary); }
     </style>
-</head>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"해시 생성기","en":"Hash Generator","ja":"ハッシュ生成"},"desc":{"ko":"MD5, SHA 해시","en":"MD5, SHA Hash","ja":"MD5, SHAハッシュ"}},"header":{"title":{"ko":"해시 생성기","en":"Hash Generator","ja":"ハッシュ生成"},"subtitle":{"ko":"해시 알고리즘","en":"Hash Algorithms","ja":"ハッシュアルゴリズム"}},"input":{"label":{"ko":"입력:","en":"Input:","ja":"入力:"},"placeholder":{"ko":"텍스트 입력...","en":"Enter text...","ja":"テキスト入力..."}},"options":{"upper":{"ko":"대문자 출력","en":"Uppercase","ja":"大文字"}},"generate":{"ko":"생성하기","en":"Generate","ja":"生成"},"results":{"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"compare":{"title":{"ko":"비교","en":"Compare","ja":"比較"},"p1":{"ko":"해시 1","en":"Hash 1","ja":"ハッシュ1"},"p2":{"ko":"해시 2","en":"Hash 2","ja":"ハッシュ2"},"wait":{"ko":"비교 대기...","en":"Waiting...","ja":"待機中..."},"match":{"ko":"일치!","en":"Match!","ja":"一致!"},"diff":{"ko":"불일치","en":"No Match","ja":"不一致"}},"info":{"title":{"ko":"해시 함수","en":"Hash Function","ja":"ハッシュ関数"}}};</script></head>
 <body>
     <div class="lang-switch">
         <a href="index.html">English</a>
@@ -577,5 +577,5 @@
             if (e.ctrlKey && e.key === 'Enter') generateHashes();
         });
     </script>
-</body>
+<script src="/common/tool-i18n-handler.js"></script></body>
 </html>

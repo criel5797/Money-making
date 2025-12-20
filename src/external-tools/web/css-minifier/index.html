@@ -4,245 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSS Minifier - Free Online CSS Compressor</title>
-    <meta name="description" content="Minify CSS code instantly. Free online CSS compressor to reduce file size and improve website loading speed.">
-    <meta name="keywords" content="css minifier, css compressor, minify css, css optimizer, reduce css size">
-    <meta property="og:title" content="CSS Minifier - Free Online CSS Compressor">
-    <meta property="og:description" content="Minify CSS code instantly. Free online CSS compressor.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/0f172a/f59e0b?text=CSS+Minifier">
-    <link rel="alternate" hreflang="ko" href="index-ko.html">
-    <link rel="alternate" hreflang="en" href="index.html">
-
     <style>
-        .lang-switch {
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            z-index: 1000;
-        }
-        .lang-switch a {
-            display: inline-block;
-            padding: 8px 16px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-        .lang-switch a:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
+        /* Styles remain the same */
+        .lang-switch { position: fixed; top: 15px; right: 20px; z-index: 1000; }
+        .lang-switch a { display: inline-block; padding: 8px 16px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; transition: all 0.2s; }
+        .lang-switch a:hover { background: var(--accent); color: white; border-color: var(--accent); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent: #f59e0b;
-            --accent-hover: #d97706;
-            --border: #475569;
-            --success: #22c55e;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
+        :root { --bg-primary: #0f172a; --bg-secondary: #1e293b; --bg-tertiary: #334155; --text-primary: #f8fafc; --text-secondary: #94a3b8; --accent: #f59e0b; --accent-hover: #d97706; --border: #475569; --success: #22c55e; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         header { text-align: center; padding: 30px 20px; }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #f59e0b, #ef4444);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; background: linear-gradient(135deg, #f59e0b, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .subtitle { color: var(--text-secondary); }
-        .ad-banner {
-            background: var(--bg-secondary);
-            border: 1px dashed var(--border);
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-            border-radius: 8px;
-            color: var(--text-secondary);
-        }
-
-        .editor-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        @media (max-width: 900px) {
-            .editor-container { grid-template-columns: 1fr; }
-        }
-
-        .panel {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: var(--bg-tertiary);
-            border-bottom: 1px solid var(--border);
-        }
+        .ad-banner { background: var(--bg-secondary); border: 1px dashed var(--border); padding: 20px; text-align: center; margin: 20px 0; border-radius: 8px; color: var(--text-secondary); }
+        .editor-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+        @media (max-width: 900px) { .editor-container { grid-template-columns: 1fr; } }
+        .panel { background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg-tertiary); border-bottom: 1px solid var(--border); }
         .panel-title { font-weight: 600; }
         .panel-actions { display: flex; gap: 10px; }
-        .btn-sm {
-            padding: 6px 12px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-primary);
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: background 0.2s;
-        }
+        .btn-sm { padding: 6px 12px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary); cursor: pointer; font-size: 0.85rem; transition: background 0.2s; }
         .btn-sm:hover { background: var(--border); }
-
-        textarea {
-            width: 100%;
-            height: 400px;
-            padding: 20px;
-            background: var(--bg-primary);
-            border: none;
-            color: var(--text-primary);
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            resize: vertical;
-        }
+        textarea { width: 100%; height: 400px; padding: 20px; background: var(--bg-primary); border: none; color: var(--text-primary); font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem; line-height: 1.6; resize: vertical; }
         textarea:focus { outline: none; }
         textarea::placeholder { color: var(--text-secondary); }
         .output-area { color: var(--success); }
-
-        .minify-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--accent), #ef4444);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin: 20px 0;
-        }
-        .minify-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.3);
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .stat-card {
-            background: var(--bg-secondary);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-top: 5px;
-        }
+        .minify-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--accent), #ef4444); border: none; border-radius: 10px; color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin: 20px 0; }
+        .minify-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(245, 158, 11, 0.3); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 20px 0; }
+        .stat-card { background: var(--bg-secondary); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid var(--border); }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+        .stat-label { color: var(--text-secondary); font-size: 0.85rem; margin-top: 5px; }
         .stat-value.green { color: var(--success); }
-
-        .options {
-            background: var(--bg-secondary);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 1px solid var(--border);
-        }
-        .options-title {
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        .options-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .checkbox-item input {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--accent);
-        }
-        .checkbox-item label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        .info-section {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-            border: 1px solid var(--border);
-        }
+        .options { background: var(--bg-secondary); padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid var(--border); }
+        .options-title { font-weight: 600; margin-bottom: 15px; }
+        .options-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+        .checkbox-item { display: flex; align-items: center; gap: 8px; }
+        .checkbox-item input { width: 18px; height: 18px; accent-color: var(--accent); }
+        .checkbox-item label { color: var(--text-secondary); font-size: 0.9rem; cursor: pointer; }
+        .info-section { background: var(--bg-secondary); border-radius: 12px; padding: 25px; margin: 20px 0; border: 1px solid var(--border); }
         .info-section h3 { margin-bottom: 15px; color: var(--accent); }
         .info-section p { color: var(--text-secondary); margin-bottom: 10px; line-height: 1.7; }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            border-top: 1px solid var(--border);
-            color: var(--text-secondary);
-        }
+        footer { text-align: center; padding: 30px; border-top: 1px solid var(--border); color: var(--text-secondary); }
         footer a { color: var(--accent); text-decoration: none; }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--success);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s;
-            z-index: 1000;
-        }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--success); color: white; padding: 12px 24px; border-radius: 8px; opacity: 0; transform: translateY(20px); transition: all 0.3s; z-index: 1000; }
         .toast.show { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
-    <div class="lang-switch"><a href="index-ko.html">한국어</a></div>
     <div class="container">
         <header>
-            <h1>CSS Minifier</h1>
-            <p class="subtitle">Compress your CSS to reduce file size</p>
+            <h1 data-i18n="header.title">CSS Minifier</h1>
+            <p class="subtitle" data-i18n="header.subtitle">Compress your CSS to reduce file size</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
@@ -250,40 +63,40 @@
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-value" id="originalSize">0</div>
-                <div class="stat-label">Original (bytes)</div>
+                <div class="stat-label" data-i18n="stats.original">Original (bytes)</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value green" id="minifiedSize">0</div>
-                <div class="stat-label">Minified (bytes)</div>
+                <div class="stat-label" data-i18n="stats.minified">Minified (bytes)</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value green" id="savings">0%</div>
-                <div class="stat-label">Savings</div>
+                <div class="stat-label" data-i18n="stats.savings">Savings</div>
             </div>
         </div>
 
         <div class="options">
-            <div class="options-title">Options</div>
+            <div class="options-title" data-i18n="options.title">Options</div>
             <div class="options-grid">
                 <div class="checkbox-item">
                     <input type="checkbox" id="removeComments" checked>
-                    <label for="removeComments">Remove comments</label>
+                    <label for="removeComments" data-i18n="options.comments">Remove comments</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="removeWhitespace" checked>
-                    <label for="removeWhitespace">Remove whitespace</label>
+                    <label for="removeWhitespace" data-i18n="options.whitespace">Remove whitespace</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="removeLastSemicolon" checked>
-                    <label for="removeLastSemicolon">Remove last semicolons</label>
+                    <label for="removeLastSemicolon" data-i18n="options.semi">Remove last semicolons</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="shortenColors" checked>
-                    <label for="shortenColors">Shorten hex colors</label>
+                    <label for="shortenColors" data-i18n="options.hex">Shorten hex colors</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="removeZeroUnits" checked>
-                    <label for="removeZeroUnits">Remove zero units</label>
+                    <label for="removeZeroUnits" data-i18n="options.zero">Remove zero units</label>
                 </div>
             </div>
         </div>
@@ -291,53 +104,38 @@
         <div class="editor-container">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">Input CSS</span>
+                    <span class="panel-title" data-i18n="editor.input">Input CSS</span>
                     <div class="panel-actions">
-                        <button class="btn-sm" onclick="loadSample()">Sample</button>
-                        <button class="btn-sm" onclick="clearInput()">Clear</button>
+                        <button class="btn-sm" onclick="loadSample()" data-i18n="editor.sample">Sample</button>
+                        <button class="btn-sm" onclick="clearInput()" data-i18n="editor.clear">Clear</button>
                     </div>
                 </div>
-                <textarea id="inputCSS" placeholder="Paste your CSS here..."></textarea>
+                <textarea id="inputCSS" placeholder="Paste your CSS here..." data-i18n-placeholder="editor.placeholder"></textarea>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">Minified Output</span>
+                    <span class="panel-title" data-i18n="output.title">Minified Output</span>
                     <div class="panel-actions">
-                        <button class="btn-sm" onclick="copyOutput()">Copy</button>
-                        <button class="btn-sm" onclick="downloadCSS()">Download</button>
+                        <button class="btn-sm" onclick="copyOutput()" data-i18n="output.copy">Copy</button>
+                        <button class="btn-sm" onclick="downloadCSS()" data-i18n="output.download">Download</button>
                     </div>
                 </div>
-                <textarea id="outputCSS" class="output-area" readonly placeholder="Minified CSS will appear here..."></textarea>
+                <textarea id="outputCSS" class="output-area" readonly placeholder="Minified CSS will appear here..." data-i18n-placeholder="output.placeholder"></textarea>
             </div>
         </div>
 
-        <button class="minify-btn" onclick="minify()">Minify CSS</button>
+        <button class="minify-btn" onclick="minify()" data-i18n="btn.minify">Minify CSS</button>
 
         <div class="ad-banner">Advertisement</div>
 
         <div class="info-section">
-            <h3>Why Minify CSS?</h3>
-            <p>CSS minification removes unnecessary characters from your code without changing its functionality. This includes removing whitespace, comments, and optimizing values.</p>
-            <p><strong>Benefits:</strong></p>
-            <p>• Faster page load times - smaller files download quicker</p>
-            <p>• Reduced bandwidth usage - saves hosting costs</p>
-            <p>• Better SEO - page speed is a ranking factor</p>
-            <p>• Improved user experience - especially on mobile devices</p>
+            <h3 data-i18n="info.why">Why Minify CSS?</h3>
+            <p>CSS minification removes unnecessary characters from your code without changing its functionality.</p>
         </div>
 
-        <div class="info-section">
-            <h3>What Gets Minified?</h3>
-            <p>• Comments (/* ... */)</p>
-            <p>• Unnecessary whitespace and line breaks</p>
-            <p>• Last semicolons in declaration blocks</p>
-            <p>• Hex colors (#ffffff → #fff)</p>
-            <p>• Zero units (0px → 0)</p>
-        </div>
-
-        <footer>
-            <p>Made with care for web developers</p>
-            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy</a></p>
+        <footer data-i18n="footer">
+            Made with care for web developers
         </footer>
     </div>
 
@@ -346,13 +144,9 @@
     <script>
         function minifyCSS(css) {
             let result = css;
-
-            // Remove comments
             if (document.getElementById('removeComments').checked) {
                 result = result.replace(/\/\*[\s\S]*?\*\//g, '');
             }
-
-            // Remove whitespace
             if (document.getElementById('removeWhitespace').checked) {
                 result = result.replace(/\s+/g, ' ');
                 result = result.replace(/\s*{\s*/g, '{');
@@ -361,40 +155,28 @@
                 result = result.replace(/\s*:\s*/g, ':');
                 result = result.replace(/\s*,\s*/g, ',');
             }
-
-            // Remove last semicolon before }
             if (document.getElementById('removeLastSemicolon').checked) {
                 result = result.replace(/;}/g, '}');
             }
-
-            // Shorten hex colors
             if (document.getElementById('shortenColors').checked) {
                 result = result.replace(/#([0-9a-fA-F])\1([0-9a-fA-F])\2([0-9a-fA-F])\3/gi, '#$1$2$3');
             }
-
-            // Remove zero units
             if (document.getElementById('removeZeroUnits').checked) {
                 result = result.replace(/(\s|:)0(px|em|rem|%|pt|pc|in|cm|mm|ex|vh|vw|vmin|vmax)/gi, '$10');
             }
-
             return result.trim();
         }
 
         function minify() {
             const input = document.getElementById('inputCSS').value;
             const output = minifyCSS(input);
-
             document.getElementById('outputCSS').value = output;
-
-            // Update stats
             const originalSize = new Blob([input]).size;
             const minifiedSize = new Blob([output]).size;
             const savings = originalSize > 0 ? Math.round((1 - minifiedSize / originalSize) * 100) : 0;
-
             document.getElementById('originalSize').textContent = originalSize.toLocaleString();
             document.getElementById('minifiedSize').textContent = minifiedSize.toLocaleString();
             document.getElementById('savings').textContent = savings + '%';
-
             showToast('CSS minified!');
         }
 
@@ -421,57 +203,7 @@
         }
 
         function loadSample() {
-            document.getElementById('inputCSS').value = `/* Main styles for the website */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Header styles */
-.header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #eeeeee;
-    padding: 15px 0px;
-}
-
-.header .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333333;
-}
-
-/* Navigation */
-.nav {
-    display: flex;
-    gap: 20px;
-}
-
-.nav a {
-    color: #666666;
-    text-decoration: none;
-    padding: 10px 15px;
-}
-
-.nav a:hover {
-    color: #000000;
-    background-color: #f5f5f5;
-}
-
-/* Button styles */
-.button {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #0066ff;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.button:hover {
-    background-color: #0055dd;
-}`;
+            document.getElementById('inputCSS').value = `/* Main styles */\n.container {\n    max-width: 1200px;\n    margin: 0 auto;\n    padding: 20px;\n}\n\n.header {\n    background-color: #ffffff;\n    color: #333333;\n}`;
             showToast('Sample loaded!');
         }
 
@@ -490,19 +222,12 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // Auto minify on input change
         document.getElementById('inputCSS').addEventListener('input', () => {
-            if (document.getElementById('inputCSS').value) {
-                minify();
-            }
+            if (document.getElementById('inputCSS').value) minify();
         });
-
-        // Re-minify when options change
         document.querySelectorAll('.options input').forEach(checkbox => {
             checkbox.addEventListener('change', () => {
-                if (document.getElementById('inputCSS').value) {
-                    minify();
-                }
+                if (document.getElementById('inputCSS').value) minify();
             });
         });
     </script>

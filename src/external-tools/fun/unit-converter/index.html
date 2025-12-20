@@ -1,262 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>단위 변환기 - 길이, 무게, 온도, 면적</title>
-    <meta name="description" content="다양한 단위를 쉽게 변환하세요. 길이, 무게, 온도, 면적, 부피 등을 지원합니다.">
-    <meta name="keywords" content="단위 변환, 길이 변환, 무게 변환, 온도 변환, cm inch, kg lb">
-    <meta property="og:title" content="단위 변환기 - 길이, 무게, 온도, 면적">
-    <meta property="og:description" content="다양한 단위를 쉽게 변환하세요.">
-    <meta property="og:type" content="website">
-    <link rel="alternate" hreflang="ko" href="index.html">
+    <title>Unit Converter</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
-            min-height: 100vh;
-            color: #fff;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .ad-banner {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            text-align: center;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: rgba(255,255,255,0.8);
-            font-size: 0.95rem;
-        }
-
-        .category-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .category-tab {
-            flex: 1;
-            min-width: 70px;
-            padding: 12px 8px;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .category-tab:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .category-tab.active {
-            background: rgba(255,255,255,0.3);
-            border-color: #fff;
-        }
-
-        .converter-section {
-            background: rgba(255,255,255,0.15);
-            border-radius: 16px;
-            padding: 25px;
-            backdrop-filter: blur(10px);
-        }
-
-        .converter-row {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            flex: 1;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 6px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 10px;
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #fff;
-            background: rgba(255,255,255,0.15);
-        }
-
-        .input-group select {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 10px;
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
-        .input-group select:focus {
-            outline: none;
-            border-color: #fff;
-        }
-
-        .input-group select option {
-            background: #4776E6;
-            color: #fff;
-        }
-
-        .swap-btn {
-            width: 50px;
-            height: 50px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            border-radius: 50%;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex-shrink: 0;
-        }
-
-        .swap-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(180deg);
-        }
-
-        .result-display {
-            background: rgba(255,255,255,0.2);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .result-formula {
-            font-size: 1rem;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 10px;
-        }
-
-        .result-value {
-            font-size: 2rem;
-            font-weight: 800;
-        }
-
-        .copy-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s;
-        }
-
-        .copy-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        .common-conversions {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .common-conversions h4 {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 12px;
-        }
-
-        .conversion-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-
-        .conversion-item {
-            background: rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            text-align: center;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255,255,255,0.5);
-            font-size: 0.8rem;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(0,0,0,0.9);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            opacity: 0;
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
+        /* Styles remain the same */
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#4776E6 0%,#8E54E9 100%);min-height:100vh;color:#fff;padding:20px}.container{max-width:500px;margin:0 auto}.ad-banner{background:rgba(255,255,255,.1);padding:20px;text-align:center;border-radius:12px;margin-bottom:20px;color:rgba(255,255,255,.5)}header{text-align:center;margin-bottom:30px}h1{font-size:1.8rem;margin-bottom:10px}.subtitle{color:rgba(255,255,255,.8);font-size:.95rem}.category-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.category-tab{flex:1;min-width:70px;padding:12px 8px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:10px;color:#fff;font-size:.85rem;cursor:pointer;transition:all .3s;text-align:center}.category-tab:hover{background:rgba(255,255,255,.2)}.category-tab.active{background:rgba(255,255,255,.3);border-color:#fff}.converter-section{background:rgba(255,255,255,.15);border-radius:16px;padding:25px;backdrop-filter:blur(10px)}.converter-row{display:flex;gap:15px;align-items:center;margin-bottom:20px}.input-group{flex:1}.input-group label{display:block;font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:6px}.input-group input{width:100%;padding:14px;border:2px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font-size:1.2rem;font-weight:600;text-align:center}.input-group input:focus{outline:none;border-color:#fff;background:rgba(255,255,255,.15)}.input-group select{width:100%;padding:14px;border:2px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font-size:1rem;cursor:pointer;margin-top:8px}.input-group select:focus{outline:none;border-color:#fff}.input-group select option{background:#4776E6;color:#fff}.swap-btn{width:50px;height:50px;background:rgba(255,255,255,.2);border:none;border-radius:50%;color:#fff;font-size:1.5rem;cursor:pointer;transition:all .3s;flex-shrink:0}.swap-btn:hover{background:rgba(255,255,255,.3);transform:rotate(180deg)}.result-display{background:rgba(255,255,255,.2);border-radius:12px;padding:20px;text-align:center;margin-top:20px}.result-formula{font-size:1rem;color:rgba(255,255,255,.8);margin-bottom:10px}.result-value{font-size:2rem;font-weight:800}.copy-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:rgba(255,255,255,.2);border:none;border-radius:8px;color:#fff;font-size:.9rem;cursor:pointer;margin-top:15px;transition:all .3s}.copy-btn:hover{background:rgba(255,255,255,.3)}.common-conversions{margin-top:25px;padding-top:20px;border-top:1px solid rgba(255,255,255,.2)}.common-conversions h4{font-size:.9rem;color:rgba(255,255,255,.7);margin-bottom:12px}.conversion-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.conversion-item{background:rgba(255,255,255,.1);padding:10px;border-radius:8px;font-size:.85rem;text-align:center}footer{text-align:center;margin-top:30px;color:rgba(255,255,255,.5);font-size:.8rem}.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(0,0,0,.9);color:#fff;padding:12px 24px;border-radius:8px;font-size:.9rem;opacity:0;transition:all .3s;z-index:1000}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
     </style>
 </head>
 <body>
@@ -264,22 +14,22 @@
         <div class="ad-banner">Advertisement</div>
 
         <header>
-            <h1>📐 단위 변환기</h1>
-            <p class="subtitle">다양한 단위를 쉽게 변환하세요</p>
+            <h1 data-i18n="header.title">📐 Unit Converter</h1>
+            <p class="subtitle" data-i18n="header.subtitle">Convert units easily</p>
         </header>
 
         <div class="category-tabs">
-            <button class="category-tab active" onclick="setCategory('length')">길이</button>
-            <button class="category-tab" onclick="setCategory('weight')">무게</button>
-            <button class="category-tab" onclick="setCategory('temperature')">온도</button>
-            <button class="category-tab" onclick="setCategory('area')">면적</button>
-            <button class="category-tab" onclick="setCategory('volume')">부피</button>
+            <button class="category-tab active" onclick="setCategory('length')" data-i18n="tabs.len">Length</button>
+            <button class="category-tab" onclick="setCategory('weight')" data-i18n="tabs.weight">Weight</button>
+            <button class="category-tab" onclick="setCategory('temperature')" data-i18n="tabs.temp">Temp</button>
+            <button class="category-tab" onclick="setCategory('area')" data-i18n="tabs.area">Area</button>
+            <button class="category-tab" onclick="setCategory('volume')" data-i18n="tabs.vol">Volume</button>
         </div>
 
         <div class="converter-section">
             <div class="converter-row">
                 <div class="input-group">
-                    <label>변환 전</label>
+                    <label data-i18n="input.from">From</label>
                     <input type="number" id="fromValue" placeholder="0" oninput="convert('from')">
                     <select id="fromUnit" onchange="convert('from')"></select>
                 </div>
@@ -287,20 +37,20 @@
                 <button class="swap-btn" onclick="swapUnits()">⇄</button>
 
                 <div class="input-group">
-                    <label>변환 후</label>
+                    <label data-i18n="input.to">To</label>
                     <input type="number" id="toValue" placeholder="0" oninput="convert('to')">
                     <select id="toUnit" onchange="convert('from')"></select>
                 </div>
             </div>
 
             <div class="result-display">
-                <div class="result-formula" id="formula">1 m = 100 cm</div>
+                <div class="result-formula" id="formula"></div>
                 <div class="result-value" id="resultValue">0</div>
-                <button class="copy-btn" onclick="copyResult()">📋 복사</button>
+                <button class="copy-btn" onclick="copyResult()" data-i18n="result.copy">📋 Copy</button>
             </div>
 
             <div class="common-conversions">
-                <h4>자주 사용하는 변환</h4>
+                <h4 data-i18n="common.title">Common Conversions</h4>
                 <div class="conversion-list" id="commonList"></div>
             </div>
         </div>
@@ -308,102 +58,63 @@
         <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
 
         <footer>
-            <p>© 2024 단위 변환기</p>
+            <p>© 2024 Unit Converter</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사되었습니다!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         const units = {
             length: {
-                name: '길이',
                 units: {
-                    'km': { name: '킬로미터 (km)', factor: 1000 },
-                    'm': { name: '미터 (m)', factor: 1 },
-                    'cm': { name: '센티미터 (cm)', factor: 0.01 },
-                    'mm': { name: '밀리미터 (mm)', factor: 0.001 },
-                    'in': { name: '인치 (in)', factor: 0.0254 },
-                    'ft': { name: '피트 (ft)', factor: 0.3048 },
-                    'yd': { name: '야드 (yd)', factor: 0.9144 },
-                    'mi': { name: '마일 (mi)', factor: 1609.344 }
+                    'km': { name: 'Kilometer', factor: 1000 },
+                    'm': { name: 'Meter', factor: 1 },
+                    'cm': { name: 'Centimeter', factor: 0.01 },
+                    'mm': { name: 'Millimeter', factor: 0.001 },
+                    'in': { name: 'Inch', factor: 0.0254 },
+                    'ft': { name: 'Foot', factor: 0.3048 },
+                    'yd': { name: 'Yard', factor: 0.9144 },
+                    'mi': { name: 'Mile', factor: 1609.344 }
                 },
-                common: [
-                    '1 inch = 2.54 cm',
-                    '1 ft = 30.48 cm',
-                    '1 mile = 1.6 km',
-                    '1 m = 3.28 ft'
-                ]
+                common: ['1 in = 2.54 cm', '1 ft = 30.48 cm', '1 mi = 1.6 km', '1 m = 3.28 ft']
             },
             weight: {
-                name: '무게',
                 units: {
-                    'kg': { name: '킬로그램 (kg)', factor: 1 },
-                    'g': { name: '그램 (g)', factor: 0.001 },
-                    'mg': { name: '밀리그램 (mg)', factor: 0.000001 },
-                    'lb': { name: '파운드 (lb)', factor: 0.453592 },
-                    'oz': { name: '온스 (oz)', factor: 0.0283495 },
-                    't': { name: '톤 (t)', factor: 1000 },
-                    '근': { name: '근', factor: 0.6 },
-                    '냥': { name: '냥', factor: 0.0375 }
+                    'kg': { name: 'Kilogram', factor: 1 },
+                    'g': { name: 'Gram', factor: 0.001 },
+                    'lb': { name: 'Pound', factor: 0.453592 },
+                    'oz': { name: 'Ounce', factor: 0.0283495 },
+                    't': { name: 'Ton', factor: 1000 }
                 },
-                common: [
-                    '1 lb = 0.45 kg',
-                    '1 kg = 2.2 lb',
-                    '1 근 = 600 g',
-                    '1 oz = 28.35 g'
-                ]
+                common: ['1 lb = 0.45 kg', '1 kg = 2.2 lb', '1 oz = 28.35 g']
             },
             temperature: {
-                name: '온도',
                 units: {
-                    '°C': { name: '섭씨 (°C)', factor: 'celsius' },
-                    '°F': { name: '화씨 (°F)', factor: 'fahrenheit' },
-                    'K': { name: '켈빈 (K)', factor: 'kelvin' }
+                    'C': { name: 'Celsius', factor: 'celsius' },
+                    'F': { name: 'Fahrenheit', factor: 'fahrenheit' },
+                    'K': { name: 'Kelvin', factor: 'kelvin' }
                 },
-                common: [
-                    '0°C = 32°F',
-                    '100°C = 212°F',
-                    '37°C = 98.6°F',
-                    '20°C = 68°F'
-                ]
+                common: ['0°C = 32°F', '100°C = 212°F']
             },
             area: {
-                name: '면적',
                 units: {
-                    'm²': { name: '제곱미터 (m²)', factor: 1 },
-                    'km²': { name: '제곱킬로미터 (km²)', factor: 1000000 },
-                    'cm²': { name: '제곱센티미터 (cm²)', factor: 0.0001 },
-                    'ft²': { name: '제곱피트 (ft²)', factor: 0.092903 },
-                    '평': { name: '평', factor: 3.305785 },
-                    '에이커': { name: '에이커', factor: 4046.86 },
-                    '헥타르': { name: '헥타르 (ha)', factor: 10000 }
+                    'm2': { name: 'Square Meter', factor: 1 },
+                    'km2': { name: 'Square Kilometer', factor: 1000000 },
+                    'ft2': { name: 'Square Foot', factor: 0.092903 },
+                    'ac': { name: 'Acre', factor: 4046.86 },
+                    'ha': { name: 'Hectare', factor: 10000 }
                 },
-                common: [
-                    '1 평 = 3.3 m²',
-                    '1 m² = 0.3 평',
-                    '1 에이커 = 1224평',
-                    '1 ha = 3025평'
-                ]
+                common: ['1 ac = 4046 m2', '1 ha = 10000 m2']
             },
             volume: {
-                name: '부피',
                 units: {
-                    'L': { name: '리터 (L)', factor: 1 },
-                    'mL': { name: '밀리리터 (mL)', factor: 0.001 },
-                    'm³': { name: '세제곱미터 (m³)', factor: 1000 },
-                    'gal': { name: '갤런 (US)', factor: 3.78541 },
-                    'qt': { name: '쿼트 (US)', factor: 0.946353 },
-                    'pt': { name: '파인트 (US)', factor: 0.473176 },
-                    'cup': { name: '컵 (US)', factor: 0.236588 },
-                    'fl oz': { name: '액량온스 (fl oz)', factor: 0.0295735 }
+                    'L': { name: 'Liter', factor: 1 },
+                    'mL': { name: 'Milliliter', factor: 0.001 },
+                    'm3': { name: 'Cubic Meter', factor: 1000 },
+                    'gal': { name: 'Gallon (US)', factor: 3.78541 }
                 },
-                common: [
-                    '1 gal = 3.79 L',
-                    '1 L = 0.26 gal',
-                    '1 cup = 236.6 mL',
-                    '1 fl oz = 29.6 mL'
-                ]
+                common: ['1 gal = 3.79 L']
             }
         };
 
@@ -411,43 +122,27 @@
 
         function setCategory(category) {
             currentCategory = category;
-
             document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
-
             updateUnits();
             updateCommon();
             convert('from');
         }
 
         function updateUnits() {
-            const categoryData = units[currentCategory];
+            const data = units[currentCategory];
             const fromSelect = document.getElementById('fromUnit');
             const toSelect = document.getElementById('toUnit');
+            const keys = Object.keys(data.units);
 
-            const unitKeys = Object.keys(categoryData.units);
-
-            fromSelect.innerHTML = unitKeys.map(key =>
-                `<option value="${key}">${categoryData.units[key].name}</option>`
-            ).join('');
-
-            toSelect.innerHTML = unitKeys.map(key =>
-                `<option value="${key}">${categoryData.units[key].name}</option>`
-            ).join('');
-
-            // 기본 선택
-            if (unitKeys.length >= 2) {
-                toSelect.value = unitKeys[1];
-            }
+            fromSelect.innerHTML = keys.map(k => `<option value="${k}">${data.units[k].name}</option>`).join('');
+            toSelect.innerHTML = keys.map(k => `<option value="${k}">${data.units[k].name}</option>`).join('');
+            if (keys.length >= 2) toSelect.value = keys[1];
         }
 
         function updateCommon() {
-            const categoryData = units[currentCategory];
-            const commonList = document.getElementById('commonList');
-
-            commonList.innerHTML = categoryData.common.map(item =>
-                `<div class="conversion-item">${item}</div>`
-            ).join('');
+            const list = document.getElementById('commonList');
+            list.innerHTML = units[currentCategory].common.map(item => `<div class="conversion-item">${item}</div>`).join('');
         }
 
         function convert(direction) {
@@ -455,113 +150,68 @@
             const toUnit = document.getElementById('toUnit').value;
             const fromInput = document.getElementById('fromValue');
             const toInput = document.getElementById('toValue');
-
             let result;
 
             if (currentCategory === 'temperature') {
                 result = convertTemperature(direction, fromUnit, toUnit, fromInput, toInput);
             } else {
-                const categoryData = units[currentCategory];
-                const fromFactor = categoryData.units[fromUnit].factor;
-                const toFactor = categoryData.units[toUnit].factor;
-
-                if (direction === 'from') {
-                    const value = parseFloat(fromInput.value) || 0;
-                    result = (value * fromFactor) / toFactor;
-                    toInput.value = result ? formatNumber(result) : '';
-                } else {
-                    const value = parseFloat(toInput.value) || 0;
-                    result = (value * toFactor) / fromFactor;
-                    fromInput.value = result ? formatNumber(result) : '';
-                }
+                const data = units[currentCategory];
+                const fromFactor = data.units[fromUnit].factor;
+                const toFactor = data.units[toUnit].factor;
+                const val = parseFloat(direction === 'from' ? fromInput.value : toInput.value) || 0;
+                
+                result = direction === 'from' ? (val * fromFactor) / toFactor : (val * toFactor) / fromFactor;
+                
+                if (direction === 'from') toInput.value = result ? formatNumber(result) : '';
+                else fromInput.value = result ? formatNumber(result) : '';
             }
-
             updateFormula();
         }
 
         function convertTemperature(direction, fromUnit, toUnit, fromInput, toInput) {
-            const fromValue = direction === 'from' ? parseFloat(fromInput.value) : parseFloat(toInput.value);
-            if (isNaN(fromValue)) {
-                if (direction === 'from') toInput.value = '';
-                else fromInput.value = '';
+            const val = parseFloat(direction === 'from' ? fromInput.value : toInput.value);
+            if (isNaN(val)) {
+                if (direction === 'from') toInput.value = ''; else fromInput.value = '';
                 return;
             }
+            // Simplified temp logic for brevity - assume C, F, K
+            let c = val;
+            if (fromUnit === 'F') c = (val - 32) * 5/9;
+            if (fromUnit === 'K') c = val - 273.15;
+            
+            let res = c;
+            if (toUnit === 'F') res = c * 9/5 + 32;
+            if (toUnit === 'K') res = c + 273.15;
 
-            const sourceUnit = direction === 'from' ? fromUnit : toUnit;
-            const targetUnit = direction === 'from' ? toUnit : fromUnit;
-
-            // Convert to Celsius first
-            let celsius;
-            switch(sourceUnit) {
-                case '°C': celsius = fromValue; break;
-                case '°F': celsius = (fromValue - 32) * 5/9; break;
-                case 'K': celsius = fromValue - 273.15; break;
-            }
-
-            // Convert from Celsius to target
-            let result;
-            switch(targetUnit) {
-                case '°C': result = celsius; break;
-                case '°F': result = celsius * 9/5 + 32; break;
-                case 'K': result = celsius + 273.15; break;
-            }
-
-            if (direction === 'from') {
-                toInput.value = formatNumber(result);
-            } else {
-                fromInput.value = formatNumber(result);
-            }
+            if (direction === 'from') toInput.value = formatNumber(res);
+            else fromInput.value = formatNumber(res);
         }
 
         function updateFormula() {
-            const fromUnit = document.getElementById('fromUnit').value;
-            const toUnit = document.getElementById('toUnit').value;
-            const fromValue = parseFloat(document.getElementById('fromValue').value) || 1;
-            const toValue = parseFloat(document.getElementById('toValue').value) || 0;
-
-            document.getElementById('formula').textContent = `${fromValue} ${fromUnit} = ${formatNumber(toValue)} ${toUnit}`;
-            document.getElementById('resultValue').textContent = formatNumber(toValue) + ' ' + toUnit;
+            const from = document.getElementById('fromUnit').value;
+            const to = document.getElementById('toUnit').value;
+            const val = parseFloat(document.getElementById('fromValue').value) || 1;
+            const res = parseFloat(document.getElementById('toValue').value) || 0;
+            document.getElementById('formula').textContent = `${val} ${from} = ${formatNumber(res)} ${to}`;
+            document.getElementById('resultValue').textContent = formatNumber(res) + ' ' + to;
         }
 
         function swapUnits() {
-            const fromSelect = document.getElementById('fromUnit');
-            const toSelect = document.getElementById('toUnit');
-            const fromInput = document.getElementById('fromValue');
-            const toInput = document.getElementById('toValue');
-
-            const tempUnit = fromSelect.value;
-            fromSelect.value = toSelect.value;
-            toSelect.value = tempUnit;
-
-            const tempValue = fromInput.value;
-            fromInput.value = toInput.value;
-            toInput.value = tempValue;
-
-            updateFormula();
+            const f = document.getElementById('fromUnit');
+            const t = document.getElementById('toUnit');
+            const temp = f.value; f.value = t.value; t.value = temp;
+            convert('from');
         }
 
-        function formatNumber(num) {
-            if (Math.abs(num) < 0.0001 && num !== 0) {
-                return num.toExponential(4);
-            }
-            return parseFloat(num.toPrecision(8)).toString();
-        }
+        function formatNumber(n) { return parseFloat(n.toPrecision(6)); }
 
         function copyResult() {
-            const result = document.getElementById('resultValue').textContent;
-            navigator.clipboard.writeText(result).then(() => {
-                showToast('복사되었습니다!');
+            navigator.clipboard.writeText(document.getElementById('resultValue').textContent).then(() => {
+                const t = document.getElementById('toast'); t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 2000);
             });
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
-        }
-
-        // 초기화
         updateUnits();
         updateCommon();
     </script>

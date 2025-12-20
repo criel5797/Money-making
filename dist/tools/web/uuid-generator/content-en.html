@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UUID 생성기 - 무료 온라인 UUID/GUID 생성</title>
+    <meta name="description" content="UUID (v1, v4)를 즉시 생성하세요. 대량 생성, 복사, 다운로드 기능이 포함된 무료 온라인 UUID 생성기.">
+    <meta name="keywords" content="uuid 생성기, guid 생성기, uuid v4, 랜덤 uuid, 고유 아이디 생성">
+    <meta property="og:title" content="UUID 생성기 - 무료 온라인 UUID/GUID 생성">
+    <meta property="og:description" content="UUID를 즉시 생성하세요. 대량 생성 지원.">
+    <meta property="og:type" content="website">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #06b6d4;
+            --accent-hover: #0891b2;
+            --border: #475569;
+            --success: #22c55e;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 40px 20px; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+        .main-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .uuid-display {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .uuid-text {
+            flex: 1;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 1.3rem;
+            word-break: break-all;
+            color: var(--accent);
+        }
+        .copy-btn {
+            padding: 12px 20px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+        .copy-btn:hover { background: var(--accent-hover); }
+        .options-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .option-label { color: var(--text-secondary); font-size: 0.9rem; }
+        select, input[type="number"] {
+            padding: 10px 15px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        select:focus, input:focus { outline: none; border-color: var(--accent); }
+        input[type="number"] { width: 80px; }
+        .checkbox-group { display: flex; gap: 20px; flex-wrap: wrap; }
+        .checkbox-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .checkbox-item input { width: 18px; height: 18px; accent-color: var(--accent); }
+        .checkbox-item label { color: var(--text-secondary); font-size: 0.9rem; cursor: pointer; }
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), #3b82f6);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(6, 182, 212, 0.3);
+        }
+        .bulk-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            display: none;
+        }
+        .bulk-section.show { display: block; }
+        .bulk-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .bulk-title { font-weight: 600; }
+        .bulk-actions { display: flex; gap: 10px; }
+        .btn-sm {
+            padding: 8px 15px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-sm:hover { background: var(--border); }
+        .bulk-list {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        .bulk-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .bulk-item:hover { background: var(--bg-secondary); }
+        .bulk-item-copy {
+            opacity: 0;
+            padding: 4px 8px;
+            background: var(--accent);
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        .bulk-item:hover .bulk-item-copy { opacity: 1; }
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .info-section h3 { margin-bottom: 15px; color: var(--accent); }
+        .info-section p { color: var(--text-secondary); margin-bottom: 10px; line-height: 1.7; }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .info-card {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .info-card h4 { color: var(--accent); margin-bottom: 10px; }
+        .info-card p { font-size: 0.9rem; }
+        .info-card code {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .lang-switch a:hover { background: var(--bg-tertiary); }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .uuid-text { font-size: 1rem; }
+        }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"UUID 생성기","en":"UUID Generator","ja":"UUID生成器"},"desc":{"ko":"UUID 생성","en":"Generate UUID","ja":"UUID生成"}},"header":{"title":{"ko":"UUID 생성기","en":"UUID Generator","ja":"UUID生成器"},"subtitle":{"ko":"고유 식별자 생성","en":"Generate Unique IDs","ja":"一意識別子生成"}},"display":{"placeholder":{"ko":"생성 클릭","en":"Click Generate","ja":"生成クリック"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"options":{"version":{"label":{"ko":"버전:","en":"Version:","ja":"バージョン:"},"v4":{"ko":"v4 (랜덤)","en":"v4 (Random)","ja":"v4 (ランダム)"},"v1":{"ko":"v1 (시간)","en":"v1 (Time)","ja":"v1 (時間)"}},"count":{"label":{"ko":"개수:","en":"Count:","ja":"個数:"}},"opts":{"upper":{"ko":"대문자","en":"Uppercase","ja":"大文字"},"nodash":{"ko":"하이픈 제외","en":"No Dashes","ja":"ハイフンなし"},"braces":{"ko":"중괄호 {}","en":"Braces {}","ja":"中括弧 {}"}}},"generate":{"ko":"🎲 생성하기","en":"🎲 Generate","ja":"🎲 生成"},"bulk":{"title":{"ko":"목록","en":"List","ja":"リスト"},"copyAll":{"ko":"전체 복사","en":"Copy All","ja":"全コピー"},"download":{"ko":"다운로드","en":"Download","ja":"DL"},"clear":{"ko":"지우기","en":"Clear","ja":"クリア"}},"info":{"title":{"ko":"UUID란?","en":"What is UUID?","ja":"UUIDとは？"}}};</script></head>
+<body>
+    <div class="lang-switch">
+        <a href="index.html">English</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>UUID 생성기</h1>
+            <p class="subtitle">고유 식별자를 즉시 생성하세요</p>
+        </header>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="main-card">
+            <div class="uuid-display">
+                <span class="uuid-text" id="uuidDisplay">생성 버튼을 클릭하세요</span>
+                <button class="copy-btn" onclick="copyUUID()">📋 복사</button>
+            </div>
+
+            <div class="options-row">
+                <div class="option-group">
+                    <span class="option-label">버전:</span>
+                    <select id="versionSelect">
+                        <option value="4" selected>v4 (랜덤)</option>
+                        <option value="1">v1 (타임스탬프)</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <span class="option-label">개수:</span>
+                    <input type="number" id="countInput" value="1" min="1" max="100">
+                </div>
+            </div>
+
+            <div class="checkbox-group" style="margin-bottom: 20px;">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="uppercase">
+                    <label for="uppercase">대문자</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="noDashes">
+                    <label for="noDashes">하이픈 제거</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="braces">
+                    <label for="braces">중괄호 추가 {}</label>
+                </div>
+            </div>
+
+            <button class="generate-btn" onclick="generate()">🎲 UUID 생성</button>
+        </div>
+
+        <div class="bulk-section" id="bulkSection">
+            <div class="bulk-header">
+                <span class="bulk-title" id="bulkTitle">생성된 UUID</span>
+                <div class="bulk-actions">
+                    <button class="btn-sm" onclick="copyAll()">📋 전체 복사</button>
+                    <button class="btn-sm" onclick="downloadAll()">💾 다운로드</button>
+                    <button class="btn-sm" onclick="clearBulk()">🗑️ 지우기</button>
+                </div>
+            </div>
+            <div class="bulk-list" id="bulkList"></div>
+        </div>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="info-section">
+            <h3>UUID란?</h3>
+            <p>UUID (범용 고유 식별자)는 공간과 시간 모두에서 고유한 128비트 식별자입니다. UUID는 중앙 조정 기관 없이도 정보를 식별하기 위해 소프트웨어 개발에서 사용됩니다.</p>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>UUID v4 (랜덤)</h4>
+                    <p>랜덤 또는 의사 난수를 사용하여 생성됩니다. 일반적인 용도로 가장 많이 사용됩니다.</p>
+                    <p>예: <code>550e8400-e29b-41d4-a716-446655440000</code></p>
+                </div>
+                <div class="info-card">
+                    <h4>UUID v1 (타임스탬프)</h4>
+                    <p>타임스탬프와 MAC 주소를 기반으로 합니다. 시간순으로 정렬된 ID가 필요할 때 유용합니다.</p>
+                    <p>예: <code>6ba7b810-9dad-11d1-80b4-00c04fd430c8</code></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>일반적인 사용 사례</h3>
+            <p>• 데이터베이스 기본 키</p>
+            <p>• 세션 식별자</p>
+            <p>• API 요청 추적</p>
+            <p>• 파일 이름 지정</p>
+            <p>• 분산 시스템</p>
+        </div>
+
+        <footer>
+            <p>개발자를 위해 ❤️ 만들었습니다</p>
+            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let generatedUUIDs = [];
+
+        function generateUUIDv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function generateUUIDv1() {
+            const now = Date.now();
+            return 'xxxxxxxx-xxxx-1xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = (now + Math.random() * 16) % 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function formatUUID(uuid) {
+            if (document.getElementById('uppercase').checked) uuid = uuid.toUpperCase();
+            if (document.getElementById('noDashes').checked) uuid = uuid.replace(/-/g, '');
+            if (document.getElementById('braces').checked) uuid = '{' + uuid + '}';
+            return uuid;
+        }
+
+        function generate() {
+            const version = document.getElementById('versionSelect').value;
+            const count = Math.min(100, Math.max(1, parseInt(document.getElementById('countInput').value) || 1));
+
+            generatedUUIDs = [];
+            for (let i = 0; i < count; i++) {
+                const uuid = version === '4' ? generateUUIDv4() : generateUUIDv1();
+                generatedUUIDs.push(formatUUID(uuid));
+            }
+
+            document.getElementById('uuidDisplay').textContent = generatedUUIDs[0];
+
+            const bulkSection = document.getElementById('bulkSection');
+            if (count > 1) {
+                bulkSection.classList.add('show');
+                document.getElementById('bulkTitle').textContent = `${count}개의 UUID 생성됨`;
+                renderBulkList();
+            } else {
+                bulkSection.classList.remove('show');
+            }
+
+            showToast(count + '개의 UUID 생성됨');
+        }
+
+        function renderBulkList() {
+            const list = document.getElementById('bulkList');
+            list.innerHTML = generatedUUIDs.map((uuid, i) =>
+                `<div class="bulk-item">
+                    <span>${uuid}</span>
+                    <button class="bulk-item-copy" onclick="copyOne('${uuid}')">복사</button>
+                </div>`
+            ).join('');
+        }
+
+        function copyUUID() {
+            const uuid = document.getElementById('uuidDisplay').textContent;
+            if (uuid && !uuid.includes('클릭')) {
+                navigator.clipboard.writeText(uuid);
+                showToast('복사됨!');
+            }
+        }
+
+        function copyOne(uuid) {
+            navigator.clipboard.writeText(uuid);
+            showToast('복사됨!');
+        }
+
+        function copyAll() {
+            navigator.clipboard.writeText(generatedUUIDs.join('\n'));
+            showToast('전체 UUID 복사됨!');
+        }
+
+        function downloadAll() {
+            const blob = new Blob([generatedUUIDs.join('\n')], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'uuids.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('다운로드 완료!');
+        }
+
+        function clearBulk() {
+            generatedUUIDs = [];
+            document.getElementById('bulkSection').classList.remove('show');
+            document.getElementById('uuidDisplay').textContent = '생성 버튼을 클릭하세요';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        generate();
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') generate();
+        });
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

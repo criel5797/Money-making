@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 생성기 - 무료 안전한 비밀번호 만들기</title>
+    <meta name="description" content="강력하고 안전한 비밀번호를 즉시 생성하세요. 길이, 문자 종류를 설정하고 비밀번호 강도를 확인할 수 있습니다.">
+    <meta name="keywords" content="비밀번호 생성기, 패스워드 생성기, 안전한 비밀번호, 강력한 비밀번호, 랜덤 비밀번호">
+    <meta property="og:title" content="비밀번호 생성기 - 무료 안전한 비밀번호 만들기">
+    <meta property="og:description" content="강력하고 안전한 비밀번호를 즉시 생성하세요.">
+    <meta property="og:type" content="website">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #22c55e;
+            --accent-hover: #16a34a;
+            --border: #475569;
+            --weak: #ef4444;
+            --medium: #f59e0b;
+            --strong: #22c55e;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 700px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 40px 20px; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #22c55e, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* Password Display */
+        .password-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .password-display {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+        }
+        .password-text {
+            flex: 1;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 1.3rem;
+            word-break: break-all;
+            color: var(--accent);
+            user-select: all;
+        }
+        .password-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .icon-btn {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+        .icon-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Strength Meter */
+        .strength-meter {
+            margin-bottom: 20px;
+        }
+        .strength-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .strength-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s, background 0.3s;
+        }
+        .strength-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+        .strength-label { color: var(--text-secondary); }
+
+        /* Options */
+        .options-section {
+            margin-top: 25px;
+        }
+        .option-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .option-row:last-child { border-bottom: none; }
+        .option-label {
+            display: flex;
+            flex-direction: column;
+        }
+        .option-title { font-weight: 500; }
+        .option-desc { font-size: 0.8rem; color: var(--text-secondary); }
+
+        /* Length Slider */
+        .length-slider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .length-value {
+            width: 50px;
+            padding: 8px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-align: center;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        /* Toggle Switch */
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-tertiary);
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        .toggle input:checked + .toggle-slider {
+            background: var(--accent);
+        }
+        .toggle input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Generate Button */
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), #3b82f6);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        /* History */
+        .history-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .history-title { font-weight: 600; }
+        .history-clear {
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .history-item-copy {
+            padding: 4px 10px;
+            background: var(--accent);
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        /* Info */
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .info-section h3 { margin-bottom: 15px; color: var(--accent); }
+        .info-section p, .info-section li { color: var(--text-secondary); margin-bottom: 8px; }
+        .info-section ul { margin-left: 20px; }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--accent);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .lang-switch a:hover {
+            background: var(--bg-tertiary);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .password-text { font-size: 1rem; }
+        }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"비밀번호 생성기","en":"Password Gen","ja":"パスワード生成"},"desc":{"ko":"안전한 비밀번호","en":"Secure PW","ja":"安全なPW"}},"header":{"title":{"ko":"🔐 비밀번호 생성기","en":"🔐 Password Generator","ja":"🔐 パスワード生成"},"subtitle":{"ko":"강력한 비밀번호 생성","en":"Create strong passwords","ja":"強力なパスワード生成"}},"display":{"placeholder":{"ko":"생성 버튼 클릭","en":"Click Generate","ja":"生成ボタンをクリック"}},"strength":{"label":{"ko":"강도:","en":"Strength:","ja":"強度:"},"weak":{"ko":"약함","en":"Weak","ja":"弱い"},"medium":{"ko":"보통","en":"Medium","ja":"普通"},"strong":{"ko":"강함","en":"Strong","ja":"強い"},"veryStrong":{"ko":"매우 강함","en":"Very Strong","ja":"非常に強い"}},"options":{"length":{"title":{"ko":"길이","en":"Length","ja":"長さ"},"desc":{"ko":"길수록 안전","en":"Longer is safer","ja":"長いほど安全"}},"uppercase":{"title":{"ko":"대문자","en":"Uppercase","ja":"大文字"},"desc":{"ko":"A-Z","en":"A-Z","ja":"A-Z"}},"lowercase":{"title":{"ko":"소문자","en":"Lowercase","ja":"小文字"},"desc":{"ko":"a-z","en":"a-z","ja":"a-z"}},"numbers":{"title":{"ko":"숫자","en":"Numbers","ja":"数字"},"desc":{"ko":"0-9","en":"0-9","ja":"0-9"}},"symbols":{"title":{"ko":"특수문자","en":"Symbols","ja":"記号"},"desc":{"ko":"!@#","en":"!@#","ja":"!@#"}},"exclude":{"title":{"ko":"모호한 문자 제외","en":"No Ambiguous","ja":"曖昧除外"},"desc":{"ko":"I, 1, O, 0","en":"I, 1, O, 0","ja":"I, 1, O, 0"}}},"generateBtn":{"ko":"🎲 생성하기","en":"🎲 Generate","ja":"🎲 生成"},"history":{"title":{"ko":"📜 기록","en":"📜 History","ja":"📜 履歴"},"clear":{"ko":"삭제","en":"Clear","ja":"削除"},"empty":{"ko":"기록 없음","en":"No history","ja":"履歴なし"}},"info":{"tips":{"ko":"팁","en":"Tips","ja":"ヒント"},"secure":{"title":{"ko":"안전성","en":"Security","ja":"安全性"},"desc":{"ko":"100% 로컬 처리","en":"100% Local","ja":"100%ローカル"}}},"footer":{"ko":"안전 최우선","en":"Security First","ja":"安全第一"}};</script></head>
+<body>
+    <div class="lang-switch">
+        <a href="index.html">English</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>🔐 비밀번호 생성기</h1>
+            <p class="subtitle">강력하고 안전한 비밀번호를 즉시 생성하세요</p>
+        </header>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="password-card">
+            <div class="password-display">
+                <span class="password-text" id="passwordText">생성하기 클릭</span>
+                <div class="password-actions">
+                    <button class="icon-btn" onclick="copyPassword()" title="복사">📋</button>
+                    <button class="icon-btn" onclick="generate()" title="새로 만들기">🔄</button>
+                </div>
+            </div>
+
+            <div class="strength-meter">
+                <div class="strength-bar">
+                    <div class="strength-fill" id="strengthFill"></div>
+                </div>
+                <div class="strength-text">
+                    <span class="strength-label">강도:</span>
+                    <span id="strengthText">-</span>
+                </div>
+            </div>
+
+            <div class="options-section">
+                <div class="option-row">
+                    <div class="option-label">
+                        <span class="option-title">비밀번호 길이</span>
+                        <span class="option-desc">길수록 더 안전해요</span>
+                    </div>
+                    <div class="length-slider">
+                        <input type="range" id="lengthSlider" min="8" max="64" value="16" oninput="updateLength()">
+                        <input type="text" class="length-value" id="lengthValue" value="16" onchange="setLength()">
+                    </div>
+                </div>
+
+                <div class="option-row">
+                    <div class="option-label">
+                        <span class="option-title">대문자 (A-Z)</span>
+                        <span class="option-desc">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="uppercase" checked onchange="generate()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="option-row">
+                    <div class="option-label">
+                        <span class="option-title">소문자 (a-z)</span>
+                        <span class="option-desc">abcdefghijklmnopqrstuvwxyz</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="lowercase" checked onchange="generate()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="option-row">
+                    <div class="option-label">
+                        <span class="option-title">숫자 (0-9)</span>
+                        <span class="option-desc">0123456789</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="numbers" checked onchange="generate()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="option-row">
+                    <div class="option-label">
+                        <span class="option-title">특수문자</span>
+                        <span class="option-desc">!@#$%^&*()_+-=[]{}|;:,.<>?</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="symbols" checked onchange="generate()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="option-row">
+                    <div class="option-label">
+                        <span class="option-title">헷갈리는 문자 제외</span>
+                        <span class="option-desc">l, 1, I, O, 0 제외 (읽기 쉽게)</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="excludeAmbiguous" onchange="generate()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="generate-btn" onclick="generate()">🎲 비밀번호 생성하기</button>
+        </div>
+
+        <div class="history-section">
+            <div class="history-header">
+                <span class="history-title">📜 최근 생성 기록</span>
+                <button class="history-clear" onclick="clearHistory()">전체 삭제</button>
+            </div>
+            <div class="history-list" id="historyList">
+                <span style="color: var(--text-secondary);">아직 생성된 비밀번호가 없습니다</span>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="info-section">
+            <h3>강력한 비밀번호 만들기 팁</h3>
+            <ul>
+                <li>최소 12자 이상 사용하세요 (16자 이상 권장)</li>
+                <li>대문자, 소문자, 숫자, 특수문자를 모두 포함하세요</li>
+                <li>같은 비밀번호를 여러 사이트에서 사용하지 마세요</li>
+                <li>비밀번호 관리 프로그램을 사용하세요</li>
+                <li>가능하면 2단계 인증을 활성화하세요</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h3>이 도구는 안전한가요?</h3>
+            <p>네! 모든 비밀번호는 암호학적으로 안전한 난수 생성기를 사용하여 브라우저에서 직접 생성됩니다. 어떤 서버로도 전송되지 않으며 비밀번호는 오직 당신의 기기에만 남습니다.</p>
+        </div>
+
+        <footer>
+            <p>보안을 위해 ❤️ 만들었습니다</p>
+            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz';
+        const NUMBERS = '0123456789';
+        const SYMBOLS = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+        const AMBIGUOUS = 'l1IO0';
+
+        let history = [];
+
+        function generate() {
+            let charset = '';
+            const options = {
+                uppercase: document.getElementById('uppercase').checked,
+                lowercase: document.getElementById('lowercase').checked,
+                numbers: document.getElementById('numbers').checked,
+                symbols: document.getElementById('symbols').checked,
+                excludeAmbiguous: document.getElementById('excludeAmbiguous').checked
+            };
+
+            if (options.uppercase) charset += UPPERCASE;
+            if (options.lowercase) charset += LOWERCASE;
+            if (options.numbers) charset += NUMBERS;
+            if (options.symbols) charset += SYMBOLS;
+
+            if (options.excludeAmbiguous) {
+                charset = charset.split('').filter(c => !AMBIGUOUS.includes(c)).join('');
+            }
+
+            if (!charset) {
+                showToast('최소 하나의 옵션을 선택하세요');
+                return;
+            }
+
+            const length = parseInt(document.getElementById('lengthSlider').value);
+            let password = '';
+
+            const array = new Uint32Array(length);
+            crypto.getRandomValues(array);
+
+            for (let i = 0; i < length; i++) {
+                password += charset[array[i] % charset.length];
+            }
+
+            document.getElementById('passwordText').textContent = password;
+            updateStrength(password, options);
+            addToHistory(password);
+        }
+
+        function updateStrength(password, options) {
+            let score = 0;
+            const length = password.length;
+
+            // Length score
+            if (length >= 8) score += 1;
+            if (length >= 12) score += 1;
+            if (length >= 16) score += 1;
+            if (length >= 20) score += 1;
+
+            // Character variety
+            if (options.uppercase && /[A-Z]/.test(password)) score += 1;
+            if (options.lowercase && /[a-z]/.test(password)) score += 1;
+            if (options.numbers && /[0-9]/.test(password)) score += 1;
+            if (options.symbols && /[^A-Za-z0-9]/.test(password)) score += 1;
+
+            const fill = document.getElementById('strengthFill');
+            const text = document.getElementById('strengthText');
+
+            const percentage = Math.min(100, (score / 8) * 100);
+            fill.style.width = percentage + '%';
+
+            if (score <= 3) {
+                fill.style.background = '#ef4444';
+                text.textContent = '약함';
+                text.style.color = '#ef4444';
+            } else if (score <= 5) {
+                fill.style.background = '#f59e0b';
+                text.textContent = '보통';
+                text.style.color = '#f59e0b';
+            } else if (score <= 7) {
+                fill.style.background = '#22c55e';
+                text.textContent = '강함';
+                text.style.color = '#22c55e';
+            } else {
+                fill.style.background = 'linear-gradient(90deg, #22c55e, #3b82f6)';
+                text.textContent = '매우 강함';
+                text.style.color = '#22c55e';
+            }
+        }
+
+        function updateLength() {
+            const value = document.getElementById('lengthSlider').value;
+            document.getElementById('lengthValue').value = value;
+            generate();
+        }
+
+        function setLength() {
+            let value = parseInt(document.getElementById('lengthValue').value) || 16;
+            value = Math.min(64, Math.max(8, value));
+            document.getElementById('lengthValue').value = value;
+            document.getElementById('lengthSlider').value = value;
+            generate();
+        }
+
+        function copyPassword() {
+            const password = document.getElementById('passwordText').textContent;
+            if (password && password !== '생성하기 클릭') {
+                navigator.clipboard.writeText(password);
+                showToast('클립보드에 복사되었습니다!');
+            }
+        }
+
+        function addToHistory(password) {
+            history.unshift(password);
+            if (history.length > 5) history.pop();
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            if (history.length === 0) {
+                list.innerHTML = '<span style="color: var(--text-secondary);">아직 생성된 비밀번호가 없습니다</span>';
+                return;
+            }
+            list.innerHTML = history.map(pw =>
+                `<div class="history-item">
+                    <span>${pw}</span>
+                    <button class="history-item-copy" onclick="copyThis('${pw}')">복사</button>
+                </div>`
+            ).join('');
+        }
+
+        function copyThis(pw) {
+            navigator.clipboard.writeText(pw);
+            showToast('복사 완료!');
+        }
+
+        function clearHistory() {
+            history = [];
+            renderHistory();
+            showToast('기록이 삭제되었습니다');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Generate on load
+        generate();
+
+        // Keyboard shortcut
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+                generate();
+            }
+        });
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

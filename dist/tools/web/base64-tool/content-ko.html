@@ -212,7 +212,7 @@
         }
         .lang-switch a:hover { background: var(--bg-tertiary); }
     </style>
-</head>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"Base64 변환기","en":"Base64 Tool","ja":"Base64ツール"},"desc":{"ko":"Base64 인코딩/디코딩","en":"Base64 Encode/Decode","ja":"Base64エンコード/デコード"}},"header":{"title":{"ko":"Base64 변환기","en":"Base64 Converter","ja":"Base64変換器"},"subtitle":{"ko":"텍스트 ↔ Base64","en":"Text ↔ Base64","ja":"テキスト ↔ Base64"}},"mode":{"encode":{"ko":"인코딩","en":"Encode","ja":"エンコード"},"decode":{"ko":"디코딩","en":"Decode","ja":"デコード"}},"input":{"labelEnc":{"ko":"평문","en":"Plain Text","ja":"平文"},"labelDec":{"ko":"Base64","en":"Base64","ja":"Base64"},"clear":{"ko":"지우기","en":"Clear","ja":"クリア"},"placeholderEnc":{"ko":"텍스트 입력...","en":"Enter text...","ja":"テキスト入力..."},"placeholderDec":{"ko":"Base64 입력...","en":"Enter Base64...","ja":"Base64入力..."}},"output":{"labelEnc":{"ko":"Base64 결과","en":"Base64 Result","ja":"Base64結果"},"labelDec":{"ko":"평문 결과","en":"Text Result","ja":"平文結果"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"},"placeholder":{"ko":"결과...","en":"Result...","ja":"結果..."}},"btn":{"convert":{"ko":"변환하기","en":"Convert","ja":"変換"}},"features":{"t1":{"ko":"즉시 변환","en":"Instant","ja":"即時"},"d1":{"ko":"빠름","en":"Fast","ja":"高速"},"t2":{"ko":"보안","en":"Secure","ja":"安全"},"d2":{"ko":"로컬 처리","en":"Local","ja":"ローカル"}},"info":{"title":{"ko":"Base64란?","en":"About Base64","ja":"Base64とは？"}}};</script></head>
 <body>
     <div class="lang-switch">
         <a href="index.html">English</a>
@@ -373,5 +373,5 @@
 
         document.getElementById('inputText').addEventListener('input', convert);
     </script>
-</body>
+<script src="/common/tool-i18n-handler.js"></script></body>
 </html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorem Ipsum 생성기 - 무료 더미 텍스트 생성</title>
+    <meta name="description" content="디자인을 위한 Lorem Ipsum 플레이스홀더 텍스트를 생성하세요. 다양한 스타일로 문단, 문장, 단어를 생성할 수 있습니다.">
+    <meta name="keywords" content="lorem ipsum 생성기, 더미 텍스트, 플레이스홀더 텍스트, 채우기 텍스트, 립숨">
+    <meta property="og:title" content="Lorem Ipsum 생성기 - 무료 더미 텍스트 생성">
+    <meta property="og:description" content="디자인을 위한 플레이스홀더 텍스트를 생성하세요.">
+    <meta property="og:type" content="website">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #a855f7;
+            --accent-hover: #9333ea;
+            --border: #475569;
+            --success: #22c55e;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 40px 20px; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+        .controls {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .control-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        select:focus, input:focus { outline: none; border-color: var(--accent); }
+        .checkbox-row { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+        .checkbox-item { display: flex; align-items: center; gap: 8px; }
+        .checkbox-item input { width: 18px; height: 18px; accent-color: var(--accent); }
+        .checkbox-item label { color: var(--text-secondary); font-size: 0.9rem; cursor: pointer; }
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), #ec4899);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(168, 85, 247, 0.3);
+        }
+        .output-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border);
+        }
+        .output-info { color: var(--text-secondary); font-size: 0.9rem; }
+        .output-actions { display: flex; gap: 10px; }
+        .btn {
+            padding: 8px 16px;
+            background: var(--accent);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: var(--accent-hover); }
+        .btn-secondary { background: var(--bg-tertiary); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--border); }
+        .output-content { padding: 25px; min-height: 200px; line-height: 1.8; font-size: 1rem; }
+        .output-content p { margin-bottom: 1em; }
+        .output-content p:last-child { margin-bottom: 0; }
+        .presets-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .presets-title { font-weight: 600; margin-bottom: 15px; color: var(--accent); }
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .preset-btn {
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .preset-btn:hover { border-color: var(--accent); background: var(--bg-primary); }
+        .preset-name { font-weight: 500; margin-bottom: 5px; }
+        .preset-desc { font-size: 0.75rem; color: var(--text-secondary); }
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .info-section h3 { margin-bottom: 15px; color: var(--accent); }
+        .info-section p { color: var(--text-secondary); margin-bottom: 10px; }
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .lang-switch a:hover { background: var(--bg-tertiary); }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+<script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"로렘 입숨","en":"Lorem Ipsum","ja":"Lorem Ipsum"},"desc":{"ko":"더미 텍스트","en":"Dummy Text","ja":"ダミーテキスト"}},"header":{"title":{"ko":"로렘 입숨 생성기","en":"Lorem Ipsum Gen","ja":"Lorem Ipsum生成"},"subtitle":{"ko":"더미 텍스트 생성","en":"Dummy Text Gen","ja":"ダミーテキスト生成"}},"presets":{"title":{"ko":"⚡ 프리셋","en":"⚡ Presets","ja":"⚡ プリセット"},"p1":{"name":{"ko":"1 문단","en":"1 Para","ja":"1段落"},"desc":{"ko":"간단히","en":"Simple","ja":"簡単"}},"p3":{"name":{"ko":"3 문단","en":"3 Paras","ja":"3段落"},"desc":{"ko":"보통","en":"Normal","ja":"普通"}},"p5":{"name":{"ko":"5 문단","en":"5 Paras","ja":"5段落"},"desc":{"ko":"많이","en":"Many","ja":"多く"}},"w100":{"name":{"ko":"100 단어","en":"100 Words","ja":"100単語"},"desc":{"ko":"짧게","en":"Short","ja":"短く"}},"w500":{"name":{"ko":"500 단어","en":"500 Words","ja":"500単語"},"desc":{"ko":"길게","en":"Long","ja":"長く"}},"s10":{"name":{"ko":"10 문장","en":"10 Sentences","ja":"10文"},"desc":{"ko":"목록","en":"List","ja":"リスト"}}},"controls":{"type":{"label":{"ko":"단위","en":"Unit","ja":"単位"},"para":{"ko":"문단","en":"Paras","ja":"段落"},"sent":{"ko":"문장","en":"Sentences","ja":"文"},"word":{"ko":"단어","en":"Words","ja":"単語"}},"amount":{"label":{"ko":"수량","en":"Amount","ja":"数量"}},"style":{"label":{"ko":"스타일","en":"Style","ja":"スタイル"},"classic":{"ko":"기본","en":"Classic","ja":"基本"},"hipster":{"ko":"힙스터","en":"Hipster","ja":"ヒップスター"},"corporate":{"ko":"비즈니스","en":"Corporate","ja":"ビジネス"}},"startLorem":{"label":{"ko":"Lorem ipsum 시작","en":"Start Lorem","ja":"Lorem開始"}},"html":{"label":{"ko":"<p> 태그","en":"<p> Tags","ja":"<p>タグ"}},"generate":{"ko":"✨ 생성","en":"✨ Generate","ja":"✨ 生成"}},"output":{"info":{"ko":"생성하세요...","en":"Generate...","ja":"生成..."},"copy":{"ko":"복사","en":"Copy","ja":"コピー"},"download":{"ko":"다운로드","en":"Download","ja":"DL"}},"info":{"title":{"ko":"정보","en":"Info","ja":"情報"}},"footer":{"ko":"디자이너용","en":"For Designers","ja":"デザイナー用"}};</script></head>
+<body>
+    <div class="lang-switch">
+        <a href="index.html">English</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Lorem Ipsum 생성기</h1>
+            <p class="subtitle">디자인을 위한 플레이스홀더 텍스트 생성</p>
+        </header>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="presets-section">
+            <div class="presets-title">⚡ 빠른 프리셋</div>
+            <div class="presets-grid">
+                <button class="preset-btn" onclick="applyPreset(1, 'paragraphs')">
+                    <div class="preset-name">1 문단</div>
+                    <div class="preset-desc">빠른 채우기</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(3, 'paragraphs')">
+                    <div class="preset-name">3 문단</div>
+                    <div class="preset-desc">기사 미리보기</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(5, 'paragraphs')">
+                    <div class="preset-name">5 문단</div>
+                    <div class="preset-desc">전체 기사</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(100, 'words')">
+                    <div class="preset-name">100 단어</div>
+                    <div class="preset-desc">짧은 텍스트</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(500, 'words')">
+                    <div class="preset-name">500 단어</div>
+                    <div class="preset-desc">중간 텍스트</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(10, 'sentences')">
+                    <div class="preset-name">10 문장</div>
+                    <div class="preset-desc">목록 항목</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label>유형</label>
+                    <select id="typeSelect">
+                        <option value="paragraphs">문단</option>
+                        <option value="sentences">문장</option>
+                        <option value="words">단어</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>수량</label>
+                    <input type="number" id="amountInput" value="3" min="1" max="100">
+                </div>
+                <div class="control-group">
+                    <label>스타일</label>
+                    <select id="styleSelect">
+                        <option value="classic">클래식 Lorem Ipsum</option>
+                        <option value="hipster">힙스터 Ipsum</option>
+                        <option value="corporate">비즈니스 Ipsum</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="checkbox-row">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="startLorem" checked>
+                    <label for="startLorem">"Lorem ipsum..."으로 시작</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="includeHtml">
+                    <label for="includeHtml">&lt;p&gt; 태그 포함</label>
+                </div>
+            </div>
+
+            <button class="generate-btn" onclick="generate()">✨ 텍스트 생성</button>
+        </div>
+
+        <div class="output-section">
+            <div class="output-header">
+                <span class="output-info" id="outputInfo">0 문단, 0 단어</span>
+                <div class="output-actions">
+                    <button class="btn" onclick="copyText()">📋 복사</button>
+                    <button class="btn btn-secondary" onclick="downloadText()">💾 다운로드</button>
+                </div>
+            </div>
+            <div class="output-content" id="outputContent">
+                <p>"텍스트 생성"을 클릭하여 Lorem Ipsum 콘텐츠를 만드세요...</p>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="info-section">
+            <h3>Lorem Ipsum이란?</h3>
+            <p>Lorem Ipsum은 인쇄 및 조판 산업에서 사용되는 더미 텍스트입니다. 1500년대에 알려지지 않은 인쇄업자가 활자 견본 책을 만들기 위해 활자를 뒤섞어 만든 이후로 업계 표준 더미 텍스트가 되었습니다.</p>
+            <p>디자이너들은 최종 카피가 준비되기 전에 레이아웃을 채우기 위해 사용하며, 읽을 수 있는 콘텐츠에 방해받지 않고 시각적 요소에 집중할 수 있게 해줍니다.</p>
+        </div>
+
+        <footer>
+            <p>디자이너와 개발자를 위해 ❤️ 만들었습니다</p>
+            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const LOREM_WORDS = [
+            "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
+            "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
+            "magna", "aliqua", "enim", "ad", "minim", "veniam", "quis", "nostrud",
+            "exercitation", "ullamco", "laboris", "nisi", "aliquip", "ex", "ea", "commodo",
+            "consequat", "duis", "aute", "irure", "in", "reprehenderit", "voluptate",
+            "velit", "esse", "cillum", "fugiat", "nulla", "pariatur", "excepteur", "sint",
+            "occaecat", "cupidatat", "non", "proident", "sunt", "culpa", "qui", "officia",
+            "deserunt", "mollit", "anim", "id", "est", "laborum", "perspiciatis", "unde",
+            "omnis", "iste", "natus", "error", "voluptatem", "accusantium", "doloremque",
+            "laudantium", "totam", "rem", "aperiam", "eaque", "ipsa", "quae", "ab", "illo",
+            "inventore", "veritatis", "quasi", "architecto", "beatae", "vitae", "dicta"
+        ];
+
+        const HIPSTER_WORDS = [
+            "artisan", "craft", "beer", "vegan", "organic", "sustainable", "vinyl", "aesthetic",
+            "brooklyn", "portland", "fixie", "bicycle", "coffee", "latte", "avocado", "toast",
+            "kombucha", "kale", "quinoa", "meditation", "yoga", "mindful", "vintage", "retro",
+            "handcrafted", "small-batch", "farm-to-table", "gluten-free", "ethical", "conscious"
+        ];
+
+        const CORPORATE_WORDS = [
+            "synergy", "leverage", "paradigm", "proactive", "bandwidth", "holistic", "scalable",
+            "enterprise", "solution", "innovative", "strategic", "optimize", "streamline",
+            "stakeholder", "deliverable", "milestone", "KPI", "ROI", "agile", "dynamic"
+        ];
+
+        function getWordList() {
+            const style = document.getElementById('styleSelect').value;
+            switch(style) {
+                case 'hipster': return [...LOREM_WORDS, ...HIPSTER_WORDS];
+                case 'corporate': return [...LOREM_WORDS, ...CORPORATE_WORDS];
+                default: return LOREM_WORDS;
+            }
+        }
+
+        function generateWord(words) {
+            return words[Math.floor(Math.random() * words.length)];
+        }
+
+        function generateSentence(words, minWords = 8, maxWords = 15) {
+            const length = Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
+            let sentence = [];
+            for (let i = 0; i < length; i++) {
+                sentence.push(generateWord(words));
+            }
+            sentence[0] = sentence[0].charAt(0).toUpperCase() + sentence[0].slice(1);
+            return sentence.join(' ') + '.';
+        }
+
+        function generateParagraph(words, minSentences = 4, maxSentences = 8) {
+            const length = Math.floor(Math.random() * (maxSentences - minSentences + 1)) + minSentences;
+            let sentences = [];
+            for (let i = 0; i < length; i++) {
+                sentences.push(generateSentence(words));
+            }
+            return sentences.join(' ');
+        }
+
+        function generate() {
+            const type = document.getElementById('typeSelect').value;
+            const amount = Math.min(100, Math.max(1, parseInt(document.getElementById('amountInput').value) || 1));
+            const startLorem = document.getElementById('startLorem').checked;
+            const includeHtml = document.getElementById('includeHtml').checked;
+            const words = getWordList();
+
+            let result = [];
+            let wordCount = 0;
+
+            if (type === 'paragraphs') {
+                for (let i = 0; i < amount; i++) {
+                    let para = generateParagraph(words);
+                    if (i === 0 && startLorem) {
+                        para = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' + para;
+                    }
+                    result.push(para);
+                    wordCount += para.split(' ').length;
+                }
+            } else if (type === 'sentences') {
+                for (let i = 0; i < amount; i++) {
+                    let sentence = generateSentence(words);
+                    if (i === 0 && startLorem) {
+                        sentence = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+                    }
+                    result.push(sentence);
+                    wordCount += sentence.split(' ').length;
+                }
+            } else {
+                let wordList = [];
+                if (startLorem) {
+                    wordList = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet'];
+                }
+                while (wordList.length < amount) {
+                    wordList.push(generateWord(words));
+                }
+                result = [wordList.slice(0, amount).join(' ')];
+                wordCount = amount;
+            }
+
+            const output = document.getElementById('outputContent');
+            if (includeHtml) {
+                output.innerHTML = result.map(p => `<p>&lt;p&gt;${p}&lt;/p&gt;</p>`).join('');
+            } else {
+                output.innerHTML = result.map(p => `<p>${p}</p>`).join('');
+            }
+
+            const info = document.getElementById('outputInfo');
+            if (type === 'paragraphs') {
+                info.textContent = `${amount}개 문단, ${wordCount}개 단어`;
+            } else if (type === 'sentences') {
+                info.textContent = `${amount}개 문장, ${wordCount}개 단어`;
+            } else {
+                info.textContent = `${amount}개 단어`;
+            }
+
+            showToast('생성 완료!');
+        }
+
+        function applyPreset(amount, type) {
+            document.getElementById('amountInput').value = amount;
+            document.getElementById('typeSelect').value = type;
+            generate();
+        }
+
+        function copyText() {
+            const output = document.getElementById('outputContent');
+            navigator.clipboard.writeText(output.innerText);
+            showToast('클립보드에 복사되었습니다!');
+        }
+
+        function downloadText() {
+            const output = document.getElementById('outputContent');
+            const blob = new Blob([output.innerText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lorem-ipsum.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('다운로드 완료!');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        generate();
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>

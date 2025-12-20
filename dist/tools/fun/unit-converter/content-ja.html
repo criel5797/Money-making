@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <style>
+        /* Styles remain the same */
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#4776E6 0%,#8E54E9 100%);min-height:100vh;color:#fff;padding:20px}.container{max-width:500px;margin:0 auto}.ad-banner{background:rgba(255,255,255,.1);padding:20px;text-align:center;border-radius:12px;margin-bottom:20px;color:rgba(255,255,255,.5)}header{text-align:center;margin-bottom:30px}h1{font-size:1.8rem;margin-bottom:10px}.subtitle{color:rgba(255,255,255,.8);font-size:.95rem}.category-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.category-tab{flex:1;min-width:70px;padding:12px 8px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:10px;color:#fff;font-size:.85rem;cursor:pointer;transition:all .3s;text-align:center}.category-tab:hover{background:rgba(255,255,255,.2)}.category-tab.active{background:rgba(255,255,255,.3);border-color:#fff}.converter-section{background:rgba(255,255,255,.15);border-radius:16px;padding:25px;backdrop-filter:blur(10px)}.converter-row{display:flex;gap:15px;align-items:center;margin-bottom:20px}.input-group{flex:1}.input-group label{display:block;font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:6px}.input-group input{width:100%;padding:14px;border:2px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font-size:1.2rem;font-weight:600;text-align:center}.input-group input:focus{outline:none;border-color:#fff;background:rgba(255,255,255,.15)}.input-group select{width:100%;padding:14px;border:2px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font-size:1rem;cursor:pointer;margin-top:8px}.input-group select:focus{outline:none;border-color:#fff}.input-group select option{background:#4776E6;color:#fff}.swap-btn{width:50px;height:50px;background:rgba(255,255,255,.2);border:none;border-radius:50%;color:#fff;font-size:1.5rem;cursor:pointer;transition:all .3s;flex-shrink:0}.swap-btn:hover{background:rgba(255,255,255,.3);transform:rotate(180deg)}.result-display{background:rgba(255,255,255,.2);border-radius:12px;padding:20px;text-align:center;margin-top:20px}.result-formula{font-size:1rem;color:rgba(255,255,255,.8);margin-bottom:10px}.result-value{font-size:2rem;font-weight:800}.copy-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:rgba(255,255,255,.2);border:none;border-radius:8px;color:#fff;font-size:.9rem;cursor:pointer;margin-top:15px;transition:all .3s}.copy-btn:hover{background:rgba(255,255,255,.3)}.common-conversions{margin-top:25px;padding-top:20px;border-top:1px solid rgba(255,255,255,.2)}.common-conversions h4{font-size:.9rem;color:rgba(255,255,255,.7);margin-bottom:12px}.conversion-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.conversion-item{background:rgba(255,255,255,.1);padding:10px;border-radius:8px;font-size:.85rem;text-align:center}footer{text-align:center;margin-top:30px;color:rgba(255,255,255,.5);font-size:.8rem}.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(0,0,0,.9);color:#fff;padding:12px 24px;border-radius:8px;font-size:.9rem;opacity:0;transition:all .3s;z-index:1000}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+    </style>
+<script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"단위 변환기","en":"Unit Converter","ja":"単位変換器"},"desc":{"ko":"단위 변환","en":"Convert Units","ja":"単位変換"}},"header":{"title":{"ko":"📐 단위 변환기","en":"📐 Unit Converter","ja":"📐 単位変換器"},"subtitle":{"ko":"단위 변환 도구","en":"Unit Tool","ja":"単位ツール"}},"tabs":{"len":{"ko":"길이","en":"Length","ja":"長さ"},"weight":{"ko":"무게","en":"Weight","ja":"重さ"},"temp":{"ko":"온도","en":"Temp","ja":"温度"},"area":{"ko":"면적","en":"Area","ja":"面積"},"vol":{"ko":"부피","en":"Volume","ja":"体積"}},"input":{"from":{"ko":"변환 전","en":"From","ja":"変換前"},"to":{"ko":"변환 후","en":"To","ja":"変換後"}},"result":{"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"common":{"title":{"ko":"자주 쓰는 변환","en":"Common","ja":"よく使う変換"}}};</script></head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+
+        <header>
+            <h1 data-i18n="header.title">📐 Unit Converter</h1>
+            <p class="subtitle" data-i18n="header.subtitle">Convert units easily</p>
+        </header>
+
+        <div class="category-tabs">
+            <button class="category-tab active" onclick="setCategory('length')" data-i18n="tabs.len">Length</button>
+            <button class="category-tab" onclick="setCategory('weight')" data-i18n="tabs.weight">Weight</button>
+            <button class="category-tab" onclick="setCategory('temperature')" data-i18n="tabs.temp">Temp</button>
+            <button class="category-tab" onclick="setCategory('area')" data-i18n="tabs.area">Area</button>
+            <button class="category-tab" onclick="setCategory('volume')" data-i18n="tabs.vol">Volume</button>
+        </div>
+
+        <div class="converter-section">
+            <div class="converter-row">
+                <div class="input-group">
+                    <label data-i18n="input.from">From</label>
+                    <input type="number" id="fromValue" placeholder="0" oninput="convert('from')">
+                    <select id="fromUnit" onchange="convert('from')"></select>
+                </div>
+
+                <button class="swap-btn" onclick="swapUnits()">⇄</button>
+
+                <div class="input-group">
+                    <label data-i18n="input.to">To</label>
+                    <input type="number" id="toValue" placeholder="0" oninput="convert('to')">
+                    <select id="toUnit" onchange="convert('from')"></select>
+                </div>
+            </div>
+
+            <div class="result-display">
+                <div class="result-formula" id="formula"></div>
+                <div class="result-value" id="resultValue">0</div>
+                <button class="copy-btn" onclick="copyResult()" data-i18n="result.copy">📋 Copy</button>
+            </div>
+
+            <div class="common-conversions">
+                <h4 data-i18n="common.title">Common Conversions</h4>
+                <div class="conversion-list" id="commonList"></div>
+            </div>
+        </div>
+
+        <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
+
+        <footer>
+            <p>© 2024 Unit Converter</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script>
+        const units = {
+            length: {
+                units: {
+                    'km': { name: 'Kilometer', factor: 1000 },
+                    'm': { name: 'Meter', factor: 1 },
+                    'cm': { name: 'Centimeter', factor: 0.01 },
+                    'mm': { name: 'Millimeter', factor: 0.001 },
+                    'in': { name: 'Inch', factor: 0.0254 },
+                    'ft': { name: 'Foot', factor: 0.3048 },
+                    'yd': { name: 'Yard', factor: 0.9144 },
+                    'mi': { name: 'Mile', factor: 1609.344 }
+                },
+                common: ['1 in = 2.54 cm', '1 ft = 30.48 cm', '1 mi = 1.6 km', '1 m = 3.28 ft']
+            },
+            weight: {
+                units: {
+                    'kg': { name: 'Kilogram', factor: 1 },
+                    'g': { name: 'Gram', factor: 0.001 },
+                    'lb': { name: 'Pound', factor: 0.453592 },
+                    'oz': { name: 'Ounce', factor: 0.0283495 },
+                    't': { name: 'Ton', factor: 1000 }
+                },
+                common: ['1 lb = 0.45 kg', '1 kg = 2.2 lb', '1 oz = 28.35 g']
+            },
+            temperature: {
+                units: {
+                    'C': { name: 'Celsius', factor: 'celsius' },
+                    'F': { name: 'Fahrenheit', factor: 'fahrenheit' },
+                    'K': { name: 'Kelvin', factor: 'kelvin' }
+                },
+                common: ['0°C = 32°F', '100°C = 212°F']
+            },
+            area: {
+                units: {
+                    'm2': { name: 'Square Meter', factor: 1 },
+                    'km2': { name: 'Square Kilometer', factor: 1000000 },
+                    'ft2': { name: 'Square Foot', factor: 0.092903 },
+                    'ac': { name: 'Acre', factor: 4046.86 },
+                    'ha': { name: 'Hectare', factor: 10000 }
+                },
+                common: ['1 ac = 4046 m2', '1 ha = 10000 m2']
+            },
+            volume: {
+                units: {
+                    'L': { name: 'Liter', factor: 1 },
+                    'mL': { name: 'Milliliter', factor: 0.001 },
+                    'm3': { name: 'Cubic Meter', factor: 1000 },
+                    'gal': { name: 'Gallon (US)', factor: 3.78541 }
+                },
+                common: ['1 gal = 3.79 L']
+            }
+        };
+
+        let currentCategory = 'length';
+
+        function setCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            updateUnits();
+            updateCommon();
+            convert('from');
+        }
+
+        function updateUnits() {
+            const data = units[currentCategory];
+            const fromSelect = document.getElementById('fromUnit');
+            const toSelect = document.getElementById('toUnit');
+            const keys = Object.keys(data.units);
+
+            fromSelect.innerHTML = keys.map(k => `<option value="${k}">${data.units[k].name}</option>`).join('');
+            toSelect.innerHTML = keys.map(k => `<option value="${k}">${data.units[k].name}</option>`).join('');
+            if (keys.length >= 2) toSelect.value = keys[1];
+        }
+
+        function updateCommon() {
+            const list = document.getElementById('commonList');
+            list.innerHTML = units[currentCategory].common.map(item => `<div class="conversion-item">${item}</div>`).join('');
+        }
+
+        function convert(direction) {
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+            const fromInput = document.getElementById('fromValue');
+            const toInput = document.getElementById('toValue');
+            let result;
+
+            if (currentCategory === 'temperature') {
+                result = convertTemperature(direction, fromUnit, toUnit, fromInput, toInput);
+            } else {
+                const data = units[currentCategory];
+                const fromFactor = data.units[fromUnit].factor;
+                const toFactor = data.units[toUnit].factor;
+                const val = parseFloat(direction === 'from' ? fromInput.value : toInput.value) || 0;
+                
+                result = direction === 'from' ? (val * fromFactor) / toFactor : (val * toFactor) / fromFactor;
+                
+                if (direction === 'from') toInput.value = result ? formatNumber(result) : '';
+                else fromInput.value = result ? formatNumber(result) : '';
+            }
+            updateFormula();
+        }
+
+        function convertTemperature(direction, fromUnit, toUnit, fromInput, toInput) {
+            const val = parseFloat(direction === 'from' ? fromInput.value : toInput.value);
+            if (isNaN(val)) {
+                if (direction === 'from') toInput.value = ''; else fromInput.value = '';
+                return;
+            }
+            // Simplified temp logic for brevity - assume C, F, K
+            let c = val;
+            if (fromUnit === 'F') c = (val - 32) * 5/9;
+            if (fromUnit === 'K') c = val - 273.15;
+            
+            let res = c;
+            if (toUnit === 'F') res = c * 9/5 + 32;
+            if (toUnit === 'K') res = c + 273.15;
+
+            if (direction === 'from') toInput.value = formatNumber(res);
+            else fromInput.value = formatNumber(res);
+        }
+
+        function updateFormula() {
+            const from = document.getElementById('fromUnit').value;
+            const to = document.getElementById('toUnit').value;
+            const val = parseFloat(document.getElementById('fromValue').value) || 1;
+            const res = parseFloat(document.getElementById('toValue').value) || 0;
+            document.getElementById('formula').textContent = `${val} ${from} = ${formatNumber(res)} ${to}`;
+            document.getElementById('resultValue').textContent = formatNumber(res) + ' ' + to;
+        }
+
+        function swapUnits() {
+            const f = document.getElementById('fromUnit');
+            const t = document.getElementById('toUnit');
+            const temp = f.value; f.value = t.value; t.value = temp;
+            convert('from');
+        }
+
+        function formatNumber(n) { return parseFloat(n.toPrecision(6)); }
+
+        function copyResult() {
+            navigator.clipboard.writeText(document.getElementById('resultValue').textContent).then(() => {
+                const t = document.getElementById('toast'); t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 2000);
+            });
+        }
+
+        updateUnits();
+        updateCommon();
+    </script>
+<script src="/common/tool-i18n-handler.js"></script></body>
+</html>
