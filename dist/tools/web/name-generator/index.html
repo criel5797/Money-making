@@ -86,7 +86,7 @@
       <a href="/" class="home-link">🏠 <span>홈으로</span></a>
     </div>
     <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko" onclick="switchToolLanguage('ko')">한국어</button>
+      <button class="lang-btn" data-lang="ko">한국어</button>
     </div>
   </div>
   <iframe id="toolFrame" class="tool-iframe" src="content-ko.html"></iframe>
@@ -96,14 +96,22 @@
     var availableLangs = {"ko":true,"en":false,"ja":false};
 
     function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) return;
+      // Fallback: if language not available, try ko > en > ja
+      if (!availableLangs[lang]) {
+        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
+      }
 
       currentLang = lang;
       localStorage.setItem('preferredLanguage', lang);
 
       // Update iframe src
       var iframe = document.getElementById('toolFrame');
-      iframe.src = 'content-' + lang + '.html';
+      var newSrc = 'content-' + lang + '.html';
+
+      // Only reload if different
+      if (iframe.src.indexOf(newSrc) === -1) {
+        iframe.src = newSrc;
+      }
 
       // Update active button
       document.querySelectorAll('.lang-btn').forEach(function(btn) {
@@ -117,6 +125,43 @@
       var homeTexts = { ko: '홈으로', en: 'Home', ja: 'ホーム' };
       document.querySelector('.home-link span').textContent = homeTexts[lang] || '홈으로';
     }
+
+    // Hide language switcher inside iframe (avoid duplicate UI)
+    function hideIframeLanguageSwitcher() {
+      try {
+        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
+                       document.getElementById('toolFrame').contentWindow.document;
+
+        // Hide common language switcher elements
+        var style = iframeDoc.createElement('style');
+        style.textContent = `
+          .lang-switch,
+          .lang-switcher,
+          [class*="lang-btn"],
+          [class*="language"],
+          a[href*="index-ko.html"],
+          a[href*="index-en.html"],
+          a[href*="index-ja.html"],
+          a[href*="index.html"][hreflang] {
+            display: none !important;
+          }
+        `;
+        iframeDoc.head.appendChild(style);
+      } catch(e) {
+        // Cross-origin or other error - ignore
+      }
+    }
+
+    // Event listeners
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        switchToolLanguage(this.getAttribute('data-lang'));
+      });
+    });
+
+    document.getElementById('toolFrame').addEventListener('load', function() {
+      hideIframeLanguageSwitcher();
+    });
 
     // Initialize
     window.addEventListener('load', function() {

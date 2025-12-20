@@ -2,19 +2,21 @@
 
 function createToolWrapper(toolId, toolName, category, availableLanguages) {
   // availableLanguages: { ko: boolean, en: boolean, ja: boolean }
+
+  // Determine default language: ko > en > ja
+  var defaultLang = availableLanguages.ko ? 'ko' : (availableLanguages.en ? 'en' : 'ja');
+
+  // Build language buttons only for available languages
   var langButtons = '';
   if (availableLanguages.ko) {
-    langButtons += '<button class="lang-btn" data-lang="ko" onclick="switchToolLanguage(\'ko\')">한국어</button>';
+    langButtons += '<button class="lang-btn" data-lang="ko">한국어</button>';
   }
   if (availableLanguages.en) {
-    langButtons += '<button class="lang-btn" data-lang="en" onclick="switchToolLanguage(\'en\')">English</button>';
+    langButtons += '<button class="lang-btn" data-lang="en">English</button>';
   }
   if (availableLanguages.ja) {
-    langButtons += '<button class="lang-btn" data-lang="ja" onclick="switchToolLanguage(\'ja\')">日本語</button>';
+    langButtons += '<button class="lang-btn" data-lang="ja">日本語</button>';
   }
-
-  // Default language: try ko > en > ja
-  var defaultLang = availableLanguages.ko ? 'ko' : (availableLanguages.en ? 'en' : 'ja');
 
   return `<!DOCTYPE html>
 <html lang="${defaultLang}">
@@ -114,14 +116,22 @@ function createToolWrapper(toolId, toolName, category, availableLanguages) {
     var availableLangs = ${JSON.stringify(availableLanguages)};
 
     function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) return;
+      // Fallback: if language not available, try ko > en > ja
+      if (!availableLangs[lang]) {
+        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
+      }
 
       currentLang = lang;
       localStorage.setItem('preferredLanguage', lang);
 
       // Update iframe src
       var iframe = document.getElementById('toolFrame');
-      iframe.src = 'content-' + lang + '.html';
+      var newSrc = 'content-' + lang + '.html';
+
+      // Only reload if different
+      if (iframe.src.indexOf(newSrc) === -1) {
+        iframe.src = newSrc;
+      }
 
       // Update active button
       document.querySelectorAll('.lang-btn').forEach(function(btn) {
@@ -135,6 +145,43 @@ function createToolWrapper(toolId, toolName, category, availableLanguages) {
       var homeTexts = { ko: '홈으로', en: 'Home', ja: 'ホーム' };
       document.querySelector('.home-link span').textContent = homeTexts[lang] || '홈으로';
     }
+
+    // Hide language switcher inside iframe (avoid duplicate UI)
+    function hideIframeLanguageSwitcher() {
+      try {
+        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
+                       document.getElementById('toolFrame').contentWindow.document;
+
+        // Hide common language switcher elements
+        var style = iframeDoc.createElement('style');
+        style.textContent = \`
+          .lang-switch,
+          .lang-switcher,
+          [class*="lang-btn"],
+          [class*="language"],
+          a[href*="index-ko.html"],
+          a[href*="index-en.html"],
+          a[href*="index-ja.html"],
+          a[href*="index.html"][hreflang] {
+            display: none !important;
+          }
+        \`;
+        iframeDoc.head.appendChild(style);
+      } catch(e) {
+        // Cross-origin or other error - ignore
+      }
+    }
+
+    // Event listeners
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        switchToolLanguage(this.getAttribute('data-lang'));
+      });
+    });
+
+    document.getElementById('toolFrame').addEventListener('load', function() {
+      hideIframeLanguageSwitcher();
+    });
 
     // Initialize
     window.addEventListener('load', function() {
