@@ -1,727 +1,132 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MBTI 성격 유형 테스트 - 무료 간단 테스트 | 16가지 성격 유형</title>
-    <meta name="description" content="무료 MBTI 성격 유형 테스트. 12문항으로 빠르게 알아보는 나의 MBTI. INTJ, ENFP 등 16가지 성격 유형 중 나는 어떤 타입일까?">
-    <meta name="keywords" content="MBTI, MBTI테스트, 성격유형, 무료MBTI, MBTI검사, 16personalities">
-    <meta name="robots" content="index, follow">
-
-    <meta property="og:title" content="MBTI 성격 유형 테스트 - 무료 간단 테스트">
-    <meta property="og:description" content="12문항으로 빠르게 알아보는 나의 MBTI">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/667eea/ffffff?text=MBTI+테스트">
-
-    <style>
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 14px 28px;
-            border-radius: 30px;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            z-index: 1000;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: white;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .subtitle {
-            color: rgba(255,255,255,0.9);
-            font-size: 1.1rem;
-        }
-
-        .ad-banner {
-            background: rgba(255,255,255,0.1);
-            border: 1px dashed rgba(255,255,255,0.3);
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-            border-radius: 12px;
-            color: rgba(255,255,255,0.7);
-        }
-
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            margin-bottom: 20px;
-        }
-
-        .intro {
-            text-align: center;
-        }
-
-        .intro h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-        }
-
-        .intro p {
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .start-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 18px 50px;
-            font-size: 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .progress-container {
-            margin-bottom: 30px;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: #eee;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            text-align: center;
-            margin-top: 10px;
-            color: #888;
-            font-size: 14px;
-        }
-
-        .question-section {
-            display: none;
-        }
-
-        .question-section.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .question-number {
-            color: #667eea;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .question-text {
-            font-size: 20px;
-            color: #333;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .option {
-            padding: 18px 24px;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 16px;
-            color: #555;
-        }
-
-        .option:hover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.05);
-        }
-
-        .option.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-            color: #667eea;
-            font-weight: 500;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-
-        .nav-btn {
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .prev-btn {
-            background: #f5f5f5;
-            border: none;
-            color: #666;
-        }
-
-        .prev-btn:hover {
-            background: #eee;
-        }
-
-        .next-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border: none;
-            color: white;
-        }
-
-        .next-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .next-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .result-section {
-            display: none;
-            text-align: center;
-        }
-
-        .result-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .result-type {
-            font-size: 5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 20px 0;
-        }
-
-        .result-name {
-            font-size: 1.8rem;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .result-nickname {
-            color: #667eea;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-
-        .result-description {
-            background: #f8f9ff;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            text-align: left;
-        }
-
-        .result-description h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-
-        .result-description p {
-            color: #555;
-            line-height: 1.8;
-        }
-
-        .traits {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .trait {
-            background: #f8f9ff;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .trait-label {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 5px;
-        }
-
-        .trait-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .trait-name {
-            font-size: 12px;
-            color: #555;
-        }
-
-        .compatibility {
-            background: #fff5f8;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-        }
-
-        .compatibility h4 {
-            color: #e91e63;
-            margin-bottom: 10px;
-        }
-
-        .compatibility p {
-            color: #666;
-        }
-
-        .share-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .share-btn {
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s;
-            border: none;
-        }
-
-        .share-btn.primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .share-btn.secondary {
-            background: #f5f5f5;
-            color: #666;
-        }
-
-        .share-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: rgba(255,255,255,0.7);
-            font-size: 13px;
-        }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .result-type { font-size: 3.5rem; }
-            .traits { grid-template-columns: 1fr; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI 테스트</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+    }
+    .tool-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 12px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .tool-nav {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .home-link {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .home-link:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-switcher {
+      display: flex;
+      gap: 8px;
+    }
+    .lang-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    .lang-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-btn.active {
+      background: rgba(255,255,255,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .tool-iframe {
+      width: 100%;
+      height: calc(100vh - 60px);
+      border: none;
+      display: block;
+      background: white;
+    }
+    @media (max-width: 600px) {
+      .tool-header {
+        padding: 10px 15px;
+      }
+      .home-link, .lang-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="toast" id="toast"></div>
-    <div class="container">
-        <header>
-            <h1>MBTI 성격 유형 테스트</h1>
-            <p class="subtitle">12문항으로 알아보는 나의 성격 유형</p>
-        </header>
-
-        <div class="ad-banner">Advertisement</div>
-
-        <div class="card">
-            <!-- 인트로 -->
-            <div class="intro" id="introSection">
-                <h2>나의 MBTI는 무엇일까?</h2>
-                <p>
-                    MBTI(Myers-Briggs Type Indicator)는 16가지 성격 유형으로<br>
-                    사람들의 성격을 분류하는 지표입니다.<br><br>
-                    간단한 12문항으로 나의 성격 유형을 알아보세요!<br>
-                    너무 오래 고민하지 말고, 직관적으로 답해주세요.
-                </p>
-                <button class="start-btn" onclick="startTest()">테스트 시작하기</button>
-            </div>
-
-            <!-- 질문 섹션 -->
-            <div class="question-section" id="questionSection">
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <div class="progress-text" id="progressText">1 / 12</div>
-                </div>
-
-                <div id="questionContainer"></div>
-
-                <div class="nav-buttons">
-                    <button class="nav-btn prev-btn" onclick="prevQuestion()" id="prevBtn" style="visibility:hidden;">이전</button>
-                    <button class="nav-btn next-btn" onclick="nextQuestion()" id="nextBtn" disabled>다음</button>
-                </div>
-            </div>
-
-            <!-- 결과 섹션 -->
-            <div class="result-section" id="resultSection">
-                <p style="color:#888; font-size:14px;">당신의 MBTI 유형은</p>
-                <div class="result-type" id="resultType">ENFP</div>
-                <div class="result-name" id="resultName">재기발랄한 활동가</div>
-                <div class="result-nickname" id="resultNickname">"모든 것이 가능해!"</div>
-
-                <div class="traits" id="traitsContainer"></div>
-
-                <div class="result-description" id="resultDescription">
-                    <h3>성격 특징</h3>
-                    <p id="descriptionText"></p>
-                </div>
-
-                <div class="compatibility" id="compatibilitySection">
-                    <h4>궁합이 좋은 유형</h4>
-                    <p id="compatibilityText"></p>
-                </div>
-
-                <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="retakeTest()">다시 테스트하기</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="ad-banner">Advertisement</div>
-
-        <footer>
-            <p>이 테스트는 재미를 위한 간이 테스트입니다.<br>정확한 MBTI 진단은 전문 검사를 이용해주세요.</p>
-        </footer>
+  <div class="tool-header">
+    <div class="tool-nav">
+      <a href="/" class="home-link">🏠 <span>홈으로</span></a>
     </div>
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ko" onclick="switchToolLanguage('ko')">한국어</button><button class="lang-btn" data-lang="en" onclick="switchToolLanguage('en')">English</button>
+    </div>
+  </div>
+  <iframe id="toolFrame" class="tool-iframe" src="content-ko.html"></iframe>
 
-    <script>
-        const questions = [
-            // E vs I (3문항)
-            {
-                text: "주말에 에너지를 충전하는 방법은?",
-                options: [
-                    { text: "친구들과 만나서 수다 떨기", value: "E" },
-                    { text: "집에서 혼자 휴식하기", value: "I" }
-                ]
-            },
-            {
-                text: "새로운 사람들을 만났을 때 나는?",
-                options: [
-                    { text: "먼저 말을 걸고 대화를 시작함", value: "E" },
-                    { text: "상대가 먼저 다가오길 기다림", value: "I" }
-                ]
-            },
-            {
-                text: "생각을 정리할 때 선호하는 방식은?",
-                options: [
-                    { text: "누군가와 대화하면서 정리", value: "E" },
-                    { text: "혼자 조용히 생각하면서 정리", value: "I" }
-                ]
-            },
-            // S vs N (3문항)
-            {
-                text: "어떤 정보를 더 신뢰하는 편인가요?",
-                options: [
-                    { text: "직접 경험하거나 확인된 사실", value: "S" },
-                    { text: "직감이나 가능성, 숨겨진 의미", value: "N" }
-                ]
-            },
-            {
-                text: "새로운 것을 배울 때 나는?",
-                options: [
-                    { text: "단계별로 순서대로 배움", value: "S" },
-                    { text: "전체 그림을 먼저 파악함", value: "N" }
-                ]
-            },
-            {
-                text: "대화할 때 주로 어떤 이야기를 하나요?",
-                options: [
-                    { text: "실제 있었던 일, 구체적인 사실", value: "S" },
-                    { text: "아이디어, 가능성, 상상", value: "N" }
-                ]
-            },
-            // T vs F (3문항)
-            {
-                text: "결정을 내릴 때 더 중요하게 생각하는 것은?",
-                options: [
-                    { text: "논리적으로 옳은 것", value: "T" },
-                    { text: "관계와 감정에 미치는 영향", value: "F" }
-                ]
-            },
-            {
-                text: "친구가 고민을 이야기할 때 나는?",
-                options: [
-                    { text: "해결책을 제시해준다", value: "T" },
-                    { text: "공감하고 들어준다", value: "F" }
-                ]
-            },
-            {
-                text: "의견 충돌이 있을 때 나는?",
-                options: [
-                    { text: "내 의견이 맞다면 끝까지 주장", value: "T" },
-                    { text: "관계를 위해 양보할 수 있음", value: "F" }
-                ]
-            },
-            // J vs P (3문항)
-            {
-                text: "여행을 갈 때 나는?",
-                options: [
-                    { text: "미리 계획을 세워서 간다", value: "J" },
-                    { text: "즉흥적으로 결정한다", value: "P" }
-                ]
-            },
-            {
-                text: "마감이 있는 일을 할 때 나는?",
-                options: [
-                    { text: "미리미리 끝내놓는다", value: "J" },
-                    { text: "마감 직전에 집중해서 한다", value: "P" }
-                ]
-            },
-            {
-                text: "일상생활에서 나는?",
-                options: [
-                    { text: "규칙적인 루틴을 좋아함", value: "J" },
-                    { text: "유연하고 자유로운 것을 좋아함", value: "P" }
-                ]
-            }
-        ];
+  <script>
+    var currentLang = 'ko';
+    var availableLangs = {"ko":true,"en":true,"ja":false};
 
-        const mbtiData = {
-            "INTJ": { name: "전략가", nickname: "\"모든 것에 계획이 있다\"", description: "독창적인 사고와 강한 추진력을 가진 전략가입니다. 목표를 세우면 끝까지 해내며, 논리적이고 분석적인 사고를 합니다. 완벽주의적 성향이 있고 지적 호기심이 강합니다.", match: "ENFP, ENTP" },
-            "INTP": { name: "논리술사", nickname: "\"지식에 대한 끝없는 갈증\"", description: "논리적이고 분석적인 사고를 가진 이론가입니다. 새로운 아이디어와 가능성을 탐구하며, 복잡한 문제 해결을 즐깁니다. 조용하지만 지적 대화를 좋아합니다.", match: "ENTJ, ENFJ" },
-            "ENTJ": { name: "통솔자", nickname: "\"대담한 리더\"", description: "타고난 리더십과 결단력을 가진 통솔자입니다. 목표 지향적이며 효율성을 중시합니다. 도전을 즐기고 큰 그림을 그리는 능력이 뛰어납니다.", match: "INTP, INFP" },
-            "ENTP": { name: "변론가", nickname: "\"지적 도전을 즐기는\"", description: "호기심이 많고 지적인 토론을 즐기는 변론가입니다. 새로운 아이디어를 제시하고 기존의 것에 도전합니다. 빠른 사고력과 언변이 뛰어납니다.", match: "INTJ, INFJ" },
-            "INFJ": { name: "옹호자", nickname: "\"조용한 영감\"", description: "통찰력이 뛰어나고 이상주의적인 옹호자입니다. 타인을 돕고 더 나은 세상을 만들고자 합니다. 깊은 공감 능력과 직관을 가지고 있습니다.", match: "ENTP, ENFP" },
-            "INFP": { name: "중재자", nickname: "\"마음 따뜻한 이상주의자\"", description: "이상주의적이고 공감 능력이 뛰어난 중재자입니다. 진정성 있는 관계를 중시하며 창의적입니다. 내면의 가치관을 중요하게 생각합니다.", match: "ENTJ, ENFJ" },
-            "ENFJ": { name: "선도자", nickname: "\"타고난 리더\"", description: "따뜻하고 영향력 있는 리더입니다. 타인의 성장을 돕고 긍정적인 변화를 이끌어냅니다. 뛰어난 소통 능력과 공감력을 가지고 있습니다.", match: "INTP, INFP" },
-            "ENFP": { name: "활동가", nickname: "\"열정적인 자유로운 영혼\"", description: "창의적이고 열정적인 활동가입니다. 새로운 가능성을 탐구하고 사람들과의 연결을 즐깁니다. 자유로운 영혼이며 영감을 주는 사람입니다.", match: "INTJ, INFJ" },
-            "ISTJ": { name: "현실주의자", nickname: "\"책임감의 대명사\"", description: "신뢰할 수 있고 책임감 있는 현실주의자입니다. 전통과 질서를 중시하며 맡은 일을 끝까지 해냅니다. 실용적이고 체계적입니다.", match: "ESFP, ESTP" },
-            "ISFJ": { name: "수호자", nickname: "\"헌신적인 보호자\"", description: "따뜻하고 헌신적인 수호자입니다. 타인을 돌보고 조화로운 환경을 만듭니다. 세심하고 신뢰할 수 있으며 책임감이 강합니다.", match: "ESFP, ESTP" },
-            "ESTJ": { name: "경영자", nickname: "\"모범적인 관리자\"", description: "체계적이고 실용적인 경영자입니다. 조직을 이끌고 효율적으로 일을 처리합니다. 전통을 중시하고 책임감이 강합니다.", match: "ISFP, ISTP" },
-            "ESFJ": { name: "집정관", nickname: "\"사교적인 세상의 돌봄이\"", description: "사교적이고 배려심 깊은 집정관입니다. 조화로운 관계를 중시하고 타인을 돕습니다. 따뜻하고 협력적인 성격입니다.", match: "ISFP, ISTP" },
-            "ISTP": { name: "장인", nickname: "\"대담한 탐험가\"", description: "논리적이고 실용적인 장인입니다. 문제 해결 능력이 뛰어나고 위기 상황에서 침착합니다. 호기심이 많고 손재주가 좋습니다.", match: "ESFJ, ESTJ" },
-            "ISFP": { name: "모험가", nickname: "\"유연한 예술가\"", description: "온화하고 감성적인 모험가입니다. 현재를 즐기며 예술적 감각이 뛰어납니다. 자유로운 영혼이며 타인을 배려합니다.", match: "ESFJ, ESTJ" },
-            "ESTP": { name: "사업가", nickname: "\"스릴을 즐기는\"", description: "에너지 넘치고 모험적인 사업가입니다. 빠른 판단력과 적응력이 뛰어납니다. 즉흥적이고 현실적인 문제 해결을 즐깁니다.", match: "ISFJ, ISTJ" },
-            "ESFP": { name: "연예인", nickname: "\"파티의 중심\"", description: "활기차고 즐거움을 추구하는 연예인입니다. 사교적이고 주변을 즐겁게 합니다. 현재를 살며 유연하게 적응합니다.", match: "ISFJ, ISTJ" }
-        };
+    function switchToolLanguage(lang) {
+      if (!availableLangs[lang]) return;
 
-        let currentQuestion = 0;
-        let answers = [];
+      currentLang = lang;
+      localStorage.setItem('preferredLanguage', lang);
 
-        function startTest() {
-            document.getElementById('introSection').style.display = 'none';
-            document.getElementById('questionSection').classList.add('active');
-            showQuestion(0);
+      // Update iframe src
+      var iframe = document.getElementById('toolFrame');
+      iframe.src = 'content-' + lang + '.html';
+
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+          btn.classList.add('active');
         }
+      });
 
-        function showQuestion(index) {
-            const q = questions[index];
-            const container = document.getElementById('questionContainer');
+      // Update home link text
+      var homeTexts = { ko: '홈으로', en: 'Home', ja: 'ホーム' };
+      document.querySelector('.home-link span').textContent = homeTexts[lang] || '홈으로';
+    }
 
-            let optionsHtml = q.options.map((opt, i) => `
-                <div class="option ${answers[index] === opt.value ? 'selected' : ''}" onclick="selectOption(${i}, '${opt.value}')">
-                    ${opt.text}
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="question-number">질문 ${index + 1}</div>
-                <div class="question-text">${q.text}</div>
-                <div class="options">${optionsHtml}</div>
-            `;
-
-            updateProgress();
-            updateButtons();
-        }
-
-        function selectOption(optionIndex, value) {
-            answers[currentQuestion] = value;
-            document.querySelectorAll('.option').forEach((opt, i) => {
-                opt.classList.toggle('selected', i === optionIndex);
-            });
-            updateButtons();
-        }
-
-        function updateProgress() {
-            const percent = ((currentQuestion + 1) / questions.length) * 100;
-            document.getElementById('progressFill').style.width = percent + '%';
-            document.getElementById('progressText').textContent = `${currentQuestion + 1} / ${questions.length}`;
-        }
-
-        function updateButtons() {
-            document.getElementById('prevBtn').style.visibility = currentQuestion > 0 ? 'visible' : 'hidden';
-            document.getElementById('nextBtn').disabled = !answers[currentQuestion];
-            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? '결과 보기' : '다음';
-        }
-
-        function prevQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                showQuestion(currentQuestion);
-            }
-        }
-
-        function nextQuestion() {
-            if (!answers[currentQuestion]) return;
-
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                showQuestion(currentQuestion);
-            } else {
-                showResult();
-            }
-        }
-
-        function calculateMBTI() {
-            let E = 0, I = 0, S = 0, N = 0, T = 0, F = 0, J = 0, P = 0;
-
-            answers.forEach(answer => {
-                if (answer === 'E') E++;
-                if (answer === 'I') I++;
-                if (answer === 'S') S++;
-                if (answer === 'N') N++;
-                if (answer === 'T') T++;
-                if (answer === 'F') F++;
-                if (answer === 'J') J++;
-                if (answer === 'P') P++;
-            });
-
-            return {
-                type: (E >= I ? 'E' : 'I') + (S >= N ? 'S' : 'N') + (T >= F ? 'T' : 'F') + (J >= P ? 'J' : 'P'),
-                scores: { E, I, S, N, T, F, J, P }
-            };
-        }
-
-        function showResult() {
-            document.getElementById('questionSection').classList.remove('active');
-            document.getElementById('resultSection').classList.add('active');
-
-            const result = calculateMBTI();
-            const data = mbtiData[result.type];
-
-            document.getElementById('resultType').textContent = result.type;
-            document.getElementById('resultName').textContent = data.name;
-            document.getElementById('resultNickname').textContent = data.nickname;
-            document.getElementById('descriptionText').textContent = data.description;
-            document.getElementById('compatibilityText').textContent = `${data.match}와(과) 잘 맞아요!`;
-
-            const scores = result.scores;
-            document.getElementById('traitsContainer').innerHTML = `
-                <div class="trait">
-                    <div class="trait-label">에너지 방향</div>
-                    <div class="trait-value">${scores.E > scores.I ? 'E' : 'I'}</div>
-                    <div class="trait-name">${scores.E > scores.I ? '외향형' : '내향형'}</div>
-                </div>
-                <div class="trait">
-                    <div class="trait-label">인식 기능</div>
-                    <div class="trait-value">${scores.S > scores.N ? 'S' : 'N'}</div>
-                    <div class="trait-name">${scores.S > scores.N ? '감각형' : '직관형'}</div>
-                </div>
-                <div class="trait">
-                    <div class="trait-label">판단 기능</div>
-                    <div class="trait-value">${scores.T > scores.F ? 'T' : 'F'}</div>
-                    <div class="trait-name">${scores.T > scores.F ? '사고형' : '감정형'}</div>
-                </div>
-                <div class="trait">
-                    <div class="trait-label">생활 양식</div>
-                    <div class="trait-value">${scores.J > scores.P ? 'J' : 'P'}</div>
-                    <div class="trait-name">${scores.J > scores.P ? '판단형' : '인식형'}</div>
-                </div>
-            `;
-        }
-
-        function shareResult() {
-            const result = calculateMBTI();
-            const data = mbtiData[result.type];
-            const text = `나의 MBTI는 ${result.type} (${data.name})!\n${data.nickname}\n\n나도 테스트하기 👉`;
-
-            if (navigator.share) {
-                navigator.share({ title: 'MBTI 테스트 결과', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
-                });
-            }
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        function retakeTest() {
-            currentQuestion = 0;
-            answers = [];
-            document.getElementById('resultSection').classList.remove('active');
-            document.getElementById('introSection').style.display = 'block';
-        }
-    </script>
+    // Initialize
+    window.addEventListener('load', function() {
+      var savedLang = localStorage.getItem('preferredLanguage');
+      if (savedLang && availableLangs[savedLang]) {
+        switchToolLanguage(savedLang);
+      } else {
+        switchToolLanguage(currentLang);
+      }
+    });
+  </script>
 </body>
 </html>

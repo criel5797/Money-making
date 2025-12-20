@@ -1,0 +1,153 @@
+'use strict';
+
+function createToolWrapper(toolId, toolName, category, availableLanguages) {
+  // availableLanguages: { ko: boolean, en: boolean, ja: boolean }
+  var langButtons = '';
+  if (availableLanguages.ko) {
+    langButtons += '<button class="lang-btn" data-lang="ko" onclick="switchToolLanguage(\'ko\')">한국어</button>';
+  }
+  if (availableLanguages.en) {
+    langButtons += '<button class="lang-btn" data-lang="en" onclick="switchToolLanguage(\'en\')">English</button>';
+  }
+  if (availableLanguages.ja) {
+    langButtons += '<button class="lang-btn" data-lang="ja" onclick="switchToolLanguage(\'ja\')">日本語</button>';
+  }
+
+  // Default language: try ko > en > ja
+  var defaultLang = availableLanguages.ko ? 'ko' : (availableLanguages.en ? 'en' : 'ja');
+
+  return `<!DOCTYPE html>
+<html lang="${defaultLang}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${toolName}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+    }
+    .tool-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 12px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .tool-nav {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .home-link {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .home-link:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-switcher {
+      display: flex;
+      gap: 8px;
+    }
+    .lang-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    .lang-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-btn.active {
+      background: rgba(255,255,255,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .tool-iframe {
+      width: 100%;
+      height: calc(100vh - 60px);
+      border: none;
+      display: block;
+      background: white;
+    }
+    @media (max-width: 600px) {
+      .tool-header {
+        padding: 10px 15px;
+      }
+      .home-link, .lang-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="tool-header">
+    <div class="tool-nav">
+      <a href="/" class="home-link">🏠 <span>홈으로</span></a>
+    </div>
+    <div class="lang-switcher">
+      ${langButtons}
+    </div>
+  </div>
+  <iframe id="toolFrame" class="tool-iframe" src="content-${defaultLang}.html"></iframe>
+
+  <script>
+    var currentLang = '${defaultLang}';
+    var availableLangs = ${JSON.stringify(availableLanguages)};
+
+    function switchToolLanguage(lang) {
+      if (!availableLangs[lang]) return;
+
+      currentLang = lang;
+      localStorage.setItem('preferredLanguage', lang);
+
+      // Update iframe src
+      var iframe = document.getElementById('toolFrame');
+      iframe.src = 'content-' + lang + '.html';
+
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+          btn.classList.add('active');
+        }
+      });
+
+      // Update home link text
+      var homeTexts = { ko: '홈으로', en: 'Home', ja: 'ホーム' };
+      document.querySelector('.home-link span').textContent = homeTexts[lang] || '홈으로';
+    }
+
+    // Initialize
+    window.addEventListener('load', function() {
+      var savedLang = localStorage.getItem('preferredLanguage');
+      if (savedLang && availableLangs[savedLang]) {
+        switchToolLanguage(savedLang);
+      } else {
+        switchToolLanguage(currentLang);
+      }
+    });
+  </script>
+</body>
+</html>`;
+}
+
+module.exports = createToolWrapper;

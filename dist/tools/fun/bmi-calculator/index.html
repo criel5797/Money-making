@@ -1,520 +1,132 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI 계산기 - 체질량지수 계산</title>
-    <meta name="description" content="키와 몸무게를 입력하면 BMI(체질량지수)를 계산하고 건강 상태를 확인할 수 있습니다.">
-    <meta name="keywords" content="BMI, 체질량지수, BMI 계산기, 비만도, 표준체중">
-    <meta property="og:title" content="BMI 계산기 - 체질량지수 계산">
-    <meta property="og:description" content="키와 몸무게로 BMI를 계산하고 건강 상태를 확인하세요.">
-    <meta property="og:type" content="website">
-    <link rel="alternate" hreflang="ko" href="index.html">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
-            min-height: 100vh;
-            color: #fff;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .ad-banner {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            text-align: center;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #a8e063, #56ab2f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.95rem;
-        }
-
-        .input-section {
-            background: rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            color: rgba(255,255,255,0.9);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        input[type="number"] {
-            width: 100%;
-            padding: 16px 60px 16px 16px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 12px;
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            font-size: 1.2rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #a8e063;
-            background: rgba(255,255,255,0.15);
-        }
-
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        .unit {
-            position: absolute;
-            right: 16px;
-            color: rgba(255,255,255,0.6);
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .calculate-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #a8e063, #56ab2f);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 10px;
-        }
-
-        .calculate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(86, 171, 47, 0.4);
-        }
-
-        .result-section {
-            display: none;
-            margin-top: 25px;
-        }
-
-        .result-section.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .bmi-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .bmi-value {
-            font-size: 4rem;
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 10px;
-        }
-
-        .bmi-category {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .bmi-bar {
-            height: 12px;
-            background: linear-gradient(to right,
-                #3498db 0%,
-                #2ecc71 18.5%,
-                #2ecc71 25%,
-                #f1c40f 25%,
-                #f1c40f 30%,
-                #e67e22 30%,
-                #e67e22 35%,
-                #e74c3c 35%);
-            border-radius: 6px;
-            position: relative;
-            margin: 25px 0;
-        }
-
-        .bmi-indicator {
-            position: absolute;
-            top: -8px;
-            width: 4px;
-            height: 28px;
-            background: #fff;
-            border-radius: 2px;
-            transform: translateX(-50%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            transition: left 0.5s ease;
-        }
-
-        .bmi-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.6);
-            margin-top: 5px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        .info-item {
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .info-label {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 5px;
-        }
-
-        .info-value {
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .category-table {
-            background: rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .category-table h3 {
-            font-size: 1rem;
-            margin-bottom: 15px;
-            color: rgba(255,255,255,0.9);
-        }
-
-        .category-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.9rem;
-        }
-
-        .category-row:last-child {
-            border-bottom: none;
-        }
-
-        .category-row.active {
-            background: rgba(255,255,255,0.1);
-            margin: 0 -10px;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .category-name {
-            color: rgba(255,255,255,0.8);
-        }
-
-        .category-range {
-            color: rgba(255,255,255,0.6);
-        }
-
-        .share-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 14px;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 20px;
-        }
-
-        .share-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .disclaimer {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.6);
-            text-align: center;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255,255,255,0.4);
-            font-size: 0.8rem;
-        }
-
-        /* BMI 색상 */
-        .underweight { color: #3498db; }
-        .normal { color: #2ecc71; }
-        .overweight { color: #f1c40f; }
-        .obese { color: #e67e22; }
-        .severe-obese { color: #e74c3c; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI 계산기</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+    }
+    .tool-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 12px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .tool-nav {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .home-link {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .home-link:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-switcher {
+      display: flex;
+      gap: 8px;
+    }
+    .lang-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    .lang-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-btn.active {
+      background: rgba(255,255,255,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .tool-iframe {
+      width: 100%;
+      height: calc(100vh - 60px);
+      border: none;
+      display: block;
+      background: white;
+    }
+    @media (max-width: 600px) {
+      .tool-header {
+        padding: 10px 15px;
+      }
+      .home-link, .lang-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="ad-banner">Advertisement</div>
-
-        <header>
-            <h1>⚖️ BMI 계산기</h1>
-            <p class="subtitle">체질량지수로 건강 상태를 확인하세요</p>
-        </header>
-
-        <div class="input-section">
-            <div class="input-group">
-                <label>키 (Height)</label>
-                <div class="input-wrapper">
-                    <input type="number" id="height" placeholder="170" min="100" max="250">
-                    <span class="unit">cm</span>
-                </div>
-            </div>
-            <div class="input-group">
-                <label>몸무게 (Weight)</label>
-                <div class="input-wrapper">
-                    <input type="number" id="weight" placeholder="65" min="20" max="300">
-                    <span class="unit">kg</span>
-                </div>
-            </div>
-            <button class="calculate-btn" onclick="calculateBMI()">BMI 계산하기</button>
-        </div>
-
-        <div class="result-section" id="result">
-            <div class="bmi-card">
-                <div class="bmi-value" id="bmiValue">0.0</div>
-                <div class="bmi-category" id="bmiCategory">-</div>
-
-                <div class="bmi-bar">
-                    <div class="bmi-indicator" id="bmiIndicator"></div>
-                </div>
-                <div class="bmi-labels">
-                    <span>저체중</span>
-                    <span>정상</span>
-                    <span>과체중</span>
-                    <span>비만</span>
-                    <span>고도비만</span>
-                </div>
-
-                <div class="info-grid">
-                    <div class="info-item">
-                        <div class="info-label">표준 체중</div>
-                        <div class="info-value" id="idealWeight">-</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">정상 체중 범위</div>
-                        <div class="info-value" id="normalRange">-</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="category-table">
-                <h3>📊 BMI 분류 기준 (아시아 기준)</h3>
-                <div class="category-row" data-category="underweight">
-                    <span class="category-name">저체중</span>
-                    <span class="category-range">18.5 미만</span>
-                </div>
-                <div class="category-row" data-category="normal">
-                    <span class="category-name">정상</span>
-                    <span class="category-range">18.5 - 22.9</span>
-                </div>
-                <div class="category-row" data-category="overweight">
-                    <span class="category-name">과체중</span>
-                    <span class="category-range">23 - 24.9</span>
-                </div>
-                <div class="category-row" data-category="obese">
-                    <span class="category-name">비만</span>
-                    <span class="category-range">25 - 29.9</span>
-                </div>
-                <div class="category-row" data-category="severe-obese">
-                    <span class="category-name">고도비만</span>
-                    <span class="category-range">30 이상</span>
-                </div>
-            </div>
-
-            <button class="share-btn" onclick="shareResult()">
-                <span>📤</span> 결과 공유하기
-            </button>
-        </div>
-
-        <div class="disclaimer">
-            BMI는 참고용 지표입니다. 정확한 건강 상태는 전문의와 상담하세요.
-        </div>
-
-        <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
-
-        <footer>
-            <p>© 2024 BMI 계산기</p>
-        </footer>
+  <div class="tool-header">
+    <div class="tool-nav">
+      <a href="/" class="home-link">🏠 <span>홈으로</span></a>
     </div>
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ko" onclick="switchToolLanguage('ko')">한국어</button>
+    </div>
+  </div>
+  <iframe id="toolFrame" class="tool-iframe" src="content-ko.html"></iframe>
 
-    <script>
-        function calculateBMI() {
-            const height = parseFloat(document.getElementById('height').value);
-            const weight = parseFloat(document.getElementById('weight').value);
+  <script>
+    var currentLang = 'ko';
+    var availableLangs = {"ko":true,"en":false,"ja":false};
 
-            if (!height || !weight) {
-                alert('키와 몸무게를 입력해주세요.');
-                return;
-            }
+    function switchToolLanguage(lang) {
+      if (!availableLangs[lang]) return;
 
-            if (height < 100 || height > 250) {
-                alert('키는 100cm에서 250cm 사이로 입력해주세요.');
-                return;
-            }
+      currentLang = lang;
+      localStorage.setItem('preferredLanguage', lang);
 
-            if (weight < 20 || weight > 300) {
-                alert('몸무게는 20kg에서 300kg 사이로 입력해주세요.');
-                return;
-            }
+      // Update iframe src
+      var iframe = document.getElementById('toolFrame');
+      iframe.src = 'content-' + lang + '.html';
 
-            // BMI 계산: 체중(kg) / 키(m)^2
-            const heightM = height / 100;
-            const bmi = weight / (heightM * heightM);
-
-            // 카테고리 및 색상 결정 (아시아 기준)
-            let category, colorClass;
-            if (bmi < 18.5) {
-                category = '저체중';
-                colorClass = 'underweight';
-            } else if (bmi < 23) {
-                category = '정상';
-                colorClass = 'normal';
-            } else if (bmi < 25) {
-                category = '과체중';
-                colorClass = 'overweight';
-            } else if (bmi < 30) {
-                category = '비만';
-                colorClass = 'obese';
-            } else {
-                category = '고도비만';
-                colorClass = 'severe-obese';
-            }
-
-            // 표준 체중 (BMI 22 기준)
-            const idealWeight = 22 * heightM * heightM;
-
-            // 정상 체중 범위
-            const minNormal = 18.5 * heightM * heightM;
-            const maxNormal = 22.9 * heightM * heightM;
-
-            // 인디케이터 위치 계산 (BMI 15-35 범위를 0-100%로)
-            let indicatorPos = ((bmi - 15) / 20) * 100;
-            indicatorPos = Math.max(0, Math.min(100, indicatorPos));
-
-            // 결과 표시
-            document.getElementById('bmiValue').textContent = bmi.toFixed(1);
-            document.getElementById('bmiValue').className = 'bmi-value ' + colorClass;
-            document.getElementById('bmiCategory').textContent = category;
-            document.getElementById('bmiCategory').className = 'bmi-category ' + colorClass;
-            document.getElementById('bmiIndicator').style.left = indicatorPos + '%';
-            document.getElementById('idealWeight').textContent = idealWeight.toFixed(1) + ' kg';
-            document.getElementById('normalRange').textContent = minNormal.toFixed(1) + ' - ' + maxNormal.toFixed(1) + ' kg';
-
-            // 테이블 하이라이트
-            document.querySelectorAll('.category-row').forEach(row => {
-                row.classList.remove('active');
-                if (row.dataset.category === colorClass) {
-                    row.classList.add('active');
-                }
-            });
-
-            document.getElementById('result').classList.add('show');
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+          btn.classList.add('active');
         }
+      });
 
-        function shareResult() {
-            const bmi = document.getElementById('bmiValue').textContent;
-            const category = document.getElementById('bmiCategory').textContent;
+      // Update home link text
+      var homeTexts = { ko: '홈으로', en: 'Home', ja: 'ホーム' };
+      document.querySelector('.home-link span').textContent = homeTexts[lang] || '홈으로';
+    }
 
-            const text = `⚖️ 내 BMI 결과\n\nBMI: ${bmi}\n판정: ${category}\n\nBMI 계산기로 확인해보세요!`;
-
-            if (navigator.share) {
-                navigator.share({
-                    title: 'BMI 계산 결과',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
-                });
-            }
-        }
-
-        // Enter 키로 계산
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    calculateBMI();
-                }
-            });
-        });
-    </script>
+    // Initialize
+    window.addEventListener('load', function() {
+      var savedLang = localStorage.getItem('preferredLanguage');
+      if (savedLang && availableLangs[savedLang]) {
+        switchToolLanguage(savedLang);
+      } else {
+        switchToolLanguage(currentLang);
+      }
+    });
+  </script>
 </body>
 </html>

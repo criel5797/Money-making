@@ -1,1001 +1,132 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>오늘의 운세 - AI 무료 운세 보기 | 별자리 운세, 띠별 운세</title>
-    <meta name="description" content="오늘의 운세를 무료로 확인하세요. 별자리별, 띠별, 혈액형별 운세와 총운, 애정운, 금전운, 건강운을 AI가 분석해드립니다.">
-    <meta name="keywords" content="오늘의 운세, 무료 운세, 별자리 운세, 띠별 운세, 혈액형 운세, 데일리 운세, 오늘 운세">
-    <meta property="og:title" content="오늘의 운세 - AI 무료 운세 보기">
-    <meta property="og:description" content="별자리, 띠, 혈액형으로 오늘의 운세를 무료로 확인하세요.">
-    <meta property="og:type" content="website">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
-            color: #fff;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* 별 배경 */
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .star {
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle 2s infinite ease-in-out;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* 달 */
-        .moon {
-            position: fixed;
-            top: 50px;
-            right: 50px;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 50px rgba(253, 203, 110, 0.5);
-            z-index: 0;
-        }
-
-        .moon::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            right: -5px;
-            width: 70px;
-            height: 70px;
-            background: #16213e;
-            border-radius: 50%;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            text-align: center;
-            padding: 30px 0;
-        }
-
-        .logo {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            color: #a0a0c0;
-            margin-top: 8px;
-            font-size: 0.95rem;
-        }
-
-        .today-date {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: #ffeaa7;
-        }
-
-        /* 광고 배너 */
-        .ad-banner {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
-        /* 입력 섹션 */
-        .input-section {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #ffeaa7;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* 탭 */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            flex: 1;
-            min-width: 80px;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 12px;
-            color: #a0a0c0;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-
-        .tab:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
-            color: #fff;
-        }
-
-        /* 옵션 그리드 */
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .options-grid.zodiac {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .option-btn {
-            padding: 15px 10px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            color: #ccc;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            text-align: center;
-        }
-
-        .option-btn:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(108, 92, 231, 0.5);
-        }
-
-        .option-btn.selected {
-            background: rgba(108, 92, 231, 0.2);
-            border-color: #6c5ce7;
-            color: #fff;
-        }
-
-        .option-btn .icon {
-            font-size: 1.5rem;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        /* 생성 버튼 */
-        .generate-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
-            border: none;
-            border-radius: 15px;
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.4);
-        }
-
-        .generate-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* 결과 섹션 */
-        .result-section {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .result-section.show {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fortune-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .fortune-header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .user-info {
-            font-size: 1.2rem;
-            color: #ffeaa7;
-            margin-bottom: 10px;
-        }
-
-        .overall-score {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .score-label {
-            font-size: 0.9rem;
-            color: #a0a0c0;
-        }
-
-        .score-stars {
-            font-size: 1.5rem;
-            color: #ffeaa7;
-        }
-
-        .score-text {
-            font-size: 0.9rem;
-            color: #a29bfe;
-            font-weight: 600;
-        }
-
-        /* 운세 카테고리 */
-        .fortune-categories {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .fortune-category {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .category-icon {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-        }
-
-        .category-name {
-            font-size: 0.85rem;
-            color: #a0a0c0;
-            margin-bottom: 5px;
-        }
-
-        .category-score {
-            font-size: 1rem;
-            color: #ffeaa7;
-        }
-
-        /* 메인 운세 */
-        .main-fortune {
-            background: rgba(108, 92, 231, 0.15);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-
-        .main-fortune-title {
-            font-size: 1rem;
-            color: #a29bfe;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .main-fortune-text {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: #e0e0e0;
-        }
-
-        /* 조언 섹션 */
-        .advice-section {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .advice-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .advice-label {
-            font-size: 0.8rem;
-            color: #a0a0c0;
-            margin-bottom: 8px;
-        }
-
-        .advice-value {
-            font-size: 1rem;
-            color: #ffeaa7;
-            font-weight: 500;
-        }
-
-        /* 버튼들 */
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .action-btn {
-            flex: 1;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .action-btn.primary {
-            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
-        }
-
-        /* 토스트 */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            padding: 15px 25px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            z-index: 1000;
-            transition: transform 0.3s;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: #666;
-            font-size: 0.85rem;
-        }
-
-        footer a {
-            color: #a29bfe;
-            text-decoration: none;
-        }
-
-        /* 로딩 */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .loading.show {
-            display: block;
-        }
-
-        .crystal-ball {
-            font-size: 4rem;
-            animation: float 2s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .loading-text {
-            margin-top: 15px;
-            color: #a0a0c0;
-        }
-
-        /* 반응형 */
-        @media (max-width: 480px) {
-            .options-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .options-grid.zodiac {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .fortune-categories {
-                grid-template-columns: 1fr;
-            }
-
-            .advice-section {
-                grid-template-columns: 1fr;
-            }
-
-            .moon {
-                width: 50px;
-                height: 50px;
-                top: 30px;
-                right: 30px;
-            }
-
-            .moon::before {
-                width: 45px;
-                height: 45px;
-                top: 5px;
-                right: -3px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오늘의 운세</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+    }
+    .tool-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 12px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .tool-nav {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .home-link {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .home-link:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-switcher {
+      display: flex;
+      gap: 8px;
+    }
+    .lang-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    .lang-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-btn.active {
+      background: rgba(255,255,255,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .tool-iframe {
+      width: 100%;
+      height: calc(100vh - 60px);
+      border: none;
+      display: block;
+      background: white;
+    }
+    @media (max-width: 600px) {
+      .tool-header {
+        padding: 10px 15px;
+      }
+      .home-link, .lang-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    <div class="moon"></div>
-
-    <div class="container">
-        <header>
-            <div class="logo">🔮</div>
-            <h1>오늘의 운세</h1>
-            <p class="subtitle">AI가 분석하는 나만의 데일리 운세</p>
-            <div class="today-date" id="todayDate"></div>
-        </header>
-
-        <div class="ad-banner">
-            Advertisement
-        </div>
-
-        <div class="input-section">
-            <div class="section-title">🌙 운세 유형 선택</div>
-            <div class="tabs">
-                <button class="tab active" data-type="zodiac">별자리</button>
-                <button class="tab" data-type="chinese">띠</button>
-                <button class="tab" data-type="blood">혈액형</button>
-            </div>
-
-            <!-- 별자리 -->
-            <div id="zodiac-options" class="options-container">
-                <div class="options-grid zodiac">
-                    <button class="option-btn" data-value="aries"><span class="icon">♈</span>양자리<br><small>3.21-4.19</small></button>
-                    <button class="option-btn" data-value="taurus"><span class="icon">♉</span>황소자리<br><small>4.20-5.20</small></button>
-                    <button class="option-btn" data-value="gemini"><span class="icon">♊</span>쌍둥이자리<br><small>5.21-6.21</small></button>
-                    <button class="option-btn" data-value="cancer"><span class="icon">♋</span>게자리<br><small>6.22-7.22</small></button>
-                    <button class="option-btn" data-value="leo"><span class="icon">♌</span>사자자리<br><small>7.23-8.22</small></button>
-                    <button class="option-btn" data-value="virgo"><span class="icon">♍</span>처녀자리<br><small>8.23-9.22</small></button>
-                    <button class="option-btn" data-value="libra"><span class="icon">♎</span>천칭자리<br><small>9.23-10.22</small></button>
-                    <button class="option-btn" data-value="scorpio"><span class="icon">♏</span>전갈자리<br><small>10.23-11.21</small></button>
-                    <button class="option-btn" data-value="sagittarius"><span class="icon">♐</span>사수자리<br><small>11.22-12.21</small></button>
-                    <button class="option-btn" data-value="capricorn"><span class="icon">♑</span>염소자리<br><small>12.22-1.19</small></button>
-                    <button class="option-btn" data-value="aquarius"><span class="icon">♒</span>물병자리<br><small>1.20-2.18</small></button>
-                    <button class="option-btn" data-value="pisces"><span class="icon">♓</span>물고기자리<br><small>2.19-3.20</small></button>
-                </div>
-            </div>
-
-            <!-- 띠 -->
-            <div id="chinese-options" class="options-container" style="display: none;">
-                <div class="options-grid">
-                    <button class="option-btn" data-value="rat"><span class="icon">🐭</span>쥐띠</button>
-                    <button class="option-btn" data-value="ox"><span class="icon">🐮</span>소띠</button>
-                    <button class="option-btn" data-value="tiger"><span class="icon">🐯</span>호랑이띠</button>
-                    <button class="option-btn" data-value="rabbit"><span class="icon">🐰</span>토끼띠</button>
-                    <button class="option-btn" data-value="dragon"><span class="icon">🐲</span>용띠</button>
-                    <button class="option-btn" data-value="snake"><span class="icon">🐍</span>뱀띠</button>
-                    <button class="option-btn" data-value="horse"><span class="icon">🐴</span>말띠</button>
-                    <button class="option-btn" data-value="sheep"><span class="icon">🐑</span>양띠</button>
-                    <button class="option-btn" data-value="monkey"><span class="icon">🐵</span>원숭이띠</button>
-                    <button class="option-btn" data-value="rooster"><span class="icon">🐔</span>닭띠</button>
-                    <button class="option-btn" data-value="dog"><span class="icon">🐶</span>개띠</button>
-                    <button class="option-btn" data-value="pig"><span class="icon">🐷</span>돼지띠</button>
-                </div>
-            </div>
-
-            <!-- 혈액형 -->
-            <div id="blood-options" class="options-container" style="display: none;">
-                <div class="options-grid">
-                    <button class="option-btn" data-value="A"><span class="icon">🅰️</span>A형</button>
-                    <button class="option-btn" data-value="B"><span class="icon">🅱️</span>B형</button>
-                    <button class="option-btn" data-value="O"><span class="icon">🅾️</span>O형</button>
-                    <button class="option-btn" data-value="AB"><span class="icon">🆎</span>AB형</button>
-                </div>
-            </div>
-
-            <button class="generate-btn" id="generateBtn" disabled>
-                <span>🔮</span> 오늘의 운세 보기
-            </button>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="crystal-ball">🔮</div>
-            <p class="loading-text">운세를 점치는 중...</p>
-        </div>
-
-        <div class="result-section" id="resultSection">
-            <div class="fortune-card">
-                <div class="fortune-header">
-                    <div class="user-info" id="userInfo"></div>
-                    <div class="overall-score">
-                        <span class="score-label">오늘의 운세</span>
-                        <span class="score-stars" id="scoreStars"></span>
-                        <span class="score-text" id="scoreText"></span>
-                    </div>
-                </div>
-
-                <div class="fortune-categories">
-                    <div class="fortune-category">
-                        <div class="category-icon">💕</div>
-                        <div class="category-name">애정운</div>
-                        <div class="category-score" id="loveScore"></div>
-                    </div>
-                    <div class="fortune-category">
-                        <div class="category-icon">💰</div>
-                        <div class="category-name">금전운</div>
-                        <div class="category-score" id="moneyScore"></div>
-                    </div>
-                    <div class="fortune-category">
-                        <div class="category-icon">💼</div>
-                        <div class="category-name">직장/학업운</div>
-                        <div class="category-score" id="workScore"></div>
-                    </div>
-                    <div class="fortune-category">
-                        <div class="category-icon">💪</div>
-                        <div class="category-name">건강운</div>
-                        <div class="category-score" id="healthScore"></div>
-                    </div>
-                </div>
-
-                <div class="main-fortune">
-                    <div class="main-fortune-title">✨ 오늘의 총운</div>
-                    <p class="main-fortune-text" id="mainFortune"></p>
-                </div>
-
-                <div class="advice-section">
-                    <div class="advice-item">
-                        <div class="advice-label">행운의 숫자</div>
-                        <div class="advice-value" id="luckyNumber"></div>
-                    </div>
-                    <div class="advice-item">
-                        <div class="advice-label">행운의 색</div>
-                        <div class="advice-value" id="luckyColor"></div>
-                    </div>
-                    <div class="advice-item">
-                        <div class="advice-label">행운의 방향</div>
-                        <div class="advice-value" id="luckyDirection"></div>
-                    </div>
-                    <div class="advice-item">
-                        <div class="advice-label">오늘의 조언</div>
-                        <div class="advice-value" id="advice"></div>
-                    </div>
-                </div>
-
-                <div class="action-buttons">
-                    <button class="action-btn" id="copyBtn">📋 복사하기</button>
-                    <button class="action-btn" id="shareBtn">📤 공유하기</button>
-                    <button class="action-btn primary" id="retryBtn">🔄 다시 보기</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="ad-banner">
-            Advertisement
-        </div>
-
-        <footer>
-            <p>운세는 재미로만 봐주세요 😊</p>
-            <p style="margin-top: 10px;">© 2024 오늘의 운세</p>
-        </footer>
+  <div class="tool-header">
+    <div class="tool-nav">
+      <a href="/" class="home-link">🏠 <span>홈으로</span></a>
     </div>
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ko" onclick="switchToolLanguage('ko')">한국어</button><button class="lang-btn" data-lang="en" onclick="switchToolLanguage('en')">English</button>
+    </div>
+  </div>
+  <iframe id="toolFrame" class="tool-iframe" src="content-ko.html"></iframe>
 
-    <div class="toast" id="toast"></div>
+  <script>
+    var currentLang = 'ko';
+    var availableLangs = {"ko":true,"en":true,"ja":false};
 
-    <script>
-        // 별 생성
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 100; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = Math.random() * 3 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.animationDelay = Math.random() * 2 + 's';
-                starsContainer.appendChild(star);
-            }
+    function switchToolLanguage(lang) {
+      if (!availableLangs[lang]) return;
+
+      currentLang = lang;
+      localStorage.setItem('preferredLanguage', lang);
+
+      // Update iframe src
+      var iframe = document.getElementById('toolFrame');
+      iframe.src = 'content-' + lang + '.html';
+
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+          btn.classList.add('active');
         }
-        createStars();
+      });
 
-        // 오늘 날짜
-        const today = new Date();
-        const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-        document.getElementById('todayDate').textContent = today.toLocaleDateString('ko-KR', options);
+      // Update home link text
+      var homeTexts = { ko: '홈으로', en: 'Home', ja: 'ホーム' };
+      document.querySelector('.home-link span').textContent = homeTexts[lang] || '홈으로';
+    }
 
-        // 데이터
-        const data = {
-            zodiac: {
-                aries: { name: '양자리', icon: '♈' },
-                taurus: { name: '황소자리', icon: '♉' },
-                gemini: { name: '쌍둥이자리', icon: '♊' },
-                cancer: { name: '게자리', icon: '♋' },
-                leo: { name: '사자자리', icon: '♌' },
-                virgo: { name: '처녀자리', icon: '♍' },
-                libra: { name: '천칭자리', icon: '♎' },
-                scorpio: { name: '전갈자리', icon: '♏' },
-                sagittarius: { name: '사수자리', icon: '♐' },
-                capricorn: { name: '염소자리', icon: '♑' },
-                aquarius: { name: '물병자리', icon: '♒' },
-                pisces: { name: '물고기자리', icon: '♓' }
-            },
-            chinese: {
-                rat: { name: '쥐띠', icon: '🐭' },
-                ox: { name: '소띠', icon: '🐮' },
-                tiger: { name: '호랑이띠', icon: '🐯' },
-                rabbit: { name: '토끼띠', icon: '🐰' },
-                dragon: { name: '용띠', icon: '🐲' },
-                snake: { name: '뱀띠', icon: '🐍' },
-                horse: { name: '말띠', icon: '🐴' },
-                sheep: { name: '양띠', icon: '🐑' },
-                monkey: { name: '원숭이띠', icon: '🐵' },
-                rooster: { name: '닭띠', icon: '🐔' },
-                dog: { name: '개띠', icon: '🐶' },
-                pig: { name: '돼지띠', icon: '🐷' }
-            },
-            blood: {
-                A: { name: 'A형', icon: '🅰️' },
-                B: { name: 'B형', icon: '🅱️' },
-                O: { name: 'O형', icon: '🅾️' },
-                AB: { name: 'AB형', icon: '🆎' }
-            }
-        };
-
-        const fortunes = {
-            총운: [
-                "오늘은 새로운 시작에 좋은 날입니다. 평소 미뤄왔던 일을 시작해보세요.",
-                "주변 사람들과의 관계에서 행운이 찾아옵니다. 대화를 많이 나눠보세요.",
-                "예상치 못한 좋은 소식이 있을 수 있습니다. 열린 마음으로 하루를 보내세요.",
-                "오늘은 차분하게 자신을 돌아보는 시간을 가지면 좋겠습니다.",
-                "창의적인 아이디어가 빛을 발하는 날입니다. 떠오르는 생각을 메모해두세요.",
-                "작은 것에도 감사하는 마음을 가지면 더 큰 행운이 찾아올 것입니다.",
-                "오늘 하는 선택이 미래에 좋은 영향을 줄 것입니다. 신중하게 결정하세요.",
-                "긍정적인 에너지가 가득한 하루입니다. 주변 사람들에게도 나눠주세요.",
-                "오랫동안 기다려온 일이 진전을 보일 수 있습니다. 인내심을 가지세요.",
-                "새로운 인연을 만날 수 있는 날입니다. 외출해보는 것도 좋겠습니다.",
-                "오늘은 집중력이 높아지는 날입니다. 중요한 일을 처리하기 좋습니다.",
-                "과거의 노력이 결실을 맺는 시기입니다. 자신을 믿으세요.",
-                "주변의 조언에 귀 기울여보세요. 도움이 될 만한 이야기를 들을 수 있습니다.",
-                "오늘은 휴식이 필요한 날입니다. 무리하지 말고 여유를 가지세요.",
-                "변화를 두려워하지 마세요. 새로운 도전이 성장을 가져다줍니다."
-            ],
-            애정: [
-                "연인과의 관계가 더욱 깊어지는 날입니다.",
-                "솔로라면 새로운 만남의 기회가 있을 수 있어요.",
-                "상대방의 작은 배려에 감사하는 마음을 표현해보세요.",
-                "오해가 있었다면 오늘 풀어보세요. 대화가 통합니다.",
-                "로맨틱한 분위기를 연출해보세요. 좋은 반응이 있을 거예요.",
-                "지금의 감정에 솔직해지면 좋은 결과가 있을 것입니다.",
-                "상대방을 있는 그대로 받아들이는 연습을 해보세요.",
-                "사랑하는 사람과 함께하는 시간이 소중한 날입니다."
-            ],
-            금전: [
-                "예상치 못한 수입이 생길 수 있습니다.",
-                "큰 지출은 피하고 저축에 집중하면 좋겠습니다.",
-                "투자보다는 안정적인 운용이 좋은 시기입니다.",
-                "재물운이 상승하는 시기입니다. 좋은 기회를 놓치지 마세요.",
-                "충동구매를 조심하세요. 꼭 필요한 것만 구입하세요.",
-                "부수입의 기회가 찾아올 수 있습니다. 관심을 가져보세요.",
-                "금전적인 부분에서 신중한 판단이 필요합니다.",
-                "저축한 것이 빛을 발하는 시기가 다가오고 있습니다."
-            ],
-            직장: [
-                "업무에서 인정받을 수 있는 기회가 옵니다.",
-                "동료와의 협력이 좋은 결과를 가져올 것입니다.",
-                "새로운 프로젝트에 참여하면 좋은 경험이 될 것입니다.",
-                "학업이나 업무에서 집중력이 높아지는 날입니다.",
-                "상사나 선생님의 신뢰를 얻을 수 있는 기회입니다.",
-                "커리어에 대한 고민이 있다면 조언을 구해보세요.",
-                "작은 성취도 축하해주세요. 동기부여가 될 것입니다.",
-                "새로운 것을 배우기 좋은 날입니다. 도전해보세요."
-            ],
-            건강: [
-                "규칙적인 생활이 건강의 기본입니다. 컨디션 관리에 신경 쓰세요.",
-                "가벼운 운동으로 활력을 찾아보세요.",
-                "충분한 수면이 필요합니다. 일찍 잠자리에 드세요.",
-                "스트레스 관리에 신경 쓰는 것이 좋겠습니다.",
-                "건강한 식단으로 몸에 활력을 주세요.",
-                "야외 활동으로 기분 전환을 해보세요.",
-                "과로하지 말고 적절한 휴식을 취하세요.",
-                "긍정적인 마음가짐이 건강에도 좋은 영향을 줍니다."
-            ]
-        };
-
-        const luckyNumbers = ['3', '7', '8', '9', '12', '15', '21', '24', '27', '33', '42', '77'];
-        const luckyColors = ['빨간색', '파란색', '노란색', '초록색', '보라색', '분홍색', '하늘색', '금색', '은색', '주황색'];
-        const luckyDirections = ['동쪽', '서쪽', '남쪽', '북쪽', '동남쪽', '서북쪽', '동북쪽', '서남쪽'];
-        const advices = [
-            '여유를 가지세요',
-            '도전을 두려워 마세요',
-            '감사하는 마음을',
-            '인내가 필요해요',
-            '자신을 믿으세요',
-            '긍정적으로!',
-            '작은 것에 집중',
-            '휴식도 중요해요',
-            '웃음을 잃지 마세요',
-            '소통이 답이에요'
-        ];
-
-        // 상태
-        let currentType = 'zodiac';
-        let selectedValue = null;
-
-        // 탭 전환
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentType = tab.dataset.type;
-
-                document.querySelectorAll('.options-container').forEach(c => c.style.display = 'none');
-                document.getElementById(`${currentType}-options`).style.display = 'block';
-
-                // 선택 초기화
-                document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
-                selectedValue = null;
-                updateGenerateButton();
-            });
-        });
-
-        // 옵션 선택
-        document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const container = btn.closest('.options-container');
-                container.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                selectedValue = btn.dataset.value;
-                updateGenerateButton();
-            });
-        });
-
-        function updateGenerateButton() {
-            document.getElementById('generateBtn').disabled = !selectedValue;
-        }
-
-        // 랜덤 선택
-        function getRandom(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
-        }
-
-        // 시드 기반 랜덤 (같은 날 같은 결과)
-        function seededRandom(seed) {
-            const x = Math.sin(seed) * 10000;
-            return x - Math.floor(x);
-        }
-
-        function getSeededRandom(arr, seed) {
-            return arr[Math.floor(seededRandom(seed) * arr.length)];
-        }
-
-        // 점수 생성 (1-5)
-        function generateScore(seed) {
-            return Math.floor(seededRandom(seed) * 5) + 1;
-        }
-
-        // 별 표시
-        function getStars(score) {
-            return '★'.repeat(score) + '☆'.repeat(5 - score);
-        }
-
-        // 점수 텍스트
-        function getScoreText(score) {
-            const texts = ['보통', '괜찮음', '좋음', '아주 좋음', '최고'];
-            return texts[score - 1];
-        }
-
-        // 운세 생성
-        document.getElementById('generateBtn').addEventListener('click', generateFortune);
-
-        function generateFortune() {
-            const loading = document.getElementById('loading');
-            const resultSection = document.getElementById('resultSection');
-            const inputSection = document.querySelector('.input-section');
-
-            loading.classList.add('show');
-            resultSection.classList.remove('show');
-
-            setTimeout(() => {
-                // 시드 생성 (날짜 + 선택값 기반)
-                const dateStr = today.toISOString().split('T')[0];
-                const seedStr = dateStr + selectedValue + currentType;
-                let seed = 0;
-                for (let i = 0; i < seedStr.length; i++) {
-                    seed += seedStr.charCodeAt(i) * (i + 1);
-                }
-
-                // 유저 정보
-                const userInfo = data[currentType][selectedValue];
-                document.getElementById('userInfo').textContent = `${userInfo.icon} ${userInfo.name}`;
-
-                // 점수 생성
-                const overallScore = generateScore(seed);
-                const loveScore = generateScore(seed + 1);
-                const moneyScore = generateScore(seed + 2);
-                const workScore = generateScore(seed + 3);
-                const healthScore = generateScore(seed + 4);
-
-                document.getElementById('scoreStars').textContent = getStars(overallScore);
-                document.getElementById('scoreText').textContent = getScoreText(overallScore);
-                document.getElementById('loveScore').textContent = getStars(loveScore);
-                document.getElementById('moneyScore').textContent = getStars(moneyScore);
-                document.getElementById('workScore').textContent = getStars(workScore);
-                document.getElementById('healthScore').textContent = getStars(healthScore);
-
-                // 운세 텍스트
-                const mainText = getSeededRandom(fortunes.총운, seed) + ' ' +
-                                 getSeededRandom(fortunes.애정, seed + 10) + ' ' +
-                                 getSeededRandom(fortunes.금전, seed + 20);
-                document.getElementById('mainFortune').textContent = mainText;
-
-                // 행운 정보
-                document.getElementById('luckyNumber').textContent = getSeededRandom(luckyNumbers, seed + 100);
-                document.getElementById('luckyColor').textContent = getSeededRandom(luckyColors, seed + 200);
-                document.getElementById('luckyDirection').textContent = getSeededRandom(luckyDirections, seed + 300);
-                document.getElementById('advice').textContent = getSeededRandom(advices, seed + 400);
-
-                loading.classList.remove('show');
-                resultSection.classList.add('show');
-            }, 1500);
-        }
-
-        // 복사
-        document.getElementById('copyBtn').addEventListener('click', () => {
-            const userInfo = document.getElementById('userInfo').textContent;
-            const score = document.getElementById('scoreStars').textContent;
-            const fortune = document.getElementById('mainFortune').textContent;
-            const luckyNum = document.getElementById('luckyNumber').textContent;
-            const luckyColor = document.getElementById('luckyColor').textContent;
-
-            const text = `🔮 오늘의 운세 - ${userInfo}
-
-${document.getElementById('todayDate').textContent}
-
-총운: ${score}
-
-${fortune}
-
-행운의 숫자: ${luckyNum}
-행운의 색: ${luckyColor}`;
-
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('운세가 복사되었습니다!');
-            });
-        });
-
-        // 공유
-        document.getElementById('shareBtn').addEventListener('click', async () => {
-            const userInfo = document.getElementById('userInfo').textContent;
-            const score = document.getElementById('scoreStars').textContent;
-
-            const shareData = {
-                title: '오늘의 운세',
-                text: `🔮 ${userInfo} 오늘의 운세: ${score}`,
-                url: window.location.href
-            };
-
-            try {
-                if (navigator.share) {
-                    await navigator.share(shareData);
-                } else {
-                    await navigator.clipboard.writeText(shareData.text + '\n' + shareData.url);
-                    showToast('링크가 복사되었습니다!');
-                }
-            } catch (e) {
-                console.log('Share failed:', e);
-            }
-        });
-
-        // 다시 보기
-        document.getElementById('retryBtn').addEventListener('click', () => {
-            document.getElementById('resultSection').classList.remove('show');
-            document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
-            selectedValue = null;
-            updateGenerateButton();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // 토스트
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
-        }
-    </script>
+    // Initialize
+    window.addEventListener('load', function() {
+      var savedLang = localStorage.getItem('preferredLanguage');
+      if (savedLang && availableLangs[savedLang]) {
+        switchToolLanguage(savedLang);
+      } else {
+        switchToolLanguage(currentLang);
+      }
+    });
+  </script>
 </body>
 </html>

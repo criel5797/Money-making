@@ -330,6 +330,84 @@ function copyDir(src, dest) {
   }
 }
 
+// Create tool wrapper with language switching
+var createToolWrapper = require('./src/templates/tool-wrapper.js');
+
+function processToolDirectory(srcPath, destPath, toolId, toolData) {
+  if (!fs.existsSync(srcPath)) return;
+
+  ensureDir(destPath);
+
+  // Find available language files
+  var files = fs.readdirSync(srcPath);
+  var availableLanguages = { ko: false, en: false, ja: false };
+  var languageFiles = {};
+
+  // Detect language files
+  files.forEach(function(file) {
+    if (file === 'index.html') {
+      languageFiles.default = file;
+    } else if (file === 'index-ko.html') {
+      availableLanguages.ko = true;
+      languageFiles.ko = file;
+    } else if (file === 'index-en.html') {
+      availableLanguages.en = true;
+      languageFiles.en = file;
+    } else if (file === 'index-ja.html') {
+      availableLanguages.ja = true;
+      languageFiles.ja = file;
+    }
+  });
+
+  // Determine default file language
+  if (languageFiles.default) {
+    if (!availableLanguages.ko && !availableLanguages.en && !availableLanguages.ja) {
+      // Only index.html exists - assume Korean
+      availableLanguages.ko = true;
+      languageFiles.ko = languageFiles.default;
+    } else if (availableLanguages.en && !availableLanguages.ko) {
+      // index.html + index-en.html -> index.html is probably Korean
+      availableLanguages.ko = true;
+      languageFiles.ko = languageFiles.default;
+    } else if (!availableLanguages.en && !availableLanguages.ko) {
+      // Use as fallback
+      availableLanguages.ko = true;
+      languageFiles.ko = languageFiles.default;
+    }
+  }
+
+  // Copy all language files with renamed filenames
+  Object.keys(languageFiles).forEach(function(lang) {
+    if (lang === 'default') return;
+    var srcFile = path.join(srcPath, languageFiles[lang]);
+    var destFile = path.join(destPath, 'content-' + lang + '.html');
+    if (fs.existsSync(srcFile)) {
+      fs.copyFileSync(srcFile, destFile);
+    }
+  });
+
+  // Copy other files (not index*.html)
+  files.forEach(function(file) {
+    if (!file.match(/^index.*\.html$/)) {
+      var srcFile = path.join(srcPath, file);
+      var destFile = path.join(destPath, file);
+      var stat = fs.statSync(srcFile);
+      if (stat.isFile()) {
+        fs.copyFileSync(srcFile, destFile);
+      } else if (stat.isDirectory()) {
+        copyDir(srcFile, destFile);
+      }
+    }
+  });
+
+  // Get tool title from toolData
+  var toolTitle = toolData.title.ko || toolData.title.en || toolId;
+
+  // Create wrapper index.html
+  var wrapperHtml = createToolWrapper(toolId, toolTitle, 'tool', availableLanguages);
+  fs.writeFileSync(path.join(destPath, 'index.html'), wrapperHtml);
+}
+
 function build(){
   if(fs.existsSync(OUT)) fs.rmSync(OUT, { recursive: true, force: true });
   ensureDir(OUT);
@@ -352,28 +430,28 @@ function build(){
   write(path.join(OUT, 'games', 'sequence-memory', 'index.html'), wrapSequenceMemoryGame());
   write(path.join(OUT, 'games', 'word-puzzle', 'index.html'), wrapWordPuzzleGame());
 
-  // Copy Web Tools
+  // Process Web Tools with language switching
   var webToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'web');
   if (fs.existsSync(webToolsSrc)) {
     for (var i = 0; i < webTools.length; i++) {
-      var toolId = webTools[i].id;
-      var srcPath = path.join(webToolsSrc, toolId);
-      var destPath = path.join(OUT, 'tools', 'web', toolId);
+      var tool = webTools[i];
+      var srcPath = path.join(webToolsSrc, tool.id);
+      var destPath = path.join(OUT, 'tools', 'web', tool.id);
       if (fs.existsSync(srcPath)) {
-        copyDir(srcPath, destPath);
+        processToolDirectory(srcPath, destPath, tool.id, tool);
       }
     }
   }
 
-  // Copy Consumer Tools
+  // Process Consumer Tools with language switching
   var consumerToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'fun');
   if (fs.existsSync(consumerToolsSrc)) {
     for (var i = 0; i < consumerTools.length; i++) {
-      var toolId = consumerTools[i].id;
-      var srcPath = path.join(consumerToolsSrc, toolId);
-      var destPath = path.join(OUT, 'tools', 'fun', toolId);
+      var tool = consumerTools[i];
+      var srcPath = path.join(consumerToolsSrc, tool.id);
+      var destPath = path.join(OUT, 'tools', 'fun', tool.id);
       if (fs.existsSync(srcPath)) {
-        copyDir(srcPath, destPath);
+        processToolDirectory(srcPath, destPath, tool.id, tool);
       }
     }
   }

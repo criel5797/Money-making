@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전생의 인연 테스트 - 우리는 전생에 무슨 사이? | 커플 전생 테스트</title>
+    <meta name="description" content="우리는 전생에 무슨 사이였을까? 커플 전생 테스트로 두 사람의 전생 인연을 알아보세요. 무료 전생 궁합 테스트!">
+    <meta name="keywords" content="전생인연, 커플테스트, 전생궁합, 전생관계, 윤회, 인연테스트">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="전생의 인연 테스트 - 우리는 전생에 무슨 사이?">
+    <meta property="og:description" content="커플 전생 인연을 알아보세요!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/4a1c6b/ffd700?text=전생의+인연">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #4a1c6b 50%, #1a0a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .mystical-particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: particleFloat 8s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { transform: translateY(-100px) translateX(50px); opacity: 0.8; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ffd700, #ff69b4, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #c8a8e8; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .couple-inputs {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .person-input {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .person-input.person1 { border-color: rgba(255, 105, 180, 0.3); }
+        .person-input.person2 { border-color: rgba(100, 149, 237, 0.3); }
+
+        .person-label {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .heart-divider {
+            font-size: 30px;
+            color: #ff69b4;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #c8a8e8;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ffd700;
+        }
+
+        .birth-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        .birth-row select { flex: 1; padding: 10px 5px; font-size: 12px; }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(196, 77, 255, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-animation {
+            font-size: 60px;
+            animation: heartPulse 1.5s infinite;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .loading p { color: #c8a8e8; margin-top: 20px; }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .names-display {
+            font-size: 1.3rem;
+            color: #e4e4e4;
+            margin-bottom: 15px;
+        }
+
+        .names-display .name1 { color: #ff69b4; }
+        .names-display .name2 { color: #6495ed; }
+
+        .era-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #c44dff);
+            color: #1a0a2e;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .relation-title {
+            font-size: 2rem;
+            color: #ffd700;
+            margin: 15px 0;
+        }
+
+        .relation-emoji {
+            font-size: 70px;
+            display: block;
+            margin: 15px 0;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #d8c8e8;
+            line-height: 1.8;
+        }
+
+        .karma-meter {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .karma-item {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            padding: 15px 10px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .karma-item .label { color: #c8a8e8; font-size: 12px; margin-bottom: 5px; }
+        .karma-item .value {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.7rem; }
+            .couple-inputs { grid-template-columns: 1fr; }
+            .heart-divider { padding: 10px 0; }
+            .relation-title { font-size: 1.5rem; }
+            .karma-meter { flex-wrap: wrap; }
+            .karma-item { flex: 1 1 45%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mystical-particles" id="particles"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>전생의 인연 테스트</h1>
+            <p class="subtitle">우리는 전생에 무슨 사이였을까?</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            재미로 즐기는 전생 인연 테스트입니다!
+        </div>
+
+        <div class="card">
+            <div class="input-section" id="inputSection">
+                <h2>두 사람의 정보를 입력하세요</h2>
+
+                <div class="couple-inputs">
+                    <div class="person-input person1">
+                        <div class="person-label">💗 첫 번째 사람</div>
+                        <div class="input-group">
+                            <label>이름</label>
+                            <input type="text" id="name1" placeholder="이름">
+                        </div>
+                        <div class="input-group">
+                            <label>생년월일</label>
+                            <div class="birth-row">
+                                <select id="year1"></select>
+                                <select id="month1"></select>
+                                <select id="day1"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="heart-divider">💕</div>
+
+                    <div class="person-input person2">
+                        <div class="person-label">💙 두 번째 사람</div>
+                        <div class="input-group">
+                            <label>이름</label>
+                            <input type="text" id="name2" placeholder="이름">
+                        </div>
+                        <div class="input-group">
+                            <label>생년월일</label>
+                            <div class="birth-row">
+                                <select id="year2"></select>
+                                <select id="month2"></select>
+                                <select id="day2"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="startTest()">전생 인연 알아보기</button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-animation">💫</div>
+                <p>시간을 거슬러 전생을 찾고 있습니다...</p>
+                <p style="font-size: 13px; color: #888; margin-top: 10px;">두 영혼의 인연을 추적하는 중...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="names-display">
+                        <span class="name1" id="displayName1">홍길동</span>
+                        &
+                        <span class="name2" id="displayName2">김철수</span>
+                    </div>
+                    <div class="era-badge" id="resultEra">조선시대</div>
+                    <span class="relation-emoji" id="resultEmoji">👑💕👸</span>
+                    <div class="relation-title" id="resultRelation">운명의 연인</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📜 전생의 이야기</h3>
+                    <p id="resultStory"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>🔮 인연의 의미</h3>
+                    <p id="resultMeaning"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 현생에서의 조언</h3>
+                    <p id="resultAdvice"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>✨ 카르마 분석</h3>
+                    <div class="karma-meter" id="karmaMeter"></div>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
+                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>이 테스트는 재미를 위한 것입니다.<br>실제 전생과는 관련이 없습니다.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 파티클 생성
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // 날짜 선택 초기화
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+            ['year1', 'year2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">년</option>';
+                for (let y = currentYear; y >= 1950; y--) {
+                    select.innerHTML += `<option value="${y}">${y}</option>`;
+                }
+            });
+            ['month1', 'month2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">월</option>';
+                for (let m = 1; m <= 12; m++) {
+                    select.innerHTML += `<option value="${m}">${m}</option>`;
+                }
+            });
+            ['day1', 'day2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">일</option>';
+                for (let d = 1; d <= 31; d++) {
+                    select.innerHTML += `<option value="${d}">${d}</option>`;
+                }
+            });
+        }
+        initDateSelects();
+
+        const relations = [
+            {
+                era: "고대 이집트",
+                relation: "파라오와 신관",
+                emoji: "👑✨🔮",
+                story: "두 분은 고대 이집트에서 파라오와 그를 보좌하던 최고 신관이었습니다. 함께 피라미드를 설계하고, 별을 읽으며 왕국의 번영을 이끌었죠. 깊은 신뢰와 지적인 교감으로 연결된 사이였습니다.",
+                meaning: "이 인연은 서로를 높이 평가하고 존중하는 관계입니다. 전생에서 함께 큰 일을 이뤄낸 만큼, 현생에서도 함께하면 시너지가 폭발할 수 있어요.",
+                advice: "서로의 지혜를 존중하세요. 함께 목표를 세우고 달성해 나가면 놀라운 결과를 만들 수 있습니다.",
+                karma: { trust: 95, passion: 70, destiny: 88, harmony: 82 }
+            },
+            {
+                era: "조선시대",
+                relation: "운명적 연인",
+                emoji: "👨‍🎓💕👩‍🎓",
+                story: "두 분은 조선시대 양반가의 자녀로, 서로 다른 집안이었지만 운명처럼 만났습니다. 신분의 벽을 넘어 서로를 사랑했고, 그 마음은 이생까지 이어졌습니다.",
+                meaning: "이 인연은 어떤 장애물도 뛰어넘을 수 있는 강력한 끌림입니다. 전생에서 이루지 못한 사랑을 현생에서 완성하기 위해 다시 만났을 수 있어요.",
+                advice: "서로에 대한 믿음을 잃지 마세요. 어려움이 와도 함께라면 극복할 수 있습니다.",
+                karma: { trust: 85, passion: 98, destiny: 95, harmony: 75 }
+            },
+            {
+                era: "중세 유럽",
+                relation: "기사와 공주",
+                emoji: "⚔️❤️👸",
+                story: "한 분은 용감한 기사였고, 다른 분은 왕국의 공주였습니다. 기사는 공주를 지키기 위해 목숨을 걸었고, 그 헌신은 영원한 인연으로 남았습니다.",
+                meaning: "이 인연은 보호와 헌신의 관계입니다. 한쪽이 다른 쪽을 지키려는 본능이 있고, 서로에게 깊은 책임감을 느낍니다.",
+                advice: "지키려는 마음도 좋지만, 때로는 상대가 스스로 성장할 수 있게 해주세요. 동등한 파트너로서 함께 걸어가세요.",
+                karma: { trust: 90, passion: 85, destiny: 80, harmony: 78 }
+            },
+            {
+                era: "당나라 시대",
+                relation: "시인과 뮤즈",
+                emoji: "📜💫🎭",
+                story: "한 분은 당나라의 유명한 시인이었고, 다른 분은 그에게 영감을 주던 뮤즈였습니다. 수많은 시가 상대를 위해 쓰여졌고, 그 작품들은 천년이 지나도 회자됩니다.",
+                meaning: "이 인연은 예술적이고 영감을 주고받는 관계입니다. 함께 있으면 창의력이 샘솟고, 서로에게 영감이 됩니다.",
+                advice: "서로의 재능을 격려해주세요. 함께 창조적인 활동을 하면 더 깊은 유대를 느낄 수 있습니다.",
+                karma: { trust: 75, passion: 88, destiny: 82, harmony: 92 }
+            },
+            {
+                era: "르네상스 시대",
+                relation: "동반자적 친구",
+                emoji: "🎨🤝📚",
+                story: "두 분은 르네상스 시대 피렌체에서 함께 예술과 학문을 탐구하던 동료였습니다. 밤새 토론하고, 서로의 작품을 비평하며 성장했죠.",
+                meaning: "이 인연은 깊은 우정과 지적 교감을 바탕으로 합니다. 연인 이전에 최고의 친구이자 동반자입니다.",
+                advice: "친구로서의 관계를 소중히 여기세요. 깊은 대화와 공감이 관계를 더욱 단단하게 만들어줍니다.",
+                karma: { trust: 92, passion: 65, destiny: 78, harmony: 95 }
+            },
+            {
+                era: "일본 에도시대",
+                relation: "숙명의 라이벌",
+                emoji: "⚔️🔥⚔️",
+                story: "두 분은 에도시대 유명한 검객이었습니다. 서로를 라이벌로 여기며 경쟁했지만, 그 안에는 깊은 존경이 있었습니다. 서로가 있어 더 강해질 수 있었죠.",
+                meaning: "이 인연은 서로를 성장시키는 관계입니다. 경쟁심이 있을 수 있지만, 그것이 오히려 서로를 발전시킵니다.",
+                advice: "건강한 경쟁은 좋지만, 상대를 이기려 하기보다 함께 성장한다고 생각하세요.",
+                karma: { trust: 70, passion: 90, destiny: 75, harmony: 68 }
+            },
+            {
+                era: "고대 그리스",
+                relation: "영혼의 반쪽",
+                emoji: "⚡💕☀️",
+                story: "플라톤이 말한 '영혼의 반쪽'처럼, 두 분은 원래 하나였던 영혼이 둘로 나뉜 존재입니다. 수천 년을 떨어져 있다가 드디어 현생에서 재회했습니다.",
+                meaning: "이 인연은 가장 강력한 영혼의 연결입니다. 만나자마자 오래 알았던 것 같은 느낌, 그것이 전생의 기억입니다.",
+                advice: "이미 연결되어 있음을 믿으세요. 서로를 찾았으니 이제는 함께 완전해지는 여정을 즐기세요.",
+                karma: { trust: 95, passion: 95, destiny: 99, harmony: 90 }
+            },
+            {
+                era: "빅토리아 시대",
+                relation: "선생과 제자",
+                emoji: "📖💡🎓",
+                story: "한 분은 빅토리아 시대의 학자였고, 다른 분은 그의 가장 뛰어난 제자였습니다. 지식을 나누며 서로에게 깊은 인상을 남겼습니다.",
+                meaning: "이 인연은 가르침과 배움의 관계입니다. 서로에게 배울 것이 있고, 함께 성장해 나갑니다.",
+                advice: "때로는 가르치고, 때로는 배우세요. 역할을 고정하지 말고 유연하게 주고받으세요.",
+                karma: { trust: 85, passion: 60, destiny: 72, harmony: 88 }
+            }
+        ];
+
+        let resultData = {};
+
+        function startTest() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+
+            if (!name1 || !name2) {
+                showToast('⚠️ 두 사람의 이름을 모두 입력해주세요!');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name1, name2);
+            }, 2500);
+        }
+
+        function calculateResult(name1, name2) {
+            // 이름 기반 시드 생성
+            let seed = 0;
+            for (let i = 0; i < name1.length; i++) {
+                seed += name1.charCodeAt(i) * (i + 1);
+            }
+            for (let i = 0; i < name2.length; i++) {
+                seed += name2.charCodeAt(i) * (i + 2);
+            }
+
+            // 관계 선택
+            const relationIndex = seed % relations.length;
+            const selectedRelation = relations[relationIndex];
+
+            resultData = {
+                name1,
+                name2,
+                ...selectedRelation
+            };
+
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('displayName1').textContent = resultData.name1;
+            document.getElementById('displayName2').textContent = resultData.name2;
+            document.getElementById('resultEra').textContent = resultData.era;
+            document.getElementById('resultEmoji').textContent = resultData.emoji;
+            document.getElementById('resultRelation').textContent = resultData.relation;
+            document.getElementById('resultStory').textContent = resultData.story;
+            document.getElementById('resultMeaning').textContent = resultData.meaning;
+            document.getElementById('resultAdvice').textContent = resultData.advice;
+
+            const karmaLabels = {
+                trust: '신뢰',
+                passion: '열정',
+                destiny: '운명',
+                harmony: '조화'
+            };
+
+            document.getElementById('karmaMeter').innerHTML = Object.entries(resultData.karma).map(([key, value]) => `
+                <div class="karma-item">
+                    <div class="label">${karmaLabels[key]}</div>
+                    <div class="value">${value}%</div>
+                </div>
+            `).join('');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `💫 전생의 인연 테스트 결과\n\n` +
+                        `${resultData.name1} 💕 ${resultData.name2}\n\n` +
+                        `【${resultData.era}】\n` +
+                        `${resultData.emoji}\n` +
+                        `"${resultData.relation}"\n\n` +
+                        `✨ 신뢰 ${resultData.karma.trust}% | 열정 ${resultData.karma.passion}%\n` +
+                        `🌟 운명 ${resultData.karma.destiny}% | 조화 ${resultData.karma.harmony}%\n\n` +
+                        `우리도 전생 인연 알아보기 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: '전생의 인연 테스트', text: text })
+                    .catch(err => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 결과가 복사되었어요!');
+                });
+            }
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('name1').value = '';
+            document.getElementById('name2').value = '';
+            ['year1', 'month1', 'day1', 'year2', 'month2', 'day2'].forEach(id => {
+                document.getElementById(id).selectedIndex = 0;
+            });
+        }
+    </script>
+</body>
+</html>

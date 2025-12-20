@@ -1,752 +1,132 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 나에게 주는 한마디 - 새해 운세 메시지 | 2025년 키워드</title>
-    <meta name="description" content="2025년 나에게 주는 특별한 한마디! 새해 운세 메시지와 2025년 키워드를 확인하세요. 행운의 색, 숫자, 조언까지!">
-    <meta name="keywords" content="2025운세, 새해운세, 2025년운세, 신년운세, 2025키워드, 새해메시지">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="2025 나에게 주는 한마디">
-    <meta property="og:description" content="새해에 받는 특별한 메시지!">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/0a0a1a/ffd700?text=2025+나에게+주는+한마디">
-
-    <style>
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: linear-gradient(135deg, #ffd700, #ff6b6b);
-            color: #0a0a1a;
-            padding: 14px 28px;
-            border-radius: 30px;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            z-index: 1000;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Noto Sans KR', -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
-            min-height: 100vh;
-            color: #e4e4e4;
-            overflow-x: hidden;
-        }
-
-        .fireworks {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .spark {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            animation: sparkle 3s infinite;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 0 20px;
-        }
-
-        .year-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #ffd700, #ff6b6b);
-            color: #0a0a1a;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: 800;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            background: linear-gradient(135deg, #ffd700, #fff, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        .subtitle { color: #a0a0c0; font-size: 1rem; }
-
-        .ad-banner {
-            background: rgba(255,255,255,0.05);
-            border: 1px dashed rgba(255,255,255,0.2);
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-            border-radius: 12px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .disclaimer {
-            background: rgba(255,215,0,0.1);
-            border: 1px solid rgba(255,215,0,0.3);
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 13px;
-            color: #ffd700;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 30px;
-            margin-bottom: 20px;
-        }
-
-        .input-section h2 {
-            color: #ffd700;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            color: #a0a0c0;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 15px 18px;
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            background: rgba(255,255,255,0.05);
-            color: #e4e4e4;
-            font-size: 16px;
-            outline: none;
-        }
-
-        .input-group input:focus, .input-group select:focus {
-            border-color: #ffd700;
-        }
-
-        .birth-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-        }
-
-        .hope-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .hope-option {
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .hope-option:hover { border-color: rgba(255, 215, 0, 0.5); }
-        .hope-option.selected {
-            border-color: #ffd700;
-            background: rgba(255, 215, 0, 0.1);
-        }
-
-        .hope-option .icon { font-size: 24px; margin-bottom: 5px; }
-        .hope-option .label { color: #e4e4e4; font-size: 13px; }
-
-        .start-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #ffd700, #ff6b6b);
-            color: #0a0a1a;
-            border: none;
-            border-radius: 16px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .loading.show { display: block; }
-
-        .loading-icon {
-            font-size: 80px;
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .loading p { color: #a0a0c0; margin-top: 20px; }
-
-        .result-section {
-            display: none;
-            animation: fadeIn 1s ease;
-        }
-
-        .result-section.show { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .result-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .result-header p { color: #a0a0c0; font-size: 14px; }
-        .result-name { color: #ffd700; font-size: 1.5rem; margin: 10px 0; }
-
-        .message-box {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 107, 0.1));
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            margin: 25px 0;
-        }
-
-        .message-quote {
-            font-size: 1.6rem;
-            color: #fff;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .message-emoji {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-
-        .keyword-section {
-            text-align: center;
-            margin: 25px 0;
-        }
-
-        .keyword-label { color: #a0a0c0; font-size: 14px; margin-bottom: 15px; }
-
-        .keyword-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .keyword-tag {
-            background: linear-gradient(135deg, #ffd700, #ff6b6b);
-            color: #0a0a1a;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 15px;
-        }
-
-        .result-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 15px;
-        }
-
-        .result-card h3 {
-            color: #ffd700;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .result-card p {
-            color: #c0c0d0;
-            line-height: 1.8;
-        }
-
-        .lucky-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .lucky-item {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .lucky-item .label { color: #a0a0c0; font-size: 12px; margin-bottom: 5px; }
-        .lucky-item .value { color: #ffd700; font-size: 18px; font-weight: 700; }
-
-        .month-fortune {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        .month-item {
-            background: rgba(255,255,255,0.05);
-            padding: 10px 5px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .month-item .month { color: #a0a0c0; font-size: 11px; }
-        .month-item .luck { font-size: 16px; margin-top: 3px; }
-
-        .share-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 25px;
-        }
-
-        .share-btn {
-            padding: 14px 28px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: none;
-        }
-
-        .share-btn.primary {
-            background: linear-gradient(135deg, #ffd700, #ff6b6b);
-            color: #0a0a1a;
-        }
-
-        .share-btn.secondary {
-            background: rgba(255,255,255,0.1);
-            color: #e4e4e4;
-        }
-
-        .share-btn:hover { transform: translateY(-2px); }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: rgba(255,255,255,0.5);
-            font-size: 13px;
-        }
-
-        @media (max-width: 500px) {
-            h1 { font-size: 1.7rem; }
-            .message-quote { font-size: 1.3rem; }
-            .hope-options { grid-template-columns: 1fr; }
-            .lucky-grid { grid-template-columns: 1fr; }
-            .month-fortune { grid-template-columns: repeat(3, 1fr); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2025 한마디</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+    }
+    .tool-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 12px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .tool-nav {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .home-link {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .home-link:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-switcher {
+      display: flex;
+      gap: 8px;
+    }
+    .lang-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    .lang-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .lang-btn.active {
+      background: rgba(255,255,255,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .tool-iframe {
+      width: 100%;
+      height: calc(100vh - 60px);
+      border: none;
+      display: block;
+      background: white;
+    }
+    @media (max-width: 600px) {
+      .tool-header {
+        padding: 10px 15px;
+      }
+      .home-link, .lang-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="fireworks" id="fireworks"></div>
-    <div class="toast" id="toast"></div>
-
-    <div class="container">
-        <header>
-            <div class="year-badge">2025</div>
-            <h1>나에게 주는 한마디</h1>
-            <p class="subtitle">새해, 당신에게 전하는 특별한 메시지</p>
-        </header>
-
-        <div class="ad-banner">Advertisement</div>
-
-        <div class="disclaimer">
-            재미로 즐기는 새해 운세입니다!
-        </div>
-
-        <div class="card">
-            <div class="input-section" id="inputSection">
-                <h2>당신의 정보를 알려주세요</h2>
-
-                <div class="input-group">
-                    <label>이름</label>
-                    <input type="text" id="userName" placeholder="이름을 입력하세요">
-                </div>
-
-                <div class="input-group">
-                    <label>생년월일</label>
-                    <div class="birth-row">
-                        <select id="birthYear"><option value="">년도</option></select>
-                        <select id="birthMonth"><option value="">월</option></select>
-                        <select id="birthDay"><option value="">일</option></select>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label>2025년 가장 바라는 것은?</label>
-                    <div class="hope-options">
-                        <div class="hope-option" onclick="selectHope(this, 'love')">
-                            <div class="icon">❤️</div>
-                            <div class="label">사랑/인연</div>
-                        </div>
-                        <div class="hope-option" onclick="selectHope(this, 'money')">
-                            <div class="icon">💰</div>
-                            <div class="label">재물/성공</div>
-                        </div>
-                        <div class="hope-option" onclick="selectHope(this, 'health')">
-                            <div class="icon">💪</div>
-                            <div class="label">건강/활력</div>
-                        </div>
-                        <div class="hope-option" onclick="selectHope(this, 'growth')">
-                            <div class="icon">🌱</div>
-                            <div class="label">성장/변화</div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="start-btn" onclick="getMyMessage()">나의 한마디 받기</button>
-            </div>
-
-            <div class="loading" id="loading">
-                <div class="loading-icon">🎊</div>
-                <p>2025년 메시지를 준비하고 있어요...</p>
-            </div>
-
-            <div class="result-section" id="resultSection">
-                <div class="result-header">
-                    <p>2025년</p>
-                    <div class="result-name" id="resultName">홍길동</div>
-                    <p>님에게 전하는 한마디</p>
-                </div>
-
-                <div class="message-box">
-                    <div class="message-emoji" id="messageEmoji">✨</div>
-                    <div class="message-quote" id="messageQuote">"당신의 빛나는 한 해가 시작됩니다"</div>
-                </div>
-
-                <div class="keyword-section">
-                    <div class="keyword-label">2025년 키워드</div>
-                    <div class="keyword-tags" id="keywordTags"></div>
-                </div>
-
-                <div class="result-card">
-                    <h3>🌟 2025년 운세</h3>
-                    <p id="yearFortune"></p>
-                </div>
-
-                <div class="result-card">
-                    <h3>🍀 행운의 요소</h3>
-                    <div class="lucky-grid" id="luckyGrid"></div>
-                </div>
-
-                <div class="result-card">
-                    <h3>📅 월별 운세</h3>
-                    <div class="month-fortune" id="monthFortune"></div>
-                </div>
-
-                <div class="result-card">
-                    <h3>💝 특별한 조언</h3>
-                    <p id="specialAdvice"></p>
-                </div>
-
-                <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="ad-banner">Advertisement</div>
-
-        <footer>
-            <p>새해 복 많이 받으세요! 🎊</p>
-        </footer>
+  <div class="tool-header">
+    <div class="tool-nav">
+      <a href="/" class="home-link">🏠 <span>홈으로</span></a>
     </div>
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ko" onclick="switchToolLanguage('ko')">한국어</button>
+    </div>
+  </div>
+  <iframe id="toolFrame" class="tool-iframe" src="content-ko.html"></iframe>
 
-    <script>
-        // 불꽃놀이 효과
-        function createFireworks() {
-            const container = document.getElementById('fireworks');
-            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#ff69b4', '#00ff88'];
+  <script>
+    var currentLang = 'ko';
+    var availableLangs = {"ko":true,"en":false,"ja":false};
 
-            for (let i = 0; i < 50; i++) {
-                const spark = document.createElement('div');
-                spark.className = 'spark';
-                spark.style.left = Math.random() * 100 + '%';
-                spark.style.top = Math.random() * 100 + '%';
-                spark.style.background = colors[Math.floor(Math.random() * colors.length)];
-                spark.style.animationDelay = Math.random() * 3 + 's';
-                spark.style.animationDuration = (2 + Math.random() * 2) + 's';
-                container.appendChild(spark);
-            }
+    function switchToolLanguage(lang) {
+      if (!availableLangs[lang]) return;
+
+      currentLang = lang;
+      localStorage.setItem('preferredLanguage', lang);
+
+      // Update iframe src
+      var iframe = document.getElementById('toolFrame');
+      iframe.src = 'content-' + lang + '.html';
+
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+          btn.classList.add('active');
         }
-        createFireworks();
+      });
 
-        // 날짜 선택 초기화
-        function initDateSelects() {
-            const currentYear = new Date().getFullYear();
-            const yearSelect = document.getElementById('birthYear');
-            for (let y = currentYear; y >= 1940; y--) {
-                yearSelect.innerHTML += `<option value="${y}">${y}년</option>`;
-            }
-            const monthSelect = document.getElementById('birthMonth');
-            for (let m = 1; m <= 12; m++) {
-                monthSelect.innerHTML += `<option value="${m}">${m}월</option>`;
-            }
-            const daySelect = document.getElementById('birthDay');
-            for (let d = 1; d <= 31; d++) {
-                daySelect.innerHTML += `<option value="${d}">${d}일</option>`;
-            }
-        }
-        initDateSelects();
+      // Update home link text
+      var homeTexts = { ko: '홈으로', en: 'Home', ja: 'ホーム' };
+      document.querySelector('.home-link span').textContent = homeTexts[lang] || '홈으로';
+    }
 
-        let selectedHope = null;
-
-        function selectHope(element, hope) {
-            selectedHope = hope;
-            document.querySelectorAll('.hope-option').forEach(o => o.classList.remove('selected'));
-            element.classList.add('selected');
-        }
-
-        const messages = {
-            love: [
-                { emoji: "💕", quote: "진심은 반드시 통합니다. 당신의 사랑이 꽃피는 해가 될 거예요.", keywords: ["인연", "설렘", "진심"] },
-                { emoji: "❤️", quote: "마음을 열면 사랑이 찾아옵니다. 올해는 특별한 만남이 있어요.", keywords: ["만남", "운명", "따뜻함"] },
-                { emoji: "💗", quote: "사랑받을 자격이 있는 당신, 올해 그 사랑을 만나세요.", keywords: ["자격", "행복", "사랑"] }
-            ],
-            money: [
-                { emoji: "💰", quote: "노력은 배신하지 않아요. 당신의 성공이 눈앞에 있습니다.", keywords: ["성공", "풍요", "성취"] },
-                { emoji: "🌟", quote: "기회는 준비된 자에게 옵니다. 올해가 바로 그 해예요.", keywords: ["기회", "도약", "번영"] },
-                { emoji: "✨", quote: "당신의 가치는 빛날 것입니다. 큰 성과가 기다리고 있어요.", keywords: ["가치", "보상", "인정"] }
-            ],
-            health: [
-                { emoji: "💪", quote: "건강이 최고의 재산이에요. 올해는 활력 넘치는 한 해가 됩니다.", keywords: ["활력", "건강", "에너지"] },
-                { emoji: "🌈", quote: "몸도 마음도 건강해지는 해. 좋은 기운이 함께해요.", keywords: ["회복", "균형", "치유"] },
-                { emoji: "☀️", quote: "밝은 에너지로 가득한 당신, 올해도 건강하게!", keywords: ["활기", "생기", "건강미"] }
-            ],
-            growth: [
-                { emoji: "🌱", quote: "성장은 멈추지 않아요. 올해 당신은 한층 더 성장합니다.", keywords: ["성장", "발전", "진화"] },
-                { emoji: "🦋", quote: "변화를 두려워하지 마세요. 새로운 당신을 만나게 될 거예요.", keywords: ["변화", "변신", "도전"] },
-                { emoji: "🚀", quote: "한계는 없습니다. 당신이 가는 곳이 곧 새로운 길이에요.", keywords: ["도전", "비상", "무한"] }
-            ]
-        };
-
-        const fortunes = [
-            "2025년은 당신에게 특별한 한 해가 될 것입니다. 상반기에는 새로운 시작의 에너지가, 하반기에는 결실의 기쁨이 함께할 거예요. 특히 봄에 시작하는 일은 좋은 결과로 이어질 가능성이 높습니다.",
-            "올해는 인내와 끈기가 빛을 발하는 해입니다. 당장 결과가 보이지 않더라도 꾸준히 나아가세요. 하반기에 큰 보상이 찾아올 것입니다.",
-            "2025년은 관계의 해입니다. 새로운 인연을 만나고, 기존 관계가 더욱 돈독해질 거예요. 사람들과의 만남에서 행운이 찾아옵니다.",
-            "변화의 바람이 불어옵니다. 두려워하지 말고 받아들이세요. 그 변화 속에서 당신의 진정한 모습을 발견하게 될 것입니다."
-        ];
-
-        const advices = [
-            "올해는 '시작'이 핵심이에요. 미루지 말고 지금 바로 시작하세요. 작은 첫 걸음이 큰 변화를 만들어냅니다.",
-            "균형을 잃지 마세요. 일도 중요하지만 휴식도 중요합니다. 건강한 균형이 성공의 비결이에요.",
-            "주변 사람들에게 감사를 표현하세요. 그 따뜻함이 당신에게 더 큰 행운으로 돌아올 거예요.",
-            "직감을 믿으세요. 올해 당신의 직감은 매우 정확할 것입니다. 마음이 가는 대로 따라가세요."
-        ];
-
-        const colors = ['빨간색', '주황색', '노란색', '초록색', '파란색', '보라색', '분홍색', '금색'];
-        const directions = ['동쪽', '서쪽', '남쪽', '북쪽'];
-        const numbers = [3, 5, 7, 8, 9, 11, 12, 15, 21, 25];
-        const days = ['월요일', '화요일', '수요일', '목요일', '금요일'];
-
-        let resultData = {};
-
-        function getMyMessage() {
-            const name = document.getElementById('userName').value.trim();
-            const year = document.getElementById('birthYear').value;
-            const month = document.getElementById('birthMonth').value;
-            const day = document.getElementById('birthDay').value;
-
-            if (!name) {
-                showToast('⚠️ 이름을 입력해주세요!');
-                return;
-            }
-
-            if (!selectedHope) {
-                showToast('⚠️ 2025년 가장 바라는 것을 선택해주세요!');
-                return;
-            }
-
-            document.getElementById('inputSection').style.display = 'none';
-            document.getElementById('loading').classList.add('show');
-
-            setTimeout(() => {
-                calculateResult(name, year, month, day);
-            }, 2000);
-        }
-
-        function calculateResult(name, year, month, day) {
-            // 시드 생성
-            let seed = 0;
-            for (let i = 0; i < name.length; i++) {
-                seed += name.charCodeAt(i);
-            }
-            if (year) seed += parseInt(year);
-            if (month) seed += parseInt(month) * 10;
-            if (day) seed += parseInt(day);
-
-            // 메시지 선택
-            const hopeMessages = messages[selectedHope];
-            const messageIndex = seed % hopeMessages.length;
-            const selectedMessage = hopeMessages[messageIndex];
-
-            // 운세, 조언 선택
-            const fortuneIndex = seed % fortunes.length;
-            const adviceIndex = (seed + 1) % advices.length;
-
-            // 행운 요소
-            const luckyColor = colors[seed % colors.length];
-            const luckyDirection = directions[seed % directions.length];
-            const luckyNumber = numbers[seed % numbers.length];
-            const luckyDay = days[seed % days.length];
-
-            // 월별 운세
-            const monthLuck = [];
-            const luckIcons = ['🌟', '⭐', '✨', '💫', '🌙'];
-            for (let m = 1; m <= 12; m++) {
-                const luck = luckIcons[(seed + m) % luckIcons.length];
-                monthLuck.push({ month: m, luck });
-            }
-
-            resultData = {
-                name,
-                message: selectedMessage,
-                fortune: fortunes[fortuneIndex],
-                advice: advices[adviceIndex],
-                lucky: { color: luckyColor, direction: luckyDirection, number: luckyNumber, day: luckyDay },
-                monthLuck
-            };
-
-            displayResult();
-        }
-
-        function displayResult() {
-            document.getElementById('loading').classList.remove('show');
-            document.getElementById('resultSection').classList.add('show');
-
-            document.getElementById('resultName').textContent = resultData.name;
-            document.getElementById('messageEmoji').textContent = resultData.message.emoji;
-            document.getElementById('messageQuote').textContent = `"${resultData.message.quote}"`;
-
-            document.getElementById('keywordTags').innerHTML = resultData.message.keywords.map(k =>
-                `<span class="keyword-tag">#${k}</span>`
-            ).join('');
-
-            document.getElementById('yearFortune').textContent = resultData.fortune;
-            document.getElementById('specialAdvice').textContent = resultData.advice;
-
-            document.getElementById('luckyGrid').innerHTML = `
-                <div class="lucky-item">
-                    <div class="label">행운의 색</div>
-                    <div class="value">🎨 ${resultData.lucky.color}</div>
-                </div>
-                <div class="lucky-item">
-                    <div class="label">행운의 방향</div>
-                    <div class="value">🧭 ${resultData.lucky.direction}</div>
-                </div>
-                <div class="lucky-item">
-                    <div class="label">행운의 숫자</div>
-                    <div class="value">🔢 ${resultData.lucky.number}</div>
-                </div>
-                <div class="lucky-item">
-                    <div class="label">행운의 요일</div>
-                    <div class="value">📅 ${resultData.lucky.day}</div>
-                </div>
-            `;
-
-            document.getElementById('monthFortune').innerHTML = resultData.monthLuck.map(m =>
-                `<div class="month-item">
-                    <div class="month">${m.month}월</div>
-                    <div class="luck">${m.luck}</div>
-                </div>`
-            ).join('');
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        function shareResult() {
-            const text = `🎊 2025 나에게 주는 한마디\n\n` +
-                        `${resultData.name}님에게 전하는 메시지:\n\n` +
-                        `${resultData.message.emoji} "${resultData.message.quote}"\n\n` +
-                        `🏷️ #${resultData.message.keywords.join(' #')}\n\n` +
-                        `🍀 행운의 색: ${resultData.lucky.color}\n` +
-                        `🔢 행운의 숫자: ${resultData.lucky.number}\n\n` +
-                        `나도 받아보기 👉`;
-
-            if (navigator.share) {
-                navigator.share({ title: '2025 나에게 주는 한마디', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
-                });
-            }
-        }
-
-        function resetTest() {
-            document.getElementById('resultSection').classList.remove('show');
-            document.getElementById('inputSection').style.display = 'block';
-            document.getElementById('userName').value = '';
-            document.getElementById('birthYear').selectedIndex = 0;
-            document.getElementById('birthMonth').selectedIndex = 0;
-            document.getElementById('birthDay').selectedIndex = 0;
-            selectedHope = null;
-            document.querySelectorAll('.hope-option').forEach(o => o.classList.remove('selected'));
-        }
-    </script>
+    // Initialize
+    window.addEventListener('load', function() {
+      var savedLang = localStorage.getItem('preferredLanguage');
+      if (savedLang && availableLangs[savedLang]) {
+        switchToolLanguage(savedLang);
+      } else {
+        switchToolLanguage(currentLang);
+      }
+    });
+  </script>
 </body>
 </html>
