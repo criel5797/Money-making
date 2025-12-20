@@ -42,7 +42,85 @@ module.exports = {
   },
   'mbti-test': {
     meta: { title: { ko: 'MBTI 테스트', en: 'MBTI Test', ja: 'MBTIテスト' }, desc: { ko: '성격 유형 검사', en: 'Personality Test', ja: '性格検査' } },
-    ui: { title: { ko: 'MBTI 테스트', en: 'MBTI Test', ja: 'MBTIテスト' }, subtitle: { ko: '12문항 약식 검사', en: '12 Questions', ja: '12問検査' }, introTitle: { ko: '나의 MBTI는?', en: 'My MBTI?', ja: '私のMBTIは？' }, startBtn: { ko: '시작하기', en: 'Start', ja: '開始' }, nextBtn: { ko: '다음', en: 'Next', ja: '次へ' }, resultBtn: { ko: '결과 보기', en: 'Result', ja: '結果' }, yourType: { ko: '당신의 유형:', en: 'Your Type:', ja: 'あなたのタイプ:' }, share: { ko: '공유', en: 'Share', ja: '共有' }, retry: { ko: '다시 하기', en: 'Retry', ja: '再テスト' } }
+    ui: {
+      title: { ko: 'MBTI 테스트', en: 'MBTI Test', ja: 'MBTIテスト' },
+      subtitle: { ko: '12문항 약식 검사', en: '12 Questions', ja: '12問検査' },
+      introTitle: { ko: '나의 MBTI는?', en: 'My MBTI?', ja: '私のMBTIは？' },
+      introDesc: { ko: '12개의 간단한 질문으로 성격 유형을 알아보세요!<br>너무 오래 고민하지 말고 직관적으로 답해주세요.', en: 'Discover your personality type with 12 simple questions!<br>Don\'t overthink it, answer intuitively.', ja: '12の簡単な質問であなたの性格タイプを発見！<br>考えすぎずに直感的に答えてください。' },
+      startBtn: { ko: '시작하기', en: 'Start', ja: '開始' },
+      prevBtn: { ko: '이전', en: 'Prev', ja: '前へ' },
+      nextBtn: { ko: '다음', en: 'Next', ja: '次へ' },
+      resultBtn: { ko: '결과 보기', en: 'Result', ja: '結果' },
+      yourType: { ko: '당신의 MBTI 유형은', en: 'Your MBTI Type is', ja: 'あなたのMBTIタイプは' },
+      features: { ko: '성격 특성', en: 'Personality Traits', ja: '性格特性' },
+      compatibility: { ko: '잘 맞는 유형', en: 'Compatible Types', ja: '相性の良いタイプ' },
+      share: { ko: '결과 공유', en: 'Share Result', ja: '結果を共有' },
+      retry: { ko: '다시 하기', en: 'Retake Test', ja: '再テスト' },
+      footer: { ko: '이 테스트는 재미로만 봐주세요.', en: 'This is a simple test for entertainment.', ja: 'このテストは楽しみ程度にご覧ください。' },
+      questionNum: { ko: '질문', en: 'Question', ja: '質問' }
+    },
+    questions: {
+      ko: [
+        { text: "주말 계획은?", options: [{ text: "친구들과 모임", value: "E" }, { text: "집에서 휴식", value: "I" }] },
+        { text: "새로운 사람들과 만날 때?", options: [{ text: "먼저 말을 건다", value: "E" }, { text: "상대방이 말 걸기를 기다린다", value: "I" }] },
+        { text: "파티에 가면?", options: [{ text: "여러 사람과 이야기한다", value: "E" }, { text: "아는 사람 위주로 대화한다", value: "I" }] },
+        { text: "문제를 해결할 때?", options: [{ text: "구체적인 사실에 집중한다", value: "S" }, { text: "전체적인 그림을 본다", value: "N" }] },
+        { text: "새로운 아이디어가 떠오르면?", options: [{ text: "바로 실행 가능성을 따진다", value: "S" }, { text: "가능성과 의미를 먼저 생각한다", value: "N" }] },
+        { text: "설명서를 읽을 때?", options: [{ text: "처음부터 끝까지 순서대로", value: "S" }, { text: "필요한 부분만 골라서", value: "N" }] },
+        { text: "친구가 고민을 말할 때?", options: [{ text: "해결책을 제시한다", value: "T" }, { text: "공감하고 위로한다", value: "F" }] },
+        { text: "결정을 내릴 때 더 중요한 것은?", options: [{ text: "논리와 합리성", value: "T" }, { text: "사람들의 감정", value: "F" }] },
+        { text: "비판을 받으면?", options: [{ text: "객관적으로 분석한다", value: "T" }, { text: "감정이 상한다", value: "F" }] },
+        { text: "여행 계획을 세울 때?", options: [{ text: "세부 일정을 미리 정한다", value: "J" }, { text: "즉흥적으로 결정한다", value: "P" }] },
+        { text: "마감 기한이 있으면?", options: [{ text: "미리미리 끝낸다", value: "J" }, { text: "마감 직전에 끝낸다", value: "P" }] },
+        { text: "하루 일과는?", options: [{ text: "규칙적이고 계획적", value: "J" }, { text: "유연하고 자유롭게", value: "P" }] }
+      ],
+      en: [
+        { text: "Weekend plans?", options: [{ text: "Meet with friends", value: "E" }, { text: "Rest at home", value: "I" }] },
+        { text: "When meeting new people?", options: [{ text: "I start the conversation", value: "E" }, { text: "I wait for them to talk first", value: "I" }] },
+        { text: "At a party?", options: [{ text: "Talk to many people", value: "E" }, { text: "Stay with people I know", value: "I" }] },
+        { text: "When solving problems?", options: [{ text: "Focus on specific facts", value: "S" }, { text: "See the big picture", value: "N" }] },
+        { text: "When you have a new idea?", options: [{ text: "Check if it's practical first", value: "S" }, { text: "Think about possibilities and meaning", value: "N" }] },
+        { text: "When reading instructions?", options: [{ text: "From start to finish in order", value: "S" }, { text: "Only the parts I need", value: "N" }] },
+        { text: "When a friend shares concerns?", options: [{ text: "Offer solutions", value: "T" }, { text: "Empathize and comfort", value: "F" }] },
+        { text: "When making decisions, what matters more?", options: [{ text: "Logic and rationality", value: "T" }, { text: "People's feelings", value: "F" }] },
+        { text: "When criticized?", options: [{ text: "Analyze objectively", value: "T" }, { text: "Feel hurt", value: "F" }] },
+        { text: "Planning a trip?", options: [{ text: "Plan details in advance", value: "J" }, { text: "Decide spontaneously", value: "P" }] },
+        { text: "When there's a deadline?", options: [{ text: "Finish early", value: "J" }, { text: "Finish just before deadline", value: "P" }] },
+        { text: "Your daily routine?", options: [{ text: "Regular and planned", value: "J" }, { text: "Flexible and free", value: "P" }] }
+      ],
+      ja: [
+        { text: "週末の予定は？", options: [{ text: "友達と会う", value: "E" }, { text: "家で休む", value: "I" }] },
+        { text: "新しい人と会う時？", options: [{ text: "自分から話しかける", value: "E" }, { text: "相手が話しかけるのを待つ", value: "I" }] },
+        { text: "パーティーでは？", options: [{ text: "色々な人と話す", value: "E" }, { text: "知っている人と話す", value: "I" }] },
+        { text: "問題を解決する時？", options: [{ text: "具体的な事実に集中", value: "S" }, { text: "全体像を見る", value: "N" }] },
+        { text: "新しいアイデアが浮かんだら？", options: [{ text: "まず実現可能性を考える", value: "S" }, { text: "可能性と意味を考える", value: "N" }] },
+        { text: "説明書を読む時？", options: [{ text: "最初から順番に", value: "S" }, { text: "必要な部分だけ", value: "N" }] },
+        { text: "友達が悩みを話す時？", options: [{ text: "解決策を提示する", value: "T" }, { text: "共感して慰める", value: "F" }] },
+        { text: "決定を下す時、大切なのは？", options: [{ text: "論理と合理性", value: "T" }, { text: "人々の気持ち", value: "F" }] },
+        { text: "批判を受けたら？", options: [{ text: "客観的に分析する", value: "T" }, { text: "傷つく", value: "F" }] },
+        { text: "旅行の計画を立てる時？", options: [{ text: "詳細を事前に決める", value: "J" }, { text: "即興で決める", value: "P" }] },
+        { text: "締め切りがある時？", options: [{ text: "早めに終わらせる", value: "J" }, { text: "ギリギリで終わらせる", value: "P" }] },
+        { text: "一日のスケジュールは？", options: [{ text: "規則的で計画的", value: "J" }, { text: "柔軟で自由", value: "P" }] }
+      ]
+    },
+    types: {
+      INTJ: { name: { ko: '전략가', en: 'Architect', ja: '建築家' }, nickname: { ko: '용의주도한 전략가', en: 'Strategic Mastermind', ja: '戦略的な設計者' }, match: 'ENFP, ENTP', desc: { ko: '독립적이고 전략적인 사고를 가진 사람. 논리와 창의성으로 삶에 접근합니다.', en: 'Independent, strategic thinkers with a long-term vision. You approach life with logic and creativity.', ja: '独立的で戦略的な思考の持ち主。論理と創造性で人生にアプローチします。' } },
+      INTP: { name: { ko: '논리술사', en: 'Logician', ja: '論理学者' }, nickname: { ko: '논리적인 사색가', en: 'Objective Analyst', ja: '客観的な分析者' }, match: 'ENTJ, ESTJ', desc: { ko: '이론적 개념을 사랑하는 창의적인 사색가. 논리로 세상을 이해하려 합니다.', en: 'Inventive thinkers who love theoretical concepts. You seek to understand the world through logic.', ja: '理論的な概念を愛する創造的な思索家。論理で世界を理解しようとします。' } },
+      ENTJ: { name: { ko: '통솔자', en: 'Commander', ja: '指揮官' }, nickname: { ko: '대담한 리더', en: 'Bold Leader', ja: '大胆なリーダー' }, match: 'INTP, ISTP', desc: { ko: '타고난 리더로 도전을 즐깁니다. 효율적이고 체계적입니다.', en: 'Natural-born leaders who love a challenge. You are efficient, energetic, and highly organized.', ja: '生まれながらのリーダーで挑戦を楽しみます。効率的でエネルギッシュです。' } },
+      ENTP: { name: { ko: '변론가', en: 'Debater', ja: '討論者' }, nickname: { ko: '뜨거운 논쟁을 즐기는 변론가', en: 'Creative Challenger', ja: '創造的な挑戦者' }, match: 'INTJ, INFJ', desc: { ko: '지적 도전을 즐기는 호기심 많은 사람. 새로운 아이디어 탐구를 좋아합니다.', en: 'Smart and curious thinkers who love intellectual challenges. You enjoy exploring new ideas.', ja: '知的な挑戦を楽しむ好奇心旺盛な人。新しいアイデアの探求が好きです。' } },
+      INFJ: { name: { ko: '옹호자', en: 'Advocate', ja: '提唱者' }, nickname: { ko: '선의의 옹호자', en: 'Idealistic Counselor', ja: '理想主義的な助言者' }, match: 'ENFP, ENTP', desc: { ko: '조용하지만 영감을 주는 사람. 깊은 이상주의와 도덕성을 가지고 있습니다.', en: 'Quiet and mystical, yet inspiring. You have a deep sense of idealism and morality.', ja: '静かだが神秘的で、インスピレーションを与える人。深い理想主義と道徳心を持っています。' } },
+      INFP: { name: { ko: '중재자', en: 'Mediator', ja: '仲介者' }, nickname: { ko: '열정적인 중재자', en: 'Poetic Idealist', ja: '詩的な理想主義者' }, match: 'ENFJ, ENTJ', desc: { ko: '시적이고 친절하며 이타적. 좋은 대의를 돕는 것을 좋아합니다.', en: 'Poetic, kind-hearted, and altruistic. You are always eager to help a good cause.', ja: '詩的で優しく利他的。良い目的を助けることに熱心です。' } },
+      ENFJ: { name: { ko: '선도자', en: 'Protagonist', ja: '主人公' }, nickname: { ko: '정의로운 사회운동가', en: 'Charismatic Leader', ja: 'カリスマ的リーダー' }, match: 'INFP, ISFP', desc: { ko: '카리스마 있고 영감을 주는 리더. 청중을 매료시킬 수 있습니다.', en: 'Charismatic and inspiring leaders. You are able to mesmerize your listeners.', ja: 'カリスマ的でインスピレーションを与えるリーダー。聴衆を魅了できます。' } },
+      ENFP: { name: { ko: '활동가', en: 'Campaigner', ja: '運動家' }, nickname: { ko: '재기발랄한 활동가', en: 'Enthusiastic Spirit', ja: '熱狂的な精神' }, match: 'INTJ, INFJ', desc: { ko: '열정적이고 창의적이며 사교적. 항상 웃을 이유를 찾습니다.', en: 'Enthusiastic, creative, and sociable. You can always find a reason to smile.', ja: '熱狂的で創造的で社交的。いつも笑顔の理由を見つけられます。' } },
+      ISTJ: { name: { ko: '현실주의자', en: 'Logistician', ja: '管理者' }, nickname: { ko: '청렴결백한 논리주의자', en: 'Responsible Realist', ja: '責任感のあるリアリスト' }, match: 'ESFP, ESTP', desc: { ko: '실용적이고 사실에 기반한 사람. 모든 일에 신뢰할 수 있고 책임감 있습니다.', en: 'Practical and fact-minded. You are reliable and responsible in everything you do.', ja: '実用的で事実に基づいた人。すべてにおいて信頼でき責任感があります。' } },
+      ISFJ: { name: { ko: '수호자', en: 'Defender', ja: '擁護者' }, nickname: { ko: '용감한 수호자', en: 'Dedicated Protector', ja: '献身的な保護者' }, match: 'ESFP, ESTP', desc: { ko: '헌신적이고 따뜻한 수호자. 사랑하는 사람을 지킬 준비가 되어 있습니다.', en: 'Very dedicated and warm protectors. You are always ready to defend loved ones.', ja: '非常に献身的で温かい保護者。愛する人を守る準備ができています。' } },
+      ESTJ: { name: { ko: '경영자', en: 'Executive', ja: '幹部' }, nickname: { ko: '엄격한 관리자', en: 'Efficient Organizer', ja: '効率的な組織者' }, match: 'INTP, ISTP', desc: { ko: '뛰어난 관리자. 일과 사람을 관리하는 데 탁월합니다.', en: 'Excellent administrators. You are unsurpassed at managing things and people.', ja: '優れた管理者。物事と人の管理に卓越しています。' } },
+      ESFJ: { name: { ko: '집정관', en: 'Consul', ja: '領事' }, nickname: { ko: '사교적인 외교관', en: 'Caring Helper', ja: '思いやりのある援助者' }, match: 'ISFP, ISTP', desc: { ko: '매우 배려심이 깊고 사교적이며 인기 있는 사람. 항상 다른 사람을 돕고 싶어합니다.', en: 'Extraordinarily caring, social, and popular. Always eager to help others.', ja: '非常に思いやりがあり社交的で人気者。いつも他人を助けたがります。' } },
+      ISTP: { name: { ko: '장인', en: 'Virtuoso', ja: '巨匠' }, nickname: { ko: '만능 재주꾼', en: 'Bold Craftsman', ja: '大胆な職人' }, match: 'ESTJ, ESFJ', desc: { ko: '대담하고 실용적인 실험가. 모든 종류의 도구의 달인입니다.', en: 'Bold and practical experimenters. Masters of all kinds of tools.', ja: '大胆で実用的な実験者。あらゆる道具の達人です。' } },
+      ISFP: { name: { ko: '모험가', en: 'Adventurer', ja: '冒険家' }, nickname: { ko: '호기심 많은 예술가', en: 'Flexible Artist', ja: '柔軟なアーティスト' }, match: 'ENFJ, ESFJ', desc: { ko: '유연하고 매력적인 예술가. 항상 삶을 탐험하고 경험할 준비가 되어 있습니다.', en: 'Flexible and charming artists. Always ready to explore and experience life.', ja: '柔軟で魅力的なアーティスト。常に人生を探求し体験する準備ができています。' } },
+      ESTP: { name: { ko: '사업가', en: 'Entrepreneur', ja: '起業家' }, nickname: { ko: '모험을 즐기는 사업가', en: 'Energetic Doer', ja: 'エネルギッシュな実行者' }, match: 'ISTJ, ISFJ', desc: { ko: '똑똑하고 에너지가 넘치며 통찰력이 뛰어납니다. 스릴과 드라마를 즐깁니다.', en: 'Smart, energetic, and very perceptive. You live on the edge and enjoy drama.', ja: '賢くてエネルギッシュで洞察力に優れています。スリルとドラマを楽しみます。' } },
+      ESFP: { name: { ko: '연예인', en: 'Entertainer', ja: 'エンターテイナー' }, nickname: { ko: '자유로운 영혼의 연예인', en: 'Spontaneous Performer', ja: '自発的なパフォーマー' }, match: 'ISTJ, ISFJ', desc: { ko: '즉흥적이고 에너지가 넘치며 열정적. 당신 주변에서 삶은 지루하지 않습니다.', en: 'Spontaneous, energetic, and enthusiastic. Life is never boring around you.', ja: '即興的でエネルギッシュで熱狂的。あなたの周りでは人生は退屈しません。' } }
+    }
   },
   'password-generator': {
     meta: { title: { ko: '비밀번호 생성기', en: 'Password Gen', ja: 'パスワード生成' }, desc: { ko: '안전한 비밀번호', en: 'Secure PW', ja: '安全なPW' } },
