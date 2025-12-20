@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Address Info - Free IP Lookup Tool</title>
+    <meta name="description" content="Free IP address lookup tool. Get your public IP, location, ISP, and network information instantly. Check any IP address details.">
+    <meta name="keywords" content="IP address, IP lookup, what is my IP, IP location, IP info, network info">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="IP Address Info - Free IP Lookup">
+    <meta property="og:description" content="Get your IP address and location information instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/667eea?text=IP+Info">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="en" href="index.html">
+
+    <style>
+        .lang-switch {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .lang-switch a {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #16213e;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .lang-switch a:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .ip-display {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .ip-label {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .ip-address {
+            font-size: 3rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+
+        .ip-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+        }
+
+        .info-title {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: #e4e4e4;
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+            max-width: 60%;
+        }
+
+        .lookup-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .lookup-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .lookup-form {
+            display: flex;
+            gap: 15px;
+        }
+
+        .lookup-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .lookup-input:focus {
+            border-color: #667eea;
+        }
+
+        .lookup-input::placeholder {
+            color: #666;
+        }
+
+        .map-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .map-placeholder {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        .map-placeholder iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(102, 126, 234, 0.2);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .feature p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .ip-address { font-size: 1.8rem; }
+            .lookup-form { flex-direction: column; }
+            .info-value { max-width: 50%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-switch"><a href="index-ko.html">한국어</a></div>
+    <div class="container">
+        <header>
+            <h1>IP Address Info</h1>
+            <p class="subtitle">Discover your IP address and location details</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="ip-display">
+            <div class="ip-label">Your Public IP Address</div>
+            <div class="ip-address" id="myIp">Loading...</div>
+            <div class="ip-actions">
+                <button class="btn btn-primary" onclick="copyIP()">Copy IP</button>
+                <button class="btn btn-secondary" onclick="refreshIP()">Refresh</button>
+            </div>
+        </div>
+
+        <div id="infoContent">
+            <div class="loading">
+                <div class="spinner"></div>
+                <span>Fetching your IP information...</span>
+            </div>
+        </div>
+
+        <div class="lookup-section">
+            <h2>Lookup Another IP Address</h2>
+            <div class="lookup-form">
+                <input type="text" class="lookup-input" id="lookupInput" placeholder="Enter IP address (e.g., 8.8.8.8)">
+                <button class="btn btn-primary" onclick="lookupIP()">Lookup</button>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">&#127760;</div>
+                <h3>Location Data</h3>
+                <p>Country, region, city, and timezone</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128225;</div>
+                <h3>ISP Info</h3>
+                <p>Internet service provider details</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128274;</div>
+                <h3>Privacy Check</h3>
+                <p>VPN and proxy detection</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#9889;</div>
+                <h3>Instant Results</h3>
+                <p>Real-time IP information lookup</p>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>Free IP Address Lookup Tool | Check IP Location & Details</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script>
+        let currentIP = '';
+        let currentData = null;
+
+        async function fetchIPInfo(ip = '') {
+            try {
+                const url = ip ? `https://ipapi.co/${ip}/json/` : 'https://ipapi.co/json/';
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch IP info');
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.reason || 'Invalid IP address');
+                }
+
+                return data;
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        function displayIPInfo(data) {
+            currentIP = data.ip;
+            currentData = data;
+
+            document.getElementById('myIp').textContent = data.ip;
+
+            const infoHTML = `
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <span class="info-icon">&#127758;</span>
+                            <span class="info-title">Location</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Country</span>
+                            <span class="info-value">${data.country_name || 'N/A'} ${data.country_code ? `(${data.country_code})` : ''}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Region</span>
+                            <span class="info-value">${data.region || 'N/A'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">City</span>
+                            <span class="info-value">${data.city || 'N/A'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Postal Code</span>
+                            <span class="info-value">${data.postal || 'N/A'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Coordinates</span>
+                            <span class="info-value">${data.latitude || 'N/A'}, ${data.longitude || 'N/A'}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <span class="info-icon">&#128225;</span>
+                            <span class="info-title">Network</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">ISP</span>
+                            <span class="info-value">${data.org || 'N/A'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">ASN</span>
+                            <span class="info-value">${data.asn || 'N/A'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Timezone</span>
+                            <span class="info-value">${data.timezone || 'N/A'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">UTC Offset</span>
+                            <span class="info-value">${data.utc_offset || 'N/A'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Currency</span>
+                            <span class="info-value">${data.currency_name || 'N/A'} (${data.currency || 'N/A'})</span>
+                        </div>
+                    </div>
+                </div>
+
+                ${data.latitude && data.longitude ? `
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=${data.longitude - 0.1}%2C${data.latitude - 0.1}%2C${data.longitude + 0.1}%2C${data.latitude + 0.1}&layer=mapnik&marker=${data.latitude}%2C${data.longitude}" loading="lazy"></iframe>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
+            document.getElementById('infoContent').innerHTML = infoHTML;
+        }
+
+        function displayError(message) {
+            document.getElementById('infoContent').innerHTML = `
+                <div class="error-message">${message}</div>
+            `;
+        }
+
+        function copyIP() {
+            if (currentIP) {
+                navigator.clipboard.writeText(currentIP).then(() => {
+                    showToast('IP address copied!');
+                });
+            }
+        }
+
+        async function refreshIP() {
+            document.getElementById('myIp').textContent = 'Loading...';
+            document.getElementById('infoContent').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <span>Refreshing IP information...</span>
+                </div>
+            `;
+
+            try {
+                const data = await fetchIPInfo();
+                displayIPInfo(data);
+            } catch (error) {
+                displayError('Failed to fetch IP information. Please try again.');
+            }
+        }
+
+        async function lookupIP() {
+            const ip = document.getElementById('lookupInput').value.trim();
+
+            if (!ip) {
+                showToast('Please enter an IP address');
+                return;
+            }
+
+            // Basic IP validation
+            const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
+            const ipv6Regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+
+            if (!ipv4Regex.test(ip) && !ipv6Regex.test(ip)) {
+                showToast('Please enter a valid IP address');
+                return;
+            }
+
+            document.getElementById('myIp').textContent = 'Loading...';
+            document.getElementById('infoContent').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <span>Looking up ${ip}...</span>
+                </div>
+            `;
+
+            try {
+                const data = await fetchIPInfo(ip);
+                displayIPInfo(data);
+            } catch (error) {
+                displayError(`Failed to lookup IP: ${error.message}`);
+                document.getElementById('myIp').textContent = ip;
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Handle Enter key in lookup input
+        document.getElementById('lookupInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                lookupIP();
+            }
+        });
+
+        // Initialize
+        (async function init() {
+            try {
+                const data = await fetchIPInfo();
+                displayIPInfo(data);
+            } catch (error) {
+                displayError('Failed to fetch your IP information. Please refresh the page.');
+            }
+        })();
+    </script>
+</body>
+</html>

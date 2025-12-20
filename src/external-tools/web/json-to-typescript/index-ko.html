@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON을 TypeScript로 변환 - 무료 온라인 도구</title>
+    <meta name="description" content="JSON을 TypeScript 인터페이스로 즉시 변환하세요. 개발자를 위한 무료 온라인 도구. 가입 불필요.">
+    <meta name="keywords" content="json typescript 변환, json 변환기, typescript 인터페이스 생성기, typescript 타입, 개발자 도구">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="JSON을 TypeScript로 변환 - 무료 온라인 도구">
+    <meta property="og:description" content="JSON을 TypeScript 인터페이스로 즉시 변환하세요. 개발자를 위한 무료 온라인 도구.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #22c55e;
+            --border: #475569;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .lang-switch a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tool-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 900px) {
+            .tool-container {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 1.8rem; }
+            .lang-switch { position: static; margin-bottom: 20px; }
+            header { padding-top: 20px; }
+        }
+
+        .panel {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .panel-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 400px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border: none;
+            color: var(--text-primary);
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .convert-section {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-convert {
+            padding: 14px 40px;
+            font-size: 1rem;
+        }
+
+        .options-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .options-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+
+        .option-item label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .option-item input[type="text"] {
+            padding: 8px 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            width: 150px;
+        }
+
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .status.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+            display: block;
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            display: block;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .seo-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 1px solid var(--border);
+        }
+
+        .seo-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .seo-content h3 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px;
+        }
+
+        .seo-content p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .seo-content ul {
+            color: var(--text-secondary);
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .seo-content li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lang-switch">
+                <a href="index.html">English</a>
+            </div>
+            <h1>JSON → TypeScript 변환기</h1>
+            <p class="subtitle">JSON 객체를 TypeScript 인터페이스로 즉시 변환하세요. 무료, 빠름, 가입 불필요.</p>
+        </header>
+
+        <div class="ad-banner">광고</div>
+
+        <div class="options-section">
+            <div class="options-title">⚙️ 옵션</div>
+            <div class="options-grid">
+                <div class="option-item">
+                    <input type="text" id="rootName" value="RootObject" placeholder="인터페이스 이름">
+                    <label for="rootName">루트 인터페이스 이름</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="exportTypes" checked>
+                    <label for="exportTypes">export 키워드 추가</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="optionalProps">
+                    <label for="optionalProps">모든 속성을 선택적으로</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="readonlyProps">
+                    <label for="readonlyProps">모든 속성을 readonly로</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="tool-container">
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">📥 JSON 입력</span>
+                    <div class="panel-actions">
+                        <button class="btn btn-secondary" onclick="formatJson()">정리</button>
+                        <button class="btn btn-secondary" onclick="clearInput()">지우기</button>
+                        <button class="btn btn-secondary" onclick="loadSample()">샘플</button>
+                    </div>
+                </div>
+                <textarea id="jsonInput" placeholder='여기에 JSON을 붙여넣으세요...
+
+예시:
+{
+  "id": 1,
+  "name": "홍길동",
+  "email": "hong@example.com",
+  "isActive": true,
+  "roles": ["admin", "user"],
+  "profile": {
+    "age": 30,
+    "city": "서울"
+  }
+}'></textarea>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">📤 TypeScript 출력</span>
+                    <div class="panel-actions">
+                        <button class="btn btn-success" onclick="copyOutput()">📋 복사</button>
+                        <button class="btn btn-secondary" onclick="downloadOutput()">💾 다운로드</button>
+                    </div>
+                </div>
+                <textarea id="tsOutput" readonly placeholder="TypeScript 인터페이스가 여기에 표시됩니다..."></textarea>
+            </div>
+        </div>
+
+        <div class="convert-section">
+            <button class="btn btn-primary btn-convert" onclick="convert()">🚀 TypeScript로 변환</button>
+        </div>
+
+        <div class="status" id="status"></div>
+
+        <div class="ad-banner">광고</div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">즉시 변환</div>
+                <div class="feature-desc">밀리초 단위로 JSON을 TypeScript 인터페이스로 변환합니다. 서버 불필요 - 모든 것이 브라우저에서 실행됩니다.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-title">100% 비공개</div>
+                <div class="feature-desc">데이터가 브라우저를 벗어나지 않습니다. JSON을 저장, 기록 또는 전송하지 않습니다.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">스마트 타입 감지</div>
+                <div class="feature-desc">문자열, 숫자, 불리언, 배열 및 중첩 객체를 자동으로 감지하고 적절한 타입을 지정합니다.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <div class="feature-title">중첩 객체 지원</div>
+                <div class="feature-desc">깊게 중첩된 JSON 구조를 처리하고 각 레벨에 대해 별도의 인터페이스를 생성합니다.</div>
+            </div>
+        </div>
+
+        <div class="seo-content">
+            <h2>JSON to TypeScript 변환기 사용 방법</h2>
+            <p>JSON을 TypeScript 인터페이스로 변환하는 것은 타입 안전한 개발에 필수적입니다. 이 무료 온라인 도구는 모든 JSON 데이터에서 즉시 TypeScript 타입을 생성하는 데 도움이 됩니다.</p>
+
+            <h3>JSON을 TypeScript로 변환하는 단계</h3>
+            <ul>
+                <li><strong>JSON 붙여넣기:</strong> 왼쪽 입력 필드에 JSON 데이터를 복사합니다</li>
+                <li><strong>옵션 구성:</strong> 원하는 인터페이스 이름과 옵션을 설정합니다</li>
+                <li><strong>변환 클릭:</strong> 변환 버튼을 눌러 TypeScript 인터페이스를 생성합니다</li>
+                <li><strong>복사 또는 다운로드:</strong> 생성된 TypeScript를 프로젝트에서 사용합니다</li>
+            </ul>
+
+            <h3>TypeScript 인터페이스를 사용해야 하는 이유</h3>
+            <p>TypeScript 인터페이스는 컴파일 타임 타입 검사, 자동 완성을 통한 더 나은 IDE 지원, 그리고 더 유지보수하기 쉬운 코드를 제공합니다. API 응답이나 설정 파일 작업 시 JSON을 TypeScript 인터페이스로 변환하면 애플리케이션 전체에서 타입 안전성을 보장합니다.</p>
+
+            <h3>이 변환기의 기능</h3>
+            <ul>
+                <li>기본 타입(문자열, 숫자, 불리언) 자동 타입 추론</li>
+                <li>적절한 제네릭 구문을 사용한 배열 타입 감지</li>
+                <li>별도 인터페이스 생성을 통한 중첩 객체 지원</li>
+                <li>선택적 및 readonly 속성 수정자</li>
+                <li>모듈 호환성을 위한 export 키워드</li>
+                <li>오프라인 작동 - 서버로 데이터가 전송되지 않음</li>
+            </ul>
+        </div>
+
+        <div class="ad-banner">광고</div>
+
+        <footer>
+            <p>개발자를 위해 만들었습니다</p>
+            <p style="margin-top: 10px;">
+                <a href="#privacy">개인정보처리방침</a> ·
+                <a href="#terms">이용약관</a> ·
+                <a href="mailto:contact@example.com">문의</a>
+            </p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">클립보드에 복사되었습니다!</div>
+
+    <script>
+        function convert() {
+            const jsonInput = document.getElementById('jsonInput').value.trim();
+            const status = document.getElementById('status');
+            const output = document.getElementById('tsOutput');
+
+            if (!jsonInput) {
+                showStatus('JSON을 입력해주세요', 'error');
+                return;
+            }
+
+            try {
+                const json = JSON.parse(jsonInput);
+                const options = {
+                    rootName: document.getElementById('rootName').value || 'RootObject',
+                    exportTypes: document.getElementById('exportTypes').checked,
+                    optionalProps: document.getElementById('optionalProps').checked,
+                    readonlyProps: document.getElementById('readonlyProps').checked
+                };
+
+                const result = jsonToTypeScript(json, options);
+                output.value = result;
+                showStatus('✅ 변환 성공!', 'success');
+            } catch (e) {
+                showStatus('❌ 잘못된 JSON: ' + e.message, 'error');
+            }
+        }
+
+        function jsonToTypeScript(json, options, name = null) {
+            const interfaces = [];
+            const interfaceName = name || options.rootName;
+
+            function capitalize(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            }
+
+            function getType(value, key) {
+                if (value === null) return 'null';
+                if (value === undefined) return 'undefined';
+
+                const type = typeof value;
+
+                if (type === 'string') return 'string';
+                if (type === 'number') return 'number';
+                if (type === 'boolean') return 'boolean';
+
+                if (Array.isArray(value)) {
+                    if (value.length === 0) return 'any[]';
+                    const firstItem = value[0];
+                    const itemType = getType(firstItem, key);
+
+                    if (typeof firstItem === 'object' && firstItem !== null && !Array.isArray(firstItem)) {
+                        const nestedName = capitalize(key) + 'Item';
+                        generateInterface(firstItem, nestedName);
+                        return nestedName + '[]';
+                    }
+                    return itemType + '[]';
+                }
+
+                if (type === 'object') {
+                    const nestedName = capitalize(key);
+                    generateInterface(value, nestedName);
+                    return nestedName;
+                }
+
+                return 'any';
+            }
+
+            function generateInterface(obj, intName) {
+                const props = [];
+
+                for (const [key, value] of Object.entries(obj)) {
+                    const propType = getType(value, key);
+                    const optional = options.optionalProps ? '?' : '';
+                    const readonly = options.readonlyProps ? 'readonly ' : '';
+                    props.push(`  ${readonly}${key}${optional}: ${propType};`);
+                }
+
+                const exportKeyword = options.exportTypes ? 'export ' : '';
+                const interfaceStr = `${exportKeyword}interface ${intName} {\n${props.join('\n')}\n}`;
+
+                if (!interfaces.some(i => i.includes(`interface ${intName}`))) {
+                    interfaces.push(interfaceStr);
+                }
+            }
+
+            if (Array.isArray(json)) {
+                if (json.length > 0 && typeof json[0] === 'object') {
+                    generateInterface(json[0], interfaceName);
+                    const exportKeyword = options.exportTypes ? 'export ' : '';
+                    interfaces.unshift(`${exportKeyword}type ${interfaceName}Array = ${interfaceName}[];`);
+                } else {
+                    const itemType = json.length > 0 ? getType(json[0], 'item') : 'any';
+                    const exportKeyword = options.exportTypes ? 'export ' : '';
+                    interfaces.push(`${exportKeyword}type ${interfaceName} = ${itemType}[];`);
+                }
+            } else {
+                generateInterface(json, interfaceName);
+            }
+
+            return interfaces.join('\n\n');
+        }
+
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    status.className = 'status';
+                }, 3000);
+            }
+        }
+
+        function formatJson() {
+            const input = document.getElementById('jsonInput');
+            try {
+                const json = JSON.parse(input.value);
+                input.value = JSON.stringify(json, null, 2);
+                showStatus('✅ JSON 정리 완료!', 'success');
+            } catch (e) {
+                showStatus('❌ 잘못된 JSON: ' + e.message, 'error');
+            }
+        }
+
+        function clearInput() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('tsOutput').value = '';
+            document.getElementById('status').className = 'status';
+        }
+
+        function loadSample() {
+            const sample = {
+                "id": 1,
+                "name": "홍길동",
+                "email": "hong@example.com",
+                "isActive": true,
+                "roles": ["admin", "user"],
+                "profile": {
+                    "age": 30,
+                    "city": "서울",
+                    "skills": ["TypeScript", "React", "Node.js"]
+                },
+                "posts": [
+                    {
+                        "id": 101,
+                        "title": "안녕하세요",
+                        "published": true
+                    }
+                ]
+            };
+            document.getElementById('jsonInput').value = JSON.stringify(sample, null, 2);
+            showStatus('✅ 샘플 로드됨!', 'success');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('tsOutput');
+            if (!output.value) {
+                showStatus('복사할 내용이 없습니다', 'error');
+                return;
+            }
+
+            navigator.clipboard.writeText(output.value).then(() => {
+                showToast('클립보드에 복사되었습니다!');
+            });
+        }
+
+        function downloadOutput() {
+            const output = document.getElementById('tsOutput').value;
+            if (!output) {
+                showStatus('다운로드할 내용이 없습니다', 'error');
+                return;
+            }
+
+            const blob = new Blob([output], { type: 'text/typescript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'types.ts';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('types.ts 다운로드됨');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        document.getElementById('jsonInput').addEventListener('paste', () => {
+            setTimeout(convert, 100);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                convert();
+            }
+        });
+    </script>
+</body>
+</html>

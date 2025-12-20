@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's Your Spirit Animal? - Free Personality Test</title>
+    <meta name="description" content="Discover your spirit animal! Take this free personality test to find out which animal represents your soul. Are you a lion, cat, fox, or owl?">
+    <meta name="keywords" content="spirit animal, animal personality test, what animal am I, personality quiz, free test">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="What's Your Spirit Animal? - Personality Test">
+    <meta property="og:description" content="Discover your spirit animal!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a472a/90EE90?text=Spirit+Animal+Test">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #90EE90, #32CD32);
+            color: #1a472a;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5016 50%, #1a472a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .nature-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .leaf {
+            position: absolute;
+            font-size: 24px;
+            animation: falling 15s infinite linear;
+            opacity: 0.4;
+        }
+
+        @keyframes falling {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            background: linear-gradient(135deg, #90EE90, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #a8d5a8; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(144,238,144,0.1);
+            border: 1px solid rgba(144,238,144,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #90EE90;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .intro-section { text-align: center; }
+        .intro-section h2 { color: #90EE90; margin-bottom: 20px; }
+        .intro-section p { color: #a8d5a8; line-height: 1.8; margin-bottom: 25px; }
+        .animal-preview { font-size: 50px; margin: 20px 0; }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #90EE90, #32CD32);
+            color: #1a472a;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(144, 238, 144, 0.4);
+        }
+
+        .question-section { display: none; }
+        .question-section.active { display: block; }
+
+        .progress-container { margin-bottom: 25px; }
+        .progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #90EE90, #32CD32); transition: width 0.3s; }
+        .progress-text { text-align: center; margin-top: 10px; color: #a8d5a8; font-size: 14px; }
+
+        .question-card { animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+        .question-text { font-size: 18px; color: #fff; text-align: center; margin-bottom: 25px; line-height: 1.6; }
+
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .option {
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #c8e8c8;
+        }
+        .option:hover { border-color: #90EE90; background: rgba(144, 238, 144, 0.1); }
+        .option.selected { border-color: #90EE90; background: rgba(144, 238, 144, 0.2); color: #90EE90; }
+
+        .result-section { display: none; animation: fadeIn 0.8s ease; }
+        .result-section.show { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .result-header { text-align: center; margin-bottom: 25px; }
+        .result-header p { color: #a8d5a8; font-size: 14px; }
+        .animal-emoji { font-size: 100px; display: block; margin: 20px 0; filter: drop-shadow(0 0 30px rgba(144, 238, 144, 0.5)); }
+        .animal-name { font-size: 2.5rem; color: #90EE90; margin: 10px 0; }
+        .animal-title { color: #FFD700; font-size: 1.2rem; margin-bottom: 5px; }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .result-card h3 { color: #90EE90; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .result-card p { color: #c8e8c8; line-height: 1.8; }
+
+        .traits-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .trait-tag {
+            background: linear-gradient(135deg, rgba(144, 238, 144, 0.2), rgba(50, 205, 50, 0.2));
+            border: 1px solid rgba(144, 238, 144, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #90EE90;
+            font-size: 14px;
+        }
+
+        .match-section { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .match-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center; }
+        .match-item.good { border: 1px solid rgba(144, 238, 144, 0.3); }
+        .match-item.bad { border: 1px solid rgba(255, 99, 71, 0.3); }
+        .match-item .label { font-size: 12px; color: #888; margin-bottom: 8px; }
+        .match-item .emoji { font-size: 36px; }
+        .match-item .name { color: #fff; margin-top: 5px; font-weight: 600; }
+
+        .share-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 25px; }
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+        .share-btn.primary { background: linear-gradient(135deg, #90EE90, #32CD32); color: #1a472a; }
+        .share-btn.secondary { background: rgba(255,255,255,0.1); color: #e4e4e4; }
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer { text-align: center; padding: 30px; color: rgba(255,255,255,0.5); font-size: 13px; }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.7rem; }
+            .animal-name { font-size: 1.8rem; }
+            .match-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="nature-bg" id="natureBg"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>What's Your Spirit Animal?</h1>
+            <p class="subtitle">Discover the animal that represents your soul</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            This is just for fun! Enjoy the test!
+        </div>
+
+        <div class="card">
+            <div class="intro-section" id="introSection">
+                <div class="animal-preview">🦊🐱🐶🦁</div>
+                <h2>Which animal are you?</h2>
+                <p>
+                    Everyone has a spirit animal that matches their personality.<br>
+                    Answer 8 questions to discover yours!<br><br>
+                    Go with your gut feeling.
+                </p>
+                <button class="start-btn" onclick="startTest()">Start Test</button>
+            </div>
+
+            <div class="question-section" id="questionSection">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">1 / 8</div>
+                </div>
+                <div class="question-card" id="questionCard"></div>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <p>Your spirit animal is...</p>
+                    <span class="animal-emoji" id="animalEmoji">🦊</span>
+                    <div class="animal-name" id="animalName">Fox</div>
+                    <div class="animal-title" id="animalTitle">"The Clever Strategist"</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>🌟 Personality Traits</h3>
+                    <p id="animalDescription"></p>
+                    <div class="traits-container" id="traitsContainer"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💪 Strengths</h3>
+                    <p id="animalStrength"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>⚠️ Watch Out For</h3>
+                    <p id="animalWeakness"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💕 Compatible Animals</h3>
+                    <div class="match-section" id="matchSection"></div>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">Share Result</button>
+                    <button class="share-btn secondary" onclick="resetTest()">Try Again</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>This test is for entertainment purposes only.</p>
+        </footer>
+    </div>
+
+    <script>
+        function createLeaves() {
+            const container = document.getElementById('natureBg');
+            const leaves = ['🍃', '🌿', '🍂', '🌱'];
+            for (let i = 0; i < 15; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.innerHTML = leaves[Math.floor(Math.random() * leaves.length)];
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 15 + 's';
+                leaf.style.animationDuration = (12 + Math.random() * 8) + 's';
+                container.appendChild(leaf);
+            }
+        }
+        createLeaves();
+
+        const questions = [
+            {
+                text: "On a weekend morning, you...",
+                options: [
+                    { text: "Wake up early and start your day!", type: "active" },
+                    { text: "Sleep in and take it slow", type: "calm" },
+                    { text: "Plan out what you need to do", type: "smart" },
+                    { text: "It depends on my mood", type: "free" }
+                ]
+            },
+            {
+                text: "Among your friends, you are...",
+                options: [
+                    { text: "The life of the party", type: "active" },
+                    { text: "The quiet observer", type: "calm" },
+                    { text: "The advice-giver", type: "smart" },
+                    { text: "The lone wolf", type: "lone" }
+                ]
+            },
+            {
+                text: "When stressed, you...",
+                options: [
+                    { text: "Exercise or go outside", type: "active" },
+                    { text: "Find a quiet place to rest", type: "calm" },
+                    { text: "Look for solutions", type: "smart" },
+                    { text: "Escape on a spontaneous trip", type: "free" }
+                ]
+            },
+            {
+                text: "At work, you...",
+                options: [
+                    { text: "Take the lead", type: "leader" },
+                    { text: "Collaborate with the team", type: "social" },
+                    { text: "Focus independently", type: "lone" },
+                    { text: "Come up with creative ideas", type: "free" }
+                ]
+            },
+            {
+                text: "When meeting new people...",
+                options: [
+                    { text: "You approach them first", type: "social" },
+                    { text: "You observe them quietly", type: "calm" },
+                    { text: "You analyze them", type: "smart" },
+                    { text: "You stay cautious", type: "lone" }
+                ]
+            },
+            {
+                text: "When there's conflict...",
+                options: [
+                    { text: "You face it directly", type: "leader" },
+                    { text: "You try to avoid it", type: "calm" },
+                    { text: "You respond strategically", type: "smart" },
+                    { text: "You just walk away", type: "free" }
+                ]
+            },
+            {
+                text: "What matters most to you?",
+                options: [
+                    { text: "Achievement and success", type: "leader" },
+                    { text: "Peace and stability", type: "calm" },
+                    { text: "Knowledge and wisdom", type: "smart" },
+                    { text: "Freedom and adventure", type: "free" }
+                ]
+            },
+            {
+                text: "Your ideal living space is...",
+                options: [
+                    { text: "A vibrant city center", type: "social" },
+                    { text: "A quiet countryside", type: "calm" },
+                    { text: "A neat apartment", type: "smart" },
+                    { text: "Wherever I can roam freely", type: "free" }
+                ]
+            }
+        ];
+
+        const animals = {
+            lion: {
+                emoji: "🦁",
+                name: "Lion",
+                title: '"The Bold Leader"',
+                description: "You're a natural-born leader. Confident and bold, people naturally follow you. You have strong responsibility and march towards your goals without hesitation.",
+                traits: ["Leadership", "Confidence", "Responsibility", "Boldness", "Charisma"],
+                strength: "You never back down and show leadership in any situation. You have the ability to lead teams and accomplish great things.",
+                weakness: "Sometimes you may come across as too intimidating. Try listening to others' opinions more.",
+                goodMatch: { emoji: "🐺", name: "Wolf" },
+                badMatch: { emoji: "🦊", name: "Fox" }
+            },
+            cat: {
+                emoji: "🐱",
+                name: "Cat",
+                title: '"The Independent Royal"',
+                description: "You're independent with your own world. You enjoy socializing but value alone time equally. You have an elegant and mysterious charm.",
+                traits: ["Independent", "Mysterious", "Elegant", "Intuitive", "Selective"],
+                strength: "You maintain your own space while exuding attractive presence. You can handle things well on your own.",
+                weakness: "You might seem too cool and be misunderstood. Try expressing your feelings a bit more.",
+                goodMatch: { emoji: "🦉", name: "Owl" },
+                badMatch: { emoji: "🐶", name: "Dog" }
+            },
+            dog: {
+                emoji: "🐶",
+                name: "Dog",
+                title: '"The Loyal Friend"',
+                description: "You're warm and kind-hearted. You genuinely care about people around you and feel happy when with them. You're a loyal and trustworthy friend.",
+                traits: ["Kind", "Loyal", "Social", "Warm", "Optimistic"],
+                strength: "You approach people with a sincere heart. You make everyone around you feel comfortable and happy.",
+                weakness: "You might lose yourself trying to please others. Take some time for yourself too.",
+                goodMatch: { emoji: "🐱", name: "Cat" },
+                badMatch: { emoji: "🦅", name: "Eagle" }
+            },
+            fox: {
+                emoji: "🦊",
+                name: "Fox",
+                title: '"The Clever Strategist"',
+                description: "You're smart and perceptive. You quickly assess situations and find the best solutions. Your adaptability shines in crisis situations.",
+                traits: ["Clever", "Adaptable", "Observant", "Strategic", "Charming"],
+                strength: "You know how to survive in any situation. You're exceptionally good at reading people.",
+                weakness: "You might come across as too calculating. Sometimes, just open your heart genuinely.",
+                goodMatch: { emoji: "🐰", name: "Rabbit" },
+                badMatch: { emoji: "🦁", name: "Lion" }
+            },
+            owl: {
+                emoji: "🦉",
+                name: "Owl",
+                title: '"The Wise Sage"',
+                description: "You love to think deeply and analyze. You observe quietly and see the essence of things. You're a thinker who pursues knowledge and wisdom.",
+                traits: ["Wise", "Observant", "Analytical", "Calm", "Thoughtful"],
+                strength: "You analyze complex problems calmly and find solutions. Your advice is always reliable.",
+                weakness: "Overthinking might delay your actions. Sometimes you need to just move first.",
+                goodMatch: { emoji: "🐱", name: "Cat" },
+                badMatch: { emoji: "🐵", name: "Monkey" }
+            },
+            wolf: {
+                emoji: "🐺",
+                name: "Wolf",
+                title: '"The Lone Warrior"',
+                description: "You're strong and independent. You run with the pack but can stand alone. You're fiercely loyal to family and friends.",
+                traits: ["Strong", "Independent", "Loyal", "Instinctive", "Cautious"],
+                strength: "You show your true colors in crisis. You'll do anything to protect what matters.",
+                weakness: "You don't open up easily and might feel lonely. Open your heart to those you trust.",
+                goodMatch: { emoji: "🦁", name: "Lion" },
+                badMatch: { emoji: "🦋", name: "Butterfly" }
+            },
+            butterfly: {
+                emoji: "🦋",
+                name: "Butterfly",
+                title: '"The Free Spirit"',
+                description: "You're a free and beautiful soul. Rather than staying in one place, you seek new experiences. You have creative and artistic sensibilities.",
+                traits: ["Free", "Creative", "Changing", "Beautiful", "Light-hearted"],
+                strength: "You embrace change fearlessly and seek new challenges. You find beauty everywhere.",
+                weakness: "You might have trouble focusing on one thing. Sometimes going deeper is necessary.",
+                goodMatch: { emoji: "🌸", name: "Flower" },
+                badMatch: { emoji: "🐺", name: "Wolf" }
+            },
+            rabbit: {
+                emoji: "🐰",
+                name: "Rabbit",
+                title: '"The Adorable Quick-wit"',
+                description: "You're cute and have great instincts. You have quick judgment and agility. You have the power to brighten up any atmosphere.",
+                traits: ["Cute", "Quick", "Witty", "Social", "Sensitive"],
+                strength: "You read situations quickly and respond cleverly. You have a lovable charm.",
+                weakness: "Being too sensitive means small things can hurt you. It's okay to be a bit tougher.",
+                goodMatch: { emoji: "🦊", name: "Fox" },
+                badMatch: { emoji: "🦅", name: "Eagle" }
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+        let resultData = {};
+
+        function startTest() {
+            document.getElementById('introSection').style.display = 'none';
+            document.getElementById('questionSection').classList.add('active');
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            const q = questions[index];
+            const container = document.getElementById('questionCard');
+
+            let optionsHtml = q.options.map((opt, i) =>
+                `<div class="option" onclick="selectOption(${i}, '${opt.type}')">${opt.text}</div>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+            `;
+
+            document.getElementById('progressFill').style.width = ((index + 1) / questions.length * 100) + '%';
+            document.getElementById('progressText').textContent = `${index + 1} / ${questions.length}`;
+        }
+
+        function selectOption(optionIndex, type) {
+            answers.push(type);
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                } else {
+                    calculateResult();
+                }
+            }, 400);
+        }
+
+        function calculateResult() {
+            const counts = {};
+            answers.forEach(type => {
+                counts[type] = (counts[type] || 0) + 1;
+            });
+
+            let animal = 'fox';
+
+            if (counts.leader >= 2 && counts.active >= 1) animal = 'lion';
+            else if (counts.calm >= 3 || (counts.lone >= 2 && counts.calm >= 1)) animal = 'cat';
+            else if (counts.social >= 3 || (counts.active >= 2 && counts.social >= 1)) animal = 'dog';
+            else if (counts.smart >= 3) animal = 'owl';
+            else if (counts.lone >= 3 || (counts.smart >= 2 && counts.calm >= 1)) animal = 'wolf';
+            else if (counts.free >= 3) animal = 'butterfly';
+            else if (counts.social >= 2 && counts.calm >= 1) animal = 'rabbit';
+            else if (counts.smart >= 2 || counts.calm >= 2) animal = 'fox';
+
+            resultData = animals[animal];
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('animalEmoji').textContent = resultData.emoji;
+            document.getElementById('animalName').textContent = resultData.name;
+            document.getElementById('animalTitle').textContent = resultData.title;
+            document.getElementById('animalDescription').textContent = resultData.description;
+            document.getElementById('animalStrength').textContent = resultData.strength;
+            document.getElementById('animalWeakness').textContent = resultData.weakness;
+
+            document.getElementById('traitsContainer').innerHTML = resultData.traits.map(t =>
+                `<span class="trait-tag">${t}</span>`
+            ).join('');
+
+            document.getElementById('matchSection').innerHTML = `
+                <div class="match-item good">
+                    <div class="label">Best Match</div>
+                    <div class="emoji">${resultData.goodMatch.emoji}</div>
+                    <div class="name">${resultData.goodMatch.name}</div>
+                </div>
+                <div class="match-item bad">
+                    <div class="label">Be Careful With</div>
+                    <div class="emoji">${resultData.badMatch.emoji}</div>
+                    <div class="name">${resultData.badMatch.name}</div>
+                </div>
+            `;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `🌿 What's Your Spirit Animal?\n\n` +
+                        `${resultData.emoji} ${resultData.name}\n` +
+                        `${resultData.title}\n\n` +
+                        `✨ ${resultData.traits.slice(0, 3).join(' · ')}\n\n` +
+                        `Take the test! 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'Spirit Animal Test', text: text })
+                    .catch(err => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 Copied to clipboard!');
+                });
+            }
+        }
+
+        function resetTest() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('introSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

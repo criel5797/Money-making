@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Style Test - What's Your Dating Personality? | Free Relationship Quiz</title>
+    <meta name="description" content="Discover your love style! Take this free relationship quiz to find out how you love. Clingy? Independent? Find your dating personality type!">
+    <meta name="keywords" content="love test, relationship quiz, dating style, love personality, romance test, dating type, love style">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Love Style Test - What's Your Dating Personality?">
+    <meta property="og:description" content="How do you love? Take this quiz to find out!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=Love+Style+Test">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44dff 50%, #6b5ce7 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .hearts-float {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            animation: heartFloat 12s infinite ease-in-out;
+            opacity: 0.5;
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        }
+
+        .subtitle { color: rgba(255,255,255,0.9); font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .intro-section {
+            text-align: center;
+        }
+
+        .intro-emoji { font-size: 60px; margin-bottom: 20px; }
+
+        .intro-section h2 {
+            color: #c44dff;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .intro-section p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(196, 77, 255, 0.4);
+        }
+
+        .question-section {
+            display: none;
+        }
+
+        .question-section.active { display: block; }
+
+        .progress-container { margin-bottom: 25px; }
+
+        .progress-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d, #c44dff);
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .question-card {
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .question-emoji { font-size: 50px; text-align: center; margin-bottom: 20px; }
+
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 16px 20px;
+            background: #f8f8ff;
+            border: 2px solid #eee;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #555;
+            font-size: 15px;
+        }
+
+        .option:hover {
+            border-color: #c44dff;
+            background: #fdf8ff;
+        }
+
+        .option.selected {
+            border-color: #c44dff;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(196, 77, 255, 0.1));
+            color: #c44dff;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-header p { color: #888; font-size: 14px; }
+
+        .type-emoji { font-size: 80px; display: block; margin: 15px 0; }
+
+        .type-name {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .type-title {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .result-card {
+            background: #f8f8ff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #c44dff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .keyword-tag {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(196, 77, 255, 0.15));
+            border: 1px solid rgba(196, 77, 255, 0.3);
+            padding: 6px 14px;
+            border-radius: 15px;
+            color: #c44dff;
+            font-size: 13px;
+        }
+
+        .match-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .match-item {
+            background: white;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .match-item.good { border-color: #90EE90; background: #f8fff8; }
+        .match-item.bad { border-color: #ffb6c1; background: #fff8f8; }
+
+        .match-item .label { font-size: 12px; color: #888; margin-bottom: 5px; }
+        .match-item .type { font-weight: 700; color: #333; }
+
+        .percentage-section {
+            margin-top: 15px;
+        }
+
+        .percentage-item {
+            margin-bottom: 12px;
+        }
+
+        .percentage-item .label-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .percentage-item .label { color: #666; }
+        .percentage-item .value { color: #c44dff; font-weight: 600; }
+
+        .percentage-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .percentage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d, #c44dff);
+            border-radius: 4px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.7rem; }
+            .type-name { font-size: 1.5rem; }
+            .match-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-float" id="heartsFloat"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>Love Style Test</h1>
+            <p class="subtitle">What's your dating personality?</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="card">
+            <div class="intro-section" id="introSection">
+                <div class="intro-emoji">💕</div>
+                <h2>Discover Your Love Style</h2>
+                <p>
+                    Everyone loves differently.<br>
+                    Take this 10-question quiz to discover<br>
+                    your unique dating personality!<br><br>
+                    Be honest with your answers 💝
+                </p>
+                <button class="start-btn" onclick="startTest()">Start Test</button>
+            </div>
+
+            <div class="question-section" id="questionSection">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">1 / 10</div>
+                </div>
+                <div class="question-card" id="questionCard"></div>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <p>Your love style is...</p>
+                    <span class="type-emoji" id="typeEmoji">💗</span>
+                    <div class="type-name" id="typeName">Devoted Lover</div>
+                    <div class="type-title" id="typeTitle">"I'd do anything for you"</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 Love Style</h3>
+                    <p id="typeDescription"></p>
+                    <div class="keyword-tags" id="keywordTags"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📊 Personality Analysis</h3>
+                    <div class="percentage-section" id="percentageSection"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>✨ Strengths</h3>
+                    <p id="typeStrength"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>⚠️ Watch Out For</h3>
+                    <p id="typeWeakness"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💑 Compatibility</h3>
+                    <div class="match-section" id="matchSection"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💡 Dating Advice</h3>
+                    <p id="typeAdvice"></p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">Share Result</button>
+                    <button class="share-btn secondary" onclick="resetTest()">Retake Test</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>This test is for entertainment purposes only.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Heart background
+        function createHearts() {
+            const container = document.getElementById('heartsFloat');
+            const hearts = ['💕', '💗', '💖', '💝', '❤️'];
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 12 + 's';
+                heart.style.animationDuration = (10 + Math.random() * 5) + 's';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        const questions = [
+            {
+                emoji: "📱",
+                text: "When your partner doesn't reply, you...",
+                options: [
+                    { text: "Keep checking and feel anxious", type: "clingy" },
+                    { text: "Figure they're busy and wait", type: "stable" },
+                    { text: "Do my own thing", type: "independent" },
+                    { text: "Text first to check what's up", type: "active" }
+                ]
+            },
+            {
+                emoji: "💕",
+                text: "How do you express love?",
+                options: [
+                    { text: "Words and actions, very openly", type: "active" },
+                    { text: "Gifts and surprise events", type: "romantic" },
+                    { text: "Quality time together", type: "stable" },
+                    { text: "Being there when needed", type: "caring" }
+                ]
+            },
+            {
+                emoji: "😤",
+                text: "After a fight with your partner, you...",
+                options: [
+                    { text: "Try to make up right away", type: "clingy" },
+                    { text: "Take time to think it through", type: "stable" },
+                    { text: "Make my position clear", type: "independent" },
+                    { text: "Try to lighten the mood", type: "playful" }
+                ]
+            },
+            {
+                emoji: "🏠",
+                text: "Your ideal date would be...",
+                options: [
+                    { text: "Cozy time at home together", type: "stable" },
+                    { text: "Exploring somewhere new", type: "playful" },
+                    { text: "Romantic dinner with ambiance", type: "romantic" },
+                    { text: "Each doing our thing, then meeting up", type: "independent" }
+                ]
+            },
+            {
+                emoji: "🤔",
+                text: "How do you feel about your partner's opposite-gender friends?",
+                options: [
+                    { text: "Honestly, not a fan", type: "clingy" },
+                    { text: "I trust them, so it's fine", type: "stable" },
+                    { text: "I have opposite-gender friends too, so OK", type: "independent" },
+                    { text: "Would be fun to all hang out together", type: "playful" }
+                ]
+            },
+            {
+                emoji: "💭",
+                text: "Alone time while in a relationship is...",
+                options: [
+                    { text: "Not needed, prefer being together", type: "clingy" },
+                    { text: "Sometimes necessary", type: "stable" },
+                    { text: "Essential, struggle without it", type: "independent" },
+                    { text: "Time with friends counts", type: "playful" }
+                ]
+            },
+            {
+                emoji: "🎁",
+                text: "Your thoughts on anniversaries?",
+                options: [
+                    { text: "Every anniversary matters!", type: "romantic" },
+                    { text: "Only celebrate the big ones", type: "stable" },
+                    { text: "Daily love matters more", type: "independent" },
+                    { text: "Surprise events are better", type: "playful" }
+                ]
+            },
+            {
+                emoji: "😢",
+                text: "When your partner is going through a hard time, you...",
+                options: [
+                    { text: "Stay by their side no matter what", type: "caring" },
+                    { text: "Help find solutions", type: "active" },
+                    { text: "Give them space and wait", type: "stable" },
+                    { text: "Try to cheer them up", type: "playful" }
+                ]
+            },
+            {
+                emoji: "💑",
+                text: "What's most important in a relationship?",
+                options: [
+                    { text: "Time spent together", type: "clingy" },
+                    { text: "Mutual trust", type: "stable" },
+                    { text: "Personal growth", type: "independent" },
+                    { text: "Excitement and fun", type: "playful" }
+                ]
+            },
+            {
+                emoji: "💍",
+                text: "Thoughts on the future of your relationship?",
+                options: [
+                    { text: "Marriage is the goal", type: "caring" },
+                    { text: "Let it flow naturally", type: "stable" },
+                    { text: "Focus on the present", type: "playful" },
+                    { text: "Decide when the time is right", type: "independent" }
+                ]
+            }
+        ];
+
+        const loveTypes = {
+            clingy: {
+                emoji: "🥺",
+                name: "All-In Lover",
+                title: "\"I can't live without you\"",
+                description: "When you fall in love, you give your whole heart. You're happiest with your partner and miss them terribly when apart. Your passion and sincerity in love is your greatest charm!",
+                keywords: ["Sincere", "Passionate", "Affectionate", "Togetherness", "Attached"],
+                strength: "Your sincere love can truly move someone. You make your partner feel like the most special person in the world.",
+                weakness: "Being too clingy might overwhelm your partner. Sometimes give each other space and respect boundaries.",
+                goodMatch: "Stable Lover",
+                badMatch: "Free Spirit Lover",
+                traits: { passion: 95, independence: 35, romance: 80, stability: 50 },
+                advice: "Love is a marathon. Love slowly but steadily. Give your partner time to love you as much as you love them."
+            },
+            stable: {
+                emoji: "🤝",
+                name: "Stable Lover",
+                title: "\"I feel at ease with you\"",
+                description: "You build relationships on trust and reliability. You value everyday happiness over flashy romance and seek lasting love. You're like a dependable pillar of support!",
+                keywords: ["Trustworthy", "Comfortable", "Everyday", "Secure", "Long-term"],
+                strength: "Your unwavering love provides security. You're a rock that doesn't waver in any situation.",
+                weakness: "You might sometimes seem too calm. Try planning romantic surprises occasionally!",
+                goodMatch: "All-In Lover",
+                badMatch: "Flirty Lover",
+                traits: { passion: 60, independence: 65, romance: 55, stability: 95 },
+                advice: "Stability is great, but try new things sometimes. Small changes can add energy to your relationship."
+            },
+            independent: {
+                emoji: "🦅",
+                name: "Free Spirit Lover",
+                title: "\"Let's respect each other's lives\"",
+                description: "Love matters, but so does your personal life. You maintain healthy relationships by respecting each other's space. You love in a mature, independent way!",
+                keywords: ["Independent", "Respectful", "Self-driven", "Mature", "Balanced"],
+                strength: "You maintain healthy relationships. Not being restrictive allows for longevity.",
+                weakness: "Your partner might feel neglected. Sometimes reach out first and show affection.",
+                goodMatch: "Free Spirit Lover",
+                badMatch: "All-In Lover",
+                traits: { passion: 50, independence: 95, romance: 45, stability: 70 },
+                advice: "Independence is good, but it's okay to open up more to your partner. Depending on each other is also love."
+            },
+            romantic: {
+                emoji: "🌹",
+                name: "Romantic Lover",
+                title: "\"Every day should be special\"",
+                description: "Romance is essential in your love life. Anniversaries, surprise events, sweet words... You want to give special moments to the one you love!",
+                keywords: ["Romantic", "Events", "Emotional", "Anniversaries", "Exciting"],
+                strength: "You make your partner feel special. You make every moment together beautiful.",
+                weakness: "High expectations can lead to big disappointments. Remember that ordinary days are precious too.",
+                goodMatch: "Devoted Lover",
+                badMatch: "Free Spirit Lover",
+                traits: { passion: 85, independence: 50, romance: 95, stability: 55 },
+                advice: "Romance is great, but appreciate small everyday joys too. Love is beautiful even without special occasions."
+            },
+            playful: {
+                emoji: "🎉",
+                name: "Flirty Lover",
+                title: "\"Dating should be fun!\"",
+                description: "Keep it fun! You prefer playful, light relationships over heavy, serious ones. Laughter never stops when you're around!",
+                keywords: ["Fun", "Playful", "Cheerful", "Light", "Laughter"],
+                strength: "Being with you is fun. You have the power to handle difficulties with humor.",
+                weakness: "Joking around at serious moments might cause misunderstandings. Read the room.",
+                goodMatch: "Flirty Lover",
+                badMatch: "Stable Lover",
+                traits: { passion: 70, independence: 75, romance: 65, stability: 45 },
+                advice: "Fun is good, but serious conversations are needed sometimes. Open up for a deeper connection."
+            },
+            caring: {
+                emoji: "🤗",
+                name: "Devoted Lover",
+                title: "\"Anything for you\"",
+                description: "You want to do everything for the one you love. Their happiness is your happiness! You find joy in taking care of and looking after your partner. A warm-hearted love giver!",
+                keywords: ["Devoted", "Caring", "Warm", "Nurturing", "Selfless"],
+                strength: "You love unconditionally. You make your partner truly feel loved.",
+                weakness: "Sacrificing too much can burn you out. Make time for yourself too.",
+                goodMatch: "Romantic Lover",
+                badMatch: "Flirty Lover",
+                traits: { passion: 80, independence: 40, romance: 75, stability: 80 },
+                advice: "Don't just give - learn to receive too. A healthy relationship balances give and take."
+            },
+            active: {
+                emoji: "🔥",
+                name: "Go-Getter Lover",
+                title: "\"I'll take the lead\"",
+                description: "You take charge in relationships. From planning dates to confessing feelings, you lead actively. You prove love through actions, not words!",
+                keywords: ["Proactive", "Active", "Leadership", "Action-oriented", "Decisive"],
+                strength: "No games - you love clearly. Your partner never has to guess.",
+                weakness: "Listen to your partner's opinions too. Making decisions together matters.",
+                goodMatch: "Stable Lover",
+                badMatch: "Go-Getter Lover",
+                traits: { passion: 90, independence: 70, romance: 70, stability: 65 },
+                advice: "Leading is good, but sometimes let your partner take the reins. They might want to lead sometimes too."
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+        let resultData = {};
+
+        function startTest() {
+            document.getElementById('introSection').style.display = 'none';
+            document.getElementById('questionSection').classList.add('active');
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            const q = questions[index];
+            const container = document.getElementById('questionCard');
+
+            let optionsHtml = q.options.map((opt, i) =>
+                `<div class="option" onclick="selectOption(${i}, '${opt.type}')">${opt.text}</div>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="question-emoji">${q.emoji}</div>
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+            `;
+
+            document.getElementById('progressFill').style.width = ((index + 1) / questions.length * 100) + '%';
+            document.getElementById('progressText').textContent = `${index + 1} / ${questions.length}`;
+        }
+
+        function selectOption(optionIndex, type) {
+            answers.push(type);
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                } else {
+                    calculateResult();
+                }
+            }, 400);
+        }
+
+        function calculateResult() {
+            const counts = {};
+            answers.forEach(type => {
+                counts[type] = (counts[type] || 0) + 1;
+            });
+
+            // Find most common type
+            let maxType = 'stable';
+            let maxCount = 0;
+            Object.entries(counts).forEach(([type, count]) => {
+                if (count > maxCount) {
+                    maxCount = count;
+                    maxType = type;
+                }
+            });
+
+            resultData = loveTypes[maxType];
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('typeEmoji').textContent = resultData.emoji;
+            document.getElementById('typeName').textContent = resultData.name;
+            document.getElementById('typeTitle').textContent = resultData.title;
+            document.getElementById('typeDescription').textContent = resultData.description;
+            document.getElementById('typeStrength').textContent = resultData.strength;
+            document.getElementById('typeWeakness').textContent = resultData.weakness;
+            document.getElementById('typeAdvice').textContent = resultData.advice;
+
+            document.getElementById('keywordTags').innerHTML = resultData.keywords.map(k =>
+                `<span class="keyword-tag">#${k}</span>`
+            ).join('');
+
+            const traitLabels = {
+                passion: 'Passion',
+                independence: 'Independence',
+                romance: 'Romance',
+                stability: 'Stability'
+            };
+
+            document.getElementById('percentageSection').innerHTML = Object.entries(resultData.traits).map(([key, value]) => `
+                <div class="percentage-item">
+                    <div class="label-row">
+                        <span class="label">${traitLabels[key]}</span>
+                        <span class="value">${value}%</span>
+                    </div>
+                    <div class="percentage-bar">
+                        <div class="percentage-fill" style="width: ${value}%"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('matchSection').innerHTML = `
+                <div class="match-item good">
+                    <div class="label">Best Match</div>
+                    <div class="type">💚 ${resultData.goodMatch}</div>
+                </div>
+                <div class="match-item bad">
+                    <div class="label">Challenging Match</div>
+                    <div class="type">💔 ${resultData.badMatch}</div>
+                </div>
+            `;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `💕 Love Style Test Result\n\n` +
+                        `${resultData.emoji} ${resultData.name}\n` +
+                        `${resultData.title}\n\n` +
+                        `🏷️ ${resultData.keywords.map(k => '#'+k).join(' ')}\n\n` +
+                        `💚 Best Match: ${resultData.goodMatch}\n` +
+                        `💔 Challenging: ${resultData.badMatch}\n\n` +
+                        `Take the test too 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'Love Style Test', text: text, url: window.location.href })
+                    .catch(err => {
+                        navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => showToast('Result copied!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
+                    showToast('Result copied!');
+                });
+            }
+        }
+
+        function resetTest() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('introSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

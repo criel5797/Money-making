@@ -353,24 +353,28 @@ function build(){
   write(path.join(OUT, 'games', 'word-puzzle', 'index.html'), wrapWordPuzzleGame());
 
   // Copy Web Tools
-  var webToolsSrc = 'C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\431960\\Desktop\\Desktop\\Desktop\\돈기획\\WEB_TOOLS';
+  var webToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'web');
   if (fs.existsSync(webToolsSrc)) {
     for (var i = 0; i < webTools.length; i++) {
       var toolId = webTools[i].id;
       var srcPath = path.join(webToolsSrc, toolId);
       var destPath = path.join(OUT, 'tools', 'web', toolId);
-      copyDir(srcPath, destPath);
+      if (fs.existsSync(srcPath)) {
+        copyDir(srcPath, destPath);
+      }
     }
   }
 
   // Copy Consumer Tools
-  var consumerToolsSrc = 'C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\431960\\Desktop\\Desktop\\Desktop\\돈기획\\CONSUMER_TOOLS';
+  var consumerToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'fun');
   if (fs.existsSync(consumerToolsSrc)) {
     for (var i = 0; i < consumerTools.length; i++) {
       var toolId = consumerTools[i].id;
       var srcPath = path.join(consumerToolsSrc, toolId);
       var destPath = path.join(OUT, 'tools', 'fun', toolId);
-      copyDir(srcPath, destPath);
+      if (fs.existsSync(srcPath)) {
+        copyDir(srcPath, destPath);
+      }
     }
   }
 

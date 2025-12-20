@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 타로 카드 - 무료 온라인 타로 점 | 오늘의 운세</title>
+    <meta name="description" content="무료 AI 타로 카드로 오늘의 운세를 확인하세요. 연애운, 재물운, 직장운을 타로 카드로 알아보세요. 매일 새로운 타로 리딩.">
+    <meta name="keywords" content="타로, 타로카드, 무료타로, 오늘의운세, 연애운, 재물운, AI타로">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI 타로 카드 - 무료 온라인 타로 점">
+    <meta property="og:description" content="무료 AI 타로로 오늘의 운세를 확인하세요">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a0a2e/ffd700?text=AI+타로+카드">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #c44dff);
+            color: #1a0a2e;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #1a0a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #ffd700, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(196, 77, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #b8a9c9;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: #666;
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 30px;
+        }
+
+        .spread-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .spread-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(196, 77, 255, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .spread-option:hover, .spread-option.active {
+            background: rgba(196, 77, 255, 0.2);
+            border-color: #c44dff;
+            transform: translateY(-3px);
+        }
+
+        .spread-option h3 {
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
+
+        .spread-option p {
+            color: #b8a9c9;
+            font-size: 13px;
+        }
+
+        .question-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .question-section h2 {
+            color: #c44dff;
+            margin-bottom: 15px;
+        }
+
+        .question-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            border: 2px solid rgba(196, 77, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .question-input:focus {
+            border-color: #c44dff;
+        }
+
+        .question-input::placeholder {
+            color: #666;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            min-height: 280px;
+        }
+
+        .card {
+            width: 150px;
+            height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #2d1b4e, #4a2c7a);
+            border: 3px solid #ffd700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(196, 77, 255, 0.3);
+        }
+
+        .card-back::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 8px;
+        }
+
+        .card-back-symbol {
+            font-size: 3rem;
+            color: #ffd700;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #1a0a2e, #2d1b4e);
+            border: 3px solid #c44dff;
+            transform: rotateY(180deg);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 30px rgba(196, 77, 255, 0.5);
+        }
+
+        .card-symbol {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .card-name {
+            font-size: 12px;
+            color: #ffd700;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .card-number {
+            font-size: 11px;
+            color: #b8a9c9;
+            margin-top: 5px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #c44dff, #ff6b9d);
+            color: white;
+            box-shadow: 0 5px 20px rgba(196, 77, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(196, 77, 255, 0.6);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .reading-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .reading-section.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reading-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(196, 77, 255, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .reading-card h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reading-card p {
+            color: #e4e4e4;
+            line-height: 1.8;
+        }
+
+        .card-meaning {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .meaning-item {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .meaning-item h4 {
+            color: #c44dff;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .meaning-item p {
+            font-size: 14px;
+            color: #b8a9c9;
+        }
+
+        .overall-reading {
+            background: linear-gradient(135deg, rgba(196, 77, 255, 0.1), rgba(255, 107, 157, 0.1));
+            border: 2px solid rgba(196, 77, 255, 0.3);
+        }
+
+        .share-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .share-btn {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+            padding: 12px 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .share-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(196, 77, 255, 0.3);
+            border-top-color: #c44dff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .card { width: 100px; height: 170px; }
+            .card-symbol { font-size: 2rem; }
+            .card-name { font-size: 10px; }
+            .card-meaning { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>AI 타로 카드</h1>
+            <p class="subtitle">신비로운 타로 카드로 오늘의 운세를 확인하세요</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            재미로 즐기는 타로 점입니다. 중요한 결정은 신중하게 판단하세요.
+        </div>
+
+        <div id="selectionPhase">
+            <h2 style="text-align:center; color:#c44dff; margin-bottom:20px;">어떤 스프레드로 볼까요?</h2>
+
+            <div class="spread-selection">
+                <div class="spread-option active" data-spread="1" onclick="selectSpread(1)">
+                    <h3>원카드</h3>
+                    <p>오늘의 메시지<br>간단한 질문에 적합</p>
+                </div>
+                <div class="spread-option" data-spread="3" onclick="selectSpread(3)">
+                    <h3>쓰리카드</h3>
+                    <p>과거-현재-미래<br>상황 분석에 적합</p>
+                </div>
+                <div class="spread-option" data-spread="5" onclick="selectSpread(5)">
+                    <h3>연애운</h3>
+                    <p>나-상대-관계-조언-결과<br>연애 고민에 적합</p>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <h2>질문을 입력하세요 (선택)</h2>
+                <input type="text" class="question-input" id="question" placeholder="예: 이번 달 나의 연애운은 어떨까요?">
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" onclick="startReading()">
+                    카드 뽑기
+                </button>
+            </div>
+        </div>
+
+        <div id="cardPhase" style="display:none;">
+            <h2 style="text-align:center; color:#c44dff; margin-bottom:10px;">카드를 클릭하여 뒤집으세요</h2>
+            <p style="text-align:center; color:#b8a9c9; margin-bottom:20px;" id="flipInstruction">카드를 하나씩 클릭하세요</p>
+
+            <div class="cards-container" id="cardsContainer"></div>
+
+            <div class="controls">
+                <button class="btn btn-primary" id="revealBtn" onclick="revealReading()" disabled>
+                    해석 보기
+                </button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p style="color:#b8a9c9;">타로 카드의 의미를 해석하고 있습니다...</p>
+        </div>
+
+        <div class="reading-section" id="readingSection">
+            <div id="readingContent"></div>
+
+            <div class="share-section">
+                <button class="share-btn" onclick="shareResult()">
+                    결과 공유하기
+                </button>
+                <button class="share-btn" onclick="resetReading()" style="margin-left:10px;">
+                    다시 뽑기
+                </button>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>이 타로 점은 재미와 영감을 위한 것입니다.<br>중요한 결정은 전문가와 상담하세요.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 타로 카드 데이터 (메이저 아르카나)
+        const tarotCards = [
+            { id: 0, name: "광대", symbol: "🃏", meaning: { upright: "새로운 시작, 순수함, 자유로운 영혼, 모험", reversed: "무모함, 경솔함, 위험 감수" }},
+            { id: 1, name: "마법사", symbol: "🔮", meaning: { upright: "창조력, 의지력, 기술, 능력 발휘", reversed: "속임수, 능력 남용, 미숙함" }},
+            { id: 2, name: "여사제", symbol: "🌙", meaning: { upright: "직관, 신비, 내면의 지혜, 잠재의식", reversed: "숨겨진 동기, 직관 무시, 비밀" }},
+            { id: 3, name: "여황제", symbol: "👑", meaning: { upright: "풍요, 모성애, 아름다움, 자연", reversed: "의존성, 창조력 부족, 과잉보호" }},
+            { id: 4, name: "황제", symbol: "🏛️", meaning: { upright: "권위, 안정, 리더십, 구조", reversed: "독재, 경직됨, 통제 과잉" }},
+            { id: 5, name: "교황", symbol: "⛪", meaning: { upright: "전통, 신념, 가르침, 영적 지도", reversed: "관습 타파, 새로운 방식, 반항" }},
+            { id: 6, name: "연인", symbol: "💕", meaning: { upright: "사랑, 조화, 선택, 관계", reversed: "불균형, 갈등, 잘못된 선택" }},
+            { id: 7, name: "전차", symbol: "🏆", meaning: { upright: "승리, 의지력, 결단력, 행동", reversed: "장애물, 방향 상실, 공격성" }},
+            { id: 8, name: "힘", symbol: "🦁", meaning: { upright: "용기, 인내, 내면의 힘, 자제력", reversed: "자기 의심, 약함, 불안" }},
+            { id: 9, name: "은둔자", symbol: "🏔️", meaning: { upright: "내면 탐구, 명상, 지혜 추구, 고독", reversed: "고립, 외로움, 지나친 은둔" }},
+            { id: 10, name: "운명의 수레바퀴", symbol: "☸️", meaning: { upright: "변화, 순환, 행운, 전환점", reversed: "저항, 불운, 변화 거부" }},
+            { id: 11, name: "정의", symbol: "⚖️", meaning: { upright: "공정함, 진실, 균형, 인과응보", reversed: "불공정, 부정직, 책임 회피" }},
+            { id: 12, name: "매달린 사람", symbol: "🙃", meaning: { upright: "희생, 새로운 시각, 인내, 깨달음", reversed: "지연, 저항, 무의미한 희생" }},
+            { id: 13, name: "죽음", symbol: "🦋", meaning: { upright: "끝과 시작, 변화, 전환, 재탄생", reversed: "변화 저항, 정체, 두려움" }},
+            { id: 14, name: "절제", symbol: "🌈", meaning: { upright: "균형, 조화, 인내, 중용", reversed: "불균형, 극단, 과잉" }},
+            { id: 15, name: "악마", symbol: "⛓️", meaning: { upright: "속박, 유혹, 물질주의, 그림자 자아", reversed: "해방, 두려움 극복, 자유" }},
+            { id: 16, name: "탑", symbol: "🗼", meaning: { upright: "급격한 변화, 혼란, 깨달음, 해방", reversed: "변화 회피, 재난 방지, 두려움" }},
+            { id: 17, name: "별", symbol: "⭐", meaning: { upright: "희망, 영감, 평화, 치유", reversed: "절망, 희망 상실, 불신" }},
+            { id: 18, name: "달", symbol: "🌕", meaning: { upright: "직관, 꿈, 무의식, 환상", reversed: "혼란, 두려움, 기만" }},
+            { id: 19, name: "태양", symbol: "☀️", meaning: { upright: "기쁨, 성공, 활력, 긍정", reversed: "일시적 우울, 자만, 지연된 성공" }},
+            { id: 20, name: "심판", symbol: "📯", meaning: { upright: "부활, 각성, 평가, 재탄생", reversed: "자기 의심, 판단 회피, 후회" }},
+            { id: 21, name: "세계", symbol: "🌍", meaning: { upright: "완성, 통합, 성취, 여행", reversed: "미완성, 지연, 목표 부재" }}
+        ];
+
+        let selectedSpread = 1;
+        let selectedCards = [];
+        let flippedCount = 0;
+
+        // 별 배경 생성
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+
+        function selectSpread(num) {
+            selectedSpread = num;
+            document.querySelectorAll('.spread-option').forEach(opt => {
+                opt.classList.remove('active');
+                if (parseInt(opt.dataset.spread) === num) {
+                    opt.classList.add('active');
+                }
+            });
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function startReading() {
+            const shuffled = shuffleArray(tarotCards);
+            selectedCards = shuffled.slice(0, selectedSpread).map(card => ({
+                ...card,
+                reversed: Math.random() > 0.7
+            }));
+            flippedCount = 0;
+
+            document.getElementById('selectionPhase').style.display = 'none';
+            document.getElementById('cardPhase').style.display = 'block';
+            document.getElementById('readingSection').classList.remove('show');
+
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+
+            selectedCards.forEach((card, index) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card';
+                cardEl.id = `card-${index}`;
+                cardEl.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-back">
+                            <div class="card-back-symbol">✦</div>
+                        </div>
+                        <div class="card-front" style="${card.reversed ? 'transform: rotateY(180deg) rotateZ(180deg);' : ''}">
+                            <div class="card-symbol">${card.symbol}</div>
+                            <div class="card-name">${card.name}</div>
+                            <div class="card-number">${card.reversed ? '(역방향)' : ''}</div>
+                        </div>
+                    </div>
+                `;
+                cardEl.onclick = () => flipCard(index);
+                container.appendChild(cardEl);
+            });
+
+            updateFlipInstruction();
+        }
+
+        function flipCard(index) {
+            const card = document.getElementById(`card-${index}`);
+            if (!card.classList.contains('flipped')) {
+                card.classList.add('flipped');
+                flippedCount++;
+                updateFlipInstruction();
+
+                if (flippedCount === selectedSpread) {
+                    document.getElementById('revealBtn').disabled = false;
+                }
+            }
+        }
+
+        function updateFlipInstruction() {
+            const remaining = selectedSpread - flippedCount;
+            if (remaining > 0) {
+                document.getElementById('flipInstruction').textContent = `남은 카드: ${remaining}장`;
+            } else {
+                document.getElementById('flipInstruction').textContent = '모든 카드를 뒤집었습니다!';
+            }
+        }
+
+        function revealReading() {
+            document.getElementById('cardPhase').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                document.getElementById('loading').classList.remove('show');
+                generateReading();
+            }, 2000);
+        }
+
+        function generateReading() {
+            const question = document.getElementById('question').value || '오늘의 운세';
+            const readingContent = document.getElementById('readingContent');
+
+            let html = `
+                <div class="reading-card">
+                    <h3>🔮 질문</h3>
+                    <p style="color:#ffd700; font-size:18px;">"${question}"</p>
+                </div>
+            `;
+
+            const positions = {
+                1: ['오늘의 메시지'],
+                3: ['과거', '현재', '미래'],
+                5: ['나의 상태', '상대의 마음', '현재 관계', '조언', '미래 결과']
+            };
+
+            selectedCards.forEach((card, index) => {
+                const position = positions[selectedSpread][index];
+                const meaning = card.reversed ? card.meaning.reversed : card.meaning.upright;
+                const direction = card.reversed ? '(역방향)' : '(정방향)';
+
+                html += `
+                    <div class="reading-card">
+                        <h3>${card.symbol} ${position}: ${card.name} ${direction}</h3>
+                        <p>${generateInterpretation(card, position, question)}</p>
+                        <div class="card-meaning">
+                            <div class="meaning-item">
+                                <h4>정방향 의미</h4>
+                                <p>${card.meaning.upright}</p>
+                            </div>
+                            <div class="meaning-item">
+                                <h4>역방향 의미</h4>
+                                <p>${card.meaning.reversed}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="reading-card overall-reading">
+                    <h3>✨ 종합 해석</h3>
+                    <p>${generateOverallReading()}</p>
+                </div>
+            `;
+
+            readingContent.innerHTML = html;
+            document.getElementById('readingSection').classList.add('show');
+        }
+
+        function generateInterpretation(card, position, question) {
+            const templates = [
+                `${card.name} 카드가 ${position} 자리에 나왔습니다. 이는 ${card.reversed ? card.meaning.reversed : card.meaning.upright}을(를) 의미합니다. 지금 당신에게 필요한 것은 이 에너지를 인식하고 받아들이는 것입니다.`,
+                `${position}에서 ${card.name}이(가) 나타났습니다. ${card.reversed ? '역방향으로 나왔으므로, ' + card.meaning.reversed + '에 주의가 필요합니다.' : '정방향이므로, ' + card.meaning.upright + '의 에너지가 당신과 함께합니다.'}`,
+                `이 자리의 ${card.name}은(는) ${card.reversed ? '도전과 성장의 기회를 암시합니다. ' + card.meaning.reversed : '긍정적인 흐름을 보여줍니다. ' + card.meaning.upright}. 이 메시지를 마음에 새기세요.`
+            ];
+            return templates[Math.floor(Math.random() * templates.length)];
+        }
+
+        function generateOverallReading() {
+            const cardNames = selectedCards.map(c => c.name).join(', ');
+            const hasReversed = selectedCards.some(c => c.reversed);
+
+            const templates = [
+                `오늘 뽑힌 카드들(${cardNames})은 당신의 현재 상황과 잠재력을 보여줍니다. ${hasReversed ? '역방향 카드가 있어 약간의 도전이 예상되지만, 이는 성장의 기회입니다.' : '전반적으로 긍정적인 에너지가 흐르고 있습니다.'} 직관을 믿고 한 걸음씩 나아가세요.`,
+                `이번 리딩에서 ${cardNames}이(가) 나왔습니다. 이 카드들의 조합은 변화와 성장의 시기를 암시합니다. ${hasReversed ? '내면의 두려움을 직면하고 극복할 때입니다.' : '우주가 당신 편이니 자신감을 가지세요.'} 중요한 것은 현재에 집중하는 것입니다.`,
+                `${cardNames} - 이 카드들이 전하는 메시지는 명확합니다. ${hasReversed ? '현재 어려움이 있더라도 그것은 일시적입니다. 인내와 지혜로 극복하세요.' : '좋은 흐름이 계속되고 있으니 감사하는 마음을 가지세요.'} 오늘 하루도 당신의 내면의 빛을 따르세요.`
+            ];
+            return templates[Math.floor(Math.random() * templates.length)];
+        }
+
+        function shareResult() {
+            const cardNames = selectedCards.map(c => c.name + (c.reversed ? '(역)' : '')).join(', ');
+            const text = `🔮 오늘의 타로: ${cardNames}\n나도 뽑아보기 👉`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI 타로 카드 결과',
+                    text: text
+                }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 결과가 복사되었어요!');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function resetReading() {
+            document.getElementById('selectionPhase').style.display = 'block';
+            document.getElementById('cardPhase').style.display = 'none';
+            document.getElementById('readingSection').classList.remove('show');
+            document.getElementById('question').value = '';
+            document.getElementById('revealBtn').disabled = true;
+            selectedCards = [];
+            flippedCount = 0;
+        }
+    </script>
+</body>
+</html>
