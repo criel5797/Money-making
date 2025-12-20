@@ -221,66 +221,62 @@
     </style>
 </head>
 <body>
-    <div class="lang-switch">
-        <a href="index.html">English</a>
-    </div>
-
     <div class="container">
         <header>
-            <h1>JSON 포맷터 & 뷰어</h1>
-            <p class="subtitle">JSON 데이터를 즉시 정렬하고 검증하세요</p>
+            <h1 data-i18n="header.title">JSON 포맷터 & 뷰어</h1>
+            <p class="subtitle" data-i18n="header.subtitle">JSON 데이터를 즉시 정렬하고 검증하세요</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="options">
             <div class="option-group">
-                <label for="indent">들여쓰기:</label>
+                <label for="indent" data-i18n="options.indent">들여쓰기:</label>
                 <select id="indent">
-                    <option value="2">2칸</option>
-                    <option value="4">4칸</option>
-                    <option value="tab">탭</option>
+                    <option value="2">2 Spaces</option>
+                    <option value="4">4 Spaces</option>
+                    <option value="tab">Tab</option>
                 </select>
             </div>
             <div class="option-group">
-                <label for="viewMode">보기:</label>
+                <label for="viewMode" data-i18n="options.view">보기:</label>
                 <select id="viewMode">
-                    <option value="formatted">정렬됨</option>
-                    <option value="tree">트리 뷰</option>
-                    <option value="minified">압축됨</option>
+                    <option value="formatted">Formatted</option>
+                    <option value="tree">Tree View</option>
+                    <option value="minified">Minified</option>
                 </select>
             </div>
         </div>
 
         <div class="controls">
-            <button class="btn btn-primary" onclick="formatJSON()">JSON 정렬</button>
-            <button class="btn btn-secondary" onclick="minifyJSON()">압축</button>
-            <button class="btn btn-secondary" onclick="validateJSON()">검증</button>
-            <button class="btn btn-secondary" onclick="clearAll()">지우기</button>
-            <button class="btn btn-secondary" onclick="loadSample()">샘플 로드</button>
+            <button class="btn btn-primary" onclick="formatJSON()" data-i18n="controls.format">JSON 정렬</button>
+            <button class="btn btn-secondary" onclick="minifyJSON()" data-i18n="controls.minify">압축</button>
+            <button class="btn btn-secondary" onclick="validateJSON()" data-i18n="controls.validate">검증</button>
+            <button class="btn btn-secondary" onclick="clearAll()" data-i18n="controls.clear">지우기</button>
+            <button class="btn btn-secondary" onclick="loadSample()" data-i18n="controls.sample">샘플 로드</button>
         </div>
 
         <div class="main-content">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">입력 JSON</span>
+                    <span class="panel-title" data-i18n="panel.input">입력 JSON</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()">붙여넣기</button>
+                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()" data-i18n="panel.paste">붙여넣기</button>
                     </div>
                 </div>
-                <textarea id="input" placeholder="여기에 JSON을 붙여넣으세요..."></textarea>
+                <textarea id="input" placeholder="Paste your JSON here..." data-i18n-placeholder="panel.placeholder"></textarea>
                 <div class="status-bar">
-                    <span id="inputStatus">준비됨</span>
-                    <span id="inputSize">0 바이트</span>
+                    <span id="inputStatus" data-i18n="panel.ready">준비됨</span>
+                    <span id="inputSize">0 bytes</span>
                 </div>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">출력</span>
+                    <span class="panel-title" data-i18n="panel.output">출력</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="copyOutput()">복사</button>
-                        <button class="btn btn-small btn-secondary" onclick="downloadJSON()">다운로드</button>
+                        <button class="btn btn-small btn-secondary" onclick="copyOutput()" data-i18n="panel.copy">복사</button>
+                        <button class="btn btn-small btn-secondary" onclick="downloadJSON()" data-i18n="panel.download">다운로드</button>
                     </div>
                 </div>
                 <div class="output-area" id="outputArea">
@@ -288,7 +284,7 @@
                 </div>
                 <div class="status-bar">
                     <span id="outputStatus">-</span>
-                    <span id="outputSize">0 바이트</span>
+                    <span id="outputSize">0 bytes</span>
                 </div>
             </div>
         </div>
@@ -296,34 +292,34 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">{ }</div>
-                <h3>정렬 & 뷰티파이</h3>
-                <p>원하는 들여쓰기로 JSON을 예쁘게 정렬</p>
+                <h3 data-i18n="features.f1.title">정렬 & 뷰티파이</h3>
+                <p data-i18n="features.f1.desc">원하는 들여쓰기로 JSON을 예쁘게 정렬</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">✓</div>
-                <h3>JSON 검증</h3>
-                <p>상세한 오류 메시지로 JSON 유효성 검사</p>
+                <h3 data-i18n="features.f2.title">JSON 검증</h3>
+                <p data-i18n="features.f2.desc">상세한 오류 메시지로 JSON 유효성 검사</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">👁</div>
-                <h3>구문 강조</h3>
-                <p>읽기 쉬운 색상 코드 출력</p>
+                <h3 data-i18n="features.f3.title">구문 강조</h3>
+                <p data-i18n="features.f3.desc">읽기 쉬운 색상 코드 출력</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">📦</div>
-                <h3>압축</h3>
-                <p>공백을 제거하여 JSON 압축</p>
+                <h3 data-i18n="features.f4.title">압축</h3>
+                <p data-i18n="features.f4.desc">공백을 제거하여 JSON 압축</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
-        <footer>
+        <footer data-i18n="footer">
             <p>무료 JSON 포맷터 도구 | 서버로 데이터가 전송되지 않습니다</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">클립보드에 복사되었습니다!</div>
+    <div class="toast" id="toast">...</div>
 
     <script>
         const input = document.getElementById('input');

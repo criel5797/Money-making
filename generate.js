@@ -5,6 +5,7 @@ var path = require('path');
 
 // Import modules
 var i18n = require('./src/i18n/index.js');
+var toolContentI18n = require('./src/i18n/tools-content.js');
 var games = require('./src/common/games.js');
 var tools = require('./src/common/tools.js');
 var webTools = tools.webTools;
@@ -338,7 +339,51 @@ function processToolDirectory(srcPath, destPath, toolId, toolData) {
 
   ensureDir(destPath);
 
-  // Find available language files
+  // Check if we have centralized i18n data for this tool
+  var i18nData = toolContentI18n[toolId];
+
+  if (i18nData) {
+    // New Logic: Generate content files from a single source using i18n data
+    var sourceFile = 'index.html';
+    if (fs.existsSync(path.join(srcPath, 'index-ko.html'))) sourceFile = 'index-ko.html';
+    else if (fs.existsSync(path.join(srcPath, 'index.html'))) sourceFile = 'index.html';
+    
+    if (fs.existsSync(path.join(srcPath, sourceFile))) {
+      var content = fs.readFileSync(path.join(srcPath, sourceFile), 'utf8');
+      
+      // Inject handler script at the end of body
+      var handlerPath = href('/common/tool-i18n-handler.js');
+      var handlerScript = '<script src="' + handlerPath + '"></script>';
+      var contentWithHandler = content.replace('</body>', handlerScript + '</body>');
+      
+      // Generate for each language
+      ['ko', 'en', 'ja'].forEach(function(lang) {
+        var injection = '<script>window.currentLang="' + lang + '";window.toolI18n=' + JSON.stringify(i18nData) + ';</script>';
+        var finalContent = contentWithHandler.replace('</head>', injection + '</head>');
+        fs.writeFileSync(path.join(destPath, 'content-' + lang + '.html'), finalContent);
+      });
+      
+      // Create wrapper
+      var availableLanguages = { ko: true, en: true, ja: true };
+      var toolTitle = toolData.title.ko || toolData.title.en || toolId;
+      var wrapperHtml = createToolWrapper(toolId, toolTitle, 'tool', availableLanguages);
+      fs.writeFileSync(path.join(destPath, 'index.html'), wrapperHtml);
+      
+      // Copy other assets
+      var files = fs.readdirSync(srcPath);
+      files.forEach(function(file) {
+        if (!file.match(/^index.*\.html$/)) {
+          var s = path.join(srcPath, file);
+          var d = path.join(destPath, file);
+          if (fs.statSync(s).isDirectory()) copyDir(s, d);
+          else fs.copyFileSync(s, d);
+        }
+      });
+      return; // Done
+    }
+  }
+
+  // Fallback to legacy logic (copying individual files)
   var files = fs.readdirSync(srcPath);
   var availableLanguages = { ko: false, en: false, ja: false };
   var languageFiles = {};
@@ -432,6 +477,17 @@ function build(){
 
   // Process Web Tools with language switching
   var webToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'web');
+  
+  // Copy tool-i18n-handler.js
+  var commonDest = path.join(OUT, 'common');
+  ensureDir(commonDest);
+  if (fs.existsSync(path.join(process.cwd(), 'src', 'common', 'tool-i18n-handler.js'))) {
+    fs.copyFileSync(
+      path.join(process.cwd(), 'src', 'common', 'tool-i18n-handler.js'),
+      path.join(commonDest, 'tool-i18n-handler.js')
+    );
+  }
+
   if (fs.existsSync(webToolsSrc)) {
     for (var i = 0; i < webTools.length; i++) {
       var tool = webTools[i];
