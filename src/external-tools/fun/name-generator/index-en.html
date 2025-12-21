@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Name Generator - Baby, Pet, Brand Name Creator</title>
+    <meta name="description" content="AI creates the perfect name for you. Baby names, pet names, brand names, character names. Get meaningful name suggestions for free.">
+    <meta name="keywords" content="baby name, name generator, name suggestions, naming, pet name, dog name, cat name, brand name, AI naming">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #f8f4f0;
+            --bg-secondary: #ffffff;
+            --bg-accent: #fff8f0;
+            --text-primary: #2d2d2d;
+            --text-secondary: #666666;
+            --accent: #e67e22;
+            --accent-secondary: #f39c12;
+            --pink: #e91e8c;
+            --blue: #3498db;
+            --green: #27ae60;
+            --purple: #9b59b6;
+            --border: #eee;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+        .logo { font-size: 3.5rem; margin-bottom: 15px; }
+        h1 {
+            font-size: 2.3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #e67e22, #e91e8c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: var(--text-secondary);
+        }
+
+        .type-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        @media (max-width: 600px) {
+            .type-selector { grid-template-columns: repeat(2, 1fr); }
+        }
+        .type-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .type-card.selected {
+            border-color: var(--accent);
+            background: var(--bg-accent);
+        }
+        .type-icon { font-size: 2.5rem; margin-bottom: 12px; }
+        .type-name { font-weight: 600; font-size: 1.05rem; }
+        .type-desc { font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px; }
+
+        .main-card {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 35px;
+            margin: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: none;
+        }
+        .main-card.show { display: block; }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--bg-primary);
+        }
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .style-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .style-chip {
+            padding: 10px 18px;
+            background: var(--bg-primary);
+            border: 2px solid #eee;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .style-chip:hover { border-color: var(--accent); }
+        .style-chip.selected {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(230,126,34,0.35);
+        }
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 30px;
+        }
+        .results-section.show { display: block; }
+
+        .results-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .name-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .name-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .name-info { flex: 1; }
+        .name-main {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .name-reading {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .name-meaning {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .name-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+        .action-btn.liked {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .saved-names {
+            background: var(--bg-accent);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        .saved-names.show { display: block; }
+        .saved-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .saved-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .saved-tag {
+            padding: 8px 15px;
+            background: white;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .remove-saved {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            font-size: 1rem;
+        }
+        .remove-saved:hover { color: #e74c3c; }
+
+        .more-btn {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+        .more-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tips-section {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .tips-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .tips-list {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            list-style: none;
+        }
+        .tips-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .tips-list li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">✨</div>
+            <h1>AI Name Generator</h1>
+            <p class="subtitle">Find the perfect name with AI</p>
+        </header>
+
+        <div class="type-selector">
+            <div class="type-card" onclick="selectType('baby')" data-type="baby">
+                <div class="type-icon">👶</div>
+                <div class="type-name">Baby Name</div>
+                <div class="type-desc">For your precious child</div>
+            </div>
+            <div class="type-card" onclick="selectType('pet')" data-type="pet">
+                <div class="type-icon">🐾</div>
+                <div class="type-name">Pet Name</div>
+                <div class="type-desc">For your companion</div>
+            </div>
+            <div class="type-card" onclick="selectType('brand')" data-type="brand">
+                <div class="type-icon">💼</div>
+                <div class="type-name">Brand Name</div>
+                <div class="type-desc">Business/Project</div>
+            </div>
+            <div class="type-card" onclick="selectType('nickname')" data-type="nickname">
+                <div class="type-icon">🎮</div>
+                <div class="type-name">Nickname</div>
+                <div class="type-desc">Gaming/SNS</div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <!-- Baby Name Form -->
+        <div class="main-card" id="babyForm">
+            <div class="section-title">👶 Baby Information</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">Gender</label>
+                    <select id="babyGender">
+                        <option value="male">Boy</option>
+                        <option value="female">Girl</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">Last Name</label>
+                    <input type="text" id="babySurname" placeholder="e.g., Smith, Johnson">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">Desired Style</div>
+            <div class="style-chips" id="babyStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">Pure</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Strong</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Intelligent</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Beautiful</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Elegant</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Traditional</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Modern</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Natural</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('baby')">✨ Generate Names</button>
+        </div>
+
+        <!-- Pet Name Form -->
+        <div class="main-card" id="petForm">
+            <div class="section-title">🐾 Pet Information</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">Type</label>
+                    <select id="petType">
+                        <option value="dog">Dog 🐕</option>
+                        <option value="cat">Cat 🐱</option>
+                        <option value="bird">Bird 🐦</option>
+                        <option value="rabbit">Rabbit 🐰</option>
+                        <option value="hamster">Hamster 🐹</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">Gender</label>
+                    <select id="petGender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">Color/Features</label>
+                    <input type="text" id="petFeature" placeholder="e.g., white, spotted">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">Desired Style</div>
+            <div class="style-chips" id="petStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">Cute</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Cool</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Elegant</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Funny</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Food-related</span>
+                <span class="style-chip" onclick="toggleStyle(this)">English</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Korean</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Japanese</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('pet')">✨ Generate Names</button>
+        </div>
+
+        <!-- Brand Name Form -->
+        <div class="main-card" id="brandForm">
+            <div class="section-title">💼 Brand/Business Information</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">Industry</label>
+                    <select id="brandCategory">
+                        <option value="tech">IT/Tech</option>
+                        <option value="fashion">Fashion/Beauty</option>
+                        <option value="food">Food/Beverage</option>
+                        <option value="health">Health/Fitness</option>
+                        <option value="education">Education</option>
+                        <option value="creative">Creative/Design</option>
+                        <option value="service">Service</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">Core Keyword</label>
+                    <input type="text" id="brandKeyword" placeholder="e.g., eco-friendly, premium">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">Brand Feel</div>
+            <div class="style-chips" id="brandStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">Professional</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Friendly</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Innovative</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Trustworthy</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Trendy</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Classic</span>
+                <span class="style-chip" onclick="toggleStyle(this)">English</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Korean</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('brand')">✨ Generate Brand Names</button>
+        </div>
+
+        <!-- Nickname Form -->
+        <div class="main-card" id="nicknameForm">
+            <div class="section-title">🎮 Nickname Information</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">Purpose</label>
+                    <select id="nicknameUse">
+                        <option value="game">Gaming</option>
+                        <option value="sns">SNS/Instagram</option>
+                        <option value="youtube">YouTube/Streaming</option>
+                        <option value="general">General</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">Include Word (optional)</label>
+                    <input type="text" id="nicknameWord" placeholder="e.g., star, moon, wolf">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">Style</div>
+            <div class="style-chips" id="nicknameStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">Cool</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Cute</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Mysterious</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Humorous</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Professional</span>
+                <span class="style-chip" onclick="toggleStyle(this)">English</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Korean</span>
+                <span class="style-chip" onclick="toggleStyle(this)">Include Numbers</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('nickname')">✨ Generate Nicknames</button>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <div class="section-title">🎉 Suggested Names</div>
+            <div class="results-grid" id="resultsGrid"></div>
+
+            <div class="saved-names" id="savedNames">
+                <div class="saved-title">❤️ Saved Names</div>
+                <div class="saved-list" id="savedList"></div>
+            </div>
+
+            <button class="more-btn" onclick="regenerate()">🔄 Show More Names</button>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="tips-section">
+            <div class="tips-title">Tips for Choosing a Good Name</div>
+            <ul class="tips-list">
+                <li>Say it out loud. Make sure it's easy to pronounce and sounds pleasant.</li>
+                <li>Search for it. Check if the name is already widely used.</li>
+                <li>Consider how it might be shortened or nicknamed.</li>
+                <li>Take your time. Don't rush the decision.</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Find the perfect name here ✨</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentType = '';
+        let savedNamesList = [];
+
+        const nameDatabase = {
+            baby: {
+                male: [
+                    { name: 'Liam', reading: 'LEE-əm', meaning: 'Strong-willed warrior and protector.', styles: ['Strong', 'Traditional'] },
+                    { name: 'Noah', reading: 'NO-ə', meaning: 'Rest and comfort. Peaceful nature.', styles: ['Pure', 'Traditional'] },
+                    { name: 'Oliver', reading: 'AHL-iv-er', meaning: 'Olive tree. Symbol of peace and dignity.', styles: ['Elegant', 'Traditional'] },
+                    { name: 'Ethan', reading: 'EE-thən', meaning: 'Strong, firm, and enduring.', styles: ['Strong', 'Modern'] },
+                    { name: 'Lucas', reading: 'LOO-kəs', meaning: 'Bringer of light. Illuminating presence.', styles: ['Intelligent', 'Modern'] },
+                    { name: 'Mason', reading: 'MAY-sən', meaning: 'Stone worker. Strong and reliable.', styles: ['Strong', 'Modern'] },
+                    { name: 'Logan', reading: 'LO-gən', meaning: 'Small hollow. Grounded and natural.', styles: ['Natural', 'Modern'] },
+                    { name: 'Alexander', reading: 'al-ig-ZAN-der', meaning: 'Defender of mankind. Noble protector.', styles: ['Elegant', 'Traditional'] },
+                    { name: 'James', reading: 'JAYMZ', meaning: 'Supplanter. Classic and timeless.', styles: ['Traditional', 'Elegant'] },
+                    { name: 'Benjamin', reading: 'BEN-jə-min', meaning: 'Son of the right hand. Favored and blessed.', styles: ['Intelligent', 'Traditional'] }
+                ],
+                female: [
+                    { name: 'Emma', reading: 'EM-ə', meaning: 'Universal, whole, and complete.', styles: ['Beautiful', 'Traditional'] },
+                    { name: 'Olivia', reading: 'oh-LIV-ee-ə', meaning: 'Olive tree. Symbol of peace.', styles: ['Elegant', 'Beautiful'] },
+                    { name: 'Ava', reading: 'AY-və', meaning: 'Life and bird-like grace.', styles: ['Pure', 'Modern'] },
+                    { name: 'Sophia', reading: 'so-FEE-ə', meaning: 'Wisdom and knowledge.', styles: ['Intelligent', 'Elegant'] },
+                    { name: 'Isabella', reading: 'iz-ə-BEL-ə', meaning: 'Devoted to God. Graceful beauty.', styles: ['Beautiful', 'Traditional'] },
+                    { name: 'Charlotte', reading: 'SHAR-lət', meaning: 'Free woman. Strong and independent.', styles: ['Elegant', 'Traditional'] },
+                    { name: 'Mia', reading: 'MEE-ə', meaning: 'Mine or wished-for child.', styles: ['Beautiful', 'Modern'] },
+                    { name: 'Amelia', reading: 'ə-MEEL-yə', meaning: 'Industrious and striving.', styles: ['Intelligent', 'Elegant'] },
+                    { name: 'Harper', reading: 'HAR-per', meaning: 'Harp player. Musical and artistic.', styles: ['Modern', 'Natural'] },
+                    { name: 'Evelyn', reading: 'EEV-lin', meaning: 'Desired, wished for. Beautiful radiance.', styles: ['Beautiful', 'Elegant'] }
+                ]
+            },
+            pet: {
+                cute: ['Poppy', 'Coco', 'Momo', 'Tofu', 'Mochi', 'Cookie', 'Choco', 'Bambi', 'Cotton', 'Lucky', 'Honey', 'Bean', 'Acorn', 'Jelly', 'Pudding', 'Macaron', 'Latte', 'Capu', 'Peach', 'Mango'],
+                cool: ['Jay', 'Max', 'Rookie', 'Tiger', 'Leo', 'Muse', 'Black', 'Shadow', 'Storm', 'Roxy', 'Hunter', 'Lion', 'King', 'Jet', 'Blade', 'Spike', 'Chaser', 'Wolf', 'Phantom', 'Ace'],
+                elegant: ['Bella', 'Luna', 'Mia', 'Sophia', 'Chloe', 'Charlotte', 'Victoria', 'Aurora', 'Aria', 'Serena', 'Grace', 'Ellie', 'Princess', 'Lady', 'Angel', 'Freya', 'Bianca', 'Sabrina', 'Diva', 'Rose'],
+                food: ['Taco', 'Nacho', 'Kimchi', 'Noodle', 'Dumpling', 'Waffle', 'Brownie', 'Sushi', 'Tempura', 'Curry', 'Ketchup', 'Mayo', 'Wasabi', 'Pizza', 'Pasta', 'Sashimi', 'Udon', 'Taco', 'Burger', 'Pickle'],
+                korean: ['Dalrae', 'Narae', 'Baram', 'Haneul', 'Gureum', 'Byeol', 'Happy', 'Sarang', 'Mir', 'Ari', 'Sona', 'Dan', 'Hanbyeol', 'Boram', 'Saetbyeol', 'Gaon', 'Garam', 'Namu', 'Pulip', 'Bom'],
+                english: ['Buddy', 'Lucky', 'Charlie', 'Cooper', 'Bear', 'Duke', 'Tucker', 'Jack', 'Rocky', 'Teddy', 'Daisy', 'Lucy', 'Coco', 'Molly', 'Sadie', 'Lily', 'Zoey', 'Stella', 'Penny', 'Ruby']
+            },
+            brand: {
+                tech: ['TechNova', 'InnoFlex', 'SmartOn', 'DigitalLab', 'CodeWave', 'NextUp', 'DataRim', 'Claudio', 'Infinity', 'FutureLink', 'Innovix', 'TechFlow', 'ByteWise', 'NeoSpark', 'CloudNest'],
+                fashion: ['Belvoir', 'Elegance', 'ModernChic', 'LeBlanc', 'Atelier', 'Prima', 'LaVian', 'Soleil', 'Rose', 'Bianca', 'Luxire', 'Velora', 'Chique', 'Primrose', 'Ethereal'],
+                food: ['FreshBite', 'Artisan Kitchen', 'NatureTable', 'FreshMeal', 'FoodStory', 'Delicious Dreams', 'Heartful Plate', 'Today\'s Table', 'Healthy Day', 'Freshly', 'Nourish', 'TasteBud', 'Flavora', 'PureEats'],
+                creative: ['Creatorable', 'ArtSpace', 'VisionMaker', 'Inspiration', 'CraftWorks', 'DesignRoom', 'IdeaFactory', 'Creatify', 'Artisan', 'Visionary', 'DesignLab', 'Inspiro']
+            },
+            nickname: {
+                cool: ['DarkPhoenix', 'ShadowHunter', 'StormBringer', 'NightWolf', 'IceKing', 'ThunderStrike', 'SilentBlade', 'StarKiller', 'VoidWalker', 'FireLord'],
+                cute: ['HoneyBunny', 'StarGirl', 'SweetKitty', 'CloudBear', 'TwinkleStar', 'SweetBunny', 'StarDust', 'MoonChild', 'CozyBear', 'PinkCloud'],
+                funny: ['TacoWarrior', 'NachoHero', 'NoodleMaster', 'PizzaLover', 'SleepyPanda', 'NoodleMaster', 'SleepyPanda', 'CouchPotato', 'LazyLion', 'ChickenKing'],
+                pro: ['Pro_Player', 'Elite_Gamer', 'Master_Chief', 'Victory_King', 'Champion_X', 'Legend_One', 'Supreme_Star', 'Ultimate_Pro', 'Ace_Player', 'Top_Tier']
+            }
+        };
+
+        function selectType(type) {
+            document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+            document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+            currentType = type;
+
+            document.querySelectorAll('.main-card').forEach(f => f.classList.remove('show'));
+            document.getElementById(`${type}Form`).classList.add('show');
+            document.getElementById('resultsSection').classList.remove('show');
+        }
+
+        function toggleStyle(el) {
+            el.classList.toggle('selected');
+        }
+
+        function generateNames(type) {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Generating names...';
+
+            setTimeout(() => {
+                let names = [];
+
+                if (type === 'baby') {
+                    const gender = document.getElementById('babyGender').value;
+                    const surname = document.getElementById('babySurname').value || '';
+                    const selectedStyles = getSelectedStyles('babyStyle');
+
+                    let pool = nameDatabase.baby[gender];
+                    if (selectedStyles.length > 0) {
+                        pool = pool.filter(n => n.styles.some(s => selectedStyles.includes(s)));
+                        if (pool.length < 5) pool = nameDatabase.baby[gender];
+                    }
+
+                    names = shuffle(pool).slice(0, 5).map(n => ({
+                        ...n,
+                        name: surname ? surname + ' ' + n.name : n.name
+                    }));
+                } else if (type === 'pet') {
+                    const selectedStyles = getSelectedStyles('petStyle');
+                    let category = 'cute';
+                    if (selectedStyles.includes('Cool')) category = 'cool';
+                    if (selectedStyles.includes('Elegant')) category = 'elegant';
+                    if (selectedStyles.includes('Food-related')) category = 'food';
+                    if (selectedStyles.includes('Korean')) category = 'korean';
+                    if (selectedStyles.includes('English')) category = 'english';
+
+                    names = shuffle(nameDatabase.pet[category]).slice(0, 6).map(n => ({
+                        name: n,
+                        reading: '',
+                        meaning: getPetMeaning(n)
+                    }));
+                } else if (type === 'brand') {
+                    const category = document.getElementById('brandCategory').value;
+                    const pool = nameDatabase.brand[category] || nameDatabase.brand.tech;
+
+                    names = shuffle(pool).slice(0, 6).map(n => ({
+                        name: n,
+                        reading: '',
+                        meaning: getBrandMeaning(n)
+                    }));
+                } else if (type === 'nickname') {
+                    const selectedStyles = getSelectedStyles('nicknameStyle');
+                    let category = 'cool';
+                    if (selectedStyles.includes('Cute')) category = 'cute';
+                    if (selectedStyles.includes('Humorous')) category = 'funny';
+                    if (selectedStyles.includes('Professional')) category = 'pro';
+
+                    const customWord = document.getElementById('nicknameWord').value;
+                    let pool = nameDatabase.nickname[category];
+
+                    names = shuffle(pool).slice(0, 6).map(n => {
+                        if (customWord && Math.random() > 0.5) {
+                            n = customWord + '_' + n.split(/[_\s]/)[1];
+                        }
+                        return {
+                            name: n,
+                            reading: '',
+                            meaning: getNicknameMeaning(n)
+                        };
+                    });
+                }
+
+                displayResults(names);
+                btn.disabled = false;
+                btn.innerHTML = '✨ Generate Names';
+            }, 1500);
+        }
+
+        function getSelectedStyles(containerId) {
+            const container = document.getElementById(containerId);
+            return Array.from(container.querySelectorAll('.style-chip.selected')).map(el => el.textContent);
+        }
+
+        function shuffle(array) {
+            return [...array].sort(() => Math.random() - 0.5);
+        }
+
+        function getPetMeaning(name) {
+            const meanings = [
+                'A lovely and adorable name.',
+                'Easy to call and friendly name.',
+                'A unique and distinctive name.',
+                'Cute and lively sounding name.',
+                'A name perfect for calling with affection.'
+            ];
+            return meanings[Math.floor(Math.random() * meanings.length)];
+        }
+
+        function getBrandMeaning(name) {
+            const meanings = [
+                'Conveys a modern and professional image.',
+                'A name that evokes trust and innovation.',
+                'Easy to remember and pronounce brand name.',
+                'Gives a trendy yet stable impression.',
+                'A unique yet approachable image.'
+            ];
+            return meanings[Math.floor(Math.random() * meanings.length)];
+        }
+
+        function getNicknameMeaning(name) {
+            const meanings = [
+                'A distinctive and memorable nickname.',
+                'A trendy and stylish nickname.',
+                'An eye-catching and impactful nickname.',
+                'A friendly yet cool nickname.',
+                'A unique and special nickname.'
+            ];
+            return meanings[Math.floor(Math.random() * meanings.length)];
+        }
+
+        function displayResults(names) {
+            const grid = document.getElementById('resultsGrid');
+            grid.innerHTML = names.map((n, i) => `
+                <div class="name-card" onclick="copyName('${n.name}')">
+                    <div class="name-info">
+                        <div class="name-main">${n.name}</div>
+                        ${n.reading ? `<div class="name-reading">${n.reading}</div>` : ''}
+                        <div class="name-meaning">${n.meaning}</div>
+                    </div>
+                    <div class="name-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); toggleSave('${n.name}')" id="save-${i}">❤️</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); copyName('${n.name}')">📋</button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('resultsSection').classList.add('show');
+            showToast('Names generated!');
+        }
+
+        function toggleSave(name) {
+            const idx = savedNamesList.indexOf(name);
+            if (idx > -1) {
+                savedNamesList.splice(idx, 1);
+                showToast('Removed from saved list');
+            } else {
+                savedNamesList.push(name);
+                showToast('Name saved!');
+            }
+            updateSavedList();
+        }
+
+        function updateSavedList() {
+            const container = document.getElementById('savedNames');
+            const list = document.getElementById('savedList');
+
+            if (savedNamesList.length > 0) {
+                container.classList.add('show');
+                list.innerHTML = savedNamesList.map(name => `
+                    <span class="saved-tag">
+                        ${name}
+                        <button class="remove-saved" onclick="removeSaved('${name}')">×</button>
+                    </span>
+                `).join('');
+            } else {
+                container.classList.remove('show');
+            }
+        }
+
+        function removeSaved(name) {
+            savedNamesList = savedNamesList.filter(n => n !== name);
+            updateSavedList();
+        }
+
+        function copyName(name) {
+            navigator.clipboard.writeText(name);
+            showToast(`"${name}" copied!`);
+        }
+
+        function regenerate() {
+            const btn = document.querySelector(`#${currentType}Form .generate-btn`);
+            btn.click();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>

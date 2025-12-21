@@ -343,32 +343,43 @@ function processToolDirectory(srcPath, destPath, toolId, toolData) {
   var i18nData = toolContentI18n[toolId];
 
   if (i18nData) {
-    // New Logic: Generate content files from a single source using i18n data
-    var sourceFile = 'index.html';
-    if (fs.existsSync(path.join(srcPath, 'index-ko.html'))) sourceFile = 'index-ko.html';
-    else if (fs.existsSync(path.join(srcPath, 'index.html'))) sourceFile = 'index.html';
-    
-    if (fs.existsSync(path.join(srcPath, sourceFile))) {
-      var content = fs.readFileSync(path.join(srcPath, sourceFile), 'utf8');
-      
-      // Inject handler script at the end of body
-      var handlerPath = href('/common/tool-i18n-handler.js');
-      var handlerScript = '<script src="' + handlerPath + '"></script>';
-      var contentWithHandler = content.replace('</body>', handlerScript + '</body>');
-      
-      // Generate for each language
-      ['ko', 'en', 'ja'].forEach(function(lang) {
+    // New Logic: Generate content files using language-specific source files
+    var handlerPath = href('/common/tool-i18n-handler.js');
+    var handlerScript = '<script src="' + handlerPath + '"></script>';
+    var availableLanguages = { ko: false, en: false, ja: false };
+
+    // Generate for each language using its dedicated source file
+    ['ko', 'en', 'ja'].forEach(function(lang) {
+      // Priority: index-{lang}.html > index.html (for ko) > index.html (fallback)
+      var sourceFile = null;
+      var langFile = 'index-' + lang + '.html';
+
+      if (fs.existsSync(path.join(srcPath, langFile))) {
+        sourceFile = langFile;
+      } else if (lang === 'ko' && fs.existsSync(path.join(srcPath, 'index-ko.html'))) {
+        sourceFile = 'index-ko.html';
+      } else if (lang === 'ko' && fs.existsSync(path.join(srcPath, 'index.html'))) {
+        // For Korean, index.html can be used as fallback
+        sourceFile = 'index.html';
+      }
+
+      if (sourceFile && fs.existsSync(path.join(srcPath, sourceFile))) {
+        var content = fs.readFileSync(path.join(srcPath, sourceFile), 'utf8');
+        var contentWithHandler = content.replace('</body>', handlerScript + '</body>');
         var injection = '<script>window.currentLang="' + lang + '";window.toolI18n=' + JSON.stringify(i18nData) + ';</script>';
         var finalContent = contentWithHandler.replace('</head>', injection + '</head>');
         fs.writeFileSync(path.join(destPath, 'content-' + lang + '.html'), finalContent);
-      });
-      
+        availableLanguages[lang] = true;
+      }
+    });
+
+    // At least one language must be available
+    if (availableLanguages.ko || availableLanguages.en || availableLanguages.ja) {
       // Create wrapper
-      var availableLanguages = { ko: true, en: true, ja: true };
       var toolTitle = toolData.title.ko || toolData.title.en || toolId;
       var wrapperHtml = createToolWrapper(toolId, toolTitle, 'tool', availableLanguages);
       fs.writeFileSync(path.join(destPath, 'index.html'), wrapperHtml);
-      
+
       // Copy other assets
       var files = fs.readdirSync(srcPath);
       files.forEach(function(file) {

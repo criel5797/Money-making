@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나이 계산기 - 만 나이 & 한국 나이</title>
-    <meta name="description" content="생년월일을 입력하면 만 나이와 한국 나이를 자동으로 계산해드립니다. 띠와 별자리도 함께 확인하세요.">
-    <meta name="keywords" content="나이 계산기, 만 나이, 한국 나이, 세는 나이, 띠, 별자리">
-    <meta property="og:title" content="나이 계산기 - 만 나이 & 한국 나이">
-    <meta property="og:description" content="생년월일을 입력하면 만 나이와 한국 나이를 자동으로 계산해드립니다.">
+    <title>年齢計算機 - 満年齢 & 韓国年齢</title>
+    <meta name="description" content="生年月日を入力すると、満年齢と韓国年齢を自動で計算します。干支と星座も一緒に確認できます。">
+    <meta name="keywords" content="年齢計算機, 満年齢, 韓国年齢, 数え年, 干支, 星座">
+    <meta property="og:title" content="年齢計算機 - 満年齢 & 韓国年齢">
+    <meta property="og:description" content="生年月日を入力すると、満年齢と韓国年齢を自動で計算します。">
     <meta property="og:type" content="website">
-    <link rel="alternate" hreflang="ko" href="index.html">
+    <link rel="alternate" hreflang="ja" href="index-ja.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="en" href="index-en.html">
     <style>
         * {
             margin: 0;
@@ -18,7 +20,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #fff;
@@ -268,57 +270,57 @@
         <div class="ad-banner">Advertisement</div>
 
         <header>
-            <h1 data-i18n="header.title">🎂 나이 계산기</h1>
-            <p class="subtitle" data-i18n="header.subtitle">만 나이와 한국 나이를 한번에 확인하세요</p>
+            <h1>🎂 年齢計算機</h1>
+            <p class="subtitle">満年齢と韓国年齢を一度に確認</p>
         </header>
 
         <div class="input-section">
             <div class="input-group">
-                <label for="birthdate" data-i18n="input.label">생년월일을 선택하세요</label>
+                <label for="birthdate">生年月日を選択してください</label>
                 <input type="date" id="birthdate" max="">
             </div>
-            <button class="calculate-btn" onclick="calculateAge()" data-i18n="input.btn">나이 계산하기</button>
+            <button class="calculate-btn" onclick="calculateAge()">年齢を計算する</button>
         </div>
 
         <div class="result-section" id="result">
             <div class="result-grid">
                 <div class="result-card">
-                    <div class="result-title" data-i18n="result.intAge">만 나이</div>
+                    <div class="result-title">満年齢</div>
                     <div class="result-value" id="internationalAge">-</div>
                 </div>
                 <div class="result-card">
-                    <div class="result-title" data-i18n="result.korAge">한국 나이</div>
+                    <div class="result-title">韓国年齢</div>
                     <div class="result-value" id="koreanAge">-</div>
                 </div>
             </div>
 
             <div class="result-card">
-                <div class="result-title" data-i18n="result.nextBirth">다음 생일까지</div>
-                <div class="result-value" id="nextBirthday">- <small data-i18n="result.daysLeft">일 남음</small></div>
+                <div class="result-title">次の誕生日まで</div>
+                <div class="result-value" id="nextBirthday">- <small>日</small></div>
             </div>
 
             <div class="extra-info">
                 <div class="extra-item">
-                    <div class="label" data-i18n="result.zodiac">띠</div>
+                    <div class="label">干支</div>
                     <div class="value" id="zodiac">-</div>
                 </div>
                 <div class="extra-item">
-                    <div class="label" data-i18n="result.constellation">별자리</div>
+                    <div class="label">星座</div>
                     <div class="value" id="constellation">-</div>
                 </div>
                 <div class="extra-item">
-                    <div class="label" data-i18n="result.dayOfWeek">태어난 요일</div>
+                    <div class="label">誕生曜日</div>
                     <div class="value" id="birthDay">-</div>
                 </div>
                 <div class="extra-item">
-                    <div class="label" data-i18n="result.daysLived">살아온 일수</div>
+                    <div class="label">生きた日数</div>
                     <div class="value" id="daysLived">-</div>
                 </div>
             </div>
 
             <div class="info-card">
-                <h3 data-i18n="info.title">📌 2023년부터 만 나이 통일</h3>
-                <p data-i18n="info.desc">대한민국은 2023년 6월 28일부터 법적으로 '만 나이'를 사용합니다. 일상에서도 만 나이 사용이 권장됩니다.</p>
+                <h3>📌 2023年から満年齢統一</h3>
+                <p>韓国は2023年6月28日から法的に「満年齢」を使用しています。日常でも満年齢の使用が推奨されます。</p>
             </div>
 
             <button class="share-btn" onclick="shareResult()">
@@ -329,12 +331,12 @@
                     <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
                     <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                 </svg>
-                <span data-i18n="share">결과 공유하기</span>
+                <span>結果を共有</span>
             </button>
         </div>
 
-        <div class="disclaimer" data-i18n="disclaimer">
-            이 도구는 참고용이며, 법적 효력이 없습니다.
+        <div class="disclaimer">
+            このツールは参考用であり、法的効力はありません。
         </div>
 
         <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
@@ -348,55 +350,55 @@
         // Set max date to today
         document.getElementById('birthdate').max = new Date().toISOString().split('T')[0];
 
-        const zodiacs = ['원숭이', '닭', '개', '돼지', '쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양'];
+        const zodiacs = ['申', '酉', '戌', '亥', '子', '丑', '寅', '卯', '辰', '巳', '午', '未'];
         const constellations = [
-            { name: '염소자리', start: [1, 1], end: [1, 19] },
-            { name: '물병자리', start: [1, 20], end: [2, 18] },
-            { name: '물고기자리', start: [2, 19], end: [3, 20] },
-            { name: '양자리', start: [3, 21], end: [4, 19] },
-            { name: '황소자리', start: [4, 20], end: [5, 20] },
-            { name: '쌍둥이자리', start: [5, 21], end: [6, 21] },
-            { name: '게자리', start: [6, 22], end: [7, 22] },
-            { name: '사자자리', start: [7, 23], end: [8, 22] },
-            { name: '처녀자리', start: [8, 23], end: [9, 22] },
-            { name: '천칭자리', start: [9, 23], end: [10, 22] },
-            { name: '전갈자리', start: [10, 23], end: [11, 21] },
-            { name: '사수자리', start: [11, 22], end: [12, 21] },
-            { name: '염소자리', start: [12, 22], end: [12, 31] }
+            { name: '山羊座', start: [1, 1], end: [1, 19] },
+            { name: '水瓶座', start: [1, 20], end: [2, 18] },
+            { name: '魚座', start: [2, 19], end: [3, 20] },
+            { name: '牡羊座', start: [3, 21], end: [4, 19] },
+            { name: '牡牛座', start: [4, 20], end: [5, 20] },
+            { name: '双子座', start: [5, 21], end: [6, 21] },
+            { name: '蟹座', start: [6, 22], end: [7, 22] },
+            { name: '獅子座', start: [7, 23], end: [8, 22] },
+            { name: '乙女座', start: [8, 23], end: [9, 22] },
+            { name: '天秤座', start: [9, 23], end: [10, 22] },
+            { name: '蠍座', start: [10, 23], end: [11, 21] },
+            { name: '射手座', start: [11, 22], end: [12, 21] },
+            { name: '山羊座', start: [12, 22], end: [12, 31] }
         ];
-        const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+        const days = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'];
 
         function calculateAge() {
             const birthdate = document.getElementById('birthdate').value;
             if (!birthdate) {
-                alert('생년월일을 선택해주세요.');
+                alert('生年月日を選択してください。');
                 return;
             }
 
             const birth = new Date(birthdate);
             const today = new Date();
 
-            // 만 나이 계산
+            // 満年齢計算
             let internationalAge = today.getFullYear() - birth.getFullYear();
             const monthDiff = today.getMonth() - birth.getMonth();
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
                 internationalAge--;
             }
 
-            // 한국 나이 계산 (2023년 이전 방식)
+            // 韓国年齢計算（2023年以前方式）
             const koreanAge = today.getFullYear() - birth.getFullYear() + 1;
 
-            // 다음 생일까지 남은 일수
+            // 次の誕生日まで残り日数
             let nextBirthday = new Date(today.getFullYear(), birth.getMonth(), birth.getDate());
             if (nextBirthday <= today) {
                 nextBirthday = new Date(today.getFullYear() + 1, birth.getMonth(), birth.getDate());
             }
             const daysUntilBirthday = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
 
-            // 띠 계산
+            // 干支計算
             const zodiac = zodiacs[birth.getFullYear() % 12];
 
-            // 별자리 계산
+            // 星座計算
             const month = birth.getMonth() + 1;
             const day = birth.getDate();
             let constellation = '';
@@ -407,20 +409,20 @@
                 }
             }
 
-            // 태어난 요일
+            // 誕生曜日
             const birthDay = days[birth.getDay()];
 
-            // 살아온 일수
+            // 生きた日数
             const daysLived = Math.floor((today - birth) / (1000 * 60 * 60 * 24));
 
-            // 결과 표시
-            document.getElementById('internationalAge').textContent = internationalAge + '세';
-            document.getElementById('koreanAge').textContent = koreanAge + '세';
-            document.getElementById('nextBirthday').innerHTML = daysUntilBirthday + ' <small>일 남음</small>';
-            document.getElementById('zodiac').textContent = zodiac + '띠';
+            // 結果表示
+            document.getElementById('internationalAge').textContent = internationalAge + '歳';
+            document.getElementById('koreanAge').textContent = koreanAge + '歳';
+            document.getElementById('nextBirthday').innerHTML = daysUntilBirthday + ' <small>日</small>';
+            document.getElementById('zodiac').textContent = zodiac;
             document.getElementById('constellation').textContent = constellation;
             document.getElementById('birthDay').textContent = birthDay;
-            document.getElementById('daysLived').textContent = daysLived.toLocaleString() + '일';
+            document.getElementById('daysLived').textContent = daysLived.toLocaleString() + '日';
 
             document.getElementById('result').classList.add('show');
         }
@@ -431,17 +433,17 @@
             const zodiac = document.getElementById('zodiac').textContent;
             const constellation = document.getElementById('constellation').textContent;
 
-            const text = `🎂 내 나이 계산 결과\n\n만 나이: ${internationalAge}\n한국 나이: ${koreanAge}\n띠: ${zodiac}\n별자리: ${constellation}\n\n나이 계산기로 확인해보세요!`;
+            const text = `🎂 私の年齢計算結果\n\n満年齢: ${internationalAge}\n韓国年齢: ${koreanAge}\n干支: ${zodiac}\n星座: ${constellation}\n\n年齢計算機で確認してみてください！`;
 
             if (navigator.share) {
                 navigator.share({
-                    title: '나이 계산 결과',
+                    title: '年齢計算結果',
                     text: text,
                     url: window.location.href
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
+                    alert('結果がクリップボードにコピーされました！');
                 });
             }
         }

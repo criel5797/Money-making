@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>랜덤 이름 생성기 - 무료 가짜 이름 생성 도구</title>
-    <meta name="description" content="무료 랜덤 이름 생성기. 테스트, 캐릭터, 익명성을 위한 가짜 이름을 생성하세요. 실감나는 이름과 성을 즉시 만들어드립니다.">
-    <meta name="keywords" content="랜덤 이름 생성기, 가짜 이름, 이름 생성기, 캐릭터 이름, 테스트 데이터">
+    <title>ランダム名前ジェネレーター - 無料の偽名生成ツール</title>
+    <meta name="description" content="無料のランダム名前ジェネレーター。テスト、キャラクター、匿名性のための偽名を生成します。リアルな名前と姓を即座に作成します。">
+    <meta name="keywords" content="ランダム名前ジェネレーター, 偽名, 名前ジェネレーター, キャラクター名, テストデータ">
 
-    <meta property="og:title" content="랜덤 이름 생성기 - 무료 가짜 이름 도구">
-    <meta property="og:description" content="실감나는 랜덤 이름을 즉시 생성하세요. 테스트나 캐릭터에 완벽.">
+    <meta property="og:title" content="ランダム名前ジェネレーター - 無料の偽名ツール">
+    <meta property="og:description" content="リアルなランダム名前を即座に生成。テストやキャラクターに最適">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -213,65 +213,65 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">한국어</a>
             </div>
-            <h1>랜덤 이름 생성기</h1>
-            <p class="subtitle">실감나는 랜덤 이름을 즉시 생성</p>
+            <h1>ランダム名前ジェネレーター</h1>
+            <p class="subtitle">リアルなランダム名前を即座に生成</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="card">
             <div class="options-grid">
                 <div class="option-group">
-                    <label>이름 유형</label>
+                    <label>名前タイプ</label>
                     <select id="nameType">
-                        <option value="full">전체 이름</option>
-                        <option value="first">이름만</option>
-                        <option value="last">성만</option>
+                        <option value="full">フルネーム</option>
+                        <option value="first">名のみ</option>
+                        <option value="last">姓のみ</option>
                     </select>
                 </div>
                 <div class="option-group">
-                    <label>성별</label>
+                    <label>性別</label>
                     <select id="gender">
-                        <option value="random">랜덤</option>
-                        <option value="male">남성</option>
-                        <option value="female">여성</option>
+                        <option value="random">ランダム</option>
+                        <option value="male">男性</option>
+                        <option value="female">女性</option>
                     </select>
                 </div>
                 <div class="option-group">
-                    <label>스타일</label>
+                    <label>スタイル</label>
                     <select id="style">
-                        <option value="korean">한국 이름</option>
-                        <option value="common">일반 영어</option>
-                        <option value="classic">클래식 영어</option>
-                        <option value="fantasy">판타지</option>
+                        <option value="common">一般的な英語</option>
+                        <option value="classic">クラシック英語</option>
+                        <option value="fantasy">ファンタジー</option>
+                        <option value="korean">韓国の名前</option>
                     </select>
                 </div>
                 <div class="option-group">
-                    <label>생성 개수</label>
+                    <label>生成数</label>
                     <input type="number" id="count" value="10" min="1" max="100">
                 </div>
             </div>
 
             <div class="controls">
-                <button class="btn btn-primary" onclick="generateNames()">이름 생성</button>
-                <button class="btn btn-secondary" onclick="clearNames()">지우기</button>
+                <button class="btn btn-primary" onclick="generateNames()">名前を生成</button>
+                <button class="btn btn-secondary" onclick="clearNames()">クリア</button>
             </div>
         </div>
 
         <div class="card" id="resultsCard">
             <div class="results-header">
-                <h3>생성된 이름</h3>
+                <h3>生成された名前</h3>
                 <div class="results-actions">
-                    <button class="btn btn-small btn-secondary" onclick="copyAllNames()">모두 복사</button>
-                    <button class="btn btn-small btn-secondary" onclick="downloadNames()">다운로드</button>
+                    <button class="btn btn-small btn-secondary" onclick="copyAllNames()">すべてコピー</button>
+                    <button class="btn btn-small btn-secondary" onclick="downloadNames()">ダウンロード</button>
                 </div>
             </div>
 
             <div class="empty-state" id="emptyState">
                 <div class="icon">&#128100;</div>
-                <p>"이름 생성" 버튼을 클릭하여 랜덤 이름을 만드세요</p>
+                <p>「名前を生成」をクリックしてランダムな名前を作成</p>
             </div>
 
             <div class="names-grid" id="namesGrid"></div>
@@ -280,34 +280,34 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#127919;</div>
-                <h3>다양한 스타일</h3>
-                <p>한국, 영어, 클래식, 판타지 이름 스타일</p>
+                <h3>多様なスタイル</h3>
+                <p>韓国、英語、クラシック、ファンタジーの名前スタイル</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128100;</div>
-                <h3>성별 옵션</h3>
-                <p>남성, 여성, 또는 랜덤 성별 이름 생성</p>
+                <h3>性別オプション</h3>
+                <p>男性、女性、またはランダム性別の名前を生成</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128203;</div>
-                <h3>대량 생성</h3>
-                <p>한 번에 최대 100개의 이름 생성</p>
+                <h3>一括生成</h3>
+                <p>一度に最大100個の名前を生成</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128190;</div>
-                <h3>쉬운 내보내기</h3>
-                <p>생성된 이름 복사 또는 다운로드</p>
+                <h3>簡単エクスポート</h3>
+                <p>生成された名前をコピーまたはダウンロード</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>무료 랜덤 이름 생성기 | 테스트, 캐릭터 등에 완벽</p>
+            <p>無料ランダム名前ジェネレーター | テスト、キャラクターなどに最適</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">コピーしました!</div>
 
     <script>
         const nameData = {
@@ -390,7 +390,7 @@
             }
 
             displayNames();
-            showToast(`${count}개 이름 생성됨!`);
+            showToast(`${count}個の名前を生成しました!`);
         }
 
         function displayNames() {
@@ -408,8 +408,8 @@
                 <div class="name-card" onclick="copyName(${index}, this)">
                     <div class="name-full">${item.name}</div>
                     <div class="name-meta">
-                        <span>${item.gender === 'male' ? '♂' : '♀'} ${item.gender === 'male' ? '남성' : '여성'}</span>
-                        <span>클릭하여 복사</span>
+                        <span>${item.gender === 'male' ? '♂' : '♀'} ${item.gender === 'male' ? '男性' : '女性'}</span>
+                        <span>クリックしてコピー</span>
                     </div>
                 </div>
             `).join('');
@@ -420,24 +420,24 @@
             navigator.clipboard.writeText(name).then(() => {
                 element.classList.add('copied');
                 setTimeout(() => element.classList.remove('copied'), 1000);
-                showToast(`복사됨: ${name}`);
+                showToast(`コピーしました: ${name}`);
             });
         }
 
         function copyAllNames() {
             if (generatedNames.length === 0) {
-                showToast('복사할 이름이 없습니다');
+                showToast('コピーする名前がありません');
                 return;
             }
             const text = generatedNames.map(n => n.name).join('\n');
             navigator.clipboard.writeText(text).then(() => {
-                showToast('모든 이름 복사됨!');
+                showToast('すべての名前をコピーしました!');
             });
         }
 
         function downloadNames() {
             if (generatedNames.length === 0) {
-                showToast('다운로드할 이름이 없습니다');
+                showToast('ダウンロードする名前がありません');
                 return;
             }
             const text = generatedNames.map(n => n.name).join('\n');
@@ -448,7 +448,7 @@
             a.download = 'random-names.txt';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드됨!');
+            showToast('ダウンロードしました!');
         }
 
         function clearNames() {

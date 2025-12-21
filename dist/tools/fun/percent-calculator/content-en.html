@@ -14,33 +14,33 @@
         <div class="ad-banner">Advertisement</div>
 
         <header>
-            <h1 data-i18n="header.title">🔢 Percent Calculator</h1>
-            <p class="subtitle" data-i18n="header.subtitle">Easy percentage calculations</p>
+            <h1>🔢 Percent Calculator</h1>
+            <p class="subtitle">Easy percentage calculations</p>
         </header>
 
         <div class="tabs">
-            <button class="tab active" onclick="showTab('basic')" data-i18n="tabs.basic">Basic</button>
-            <button class="tab" onclick="showTab('discount')" data-i18n="tabs.discount">Discount</button>
-            <button class="tab" onclick="showTab('change')" data-i18n="tabs.change">Change</button>
-            <button class="tab" onclick="showTab('ratio')" data-i18n="tabs.ratio">Ratio</button>
+            <button class="tab active" onclick="showTab('basic')">Basic</button>
+            <button class="tab" onclick="showTab('discount')">Discount</button>
+            <button class="tab" onclick="showTab('change')">Change</button>
+            <button class="tab" onclick="showTab('ratio')">Ratio</button>
         </div>
 
         <div class="calculator-section active" id="basic">
-            <div class="calc-title" data-i18n="basic.title">What is B% of A?</div>
+            <div class="calc-title">What is B% of A?</div>
             <div class="formula">
                 <input type="number" id="basic-a" placeholder="50000">
                 <span>of</span>
                 <input type="number" id="basic-b" placeholder="20">
                 <span>%</span>
             </div>
-            <button class="calculate-btn" onclick="calcBasic()" data-i18n="basic.btn">Calculate</button>
+            <button class="calculate-btn" onclick="calcBasic()">Calculate</button>
             <div class="result-box" id="basic-result">
-                <div class="result-label" data-i18n="basic.res">Result</div>
+                <div class="result-label">Result</div>
                 <div class="result-value" id="basic-value">0</div>
-                <button class="copy-btn" onclick="copyResult('basic-value')" data-i18n="common.copy">📋 Copy</button>
+                <button class="copy-btn" onclick="copyResult('basic-value')">📋 Copy</button>
             </div>
             <div class="quick-calc">
-                <h4 data-i18n="common.quick">Quick Calc</h4>
+                <h4>Quick Calc</h4>
                 <div class="quick-buttons">
                     <button class="quick-btn" onclick="quickBasic(10)">10%</button>
                     <button class="quick-btn" onclick="quickBasic(20)">20%</button>
@@ -50,49 +50,49 @@
         </div>
 
         <div class="calculator-section" id="discount">
-            <div class="calc-title" data-i18n="discount.title">Discount Calculator</div>
+            <div class="calc-title">Discount Calculator</div>
             <div class="formula">
                 <input type="number" id="discount-price" placeholder="50000">
                 <span>-</span>
                 <input type="number" id="discount-rate" placeholder="20">
                 <span>%</span>
             </div>
-            <button class="calculate-btn" onclick="calcDiscount()" data-i18n="discount.btn">Calculate</button>
+            <button class="calculate-btn" onclick="calcDiscount()">Calculate</button>
             <div class="result-box" id="discount-result">
-                <div class="result-label" data-i18n="discount.res">Price</div>
+                <div class="result-label">Price</div>
                 <div class="result-value" id="discount-value">0</div>
                 <div class="result-detail" id="discount-detail"></div>
-                <button class="copy-btn" onclick="copyResult('discount-value')" data-i18n="common.copy">📋 Copy</button>
+                <button class="copy-btn" onclick="copyResult('discount-value')">📋 Copy</button>
             </div>
         </div>
 
         <div class="calculator-section" id="change">
-            <div class="calc-title" data-i18n="change.title">Percentage Change</div>
+            <div class="calc-title">Percentage Change</div>
             <div class="formula">
                 <input type="number" id="change-from" placeholder="100">
                 <span>→</span>
                 <input type="number" id="change-to" placeholder="150">
             </div>
-            <button class="calculate-btn" onclick="calcChange()" data-i18n="change.btn">Calculate</button>
+            <button class="calculate-btn" onclick="calcChange()">Calculate</button>
             <div class="result-box" id="change-result">
-                <div class="result-label" data-i18n="change.res">Rate</div>
+                <div class="result-label">Rate</div>
                 <div class="result-value" id="change-value">0%</div>
-                <button class="copy-btn" onclick="copyResult('change-value')" data-i18n="common.copy">📋 Copy</button>
+                <button class="copy-btn" onclick="copyResult('change-value')">📋 Copy</button>
             </div>
         </div>
 
         <div class="calculator-section" id="ratio">
-            <div class="calc-title" data-i18n="ratio.title">Ratio Calculator</div>
+            <div class="calc-title">Ratio Calculator</div>
             <div class="formula">
                 <input type="number" id="ratio-part" placeholder="30">
                 <span>:</span>
                 <input type="number" id="ratio-total" placeholder="120">
             </div>
-            <button class="calculate-btn" onclick="calcRatio()" data-i18n="ratio.btn">Calculate</button>
+            <button class="calculate-btn" onclick="calcRatio()">Calculate</button>
             <div class="result-box" id="ratio-result">
-                <div class="result-label" data-i18n="ratio.res">Ratio</div>
+                <div class="result-label">Ratio</div>
                 <div class="result-value" id="ratio-value">0%</div>
-                <button class="copy-btn" onclick="copyResult('ratio-value')" data-i18n="common.copy">📋 Copy</button>
+                <button class="copy-btn" onclick="copyResult('ratio-value')">📋 Copy</button>
             </div>
         </div>
 
@@ -136,7 +136,6 @@
             const discountAmount = price * (rate / 100);
             const finalPrice = price - discountAmount;
             document.getElementById('discount-value').textContent = formatNumber(finalPrice);
-            // Localized detail needs dynamic update or simple text
             document.getElementById('discount-detail').textContent = `Save: ${formatNumber(discountAmount)}`;
             document.getElementById('discount-result').classList.add('show');
         }

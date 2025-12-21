@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>연애 성향 테스트 - 나의 연애 유형은? | 무료 연애 테스트</title>
-    <meta name="description" content="나의 연애 성향을 알아보세요! 무료 연애 유형 테스트로 나는 어떤 스타일로 사랑하는지 확인하세요. 집착형? 자유형? 지금 바로!">
-    <meta name="keywords" content="연애테스트, 연애성향, 연애유형, 사랑테스트, 연애스타일, 연애심리테스트">
+    <title>恋愛性向テスト - 私の恋愛タイプは？ | 無料恋愛テスト</title>
+    <meta name="description" content="あなたの恋愛性向を調べてみよう！無料恋愛タイプテストで私はどんなスタイルで愛するのか確認してみてください。執着型？自由型？今すぐ！">
+    <meta name="keywords" content="恋愛テスト,恋愛性向,恋愛タイプ,愛のテスト,恋愛スタイル,恋愛心理テスト">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="연애 성향 테스트 - 나의 연애 유형은?">
-    <meta property="og:description" content="나는 어떤 스타일로 사랑할까?">
+    <meta property="og:title" content="恋愛性向テスト - 私の恋愛タイプは？">
+    <meta property="og:description" content="私はどんなスタイルで愛するのかな？">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=연애+성향+테스트">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=恋愛性向テスト">
 
     <style>
         .toast {
@@ -35,7 +35,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, sans-serif;
             background: linear-gradient(135deg, #ff6b9d 0%, #c44dff 50%, #6b5ce7 100%);
             min-height: 100vh;
             color: #333;
@@ -385,8 +385,8 @@
 
     <div class="container">
         <header>
-            <h1>연애 성향 테스트</h1>
-            <p class="subtitle">나는 어떤 스타일로 사랑할까?</p>
+            <h1>恋愛性向テスト</h1>
+            <p class="subtitle">私はどんなスタイルで愛するのかな？</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
@@ -394,14 +394,14 @@
         <div class="card">
             <div class="intro-section" id="introSection">
                 <div class="intro-emoji">💕</div>
-                <h2>당신의 연애 유형을 알려드릴게요</h2>
+                <h2>あなたの恋愛タイプをお教えします</h2>
                 <p>
-                    사람마다 사랑하는 방식이 달라요.<br>
-                    10가지 질문으로 당신의 연애 성향을<br>
-                    정확하게 분석해드릴게요!<br><br>
-                    솔직하게 답해주세요 💝
+                    人それぞれ愛し方が違います。<br>
+                    10個の質問であなたの恋愛性向を<br>
+                    正確に分析します！<br><br>
+                    正直に答えてください 💝
                 </p>
-                <button class="start-btn" onclick="startTest()">테스트 시작하기</button>
+                <button class="start-btn" onclick="startTest()">テストを始める</button>
             </div>
 
             <div class="question-section" id="questionSection">
@@ -416,46 +416,46 @@
 
             <div class="result-section" id="resultSection">
                 <div class="result-header">
-                    <p>당신의 연애 유형은...</p>
+                    <p>あなたの恋愛タイプは...</p>
                     <span class="type-emoji" id="typeEmoji">💗</span>
-                    <div class="type-name" id="typeName">헌신형 연인</div>
-                    <div class="type-title" id="typeTitle">"당신을 위해서라면 뭐든지"</div>
+                    <div class="type-name" id="typeName">献身型恋人</div>
+                    <div class="type-title" id="typeTitle">"あなたのためなら何でも"</div>
                 </div>
 
                 <div class="result-card">
-                    <h3>💝 연애 스타일</h3>
+                    <h3>💝 恋愛スタイル</h3>
                     <p id="typeDescription"></p>
                     <div class="keyword-tags" id="keywordTags"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3>📊 성향 분석</h3>
+                    <h3>📊 性向分析</h3>
                     <div class="percentage-section" id="percentageSection"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3>✨ 장점</h3>
+                    <h3>✨ 長所</h3>
                     <p id="typeStrength"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>⚠️ 주의할 점</h3>
+                    <h3>⚠️ 注意点</h3>
                     <p id="typeWeakness"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>💑 궁합</h3>
+                    <h3>💑 相性</h3>
                     <div class="match-section" id="matchSection"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3>💡 연애 조언</h3>
+                    <h3>💡 恋愛アドバイス</h3>
                     <p id="typeAdvice"></p>
                 </div>
 
                 <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="resetTest()">やり直す</button>
                 </div>
             </div>
         </div>
@@ -463,12 +463,12 @@
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>이 테스트는 재미를 위한 것입니다.</p>
+            <p>このテストはお遊びです。</p>
         </footer>
     </div>
 
     <script>
-        // 하트 배경
+        // ハート背景
         function createHearts() {
             const container = document.getElementById('heartsFloat');
             const hearts = ['💕', '💗', '💖', '💝', '❤️'];
@@ -487,102 +487,102 @@
         const questions = [
             {
                 emoji: "📱",
-                text: "연인에게 연락이 안 올 때 나는?",
+                text: "恋人から連絡が来ない時、私は？",
                 options: [
-                    { text: "계속 확인하고 불안해함", type: "clingy" },
-                    { text: "바쁜가보다 하고 기다림", type: "stable" },
-                    { text: "나도 내 할 일 함", type: "independent" },
-                    { text: "뭐하나 궁금해서 먼저 연락함", type: "active" }
+                    { text: "ずっと確認して不安になる", type: "clingy" },
+                    { text: "忙しいんだろうと待つ", type: "stable" },
+                    { text: "私も自分のことをする", type: "independent" },
+                    { text: "何してるか気になって先に連絡する", type: "active" }
                 ]
             },
             {
                 emoji: "💕",
-                text: "사랑을 표현하는 나만의 방식은?",
+                text: "愛を表現する自分なりの方法は？",
                 options: [
-                    { text: "말과 행동으로 적극 표현", type: "active" },
-                    { text: "선물이나 깜짝 이벤트", type: "romantic" },
-                    { text: "함께 있는 시간을 중요시", type: "stable" },
-                    { text: "필요할 때 도움을 줌", type: "caring" }
+                    { text: "言葉と行動で積極的に表現", type: "active" },
+                    { text: "プレゼントやサプライズイベント", type: "romantic" },
+                    { text: "一緒にいる時間を大切にする", type: "stable" },
+                    { text: "必要な時に助ける", type: "caring" }
                 ]
             },
             {
                 emoji: "😤",
-                text: "연인과 싸웠을 때 나는?",
+                text: "恋人と喧嘩した時、私は？",
                 options: [
-                    { text: "바로 화해하려고 노력", type: "clingy" },
-                    { text: "시간을 두고 생각 정리", type: "stable" },
-                    { text: "내 입장을 확실히 전달", type: "independent" },
-                    { text: "분위기 풀려고 장난침", type: "playful" }
+                    { text: "すぐに仲直りしようと努力", type: "clingy" },
+                    { text: "時間をおいて考えを整理", type: "stable" },
+                    { text: "自分の立場をはっきり伝える", type: "independent" },
+                    { text: "雰囲気を変えようと冗談を言う", type: "playful" }
                 ]
             },
             {
                 emoji: "🏠",
-                text: "이상적인 데이트는?",
+                text: "理想的なデートは？",
                 options: [
-                    { text: "집에서 함께 시간 보내기", type: "stable" },
-                    { text: "새로운 곳 탐험하기", type: "playful" },
-                    { text: "로맨틱한 분위기의 레스토랑", type: "romantic" },
-                    { text: "각자 하고 싶은 것 하다 만나기", type: "independent" }
+                    { text: "家で一緒に過ごす", type: "stable" },
+                    { text: "新しい場所を探検", type: "playful" },
+                    { text: "ロマンチックな雰囲気のレストラン", type: "romantic" },
+                    { text: "それぞれしたいことをして会う", type: "independent" }
                 ]
             },
             {
                 emoji: "🤔",
-                text: "연인의 이성 친구, 어떻게 생각해?",
+                text: "恋人の異性の友達、どう思う？",
                 options: [
-                    { text: "솔직히 별로 좋진 않음", type: "clingy" },
-                    { text: "신뢰하니까 괜찮음", type: "stable" },
-                    { text: "나도 이성친구 있으니 OK", type: "independent" },
-                    { text: "같이 어울리면 더 좋음", type: "playful" }
+                    { text: "正直あまり良くない", type: "clingy" },
+                    { text: "信頼してるから大丈夫", type: "stable" },
+                    { text: "私にも異性の友達いるからOK", type: "independent" },
+                    { text: "一緒に遊べばもっと良い", type: "playful" }
                 ]
             },
             {
                 emoji: "💭",
-                text: "연애 중 혼자만의 시간은?",
+                text: "恋愛中の一人の時間は？",
                 options: [
-                    { text: "없어도 됨, 함께가 좋음", type: "clingy" },
-                    { text: "가끔은 필요함", type: "stable" },
-                    { text: "꼭 필요함, 없으면 힘듦", type: "independent" },
-                    { text: "친구들과 노는 시간으로 대체", type: "playful" }
+                    { text: "なくても大丈夫、一緒が良い", type: "clingy" },
+                    { text: "たまには必要", type: "stable" },
+                    { text: "必ず必要、ないと辛い", type: "independent" },
+                    { text: "友達と遊ぶ時間で代わりにする", type: "playful" }
                 ]
             },
             {
                 emoji: "🎁",
-                text: "기념일에 대한 생각은?",
+                text: "記念日についての考えは？",
                 options: [
-                    { text: "모든 기념일 다 중요!", type: "romantic" },
-                    { text: "큰 기념일만 챙김", type: "stable" },
-                    { text: "기념일보다 평소가 중요", type: "independent" },
-                    { text: "깜짝 이벤트가 더 좋음", type: "playful" }
+                    { text: "すべての記念日が大事！", type: "romantic" },
+                    { text: "大きな記念日だけ祝う", type: "stable" },
+                    { text: "記念日より普段が大事", type: "independent" },
+                    { text: "サプライズイベントの方が良い", type: "playful" }
                 ]
             },
             {
                 emoji: "😢",
-                text: "연인이 힘들어할 때 나는?",
+                text: "恋人が辛い時、私は？",
                 options: [
-                    { text: "끝까지 옆에서 함께함", type: "caring" },
-                    { text: "해결책을 찾아줌", type: "active" },
-                    { text: "공간을 주고 기다림", type: "stable" },
-                    { text: "기분 전환시켜줌", type: "playful" }
+                    { text: "最後まで一緒にいる", type: "caring" },
+                    { text: "解決策を探してあげる", type: "active" },
+                    { text: "空間を与えて待つ", type: "stable" },
+                    { text: "気分転換させてあげる", type: "playful" }
                 ]
             },
             {
                 emoji: "💑",
-                text: "연애에서 가장 중요한 것은?",
+                text: "恋愛で一番大切なことは？",
                 options: [
-                    { text: "함께하는 시간", type: "clingy" },
-                    { text: "서로에 대한 신뢰", type: "stable" },
-                    { text: "서로의 성장", type: "independent" },
-                    { text: "설렘과 재미", type: "playful" }
+                    { text: "一緒にいる時間", type: "clingy" },
+                    { text: "お互いへの信頼", type: "stable" },
+                    { text: "お互いの成長", type: "independent" },
+                    { text: "ドキドキと楽しさ", type: "playful" }
                 ]
             },
             {
                 emoji: "💍",
-                text: "연애의 미래에 대해?",
+                text: "恋愛の未来について？",
                 options: [
-                    { text: "결혼까지 생각함", type: "caring" },
-                    { text: "자연스럽게 흘러가길", type: "stable" },
-                    { text: "현재에 집중함", type: "playful" },
-                    { text: "서로 맞으면 그때 생각", type: "independent" }
+                    { text: "結婚まで考える", type: "caring" },
+                    { text: "自然に流れるように", type: "stable" },
+                    { text: "今に集中する", type: "playful" },
+                    { text: "お互いに合えばその時考える", type: "independent" }
                 ]
             }
         ];
@@ -590,94 +590,94 @@
         const loveTypes = {
             clingy: {
                 emoji: "🥺",
-                name: "올인형 연인",
-                title: "\"너 없이는 못 살아\"",
-                description: "사랑에 빠지면 온 마음을 다 바치는 타입이에요. 연인과 함께하는 시간이 가장 행복하고, 떨어져 있으면 많이 보고싶어해요. 사랑에 진심인 당신, 그 열정이 매력이에요!",
-                keywords: ["진심", "열정적", "애정표현", "함께하기", "밀착형"],
-                strength: "진심 어린 사랑으로 상대를 감동시킬 수 있어요. 함께 있을 때 상대방을 세상에서 가장 특별하게 느끼게 해줘요.",
-                weakness: "너무 집착하면 상대가 부담스러워할 수 있어요. 가끔은 여유를 가지고 서로의 공간을 존중해보세요.",
-                goodMatch: "안정형 연인",
-                badMatch: "자유형 연인",
+                name: "オールイン型恋人",
+                title: "\"あなたなしでは生きられない\"",
+                description: "恋に落ちると心を全て捧げるタイプです。恋人と一緒にいる時間が一番幸せで、離れていると会いたくてたまりません。愛に真剣なあなた、その情熱が魅力です！",
+                keywords: ["真剣", "情熱的", "愛情表現", "一緒", "密着型"],
+                strength: "真心のこもった愛で相手を感動させることができます。一緒にいる時、相手を世界で一番特別に感じさせます。",
+                weakness: "執着しすぎると相手が負担に感じることがあります。時には余裕を持ってお互いの空間を尊重してみてください。",
+                goodMatch: "安定型恋人",
+                badMatch: "自由型恋人",
                 traits: { passion: 95, independence: 35, romance: 80, stability: 50 },
-                advice: "사랑은 마라톤이에요. 천천히, 하지만 꾸준히 사랑하세요. 상대방도 당신만큼 당신을 사랑할 수 있게 시간을 주세요."
+                advice: "愛はマラソンです。ゆっくりと、でも着実に愛してください。相手もあなたと同じくらいあなたを愛せるよう時間をあげてください。"
             },
             stable: {
                 emoji: "🤝",
-                name: "안정형 연인",
-                title: "\"함께 있으면 편안해\"",
-                description: "믿음과 신뢰를 바탕으로 관계를 쌓아가는 타입이에요. 화려한 것보다 일상의 행복을 중요시하고, 오래가는 사랑을 추구해요. 든든한 버팀목 같은 존재!",
-                keywords: ["신뢰", "편안함", "일상", "안정감", "장기연애"],
-                strength: "변함없는 사랑으로 상대에게 안정감을 줘요. 어떤 상황에서도 흔들리지 않는 든든한 존재예요.",
-                weakness: "때로는 너무 무덤덤해 보일 수 있어요. 가끔은 설렘을 줄 수 있는 이벤트도 해보세요!",
-                goodMatch: "올인형 연인",
-                badMatch: "썸타는 연인",
+                name: "安定型恋人",
+                title: "\"一緒にいると楽\"",
+                description: "信頼を基盤に関係を築いていくタイプです。華やかなものより日常の幸せを大切にし、長続きする愛を求めます。頼りになる支えのような存在！",
+                keywords: ["信頼", "安心", "日常", "安定感", "長期恋愛"],
+                strength: "変わらない愛で相手に安定感を与えます。どんな状況でも揺るがない頼もしい存在です。",
+                weakness: "時には淡白に見えることがあります。たまにはドキドキさせるイベントもしてみてください！",
+                goodMatch: "オールイン型恋人",
+                badMatch: "ときめき型恋人",
                 traits: { passion: 60, independence: 65, romance: 55, stability: 95 },
-                advice: "안정감도 좋지만 가끔은 새로운 시도도 해보세요. 작은 변화가 관계에 활력을 줄 수 있어요."
+                advice: "安定感も良いですが、時には新しい試みもしてみてください。小さな変化が関係に活力を与えることができます。"
             },
             independent: {
                 emoji: "🦅",
-                name: "자유형 연인",
-                title: "\"서로의 삶을 존중해\"",
-                description: "사랑도 중요하지만 개인의 삶도 중요시하는 타입이에요. 서로의 영역을 존중하면서 건강한 관계를 유지해요. 성숙하고 독립적인 사랑을 해요!",
-                keywords: ["독립적", "존중", "자기주도", "성숙함", "밸런스"],
-                strength: "건강한 관계를 유지할 수 있어요. 서로를 구속하지 않아 오래 함께할 수 있어요.",
-                weakness: "상대가 서운해할 수 있어요. 가끔은 먼저 연락하고 애정표현을 해보세요.",
-                goodMatch: "자유형 연인",
-                badMatch: "올인형 연인",
+                name: "自由型恋人",
+                title: "\"お互いの人生を尊重\"",
+                description: "愛も大切ですが、個人の人生も大切にするタイプです。お互いの領域を尊重しながら健全な関係を維持します。成熟していて独立的な愛をします！",
+                keywords: ["独立的", "尊重", "自主的", "成熟", "バランス"],
+                strength: "健全な関係を維持できます。お互いを束縛しないので長く一緒にいられます。",
+                weakness: "相手が寂しく感じることがあります。時には先に連絡して愛情表現をしてみてください。",
+                goodMatch: "自由型恋人",
+                badMatch: "オールイン型恋人",
                 traits: { passion: 50, independence: 95, romance: 45, stability: 70 },
-                advice: "독립적인 것도 좋지만, 연인에게는 조금 더 마음을 열어도 괜찮아요. 의지하는 것도 사랑이에요."
+                advice: "独立的なのも良いですが、恋人にはもう少し心を開いても大丈夫です。頼ることも愛です。"
             },
             romantic: {
                 emoji: "🌹",
-                name: "로맨틱 연인",
-                title: "\"매일이 특별했으면\"",
-                description: "사랑에 있어 로맨스를 중요시하는 타입이에요. 기념일, 깜짝 이벤트, 달달한 말들... 사랑하는 사람에게 특별한 순간들을 선물하고 싶어해요!",
-                keywords: ["로맨틱", "이벤트", "감성적", "기념일", "설렘"],
-                strength: "연인을 특별하게 느끼게 해줘요. 함께하는 모든 순간을 아름답게 만들어요.",
-                weakness: "기대가 크면 실망도 클 수 있어요. 평범한 일상도 소중하다는 걸 기억하세요.",
-                goodMatch: "헌신형 연인",
-                badMatch: "자유형 연인",
+                name: "ロマンチック恋人",
+                title: "\"毎日が特別だといいな\"",
+                description: "恋愛においてロマンスを大切にするタイプです。記念日、サプライズイベント、甘い言葉... 愛する人に特別な瞬間をプレゼントしたいです！",
+                keywords: ["ロマンチック", "イベント", "感性的", "記念日", "ドキドキ"],
+                strength: "恋人を特別に感じさせます。一緒にいる全ての瞬間を美しくします。",
+                weakness: "期待が大きいと失望も大きくなります。平凡な日常も大切だということを覚えておいてください。",
+                goodMatch: "献身型恋人",
+                badMatch: "自由型恋人",
                 traits: { passion: 85, independence: 50, romance: 95, stability: 55 },
-                advice: "로맨스도 좋지만 일상의 작은 행복도 소중해요. 특별한 날이 아니어도 사랑은 충분히 아름다워요."
+                advice: "ロマンスも良いですが、日常の小さな幸せも大切です。特別な日でなくても愛は十分美しいです。"
             },
             playful: {
                 emoji: "🎉",
-                name: "썸타는 연인",
-                title: "\"연애는 재밌어야지!\"",
-                description: "연애도 재미있게! 장난치고 웃고 떠들며 즐거운 연애를 추구해요. 무겁고 진지한 것보다 가볍고 밝은 관계를 좋아해요. 함께 있으면 웃음이 끊이지 않아요!",
-                keywords: ["재미", "장난", "유쾌함", "가벼움", "웃음"],
-                strength: "함께 있으면 즐거워요. 어려운 상황도 유머로 넘기는 힘이 있어요.",
-                weakness: "진지해야 할 때도 장난치면 오해받을 수 있어요. TPO를 지켜주세요.",
-                goodMatch: "썸타는 연인",
-                badMatch: "안정형 연인",
+                name: "ときめき型恋人",
+                title: "\"恋愛は楽しくなきゃ！\"",
+                description: "恋愛も楽しく！冗談を言って笑って騒いで楽しい恋愛を求めます。重くて真剣なものより軽くて明るい関係が好きです。一緒にいると笑いが絶えません！",
+                keywords: ["楽しさ", "冗談", "愉快", "軽さ", "笑い"],
+                strength: "一緒にいると楽しいです。難しい状況もユーモアで乗り越える力があります。",
+                weakness: "真剣な時も冗談を言うと誤解されることがあります。TPOを守ってください。",
+                goodMatch: "ときめき型恋人",
+                badMatch: "安定型恋人",
                 traits: { passion: 70, independence: 75, romance: 65, stability: 45 },
-                advice: "재미도 좋지만 가끔은 진지한 대화도 필요해요. 깊이 있는 관계를 위해 마음을 나눠보세요."
+                advice: "楽しさも良いですが、時には真剣な会話も必要です。深い関係のために心を分かち合ってみてください。"
             },
             caring: {
                 emoji: "🤗",
-                name: "헌신형 연인",
-                title: "\"널 위해서라면\"",
-                description: "사랑하는 사람을 위해 뭐든 해주고 싶은 타입이에요. 상대의 행복이 곧 나의 행복! 챙겨주고 돌봐주는 것에서 보람을 느껴요. 따뜻한 사랑을 주는 사람!",
-                keywords: ["헌신", "배려", "따뜻함", "돌봄", "희생"],
-                strength: "조건 없이 사랑할 수 있어요. 상대방이 진심으로 사랑받고 있다고 느끼게 해줘요.",
-                weakness: "자신을 너무 희생하면 지칠 수 있어요. 나를 위한 시간도 가지세요.",
-                goodMatch: "로맨틱 연인",
-                badMatch: "썸타는 연인",
+                name: "献身型恋人",
+                title: "\"君のためなら\"",
+                description: "愛する人のために何でもしてあげたいタイプです。相手の幸せが私の幸せ！世話をすることにやりがいを感じます。温かい愛をくれる人！",
+                keywords: ["献身", "配慮", "温かさ", "世話", "犠牲"],
+                strength: "無条件に愛することができます。相手が心から愛されていると感じさせます。",
+                weakness: "自分を犠牲にしすぎると疲れることがあります。自分のための時間も持ってください。",
+                goodMatch: "ロマンチック恋人",
+                badMatch: "ときめき型恋人",
                 traits: { passion: 80, independence: 40, romance: 75, stability: 80 },
-                advice: "주기만 하지 말고 받는 것도 배워보세요. 건강한 관계는 주고받음의 균형이에요."
+                advice: "与えるだけでなく、受け取ることも学んでみてください。健全な関係は与え合いのバランスです。"
             },
             active: {
                 emoji: "🔥",
-                name: "주도형 연인",
-                title: "\"내가 리드할게\"",
-                description: "연애에서 주도적인 역할을 하는 타입이에요. 데이트 계획부터 고백까지, 적극적으로 리드해요. 말보다 행동으로 사랑을 증명하는 스타일!",
-                keywords: ["주도적", "적극적", "리더십", "행동파", "결단력"],
-                strength: "밀고 당기기 없이 확실한 사랑을 해요. 상대가 혼란스럽지 않아요.",
-                weakness: "상대의 의견도 들어보세요. 함께 결정하는 것도 중요해요.",
-                goodMatch: "안정형 연인",
-                badMatch: "주도형 연인",
+                name: "主導型恋人",
+                title: "\"私がリードするよ\"",
+                description: "恋愛で主導的な役割をするタイプです。デートプランから告白まで、積極的にリードします。言葉より行動で愛を証明するスタイル！",
+                keywords: ["主導的", "積極的", "リーダーシップ", "行動派", "決断力"],
+                strength: "駆け引きなしに確実な愛をします。相手が混乱しません。",
+                weakness: "相手の意見も聞いてみてください。一緒に決めることも大切です。",
+                goodMatch: "安定型恋人",
+                badMatch: "主導型恋人",
                 traits: { passion: 90, independence: 70, romance: 70, stability: 65 },
-                advice: "리드하는 것도 좋지만 가끔은 맡겨보세요. 상대도 당신을 이끌고 싶을 수 있어요."
+                advice: "リードするのも良いですが、時には任せてみてください。相手もあなたを導きたいかもしれません。"
             }
         };
 
@@ -729,7 +729,7 @@
                 counts[type] = (counts[type] || 0) + 1;
             });
 
-            // 가장 많은 유형 찾기
+            // 最も多いタイプを探す
             let maxType = 'stable';
             let maxCount = 0;
             Object.entries(counts).forEach(([type, count]) => {
@@ -760,10 +760,10 @@
             ).join('');
 
             const traitLabels = {
-                passion: '열정도',
-                independence: '독립성',
-                romance: '로맨스',
-                stability: '안정감'
+                passion: '情熱度',
+                independence: '独立性',
+                romance: 'ロマンス',
+                stability: '安定感'
             };
 
             document.getElementById('percentageSection').innerHTML = Object.entries(resultData.traits).map(([key, value]) => `
@@ -780,11 +780,11 @@
 
             document.getElementById('matchSection').innerHTML = `
                 <div class="match-item good">
-                    <div class="label">잘 맞는 유형</div>
+                    <div class="label">相性の良いタイプ</div>
                     <div class="type">💚 ${resultData.goodMatch}</div>
                 </div>
                 <div class="match-item bad">
-                    <div class="label">주의할 유형</div>
+                    <div class="label">注意するタイプ</div>
                     <div class="type">💔 ${resultData.badMatch}</div>
                 </div>
             `;
@@ -798,22 +798,22 @@
         }
 
         function shareResult() {
-            const text = `💕 연애 성향 테스트 결과\n\n` +
+            const text = `💕 恋愛性向テスト結果\n\n` +
                         `${resultData.emoji} ${resultData.name}\n` +
                         `${resultData.title}\n\n` +
                         `🏷️ ${resultData.keywords.map(k => '#'+k).join(' ')}\n\n` +
-                        `💚 잘 맞는 유형: ${resultData.goodMatch}\n` +
-                        `💔 주의할 유형: ${resultData.badMatch}\n\n` +
-                        `나도 테스트하기 👉`;
+                        `💚 相性の良いタイプ: ${resultData.goodMatch}\n` +
+                        `💔 注意するタイプ: ${resultData.badMatch}\n\n` +
+                        `私もテストする 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: '연애 성향 테스트', text: text })
+                navigator.share({ title: '恋愛性向テスト', text: text })
                     .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
                     });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                    showToast('📋 結果がコピーされました！');
                 });
             }
         }

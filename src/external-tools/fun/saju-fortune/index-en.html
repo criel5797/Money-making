@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Saju Fortune Reading - Free Four Pillars of Destiny | Birth Date Fortune</title>
+    <meta name="description" content="Free AI Saju reading! Discover your destiny through Four Pillars based on birth date and time. Detailed analysis of personality, wealth, love, and career fortune.">
+    <meta name="keywords" content="saju, four pillars, destiny reading, free saju, birth date fortune, today's fortune, saju reading">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI Saju Fortune Reading - Free Four Pillars of Destiny">
+    <meta property="og:description" content="Discover your Four Pillars of Destiny through your birth date!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=AI+Saju+Reading">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #c44dff);
+            color: #1a1a2e;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .mystic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #555;
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        select, input {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 14px;
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: #ffd700;
+        }
+
+        select option {
+            background: #1a1a2e;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .gender-option {
+            flex: 1;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .gender-option:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .gender-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .gender-option span {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .bagua {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .result-section {
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .saju-chart {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .saju-pillar {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(196,77,255,0.1));
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .pillar-title {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .pillar-char {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .pillar-char.chun {
+            color: #ffd700;
+        }
+
+        .pillar-char.ji {
+            color: #c44dff;
+        }
+
+        .pillar-element {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .analysis-section {
+            margin-bottom: 25px;
+        }
+
+        .analysis-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .analysis-content {
+            color: #ccc;
+            line-height: 1.9;
+            font-size: 15px;
+        }
+
+        .fortune-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .fortune-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .fortune-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .fortune-name {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .fortune-score {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .fortune-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .fortune-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            border-radius: 2px;
+            transition: width 1s ease;
+        }
+
+        .element-section {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .element-item {
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .element-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .element-item.wood { background: rgba(0, 200, 83, 0.2); color: #00c853; }
+        .element-item.fire { background: rgba(255, 82, 82, 0.2); color: #ff5252; }
+        .element-item.earth { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        .element-item.metal { background: rgba(255, 255, 255, 0.2); color: #fff; }
+        .element-item.water { background: rgba(33, 150, 243, 0.2); color: #2196f3; }
+
+        .element-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .element-count {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            color: #1a1a2e;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .card { padding: 25px; }
+            .saju-chart { grid-template-columns: repeat(2, 1fr); }
+            .element-section { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="mystic-bg"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>AI Saju Fortune Reading</h1>
+            <p class="subtitle">Discover your destiny through birth date and time</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            This is for entertainment purposes only. Do not use it as a basis for important decisions.
+        </div>
+
+        <div class="card" id="inputSection">
+            <div class="input-section">
+                <h2>Enter your birth date and time</h2>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div class="gender-options">
+                            <div class="gender-option selected" onclick="selectGender('male', this)">
+                                <span>&#9794;</span>
+                                Male
+                            </div>
+                            <div class="gender-option" onclick="selectGender('female', this)">
+                                <span>&#9792;</span>
+                                Female
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Calendar Type</label>
+                            <select id="calendarType">
+                                <option value="solar">Solar</option>
+                                <option value="lunar">Lunar</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Birth Year</label>
+                            <select id="year"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Month</label>
+                            <select id="month"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Day</label>
+                            <select id="day"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Birth Time</label>
+                            <select id="hour">
+                                <option value="-1">Unknown</option>
+                                <option value="0">Zi (23:30-01:30)</option>
+                                <option value="1">Chou (01:30-03:30)</option>
+                                <option value="2">Yin (03:30-05:30)</option>
+                                <option value="3">Mao (05:30-07:30)</option>
+                                <option value="4">Chen (07:30-09:30)</option>
+                                <option value="5">Si (09:30-11:30)</option>
+                                <option value="6">Wu (11:30-13:30)</option>
+                                <option value="7">Wei (13:30-15:30)</option>
+                                <option value="8">Shen (15:30-17:30)</option>
+                                <option value="9">You (17:30-19:30)</option>
+                                <option value="10">Xu (19:30-21:30)</option>
+                                <option value="11">Hai (21:30-23:30)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" onclick="analyzeSaju()">
+                        Get My Fortune Reading
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="bagua">☯</div>
+            <p style="color:#ffd700;">Analyzing your Four Pillars...</p>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="card">
+                <h2 style="color:#ffd700; text-align:center; margin-bottom:25px;">Your Four Pillars</h2>
+
+                <div class="saju-chart" id="sajuChart"></div>
+
+                <div class="element-section" id="elementSection"></div>
+            </div>
+
+            <div class="card">
+                <div class="fortune-grid" id="fortuneGrid"></div>
+            </div>
+
+            <div class="card">
+                <div id="analysisContent"></div>
+            </div>
+
+            <div class="share-buttons">
+                <button class="share-btn primary" onclick="shareResult()">Share Results</button>
+                <button class="share-btn secondary" onclick="retryAnalysis()">Try Again</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>This Saju reading is for entertainment purposes.<br>Please consult a professional for important decisions.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Heavenly Stems
+        const heavenlyStems = ['갑', '을', '병', '정', '무', '기', '경', '신', '임', '계'];
+        const stemElements = ['목', '목', '화', '화', '토', '토', '금', '금', '수', '수'];
+
+        // Earthly Branches
+        const earthlyBranches = ['자', '축', '인', '묘', '진', '사', '오', '미', '신', '유', '술', '해'];
+        const branchElements = ['수', '토', '목', '목', '토', '화', '화', '토', '금', '금', '토', '수'];
+
+        // Five Elements
+        const elements = { '목': 'wood', '화': 'fire', '토': 'earth', '금': 'metal', '수': 'water' };
+        const elementNames = { 'wood': 'Wood', 'fire': 'Fire', 'earth': 'Earth', 'metal': 'Metal', 'water': 'Water' };
+
+        let selectedGender = 'male';
+        let resultData = {};
+
+        // Initialize
+        function init() {
+            const yearSelect = document.getElementById('year');
+            const currentYear = new Date().getFullYear();
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
+            }
+
+            const monthSelect = document.getElementById('month');
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${m}</option>`;
+            }
+
+            const daySelect = document.getElementById('day');
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}</option>`;
+            }
+        }
+        init();
+
+        function selectGender(gender, element) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function calculateSaju(year, month, day, hour) {
+            // Year pillar calculation
+            const yearStemIdx = (year - 4) % 10;
+            const yearBranchIdx = (year - 4) % 12;
+
+            // Month pillar calculation (simplified)
+            const monthStemIdx = ((year - 4) % 5 * 2 + month + 1) % 10;
+            const monthBranchIdx = (month + 1) % 12;
+
+            // Day pillar calculation (simplified)
+            const dayOffset = Math.floor((year - 1900) * 365.25 + (month - 1) * 30.44 + day);
+            const dayStemIdx = dayOffset % 10;
+            const dayBranchIdx = dayOffset % 12;
+
+            // Hour pillar calculation
+            let hourStemIdx = 0;
+            let hourBranchIdx = 0;
+            if (hour >= 0) {
+                hourBranchIdx = hour;
+                hourStemIdx = (dayStemIdx % 5 * 2 + hour) % 10;
+            }
+
+            return {
+                year: { stem: yearStemIdx, branch: yearBranchIdx },
+                month: { stem: monthStemIdx, branch: monthBranchIdx },
+                day: { stem: dayStemIdx, branch: dayBranchIdx },
+                hour: hour >= 0 ? { stem: hourStemIdx, branch: hourBranchIdx } : null
+            };
+        }
+
+        function analyzeSaju() {
+            const year = parseInt(document.getElementById('year').value);
+            const month = parseInt(document.getElementById('month').value);
+            const day = parseInt(document.getElementById('day').value);
+            const hour = parseInt(document.getElementById('hour').value);
+
+            if (!year || !month || !day) {
+                showToast('⚠️ Please enter your birth date.');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                const saju = calculateSaju(year, month, day, hour);
+                resultData = generateAnalysis(saju, selectedGender);
+                displayResult(saju);
+            }, 2500);
+        }
+
+        function generateAnalysis(saju, gender) {
+            // Calculate element distribution
+            const elementCount = { '목': 0, '화': 0, '토': 0, '금': 0, '수': 0 };
+
+            const pillars = ['year', 'month', 'day'];
+            if (saju.hour) pillars.push('hour');
+
+            pillars.forEach(pillar => {
+                elementCount[stemElements[saju[pillar].stem]]++;
+                elementCount[branchElements[saju[pillar].branch]]++;
+            });
+
+            // Day master based analysis
+            const dayMaster = stemElements[saju.day.stem];
+
+            // Generate fortune scores
+            const fortunes = {
+                overall: 60 + Math.floor(Math.random() * 35),
+                love: 50 + Math.floor(Math.random() * 45),
+                wealth: 55 + Math.floor(Math.random() * 40),
+                career: 55 + Math.floor(Math.random() * 40),
+                health: 60 + Math.floor(Math.random() * 35)
+            };
+
+            return { elementCount, dayMaster, fortunes, gender };
+        }
+
+        function displayResult(saju) {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            // Saju chart
+            const chartHtml = `
+                <div class="saju-pillar">
+                    <div class="pillar-title">Year</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.year.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.year.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.year.stem]} / ${branchElements[saju.year.branch]}</div>
+                </div>
+                <div class="saju-pillar">
+                    <div class="pillar-title">Month</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.month.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.month.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.month.stem]} / ${branchElements[saju.month.branch]}</div>
+                </div>
+                <div class="saju-pillar">
+                    <div class="pillar-title">Day</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.day.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.day.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.day.stem]} / ${branchElements[saju.day.branch]}</div>
+                </div>
+                ${saju.hour ? `
+                <div class="saju-pillar">
+                    <div class="pillar-title">Hour</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.hour.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.hour.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.hour.stem]} / ${branchElements[saju.hour.branch]}</div>
+                </div>
+                ` : `
+                <div class="saju-pillar" style="opacity:0.5">
+                    <div class="pillar-title">Hour</div>
+                    <div class="pillar-char">?</div>
+                    <div class="pillar-char">?</div>
+                    <div class="pillar-element">Time not entered</div>
+                </div>
+                `}
+            `;
+            document.getElementById('sajuChart').innerHTML = chartHtml;
+
+            // Element distribution
+            let elementHtml = '';
+            for (const [elem, cls] of Object.entries(elements)) {
+                elementHtml += `
+                    <div class="element-item ${cls}">
+                        <div class="element-name">${elementNames[cls]}</div>
+                        <div class="element-count">${resultData.elementCount[elem]}</div>
+                    </div>
+                `;
+            }
+            document.getElementById('elementSection').innerHTML = elementHtml;
+
+            // Fortune grid
+            const fortuneIcons = {
+                overall: '⭐', love: '💕', wealth: '💰', career: '💼', health: '❤️'
+            };
+            const fortuneNames = {
+                overall: 'Overall', love: 'Love', wealth: 'Wealth', career: 'Career', health: 'Health'
+            };
+
+            let fortuneHtml = '';
+            for (const [key, score] of Object.entries(resultData.fortunes)) {
+                fortuneHtml += `
+                    <div class="fortune-item">
+                        <div class="fortune-icon">${fortuneIcons[key]}</div>
+                        <div class="fortune-name">${fortuneNames[key]}</div>
+                        <div class="fortune-score">${score} pts</div>
+                        <div class="fortune-bar">
+                            <div class="fortune-fill" style="width:${score}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('fortuneGrid').innerHTML = fortuneHtml;
+
+            // Detailed analysis
+            document.getElementById('analysisContent').innerHTML = generateDetailedAnalysis();
+        }
+
+        function generateDetailedAnalysis() {
+            const analyses = {
+                personality: {
+                    title: 'Personality Analysis',
+                    icon: '👤',
+                    texts: [
+                        'You have a deep inner world. Though you may appear calm on the surface, you harbor passionate enthusiasm within. You understand others\' emotions well and possess excellent empathy.',
+                        'You have strong leadership and drive. Once you set a goal, you have the determination to see it through, and you possess the strength to persevere even in difficult situations.',
+                        'You have creative and original thinking. You view the world from a different perspective than others and enjoy coming up with new ideas.'
+                    ]
+                },
+                love: {
+                    title: 'Love Fortune',
+                    icon: '💕',
+                    texts: [
+                        'You are serious and devoted in love. Once you give your heart, you don\'t change easily and are ready to sacrifice much for your partner.',
+                        'You are cautious at the beginning of a relationship, but express deep affection as it deepens. You can be a stable and trustworthy partner.',
+                        'You may be awkward at expressing emotions, but you are the type to show love through actions. You have the tenderness to care for even the smallest details about your partner.'
+                    ]
+                },
+                career: {
+                    title: 'Career Fortune',
+                    icon: '💼',
+                    texts: [
+                        'You can excel in fields where you can utilize your expertise. There is a high possibility of becoming an expert in your field through steady effort.',
+                        'You are likely to take on important roles within an organization. You will gradually be entrusted with greater responsibilities based on trust.',
+                        'You also have an aptitude for entrepreneurship or self-employment. You have the energy to achieve greater results when working independently.'
+                    ]
+                },
+                wealth: {
+                    title: 'Wealth Fortune',
+                    icon: '💰',
+                    texts: [
+                        'This is a chart that allows for stable wealth accumulation. You are the type who accumulates wealth through steady effort rather than great fortune.',
+                        'A cautious approach to investment is necessary. Safe investment methods may be better suited for you.',
+                        'There is a trend of rising wealth fortune after middle age. The experience and connections built in youth will be of great help later.'
+                    ]
+                },
+                advice: {
+                    title: 'Advice',
+                    icon: '💡',
+                    texts: [
+                        'Sometimes it\'s necessary to listen to others\' opinions as well. If you let go of stubbornness and respond flexibly, you can achieve better results.',
+                        'Pay attention to health management. Stress management is especially important. Regular exercise and sufficient rest are recommended.',
+                        'Don\'t neglect personal relationships. Good connections can greatly change your fortune.'
+                    ]
+                }
+            };
+
+            let html = '';
+            for (const [key, data] of Object.entries(analyses)) {
+                const randomText = data.texts[Math.floor(Math.random() * data.texts.length)];
+                html += `
+                    <div class="analysis-section">
+                        <div class="analysis-title">
+                            <span>${data.icon}</span>
+                            <span>${data.title}</span>
+                        </div>
+                        <div class="analysis-content">${randomText}</div>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function shareResult() {
+            const text = `My Saju Fortune Reading Results\n` +
+                        `Overall: ${resultData.fortunes.overall} pts\n` +
+                        `Love: ${resultData.fortunes.love} pts\n` +
+                        `Wealth: ${resultData.fortunes.wealth} pts\n\n` +
+                        `Get your Saju reading too 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'AI Saju Reading', text: text }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 Results copied!'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 Results copied!');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function retryAnalysis() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

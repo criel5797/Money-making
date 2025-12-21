@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>해시 생성기 - MD5, SHA1, SHA256, SHA512 온라인</title>
-    <meta name="description" content="MD5, SHA1, SHA256, SHA512 해시를 즉시 생성하세요. 개발자를 위한 무료 온라인 해시 생성기.">
-    <meta name="keywords" content="해시 생성기, md5 해시, sha256 해시, sha1, sha512, 텍스트 해시, 체크섬">
-    <meta property="og:title" content="해시 생성기 - MD5, SHA1, SHA256, SHA512 온라인">
-    <meta property="og:description" content="MD5, SHA1, SHA256, SHA512 해시를 즉시 생성하세요.">
+    <title>ハッシュ生成器 - MD5、SHA1、SHA256、SHA512 オンライン</title>
+    <meta name="description" content="MD5、SHA1、SHA256、SHA512 ハッシュを即座に生成します。開発者向けの無料オンラインハッシュ生成器。">
+    <meta name="keywords" content="ハッシュ生成器, md5 ハッシュ, sha256 ハッシュ, sha1, sha512, テキストハッシュ, チェックサム">
+    <meta property="og:title" content="ハッシュ生成器 - MD5、SHA1、SHA256、SHA512 オンライン">
+    <meta property="og:description" content="MD5、SHA1、SHA256、SHA512 ハッシュを即座に生成します。">
     <meta property="og:type" content="website">
 
     <style>
@@ -24,7 +24,7 @@
             --success: #22c55e;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -246,128 +246,128 @@
 <script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"해시 생성기","en":"Hash Generator","ja":"ハッシュ生成"},"desc":{"ko":"MD5, SHA 해시","en":"MD5, SHA Hash","ja":"MD5, SHAハッシュ"}},"header":{"title":{"ko":"해시 생성기","en":"Hash Generator","ja":"ハッシュ生成"},"subtitle":{"ko":"해시 알고리즘","en":"Hash Algorithms","ja":"ハッシュアルゴリズム"}},"input":{"label":{"ko":"입력:","en":"Input:","ja":"入力:"},"placeholder":{"ko":"텍스트 입력...","en":"Enter text...","ja":"テキスト入力..."}},"options":{"upper":{"ko":"대문자 출력","en":"Uppercase","ja":"大文字"}},"generate":{"ko":"생성하기","en":"Generate","ja":"生成"},"results":{"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"compare":{"title":{"ko":"비교","en":"Compare","ja":"比較"},"p1":{"ko":"해시 1","en":"Hash 1","ja":"ハッシュ1"},"p2":{"ko":"해시 2","en":"Hash 2","ja":"ハッシュ2"},"wait":{"ko":"비교 대기...","en":"Waiting...","ja":"待機中..."},"match":{"ko":"일치!","en":"Match!","ja":"一致!"},"diff":{"ko":"불일치","en":"No Match","ja":"不一致"}},"info":{"title":{"ko":"해시 함수","en":"Hash Function","ja":"ハッシュ関数"}}};</script></head>
 <body>
     <div class="lang-switch">
-        <a href="index.html">English</a>
+        <a href="index-ko.html">한국어</a>
     </div>
 
     <div class="container">
         <header>
-            <h1>해시 생성기</h1>
-            <p class="subtitle">MD5, SHA1, SHA256, SHA512 해시 생성</p>
+            <h1>ハッシュ生成器</h1>
+            <p class="subtitle">MD5、SHA1、SHA256、SHA512 ハッシュ生成</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告</div>
 
         <div class="main-card">
             <div class="input-section">
-                <label class="input-label">해시할 텍스트 입력:</label>
-                <textarea id="inputText" placeholder="여기에 텍스트를 입력하거나 붙여넣으세요..."></textarea>
+                <label class="input-label">ハッシュ化するテキストを入力:</label>
+                <textarea id="inputText" placeholder="ここにテキストを入力または貼り付けてください..."></textarea>
             </div>
 
             <div class="options">
                 <div class="checkbox-item">
                     <input type="checkbox" id="uppercase">
-                    <label for="uppercase">대문자 출력</label>
+                    <label for="uppercase">大文字で出力</label>
                 </div>
             </div>
 
-            <button class="generate-btn" onclick="generateHashes()">모든 해시 생성</button>
+            <button class="generate-btn" onclick="generateHashes()">すべてのハッシュを生成</button>
 
             <div class="results-section" id="results">
                 <div class="hash-result">
                     <div class="hash-header">
                         <span class="hash-name">MD5</span>
-                        <span class="hash-length">128비트 / 32자</span>
+                        <span class="hash-length">128ビット / 32文字</span>
                     </div>
                     <div class="hash-value">
                         <span class="hash-text" id="md5Hash">-</span>
-                        <button class="copy-btn" onclick="copyHash('md5Hash')">복사</button>
+                        <button class="copy-btn" onclick="copyHash('md5Hash')">コピー</button>
                     </div>
                 </div>
 
                 <div class="hash-result">
                     <div class="hash-header">
                         <span class="hash-name">SHA-1</span>
-                        <span class="hash-length">160비트 / 40자</span>
+                        <span class="hash-length">160ビット / 40文字</span>
                     </div>
                     <div class="hash-value">
                         <span class="hash-text" id="sha1Hash">-</span>
-                        <button class="copy-btn" onclick="copyHash('sha1Hash')">복사</button>
+                        <button class="copy-btn" onclick="copyHash('sha1Hash')">コピー</button>
                     </div>
                 </div>
 
                 <div class="hash-result">
                     <div class="hash-header">
                         <span class="hash-name">SHA-256</span>
-                        <span class="hash-length">256비트 / 64자</span>
+                        <span class="hash-length">256ビット / 64文字</span>
                     </div>
                     <div class="hash-value">
                         <span class="hash-text" id="sha256Hash">-</span>
-                        <button class="copy-btn" onclick="copyHash('sha256Hash')">복사</button>
+                        <button class="copy-btn" onclick="copyHash('sha256Hash')">コピー</button>
                     </div>
                 </div>
 
                 <div class="hash-result">
                     <div class="hash-header">
                         <span class="hash-name">SHA-512</span>
-                        <span class="hash-length">512비트 / 128자</span>
+                        <span class="hash-length">512ビット / 128文字</span>
                     </div>
                     <div class="hash-value">
                         <span class="hash-text" id="sha512Hash">-</span>
-                        <button class="copy-btn" onclick="copyHash('sha512Hash')">복사</button>
+                        <button class="copy-btn" onclick="copyHash('sha512Hash')">コピー</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="compare-section">
-            <h3>해시 비교</h3>
+            <h3>ハッシュ比較</h3>
             <div class="compare-inputs">
-                <input type="text" class="compare-input" id="hash1" placeholder="첫 번째 해시 입력...">
-                <input type="text" class="compare-input" id="hash2" placeholder="두 번째 해시 입력...">
+                <input type="text" class="compare-input" id="hash1" placeholder="最初のハッシュを入力...">
+                <input type="text" class="compare-input" id="hash2" placeholder="2番目のハッシュを入力...">
             </div>
             <div class="compare-result compare-waiting" id="compareResult">
-                비교할 두 해시를 입력하세요
+                比較する2つのハッシュを入力してください
             </div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告</div>
 
         <div class="info-section">
-            <h3>해시 함수란?</h3>
-            <p>해시 함수는 임의 크기의 입력 데이터를 고정 크기의 문자열로 변환하는 수학적 알고리즘입니다. 출력(해시)은 각 고유 입력에 대해 고유하므로 데이터 무결성 검증 및 보안에 유용합니다.</p>
+            <h3>ハッシュ関数とは？</h3>
+            <p>ハッシュ関数は、任意のサイズの入力データを固定サイズの文字列に変換する数学的アルゴリズムです。出力（ハッシュ）は各固有の入力に対して固有であり、データ整合性の検証とセキュリティに役立ちます。</p>
 
             <div class="algo-grid">
                 <div class="algo-card">
                     <h4>MD5</h4>
-                    <p>빠르지만 암호학적으로 취약함. 체크섬에만 사용, 보안 용도 X.</p>
+                    <p>高速ですが暗号的に脆弱です。チェックサムのみに使用し、セキュリティ用途には不可。</p>
                 </div>
                 <div class="algo-card">
                     <h4>SHA-1</h4>
-                    <p>보안용으로 사용 중단됨. 일부 레거시 시스템에서 여전히 사용.</p>
+                    <p>セキュリティ用途では非推奨。一部のレガシーシステムで今も使用されています。</p>
                 </div>
                 <div class="algo-card">
                     <h4>SHA-256</h4>
-                    <p>업계 표준. 비트코인, SSL 인증서 등에 사용.</p>
+                    <p>業界標準。Bitcoin、SSL証明書などで使用されています。</p>
                 </div>
                 <div class="algo-card">
                     <h4>SHA-512</h4>
-                    <p>최고 보안. 느리지만 최대한의 보호 제공.</p>
+                    <p>最高レベルのセキュリティ。低速ですが最大の保護を提供します。</p>
                 </div>
             </div>
         </div>
 
         <div class="info-section">
-            <h3>일반적인 사용 사례</h3>
-            <p>• <strong>비밀번호 저장</strong> - 평문 대신 해시 저장</p>
-            <p>• <strong>파일 무결성</strong> - 다운로드가 변조되지 않았는지 확인</p>
-            <p>• <strong>디지털 서명</strong> - 문서 서명 및 진위 확인</p>
-            <p>• <strong>데이터 중복 제거</strong> - 해시로 중복 파일 식별</p>
-            <p>• <strong>캐싱</strong> - 콘텐츠에서 캐시 키 생성</p>
+            <h3>一般的な使用例</h3>
+            <p>• <strong>パスワード保存</strong> - 平文の代わりにハッシュを保存</p>
+            <p>• <strong>ファイルの整合性</strong> - ダウンロードが改ざんされていないことを確認</p>
+            <p>• <strong>デジタル署名</strong> - ドキュメントの署名と真正性の検証</p>
+            <p>• <strong>データ重複排除</strong> - ハッシュで重複ファイルを識別</p>
+            <p>• <strong>キャッシング</strong> - コンテンツからキャッシュキーを生成</p>
         </div>
 
         <footer>
-            <p>개발자를 위해 정성껏 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>開発者のために丁寧に作成しました</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
         </footer>
     </div>
 
@@ -507,7 +507,7 @@
             const uppercase = document.getElementById('uppercase').checked;
 
             if (!input) {
-                showToast('텍스트를 입력하세요');
+                showToast('テキストを入力してください');
                 return;
             }
 
@@ -529,14 +529,14 @@
             document.getElementById('sha512Hash').textContent = sha512Hash;
 
             document.getElementById('results').classList.add('show');
-            showToast('해시 생성 완료!');
+            showToast('ハッシュ生成完了！');
         }
 
         function copyHash(elementId) {
             const hash = document.getElementById(elementId).textContent;
             if (hash && hash !== '-') {
                 navigator.clipboard.writeText(hash);
-                showToast('복사됨!');
+                showToast('コピーしました！');
             }
         }
 
@@ -550,16 +550,16 @@
 
             if (!hash1 || !hash2) {
                 result.className = 'compare-result compare-waiting';
-                result.textContent = '비교할 두 해시를 입력하세요';
+                result.textContent = '比較する2つのハッシュを入力してください';
                 return;
             }
 
             if (hash1 === hash2) {
                 result.className = 'compare-result compare-match';
-                result.textContent = '✓ 해시가 일치합니다!';
+                result.textContent = '✓ ハッシュが一致します！';
             } else {
                 result.className = 'compare-result compare-nomatch';
-                result.textContent = '✗ 해시가 일치하지 않습니다';
+                result.textContent = '✗ ハッシュが一致しません';
             }
         }
 

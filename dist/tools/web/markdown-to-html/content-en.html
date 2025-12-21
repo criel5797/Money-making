@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마크다운을 HTML로 변환 - 무료 온라인 도구</title>
-    <meta name="description" content="마크다운을 HTML로 즉시 변환하세요. 실시간 미리보기, 구문 강조, 복사/다운로드 기능을 제공하는 무료 온라인 변환기입니다.">
-    <meta name="keywords" content="마크다운 html 변환, md 변환기, 마크다운 변환기, 마크다운 미리보기, 온라인 마크다운 에디터">
+    <title>Markdown to HTML Converter - Free Online Tool</title>
+    <meta name="description" content="Convert Markdown to HTML instantly. Free online converter with live preview, syntax highlighting, and copy/download features.">
+    <meta name="keywords" content="markdown html converter, md converter, markdown converter, markdown preview, online markdown editor">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,7 @@
             --success: #22c55e;
         }
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -271,35 +271,35 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">한국어</a>
             </div>
-            <h1>마크다운 → HTML</h1>
-            <p class="subtitle">실시간 미리보기로 마크다운을 HTML로 변환</p>
+            <h1>Markdown → HTML</h1>
+            <p class="subtitle">Convert Markdown to HTML with Live Preview</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="editor-container">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">마크다운 입력</span>
+                    <span class="panel-title">Markdown Input</span>
                     <div class="panel-actions">
-                        <button class="btn-sm" onclick="loadSample()">샘플</button>
-                        <button class="btn-sm" onclick="clearInput()">지우기</button>
+                        <button class="btn-sm" onclick="loadSample()">Sample</button>
+                        <button class="btn-sm" onclick="clearInput()">Clear</button>
                     </div>
                 </div>
-                <textarea id="markdownInput" placeholder="여기에 마크다운을 입력하세요..."></textarea>
+                <textarea id="markdownInput" placeholder="Enter your markdown here..."></textarea>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
                     <div class="tabs">
-                        <button class="tab active" onclick="switchTab('preview')">미리보기</button>
-                        <button class="tab" onclick="switchTab('html')">HTML 코드</button>
+                        <button class="tab active" onclick="switchTab('preview')">Preview</button>
+                        <button class="tab" onclick="switchTab('html')">HTML Code</button>
                     </div>
                     <div class="panel-actions">
-                        <button class="btn-sm" onclick="copyOutput()">복사</button>
-                        <button class="btn-sm" onclick="downloadHTML()">다운로드</button>
+                        <button class="btn-sm" onclick="copyOutput()">Copy</button>
+                        <button class="btn-sm" onclick="downloadHTML()">Download</button>
                     </div>
                 </div>
                 <div id="previewPanel" class="output-panel active">
@@ -311,55 +311,55 @@
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="info-section">
-            <h3>마크다운 치트시트</h3>
+            <h3>Markdown Cheatsheet</h3>
             <div class="cheatsheet">
                 <div class="cheat-item">
-                    <span class="cheat-label">제목</span>
-                    <code># 제목1<br>## 제목2<br>### 제목3</code>
+                    <span class="cheat-label">Headings</span>
+                    <code># Heading 1<br>## Heading 2<br>### Heading 3</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">굵게 & 기울임</span>
-                    <code>**굵게**<br>*기울임*<br>***둘 다***</code>
+                    <span class="cheat-label">Bold & Italic</span>
+                    <code>**Bold**<br>*Italic*<br>***Both***</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">링크</span>
-                    <code>[텍스트](url)</code>
+                    <span class="cheat-label">Links</span>
+                    <code>[Text](url)</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">이미지</span>
-                    <code>![대체텍스트](url)</code>
+                    <span class="cheat-label">Images</span>
+                    <code>![Alt text](url)</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">코드</span>
-                    <code>`인라인`<br>```블록```</code>
+                    <span class="cheat-label">Code</span>
+                    <code>`inline`<br>```block```</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">목록</span>
-                    <code>- 항목<br>1. 항목</code>
+                    <span class="cheat-label">Lists</span>
+                    <code>- Item<br>1. Item</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">인용</span>
-                    <code>> 인용문</code>
+                    <span class="cheat-label">Quotes</span>
+                    <code>> Quote</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">구분선</span>
+                    <span class="cheat-label">Horizontal Rule</span>
                     <code>---</code>
                 </div>
             </div>
         </div>
 
         <div class="info-section">
-            <h3>마크다운이란?</h3>
-            <p>마크다운은 2004년 John Gruber가 만든 경량 마크업 언어입니다. 일반 텍스트 편집기를 사용하여 서식 있는 텍스트를 작성할 수 있어 읽고 쓰기가 쉽습니다.</p>
-            <p>마크다운은 문서화, README 파일, 블로그 게시물, 포럼, 메시징 앱에서 널리 사용됩니다.</p>
+            <h3>What is Markdown?</h3>
+            <p>Markdown is a lightweight markup language created by John Gruber in 2004. It allows you to write formatted text using a plain text editor, making it easy to read and write.</p>
+            <p>Markdown is widely used for documentation, README files, blog posts, forums, and messaging apps.</p>
         </div>
 
         <footer>
-            <p>작가와 개발자를 위해 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>Made for writers and developers</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
         </footer>
     </div>
 
@@ -470,17 +470,17 @@
         function copyOutput() {
             const text = currentTab === 'preview' ? htmlOutput.value : htmlOutput.value;
             navigator.clipboard.writeText(text);
-            showToast('HTML 복사됨!');
+            showToast('HTML copied!');
         }
 
         function downloadHTML() {
             const html = htmlOutput.value;
             const fullHTML = `<!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>문서</title>
+    <title>Document</title>
 </head>
 <body>
 ${html}
@@ -493,45 +493,45 @@ ${html}
             a.download = 'document.html';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드됨!');
+            showToast('Downloaded!');
         }
 
         function loadSample() {
-            markdownInput.value = `# 마크다운에 오신 것을 환영합니다
+            markdownInput.value = `# Welcome to Markdown
 
-이것은 **굵은** 텍스트이고 이것은 *기울임* 텍스트입니다.
+This is **bold** text and this is *italic* text.
 
-## 특징
+## Features
 
-- 쓰기 쉬움
-- 깔끔한 문법
-- 폭넓은 지원
+- Easy to write
+- Clean syntax
+- Widely supported
 
-### 코드 예시
+### Code Example
 
 \`\`\`javascript
 function hello() {
-    console.log("안녕하세요!");
+    console.log("Hello World!");
 }
 \`\`\`
 
-\`인라인 코드\`도 이렇게 사용할 수 있습니다.
+You can also use \`inline code\` like this.
 
-> 이것은 인용문입니다. 중요한 정보를 강조할 때 좋습니다.
+> This is a blockquote. Great for highlighting important information.
 
-### 링크와 이미지
+### Links and Images
 
-더 많은 정보는 [Google](https://google.com)을 확인하세요.
+Check out [Google](https://google.com) for more info.
 
 ---
 
-1. 첫 번째 항목
-2. 두 번째 항목
-3. 세 번째 항목
+1. First item
+2. Second item
+3. Third item
 
-지금까지입니다!`;
+That's all!`;
             convert();
-            showToast('샘플 로드됨!');
+            showToast('Sample loaded!');
         }
 
         function clearInput() {

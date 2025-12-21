@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 あなたへのメッセージ - 新年運勢メッセージ | 2025年キーワード</title>
+    <meta name="description" content="2025年あなたへの特別なメッセージ!新年運勢メッセージと2025年のキーワードを確認しましょう。ラッキーカラー、数字、アドバイスまで!">
+    <meta name="keywords" content="2025運勢,新年運勢,2025年運勢,新春占い,2025キーワード,新年メッセージ">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="2025 あなたへのメッセージ">
+    <meta property="og:description" content="新年に受け取る特別なメッセージ!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/0a0a1a/ffd700?text=2025+あなたへのメッセージ">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            overflow-x: hidden;
+        }
+
+        .fireworks {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .spark {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: sparkle 3s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .year-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ffd700, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #a0a0c0; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #a0a0c0;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ffd700;
+        }
+
+        .birth-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .hope-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .hope-option {
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .hope-option:hover { border-color: rgba(255, 215, 0, 0.5); }
+        .hope-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .hope-option .icon { font-size: 24px; margin-bottom: 5px; }
+        .hope-option .label { color: #e4e4e4; font-size: 13px; }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-icon {
+            font-size: 80px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .loading p { color: #a0a0c0; margin-top: 20px; }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-header p { color: #a0a0c0; font-size: 14px; }
+        .result-name { color: #ffd700; font-size: 1.5rem; margin: 10px 0; }
+
+        .message-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 107, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .message-quote {
+            font-size: 1.6rem;
+            color: #fff;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .message-emoji {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .keyword-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .keyword-label { color: #a0a0c0; font-size: 14px; margin-bottom: 15px; }
+
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .keyword-tag {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #c0c0d0;
+            line-height: 1.8;
+        }
+
+        .lucky-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .lucky-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .lucky-item .label { color: #a0a0c0; font-size: 12px; margin-bottom: 5px; }
+        .lucky-item .value { color: #ffd700; font-size: 18px; font-weight: 700; }
+
+        .month-fortune {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .month-item {
+            background: rgba(255,255,255,0.05);
+            padding: 10px 5px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .month-item .month { color: #a0a0c0; font-size: 11px; }
+        .month-item .luck { font-size: 16px; margin-top: 3px; }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.7rem; }
+            .message-quote { font-size: 1.3rem; }
+            .hope-options { grid-template-columns: 1fr; }
+            .lucky-grid { grid-template-columns: 1fr; }
+            .month-fortune { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="fireworks" id="fireworks"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <div class="year-badge">2025</div>
+            <h1>あなたへのメッセージ</h1>
+            <p class="subtitle">新年、あなたに贈る特別なメッセージ</p>
+        </header>
+
+        <div class="ad-banner">広告</div>
+
+        <div class="disclaimer">
+            楽しむための新年占いです!
+        </div>
+
+        <div class="card">
+            <div class="input-section" id="inputSection">
+                <h2>あなたの情報を教えてください</h2>
+
+                <div class="input-group">
+                    <label>お名前</label>
+                    <input type="text" id="userName" placeholder="お名前を入力してください">
+                </div>
+
+                <div class="input-group">
+                    <label>生年月日</label>
+                    <div class="birth-row">
+                        <select id="birthYear"><option value="">年</option></select>
+                        <select id="birthMonth"><option value="">月</option></select>
+                        <select id="birthDay"><option value="">日</option></select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>2025年に最も望むことは?</label>
+                    <div class="hope-options">
+                        <div class="hope-option" onclick="selectHope(this, 'love')">
+                            <div class="icon">❤️</div>
+                            <div class="label">愛/出会い</div>
+                        </div>
+                        <div class="hope-option" onclick="selectHope(this, 'money')">
+                            <div class="icon">💰</div>
+                            <div class="label">財運/成功</div>
+                        </div>
+                        <div class="hope-option" onclick="selectHope(this, 'health')">
+                            <div class="icon">💪</div>
+                            <div class="label">健康/活力</div>
+                        </div>
+                        <div class="hope-option" onclick="selectHope(this, 'growth')">
+                            <div class="icon">🌱</div>
+                            <div class="label">成長/変化</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="getMyMessage()">メッセージを受け取る</button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-icon">🎊</div>
+                <p>2025年のメッセージを準備しています...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <p>2025年</p>
+                    <div class="result-name" id="resultName">山田太郎</div>
+                    <p>さんへのメッセージ</p>
+                </div>
+
+                <div class="message-box">
+                    <div class="message-emoji" id="messageEmoji">✨</div>
+                    <div class="message-quote" id="messageQuote">"あなたの輝く一年が始まります"</div>
+                </div>
+
+                <div class="keyword-section">
+                    <div class="keyword-label">2025年キーワード</div>
+                    <div class="keyword-tags" id="keywordTags"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>🌟 2025年運勢</h3>
+                    <p id="yearFortune"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>🍀 幸運の要素</h3>
+                    <div class="lucky-grid" id="luckyGrid"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📅 月別運勢</h3>
+                    <div class="month-fortune" id="monthFortune"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 特別なアドバイス</h3>
+                    <p id="specialAdvice"></p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="resetTest()">もう一度</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">広告</div>
+
+        <footer>
+            <p>あけましておめでとうございます! 🎊</p>
+        </footer>
+    </div>
+
+    <script>
+        // データ
+        const messages = {
+            love: [
+                { emoji: '💕', quote: '今年はあなたの心に愛が芽生えるでしょう', keywords: ['恋愛', 'つながり', '温もり'] },
+                { emoji: '💑', quote: '意味のある出会いが訪れます', keywords: ['出会い', '運命', '心'] },
+                { emoji: '🌹', quote: 'あなたの誠実さが誰かの心を動かします', keywords: ['誠実', '愛', '情熱'] },
+                { emoji: '💖', quote: '大切な絆が花開くでしょう', keywords: ['絆', '共に', '喜び'] }
+            ],
+            money: [
+                { emoji: '💰', quote: '成功のチャンスがあなたの扉をノックします', keywords: ['成功', '達成', '繁栄'] },
+                { emoji: '🎯', quote: 'あなたの努力が実を結びます', keywords: ['目標', '成長', '成果'] },
+                { emoji: '🏆', quote: 'あなたの成功の舞台が整います', keywords: ['勝利', '栄光', 'triumph'] },
+                { emoji: '📈', quote: '成長と発展の一年が待っています', keywords: ['進歩', '前進', '機会'] }
+            ],
+            health: [
+                { emoji: '💪', quote: 'エネルギーと活力に満ちた年になります', keywords: ['健康', 'エネルギー', '活力'] },
+                { emoji: '🌟', quote: '心と体のバランスが取れるでしょう', keywords: ['バランス', 'ウェルネス', '調和'] },
+                { emoji: '🧘', quote: '日常生活に平和を見出します', keywords: ['平和', '快適', '安定'] },
+                { emoji: '⚡', quote: 'ポジティブなエネルギーに溢れます', keywords: ['活力', '情熱', 'ダイナミズム'] }
+            ],
+            growth: [
+                { emoji: '🌱', quote: '新しい始まりの年になります', keywords: ['スタート', '挑戦', '成長'] },
+                { emoji: '🦋', quote: '変容と変化の時です', keywords: ['変化', '発展', '進化'] },
+                { emoji: '🎨', quote: 'あなたの創造性が輝きます', keywords: ['創造性', '表現', 'インスピレーション'] },
+                { emoji: '🚀', quote: '夢に向かって飛翔しましょう', keywords: ['夢', '冒険', '勇気'] }
+            ]
+        };
+
+        const fortunes = [
+            '今年はあなたがさらに成長する時です。新しい挑戦がチャンスになるでしょう。',
+            'ポジティブなエネルギーがあなたを包みます。努力は必ず実を結びます。',
+            '大切な人々との出会いの年です。ご縁を大切にしてください。',
+            'あなたの夢が現実になります。自分を信じて前進しましょう。',
+            '新しい可能性に満ちた一年です。新しいことに挑戦することを恐れないでください。',
+            '心も体も健康になります。日常生活でバランスを見つけてください。',
+            '目標を達成する年です。あなたの情熱が道を示すでしょう。',
+            '良い機会が訪れます。チャンスを逃さないでください。'
+        ];
+
+        const advices = [
+            '最も重要なのは自己ケアです。ポジティブな気持ちで毎日を始めましょう。',
+            '小さな習慣が大きな変化を生みます。今日できることに集中しましょう。',
+            '愛する人々との時間を楽しんでください。大切な思い出は真の財産です。',
+            '新しい挑戦を恐れないでください。あなたには乗り越える力があります。',
+            '感謝の心を持ち続けましょう。幸せは小さなことから生まれます。',
+            '仕事と休息のバランスを保ちましょう。自分を大切にすることは利己的ではありません。',
+            '内なる声に耳を傾けてください。あなたは正しい道を知っています。',
+            '周りの人々と笑顔を分かち合いましょう。あなたのポジティブさが広がります。'
+        ];
+
+        const colors = ['ゴールド', 'スカイブルー', 'ピンク', 'エメラルドグリーン', 'パープル', 'コーラル', 'シルバー', 'ネイビー'];
+        const directions = ['東', '西', '南', '北', '南東', '北東', '南西', '北西'];
+        const days = ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日'];
+        const numbers = [3, 5, 7, 8, 9, 11, 12, 15, 21, 25];
+
+        let selectedHope = null;
+        let resultData = {};
+
+        // 花火エフェクト
+        function createFireworks() {
+            const container = document.getElementById('fireworks');
+            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#ff69b4', '#00ff88'];
+
+            for (let i = 0; i < 50; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                spark.style.left = Math.random() * 100 + '%';
+                spark.style.top = Math.random() * 100 + '%';
+                spark.style.background = colors[Math.floor(Math.random() * colors.length)];
+                spark.style.animationDelay = Math.random() * 3 + 's';
+                spark.style.animationDuration = (2 + Math.random() * 2) + 's';
+                container.appendChild(spark);
+            }
+        }
+        createFireworks();
+
+        // 日付選択の初期化
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+            const yearSelect = document.getElementById('birthYear');
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}年</option>`;
+            }
+            const monthSelect = document.getElementById('birthMonth');
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${m}月</option>`;
+            }
+            const daySelect = document.getElementById('birthDay');
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}日</option>`;
+            }
+        }
+        initDateSelects();
+
+        function selectHope(element, hope) {
+            selectedHope = hope;
+            document.querySelectorAll('.hope-option').forEach(o => o.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function getMyMessage() {
+            const name = document.getElementById('userName').value.trim();
+            const year = document.getElementById('birthYear').value;
+            const month = document.getElementById('birthMonth').value;
+            const day = document.getElementById('birthDay').value;
+
+            if (!name) {
+                showToast('⚠️ お名前を入力してください!');
+                return;
+            }
+
+            if (!selectedHope) {
+                showToast('⚠️ 2025年に最も望むことを選択してください!');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name, year, month, day);
+            }, 2000);
+        }
+
+        function calculateResult(name, year, month, day) {
+            // シード生成
+            let seed = 0;
+            for (let i = 0; i < name.length; i++) {
+                seed += name.charCodeAt(i);
+            }
+            if (year) seed += parseInt(year);
+            if (month) seed += parseInt(month) * 10;
+            if (day) seed += parseInt(day);
+
+            // メッセージ選択
+            const hopeMessages = messages[selectedHope];
+            const messageIndex = seed % hopeMessages.length;
+            const selectedMessage = hopeMessages[messageIndex];
+
+            // 運勢とアドバイス選択
+            const fortuneIndex = seed % fortunes.length;
+            const adviceIndex = (seed + 1) % advices.length;
+
+            // 幸運の要素
+            const luckyColor = colors[seed % colors.length];
+            const luckyDirection = directions[seed % directions.length];
+            const luckyNumber = numbers[seed % numbers.length];
+            const luckyDay = days[seed % days.length];
+
+            // 月別運勢
+            const monthLuck = [];
+            const luckIcons = ['🌟', '⭐', '✨', '💫', '🌙'];
+            for (let m = 1; m <= 12; m++) {
+                const luck = luckIcons[(seed + m) % luckIcons.length];
+                monthLuck.push({ month: m, luck: luck });
+            }
+
+            resultData = {
+                name: name,
+                message: selectedMessage,
+                fortune: fortunes[fortuneIndex],
+                advice: advices[adviceIndex],
+                lucky: { color: luckyColor, direction: luckyDirection, number: luckyNumber, day: luckyDay },
+                monthLuck: monthLuck
+            };
+
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('resultName').textContent = resultData.name;
+            document.getElementById('messageEmoji').textContent = resultData.message.emoji;
+            document.getElementById('messageQuote').textContent = '"' + resultData.message.quote + '"';
+
+            document.getElementById('keywordTags').innerHTML = resultData.message.keywords.map(k =>
+                `<span class="keyword-tag">#${k}</span>`
+            ).join('');
+
+            document.getElementById('yearFortune').textContent = resultData.fortune;
+            document.getElementById('specialAdvice').textContent = resultData.advice;
+
+            document.getElementById('luckyGrid').innerHTML = `
+                <div class="lucky-item">
+                    <div class="label">ラッキーカラー</div>
+                    <div class="value">🎨 ${resultData.lucky.color}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="label">ラッキー方位</div>
+                    <div class="value">🧭 ${resultData.lucky.direction}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="label">ラッキーナンバー</div>
+                    <div class="value">🔢 ${resultData.lucky.number}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="label">ラッキーデー</div>
+                    <div class="value">📅 ${resultData.lucky.day}</div>
+                </div>
+            `;
+
+            document.getElementById('monthFortune').innerHTML = resultData.monthLuck.map(m => `
+                <div class="month-item">
+                    <div class="month">${m.month}月</div>
+                    <div class="luck">${m.luck}</div>
+                </div>
+            `).join('');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `🎊 2025 あなたへのメッセージ\n\n${resultData.name}さんへのメッセージ:\n\n${resultData.message.emoji} "${resultData.message.quote}"\n\n🏷️ #${resultData.message.keywords.join(' #')}\n\n🍀 ラッキーカラー: ${resultData.lucky.color}\n🔢 ラッキーナンバー: ${resultData.lucky.number}\n\nあなたも受け取る 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: '2025 あなたへのメッセージ', text: text })
+                    .catch(() => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果をコピーしました!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 結果をコピーしました!');
+                });
+            }
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('userName').value = '';
+            document.getElementById('birthYear').selectedIndex = 0;
+            document.getElementById('birthMonth').selectedIndex = 0;
+            document.getElementById('birthDay').selectedIndex = 0;
+            selectedHope = null;
+            document.querySelectorAll('.hope-option').forEach(o => o.classList.remove('selected'));
+        }
+    </script>
+</body>
+</html>

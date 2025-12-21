@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전생의 인연 테스트 - 우리는 전생에 무슨 사이? | 커플 전생 테스트</title>
-    <meta name="description" content="우리는 전생에 무슨 사이였을까? 커플 전생 테스트로 두 사람의 전생 인연을 알아보세요. 무료 전생 궁합 테스트!">
-    <meta name="keywords" content="전생인연, 커플테스트, 전생궁합, 전생관계, 윤회, 인연테스트">
+    <title>前世の縁診断テスト - 私たちは前世で何の関係？ | カップル前世テスト</title>
+    <meta name="description" content="私たちは前世で何の関係だったのか？カップル前世診断テストで二人の前世の縁を調べましょう。無料前世相性テスト！">
+    <meta name="keywords" content="前世の縁,カップルテスト,前世相性,前世関係,輪廻,縁診断">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="전생의 인연 테스트 - 우리는 전생에 무슨 사이?">
-    <meta property="og:description" content="커플 전생 인연을 알아보세요!">
+    <meta property="og:title" content="前世の縁診断テスト - 私たちは前世で何の関係？">
+    <meta property="og:description" content="カップルの前世の縁を調べましょう！">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/4a1c6b/ffd700?text=전생의+인연">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/4a1c6b/ffd700?text=前世の縁">
 
     <style>
         .toast {
@@ -35,7 +35,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, sans-serif;
             background: linear-gradient(135deg, #1a0a2e 0%, #4a1c6b 50%, #1a0a2e 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -371,29 +371,29 @@
 
     <div class="container">
         <header>
-            <h1>전생의 인연 테스트</h1>
-            <p class="subtitle">우리는 전생에 무슨 사이였을까?</p>
+            <h1>前世の縁診断テスト</h1>
+            <p class="subtitle">私たちは前世で何の関係だったのか？</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
 
         <div class="disclaimer">
-            재미로 즐기는 전생 인연 테스트입니다!
+            楽しむための前世の縁診断テストです！
         </div>
 
         <div class="card">
             <div class="input-section" id="inputSection">
-                <h2>두 사람의 정보를 입력하세요</h2>
+                <h2>二人の情報を入力してください</h2>
 
                 <div class="couple-inputs">
                     <div class="person-input person1">
-                        <div class="person-label">💗 첫 번째 사람</div>
+                        <div class="person-label">💗 一人目</div>
                         <div class="input-group">
-                            <label>이름</label>
-                            <input type="text" id="name1" placeholder="이름">
+                            <label>名前</label>
+                            <input type="text" id="name1" placeholder="名前">
                         </div>
                         <div class="input-group">
-                            <label>생년월일</label>
+                            <label>生年月日</label>
                             <div class="birth-row">
                                 <select id="year1"></select>
                                 <select id="month1"></select>
@@ -405,13 +405,13 @@
                     <div class="heart-divider">💕</div>
 
                     <div class="person-input person2">
-                        <div class="person-label">💙 두 번째 사람</div>
+                        <div class="person-label">💙 二人目</div>
                         <div class="input-group">
-                            <label>이름</label>
-                            <input type="text" id="name2" placeholder="이름">
+                            <label>名前</label>
+                            <input type="text" id="name2" placeholder="名前">
                         </div>
                         <div class="input-group">
-                            <label>생년월일</label>
+                            <label>生年月日</label>
                             <div class="birth-row">
                                 <select id="year2"></select>
                                 <select id="month2"></select>
@@ -421,50 +421,50 @@
                     </div>
                 </div>
 
-                <button class="start-btn" onclick="startTest()">전생 인연 알아보기</button>
+                <button class="start-btn" onclick="startTest()">前世の縁を診断する</button>
             </div>
 
             <div class="loading" id="loading">
                 <div class="loading-animation">💫</div>
-                <p>시간을 거슬러 전생을 찾고 있습니다...</p>
-                <p style="font-size: 13px; color: #888; margin-top: 10px;">두 영혼의 인연을 추적하는 중...</p>
+                <p>時を遡って前世を探しています...</p>
+                <p style="font-size: 13px; color: #888; margin-top: 10px;">二つの魂の縁を追跡中...</p>
             </div>
 
             <div class="result-section" id="resultSection">
                 <div class="result-header">
                     <div class="names-display">
-                        <span class="name1" id="displayName1">홍길동</span>
+                        <span class="name1" id="displayName1">太郎</span>
                         &
-                        <span class="name2" id="displayName2">김철수</span>
+                        <span class="name2" id="displayName2">花子</span>
                     </div>
-                    <div class="era-badge" id="resultEra">조선시대</div>
+                    <div class="era-badge" id="resultEra">江戸時代</div>
                     <span class="relation-emoji" id="resultEmoji">👑💕👸</span>
-                    <div class="relation-title" id="resultRelation">운명의 연인</div>
+                    <div class="relation-title" id="resultRelation">運命の恋人</div>
                 </div>
 
                 <div class="result-card">
-                    <h3>📜 전생의 이야기</h3>
+                    <h3>📜 前世の物語</h3>
                     <p id="resultStory"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>🔮 인연의 의미</h3>
+                    <h3>🔮 縁の意味</h3>
                     <p id="resultMeaning"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>💝 현생에서의 조언</h3>
+                    <h3>💝 現世でのアドバイス</h3>
                     <p id="resultAdvice"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>✨ 카르마 분석</h3>
+                    <h3>✨ カルマ分析</h3>
                     <div class="karma-meter" id="karmaMeter"></div>
                 </div>
 
                 <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="resetTest()">もう一度診断</button>
                 </div>
             </div>
         </div>
@@ -472,12 +472,12 @@
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>이 테스트는 재미를 위한 것입니다.<br>실제 전생과는 관련이 없습니다.</p>
+            <p>このテストは娯楽のためのものです。<br>実際の前世とは関係ありません。</p>
         </footer>
     </div>
 
     <script>
-        // 파티클 생성
+        // パーティクル生成
         function createParticles() {
             const container = document.getElementById('particles');
             for (let i = 0; i < 30; i++) {
@@ -492,26 +492,26 @@
         }
         createParticles();
 
-        // 날짜 선택 초기화
+        // 日付選択の初期化
         function initDateSelects() {
             const currentYear = new Date().getFullYear();
             ['year1', 'year2'].forEach(id => {
                 const select = document.getElementById(id);
-                select.innerHTML = '<option value="">년</option>';
+                select.innerHTML = '<option value="">年</option>';
                 for (let y = currentYear; y >= 1950; y--) {
                     select.innerHTML += `<option value="${y}">${y}</option>`;
                 }
             });
             ['month1', 'month2'].forEach(id => {
                 const select = document.getElementById(id);
-                select.innerHTML = '<option value="">월</option>';
+                select.innerHTML = '<option value="">月</option>';
                 for (let m = 1; m <= 12; m++) {
                     select.innerHTML += `<option value="${m}">${m}</option>`;
                 }
             });
             ['day1', 'day2'].forEach(id => {
                 const select = document.getElementById(id);
-                select.innerHTML = '<option value="">일</option>';
+                select.innerHTML = '<option value="">日</option>';
                 for (let d = 1; d <= 31; d++) {
                     select.innerHTML += `<option value="${d}">${d}</option>`;
                 }
@@ -521,75 +521,75 @@
 
         const relations = [
             {
-                era: "고대 이집트",
-                relation: "파라오와 신관",
+                era: "古代エジプト",
+                relation: "ファラオと神官",
                 emoji: "👑✨🔮",
-                story: "두 분은 고대 이집트에서 파라오와 그를 보좌하던 최고 신관이었습니다. 함께 피라미드를 설계하고, 별을 읽으며 왕국의 번영을 이끌었죠. 깊은 신뢰와 지적인 교감으로 연결된 사이였습니다.",
-                meaning: "이 인연은 서로를 높이 평가하고 존중하는 관계입니다. 전생에서 함께 큰 일을 이뤄낸 만큼, 현생에서도 함께하면 시너지가 폭발할 수 있어요.",
-                advice: "서로의 지혜를 존중하세요. 함께 목표를 세우고 달성해 나가면 놀라운 결과를 만들 수 있습니다.",
+                story: "お二人は古代エジプトでファラオとそれを補佐する最高神官でした。一緒にピラミッドを設計し、星を読みながら王国の繁栄を導きました。深い信頼と知的な交流で結ばれた関係でした。",
+                meaning: "この縁はお互いを高く評価し尊重する関係です。前世で一緒に大きなことを成し遂げただけに、現世でも一緒にいればシナジーが爆発するでしょう。",
+                advice: "お互いの知恵を尊重してください。一緒に目標を立てて達成していけば、驚くべき結果を生み出せます。",
                 karma: { trust: 95, passion: 70, destiny: 88, harmony: 82 }
             },
             {
-                era: "조선시대",
-                relation: "운명적 연인",
+                era: "江戸時代",
+                relation: "運命の恋人",
                 emoji: "👨‍🎓💕👩‍🎓",
-                story: "두 분은 조선시대 양반가의 자녀로, 서로 다른 집안이었지만 운명처럼 만났습니다. 신분의 벽을 넘어 서로를 사랑했고, 그 마음은 이생까지 이어졌습니다.",
-                meaning: "이 인연은 어떤 장애물도 뛰어넘을 수 있는 강력한 끌림입니다. 전생에서 이루지 못한 사랑을 현생에서 완성하기 위해 다시 만났을 수 있어요.",
-                advice: "서로에 대한 믿음을 잃지 마세요. 어려움이 와도 함께라면 극복할 수 있습니다.",
+                story: "お二人は江戸時代の武家の子供で、異なる家柄でしたが運命のように出会いました。身分の壁を越えて愛し合い、その心は今世まで続いています。",
+                meaning: "この縁はどんな障害も乗り越えられる強力な引力です。前世で成し遂げられなかった愛を現世で完成させるために再び出会ったのかもしれません。",
+                advice: "お互いへの信頼を失わないでください。困難が来ても一緒なら乗り越えられます。",
                 karma: { trust: 85, passion: 98, destiny: 95, harmony: 75 }
             },
             {
-                era: "중세 유럽",
-                relation: "기사와 공주",
+                era: "中世ヨーロッパ",
+                relation: "騎士と王女",
                 emoji: "⚔️❤️👸",
-                story: "한 분은 용감한 기사였고, 다른 분은 왕국의 공주였습니다. 기사는 공주를 지키기 위해 목숨을 걸었고, 그 헌신은 영원한 인연으로 남았습니다.",
-                meaning: "이 인연은 보호와 헌신의 관계입니다. 한쪽이 다른 쪽을 지키려는 본능이 있고, 서로에게 깊은 책임감을 느낍니다.",
-                advice: "지키려는 마음도 좋지만, 때로는 상대가 스스로 성장할 수 있게 해주세요. 동등한 파트너로서 함께 걸어가세요.",
+                story: "一人は勇敢な騎士で、もう一人は王国の王女でした。騎士は王女を守るために命を懸け、その献身は永遠の縁として残りました。",
+                meaning: "この縁は保護と献身の関係です。一方が他方を守ろうとする本能があり、お互いに深い責任感を感じます。",
+                advice: "守りたい気持ちも良いですが、時には相手が自ら成長できるようにしてあげてください。対等なパートナーとして一緒に歩んでください。",
                 karma: { trust: 90, passion: 85, destiny: 80, harmony: 78 }
             },
             {
-                era: "당나라 시대",
-                relation: "시인과 뮤즈",
+                era: "唐時代",
+                relation: "詩人とミューズ",
                 emoji: "📜💫🎭",
-                story: "한 분은 당나라의 유명한 시인이었고, 다른 분은 그에게 영감을 주던 뮤즈였습니다. 수많은 시가 상대를 위해 쓰여졌고, 그 작품들은 천년이 지나도 회자됩니다.",
-                meaning: "이 인연은 예술적이고 영감을 주고받는 관계입니다. 함께 있으면 창의력이 샘솟고, 서로에게 영감이 됩니다.",
-                advice: "서로의 재능을 격려해주세요. 함께 창조적인 활동을 하면 더 깊은 유대를 느낄 수 있습니다.",
+                story: "一人は唐の有名な詩人で、もう一人はその人にインスピレーションを与えていたミューズでした。数多くの詩が相手のために書かれ、その作品は千年経っても語り継がれています。",
+                meaning: "この縁は芸術的でインスピレーションを与え合う関係です。一緒にいると創造力が湧き出し、お互いにインスピレーションとなります。",
+                advice: "お互いの才能を励まし合ってください。一緒に創造的な活動をすれば、より深い絆を感じられるでしょう。",
                 karma: { trust: 75, passion: 88, destiny: 82, harmony: 92 }
             },
             {
-                era: "르네상스 시대",
-                relation: "동반자적 친구",
+                era: "ルネサンス時代",
+                relation: "同志的友人",
                 emoji: "🎨🤝📚",
-                story: "두 분은 르네상스 시대 피렌체에서 함께 예술과 학문을 탐구하던 동료였습니다. 밤새 토론하고, 서로의 작품을 비평하며 성장했죠.",
-                meaning: "이 인연은 깊은 우정과 지적 교감을 바탕으로 합니다. 연인 이전에 최고의 친구이자 동반자입니다.",
-                advice: "친구로서의 관계를 소중히 여기세요. 깊은 대화와 공감이 관계를 더욱 단단하게 만들어줍니다.",
+                story: "お二人はルネサンス時代のフィレンツェで一緒に芸術と学問を探求していた仲間でした。夜通し議論し、お互いの作品を批評しながら成長しました。",
+                meaning: "この縁は深い友情と知的交流を基盤としています。恋人である前に最高の友人であり、同志です。",
+                advice: "友人としての関係を大切にしてください。深い対話と共感が関係をより強固にします。",
                 karma: { trust: 92, passion: 65, destiny: 78, harmony: 95 }
             },
             {
-                era: "일본 에도시대",
-                relation: "숙명의 라이벌",
+                era: "日本の江戸時代",
+                relation: "宿命のライバル",
                 emoji: "⚔️🔥⚔️",
-                story: "두 분은 에도시대 유명한 검객이었습니다. 서로를 라이벌로 여기며 경쟁했지만, 그 안에는 깊은 존경이 있었습니다. 서로가 있어 더 강해질 수 있었죠.",
-                meaning: "이 인연은 서로를 성장시키는 관계입니다. 경쟁심이 있을 수 있지만, 그것이 오히려 서로를 발전시킵니다.",
-                advice: "건강한 경쟁은 좋지만, 상대를 이기려 하기보다 함께 성장한다고 생각하세요.",
+                story: "お二人は江戸時代の有名な剣客でした。お互いをライバルと見なして競い合いましたが、その中には深い尊敬がありました。お互いがいたからこそ、より強くなれました。",
+                meaning: "この縁はお互いを成長させる関係です。競争心があるかもしれませんが、それがむしろお互いを発展させます。",
+                advice: "健全な競争は良いですが、相手に勝とうとするよりも、一緒に成長すると考えてください。",
                 karma: { trust: 70, passion: 90, destiny: 75, harmony: 68 }
             },
             {
-                era: "고대 그리스",
-                relation: "영혼의 반쪽",
+                era: "古代ギリシャ",
+                relation: "魂の片割れ",
                 emoji: "⚡💕☀️",
-                story: "플라톤이 말한 '영혼의 반쪽'처럼, 두 분은 원래 하나였던 영혼이 둘로 나뉜 존재입니다. 수천 년을 떨어져 있다가 드디어 현생에서 재회했습니다.",
-                meaning: "이 인연은 가장 강력한 영혼의 연결입니다. 만나자마자 오래 알았던 것 같은 느낌, 그것이 전생의 기억입니다.",
-                advice: "이미 연결되어 있음을 믿으세요. 서로를 찾았으니 이제는 함께 완전해지는 여정을 즐기세요.",
+                story: "プラトンが語った「魂の片割れ」のように、お二人は元々一つだった魂が二つに分かれた存在です。数千年離れていて、ようやく現世で再会しました。",
+                meaning: "この縁は最も強力な魂の結びつきです。出会った瞬間から長年知っていたような感覚、それが前世の記憶です。",
+                advice: "すでに繋がっていることを信じてください。お互いを見つけたのですから、今は一緒に完全になる旅を楽しんでください。",
                 karma: { trust: 95, passion: 95, destiny: 99, harmony: 90 }
             },
             {
-                era: "빅토리아 시대",
-                relation: "선생과 제자",
+                era: "ビクトリア時代",
+                relation: "師弟",
                 emoji: "📖💡🎓",
-                story: "한 분은 빅토리아 시대의 학자였고, 다른 분은 그의 가장 뛰어난 제자였습니다. 지식을 나누며 서로에게 깊은 인상을 남겼습니다.",
-                meaning: "이 인연은 가르침과 배움의 관계입니다. 서로에게 배울 것이 있고, 함께 성장해 나갑니다.",
-                advice: "때로는 가르치고, 때로는 배우세요. 역할을 고정하지 말고 유연하게 주고받으세요.",
+                story: "一人はビクトリア時代の学者で、もう一人はその最も優秀な弟子でした。知識を分かち合い、お互いに深い印象を残しました。",
+                meaning: "この縁は教えと学びの関係です。お互いに学ぶことがあり、一緒に成長していきます。",
+                advice: "時には教え、時には学んでください。役割を固定せず、柔軟に与え合ってください。",
                 karma: { trust: 85, passion: 60, destiny: 72, harmony: 88 }
             }
         ];
@@ -601,7 +601,7 @@
             const name2 = document.getElementById('name2').value.trim();
 
             if (!name1 || !name2) {
-                showToast('⚠️ 두 사람의 이름을 모두 입력해주세요!');
+                showToast('⚠️ 二人の名前を両方入力してください！');
                 return;
             }
 
@@ -614,7 +614,7 @@
         }
 
         function calculateResult(name1, name2) {
-            // 이름 기반 시드 생성
+            // 名前ベースのシード生成
             let seed = 0;
             for (let i = 0; i < name1.length; i++) {
                 seed += name1.charCodeAt(i) * (i + 1);
@@ -623,7 +623,7 @@
                 seed += name2.charCodeAt(i) * (i + 2);
             }
 
-            // 관계 선택
+            // 関係選択
             const relationIndex = seed % relations.length;
             const selectedRelation = relations[relationIndex];
 
@@ -650,10 +650,10 @@
             document.getElementById('resultAdvice').textContent = resultData.advice;
 
             const karmaLabels = {
-                trust: '신뢰',
-                passion: '열정',
-                destiny: '운명',
-                harmony: '조화'
+                trust: '信頼',
+                passion: '情熱',
+                destiny: '運命',
+                harmony: '調和'
             };
 
             document.getElementById('karmaMeter').innerHTML = Object.entries(resultData.karma).map(([key, value]) => `
@@ -672,23 +672,23 @@
         }
 
         function shareResult() {
-            const text = `💫 전생의 인연 테스트 결과\n\n` +
+            const text = `💫 前世の縁診断テスト結果\n\n` +
                         `${resultData.name1} 💕 ${resultData.name2}\n\n` +
                         `【${resultData.era}】\n` +
                         `${resultData.emoji}\n` +
                         `"${resultData.relation}"\n\n` +
-                        `✨ 신뢰 ${resultData.karma.trust}% | 열정 ${resultData.karma.passion}%\n` +
-                        `🌟 운명 ${resultData.karma.destiny}% | 조화 ${resultData.karma.harmony}%\n\n` +
-                        `우리도 전생 인연 알아보기 👉`;
+                        `✨ 信頼 ${resultData.karma.trust}% | 情熱 ${resultData.karma.passion}%\n` +
+                        `🌟 運命 ${resultData.karma.destiny}% | 調和 ${resultData.karma.harmony}%\n\n` +
+                        `私たちも前世の縁を診断する 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: '전생의 인연 테스트', text: text })
+                navigator.share({ title: '前世の縁診断テスト', text: text })
                     .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
                     });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                    showToast('📋 結果がコピーされました！');
                 });
             }
         }

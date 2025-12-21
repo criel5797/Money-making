@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>연애 성향 테스트 - 나의 연애 유형은? | 무료 연애 테스트</title>
-    <meta name="description" content="나의 연애 성향을 알아보세요! 무료 연애 유형 테스트로 나는 어떤 스타일로 사랑하는지 확인하세요. 집착형? 자유형? 지금 바로!">
-    <meta name="keywords" content="연애테스트, 연애성향, 연애유형, 사랑테스트, 연애스타일, 연애심리테스트">
+    <title>Love Style Test - What's Your Dating Personality? | Free Relationship Quiz</title>
+    <meta name="description" content="Discover your love style! Take this free relationship quiz to find out how you love. Clingy? Independent? Find your dating personality type!">
+    <meta name="keywords" content="love test, relationship quiz, dating style, love personality, romance test, dating type, love style">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="연애 성향 테스트 - 나의 연애 유형은?">
-    <meta property="og:description" content="나는 어떤 스타일로 사랑할까?">
+    <meta property="og:title" content="Love Style Test - What's Your Dating Personality?">
+    <meta property="og:description" content="How do you love? Take this quiz to find out!">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=연애+성향+테스트">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=Love+Style+Test">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         .toast {
@@ -35,7 +39,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background: linear-gradient(135deg, #ff6b9d 0%, #c44dff 50%, #6b5ce7 100%);
             min-height: 100vh;
             color: #333;
@@ -385,8 +389,8 @@
 
     <div class="container">
         <header>
-            <h1>연애 성향 테스트</h1>
-            <p class="subtitle">나는 어떤 스타일로 사랑할까?</p>
+            <h1>Love Style Test</h1>
+            <p class="subtitle">What's your dating personality?</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
@@ -394,14 +398,14 @@
         <div class="card">
             <div class="intro-section" id="introSection">
                 <div class="intro-emoji">💕</div>
-                <h2>당신의 연애 유형을 알려드릴게요</h2>
+                <h2>Discover Your Love Style</h2>
                 <p>
-                    사람마다 사랑하는 방식이 달라요.<br>
-                    10가지 질문으로 당신의 연애 성향을<br>
-                    정확하게 분석해드릴게요!<br><br>
-                    솔직하게 답해주세요 💝
+                    Everyone loves differently.<br>
+                    Take this 10-question quiz to discover<br>
+                    your unique dating personality!<br><br>
+                    Be honest with your answers 💝
                 </p>
-                <button class="start-btn" onclick="startTest()">테스트 시작하기</button>
+                <button class="start-btn" onclick="startTest()">Start Test</button>
             </div>
 
             <div class="question-section" id="questionSection">
@@ -416,46 +420,46 @@
 
             <div class="result-section" id="resultSection">
                 <div class="result-header">
-                    <p>당신의 연애 유형은...</p>
+                    <p>Your love style is...</p>
                     <span class="type-emoji" id="typeEmoji">💗</span>
-                    <div class="type-name" id="typeName">헌신형 연인</div>
-                    <div class="type-title" id="typeTitle">"당신을 위해서라면 뭐든지"</div>
+                    <div class="type-name" id="typeName">Devoted Lover</div>
+                    <div class="type-title" id="typeTitle">"I'd do anything for you"</div>
                 </div>
 
                 <div class="result-card">
-                    <h3>💝 연애 스타일</h3>
+                    <h3>💝 Love Style</h3>
                     <p id="typeDescription"></p>
                     <div class="keyword-tags" id="keywordTags"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3>📊 성향 분석</h3>
+                    <h3>📊 Personality Analysis</h3>
                     <div class="percentage-section" id="percentageSection"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3>✨ 장점</h3>
+                    <h3>✨ Strengths</h3>
                     <p id="typeStrength"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>⚠️ 주의할 점</h3>
+                    <h3>⚠️ Watch Out For</h3>
                     <p id="typeWeakness"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>💑 궁합</h3>
+                    <h3>💑 Compatibility</h3>
                     <div class="match-section" id="matchSection"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3>💡 연애 조언</h3>
+                    <h3>💡 Dating Advice</h3>
                     <p id="typeAdvice"></p>
                 </div>
 
                 <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                    <button class="share-btn primary" onclick="shareResult()">Share Result</button>
+                    <button class="share-btn secondary" onclick="resetTest()">Retake Test</button>
                 </div>
             </div>
         </div>
@@ -463,12 +467,12 @@
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>이 테스트는 재미를 위한 것입니다.</p>
+            <p>This test is for entertainment purposes only.</p>
         </footer>
     </div>
 
     <script>
-        // 하트 배경
+        // Heart background
         function createHearts() {
             const container = document.getElementById('heartsFloat');
             const hearts = ['💕', '💗', '💖', '💝', '❤️'];
@@ -487,102 +491,102 @@
         const questions = [
             {
                 emoji: "📱",
-                text: "연인에게 연락이 안 올 때 나는?",
+                text: "When your partner doesn't reply, you...",
                 options: [
-                    { text: "계속 확인하고 불안해함", type: "clingy" },
-                    { text: "바쁜가보다 하고 기다림", type: "stable" },
-                    { text: "나도 내 할 일 함", type: "independent" },
-                    { text: "뭐하나 궁금해서 먼저 연락함", type: "active" }
+                    { text: "Keep checking and feel anxious", type: "clingy" },
+                    { text: "Figure they're busy and wait", type: "stable" },
+                    { text: "Do my own thing", type: "independent" },
+                    { text: "Text first to check what's up", type: "active" }
                 ]
             },
             {
                 emoji: "💕",
-                text: "사랑을 표현하는 나만의 방식은?",
+                text: "How do you express love?",
                 options: [
-                    { text: "말과 행동으로 적극 표현", type: "active" },
-                    { text: "선물이나 깜짝 이벤트", type: "romantic" },
-                    { text: "함께 있는 시간을 중요시", type: "stable" },
-                    { text: "필요할 때 도움을 줌", type: "caring" }
+                    { text: "Words and actions, very openly", type: "active" },
+                    { text: "Gifts and surprise events", type: "romantic" },
+                    { text: "Quality time together", type: "stable" },
+                    { text: "Being there when needed", type: "caring" }
                 ]
             },
             {
                 emoji: "😤",
-                text: "연인과 싸웠을 때 나는?",
+                text: "After a fight with your partner, you...",
                 options: [
-                    { text: "바로 화해하려고 노력", type: "clingy" },
-                    { text: "시간을 두고 생각 정리", type: "stable" },
-                    { text: "내 입장을 확실히 전달", type: "independent" },
-                    { text: "분위기 풀려고 장난침", type: "playful" }
+                    { text: "Try to make up right away", type: "clingy" },
+                    { text: "Take time to think it through", type: "stable" },
+                    { text: "Make my position clear", type: "independent" },
+                    { text: "Try to lighten the mood", type: "playful" }
                 ]
             },
             {
                 emoji: "🏠",
-                text: "이상적인 데이트는?",
+                text: "Your ideal date would be...",
                 options: [
-                    { text: "집에서 함께 시간 보내기", type: "stable" },
-                    { text: "새로운 곳 탐험하기", type: "playful" },
-                    { text: "로맨틱한 분위기의 레스토랑", type: "romantic" },
-                    { text: "각자 하고 싶은 것 하다 만나기", type: "independent" }
+                    { text: "Cozy time at home together", type: "stable" },
+                    { text: "Exploring somewhere new", type: "playful" },
+                    { text: "Romantic dinner with ambiance", type: "romantic" },
+                    { text: "Each doing our thing, then meeting up", type: "independent" }
                 ]
             },
             {
                 emoji: "🤔",
-                text: "연인의 이성 친구, 어떻게 생각해?",
+                text: "How do you feel about your partner's opposite-gender friends?",
                 options: [
-                    { text: "솔직히 별로 좋진 않음", type: "clingy" },
-                    { text: "신뢰하니까 괜찮음", type: "stable" },
-                    { text: "나도 이성친구 있으니 OK", type: "independent" },
-                    { text: "같이 어울리면 더 좋음", type: "playful" }
+                    { text: "Honestly, not a fan", type: "clingy" },
+                    { text: "I trust them, so it's fine", type: "stable" },
+                    { text: "I have opposite-gender friends too, so OK", type: "independent" },
+                    { text: "Would be fun to all hang out together", type: "playful" }
                 ]
             },
             {
                 emoji: "💭",
-                text: "연애 중 혼자만의 시간은?",
+                text: "Alone time while in a relationship is...",
                 options: [
-                    { text: "없어도 됨, 함께가 좋음", type: "clingy" },
-                    { text: "가끔은 필요함", type: "stable" },
-                    { text: "꼭 필요함, 없으면 힘듦", type: "independent" },
-                    { text: "친구들과 노는 시간으로 대체", type: "playful" }
+                    { text: "Not needed, prefer being together", type: "clingy" },
+                    { text: "Sometimes necessary", type: "stable" },
+                    { text: "Essential, struggle without it", type: "independent" },
+                    { text: "Time with friends counts", type: "playful" }
                 ]
             },
             {
                 emoji: "🎁",
-                text: "기념일에 대한 생각은?",
+                text: "Your thoughts on anniversaries?",
                 options: [
-                    { text: "모든 기념일 다 중요!", type: "romantic" },
-                    { text: "큰 기념일만 챙김", type: "stable" },
-                    { text: "기념일보다 평소가 중요", type: "independent" },
-                    { text: "깜짝 이벤트가 더 좋음", type: "playful" }
+                    { text: "Every anniversary matters!", type: "romantic" },
+                    { text: "Only celebrate the big ones", type: "stable" },
+                    { text: "Daily love matters more", type: "independent" },
+                    { text: "Surprise events are better", type: "playful" }
                 ]
             },
             {
                 emoji: "😢",
-                text: "연인이 힘들어할 때 나는?",
+                text: "When your partner is going through a hard time, you...",
                 options: [
-                    { text: "끝까지 옆에서 함께함", type: "caring" },
-                    { text: "해결책을 찾아줌", type: "active" },
-                    { text: "공간을 주고 기다림", type: "stable" },
-                    { text: "기분 전환시켜줌", type: "playful" }
+                    { text: "Stay by their side no matter what", type: "caring" },
+                    { text: "Help find solutions", type: "active" },
+                    { text: "Give them space and wait", type: "stable" },
+                    { text: "Try to cheer them up", type: "playful" }
                 ]
             },
             {
                 emoji: "💑",
-                text: "연애에서 가장 중요한 것은?",
+                text: "What's most important in a relationship?",
                 options: [
-                    { text: "함께하는 시간", type: "clingy" },
-                    { text: "서로에 대한 신뢰", type: "stable" },
-                    { text: "서로의 성장", type: "independent" },
-                    { text: "설렘과 재미", type: "playful" }
+                    { text: "Time spent together", type: "clingy" },
+                    { text: "Mutual trust", type: "stable" },
+                    { text: "Personal growth", type: "independent" },
+                    { text: "Excitement and fun", type: "playful" }
                 ]
             },
             {
                 emoji: "💍",
-                text: "연애의 미래에 대해?",
+                text: "Thoughts on the future of your relationship?",
                 options: [
-                    { text: "결혼까지 생각함", type: "caring" },
-                    { text: "자연스럽게 흘러가길", type: "stable" },
-                    { text: "현재에 집중함", type: "playful" },
-                    { text: "서로 맞으면 그때 생각", type: "independent" }
+                    { text: "Marriage is the goal", type: "caring" },
+                    { text: "Let it flow naturally", type: "stable" },
+                    { text: "Focus on the present", type: "playful" },
+                    { text: "Decide when the time is right", type: "independent" }
                 ]
             }
         ];
@@ -590,94 +594,94 @@
         const loveTypes = {
             clingy: {
                 emoji: "🥺",
-                name: "올인형 연인",
-                title: "\"너 없이는 못 살아\"",
-                description: "사랑에 빠지면 온 마음을 다 바치는 타입이에요. 연인과 함께하는 시간이 가장 행복하고, 떨어져 있으면 많이 보고싶어해요. 사랑에 진심인 당신, 그 열정이 매력이에요!",
-                keywords: ["진심", "열정적", "애정표현", "함께하기", "밀착형"],
-                strength: "진심 어린 사랑으로 상대를 감동시킬 수 있어요. 함께 있을 때 상대방을 세상에서 가장 특별하게 느끼게 해줘요.",
-                weakness: "너무 집착하면 상대가 부담스러워할 수 있어요. 가끔은 여유를 가지고 서로의 공간을 존중해보세요.",
-                goodMatch: "안정형 연인",
-                badMatch: "자유형 연인",
+                name: "All-In Lover",
+                title: "\"I can't live without you\"",
+                description: "When you fall in love, you give your whole heart. You're happiest with your partner and miss them terribly when apart. Your passion and sincerity in love is your greatest charm!",
+                keywords: ["Sincere", "Passionate", "Affectionate", "Togetherness", "Attached"],
+                strength: "Your sincere love can truly move someone. You make your partner feel like the most special person in the world.",
+                weakness: "Being too clingy might overwhelm your partner. Sometimes give each other space and respect boundaries.",
+                goodMatch: "Stable Lover",
+                badMatch: "Free Spirit Lover",
                 traits: { passion: 95, independence: 35, romance: 80, stability: 50 },
-                advice: "사랑은 마라톤이에요. 천천히, 하지만 꾸준히 사랑하세요. 상대방도 당신만큼 당신을 사랑할 수 있게 시간을 주세요."
+                advice: "Love is a marathon. Love slowly but steadily. Give your partner time to love you as much as you love them."
             },
             stable: {
                 emoji: "🤝",
-                name: "안정형 연인",
-                title: "\"함께 있으면 편안해\"",
-                description: "믿음과 신뢰를 바탕으로 관계를 쌓아가는 타입이에요. 화려한 것보다 일상의 행복을 중요시하고, 오래가는 사랑을 추구해요. 든든한 버팀목 같은 존재!",
-                keywords: ["신뢰", "편안함", "일상", "안정감", "장기연애"],
-                strength: "변함없는 사랑으로 상대에게 안정감을 줘요. 어떤 상황에서도 흔들리지 않는 든든한 존재예요.",
-                weakness: "때로는 너무 무덤덤해 보일 수 있어요. 가끔은 설렘을 줄 수 있는 이벤트도 해보세요!",
-                goodMatch: "올인형 연인",
-                badMatch: "썸타는 연인",
+                name: "Stable Lover",
+                title: "\"I feel at ease with you\"",
+                description: "You build relationships on trust and reliability. You value everyday happiness over flashy romance and seek lasting love. You're like a dependable pillar of support!",
+                keywords: ["Trustworthy", "Comfortable", "Everyday", "Secure", "Long-term"],
+                strength: "Your unwavering love provides security. You're a rock that doesn't waver in any situation.",
+                weakness: "You might sometimes seem too calm. Try planning romantic surprises occasionally!",
+                goodMatch: "All-In Lover",
+                badMatch: "Flirty Lover",
                 traits: { passion: 60, independence: 65, romance: 55, stability: 95 },
-                advice: "안정감도 좋지만 가끔은 새로운 시도도 해보세요. 작은 변화가 관계에 활력을 줄 수 있어요."
+                advice: "Stability is great, but try new things sometimes. Small changes can add energy to your relationship."
             },
             independent: {
                 emoji: "🦅",
-                name: "자유형 연인",
-                title: "\"서로의 삶을 존중해\"",
-                description: "사랑도 중요하지만 개인의 삶도 중요시하는 타입이에요. 서로의 영역을 존중하면서 건강한 관계를 유지해요. 성숙하고 독립적인 사랑을 해요!",
-                keywords: ["독립적", "존중", "자기주도", "성숙함", "밸런스"],
-                strength: "건강한 관계를 유지할 수 있어요. 서로를 구속하지 않아 오래 함께할 수 있어요.",
-                weakness: "상대가 서운해할 수 있어요. 가끔은 먼저 연락하고 애정표현을 해보세요.",
-                goodMatch: "자유형 연인",
-                badMatch: "올인형 연인",
+                name: "Free Spirit Lover",
+                title: "\"Let's respect each other's lives\"",
+                description: "Love matters, but so does your personal life. You maintain healthy relationships by respecting each other's space. You love in a mature, independent way!",
+                keywords: ["Independent", "Respectful", "Self-driven", "Mature", "Balanced"],
+                strength: "You maintain healthy relationships. Not being restrictive allows for longevity.",
+                weakness: "Your partner might feel neglected. Sometimes reach out first and show affection.",
+                goodMatch: "Free Spirit Lover",
+                badMatch: "All-In Lover",
                 traits: { passion: 50, independence: 95, romance: 45, stability: 70 },
-                advice: "독립적인 것도 좋지만, 연인에게는 조금 더 마음을 열어도 괜찮아요. 의지하는 것도 사랑이에요."
+                advice: "Independence is good, but it's okay to open up more to your partner. Depending on each other is also love."
             },
             romantic: {
                 emoji: "🌹",
-                name: "로맨틱 연인",
-                title: "\"매일이 특별했으면\"",
-                description: "사랑에 있어 로맨스를 중요시하는 타입이에요. 기념일, 깜짝 이벤트, 달달한 말들... 사랑하는 사람에게 특별한 순간들을 선물하고 싶어해요!",
-                keywords: ["로맨틱", "이벤트", "감성적", "기념일", "설렘"],
-                strength: "연인을 특별하게 느끼게 해줘요. 함께하는 모든 순간을 아름답게 만들어요.",
-                weakness: "기대가 크면 실망도 클 수 있어요. 평범한 일상도 소중하다는 걸 기억하세요.",
-                goodMatch: "헌신형 연인",
-                badMatch: "자유형 연인",
+                name: "Romantic Lover",
+                title: "\"Every day should be special\"",
+                description: "Romance is essential in your love life. Anniversaries, surprise events, sweet words... You want to give special moments to the one you love!",
+                keywords: ["Romantic", "Events", "Emotional", "Anniversaries", "Exciting"],
+                strength: "You make your partner feel special. You make every moment together beautiful.",
+                weakness: "High expectations can lead to big disappointments. Remember that ordinary days are precious too.",
+                goodMatch: "Devoted Lover",
+                badMatch: "Free Spirit Lover",
                 traits: { passion: 85, independence: 50, romance: 95, stability: 55 },
-                advice: "로맨스도 좋지만 일상의 작은 행복도 소중해요. 특별한 날이 아니어도 사랑은 충분히 아름다워요."
+                advice: "Romance is great, but appreciate small everyday joys too. Love is beautiful even without special occasions."
             },
             playful: {
                 emoji: "🎉",
-                name: "썸타는 연인",
-                title: "\"연애는 재밌어야지!\"",
-                description: "연애도 재미있게! 장난치고 웃고 떠들며 즐거운 연애를 추구해요. 무겁고 진지한 것보다 가볍고 밝은 관계를 좋아해요. 함께 있으면 웃음이 끊이지 않아요!",
-                keywords: ["재미", "장난", "유쾌함", "가벼움", "웃음"],
-                strength: "함께 있으면 즐거워요. 어려운 상황도 유머로 넘기는 힘이 있어요.",
-                weakness: "진지해야 할 때도 장난치면 오해받을 수 있어요. TPO를 지켜주세요.",
-                goodMatch: "썸타는 연인",
-                badMatch: "안정형 연인",
+                name: "Flirty Lover",
+                title: "\"Dating should be fun!\"",
+                description: "Keep it fun! You prefer playful, light relationships over heavy, serious ones. Laughter never stops when you're around!",
+                keywords: ["Fun", "Playful", "Cheerful", "Light", "Laughter"],
+                strength: "Being with you is fun. You have the power to handle difficulties with humor.",
+                weakness: "Joking around at serious moments might cause misunderstandings. Read the room.",
+                goodMatch: "Flirty Lover",
+                badMatch: "Stable Lover",
                 traits: { passion: 70, independence: 75, romance: 65, stability: 45 },
-                advice: "재미도 좋지만 가끔은 진지한 대화도 필요해요. 깊이 있는 관계를 위해 마음을 나눠보세요."
+                advice: "Fun is good, but serious conversations are needed sometimes. Open up for a deeper connection."
             },
             caring: {
                 emoji: "🤗",
-                name: "헌신형 연인",
-                title: "\"널 위해서라면\"",
-                description: "사랑하는 사람을 위해 뭐든 해주고 싶은 타입이에요. 상대의 행복이 곧 나의 행복! 챙겨주고 돌봐주는 것에서 보람을 느껴요. 따뜻한 사랑을 주는 사람!",
-                keywords: ["헌신", "배려", "따뜻함", "돌봄", "희생"],
-                strength: "조건 없이 사랑할 수 있어요. 상대방이 진심으로 사랑받고 있다고 느끼게 해줘요.",
-                weakness: "자신을 너무 희생하면 지칠 수 있어요. 나를 위한 시간도 가지세요.",
-                goodMatch: "로맨틱 연인",
-                badMatch: "썸타는 연인",
+                name: "Devoted Lover",
+                title: "\"Anything for you\"",
+                description: "You want to do everything for the one you love. Their happiness is your happiness! You find joy in taking care of and looking after your partner. A warm-hearted love giver!",
+                keywords: ["Devoted", "Caring", "Warm", "Nurturing", "Selfless"],
+                strength: "You love unconditionally. You make your partner truly feel loved.",
+                weakness: "Sacrificing too much can burn you out. Make time for yourself too.",
+                goodMatch: "Romantic Lover",
+                badMatch: "Flirty Lover",
                 traits: { passion: 80, independence: 40, romance: 75, stability: 80 },
-                advice: "주기만 하지 말고 받는 것도 배워보세요. 건강한 관계는 주고받음의 균형이에요."
+                advice: "Don't just give - learn to receive too. A healthy relationship balances give and take."
             },
             active: {
                 emoji: "🔥",
-                name: "주도형 연인",
-                title: "\"내가 리드할게\"",
-                description: "연애에서 주도적인 역할을 하는 타입이에요. 데이트 계획부터 고백까지, 적극적으로 리드해요. 말보다 행동으로 사랑을 증명하는 스타일!",
-                keywords: ["주도적", "적극적", "리더십", "행동파", "결단력"],
-                strength: "밀고 당기기 없이 확실한 사랑을 해요. 상대가 혼란스럽지 않아요.",
-                weakness: "상대의 의견도 들어보세요. 함께 결정하는 것도 중요해요.",
-                goodMatch: "안정형 연인",
-                badMatch: "주도형 연인",
+                name: "Go-Getter Lover",
+                title: "\"I'll take the lead\"",
+                description: "You take charge in relationships. From planning dates to confessing feelings, you lead actively. You prove love through actions, not words!",
+                keywords: ["Proactive", "Active", "Leadership", "Action-oriented", "Decisive"],
+                strength: "No games - you love clearly. Your partner never has to guess.",
+                weakness: "Listen to your partner's opinions too. Making decisions together matters.",
+                goodMatch: "Stable Lover",
+                badMatch: "Go-Getter Lover",
                 traits: { passion: 90, independence: 70, romance: 70, stability: 65 },
-                advice: "리드하는 것도 좋지만 가끔은 맡겨보세요. 상대도 당신을 이끌고 싶을 수 있어요."
+                advice: "Leading is good, but sometimes let your partner take the reins. They might want to lead sometimes too."
             }
         };
 
@@ -729,7 +733,7 @@
                 counts[type] = (counts[type] || 0) + 1;
             });
 
-            // 가장 많은 유형 찾기
+            // Find most common type
             let maxType = 'stable';
             let maxCount = 0;
             Object.entries(counts).forEach(([type, count]) => {
@@ -760,10 +764,10 @@
             ).join('');
 
             const traitLabels = {
-                passion: '열정도',
-                independence: '독립성',
-                romance: '로맨스',
-                stability: '안정감'
+                passion: 'Passion',
+                independence: 'Independence',
+                romance: 'Romance',
+                stability: 'Stability'
             };
 
             document.getElementById('percentageSection').innerHTML = Object.entries(resultData.traits).map(([key, value]) => `
@@ -780,11 +784,11 @@
 
             document.getElementById('matchSection').innerHTML = `
                 <div class="match-item good">
-                    <div class="label">잘 맞는 유형</div>
+                    <div class="label">Best Match</div>
                     <div class="type">💚 ${resultData.goodMatch}</div>
                 </div>
                 <div class="match-item bad">
-                    <div class="label">주의할 유형</div>
+                    <div class="label">Challenging Match</div>
                     <div class="type">💔 ${resultData.badMatch}</div>
                 </div>
             `;
@@ -798,22 +802,22 @@
         }
 
         function shareResult() {
-            const text = `💕 연애 성향 테스트 결과\n\n` +
+            const text = `💕 Love Style Test Result\n\n` +
                         `${resultData.emoji} ${resultData.name}\n` +
                         `${resultData.title}\n\n` +
                         `🏷️ ${resultData.keywords.map(k => '#'+k).join(' ')}\n\n` +
-                        `💚 잘 맞는 유형: ${resultData.goodMatch}\n` +
-                        `💔 주의할 유형: ${resultData.badMatch}\n\n` +
-                        `나도 테스트하기 👉`;
+                        `💚 Best Match: ${resultData.goodMatch}\n` +
+                        `💔 Challenging: ${resultData.badMatch}\n\n` +
+                        `Take the test too 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: '연애 성향 테스트', text: text })
+                navigator.share({ title: 'Love Style Test', text: text, url: window.location.href })
                     .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                        navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => showToast('Result copied!'));
                     });
             } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
+                    showToast('Result copied!');
                 });
             }
         }

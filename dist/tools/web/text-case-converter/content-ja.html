@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>텍스트 대소문자 변환기 - 무료 온라인 텍스트 변환 도구</title>
-    <meta name="description" content="무료 텍스트 대소문자 변환기. UPPERCASE, lowercase, Title Case, camelCase, snake_case 등 다양한 형식으로 텍스트를 변환하세요. 한 번의 클릭으로 복사.">
-    <meta name="keywords" content="텍스트 변환기, 대소문자 변환, 대문자 변환, 소문자 변환, 카멜케이스, 스네이크케이스">
+    <title>テキスト大文字小文字変換 - 無料オンラインテキスト変換ツール</title>
+    <meta name="description" content="無料テキスト大文字小文字変換ツール。UPPERCASE、lowercase、Title Case、camelCase、snake_caseなど様々な形式にテキストを変換します。ワンクリックでコピー。">
+    <meta name="keywords" content="テキスト変換, 大文字小文字変換, 大文字変換, 小文字変換, キャメルケース, スネークケース">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="텍스트 대소문자 변환기 - 다양한 케이스 변환">
-    <meta property="og:description" content="텍스트를 다양한 대소문자 형식으로 즉시 변환하세요. 무료 온라인 도구.">
+    <meta property="og:title" content="テキスト大文字小文字変換 - 様々なケース変換">
+    <meta property="og:description" content="テキストを様々な大文字小文字形式に即座に変換します。無料オンラインツール。">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -17,7 +17,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -27,7 +27,7 @@
         }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -126,7 +126,7 @@
             resize: vertical;
             outline: none;
             transition: border-color 0.3s;
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: 'Noto Sans JP', sans-serif;
         }
 
         textarea:focus {
@@ -212,7 +212,7 @@
             cursor: pointer;
             transition: all 0.3s;
             font-size: 13px;
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: 'Noto Sans JP', sans-serif;
         }
 
         .action-btn:hover {
@@ -266,7 +266,7 @@
             cursor: pointer;
             transition: all 0.3s;
             font-size: 13px;
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: 'Noto Sans JP', sans-serif;
         }
 
         .quick-btn:hover {
@@ -348,40 +348,40 @@
         </div>
 
         <header>
-            <h1>텍스트 대소문자 변환기</h1>
-            <p class="subtitle">다양한 케이스 형식으로 텍스트 변환</p>
+            <h1>テキスト大文字小文字変換</h1>
+            <p class="subtitle">様々なケース形式にテキストを変換</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="card">
             <div class="input-section">
                 <div class="input-label">
-                    <span>텍스트 입력</span>
-                    <span class="char-count" id="charCount">0 글자</span>
+                    <span>テキスト入力</span>
+                    <span class="char-count" id="charCount">0 文字</span>
                 </div>
-                <textarea id="inputText" placeholder="텍스트를 입력하거나 붙여넣으세요..." oninput="handleInput()">빠른 갈색 여우가 게으른 개를 뛰어넘는다</textarea>
+                <textarea id="inputText" placeholder="テキストを入力または貼り付けてください..." oninput="handleInput()">速い茶色のキツネが怠け者の犬を飛び越える</textarea>
             </div>
 
             <div class="case-buttons">
                 <button class="case-btn active" onclick="convertCase('lower')">
                     <div class="case-icon">&#128289;</div>
-                    <div class="case-name">소문자</div>
+                    <div class="case-name">小文字</div>
                     <div class="case-example">hello world</div>
                 </button>
                 <button class="case-btn" onclick="convertCase('upper')">
                     <div class="case-icon">&#128288;</div>
-                    <div class="case-name">대문자</div>
+                    <div class="case-name">大文字</div>
                     <div class="case-example">HELLO WORLD</div>
                 </button>
                 <button class="case-btn" onclick="convertCase('title')">
                     <div class="case-icon">&#128209;</div>
-                    <div class="case-name">타이틀 케이스</div>
+                    <div class="case-name">タイトルケース</div>
                     <div class="case-example">Hello World</div>
                 </button>
                 <button class="case-btn" onclick="convertCase('sentence')">
                     <div class="case-icon">&#128221;</div>
-                    <div class="case-name">문장 케이스</div>
+                    <div class="case-name">文ケース</div>
                     <div class="case-example">Hello world</div>
                 </button>
                 <button class="case-btn" onclick="convertCase('camel')">
@@ -421,42 +421,42 @@
                 </button>
                 <button class="case-btn" onclick="convertCase('alternate')">
                     <div class="case-icon">&#127912;</div>
-                    <div class="case-name">교대 케이스</div>
+                    <div class="case-name">交互ケース</div>
                     <div class="case-example">hElLo WoRlD</div>
                 </button>
                 <button class="case-btn" onclick="convertCase('inverse')">
                     <div class="case-icon">&#128256;</div>
-                    <div class="case-name">반전 케이스</div>
+                    <div class="case-name">反転ケース</div>
                     <div class="case-example">hELLO wORLD</div>
                 </button>
                 <button class="case-btn" onclick="convertCase('sponge')">
                     <div class="case-icon">&#129476;</div>
-                    <div class="case-name">랜덤 케이스</div>
+                    <div class="case-name">ランダムケース</div>
                     <div class="case-example">HeLlO wOrLd</div>
                 </button>
             </div>
 
             <div class="output-section">
                 <div class="output-header">
-                    <span class="output-label">변환 결과</span>
+                    <span class="output-label">変換結果</span>
                     <div class="output-actions">
-                        <button class="action-btn" onclick="clearText()">지우기</button>
-                        <button class="action-btn" onclick="swapText()">교체</button>
-                        <button class="action-btn copy-btn" onclick="copyOutput()">복사</button>
+                        <button class="action-btn" onclick="clearText()">クリア</button>
+                        <button class="action-btn" onclick="swapText()">入替</button>
+                        <button class="action-btn copy-btn" onclick="copyOutput()">コピー</button>
                     </div>
                 </div>
-                <div class="output-box" id="output">빠른 갈색 여우가 게으른 개를 뛰어넘는다</div>
+                <div class="output-box" id="output">速い茶色のキツネが怠け者の犬を飛び越える</div>
             </div>
 
             <div class="quick-tools">
-                <h3>빠른 도구</h3>
+                <h3>クイックツール</h3>
                 <div class="quick-buttons">
-                    <button class="quick-btn" onclick="removeSpaces()">중복 공백 제거</button>
-                    <button class="quick-btn" onclick="removeLineBreaks()">줄바꿈 제거</button>
-                    <button class="quick-btn" onclick="reverseText()">텍스트 뒤집기</button>
-                    <button class="quick-btn" onclick="reverseWords()">단어 순서 뒤집기</button>
-                    <button class="quick-btn" onclick="trimLines()">줄 앞뒤 공백 제거</button>
-                    <button class="quick-btn" onclick="removeNumbers()">숫자 제거</button>
+                    <button class="quick-btn" onclick="removeSpaces()">重複スペース削除</button>
+                    <button class="quick-btn" onclick="removeLineBreaks()">改行削除</button>
+                    <button class="quick-btn" onclick="reverseText()">テキスト反転</button>
+                    <button class="quick-btn" onclick="reverseWords()">単語順序反転</button>
+                    <button class="quick-btn" onclick="trimLines()">行前後スペース削除</button>
+                    <button class="quick-btn" onclick="removeNumbers()">数字削除</button>
                 </div>
             </div>
         </div>
@@ -464,41 +464,41 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#9889;</div>
-                <h3>즉시 변환</h3>
-                <p>입력과 동시에 실시간 텍스트 변환</p>
+                <h3>即座に変換</h3>
+                <p>入力と同時にリアルタイムテキスト変換</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128187;</div>
-                <h3>14가지 케이스</h3>
-                <p>프로그래밍 및 일반 텍스트에 필요한 모든 케이스</p>
+                <h3>14種類のケース</h3>
+                <p>プログラミングと一般テキストに必要な全てのケース</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128203;</div>
-                <h3>원클릭 복사</h3>
-                <p>변환된 텍스트를 즉시 복사</p>
+                <h3>ワンクリックコピー</h3>
+                <p>変換されたテキストを即座にコピー</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128295;</div>
-                <h3>빠른 도구</h3>
-                <p>추가 텍스트 조작 유틸리티</p>
+                <h3>クイックツール</h3>
+                <p>追加のテキスト操作ユーティリティ</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>무료 텍스트 대소문자 변환기 | 즉시 텍스트 케이스 변환</p>
+            <p>無料テキスト大文字小文字変換 | 即座にテキストケース変換</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">コピーしました！</div>
 
     <script>
         let currentCase = 'lower';
 
         function handleInput() {
             const text = document.getElementById('inputText').value;
-            document.getElementById('charCount').textContent = text.length + ' 글자';
+            document.getElementById('charCount').textContent = text.length + ' 文字';
             convertCase(currentCase);
         }
 
@@ -581,14 +581,14 @@
         function copyOutput() {
             const output = document.getElementById('output').textContent;
             navigator.clipboard.writeText(output).then(() => {
-                showToast('클립보드에 복사됨!');
+                showToast('クリップボードにコピーされました！');
             });
         }
 
         function clearText() {
             document.getElementById('inputText').value = '';
             document.getElementById('output').textContent = '';
-            document.getElementById('charCount').textContent = '0 글자';
+            document.getElementById('charCount').textContent = '0 文字';
         }
 
         function swapText() {
@@ -603,42 +603,42 @@
             const input = document.getElementById('inputText');
             input.value = input.value.replace(/\s+/g, ' ').trim();
             handleInput();
-            showToast('중복 공백이 제거됨');
+            showToast('重複スペースが削除されました');
         }
 
         function removeLineBreaks() {
             const input = document.getElementById('inputText');
             input.value = input.value.replace(/[\r\n]+/g, ' ').trim();
             handleInput();
-            showToast('줄바꿈이 제거됨');
+            showToast('改行が削除されました');
         }
 
         function reverseText() {
             const input = document.getElementById('inputText');
             input.value = input.value.split('').reverse().join('');
             handleInput();
-            showToast('텍스트가 뒤집힘');
+            showToast('テキストが反転されました');
         }
 
         function reverseWords() {
             const input = document.getElementById('inputText');
             input.value = input.value.split(' ').reverse().join(' ');
             handleInput();
-            showToast('단어 순서가 뒤집힘');
+            showToast('単語順序が反転されました');
         }
 
         function trimLines() {
             const input = document.getElementById('inputText');
             input.value = input.value.split('\n').map(line => line.trim()).join('\n');
             handleInput();
-            showToast('줄 공백이 제거됨');
+            showToast('行スペースが削除されました');
         }
 
         function removeNumbers() {
             const input = document.getElementById('inputText');
             input.value = input.value.replace(/[0-9]/g, '');
             handleInput();
-            showToast('숫자가 제거됨');
+            showToast('数字が削除されました');
         }
 
         function showToast(message) {

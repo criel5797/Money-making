@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>차이 비교기 - 무료 온라인 텍스트 비교 도구</title>
-    <meta name="description" content="무료 온라인 차이 비교 도구. 두 텍스트를 비교하고 차이점을 즉시 찾으세요. 추가, 삭제, 변경 내용을 하이라이트합니다.">
-    <meta name="keywords" content="차이 비교, 텍스트 비교, 코드 비교, diff 도구, 차이점 찾기">
+    <title>Diff Checker - Free Online Text Comparison Tool</title>
+    <meta name="description" content="Free online diff comparison tool. Compare two texts and instantly find differences. Highlights additions, deletions, and changes.">
+    <meta name="keywords" content="diff checker, text compare, code compare, diff tool, find differences">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="차이 비교기 - 무료 온라인 텍스트 비교 도구">
-    <meta property="og:description" content="두 텍스트를 비교하고 차이점을 즉시 찾으세요.">
+    <meta property="og:title" content="Diff Checker - Free Online Text Comparison Tool">
+    <meta property="og:description" content="Compare two texts and instantly find differences.">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -400,64 +400,64 @@
 <body>
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="index-ko.html">한국어</a>
         </div>
 
         <header>
-            <h1>차이 비교기</h1>
-            <p class="subtitle">두 텍스트를 비교하고 차이점을 찾으세요</p>
+            <h1>Diff Checker</h1>
+            <p class="subtitle">Compare two texts and find differences</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="controls">
-            <button class="btn btn-primary" onclick="compareDiff()">차이점 찾기</button>
-            <button class="btn btn-secondary" onclick="swapTexts()">교환</button>
-            <button class="btn btn-secondary" onclick="clearAll()">초기화</button>
-            <button class="btn btn-secondary" onclick="loadSample()">샘플 로드</button>
+            <button class="btn btn-primary" onclick="compareDiff()">Find Differences</button>
+            <button class="btn btn-secondary" onclick="swapTexts()">Swap</button>
+            <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+            <button class="btn btn-secondary" onclick="loadSample()">Load Sample</button>
         </div>
 
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-color added"></div>
-                <span>추가됨</span>
+                <span>Added</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color removed"></div>
-                <span>삭제됨</span>
+                <span>Removed</span>
             </div>
         </div>
 
         <div class="editors-container">
             <div class="editor-panel">
                 <div class="editor-header">
-                    <span class="editor-title">원본 텍스트</span>
-                    <span class="editor-stats" id="stats1">0줄, 0자</span>
+                    <span class="editor-title">Original Text</span>
+                    <span class="editor-stats" id="stats1">0 lines, 0 chars</span>
                 </div>
-                <textarea id="text1" placeholder="원본 텍스트를 여기에 붙여넣으세요..." oninput="updateStats()"></textarea>
+                <textarea id="text1" placeholder="Paste original text here..." oninput="updateStats()"></textarea>
             </div>
 
             <div class="editor-panel">
                 <div class="editor-header">
-                    <span class="editor-title">수정된 텍스트</span>
-                    <span class="editor-stats" id="stats2">0줄, 0자</span>
+                    <span class="editor-title">Modified Text</span>
+                    <span class="editor-stats" id="stats2">0 lines, 0 chars</span>
                 </div>
-                <textarea id="text2" placeholder="수정된 텍스트를 여기에 붙여넣으세요..." oninput="updateStats()"></textarea>
+                <textarea id="text2" placeholder="Paste modified text here..." oninput="updateStats()"></textarea>
             </div>
         </div>
 
         <div class="diff-container" id="diffContainer" style="display: none;">
             <div class="diff-header">
-                <span class="diff-title">차이점</span>
+                <span class="diff-title">Differences</span>
                 <div style="display: flex; gap: 20px; align-items: center;">
                     <div class="diff-summary">
-                        <span class="diff-stat added" id="addedCount">+0 추가</span>
-                        <span class="diff-stat removed" id="removedCount">-0 삭제</span>
-                        <span class="diff-stat unchanged" id="unchangedCount">0 동일</span>
+                        <span class="diff-stat added" id="addedCount">+0 added</span>
+                        <span class="diff-stat removed" id="removedCount">-0 removed</span>
+                        <span class="diff-stat unchanged" id="unchangedCount">0 unchanged</span>
                     </div>
                     <div class="view-toggle">
-                        <button class="view-btn active" onclick="setViewMode('split')" id="splitBtn">분할</button>
-                        <button class="view-btn" onclick="setViewMode('unified')" id="unifiedBtn">통합</button>
+                        <button class="view-btn active" onclick="setViewMode('split')" id="splitBtn">Split</button>
+                        <button class="view-btn" onclick="setViewMode('unified')" id="unifiedBtn">Unified</button>
                     </div>
                 </div>
             </div>
@@ -465,14 +465,14 @@
             <div id="diffOutput"></div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 차이 비교 도구 | 모든 처리는 브라우저에서 이루어집니다</p>
+            <p>Free Diff Comparison Tool | All processing happens in your browser</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">비교 완료!</div>
+    <div class="toast" id="toast">Comparison complete!</div>
 
     <script>
         let currentViewMode = 'split';
@@ -487,8 +487,8 @@
             const lines2 = text2 ? text2.split('\n').length : 0;
             const chars2 = text2.length;
 
-            document.getElementById('stats1').textContent = `${lines1}줄, ${chars1}자`;
-            document.getElementById('stats2').textContent = `${lines2}줄, ${chars2}자`;
+            document.getElementById('stats1').textContent = `${lines1} lines, ${chars1} chars`;
+            document.getElementById('stats2').textContent = `${lines2} lines, ${chars2} chars`;
         }
 
         function computeDiff(text1, text2) {
@@ -553,7 +553,7 @@
             const text2 = document.getElementById('text2').value;
 
             if (!text1 && !text2) {
-                showToast('텍스트를 입력해주세요');
+                showToast('Please enter text');
                 return;
             }
 
@@ -561,7 +561,7 @@
             renderDiff();
 
             document.getElementById('diffContainer').style.display = 'block';
-            showToast('비교 완료!');
+            showToast('Comparison complete!');
         }
 
         function renderDiff() {
@@ -572,12 +572,12 @@
             const removed = lastDiffResult.filter(d => d.type === 'removed').length;
             const unchanged = lastDiffResult.filter(d => d.type === 'unchanged').length;
 
-            document.getElementById('addedCount').textContent = `+${added} 추가`;
-            document.getElementById('removedCount').textContent = `-${removed} 삭제`;
-            document.getElementById('unchangedCount').textContent = `${unchanged} 동일`;
+            document.getElementById('addedCount').textContent = `+${added} added`;
+            document.getElementById('removedCount').textContent = `-${removed} removed`;
+            document.getElementById('unchangedCount').textContent = `${unchanged} unchanged`;
 
             if (added === 0 && removed === 0) {
-                output.innerHTML = '<div class="no-diff"><div class="icon">&#10003;</div><p>차이점이 없습니다. 두 텍스트가 동일합니다!</p></div>';
+                output.innerHTML = '<div class="no-diff"><div class="icon">&#10003;</div><p>No differences found. The two texts are identical!</p></div>';
                 return;
             }
 
@@ -654,7 +654,7 @@
             text1.value = text2.value;
             text2.value = temp;
             updateStats();
-            showToast('텍스트 교환됨!');
+            showToast('Texts swapped!');
         }
 
         function clearAll() {
@@ -667,28 +667,28 @@
 
         function loadSample() {
             document.getElementById('text1').value = `function greet(name) {
-    console.log("안녕하세요, " + name);
+    console.log("Hello, " + name);
     return true;
 }
 
-const message = "환영합니다";
-greet("월드");`;
+const message = "Welcome";
+greet("World");`;
 
             document.getElementById('text2').value = `function greet(name, formal) {
     if (formal) {
-        console.log("안녕하십니까, " + name);
+        console.log("Good day, " + name);
     } else {
-        console.log("안녕, " + name);
+        console.log("Hi, " + name);
     }
     return true;
 }
 
-const message = "우리 앱에 오신 것을 환영합니다";
+const message = "Welcome to our app";
 const isPolite = true;
-greet("월드", isPolite);`;
+greet("World", isPolite);`;
 
             updateStats();
-            showToast('샘플 로드됨!');
+            showToast('Sample loaded!');
         }
 
         function showToast(message) {

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Biorhythm - Free Biorhythm Calculator</title>
+    <meta name="description" content="Free biorhythm calculator! Analyze your physical, emotional, and intellectual rhythms and check your condition today. Discover your biorhythm by birthdate.">
+    <meta name="keywords" content="biorhythm, biorhythm calculator, physical rhythm, emotional rhythm, intellectual rhythm, daily fortune">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI Biorhythm - Free Biorhythm Calculator">
+    <meta property="og:description" content="Discover today's biorhythm by birthdate! Physical, emotional, and intellectual rhythm analysis.">
+    <meta property="og:type" content="website">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 50%, #0a1628 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00d4ff, #7c3aed, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-section h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            color: #00d4ff;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .date-inputs {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .date-inputs select {
+            padding: 15px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .date-inputs select:focus {
+            border-color: #00d4ff;
+        }
+
+        .date-inputs select option {
+            background: #1a1a2e;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .result-section {
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chart-container {
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .chart-title {
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        .chart-date {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .chart {
+            position: relative;
+            height: 200px;
+            border-left: 2px solid rgba(255,255,255,0.1);
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .chart-zero-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .chart canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.physical { background: #ef4444; }
+        .legend-dot.emotional { background: #22c55e; }
+        .legend-dot.intellectual { background: #3b82f6; }
+
+        .rhythm-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .rhythm-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .rhythm-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .rhythm-card.physical { border-color: rgba(239, 68, 68, 0.3); }
+        .rhythm-card.emotional { border-color: rgba(34, 197, 94, 0.3); }
+        .rhythm-card.intellectual { border-color: rgba(59, 130, 246, 0.3); }
+
+        .rhythm-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .rhythm-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .rhythm-card.physical .rhythm-name { color: #ef4444; }
+        .rhythm-card.emotional .rhythm-name { color: #22c55e; }
+        .rhythm-card.intellectual .rhythm-name { color: #3b82f6; }
+
+        .rhythm-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .rhythm-card.physical .rhythm-value { color: #ef4444; }
+        .rhythm-card.emotional .rhythm-value { color: #22c55e; }
+        .rhythm-card.intellectual .rhythm-value { color: #3b82f6; }
+
+        .rhythm-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .rhythm-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .rhythm-card.physical .rhythm-fill { background: linear-gradient(90deg, #ef4444, #f97316); }
+        .rhythm-card.emotional .rhythm-fill { background: linear-gradient(90deg, #22c55e, #10b981); }
+        .rhythm-card.intellectual .rhythm-fill { background: linear-gradient(90deg, #3b82f6, #6366f1); }
+
+        .rhythm-status {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .overall-section {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1));
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .overall-title {
+            color: #00d4ff;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .overall-score {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .overall-status {
+            font-size: 1.2rem;
+            color: #e4e4e4;
+            margin-bottom: 15px;
+        }
+
+        .overall-desc {
+            color: #888;
+            line-height: 1.7;
+        }
+
+        .advice-section {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .advice-title {
+            color: #f472b6;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .advice-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .advice-item {
+            display: flex;
+            gap: 12px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+
+        .advice-icon {
+            font-size: 1.5rem;
+        }
+
+        .advice-content {
+            flex: 1;
+        }
+
+        .advice-label {
+            font-weight: 600;
+            color: #e4e4e4;
+            margin-bottom: 5px;
+        }
+
+        .advice-text {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            color: white;
+        }
+
+        .retry-btn {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .disclaimer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .action-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Biorhythm</h1>
+            <p class="subtitle">Discover your condition by birthdate</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div id="inputSection">
+            <div class="card">
+                <div class="input-section">
+                    <h3>⏰ Analyze Biorhythm</h3>
+
+                    <div class="input-group">
+                        <label class="input-label">Birth Date</label>
+                        <div class="date-inputs">
+                            <select id="birthYear"></select>
+                            <select id="birthMonth"></select>
+                            <select id="birthDay"></select>
+                        </div>
+                    </div>
+
+                    <button class="analyze-btn" onclick="analyzeBiorhythm()">
+                        📊 Analyze Biorhythm
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section">
+            <div class="card">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <span class="chart-title">Biorhythm Chart</span>
+                        <span class="chart-date" id="chartDate">January 1, 2024</span>
+                    </div>
+                    <div class="chart">
+                        <div class="chart-zero-line"></div>
+                        <canvas id="bioChart"></canvas>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-dot physical"></div>
+                            <span>Physical (23 days)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot emotional"></div>
+                            <span>Emotional (28 days)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot intellectual"></div>
+                            <span>Intellectual (33 days)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rhythm-cards" id="rhythmCards"></div>
+
+                <div class="overall-section">
+                    <div class="overall-title">⭐ Overall Condition</div>
+                    <div class="overall-score" id="overallScore">75</div>
+                    <div class="overall-status" id="overallStatus">Good Condition</div>
+                    <p class="overall-desc" id="overallDesc"></p>
+                </div>
+
+                <div class="advice-section">
+                    <div class="advice-title">💡 Today's Advice</div>
+                    <div class="advice-grid" id="adviceGrid"></div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareResult()">Share</button>
+                    <button class="action-btn retry-btn" onclick="retry()">Retry</button>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                ⚠️ Biorhythm is not scientifically validated. For entertainment only.
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>AI Biorhythm | Free Biorhythm Calculator</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Initialize date selects
+        function initDateSelects() {
+            const yearSelect = document.getElementById('birthYear');
+            const monthSelect = document.getElementById('birthMonth');
+            const daySelect = document.getElementById('birthDay');
+
+            const currentYear = new Date().getFullYear();
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
+            }
+            yearSelect.value = 1990;
+
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${m}</option>`;
+            }
+            monthSelect.value = 1;
+
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}</option>`;
+            }
+            daySelect.value = 1;
+        }
+
+        function calculateBiorhythm(birthDate, targetDate) {
+            const diffTime = targetDate - birthDate;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            const physical = Math.sin((2 * Math.PI * diffDays) / 23) * 100;
+            const emotional = Math.sin((2 * Math.PI * diffDays) / 28) * 100;
+            const intellectual = Math.sin((2 * Math.PI * diffDays) / 33) * 100;
+
+            return { physical, emotional, intellectual, days: diffDays };
+        }
+
+        function analyzeBiorhythm() {
+            const year = parseInt(document.getElementById('birthYear').value);
+            const month = parseInt(document.getElementById('birthMonth').value);
+            const day = parseInt(document.getElementById('birthDay').value);
+
+            const birthDate = new Date(year, month - 1, day);
+            const today = new Date();
+
+            // Calculate biorhythm for chart (14 days)
+            const chartData = [];
+            for (let i = -7; i <= 7; i++) {
+                const date = new Date(today);
+                date.setDate(date.getDate() + i);
+                chartData.push({
+                    date: date,
+                    ...calculateBiorhythm(birthDate, date)
+                });
+            }
+
+            const todayRhythm = chartData[7]; // Today is in the middle
+
+            displayResults(todayRhythm, chartData);
+        }
+
+        function displayResults(rhythm, chartData) {
+            const today = new Date();
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('chartDate').textContent =
+                `${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+
+            // Draw chart
+            drawChart(chartData);
+
+            // Rhythm cards
+            const cardsHTML = [
+                {
+                    type: 'physical',
+                    icon: '💪',
+                    name: 'Physical',
+                    value: rhythm.physical
+                },
+                {
+                    type: 'emotional',
+                    icon: '💖',
+                    name: 'Emotional',
+                    value: rhythm.emotional
+                },
+                {
+                    type: 'intellectual',
+                    icon: '💡',
+                    name: 'Intellectual',
+                    value: rhythm.intellectual
+                }
+            ].map(r => {
+                const percent = Math.round((r.value + 100) / 2);
+                const status = getStatus(r.value);
+                return `
+                    <div class="rhythm-card ${r.type}">
+                        <div class="rhythm-icon">${r.icon}</div>
+                        <div class="rhythm-name">${r.name}</div>
+                        <div class="rhythm-value">${Math.round(r.value)}%</div>
+                        <div class="rhythm-bar">
+                            <div class="rhythm-fill" style="width: ${percent}%"></div>
+                        </div>
+                        <div class="rhythm-status">${status}</div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('rhythmCards').innerHTML = cardsHTML;
+
+            // Overall score
+            const overall = (rhythm.physical + rhythm.emotional + rhythm.intellectual) / 3;
+            const overallPercent = Math.round((overall + 100) / 2);
+            document.getElementById('overallScore').textContent = overallPercent;
+            document.getElementById('overallStatus').textContent = getOverallStatus(overall);
+            document.getElementById('overallDesc').textContent = getOverallDesc(rhythm);
+
+            // Advice
+            document.getElementById('adviceGrid').innerHTML = getAdvice(rhythm);
+
+            document.getElementById('resultSection').classList.add('show');
+        }
+
+        function getStatus(value) {
+            if (value > 50) return 'Peak Condition';
+            if (value > 20) return 'Good State';
+            if (value > -20) return 'Average Level';
+            if (value > -50) return 'Somewhat Low';
+            return 'Rest Needed';
+        }
+
+        function getOverallStatus(value) {
+            if (value > 50) return '⭐ Best Day!';
+            if (value > 20) return '😊 Good Condition';
+            if (value > -20) return '😐 Stable Day';
+            if (value > -50) return '😴 Take It Easy';
+            return '😞 Need Rest';
+        }
+
+        function getOverallDesc(rhythm) {
+            const parts = [];
+            if (rhythm.physical > 30) parts.push('Great energy for exercise');
+            else if (rhythm.physical < -30) parts.push('Avoid heavy exercise');
+
+            if (rhythm.emotional > 30) parts.push('Rich emotions, good for creative work');
+            else if (rhythm.emotional < -30) parts.push('Be mindful of mood swings');
+
+            if (rhythm.intellectual > 30) parts.push('High focus, good for work/study');
+            else if (rhythm.intellectual < -30) parts.push('Postpone important decisions');
+
+            return parts.length > 0 ? parts.join('. ') + '.' : 'Have a balanced day.';
+        }
+
+        function getAdvice(rhythm) {
+            const advice = [];
+
+            // Physical advice
+            if (rhythm.physical > 30) {
+                advice.push({ icon: '🏃', label: 'Exercise', text: 'Full of energy. Intense workout is great!' });
+            } else if (rhythm.physical < -30) {
+                advice.push({ icon: '🛌', label: 'Rest', text: 'Avoid overwork and get enough rest.' });
+            } else {
+                advice.push({ icon: '🚶', label: 'Activity', text: 'Light walking or stretching recommended.' });
+            }
+
+            // Emotional advice
+            if (rhythm.emotional > 30) {
+                advice.push({ icon: '🎨', label: 'Emotions', text: 'Good day for art or relationships.' });
+            } else if (rhythm.emotional < -30) {
+                advice.push({ icon: '🌙', label: 'Mind', text: 'Take some alone time.' });
+            } else {
+                advice.push({ icon: '🌸', label: 'Daily', text: 'Spend the day calmly as usual.' });
+            }
+
+            // Intellectual advice
+            if (rhythm.intellectual > 30) {
+                advice.push({ icon: '📚', label: 'Learning', text: 'Peak focus! Great for study or important work.' });
+            } else if (rhythm.intellectual < -30) {
+                advice.push({ icon: '💭', label: 'Decisions', text: 'Postpone important decisions to tomorrow.' });
+            } else {
+                advice.push({ icon: '📝', label: 'Work', text: 'Handle routine tasks steadily.' });
+            }
+
+            return advice.map(a => `
+                <div class="advice-item">
+                    <div class="advice-icon">${a.icon}</div>
+                    <div class="advice-content">
+                        <div class="advice-label">${a.label}</div>
+                        <div class="advice-text">${a.text}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function drawChart(data) {
+            const canvas = document.getElementById('bioChart');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size
+            canvas.width = canvas.offsetWidth * 2;
+            canvas.height = canvas.offsetHeight * 2;
+            ctx.scale(2, 2);
+
+            const width = canvas.offsetWidth;
+            const height = canvas.offsetHeight;
+            const padding = 10;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw curves
+            const drawCurve = (values, color) => {
+                ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+
+                values.forEach((v, i) => {
+                    const x = padding + (i / (values.length - 1)) * (width - padding * 2);
+                    const y = height / 2 - (v / 100) * (height / 2 - padding);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+
+                ctx.stroke();
+            };
+
+            drawCurve(data.map(d => d.physical), '#ef4444');
+            drawCurve(data.map(d => d.emotional), '#22c55e');
+            drawCurve(data.map(d => d.intellectual), '#3b82f6');
+
+            // Draw today marker
+            const todayX = padding + (7 / 14) * (width - padding * 2);
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+            ctx.setLineDash([5, 5]);
+            ctx.moveTo(todayX, 0);
+            ctx.lineTo(todayX, height);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        function retry() {
+            document.getElementById('resultSection').classList.remove('show');
+        }
+
+        function shareResult() {
+            const score = document.getElementById('overallScore').textContent;
+            const text = `Today's biorhythm overall score: ${score} points! Check your biorhythm.`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI Biorhythm Results',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
+                    showToast('Link copied!');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Initialize
+        initDateSelects();
+    </script>
+</body>
+</html>

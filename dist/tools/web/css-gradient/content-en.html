@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS 그라데이션 생성기 - 무료 온라인 그라데이션 도구</title>
-    <meta name="description" content="무료 CSS 그라데이션 생성기. 간편한 비주얼 에디터로 아름다운 선형 및 원형 그라데이션을 만들고 CSS 코드를 바로 복사하세요.">
-    <meta name="keywords" content="CSS 그라데이션, 그라데이션 생성기, 선형 그라데이션, 원형 그라데이션, CSS 배경, 색상 그라데이션">
+    <title>CSS Gradient Generator - Free Online Gradient Tool</title>
+    <meta name="description" content="Free CSS gradient generator. Create beautiful linear and radial gradients with an easy visual editor and copy the CSS code instantly.">
+    <meta name="keywords" content="CSS gradient, gradient generator, linear gradient, radial gradient, CSS background, color gradient">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="CSS 그라데이션 생성기 - 아름다운 그라데이션 만들기">
-    <meta property="og:description" content="비주얼 컨트롤로 멋진 CSS 그라데이션을 생성하세요. 코드 즉시 복사.">
+    <meta property="og:title" content="CSS Gradient Generator - Create Beautiful Gradients">
+    <meta property="og:description" content="Generate stunning CSS gradients with visual controls. Copy code instantly.">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -424,15 +424,15 @@
 <body>
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="index-ko.html">Korean</a>
         </div>
 
         <header>
-            <h1>CSS 그라데이션 생성기</h1>
-            <p class="subtitle">비주얼 컨트롤로 아름다운 그라데이션 만들기</p>
+            <h1>CSS Gradient Generator</h1>
+            <p class="subtitle">Create Beautiful Gradients with Visual Controls</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="preview-section">
             <div class="gradient-preview" id="preview"></div>
@@ -440,16 +440,16 @@
 
         <div class="controls-section">
             <div class="control-group">
-                <label class="control-label">그라데이션 유형</label>
+                <label class="control-label">Gradient Type</label>
                 <div class="type-buttons">
-                    <button class="type-btn active" data-type="linear" onclick="setType('linear')">선형</button>
-                    <button class="type-btn" data-type="radial" onclick="setType('radial')">원형</button>
-                    <button class="type-btn" data-type="conic" onclick="setType('conic')">원뿔형</button>
+                    <button class="type-btn active" data-type="linear" onclick="setType('linear')">Linear</button>
+                    <button class="type-btn" data-type="radial" onclick="setType('radial')">Radial</button>
+                    <button class="type-btn" data-type="conic" onclick="setType('conic')">Conic</button>
                 </div>
             </div>
 
             <div class="control-group" id="directionControl">
-                <label class="control-label">방향</label>
+                <label class="control-label">Direction</label>
                 <div class="direction-grid">
                     <button class="direction-btn" data-dir="to top left" onclick="setDirection('to top left')">&#8598;</button>
                     <button class="direction-btn" data-dir="to top" onclick="setDirection('to top')">&#8593;</button>
@@ -461,40 +461,40 @@
                     <button class="direction-btn active" data-dir="to left" onclick="setDirection('to left')">&#8592;</button>
                 </div>
                 <div class="angle-control">
-                    <span>사용자 정의 각도:</span>
+                    <span>Custom Angle:</span>
                     <input type="range" class="angle-slider" id="angleSlider" min="0" max="360" value="90" oninput="setAngle(this.value)">
                     <span class="angle-value" id="angleValue">90°</span>
                 </div>
             </div>
 
             <div class="control-group">
-                <label class="control-label">색상 정지점</label>
+                <label class="control-label">Color Stops</label>
                 <div class="color-stops-container" id="colorStops"></div>
-                <button class="add-color-btn" onclick="addColorStop()">+ 색상 추가</button>
+                <button class="add-color-btn" onclick="addColorStop()">+ Add Color</button>
             </div>
         </div>
 
         <div class="code-section">
-            <h2>CSS 코드</h2>
+            <h2>CSS Code</h2>
             <div class="code-box">
                 <pre class="code-content" id="cssCode"></pre>
-                <button class="copy-btn" onclick="copyCode()">복사</button>
+                <button class="copy-btn" onclick="copyCode()">Copy</button>
             </div>
         </div>
 
         <div class="presets-section">
-            <h2>프리셋</h2>
+            <h2>Presets</h2>
             <div class="presets-grid" id="presets"></div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 CSS 그라데이션 생성기 | 아름다운 배경 만들기</p>
+            <p>Free CSS Gradient Generator | Create Beautiful Backgrounds</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사 완료!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         let gradientType = 'linear';
@@ -506,18 +506,18 @@
         ];
 
         const presets = [
-            { colors: ['#667eea', '#764ba2'], name: '퍼플 러브' },
-            { colors: ['#f093fb', '#f5576c'], name: '핑크 선셋' },
-            { colors: ['#4facfe', '#00f2fe'], name: '오션 블루' },
-            { colors: ['#43e97b', '#38f9d7'], name: '프레시 민트' },
-            { colors: ['#fa709a', '#fee140'], name: '선라이즈' },
-            { colors: ['#a8edea', '#fed6e3'], name: '소프트 핑크' },
-            { colors: ['#ff9a9e', '#fecfef'], name: '로즈 워터' },
-            { colors: ['#ffecd2', '#fcb69f'], name: '피치' },
-            { colors: ['#667eea', '#764ba2', '#f093fb'], name: '바이올렛' },
-            { colors: ['#11998e', '#38ef7d'], name: '민트 그린' },
-            { colors: ['#ee0979', '#ff6a00'], name: '웜 플레임' },
-            { colors: ['#2193b0', '#6dd5ed'], name: '쿨 스카이' }
+            { colors: ['#667eea', '#764ba2'], name: 'Purple Love' },
+            { colors: ['#f093fb', '#f5576c'], name: 'Pink Sunset' },
+            { colors: ['#4facfe', '#00f2fe'], name: 'Ocean Blue' },
+            { colors: ['#43e97b', '#38f9d7'], name: 'Fresh Mint' },
+            { colors: ['#fa709a', '#fee140'], name: 'Sunrise' },
+            { colors: ['#a8edea', '#fed6e3'], name: 'Soft Pink' },
+            { colors: ['#ff9a9e', '#fecfef'], name: 'Rose Water' },
+            { colors: ['#ffecd2', '#fcb69f'], name: 'Peach' },
+            { colors: ['#667eea', '#764ba2', '#f093fb'], name: 'Violet' },
+            { colors: ['#11998e', '#38ef7d'], name: 'Mint Green' },
+            { colors: ['#ee0979', '#ff6a00'], name: 'Warm Flame' },
+            { colors: ['#2193b0', '#6dd5ed'], name: 'Cool Sky' }
         ];
 
         function setType(type) {
@@ -630,7 +630,7 @@
         function copyCode() {
             const code = `background: ${generateGradientCSS()};`;
             navigator.clipboard.writeText(code).then(() => {
-                showToast('CSS 코드가 복사되었습니다!');
+                showToast('CSS code copied!');
             });
         }
 
@@ -652,7 +652,7 @@
             }));
             renderColorStops();
             updateGradient();
-            showToast(`적용됨: ${preset.name}`);
+            showToast(`Applied: ${preset.name}`);
         }
 
         function showToast(message) {

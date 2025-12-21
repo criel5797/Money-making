@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>랜덤 뽑기 - 무작위 추첨, 제비뽑기</title>
-    <meta name="description" content="이름이나 항목을 입력하고 랜덤으로 추첨하세요. 당첨자 선정, 순서 정하기, 팀 나누기에 유용합니다.">
-    <meta name="keywords" content="랜덤 뽑기, 추첨, 제비뽑기, 당첨자, 무작위, 룰렛">
-    <meta property="og:title" content="랜덤 뽑기 - 무작위 추첨">
-    <meta property="og:description" content="이름이나 항목을 입력하고 랜덤으로 추첨하세요.">
+    <title>Random Picker - Free Random Draw, Lucky Picker</title>
+    <meta name="description" content="Enter names or items and draw them randomly. Useful for selecting winners, deciding orders, and dividing teams.">
+    <meta name="keywords" content="random picker, draw, lottery, winner, random, roulette">
+    <meta property="og:title" content="Random Picker - Random Draw">
+    <meta property="og:description" content="Enter names or items and draw them randomly.">
     <meta property="og:type" content="website">
-    <link rel="alternate" hreflang="ko" href="index.html">
+    <link rel="alternate" hreflang="en" href="index-en.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="ja" href="index-ja.html">
     <style>
         * {
             margin: 0;
@@ -340,50 +342,50 @@
         <div class="ad-banner">Advertisement</div>
 
         <header>
-            <h1>🎲 랜덤 뽑기</h1>
-            <p class="subtitle">공정한 무작위 추첨으로 행운의 주인공을 찾아보세요</p>
+            <h1>🎲 Random Picker</h1>
+            <p class="subtitle">Find the lucky winner with a fair random draw</p>
         </header>
 
         <div class="input-section">
             <div class="input-group">
-                <label>항목 입력 (줄바꿈으로 구분)</label>
-                <textarea id="items" placeholder="홍길동
-김철수
-이영희
-박민수
-최지영"></textarea>
-                <div class="item-count" id="itemCount">0개 항목</div>
+                <label>Enter items (separated by line breaks)</label>
+                <textarea id="items" placeholder="John Doe
+Jane Smith
+Bob Johnson
+Alice Williams
+Charlie Brown"></textarea>
+                <div class="item-count" id="itemCount">0 items</div>
             </div>
 
             <div class="input-group">
-                <label>뽑을 개수</label>
+                <label>Number to pick</label>
                 <div class="count-input">
                     <input type="number" id="pickCount" value="1" min="1" max="100">
-                    <span>명 추첨</span>
+                    <span>to draw</span>
                 </div>
             </div>
 
-            <button class="pick-btn" id="pickBtn" onclick="startPick()">🎯 추첨하기!</button>
+            <button class="pick-btn" id="pickBtn" onclick="startPick()">🎯 Draw Now!</button>
         </div>
 
         <div class="result-section" id="result">
             <div class="result-card">
-                <div class="result-label">🎉 당첨!</div>
+                <div class="result-label">🎉 Winner!</div>
                 <div id="resultContent"></div>
             </div>
             <div class="btn-group">
                 <button class="retry-btn" onclick="startPick()">
-                    <span>🔄</span> 다시 뽑기
+                    <span>🔄</span> Draw Again
                 </button>
                 <button class="share-btn" onclick="shareResult()">
-                    <span>📤</span> 공유하기
+                    <span>📤</span> Share
                 </button>
             </div>
         </div>
 
         <div class="history-section" id="historySection" style="display: none;">
             <div class="history-title">
-                <span>📜</span> 추첨 기록
+                <span>📜</span> Draw History
             </div>
             <div class="history-list" id="historyList"></div>
         </div>
@@ -391,7 +393,7 @@
         <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
 
         <footer>
-            <p>© 2024 랜덤 뽑기</p>
+            <p>&copy; 2024 Random Picker</p>
         </footer>
     </div>
 
@@ -406,7 +408,7 @@
 
         function updateItemCount() {
             const items = getItems();
-            itemCountDiv.textContent = items.length + '개 항목';
+            itemCountDiv.textContent = items.length + ' items';
         }
 
         function getItems() {
@@ -420,25 +422,25 @@
             const pickCount = parseInt(document.getElementById('pickCount').value);
 
             if (items.length === 0) {
-                alert('추첨할 항목을 입력해주세요.');
+                alert('Please enter items to draw.');
                 return;
             }
 
             if (pickCount > items.length) {
-                alert(`뽑을 개수(${pickCount})가 항목 수(${items.length})보다 많습니다.`);
+                alert(`Number to pick (${pickCount}) is more than items (${items.length}).`);
                 return;
             }
 
             if (pickCount < 1) {
-                alert('최소 1개 이상 뽑아야 합니다.');
+                alert('You must pick at least 1 item.');
                 return;
             }
 
-            // 버튼 비활성화
+            // Disable button
             const pickBtn = document.getElementById('pickBtn');
             pickBtn.disabled = true;
 
-            // 셔플 애니메이션
+            // Shuffle animation
             const resultSection = document.getElementById('result');
             const resultContent = document.getElementById('resultContent');
             resultSection.classList.add('show');
@@ -458,7 +460,7 @@
         }
 
         function showResult(items, pickCount) {
-            // Fisher-Yates 셔플
+            // Fisher-Yates shuffle
             const shuffled = [...items];
             for (let i = shuffled.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -489,9 +491,9 @@
                 resultContent.innerHTML = `<div class="winners-list">${winnersHTML}</div>`;
             }
 
-            // 기록 저장
+            // Save history
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
             history.unshift({
                 winners: [...currentWinners],
                 time: timeStr
@@ -523,21 +525,21 @@
 
             let text;
             if (currentWinners.length === 1) {
-                text = `🎉 랜덤 추첨 결과!\n\n당첨: ${currentWinners[0]}\n\n랜덤 뽑기로 공정하게 추첨했습니다!`;
+                text = `🎉 Random Draw Result!\n\nWinner: ${currentWinners[0]}\n\nFairly selected with Random Picker!`;
             } else {
                 const winnerList = currentWinners.map((w, i) => `${i + 1}. ${w}`).join('\n');
-                text = `🎉 랜덤 추첨 결과!\n\n${winnerList}\n\n랜덤 뽑기로 공정하게 추첨했습니다!`;
+                text = `🎉 Random Draw Result!\n\n${winnerList}\n\nFairly selected with Random Picker!`;
             }
 
             if (navigator.share) {
                 navigator.share({
-                    title: '랜덤 추첨 결과',
+                    title: 'Random Draw Result',
                     text: text,
                     url: window.location.href
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
+                    alert('Result copied to clipboard!');
                 });
             }
         }

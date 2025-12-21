@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UUID 생성기 - 무료 온라인 UUID/GUID 생성</title>
-    <meta name="description" content="UUID (v1, v4)를 즉시 생성하세요. 대량 생성, 복사, 다운로드 기능이 포함된 무료 온라인 UUID 생성기.">
-    <meta name="keywords" content="uuid 생성기, guid 생성기, uuid v4, 랜덤 uuid, 고유 아이디 생성">
-    <meta property="og:title" content="UUID 생성기 - 무료 온라인 UUID/GUID 생성">
-    <meta property="og:description" content="UUID를 즉시 생성하세요. 대량 생성 지원.">
+    <title>UUID生成器 - 無料オンラインUUID/GUIDジェネレーター</title>
+    <meta name="description" content="UUID（v1、v4）を即座に生成。一括生成、コピー、ダウンロード機能を備えた無料オンラインUUIDジェネレーター。">
+    <meta name="keywords" content="uuid generator, guid generator, uuid v4, ランダムuuid, ユニークid生成">
+    <meta property="og:title" content="UUID生成器 - 無料オンラインUUID/GUIDジェネレーター">
+    <meta property="og:description" content="UUIDを即座に生成。一括生成をサポート。">
     <meta property="og:type" content="website">
 
     <style>
@@ -24,7 +24,7 @@
             --success: #22c55e;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -260,28 +260,28 @@
 
     <div class="container">
         <header>
-            <h1>UUID 생성기</h1>
-            <p class="subtitle">고유 식별자를 즉시 생성하세요</p>
+            <h1>UUID生成器</h1>
+            <p class="subtitle">ユニーク識別子を即座に生成</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告</div>
 
         <div class="main-card">
             <div class="uuid-display">
-                <span class="uuid-text" id="uuidDisplay">생성 버튼을 클릭하세요</span>
-                <button class="copy-btn" onclick="copyUUID()">📋 복사</button>
+                <span class="uuid-text" id="uuidDisplay">生成ボタンをクリック</span>
+                <button class="copy-btn" onclick="copyUUID()">📋 コピー</button>
             </div>
 
             <div class="options-row">
                 <div class="option-group">
-                    <span class="option-label">버전:</span>
+                    <span class="option-label">バージョン:</span>
                     <select id="versionSelect">
-                        <option value="4" selected>v4 (랜덤)</option>
-                        <option value="1">v1 (타임스탬프)</option>
+                        <option value="4" selected>v4 (ランダム)</option>
+                        <option value="1">v1 (タイムスタンプ)</option>
                     </select>
                 </div>
                 <div class="option-group">
-                    <span class="option-label">개수:</span>
+                    <span class="option-label">数:</span>
                     <input type="number" id="countInput" value="1" min="1" max="100">
                 </div>
             </div>
@@ -289,65 +289,65 @@
             <div class="checkbox-group" style="margin-bottom: 20px;">
                 <div class="checkbox-item">
                     <input type="checkbox" id="uppercase">
-                    <label for="uppercase">대문자</label>
+                    <label for="uppercase">大文字</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="noDashes">
-                    <label for="noDashes">하이픈 제거</label>
+                    <label for="noDashes">ハイフン削除</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="braces">
-                    <label for="braces">중괄호 추가 {}</label>
+                    <label for="braces">中括弧を追加 {}</label>
                 </div>
             </div>
 
-            <button class="generate-btn" onclick="generate()">🎲 UUID 생성</button>
+            <button class="generate-btn" onclick="generate()">🎲 UUID生成</button>
         </div>
 
         <div class="bulk-section" id="bulkSection">
             <div class="bulk-header">
-                <span class="bulk-title" id="bulkTitle">생성된 UUID</span>
+                <span class="bulk-title" id="bulkTitle">生成されたUUID</span>
                 <div class="bulk-actions">
-                    <button class="btn-sm" onclick="copyAll()">📋 전체 복사</button>
-                    <button class="btn-sm" onclick="downloadAll()">💾 다운로드</button>
-                    <button class="btn-sm" onclick="clearBulk()">🗑️ 지우기</button>
+                    <button class="btn-sm" onclick="copyAll()">📋 全てコピー</button>
+                    <button class="btn-sm" onclick="downloadAll()">💾 ダウンロード</button>
+                    <button class="btn-sm" onclick="clearBulk()">🗑️ クリア</button>
                 </div>
             </div>
             <div class="bulk-list" id="bulkList"></div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告</div>
 
         <div class="info-section">
-            <h3>UUID란?</h3>
-            <p>UUID (범용 고유 식별자)는 공간과 시간 모두에서 고유한 128비트 식별자입니다. UUID는 중앙 조정 기관 없이도 정보를 식별하기 위해 소프트웨어 개발에서 사용됩니다.</p>
+            <h3>UUIDとは？</h3>
+            <p>UUID（Universally Unique Identifier、汎用一意識別子）は、空間と時間の両方でユニークな128ビットの識別子です。UUIDは、中央調整機関なしに情報を識別するためにソフトウェア開発で使用されます。</p>
 
             <div class="info-grid">
                 <div class="info-card">
-                    <h4>UUID v4 (랜덤)</h4>
-                    <p>랜덤 또는 의사 난수를 사용하여 생성됩니다. 일반적인 용도로 가장 많이 사용됩니다.</p>
-                    <p>예: <code>550e8400-e29b-41d4-a716-446655440000</code></p>
+                    <h4>UUID v4（ランダム）</h4>
+                    <p>乱数または疑似乱数を使用して生成されます。一般的な用途で最もよく使用されます。</p>
+                    <p>例: <code>550e8400-e29b-41d4-a716-446655440000</code></p>
                 </div>
                 <div class="info-card">
-                    <h4>UUID v1 (타임스탬프)</h4>
-                    <p>타임스탬프와 MAC 주소를 기반으로 합니다. 시간순으로 정렬된 ID가 필요할 때 유용합니다.</p>
-                    <p>예: <code>6ba7b810-9dad-11d1-80b4-00c04fd430c8</code></p>
+                    <h4>UUID v1（タイムスタンプ）</h4>
+                    <p>タイムスタンプとMACアドレスに基づいています。時間順のIDが必要な場合に便利です。</p>
+                    <p>例: <code>6ba7b810-9dad-11d1-80b4-00c04fd430c8</code></p>
                 </div>
             </div>
         </div>
 
         <div class="info-section">
-            <h3>일반적인 사용 사례</h3>
-            <p>• 데이터베이스 기본 키</p>
-            <p>• 세션 식별자</p>
-            <p>• API 요청 추적</p>
-            <p>• 파일 이름 지정</p>
-            <p>• 분산 시스템</p>
+            <h3>一般的な使用例</h3>
+            <p>• データベース主キー</p>
+            <p>• セッション識別子</p>
+            <p>• APIリクエスト追跡</p>
+            <p>• ファイル命名</p>
+            <p>• 分散システム</p>
         </div>
 
         <footer>
-            <p>개발자를 위해 ❤️ 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>開発者のために ❤️ 作成</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
         </footer>
     </div>
 
@@ -395,13 +395,13 @@
             const bulkSection = document.getElementById('bulkSection');
             if (count > 1) {
                 bulkSection.classList.add('show');
-                document.getElementById('bulkTitle').textContent = `${count}개의 UUID 생성됨`;
+                document.getElementById('bulkTitle').textContent = `${count}個のUUIDを生成`;
                 renderBulkList();
             } else {
                 bulkSection.classList.remove('show');
             }
 
-            showToast(count + '개의 UUID 생성됨');
+            showToast(count + '個のUUIDを生成しました');
         }
 
         function renderBulkList() {
@@ -409,27 +409,27 @@
             list.innerHTML = generatedUUIDs.map((uuid, i) =>
                 `<div class="bulk-item">
                     <span>${uuid}</span>
-                    <button class="bulk-item-copy" onclick="copyOne('${uuid}')">복사</button>
+                    <button class="bulk-item-copy" onclick="copyOne('${uuid}')">コピー</button>
                 </div>`
             ).join('');
         }
 
         function copyUUID() {
             const uuid = document.getElementById('uuidDisplay').textContent;
-            if (uuid && !uuid.includes('클릭')) {
+            if (uuid && !uuid.includes('クリック')) {
                 navigator.clipboard.writeText(uuid);
-                showToast('복사됨!');
+                showToast('コピーしました！');
             }
         }
 
         function copyOne(uuid) {
             navigator.clipboard.writeText(uuid);
-            showToast('복사됨!');
+            showToast('コピーしました！');
         }
 
         function copyAll() {
             navigator.clipboard.writeText(generatedUUIDs.join('\n'));
-            showToast('전체 UUID 복사됨!');
+            showToast('全てのUUIDをコピーしました！');
         }
 
         function downloadAll() {
@@ -440,13 +440,13 @@
             a.download = 'uuids.txt';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드 완료!');
+            showToast('ダウンロード完了！');
         }
 
         function clearBulk() {
             generatedUUIDs = [];
             document.getElementById('bulkSection').classList.remove('show');
-            document.getElementById('uuidDisplay').textContent = '생성 버튼을 클릭하세요';
+            document.getElementById('uuidDisplay').textContent = '生成ボタンをクリック';
         }
 
         function showToast(msg) {

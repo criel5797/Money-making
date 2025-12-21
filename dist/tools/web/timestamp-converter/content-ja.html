@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unix 타임스탬프 변환기 - 무료 온라인 Epoch 시간 도구</title>
-    <meta name="description" content="Unix 타임스탬프를 사람이 읽을 수 있는 날짜로 변환하고 그 반대로도 변환하세요. 다양한 시간대를 지원하는 무료 온라인 에폭 시간 변환기.">
-    <meta name="keywords" content="유닉스 타임스탬프, epoch 변환기, 타임스탬프 날짜 변환, 에폭 시간, 유닉스 시간">
-    <meta property="og:title" content="Unix 타임스탬프 변환기 - 무료 온라인 Epoch 시간 도구">
-    <meta property="og:description" content="Unix 타임스탬프를 날짜로 즉시 변환하세요.">
+    <title>Unixタイムスタンプ変換器 - 無料オンラインエポック時間ツール</title>
+    <meta name="description" content="Unixタイムスタンプを人間が読める日付に変換し、その逆も行います。複数のタイムゾーンに対応した無料オンラインエポック時間変換器。">
+    <meta name="keywords" content="Unixタイムスタンプ, エポック変換器, タイムスタンプ日付変換, エポック時間, Unix時間">
+    <meta property="og:title" content="Unixタイムスタンプ変換器 - 無料オンラインエポック時間ツール">
+    <meta property="og:description" content="Unixタイムスタンプを日付に即座に変換します。">
     <meta property="og:type" content="website">
 
     <style>
@@ -24,7 +24,7 @@
             --success: #22c55e;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -215,126 +215,126 @@
 <script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"타임스탬프 변환기","en":"Timestamp Converter","ja":"タイムスタンプ変換"},"desc":{"ko":"Unix 타임스탬프 변환","en":"Unix Timestamp Conversion","ja":"Unixタイムスタンプ変換"}},"header":{"title":{"ko":"타임스탬프 변환기","en":"Timestamp Converter","ja":"タイムスタンプ変換"},"subtitle":{"ko":"Unix 시간 ↔ 날짜 변환","en":"Unix Time ↔ Date","ja":"Unix時間 ↔ 日付"}},"current":{"label":{"ko":"현재 타임스탬프","en":"Current Timestamp","ja":"現在のタイムスタンプ"}},"tsToDate":{"title":{"ko":"타임스탬프 → 날짜","en":"Timestamp → Date","ja":"タイムスタンプ → 日付"},"label":{"ko":"타임스탬프","en":"Timestamp","ja":"タイムスタンプ"},"format":{"ko":"형식","en":"Format","ja":"形式"},"btn":{"ko":"변환하기","en":"Convert","ja":"変換"}},"dateToTs":{"title":{"ko":"날짜 → 타임스탬프","en":"Date → Timestamp","ja":"日付 → タイムスタンプ"},"label":{"ko":"날짜 및 시간","en":"Date & Time","ja":"日時"},"outFormat":{"ko":"출력 형식","en":"Output Format","ja":"出力形式"},"btn":{"ko":"변환하기","en":"Convert","ja":"変換"}},"results":{"local":{"ko":"로컬 시간","en":"Local Time","ja":"現地時間"},"utc":{"ko":"UTC 시간","en":"UTC Time","ja":"UTC時間"},"iso":{"ko":"ISO 8601","en":"ISO 8601","ja":"ISO 8601"},"ts":{"ko":"Unix 타임스탬프","en":"Unix Timestamp","ja":"Unixタイムスタンプ"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"ref":{"title":{"ko":"빠른 참조","en":"Quick Reference","ja":"クイックリファレンス"}},"info":{"title":{"ko":"타임스탬프란?","en":"What is Timestamp?","ja":"タイムスタンプとは？"}}};</script></head>
 <body>
     <div class="lang-switch">
-        <a href="index.html">English</a>
+        <a href="index-ko.html">한국어</a>
     </div>
 
     <div class="container">
         <header>
-            <h1>타임스탬프 변환기</h1>
-            <p class="subtitle">Unix 타임스탬프와 날짜 간 변환</p>
+            <h1>タイムスタンプ変換器</h1>
+            <p class="subtitle">Unixタイムスタンプと日付の間で変換</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告</div>
 
         <div class="current-time">
-            <div class="current-label">현재 Unix 타임스탬프</div>
+            <div class="current-label">現在のUnixタイムスタンプ</div>
             <div class="current-value" id="currentTimestamp" onclick="copyCurrentTimestamp()">-</div>
             <div class="current-date" id="currentDate">-</div>
         </div>
 
         <div class="converters">
             <div class="converter-card">
-                <h2 class="card-title">타임스탬프 → 날짜</h2>
+                <h2 class="card-title">タイムスタンプ → 日付</h2>
                 <div class="input-group">
-                    <label class="input-label">Unix 타임스탬프</label>
-                    <input type="text" id="timestampInput" placeholder="예: 1702500000">
+                    <label class="input-label">Unixタイムスタンプ</label>
+                    <input type="text" id="timestampInput" placeholder="例: 1702500000">
                 </div>
                 <div class="input-group">
-                    <label class="input-label">형식</label>
+                    <label class="input-label">形式</label>
                     <select id="timestampFormat">
-                        <option value="s">초 단위</option>
-                        <option value="ms">밀리초 단위</option>
+                        <option value="s">秒単位</option>
+                        <option value="ms">ミリ秒単位</option>
                     </select>
                 </div>
-                <button class="convert-btn" onclick="timestampToDate()">날짜로 변환</button>
+                <button class="convert-btn" onclick="timestampToDate()">日付に変換</button>
                 <div class="result-box" id="dateResult" style="display:none;">
-                    <div class="result-label">현지 시간</div>
+                    <div class="result-label">ローカル時間</div>
                     <div class="result-value">
                         <span id="localTime">-</span>
-                        <button class="copy-btn" onclick="copyResult('localTime')">복사</button>
+                        <button class="copy-btn" onclick="copyResult('localTime')">コピー</button>
                     </div>
-                    <div class="result-label" style="margin-top:15px;">UTC 시간</div>
+                    <div class="result-label" style="margin-top:15px;">UTC時間</div>
                     <div class="result-value">
                         <span id="utcTime">-</span>
-                        <button class="copy-btn" onclick="copyResult('utcTime')">복사</button>
+                        <button class="copy-btn" onclick="copyResult('utcTime')">コピー</button>
                     </div>
                     <div class="result-label" style="margin-top:15px;">ISO 8601</div>
                     <div class="result-value">
                         <span id="isoTime">-</span>
-                        <button class="copy-btn" onclick="copyResult('isoTime')">복사</button>
+                        <button class="copy-btn" onclick="copyResult('isoTime')">コピー</button>
                     </div>
                 </div>
             </div>
 
             <div class="converter-card">
-                <h2 class="card-title">날짜 → 타임스탬프</h2>
+                <h2 class="card-title">日付 → タイムスタンプ</h2>
                 <div class="input-group">
-                    <label class="input-label">날짜 및 시간</label>
+                    <label class="input-label">日付と時刻</label>
                     <input type="datetime-local" id="dateInput">
                 </div>
                 <div class="input-group">
-                    <label class="input-label">출력 형식</label>
+                    <label class="input-label">出力形式</label>
                     <select id="outputFormat">
-                        <option value="s">초 단위</option>
-                        <option value="ms">밀리초 단위</option>
+                        <option value="s">秒単位</option>
+                        <option value="ms">ミリ秒単位</option>
                     </select>
                 </div>
-                <button class="convert-btn" onclick="dateToTimestamp()">타임스탬프로 변환</button>
+                <button class="convert-btn" onclick="dateToTimestamp()">タイムスタンプに変換</button>
                 <div class="result-box" id="timestampResult" style="display:none;">
-                    <div class="result-label">Unix 타임스탬프</div>
+                    <div class="result-label">Unixタイムスタンプ</div>
                     <div class="result-value">
                         <span id="resultTimestamp">-</span>
-                        <button class="copy-btn" onclick="copyResult('resultTimestamp')">복사</button>
+                        <button class="copy-btn" onclick="copyResult('resultTimestamp')">コピー</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="quick-ref">
-            <h3>빠른 참조</h3>
+            <h3>クイックリファレンス</h3>
             <div class="ref-grid">
                 <div class="ref-item" onclick="useTimestamp(0)">
-                    <div class="ref-label">Unix Epoch</div>
-                    <div class="ref-value">0 (1970년 1월 1일)</div>
+                    <div class="ref-label">Unixエポック</div>
+                    <div class="ref-value">0 (1970年1月1日)</div>
                 </div>
                 <div class="ref-item" onclick="useTimestamp(1000000000)">
-                    <div class="ref-label">10억</div>
-                    <div class="ref-value">1000000000 (2001년 9월 9일)</div>
+                    <div class="ref-label">10億</div>
+                    <div class="ref-value">1000000000 (2001年9月9日)</div>
                 </div>
                 <div class="ref-item" onclick="useTimestamp(2000000000)">
-                    <div class="ref-label">20억</div>
-                    <div class="ref-value">2000000000 (2033년 5월 18일)</div>
+                    <div class="ref-label">20億</div>
+                    <div class="ref-value">2000000000 (2033年5月18日)</div>
                 </div>
                 <div class="ref-item" onclick="useTimestamp(2147483647)">
-                    <div class="ref-label">Y2K38 문제</div>
-                    <div class="ref-value">2147483647 (2038년 1월 19일)</div>
+                    <div class="ref-label">Y2K38問題</div>
+                    <div class="ref-value">2147483647 (2038年1月19日)</div>
                 </div>
             </div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告</div>
 
         <div class="info-section">
-            <h3>Unix 타임스탬프란?</h3>
-            <p>Unix 타임스탬프(에폭 시간 또는 POSIX 시간이라고도 함)는 1970년 1월 1일 00:00:00 UTC 이후 경과된 초 수이며, 윤초는 포함되지 않습니다.</p>
-            <p>Unix 타임스탬프는 다음과 같은 이유로 프로그래밍과 데이터베이스에서 일반적으로 사용됩니다:</p>
-            <p>• <strong>범용적</strong> - 시간대에 관계없이 어디서나 동일</p>
-            <p>• <strong>단순함</strong> - 단일 숫자</p>
-            <p>• <strong>비교 용이</strong> - 간단한 정수 비교</p>
-            <p>• <strong>컴팩트</strong> - 날짜 문자열보다 저장 공간이 적음</p>
+            <h3>Unixタイムスタンプとは？</h3>
+            <p>Unixタイムスタンプ（エポック時間またはPOSIX時間とも呼ばれます）は、1970年1月1日00:00:00 UTC以降に経過した秒数で、うるう秒は含まれません。</p>
+            <p>Unixタイムスタンプは、次の理由でプログラミングやデータベースで一般的に使用されています：</p>
+            <p>• <strong>普遍的</strong> - タイムゾーンに関係なくどこでも同じ</p>
+            <p>• <strong>シンプル</strong> - 単一の数値</p>
+            <p>• <strong>比較が簡単</strong> - 単純な整数比較</p>
+            <p>• <strong>コンパクト</strong> - 日付文字列よりもストレージが少ない</p>
         </div>
 
         <div class="info-section">
-            <h3>일반적인 타임스탬프 형식</h3>
-            <p>• <strong>초</strong> - 가장 일반적인 형식 (현재 날짜의 경우 10자리)</p>
-            <p>• <strong>밀리초</strong> - JavaScript에서 사용 (13자리)</p>
-            <p>• <strong>마이크로초</strong> - 고정밀도 (16자리)</p>
-            <p>• <strong>나노초</strong> - 매우 높은 정밀도 (19자리)</p>
+            <h3>一般的なタイムスタンプ形式</h3>
+            <p>• <strong>秒</strong> - 最も一般的な形式（現在の日付で10桁）</p>
+            <p>• <strong>ミリ秒</strong> - JavaScriptで使用（13桁）</p>
+            <p>• <strong>マイクロ秒</strong> - 高精度（16桁）</p>
+            <p>• <strong>ナノ秒</strong> - 非常に高い精度（19桁）</p>
         </div>
 
         <footer>
-            <p>개발자를 위해 정성껏 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>開発者のために丁寧に作成しました</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
         </footer>
     </div>
 
@@ -344,7 +344,7 @@
         function updateCurrentTime() {
             const now = Math.floor(Date.now() / 1000);
             document.getElementById('currentTimestamp').textContent = now;
-            document.getElementById('currentDate').textContent = new Date().toLocaleString('ko-KR');
+            document.getElementById('currentDate').textContent = new Date().toLocaleString('ja-JP');
         }
         updateCurrentTime();
         setInterval(updateCurrentTime, 1000);
@@ -358,13 +358,13 @@
             const format = document.getElementById('timestampFormat').value;
 
             if (!ts) {
-                showToast('타임스탬프를 입력하세요');
+                showToast('タイムスタンプを入力してください');
                 return;
             }
 
             ts = parseInt(ts);
             if (isNaN(ts)) {
-                showToast('유효하지 않은 타임스탬프');
+                showToast('無効なタイムスタンプ');
                 return;
             }
 
@@ -372,16 +372,16 @@
             const date = new Date(ms);
 
             if (isNaN(date.getTime())) {
-                showToast('유효하지 않은 타임스탬프');
+                showToast('無効なタイムスタンプ');
                 return;
             }
 
-            document.getElementById('localTime').textContent = date.toLocaleString('ko-KR');
+            document.getElementById('localTime').textContent = date.toLocaleString('ja-JP');
             document.getElementById('utcTime').textContent = date.toUTCString();
             document.getElementById('isoTime').textContent = date.toISOString();
             document.getElementById('dateResult').style.display = 'block';
 
-            showToast('변환 완료!');
+            showToast('変換完了！');
         }
 
         function dateToTimestamp() {
@@ -389,13 +389,13 @@
             const format = document.getElementById('outputFormat').value;
 
             if (!dateStr) {
-                showToast('날짜를 선택하세요');
+                showToast('日付を選択してください');
                 return;
             }
 
             const date = new Date(dateStr);
             if (isNaN(date.getTime())) {
-                showToast('유효하지 않은 날짜');
+                showToast('無効な日付');
                 return;
             }
 
@@ -405,7 +405,7 @@
             document.getElementById('resultTimestamp').textContent = result;
             document.getElementById('timestampResult').style.display = 'block';
 
-            showToast('변환 완료!');
+            showToast('変換完了！');
         }
 
         function useTimestamp(ts) {
@@ -416,13 +416,13 @@
         function copyCurrentTimestamp() {
             const ts = document.getElementById('currentTimestamp').textContent;
             navigator.clipboard.writeText(ts);
-            showToast('타임스탬프 복사됨!');
+            showToast('タイムスタンプをコピーしました！');
         }
 
         function copyResult(elementId) {
             const text = document.getElementById(elementId).textContent;
             navigator.clipboard.writeText(text);
-            showToast('복사됨!');
+            showToast('コピーしました！');
         }
 
         function showToast(msg) {

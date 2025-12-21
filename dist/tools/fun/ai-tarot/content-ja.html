@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 타로 카드 - 무료 온라인 타로 점 | 오늘의 운세</title>
-    <meta name="description" content="무료 AI 타로 카드로 오늘의 운세를 확인하세요. 연애운, 재물운, 직장운을 타로 카드로 알아보세요. 매일 새로운 타로 리딩.">
-    <meta name="keywords" content="타로, 타로카드, 무료타로, 오늘의운세, 연애운, 재물운, AI타로">
+    <title>AIタロットカード - 無料オンラインタロット占い | 今日の運勢</title>
+    <meta name="description" content="無料AIタロットカードで今日の運勢を確認しましょう。恋愛運、金運、仕事運をタロットカードで占います。毎日新しいタロットリーディング。">
+    <meta name="keywords" content="タロット, タロットカード, 無料タロット, 今日の運勢, 恋愛運, 金運, AIタロット">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="AI 타로 카드 - 무료 온라인 타로 점">
-    <meta property="og:description" content="무료 AI 타로로 오늘의 운세를 확인하세요">
+    <meta property="og:title" content="AIタロットカード - 無料オンラインタロット占い">
+    <meta property="og:description" content="無料AIタロットで今日の運勢を確認しましょう">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a0a2e/ffd700?text=AI+타로+카드">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a0a2e/ffd700?text=AI+タロット+カード">
 
     <style>
         .toast {
@@ -40,7 +40,7 @@
         }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #1a0a2e 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -435,62 +435,62 @@
 
     <div class="container">
         <header>
-            <h1>AI 타로 카드</h1>
-            <p class="subtitle">신비로운 타로 카드로 오늘의 운세를 확인하세요</p>
+            <h1>AIタロットカード</h1>
+            <p class="subtitle">神秘的なタロットカードで今日の運勢を確認しましょう</p>
         </header>
 
-        <div class="ad-banner">Advertisement</div>
+        <div class="ad-banner">広告</div>
 
         <div class="disclaimer">
-            재미로 즐기는 타로 점입니다. 중요한 결정은 신중하게 판단하세요.
+            楽しみのためのタロット占いです。重要な決定は慎重に判断してください。
         </div>
 
         <div id="selectionPhase">
-            <h2 style="text-align:center; color:#c44dff; margin-bottom:20px;">어떤 스프레드로 볼까요?</h2>
+            <h2 style="text-align:center; color:#c44dff; margin-bottom:20px;">どのスプレッドで見ますか?</h2>
 
             <div class="spread-selection">
                 <div class="spread-option active" data-spread="1" onclick="selectSpread(1)">
-                    <h3>원카드</h3>
-                    <p>오늘의 메시지<br>간단한 질문에 적합</p>
+                    <h3>ワンカード</h3>
+                    <p>今日のメッセージ<br>簡単な質問に適しています</p>
                 </div>
                 <div class="spread-option" data-spread="3" onclick="selectSpread(3)">
-                    <h3>쓰리카드</h3>
-                    <p>과거-현재-미래<br>상황 분석에 적합</p>
+                    <h3>スリーカード</h3>
+                    <p>過去-現在-未来<br>状況分析に適しています</p>
                 </div>
                 <div class="spread-option" data-spread="5" onclick="selectSpread(5)">
-                    <h3>연애운</h3>
-                    <p>나-상대-관계-조언-결과<br>연애 고민에 적합</p>
+                    <h3>恋愛運</h3>
+                    <p>私-相手-関係-アドバイス-結果<br>恋愛の悩みに適しています</p>
                 </div>
             </div>
 
             <div class="question-section">
-                <h2>질문을 입력하세요 (선택)</h2>
-                <input type="text" class="question-input" id="question" placeholder="예: 이번 달 나의 연애운은 어떨까요?">
+                <h2>質問を入力してください（任意）</h2>
+                <input type="text" class="question-input" id="question" placeholder="例: 今月の私の恋愛運はどうですか？">
             </div>
 
             <div class="controls">
                 <button class="btn btn-primary" onclick="startReading()">
-                    카드 뽑기
+                    カードを引く
                 </button>
             </div>
         </div>
 
         <div id="cardPhase" style="display:none;">
-            <h2 style="text-align:center; color:#c44dff; margin-bottom:10px;">카드를 클릭하여 뒤집으세요</h2>
-            <p style="text-align:center; color:#b8a9c9; margin-bottom:20px;" id="flipInstruction">카드를 하나씩 클릭하세요</p>
+            <h2 style="text-align:center; color:#c44dff; margin-bottom:10px;">カードをクリックして裏返してください</h2>
+            <p style="text-align:center; color:#b8a9c9; margin-bottom:20px;" id="flipInstruction">カードを一つずつクリックしてください</p>
 
             <div class="cards-container" id="cardsContainer"></div>
 
             <div class="controls">
                 <button class="btn btn-primary" id="revealBtn" onclick="revealReading()" disabled>
-                    해석 보기
+                    解釈を見る
                 </button>
             </div>
         </div>
 
         <div class="loading" id="loading">
             <div class="loading-spinner"></div>
-            <p style="color:#b8a9c9;">타로 카드의 의미를 해석하고 있습니다...</p>
+            <p style="color:#b8a9c9;">タロットカードの意味を解釈しています...</p>
         </div>
 
         <div class="reading-section" id="readingSection">
@@ -498,56 +498,53 @@
 
             <div class="share-section">
                 <button class="share-btn" onclick="shareResult()">
-                    결과 공유하기
+                    結果を共有する
                 </button>
                 <button class="share-btn" onclick="resetReading()" style="margin-left:10px;">
-                    다시 뽑기
+                    もう一度引く
                 </button>
             </div>
         </div>
 
-        <div class="ad-banner">Advertisement</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>이 타로 점은 재미와 영감을 위한 것입니다.<br>중요한 결정은 전문가와 상담하세요.</p>
+            <p>このタロット占いは楽しみとインスピレーションのためのものです。<br>重要な決定は専門家に相談してください。</p>
         </footer>
     </div>
 
     <script>
-        // i18n helper - uses global tKo if available
-        function _t(text) { return typeof tKo !== 'undefined' ? tKo(text) : text; }
-
-        // 타로 카드 데이터 (메이저 아르카나)
+        // タロットカードデータ（メジャーアルカナ）
         const tarotCards = [
-            { id: 0, name: "광대", symbol: "🃏", meaning: { upright: "새로운 시작, 순수함, 자유로운 영혼, 모험", reversed: "무모함, 경솔함, 위험 감수" }},
-            { id: 1, name: "마법사", symbol: "🔮", meaning: { upright: "창조력, 의지력, 기술, 능력 발휘", reversed: "속임수, 능력 남용, 미숙함" }},
-            { id: 2, name: "여사제", symbol: "🌙", meaning: { upright: "직관, 신비, 내면의 지혜, 잠재의식", reversed: "숨겨진 동기, 직관 무시, 비밀" }},
-            { id: 3, name: "여황제", symbol: "👑", meaning: { upright: "풍요, 모성애, 아름다움, 자연", reversed: "의존성, 창조력 부족, 과잉보호" }},
-            { id: 4, name: "황제", symbol: "🏛️", meaning: { upright: "권위, 안정, 리더십, 구조", reversed: "독재, 경직됨, 통제 과잉" }},
-            { id: 5, name: "교황", symbol: "⛪", meaning: { upright: "전통, 신념, 가르침, 영적 지도", reversed: "관습 타파, 새로운 방식, 반항" }},
-            { id: 6, name: "연인", symbol: "💕", meaning: { upright: "사랑, 조화, 선택, 관계", reversed: "불균형, 갈등, 잘못된 선택" }},
-            { id: 7, name: "전차", symbol: "🏆", meaning: { upright: "승리, 의지력, 결단력, 행동", reversed: "장애물, 방향 상실, 공격성" }},
-            { id: 8, name: "힘", symbol: "🦁", meaning: { upright: "용기, 인내, 내면의 힘, 자제력", reversed: "자기 의심, 약함, 불안" }},
-            { id: 9, name: "은둔자", symbol: "🏔️", meaning: { upright: "내면 탐구, 명상, 지혜 추구, 고독", reversed: "고립, 외로움, 지나친 은둔" }},
-            { id: 10, name: "운명의 수레바퀴", symbol: "☸️", meaning: { upright: "변화, 순환, 행운, 전환점", reversed: "저항, 불운, 변화 거부" }},
-            { id: 11, name: "정의", symbol: "⚖️", meaning: { upright: "공정함, 진실, 균형, 인과응보", reversed: "불공정, 부정직, 책임 회피" }},
-            { id: 12, name: "매달린 사람", symbol: "🙃", meaning: { upright: "희생, 새로운 시각, 인내, 깨달음", reversed: "지연, 저항, 무의미한 희생" }},
-            { id: 13, name: "죽음", symbol: "🦋", meaning: { upright: "끝과 시작, 변화, 전환, 재탄생", reversed: "변화 저항, 정체, 두려움" }},
-            { id: 14, name: "절제", symbol: "🌈", meaning: { upright: "균형, 조화, 인내, 중용", reversed: "불균형, 극단, 과잉" }},
-            { id: 15, name: "악마", symbol: "⛓️", meaning: { upright: "속박, 유혹, 물질주의, 그림자 자아", reversed: "해방, 두려움 극복, 자유" }},
-            { id: 16, name: "탑", symbol: "🗼", meaning: { upright: "급격한 변화, 혼란, 깨달음, 해방", reversed: "변화 회피, 재난 방지, 두려움" }},
-            { id: 17, name: "별", symbol: "⭐", meaning: { upright: "희망, 영감, 평화, 치유", reversed: "절망, 희망 상실, 불신" }},
-            { id: 18, name: "달", symbol: "🌕", meaning: { upright: "직관, 꿈, 무의식, 환상", reversed: "혼란, 두려움, 기만" }},
-            { id: 19, name: "태양", symbol: "☀️", meaning: { upright: "기쁨, 성공, 활력, 긍정", reversed: "일시적 우울, 자만, 지연된 성공" }},
-            { id: 20, name: "심판", symbol: "📯", meaning: { upright: "부활, 각성, 평가, 재탄생", reversed: "자기 의심, 판단 회피, 후회" }},
-            { id: 21, name: "세계", symbol: "🌍", meaning: { upright: "완성, 통합, 성취, 여행", reversed: "미완성, 지연, 목표 부재" }}
+            { id: 0, name: "愚者", symbol: "🃏", meaning: { upright: "新しい始まり、純粋さ、自由な精神、冒険", reversed: "無謀、軽率、リスクを取る" }},
+            { id: 1, name: "魔術師", symbol: "🔮", meaning: { upright: "創造力、意志力、技術、能力発揮", reversed: "詐欺、能力の乱用、未熟さ" }},
+            { id: 2, name: "女教皇", symbol: "🌙", meaning: { upright: "直感、神秘、内なる知恵、潜在意識", reversed: "隠された動機、直感を無視、秘密" }},
+            { id: 3, name: "女帝", symbol: "👑", meaning: { upright: "豊かさ、母性愛、美しさ、自然", reversed: "依存性、創造力不足、過保護" }},
+            { id: 4, name: "皇帝", symbol: "🏛️", meaning: { upright: "権威、安定、リーダーシップ、構造", reversed: "独裁、硬直、過度な統制" }},
+            { id: 5, name: "教皇", symbol: "⛪", meaning: { upright: "伝統、信念、教え、精神的指導", reversed: "慣習の打破、新しい方法、反抗" }},
+            { id: 6, name: "恋人", symbol: "💕", meaning: { upright: "愛、調和、選択、関係", reversed: "不均衡、葛藤、間違った選択" }},
+            { id: 7, name: "戦車", symbol: "🏆", meaning: { upright: "勝利、意志力、決断力、行動", reversed: "障害物、方向喪失、攻撃性" }},
+            { id: 8, name: "力", symbol: "🦁", meaning: { upright: "勇気、忍耐、内なる力、自制心", reversed: "自己疑念、弱さ、不安" }},
+            { id: 9, name: "隠者", symbol: "🏔️", meaning: { upright: "内面探求、瞑想、知恵の追求、孤独", reversed: "孤立、寂しさ、過度な隠遁" }},
+            { id: 10, name: "運命の輪", symbol: "☸️", meaning: { upright: "変化、循環、幸運、転換点", reversed: "抵抗、不運、変化拒否" }},
+            { id: 11, name: "正義", symbol: "⚖️", meaning: { upright: "公正さ、真実、バランス、因果応報", reversed: "不公正、不正直、責任回避" }},
+            { id: 12, name: "吊るされた男", symbol: "🙃", meaning: { upright: "犠牲、新しい視点、忍耐、悟り", reversed: "遅延、抵抗、無意味な犠牲" }},
+            { id: 13, name: "死神", symbol: "🦋", meaning: { upright: "終わりと始まり、変化、転換、再生", reversed: "変化抵抗、停滞、恐れ" }},
+            { id: 14, name: "節制", symbol: "🌈", meaning: { upright: "バランス、調和、忍耐、中庸", reversed: "不均衡、極端、過剰" }},
+            { id: 15, name: "悪魔", symbol: "⛓️", meaning: { upright: "束縛、誘惑、物質主義、影の自己", reversed: "解放、恐れを克服、自由" }},
+            { id: 16, name: "塔", symbol: "🗼", meaning: { upright: "急激な変化、混乱、悟り、解放", reversed: "変化回避、災害防止、恐れ" }},
+            { id: 17, name: "星", symbol: "⭐", meaning: { upright: "希望、インスピレーション、平和、癒し", reversed: "絶望、希望喪失、不信" }},
+            { id: 18, name: "月", symbol: "🌕", meaning: { upright: "直感、夢、無意識、幻想", reversed: "混乱、恐れ、欺瞞" }},
+            { id: 19, name: "太陽", symbol: "☀️", meaning: { upright: "喜び、成功、活力、ポジティブ", reversed: "一時的な憂鬱、自惚れ、遅れた成功" }},
+            { id: 20, name: "審判", symbol: "📯", meaning: { upright: "復活、覚醒、評価、再生", reversed: "自己疑念、判断回避、後悔" }},
+            { id: 21, name: "世界", symbol: "🌍", meaning: { upright: "完成、統合、達成、旅行", reversed: "未完成、遅延、目標不在" }}
         ];
 
         let selectedSpread = 1;
         let selectedCards = [];
         let flippedCount = 0;
 
-        // 별 배경 생성
+        // 星の背景を生成
         function createStars() {
             const starsContainer = document.getElementById('stars');
             for (let i = 0; i < 100; i++) {
@@ -606,8 +603,8 @@
                         </div>
                         <div class="card-front" style="${card.reversed ? 'transform: rotateY(180deg) rotateZ(180deg);' : ''}">
                             <div class="card-symbol">${card.symbol}</div>
-                            <div class="card-name">${_t(card.name)}</div>
-                            <div class="card-number">${card.reversed ? _t('(역방향)') : ''}</div>
+                            <div class="card-name">${card.name}</div>
+                            <div class="card-number">${card.reversed ? '(逆位置)' : ''}</div>
                         </div>
                     </div>
                 `;
@@ -634,9 +631,9 @@
         function updateFlipInstruction() {
             const remaining = selectedSpread - flippedCount;
             if (remaining > 0) {
-                document.getElementById('flipInstruction').textContent = _t('남은 카드:') + ' ' + remaining + _t('장');
+                document.getElementById('flipInstruction').textContent = `残りのカード: ${remaining}枚`;
             } else {
-                document.getElementById('flipInstruction').textContent = _t('모든 카드를 뒤집었습니다!');
+                document.getElementById('flipInstruction').textContent = 'すべてのカードを裏返しました!';
             }
         }
 
@@ -651,39 +648,39 @@
         }
 
         function generateReading() {
-            const question = document.getElementById('question').value || _t('오늘의 운세');
+            const question = document.getElementById('question').value || '今日の運勢';
             const readingContent = document.getElementById('readingContent');
 
             let html = `
                 <div class="reading-card">
-                    <h3>🔮 ${_t('질문')}</h3>
+                    <h3>🔮 質問</h3>
                     <p style="color:#ffd700; font-size:18px;">"${question}"</p>
                 </div>
             `;
 
             const positions = {
-                1: [_t('오늘의 메시지')],
-                3: [_t('과거'), _t('현재'), _t('미래')],
-                5: [_t('나의 상태'), _t('상대의 마음'), _t('현재 관계'), _t('조언'), _t('미래 결과')]
+                1: ['今日のメッセージ'],
+                3: ['過去', '現在', '未来'],
+                5: ['私の状態', '相手の心', '現在の関係', 'アドバイス', '未来の結果']
             };
 
             selectedCards.forEach((card, index) => {
                 const position = positions[selectedSpread][index];
-                const meaning = card.reversed ? _t(card.meaning.reversed) : _t(card.meaning.upright);
-                const direction = card.reversed ? _t('(역방향)') : _t('(정방향)');
+                const meaning = card.reversed ? card.meaning.reversed : card.meaning.upright;
+                const direction = card.reversed ? '(逆位置)' : '(正位置)';
 
                 html += `
                     <div class="reading-card">
-                        <h3>${card.symbol} ${position}: ${_t(card.name)} ${direction}</h3>
+                        <h3>${card.symbol} ${position}: ${card.name} ${direction}</h3>
                         <p>${generateInterpretation(card, position, question)}</p>
                         <div class="card-meaning">
                             <div class="meaning-item">
-                                <h4>${_t('정방향 의미')}</h4>
-                                <p>${_t(card.meaning.upright)}</p>
+                                <h4>正位置の意味</h4>
+                                <p>${card.meaning.upright}</p>
                             </div>
                             <div class="meaning-item">
-                                <h4>${_t('역방향 의미')}</h4>
-                                <p>${_t(card.meaning.reversed)}</p>
+                                <h4>逆位置の意味</h4>
+                                <p>${card.meaning.reversed}</p>
                             </div>
                         </div>
                     </div>
@@ -692,7 +689,7 @@
 
             html += `
                 <div class="reading-card overall-reading">
-                    <h3>✨ ${_t('종합 해석')}</h3>
+                    <h3>✨ 総合解釈</h3>
                     <p>${generateOverallReading()}</p>
                 </div>
             `;
@@ -703,39 +700,39 @@
 
         function generateInterpretation(card, position, question) {
             const templates = [
-                `${card.name} 카드가 ${position} 자리에 나왔습니다. 이는 ${card.reversed ? card.meaning.reversed : card.meaning.upright}을(를) 의미합니다. 지금 당신에게 필요한 것은 이 에너지를 인식하고 받아들이는 것입니다.`,
-                `${position}에서 ${card.name}이(가) 나타났습니다. ${card.reversed ? '역방향으로 나왔으므로, ' + card.meaning.reversed + '에 주의가 필요합니다.' : '정방향이므로, ' + card.meaning.upright + '의 에너지가 당신과 함께합니다.'}`,
-                `이 자리의 ${card.name}은(는) ${card.reversed ? '도전과 성장의 기회를 암시합니다. ' + card.meaning.reversed : '긍정적인 흐름을 보여줍니다. ' + card.meaning.upright}. 이 메시지를 마음에 새기세요.`
+                `${card.name}カードが${position}の位置に出ました。これは${card.reversed ? card.meaning.reversed : card.meaning.upright}を意味します。今あなたに必要なのは、このエネルギーを認識し受け入れることです。`,
+                `${position}で${card.name}が現れました。${card.reversed ? '逆位置で出たので、' + card.meaning.reversed + 'に注意が必要です。' : '正位置なので、' + card.meaning.upright + 'のエネルギーがあなたと共にあります。'}`,
+                `この位置の${card.name}は${card.reversed ? '挑戦と成長の機会を暗示します。' + card.meaning.reversed : '肯定的な流れを示しています。' + card.meaning.upright}。このメッセージを心に刻んでください。`
             ];
             return templates[Math.floor(Math.random() * templates.length)];
         }
 
         function generateOverallReading() {
-            const cardNames = selectedCards.map(c => c.name).join(', ');
+            const cardNames = selectedCards.map(c => c.name).join('、');
             const hasReversed = selectedCards.some(c => c.reversed);
 
             const templates = [
-                `오늘 뽑힌 카드들(${cardNames})은 당신의 현재 상황과 잠재력을 보여줍니다. ${hasReversed ? '역방향 카드가 있어 약간의 도전이 예상되지만, 이는 성장의 기회입니다.' : '전반적으로 긍정적인 에너지가 흐르고 있습니다.'} 직관을 믿고 한 걸음씩 나아가세요.`,
-                `이번 리딩에서 ${cardNames}이(가) 나왔습니다. 이 카드들의 조합은 변화와 성장의 시기를 암시합니다. ${hasReversed ? '내면의 두려움을 직면하고 극복할 때입니다.' : '우주가 당신 편이니 자신감을 가지세요.'} 중요한 것은 현재에 집중하는 것입니다.`,
-                `${cardNames} - 이 카드들이 전하는 메시지는 명확합니다. ${hasReversed ? '현재 어려움이 있더라도 그것은 일시적입니다. 인내와 지혜로 극복하세요.' : '좋은 흐름이 계속되고 있으니 감사하는 마음을 가지세요.'} 오늘 하루도 당신의 내면의 빛을 따르세요.`
+                `今日引かれたカード（${cardNames}）は、あなたの現在の状況と潜在能力を示しています。${hasReversed ? '逆位置のカードがあり、若干の挑戦が予想されますが、これは成長の機会です。' : '全体的に肯定的なエネルギーが流れています。'}直感を信じて一歩ずつ進んでください。`,
+                `このリーディングで${cardNames}が出ました。これらのカードの組み合わせは変化と成長の時期を暗示します。${hasReversed ? '内面の恐れに直面し克服する時です。' : '宇宙があなたの味方なので自信を持ってください。'}重要なのは現在に集中することです。`,
+                `${cardNames} - これらのカードが伝えるメッセージは明確です。${hasReversed ? '現在困難があっても、それは一時的です。忍耐と知恵で克服してください。' : '良い流れが続いているので感謝の心を持ってください。'}今日も内なる光に従ってください。`
             ];
             return templates[Math.floor(Math.random() * templates.length)];
         }
 
         function shareResult() {
-            const cardNames = selectedCards.map(c => _t(c.name) + (c.reversed ? _t('(역방향)') : '')).join(', ');
-            const text = `🔮 ${_t('오늘의 타로:')}: ${cardNames}\n${_t('나도 뽑아보기')} 👉`;
+            const cardNames = selectedCards.map(c => c.name + (c.reversed ? '(逆位置)' : '')).join('、');
+            const text = `🔮 今日のタロット: ${cardNames}\n私も引いてみる 👉`;
 
             if (navigator.share) {
                 navigator.share({
-                    title: _t('AI 타로 카드') + ' ' + _t('결과'),
+                    title: 'AIタロットカード 結果',
                     text: text
                 }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 ' + _t('결과가 복사되었어요!')));
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました!'));
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 ' + _t('결과가 복사되었어요!'));
+                    showToast('📋 結果がコピーされました!');
                 });
             }
         }

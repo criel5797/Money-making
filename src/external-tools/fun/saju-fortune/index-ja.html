@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI四柱推命 - 無料四柱八字運勢 | 生年月日運勢</title>
+    <meta name="description" content="無料AI四柱推命！生年月日時で調べるあなたの四柱八字。性格、財運、恋愛運、職業運まで詳しい四柱分析を提供します。">
+    <meta name="keywords" content="四柱推命,四柱八字,無料四柱推命,生年月日運勢,今日の運勢,四柱推命占い">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI四柱推命 - 無料四柱八字運勢">
+    <meta property="og:description" content="生年月日で調べる私の四柱八字！">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=AI+四柱推命">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #c44dff);
+            color: #1a1a2e;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .mystic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #555;
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        select, input {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 14px;
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: #ffd700;
+        }
+
+        select option {
+            background: #1a1a2e;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .gender-option {
+            flex: 1;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .gender-option:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .gender-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .gender-option span {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .bagua {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .result-section {
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .saju-chart {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .saju-pillar {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(196,77,255,0.1));
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .pillar-title {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .pillar-char {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .pillar-char.chun {
+            color: #ffd700;
+        }
+
+        .pillar-char.ji {
+            color: #c44dff;
+        }
+
+        .pillar-element {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .analysis-section {
+            margin-bottom: 25px;
+        }
+
+        .analysis-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .analysis-content {
+            color: #ccc;
+            line-height: 1.9;
+            font-size: 15px;
+        }
+
+        .fortune-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .fortune-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .fortune-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .fortune-name {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .fortune-score {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .fortune-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .fortune-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            border-radius: 2px;
+            transition: width 1s ease;
+        }
+
+        .element-section {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .element-item {
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .element-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .element-item.wood { background: rgba(0, 200, 83, 0.2); color: #00c853; }
+        .element-item.fire { background: rgba(255, 82, 82, 0.2); color: #ff5252; }
+        .element-item.earth { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        .element-item.metal { background: rgba(255, 255, 255, 0.2); color: #fff; }
+        .element-item.water { background: rgba(33, 150, 243, 0.2); color: #2196f3; }
+
+        .element-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .element-count {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            color: #1a1a2e;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .card { padding: 25px; }
+            .saju-chart { grid-template-columns: repeat(2, 1fr); }
+            .element-section { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="mystic-bg"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>AI四柱推命</h1>
+            <p class="subtitle">生年月日時で調べるあなたの運命</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            お遊びで楽しむ四柱推命です。重要な決定の根拠にしないでください。
+        </div>
+
+        <div class="card" id="inputSection">
+            <div class="input-section">
+                <h2>生年月日時を入力してください</h2>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>性別</label>
+                        <div class="gender-options">
+                            <div class="gender-option selected" onclick="selectGender('male', this)">
+                                <span>&#9794;</span>
+                                男性
+                            </div>
+                            <div class="gender-option" onclick="selectGender('female', this)">
+                                <span>&#9792;</span>
+                                女性
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>暦</label>
+                            <select id="calendarType">
+                                <option value="solar">太陽暦</option>
+                                <option value="lunar">太陰暦</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>生まれ年</label>
+                            <select id="year"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>月</label>
+                            <select id="month"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>日</label>
+                            <select id="day"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>生まれた時間</label>
+                            <select id="hour">
+                                <option value="-1">不明</option>
+                                <option value="0">子時 (23:30-01:30)</option>
+                                <option value="1">丑時 (01:30-03:30)</option>
+                                <option value="2">寅時 (03:30-05:30)</option>
+                                <option value="3">卯時 (05:30-07:30)</option>
+                                <option value="4">辰時 (07:30-09:30)</option>
+                                <option value="5">巳時 (09:30-11:30)</option>
+                                <option value="6">午時 (11:30-13:30)</option>
+                                <option value="7">未時 (13:30-15:30)</option>
+                                <option value="8">申時 (15:30-17:30)</option>
+                                <option value="9">酉時 (17:30-19:30)</option>
+                                <option value="10">戌時 (19:30-21:30)</option>
+                                <option value="11">亥時 (21:30-23:30)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" onclick="analyzeSaju()">
+                        四柱推命を見る
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="bagua">☯</div>
+            <p style="color:#ffd700;">四柱八字を分析しています...</p>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="card">
+                <h2 style="color:#ffd700; text-align:center; margin-bottom:25px;">あなたの四柱八字</h2>
+
+                <div class="saju-chart" id="sajuChart"></div>
+
+                <div class="element-section" id="elementSection"></div>
+            </div>
+
+            <div class="card">
+                <div class="fortune-grid" id="fortuneGrid"></div>
+            </div>
+
+            <div class="card">
+                <div id="analysisContent"></div>
+            </div>
+
+            <div class="share-buttons">
+                <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                <button class="share-btn secondary" onclick="retryAnalysis()">やり直す</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>この四柱推命はお遊びです。<br>重要な決定は専門家とご相談ください。</p>
+        </footer>
+    </div>
+
+    <script>
+        // 天干
+        const heavenlyStems = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+        const stemElements = ['木', '木', '火', '火', '土', '土', '金', '金', '水', '水'];
+
+        // 地支
+        const earthlyBranches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+        const branchElements = ['水', '土', '木', '木', '土', '火', '火', '土', '金', '金', '土', '水'];
+
+        // 五行
+        const elements = { '木': 'wood', '火': 'fire', '土': 'earth', '金': 'metal', '水': 'water' };
+        const elementNames = { 'wood': '木', 'fire': '火', 'earth': '土', 'metal': '金', 'water': '水' };
+
+        let selectedGender = 'male';
+        let resultData = {};
+
+        // 初期化
+        function init() {
+            const yearSelect = document.getElementById('year');
+            const currentYear = new Date().getFullYear();
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}年</option>`;
+            }
+
+            const monthSelect = document.getElementById('month');
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${m}月</option>`;
+            }
+
+            const daySelect = document.getElementById('day');
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}日</option>`;
+            }
+        }
+        init();
+
+        function selectGender(gender, element) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function calculateSaju(year, month, day, hour) {
+            // 年柱計算
+            const yearStemIdx = (year - 4) % 10;
+            const yearBranchIdx = (year - 4) % 12;
+
+            // 月柱計算（簡略化）
+            const monthStemIdx = ((year - 4) % 5 * 2 + month + 1) % 10;
+            const monthBranchIdx = (month + 1) % 12;
+
+            // 日柱計算（簡略化 - 実際には万年暦が必要）
+            const dayOffset = Math.floor((year - 1900) * 365.25 + (month - 1) * 30.44 + day);
+            const dayStemIdx = dayOffset % 10;
+            const dayBranchIdx = dayOffset % 12;
+
+            // 時柱計算
+            let hourStemIdx = 0;
+            let hourBranchIdx = 0;
+            if (hour >= 0) {
+                hourBranchIdx = hour;
+                hourStemIdx = (dayStemIdx % 5 * 2 + hour) % 10;
+            }
+
+            return {
+                year: { stem: yearStemIdx, branch: yearBranchIdx },
+                month: { stem: monthStemIdx, branch: monthBranchIdx },
+                day: { stem: dayStemIdx, branch: dayBranchIdx },
+                hour: hour >= 0 ? { stem: hourStemIdx, branch: hourBranchIdx } : null
+            };
+        }
+
+        function analyzeSaju() {
+            const year = parseInt(document.getElementById('year').value);
+            const month = parseInt(document.getElementById('month').value);
+            const day = parseInt(document.getElementById('day').value);
+            const hour = parseInt(document.getElementById('hour').value);
+
+            if (!year || !month || !day) {
+                showToast('⚠️ 生年月日を入力してください。');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                const saju = calculateSaju(year, month, day, hour);
+                resultData = generateAnalysis(saju, selectedGender);
+                displayResult(saju);
+            }, 2500);
+        }
+
+        function generateAnalysis(saju, gender) {
+            // 五行分布計算
+            const elementCount = { '木': 0, '火': 0, '土': 0, '金': 0, '水': 0 };
+
+            const pillars = ['year', 'month', 'day'];
+            if (saju.hour) pillars.push('hour');
+
+            pillars.forEach(pillar => {
+                elementCount[stemElements[saju[pillar].stem]]++;
+                elementCount[branchElements[saju[pillar].branch]]++;
+            });
+
+            // 日干（日柱天干）基準分析
+            const dayMaster = stemElements[saju.day.stem];
+
+            // 運勢スコア生成
+            const fortunes = {
+                overall: 60 + Math.floor(Math.random() * 35),
+                love: 50 + Math.floor(Math.random() * 45),
+                wealth: 55 + Math.floor(Math.random() * 40),
+                career: 55 + Math.floor(Math.random() * 40),
+                health: 60 + Math.floor(Math.random() * 35)
+            };
+
+            return { elementCount, dayMaster, fortunes, gender };
+        }
+
+        function displayResult(saju) {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            // 四柱チャート
+            const chartHtml = `
+                <div class="saju-pillar">
+                    <div class="pillar-title">年柱</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.year.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.year.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.year.stem]} / ${branchElements[saju.year.branch]}</div>
+                </div>
+                <div class="saju-pillar">
+                    <div class="pillar-title">月柱</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.month.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.month.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.month.stem]} / ${branchElements[saju.month.branch]}</div>
+                </div>
+                <div class="saju-pillar">
+                    <div class="pillar-title">日柱</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.day.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.day.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.day.stem]} / ${branchElements[saju.day.branch]}</div>
+                </div>
+                ${saju.hour ? `
+                <div class="saju-pillar">
+                    <div class="pillar-title">時柱</div>
+                    <div class="pillar-char chun">${heavenlyStems[saju.hour.stem]}</div>
+                    <div class="pillar-char ji">${earthlyBranches[saju.hour.branch]}</div>
+                    <div class="pillar-element">${stemElements[saju.hour.stem]} / ${branchElements[saju.hour.branch]}</div>
+                </div>
+                ` : `
+                <div class="saju-pillar" style="opacity:0.5">
+                    <div class="pillar-title">時柱</div>
+                    <div class="pillar-char">?</div>
+                    <div class="pillar-char">?</div>
+                    <div class="pillar-element">時間未入力</div>
+                </div>
+                `}
+            `;
+            document.getElementById('sajuChart').innerHTML = chartHtml;
+
+            // 五行分布
+            let elementHtml = '';
+            for (const [elem, cls] of Object.entries(elements)) {
+                elementHtml += `
+                    <div class="element-item ${cls}">
+                        <div class="element-name">${elem}</div>
+                        <div class="element-count">${resultData.elementCount[elem]}個</div>
+                    </div>
+                `;
+            }
+            document.getElementById('elementSection').innerHTML = elementHtml;
+
+            // 運勢グリッド
+            const fortuneIcons = {
+                overall: '⭐', love: '💕', wealth: '💰', career: '💼', health: '❤️'
+            };
+            const fortuneNames = {
+                overall: '総合運', love: '恋愛運', wealth: '財運', career: '職業運', health: '健康運'
+            };
+
+            let fortuneHtml = '';
+            for (const [key, score] of Object.entries(resultData.fortunes)) {
+                fortuneHtml += `
+                    <div class="fortune-item">
+                        <div class="fortune-icon">${fortuneIcons[key]}</div>
+                        <div class="fortune-name">${fortuneNames[key]}</div>
+                        <div class="fortune-score">${score}点</div>
+                        <div class="fortune-bar">
+                            <div class="fortune-fill" style="width:${score}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('fortuneGrid').innerHTML = fortuneHtml;
+
+            // 詳細分析
+            document.getElementById('analysisContent').innerHTML = generateDetailedAnalysis();
+        }
+
+        function generateDetailedAnalysis() {
+            const analyses = {
+                personality: {
+                    title: '性格分析',
+                    icon: '👤',
+                    texts: [
+                        'あなたは深い内面の世界を持つ人です。表面は落ち着いて見えますが、内面には熱い情熱を秘めています。他人の感情をよく理解し、共感能力に優れています。',
+                        'リーダーシップと推進力が強い方です。目標を定めると最後までやり遂げる執念があり、困難な状況でも諦めない強さを持っています。',
+                        '創造的で独創的な思考方式を持っています。他人とは違う視点で世界を見て、新しいアイデアを思いつくことが好きです。'
+                    ]
+                },
+                love: {
+                    title: '恋愛運',
+                    icon: '💕',
+                    texts: [
+                        '愛において真剣で献身的なタイプです。一度心を与えると簡単に変わらず、相手のために多くのことを犠牲にする準備ができています。',
+                        '恋愛初期は慎重ですが、関係が深まるほど深い愛情を表現します。安定的で信頼できるパートナーになれます。',
+                        '感情表現が苦手かもしれませんが、行動で愛を示すタイプです。相手の細かいところまで気を配る優しさがあります。'
+                    ]
+                },
+                career: {
+                    title: '職業運',
+                    icon: '💼',
+                    texts: [
+                        '専門性を活かせる分野で頭角を現すことができます。着実な努力で分野の専門家になる可能性が高いです。',
+                        '組織内で重要な役割を担うことになる運です。信頼を基盤にますます大きな責任を任されることになります。',
+                        '起業や自営業にも適性があります。独立して働く時、より大きな成果を出せる気があります。'
+                    ]
+                },
+                wealth: {
+                    title: '財運',
+                    icon: '💰',
+                    texts: [
+                        '安定的な財産蓄積が可能な四柱です。大きな幸運よりは着実な努力で財産を貯めるタイプです。',
+                        '投資においては慎重なアプローチが必要です。安全な投資方式があなたにもっと合うかもしれません。',
+                        '中年以降に財運が上昇する流れです。若い時に積んだ経験と人脈が後で大きな助けになります。'
+                    ]
+                },
+                advice: {
+                    title: 'アドバイス',
+                    icon: '💡',
+                    texts: [
+                        '時には他人の意見にも耳を傾ける必要があります。頑固さを捨てて柔軟に対応すればより良い結果を得られます。',
+                        '健康管理に気をつけてください。特にストレス管理が重要です。規則的な運動と十分な休息をお勧めします。',
+                        '人間関係をおろそかにしないでください。良いご縁があなたの運を大きく変えることができます。'
+                    ]
+                }
+            };
+
+            let html = '';
+            for (const [key, data] of Object.entries(analyses)) {
+                const randomText = data.texts[Math.floor(Math.random() * data.texts.length)];
+                html += `
+                    <div class="analysis-section">
+                        <div class="analysis-title">
+                            <span>${data.icon}</span>
+                            <span>${data.title}</span>
+                        </div>
+                        <div class="analysis-content">${randomText}</div>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function shareResult() {
+            const text = `私の四柱推命結果\n` +
+                        `総合運: ${resultData.fortunes.overall}点\n` +
+                        `恋愛運: ${resultData.fortunes.love}点\n` +
+                        `財運: ${resultData.fortunes.wealth}点\n\n` +
+                        `私も四柱推命を見る 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'AI四柱推命', text: text }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 結果がコピーされました！');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function retryAnalysis() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

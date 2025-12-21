@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 바이오리듬 - 무료 바이오리듬 계산기</title>
-    <meta name="description" content="무료 바이오리듬 계산! 신체, 감성, 지성 리듬을 분석하고 오늘의 컨디션을 확인하세요. 생년월일로 바이오리듬을 알아보세요.">
-    <meta name="keywords" content="바이오리듬, 바이오리듬 계산기, 신체리듬, 감성리듬, 지성리듬, 오늘의 운세">
+    <title>AI バイオリズム - 無料バイオリズム計算機</title>
+    <meta name="description" content="無料バイオリズム計算！身体・感情・知性リズムを分析して今日のコンディションをチェック。生年月日からバイオリズムを確認しましょう。">
+    <meta name="keywords" content="バイオリズム, バイオリズム計算機, 身体リズム, 感情リズム, 知性リズム, 今日の運勢">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="AI 바이오리듬 - 무료 바이오리듬 계산기">
-    <meta property="og:description" content="생년월일로 알아보는 오늘의 바이오리듬! 신체, 감성, 지성 리듬 분석.">
+    <meta property="og:title" content="AI バイオリズム - 無料バイオリズム計算機">
+    <meta property="og:description" content="生年月日で調べる今日のバイオリズム！身体・感情・知性リズム分析。">
     <meta property="og:type" content="website">
 
     <style>
@@ -20,7 +20,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', sans-serif;
             background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 50%, #0a1628 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -436,19 +436,19 @@
 <body>
     <div class="container">
         <header>
-            <h1>AI 바이오리듬</h1>
-            <p class="subtitle">생년월일로 알아보는 오늘의 컨디션</p>
+            <h1>AI バイオリズム</h1>
+            <p class="subtitle">生年月日で調べる今日のコンディション</p>
         </header>
 
-        <div class="ad-banner">Advertisement</div>
+        <div class="ad-banner">広告</div>
 
         <div id="inputSection">
             <div class="card">
                 <div class="input-section">
-                    <h3>&#128338; 바이오리듬 분석하기</h3>
+                    <h3>&#128338; バイオリズム分析</h3>
 
                     <div class="input-group">
-                        <label class="input-label">생년월일</label>
+                        <label class="input-label">生年月日</label>
                         <div class="date-inputs">
                             <select id="birthYear"></select>
                             <select id="birthMonth"></select>
@@ -457,7 +457,7 @@
                     </div>
 
                     <button class="analyze-btn" onclick="analyzeBiorhythm()">
-                        &#128202; 바이오리듬 분석하기
+                        &#128202; バイオリズムを分析する
                     </button>
                 </div>
             </div>
@@ -467,8 +467,8 @@
             <div class="card">
                 <div class="chart-container">
                     <div class="chart-header">
-                        <span class="chart-title">바이오리듬 차트</span>
-                        <span class="chart-date" id="chartDate">2024년 1월 1일</span>
+                        <span class="chart-title">バイオリズムチャート</span>
+                        <span class="chart-date" id="chartDate">2024年1月1日</span>
                     </div>
                     <div class="chart">
                         <div class="chart-zero-line"></div>
@@ -477,15 +477,15 @@
                     <div class="legend">
                         <div class="legend-item">
                             <div class="legend-dot physical"></div>
-                            <span>신체 (23일)</span>
+                            <span>身体 (23日)</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-dot emotional"></div>
-                            <span>감성 (28일)</span>
+                            <span>感情 (28日)</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-dot intellectual"></div>
-                            <span>지성 (33일)</span>
+                            <span>知性 (33日)</span>
                         </div>
                     </div>
                 </div>
@@ -493,32 +493,32 @@
                 <div class="rhythm-cards" id="rhythmCards"></div>
 
                 <div class="overall-section">
-                    <div class="overall-title">&#127775; 오늘의 종합 컨디션</div>
+                    <div class="overall-title">&#127775; 今日の総合コンディション</div>
                     <div class="overall-score" id="overallScore">75</div>
-                    <div class="overall-status" id="overallStatus">양호한 상태입니다</div>
+                    <div class="overall-status" id="overallStatus">良好な状態です</div>
                     <p class="overall-desc" id="overallDesc"></p>
                 </div>
 
                 <div class="advice-section">
-                    <div class="advice-title">&#128161; 오늘의 조언</div>
+                    <div class="advice-title">&#128161; 今日のアドバイス</div>
                     <div class="advice-grid" id="adviceGrid"></div>
                 </div>
 
                 <div class="action-buttons">
-                    <button class="action-btn share-btn" onclick="shareResult()">공유하기</button>
-                    <button class="action-btn retry-btn" onclick="retry()">다시 분석</button>
+                    <button class="action-btn share-btn" onclick="shareResult()">シェアする</button>
+                    <button class="action-btn retry-btn" onclick="retry()">もう一度分析</button>
                 </div>
             </div>
 
             <div class="disclaimer">
-                &#9888;&#65039; 바이오리듬은 과학적으로 검증되지 않은 이론입니다. 재미로만 참고하세요.
+                &#9888;&#65039; バイオリズムは科学的に検証されていない理論です。娯楽としてお楽しみください。
             </div>
         </div>
 
-        <div class="ad-banner">Advertisement</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>AI 바이오리듬 | 무료 바이오리듬 계산기</p>
+            <p>AI バイオリズム | 無料バイオリズム計算機</p>
         </footer>
     </div>
 
@@ -533,17 +533,17 @@
 
             const currentYear = new Date().getFullYear();
             for (let y = currentYear; y >= 1940; y--) {
-                yearSelect.innerHTML += `<option value="${y}">${y}년</option>`;
+                yearSelect.innerHTML += `<option value="${y}">${y}年</option>`;
             }
             yearSelect.value = 1990;
 
             for (let m = 1; m <= 12; m++) {
-                monthSelect.innerHTML += `<option value="${m}">${m}월</option>`;
+                monthSelect.innerHTML += `<option value="${m}">${m}月</option>`;
             }
             monthSelect.value = 1;
 
             for (let d = 1; d <= 31; d++) {
-                daySelect.innerHTML += `<option value="${d}">${d}일</option>`;
+                daySelect.innerHTML += `<option value="${d}">${d}日</option>`;
             }
             daySelect.value = 1;
         }
@@ -586,7 +586,7 @@
         function displayResults(rhythm, chartData) {
             const today = new Date();
             document.getElementById('chartDate').textContent =
-                `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+                `${today.getFullYear()}年${today.getMonth() + 1}月${today.getDate()}日`;
 
             // Draw chart
             drawChart(chartData);
@@ -596,19 +596,19 @@
                 {
                     type: 'physical',
                     icon: '&#128170;',
-                    name: '신체 리듬',
+                    name: '身体リズム',
                     value: rhythm.physical
                 },
                 {
                     type: 'emotional',
                     icon: '&#128150;',
-                    name: '감성 리듬',
+                    name: '感情リズム',
                     value: rhythm.emotional
                 },
                 {
                     type: 'intellectual',
                     icon: '&#128161;',
-                    name: '지성 리듬',
+                    name: '知性リズム',
                     value: rhythm.intellectual
                 }
             ].map(r => {
@@ -643,33 +643,33 @@
         }
 
         function getStatus(value) {
-            if (value > 50) return '최상의 컨디션';
-            if (value > 20) return '좋은 상태';
-            if (value > -20) return '평균 수준';
-            if (value > -50) return '다소 저조';
-            return '휴식이 필요';
+            if (value > 50) return '最高のコンディション';
+            if (value > 20) return '良い状態';
+            if (value > -20) return '平均的';
+            if (value > -50) return 'やや低調';
+            return '休息が必要';
         }
 
         function getOverallStatus(value) {
-            if (value > 50) return '&#127775; 최고의 날입니다!';
-            if (value > 20) return '&#128522; 좋은 컨디션입니다';
-            if (value > -20) return '&#128528; 무난한 하루입니다';
-            if (value > -50) return '&#128564; 조금 쉬어가세요';
-            return '&#128546; 충분한 휴식이 필요해요';
+            if (value > 50) return '&#127775; 最高の日です！';
+            if (value > 20) return '&#128522; 良いコンディションです';
+            if (value > -20) return '&#128528; 普通の一日です';
+            if (value > -50) return '&#128564; 少し休んでください';
+            return '&#128546; 十分な休息が必要です';
         }
 
         function getOverallDesc(rhythm) {
             const parts = [];
-            if (rhythm.physical > 30) parts.push('체력이 좋아 운동하기 좋은 날');
-            else if (rhythm.physical < -30) parts.push('무리한 운동은 피하세요');
+            if (rhythm.physical > 30) parts.push('体力が良く運動に適した日');
+            else if (rhythm.physical < -30) parts.push('無理な運動は避けてください');
 
-            if (rhythm.emotional > 30) parts.push('감성이 풍부해 창작 활동에 유리');
-            else if (rhythm.emotional < -30) parts.push('감정 기복에 주의하세요');
+            if (rhythm.emotional > 30) parts.push('感性が豊かで創作活動に有利');
+            else if (rhythm.emotional < -30) parts.push('感情の起伏に注意してください');
 
-            if (rhythm.intellectual > 30) parts.push('집중력이 높아 공부/업무 효율이 좋음');
-            else if (rhythm.intellectual < -30) parts.push('중요한 결정은 미루는 것이 좋겠어요');
+            if (rhythm.intellectual > 30) parts.push('集中力が高く勉強や仕事の効率が良い');
+            else if (rhythm.intellectual < -30) parts.push('重要な決定は延期した方が良いでしょう');
 
-            return parts.length > 0 ? parts.join('. ') + '.' : '균형 잡힌 하루를 보내세요.';
+            return parts.length > 0 ? parts.join('。') + '。' : 'バランスの取れた一日をお過ごしください。';
         }
 
         function getAdvice(rhythm) {
@@ -677,29 +677,29 @@
 
             // Physical advice
             if (rhythm.physical > 30) {
-                advice.push({ icon: '&#127939;', label: '운동', text: '에너지가 넘칩니다. 강도 높은 운동도 좋아요!' });
+                advice.push({ icon: '&#127939;', label: '運動', text: 'エネルギーに溢れています。激しい運動もOK！' });
             } else if (rhythm.physical < -30) {
-                advice.push({ icon: '&#128716;', label: '휴식', text: '과로를 피하고 충분히 쉬세요.' });
+                advice.push({ icon: '&#128716;', label: '休息', text: '無理を避けて十分に休んでください。' });
             } else {
-                advice.push({ icon: '&#128694;', label: '활동', text: '가벼운 산책이나 스트레칭을 추천해요.' });
+                advice.push({ icon: '&#128694;', label: '活動', text: '軽い散歩やストレッチをおすすめします。' });
             }
 
             // Emotional advice
             if (rhythm.emotional > 30) {
-                advice.push({ icon: '&#127912;', label: '감성', text: '예술 활동이나 대인관계에 좋은 날이에요.' });
+                advice.push({ icon: '&#127912;', label: '感性', text: '芸術活動や人間関係に良い日です。' });
             } else if (rhythm.emotional < -30) {
-                advice.push({ icon: '&#127774;', label: '마음', text: '혼자만의 시간을 가져보세요.' });
+                advice.push({ icon: '&#127774;', label: '心', text: '一人の時間を持ってみてください。' });
             } else {
-                advice.push({ icon: '&#127800;', label: '일상', text: '평소처럼 차분하게 보내세요.' });
+                advice.push({ icon: '&#127800;', label: '日常', text: 'いつも通り穏やかに過ごしましょう。' });
             }
 
             // Intellectual advice
             if (rhythm.intellectual > 30) {
-                advice.push({ icon: '&#128218;', label: '학습', text: '집중력이 최고! 공부나 중요한 업무에 좋아요.' });
+                advice.push({ icon: '&#128218;', label: '学習', text: '集中力最高！勉強や重要な仕事に最適です。' });
             } else if (rhythm.intellectual < -30) {
-                advice.push({ icon: '&#128173;', label: '판단', text: '중요한 결정은 내일로 미루세요.' });
+                advice.push({ icon: '&#128173;', label: '判断', text: '重要な決定は明日に延期しましょう。' });
             } else {
-                advice.push({ icon: '&#128221;', label: '업무', text: '꾸준히 일상 업무를 처리하세요.' });
+                advice.push({ icon: '&#128221;', label: '仕事', text: '日常の業務を着実に処理しましょう。' });
             }
 
             return advice.map(a => `
@@ -765,17 +765,17 @@
 
         function shareResult() {
             const score = document.getElementById('overallScore').textContent;
-            const text = `오늘의 바이오리듬 종합 점수: ${score}점! 나의 바이오리듬을 확인해보세요.`;
+            const text = `今日のバイオリズム総合スコア：${score}点！私のバイオリズムをチェックしてみてください。`;
 
             if (navigator.share) {
                 navigator.share({
-                    title: 'AI 바이오리듬 결과',
+                    title: 'AI バイオリズム結果',
                     text: text,
                     url: window.location.href
                 });
             } else {
                 navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
-                    showToast('링크가 복사되었습니다!');
+                    showToast('リンクがコピーされました！');
                 });
             }
         }

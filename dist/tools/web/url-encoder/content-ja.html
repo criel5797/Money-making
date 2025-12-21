@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL 인코더/디코더 - 무료 온라인 URL 인코딩 도구</title>
-    <meta name="description" content="URL을 즉시 인코딩하고 디코딩하세요. 웹 개발과 SEO를 위한 무료 온라인 URL 인코더 및 디코더입니다.">
-    <meta name="keywords" content="url 인코더, url 디코더, 퍼센트 인코딩, uri 인코더, url 이스케이프, 온라인 url 인코딩">
+    <title>URLエンコーダー/デコーダー - 無料オンラインURLエンコードツール</title>
+    <meta name="description" content="URLを即座にエンコードおよびデコードします。Web開発とSEOのための無料オンラインURLエンコーダーおよびデコーダー。">
+    <meta name="keywords" content="urlエンコーダー, urlデコーダー, パーセントエンコーディング, uriエンコーダー, urlエスケープ, オンラインurlエンコード">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,7 +27,7 @@
             --decode-color: #f59e0b;
         }
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -312,138 +312,138 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">한국어</a>
             </div>
-            <h1>URL 인코더 / 디코더</h1>
-            <p class="subtitle">웹 개발을 위한 URL 인코딩 및 디코딩</p>
+            <h1>URLエンコーダー / デコーダー</h1>
+            <p class="subtitle">Web開発のためのURLエンコードとデコード</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="main-card">
             <div class="mode-toggle">
-                <button class="mode-btn active" onclick="setMode('encode')" id="encodeTab">인코딩</button>
-                <button class="mode-btn" onclick="setMode('decode')" id="decodeTab">디코딩</button>
+                <button class="mode-btn active" onclick="setMode('encode')" id="encodeTab">エンコード</button>
+                <button class="mode-btn" onclick="setMode('decode')" id="decodeTab">デコード</button>
             </div>
 
             <div class="input-section">
                 <div class="input-header">
-                    <span class="input-label" id="inputLabel">인코딩할 텍스트</span>
-                    <span class="char-count"><span id="inputCount">0</span>자</span>
+                    <span class="input-label" id="inputLabel">エンコードするテキスト</span>
+                    <span class="char-count"><span id="inputCount">0</span>文字</span>
                 </div>
-                <textarea id="inputText" placeholder="인코딩할 텍스트 또는 URL을 입력하세요..."></textarea>
+                <textarea id="inputText" placeholder="エンコードするテキストまたはURLを入力してください..."></textarea>
             </div>
 
             <div class="options">
                 <div class="checkbox-item">
                     <input type="checkbox" id="encodeAll">
-                    <label for="encodeAll">모든 문자 인코딩 (안전한 문자 포함)</label>
+                    <label for="encodeAll">すべての文字をエンコード（安全な文字を含む）</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="encodePlus">
-                    <label for="encodePlus">공백을 %20 대신 +로 인코딩</label>
+                    <label for="encodePlus">スペースを%20の代わりに+でエンコード</label>
                 </div>
             </div>
 
-            <button class="action-btn btn-encode" id="actionBtn" onclick="process()">URL 인코딩</button>
+            <button class="action-btn btn-encode" id="actionBtn" onclick="process()">URLをエンコード</button>
 
-            <button class="swap-btn" onclick="swapContent()">↕️ 입력/출력 교환</button>
+            <button class="swap-btn" onclick="swapContent()">↕️ 入力/出力を交換</button>
 
             <div class="output-section">
                 <div class="output-header">
-                    <span class="output-label" id="outputLabel">인코딩된 결과</span>
+                    <span class="output-label" id="outputLabel">エンコード結果</span>
                     <div class="output-actions">
-                        <button class="btn-sm" onclick="copyOutput()">복사</button>
-                        <button class="btn-sm" onclick="clearAll()">지우기</button>
+                        <button class="btn-sm" onclick="copyOutput()">コピー</button>
+                        <button class="btn-sm" onclick="clearAll()">クリア</button>
                     </div>
                 </div>
-                <textarea id="outputText" class="output-area" readonly placeholder="결과가 여기에 표시됩니다..."></textarea>
+                <textarea id="outputText" class="output-area" readonly placeholder="結果がここに表示されます..."></textarea>
             </div>
         </div>
 
         <div class="examples">
-            <h3>자주 사용하는 예시</h3>
+            <h3>よく使う例</h3>
             <div class="example-grid">
-                <div class="example-item" onclick="useExample('안녕하세요 세계!')">
-                    <div class="example-label">한글 인코딩</div>
-                    <div class="example-original">안녕하세요 세계!</div>
-                    <div class="example-encoded">%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94%20%EC%84%B8%EA%B3%84%21</div>
+                <div class="example-item" onclick="useExample('こんにちは世界！')">
+                    <div class="example-label">日本語エンコード</div>
+                    <div class="example-original">こんにちは世界！</div>
+                    <div class="example-encoded">%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF%E4%B8%96%E7%95%8C%EF%BC%81</div>
                 </div>
-                <div class="example-item" onclick="useExample('https://example.com/search?q=검색어&lang=ko')">
-                    <div class="example-label">쿼리 파라미터가 있는 URL</div>
-                    <div class="example-original">https://example.com/search?q=검색어&lang=ko</div>
-                    <div class="example-encoded">https%3A%2F%2Fexample.com%2Fsearch%3Fq%3D%EA%B2%80%EC%83%89%EC%96%B4%26lang%3Dko</div>
+                <div class="example-item" onclick="useExample('https://example.com/search?q=検索語&lang=ja')">
+                    <div class="example-label">クエリパラメータ付きURL</div>
+                    <div class="example-original">https://example.com/search?q=検索語&lang=ja</div>
+                    <div class="example-encoded">https%3A%2F%2Fexample.com%2Fsearch%3Fq%3D%E6%A4%9C%E7%B4%A2%E8%AA%9E%26lang%3Dja</div>
                 </div>
                 <div class="example-item" onclick="useExample('email@example.com')">
-                    <div class="example-label">이메일 주소</div>
+                    <div class="example-label">メールアドレス</div>
                     <div class="example-original">email@example.com</div>
                     <div class="example-encoded">email%40example.com</div>
                 </div>
-                <div class="example-item" onclick="useExample('가격=$100&할인=20%')">
-                    <div class="example-label">특수 문자</div>
-                    <div class="example-original">가격=$100&할인=20%</div>
-                    <div class="example-encoded">%EA%B0%80%EA%B2%A9%3D%24100%26%ED%95%A0%EC%9D%B8%3D20%25</div>
+                <div class="example-item" onclick="useExample('価格=$100&割引=20%')">
+                    <div class="example-label">特殊文字</div>
+                    <div class="example-original">価格=$100&割引=20%</div>
+                    <div class="example-encoded">%E4%BE%A1%E6%A0%BC%3D%24100%26%E5%89%B2%E5%BC%95%3D20%25</div>
                 </div>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="info-section">
-            <h3>URL 인코딩이란?</h3>
-            <p>URL 인코딩(퍼센트 인코딩이라고도 함)은 문자를 인터넷을 통해 전송할 수 있는 형식으로 변환합니다. URL은 ASCII 문자 집합의 제한된 문자만 포함할 수 있습니다.</p>
-            <p>이 집합 외의 문자는 퍼센트 기호(%)와 해당 문자의 ASCII 코드를 나타내는 두 자리 16진수를 사용하여 인코딩해야 합니다.</p>
+            <h3>URLエンコードとは？</h3>
+            <p>URLエンコード（パーセントエンコーディングとも呼ばれます）は、文字をインターネット経由で送信できる形式に変換します。URLはASCII文字セットの限られた文字のみを含むことができます。</p>
+            <p>このセット外の文字は、パーセント記号（%）とその文字のASCIIコードを表す2桁の16進数を使用してエンコードする必要があります。</p>
         </div>
 
         <div class="info-section">
-            <h3>자주 인코딩되는 문자</h3>
+            <h3>よくエンコードされる文字</h3>
             <table class="char-table">
                 <tr>
-                    <th>문자</th>
-                    <th>인코딩</th>
-                    <th>설명</th>
+                    <th>文字</th>
+                    <th>エンコード</th>
+                    <th>説明</th>
                 </tr>
                 <tr>
-                    <td>(공백)</td>
-                    <td><code>%20</code> 또는 <code>+</code></td>
-                    <td>공백 문자</td>
+                    <td>（スペース）</td>
+                    <td><code>%20</code> または <code>+</code></td>
+                    <td>スペース文字</td>
                 </tr>
                 <tr>
                     <td>!</td>
                     <td><code>%21</code></td>
-                    <td>느낌표</td>
+                    <td>感嘆符</td>
                 </tr>
                 <tr>
                     <td>#</td>
                     <td><code>%23</code></td>
-                    <td>해시/샵 기호</td>
+                    <td>ハッシュ記号</td>
                 </tr>
                 <tr>
                     <td>$</td>
                     <td><code>%24</code></td>
-                    <td>달러 기호</td>
+                    <td>ドル記号</td>
                 </tr>
                 <tr>
                     <td>&</td>
                     <td><code>%26</code></td>
-                    <td>앰퍼샌드</td>
+                    <td>アンパサンド</td>
                 </tr>
                 <tr>
                     <td>=</td>
                     <td><code>%3D</code></td>
-                    <td>등호</td>
+                    <td>等号</td>
                 </tr>
                 <tr>
                     <td>@</td>
                     <td><code>%40</code></td>
-                    <td>골뱅이</td>
+                    <td>アット記号</td>
                 </tr>
             </table>
         </div>
 
         <footer>
-            <p>웹 개발자를 위해 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>Web開発者のために作成しました</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
         </footer>
     </div>
 
@@ -462,17 +462,17 @@
             const outputLabel = document.getElementById('outputLabel');
 
             if (mode === 'encode') {
-                actionBtn.textContent = 'URL 인코딩';
+                actionBtn.textContent = 'URLをエンコード';
                 actionBtn.className = 'action-btn btn-encode';
-                inputLabel.textContent = '인코딩할 텍스트';
-                outputLabel.textContent = '인코딩된 결과';
-                document.getElementById('inputText').placeholder = '인코딩할 텍스트 또는 URL을 입력하세요...';
+                inputLabel.textContent = 'エンコードするテキスト';
+                outputLabel.textContent = 'エンコード結果';
+                document.getElementById('inputText').placeholder = 'エンコードするテキストまたはURLを入力してください...';
             } else {
-                actionBtn.textContent = 'URL 디코딩';
+                actionBtn.textContent = 'URLをデコード';
                 actionBtn.className = 'action-btn btn-decode';
-                inputLabel.textContent = '디코딩할 텍스트';
-                outputLabel.textContent = '디코딩된 결과';
-                document.getElementById('inputText').placeholder = '디코딩할 인코딩된 URL을 입력하세요...';
+                inputLabel.textContent = 'デコードするテキスト';
+                outputLabel.textContent = 'デコード結果';
+                document.getElementById('inputText').placeholder = 'デコードするエンコード済みURLを入力してください...';
             }
         }
 
@@ -482,7 +482,7 @@
             const encodePlus = document.getElementById('encodePlus').checked;
 
             if (!input) {
-                showToast('텍스트를 입력해주세요');
+                showToast('テキストを入力してください');
                 return;
             }
 
@@ -497,7 +497,7 @@
                             if (char === ' ' && encodePlus) {
                                 return '+';
                             }
-                            // Handle multi-byte characters (like Korean)
+                            // Handle multi-byte characters (like Japanese)
                             const encoded = encodeURIComponent(char);
                             return encoded;
                         }).join('');
@@ -517,9 +517,9 @@
                 }
 
                 document.getElementById('outputText').value = result;
-                showToast(currentMode === 'encode' ? '인코딩 완료!' : '디코딩 완료!');
+                showToast(currentMode === 'encode' ? 'エンコード完了！' : 'デコード完了！');
             } catch (e) {
-                showToast('오류: 잘못된 입력입니다');
+                showToast('エラー: 無効な入力です');
             }
         }
 
@@ -536,7 +536,7 @@
             const output = document.getElementById('outputText').value;
             if (output) {
                 navigator.clipboard.writeText(output);
-                showToast('복사되었습니다!');
+                showToast('コピーしました！');
             }
         }
 

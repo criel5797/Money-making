@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランダム抽選 - 無料くじ引き、ランダムピッカー</title>
+    <meta name="description" content="名前や項目を入力してランダムに抽選します。当選者選定、順番決め、チーム分けに便利です。">
+    <meta name="keywords" content="ランダム抽選, くじ引き, 抽選, 当選者, ランダム, ルーレット">
+    <meta property="og:title" content="ランダム抽選 - 無料くじ引き">
+    <meta property="og:description" content="名前や項目を入力してランダムに抽選します。">
+    <meta property="og:type" content="website">
+    <link rel="alternate" hreflang="ja" href="index-ja.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="en" href="index-en.html">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+        }
+
+        .input-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 14px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1rem;
+            resize: none;
+            transition: all 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #fff;
+            background: rgba(255,255,255,0.15);
+        }
+
+        textarea::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .option-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .option-btn.active {
+            background: rgba(255,255,255,0.3);
+            border-color: #fff;
+        }
+
+        .count-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .count-input input {
+            width: 80px;
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .count-input input:focus {
+            outline: none;
+            border-color: #fff;
+        }
+
+        .count-input span {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .pick-btn {
+            width: 100%;
+            padding: 18px;
+            background: #fff;
+            border: none;
+            border-radius: 12px;
+            color: #764ba2;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .pick-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .pick-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-label {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 15px;
+        }
+
+        .winner {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+
+        .winners-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .winner-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.1);
+            padding: 12px 16px;
+            border-radius: 10px;
+        }
+
+        .winner-rank {
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .winner-rank.gold { background: #ffd700; color: #333; }
+        .winner-rank.silver { background: #c0c0c0; color: #333; }
+        .winner-rank.bronze { background: #cd7f32; color: #fff; }
+
+        .winner-name {
+            flex: 1;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .shuffle-animation {
+            font-size: 2rem;
+            font-weight: 800;
+            animation: shuffle 0.1s infinite;
+        }
+
+        @keyframes shuffle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .retry-btn,
+        .share-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .retry-btn:hover,
+        .share-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .item-count {
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .history-section {
+            margin-top: 30px;
+        }
+
+        .history-title {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .history-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-time {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+
+        <header>
+            <h1>🎲 ランダム抽選</h1>
+            <p class="subtitle">公平な無作為抽選で幸運の主人公を見つけましょう</p>
+        </header>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label>項目入力（改行で区切る）</label>
+                <textarea id="items" placeholder="田中太郎
+鈴木花子
+佐藤次郎
+高橋美咲
+伊藤健太"></textarea>
+                <div class="item-count" id="itemCount">0個の項目</div>
+            </div>
+
+            <div class="input-group">
+                <label>抽選個数</label>
+                <div class="count-input">
+                    <input type="number" id="pickCount" value="1" min="1" max="100">
+                    <span>名抽選</span>
+                </div>
+            </div>
+
+            <button class="pick-btn" id="pickBtn" onclick="startPick()">🎯 抽選する！</button>
+        </div>
+
+        <div class="result-section" id="result">
+            <div class="result-card">
+                <div class="result-label">🎉 当選！</div>
+                <div id="resultContent"></div>
+            </div>
+            <div class="btn-group">
+                <button class="retry-btn" onclick="startPick()">
+                    <span>🔄</span> もう一度
+                </button>
+                <button class="share-btn" onclick="shareResult()">
+                    <span>📤</span> 共有
+                </button>
+            </div>
+        </div>
+
+        <div class="history-section" id="historySection" style="display: none;">
+            <div class="history-title">
+                <span>📜</span> 抽選履歴
+            </div>
+            <div class="history-list" id="historyList"></div>
+        </div>
+
+        <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
+
+        <footer>
+            <p>&copy; 2024 ランダム抽選</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentWinners = [];
+        let history = [];
+
+        const itemsTextarea = document.getElementById('items');
+        const itemCountDiv = document.getElementById('itemCount');
+
+        itemsTextarea.addEventListener('input', updateItemCount);
+
+        function updateItemCount() {
+            const items = getItems();
+            itemCountDiv.textContent = items.length + '個の項目';
+        }
+
+        function getItems() {
+            const text = itemsTextarea.value.trim();
+            if (!text) return [];
+            return text.split('\n').map(item => item.trim()).filter(item => item.length > 0);
+        }
+
+        function startPick() {
+            const items = getItems();
+            const pickCount = parseInt(document.getElementById('pickCount').value);
+
+            if (items.length === 0) {
+                alert('抽選する項目を入力してください。');
+                return;
+            }
+
+            if (pickCount > items.length) {
+                alert(`抽選個数(${pickCount})が項目数(${items.length})より多いです。`);
+                return;
+            }
+
+            if (pickCount < 1) {
+                alert('最低1個以上選んでください。');
+                return;
+            }
+
+            const pickBtn = document.getElementById('pickBtn');
+            pickBtn.disabled = true;
+
+            const resultSection = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+            resultSection.classList.add('show');
+
+            let shuffleCount = 0;
+            const shuffleInterval = setInterval(() => {
+                const randomIdx = Math.floor(Math.random() * items.length);
+                resultContent.innerHTML = `<div class="shuffle-animation">${items[randomIdx]}</div>`;
+                shuffleCount++;
+
+                if (shuffleCount > 20) {
+                    clearInterval(shuffleInterval);
+                    showResult(items, pickCount);
+                    pickBtn.disabled = false;
+                }
+            }, 80);
+        }
+
+        function showResult(items, pickCount) {
+            const shuffled = [...items];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            currentWinners = shuffled.slice(0, pickCount);
+
+            const resultContent = document.getElementById('resultContent');
+
+            if (pickCount === 1) {
+                resultContent.innerHTML = `<div class="winner">${currentWinners[0]}</div>`;
+            } else {
+                const winnersHTML = currentWinners.map((winner, idx) => {
+                    let rankClass = '';
+                    if (idx === 0) rankClass = 'gold';
+                    else if (idx === 1) rankClass = 'silver';
+                    else if (idx === 2) rankClass = 'bronze';
+
+                    return `
+                        <div class="winner-item">
+                            <div class="winner-rank ${rankClass}">${idx + 1}</div>
+                            <div class="winner-name">${winner}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                resultContent.innerHTML = `<div class="winners-list">${winnersHTML}</div>`;
+            }
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+            history.unshift({
+                winners: [...currentWinners],
+                time: timeStr
+            });
+
+            if (history.length > 5) history.pop();
+            updateHistory();
+        }
+
+        function updateHistory() {
+            if (history.length === 0) {
+                document.getElementById('historySection').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('historySection').style.display = 'block';
+            const historyList = document.getElementById('historyList');
+
+            historyList.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <span>${item.winners.join(', ')}</span>
+                    <span class="history-time">${item.time}</span>
+                </div>
+            `).join('');
+        }
+
+        function shareResult() {
+            if (currentWinners.length === 0) return;
+
+            let text;
+            if (currentWinners.length === 1) {
+                text = `🎉 ランダム抽選結果！\n\n当選: ${currentWinners[0]}\n\nランダム抽選で公平に選出しました！`;
+            } else {
+                const winnerList = currentWinners.map((w, i) => `${i + 1}. ${w}`).join('\n');
+                text = `🎉 ランダム抽選結果！\n\n${winnerList}\n\nランダム抽選で公平に選出しました！`;
+            }
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ランダム抽選結果',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('結果がクリップボードにコピーされました！');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

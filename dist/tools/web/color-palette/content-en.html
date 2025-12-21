@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>컬러 팔레트 생성기 - 무료 색상 조합 도구</title>
-    <meta name="description" content="무료 컬러 팔레트 생성기. 아름다운 색상 조합을 즉시 만드세요. 조화로운 보색, 유사색 컬러 팔레트를 디자인 프로젝트에 사용하세요.">
-    <meta name="keywords" content="컬러 팔레트, 색상 조합, 색상 생성기, 컬러 피커, 디자인 색상, 팔레트 생성기">
+    <title>Color Palette Generator - Free Color Scheme Tool</title>
+    <meta name="description" content="Free color palette generator. Create beautiful color combinations instantly. Use harmonious complementary and analogous color palettes for your design projects.">
+    <meta name="keywords" content="color palette, color scheme, color generator, color picker, design colors, palette generator">
 
-    <meta property="og:title" content="컬러 팔레트 생성기 - 무료 색상 조합 도구">
-    <meta property="og:description" content="아름다운 색상 조합을 즉시 만드세요. 무료 온라인 도구.">
+    <meta property="og:title" content="Color Palette Generator - Free Color Scheme Tool">
+    <meta property="og:description" content="Create beautiful color combinations instantly. Free online tool.">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #1a1a2e;
             min-height: 100vh;
             color: #e4e4e4;
@@ -299,103 +299,103 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">한국어</a>
             </div>
-            <h1>컬러 팔레트 생성기</h1>
-            <p class="subtitle">프로젝트를 위한 아름다운 색상 조합 만들기</p>
+            <h1>Color Palette Generator</h1>
+            <p class="subtitle">Create beautiful color combinations for your projects</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="controls">
             <div class="control-group">
-                <label>색상 조합:</label>
+                <label>Color Scheme:</label>
                 <select id="schemeType" onchange="generatePalette()">
-                    <option value="random">랜덤</option>
-                    <option value="monochromatic">단색 조화</option>
-                    <option value="analogous">유사색</option>
-                    <option value="complementary">보색</option>
-                    <option value="triadic">삼원색</option>
-                    <option value="tetradic">사원색</option>
-                    <option value="warm">따뜻한 색</option>
-                    <option value="cool">차가운 색</option>
-                    <option value="pastel">파스텔</option>
+                    <option value="random">Random</option>
+                    <option value="monochromatic">Monochromatic</option>
+                    <option value="analogous">Analogous</option>
+                    <option value="complementary">Complementary</option>
+                    <option value="triadic">Triadic</option>
+                    <option value="tetradic">Tetradic</option>
+                    <option value="warm">Warm</option>
+                    <option value="cool">Cool</option>
+                    <option value="pastel">Pastel</option>
                 </select>
             </div>
             <div class="control-group color-picker-wrapper">
-                <label>기준 색상:</label>
+                <label>Base Color:</label>
                 <input type="color" id="baseColor" value="#667eea" onchange="generatePalette()">
             </div>
-            <button class="btn btn-primary" onclick="generatePalette()">생성 (스페이스바)</button>
-            <button class="btn btn-secondary" onclick="savePalette()">저장</button>
+            <button class="btn btn-primary" onclick="generatePalette()">Generate (Space)</button>
+            <button class="btn btn-secondary" onclick="savePalette()">Save</button>
         </div>
 
         <div class="palette-container" id="paletteContainer"></div>
 
         <div class="keyboard-hint">
-            <kbd>Space</kbd> 새 팔레트 생성 &nbsp;&nbsp;
-            <kbd>클릭</kbd> 색상 복사 &nbsp;&nbsp;
-            <kbd>더블클릭</kbd> 색상 잠금
+            <kbd>Space</kbd> Generate new palette &nbsp;&nbsp;
+            <kbd>Click</kbd> Copy color &nbsp;&nbsp;
+            <kbd>Double-click</kbd> Lock color
         </div>
 
         <div class="export-section">
-            <h3>내보내기</h3>
+            <h3>Export</h3>
             <div class="export-formats">
                 <div class="export-card">
-                    <h4>CSS 변수</h4>
+                    <h4>CSS Variables</h4>
                     <div class="export-code" id="exportCSS" onclick="copyExport('css')"></div>
                 </div>
                 <div class="export-card">
-                    <h4>Tailwind 설정</h4>
+                    <h4>Tailwind Config</h4>
                     <div class="export-code" id="exportTailwind" onclick="copyExport('tailwind')"></div>
                 </div>
                 <div class="export-card">
-                    <h4>SCSS 변수</h4>
+                    <h4>SCSS Variables</h4>
                     <div class="export-code" id="exportSCSS" onclick="copyExport('scss')"></div>
                 </div>
                 <div class="export-card">
-                    <h4>배열</h4>
+                    <h4>Array</h4>
                     <div class="export-code" id="exportArray" onclick="copyExport('array')"></div>
                 </div>
             </div>
         </div>
 
         <div class="saved-palettes" id="savedSection" style="display:none;">
-            <h3>저장된 팔레트</h3>
+            <h3>Saved Palettes</h3>
             <div class="saved-grid" id="savedGrid"></div>
         </div>
 
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#127912;</div>
-                <h3>다양한 조합</h3>
-                <p>조화로운 보색, 유사색 등 다양한 방식</p>
+                <h3>Various Schemes</h3>
+                <p>Harmonious complementary, analogous, and more</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128274;</div>
-                <h3>색상 잠금</h3>
-                <p>좋아하는 색상을 유지하며 새로 생성</p>
+                <h3>Lock Colors</h3>
+                <p>Keep your favorite colors while generating new ones</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128190;</div>
-                <h3>쉬운 내보내기</h3>
-                <p>CSS, SCSS, Tailwind 등으로 내보내기</p>
+                <h3>Easy Export</h3>
+                <p>Export to CSS, SCSS, Tailwind, and more</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128173;</div>
-                <h3>팔레트 저장</h3>
-                <p>좋아하는 팔레트를 로컬에 저장</p>
+                <h3>Save Palettes</h3>
+                <p>Save your favorite palettes locally</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 컬러 팔레트 생성기 | 스페이스바를 눌러 새 색상 생성</p>
+            <p>Free Color Palette Generator | Press Space to generate new colors</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         let palette = [];
@@ -515,8 +515,8 @@
                             <div class="color-hex">${color.toUpperCase()}</div>
                             <div class="color-rgb">rgb(${rgb.r}, ${rgb.g}, ${rgb.b})</div>
                             <div class="color-actions">
-                                <button class="color-action-btn" onclick="event.stopPropagation(); copyColor(${i})">복사</button>
-                                <button class="color-action-btn" onclick="event.stopPropagation(); toggleLock(${i})">${isLocked ? '잠금해제' : '잠금'}</button>
+                                <button class="color-action-btn" onclick="event.stopPropagation(); copyColor(${i})">Copy</button>
+                                <button class="color-action-btn" onclick="event.stopPropagation(); toggleLock(${i})">${isLocked ? 'Unlock' : 'Lock'}</button>
                             </div>
                         </div>
                     </div>
@@ -526,7 +526,7 @@
 
         function copyColor(index) {
             navigator.clipboard.writeText(palette[index]).then(() => {
-                showToast(`복사됨: ${palette[index]}`);
+                showToast(`Copied: ${palette[index]}`);
             });
         }
 
@@ -572,7 +572,7 @@
                     break;
             }
             navigator.clipboard.writeText(text).then(() => {
-                showToast('클립보드에 복사됨!');
+                showToast('Copied to clipboard!');
             });
         }
 
@@ -582,7 +582,7 @@
             if (saved.length > 10) saved = saved.slice(0, 10);
             localStorage.setItem('savedPalettes', JSON.stringify(saved));
             renderSavedPalettes();
-            showToast('팔레트 저장됨!');
+            showToast('Palette saved!');
         }
 
         function renderSavedPalettes() {
@@ -610,7 +610,7 @@
                 lockedIndices.clear();
                 renderPalette();
                 updateExports();
-                showToast('팔레트 로드됨!');
+                showToast('Palette loaded!');
             }
         }
 

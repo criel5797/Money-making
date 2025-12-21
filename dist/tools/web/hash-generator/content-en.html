@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>해시 생성기 - MD5, SHA1, SHA256, SHA512 온라인</title>
-    <meta name="description" content="MD5, SHA1, SHA256, SHA512 해시를 즉시 생성하세요. 개발자를 위한 무료 온라인 해시 생성기.">
-    <meta name="keywords" content="해시 생성기, md5 해시, sha256 해시, sha1, sha512, 텍스트 해시, 체크섬">
-    <meta property="og:title" content="해시 생성기 - MD5, SHA1, SHA256, SHA512 온라인">
-    <meta property="og:description" content="MD5, SHA1, SHA256, SHA512 해시를 즉시 생성하세요.">
+    <title>Hash Generator - MD5, SHA1, SHA256, SHA512 Online</title>
+    <meta name="description" content="Generate MD5, SHA1, SHA256, SHA512 hashes instantly. Free online hash generator for developers.">
+    <meta name="keywords" content="hash generator, md5 hash, sha256 hash, sha1, sha512, text hash, checksum">
+    <meta property="og:title" content="Hash Generator - MD5, SHA1, SHA256, SHA512 Online">
+    <meta property="og:description" content="Generate MD5, SHA1, SHA256, SHA512 hashes instantly.">
     <meta property="og:type" content="website">
 
     <style>
@@ -24,7 +24,7 @@
             --success: #22c55e;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -246,128 +246,128 @@
 <script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"해시 생성기","en":"Hash Generator","ja":"ハッシュ生成"},"desc":{"ko":"MD5, SHA 해시","en":"MD5, SHA Hash","ja":"MD5, SHAハッシュ"}},"header":{"title":{"ko":"해시 생성기","en":"Hash Generator","ja":"ハッシュ生成"},"subtitle":{"ko":"해시 알고리즘","en":"Hash Algorithms","ja":"ハッシュアルゴリズム"}},"input":{"label":{"ko":"입력:","en":"Input:","ja":"入力:"},"placeholder":{"ko":"텍스트 입력...","en":"Enter text...","ja":"テキスト入力..."}},"options":{"upper":{"ko":"대문자 출력","en":"Uppercase","ja":"大文字"}},"generate":{"ko":"생성하기","en":"Generate","ja":"生成"},"results":{"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"compare":{"title":{"ko":"비교","en":"Compare","ja":"比較"},"p1":{"ko":"해시 1","en":"Hash 1","ja":"ハッシュ1"},"p2":{"ko":"해시 2","en":"Hash 2","ja":"ハッシュ2"},"wait":{"ko":"비교 대기...","en":"Waiting...","ja":"待機中..."},"match":{"ko":"일치!","en":"Match!","ja":"一致!"},"diff":{"ko":"불일치","en":"No Match","ja":"不一致"}},"info":{"title":{"ko":"해시 함수","en":"Hash Function","ja":"ハッシュ関数"}}};</script></head>
 <body>
     <div class="lang-switch">
-        <a href="index.html">English</a>
+        <a href="index-ko.html">한국어</a>
     </div>
 
     <div class="container">
         <header>
-            <h1>해시 생성기</h1>
-            <p class="subtitle">MD5, SHA1, SHA256, SHA512 해시 생성</p>
+            <h1>Hash Generator</h1>
+            <p class="subtitle">Generate MD5, SHA1, SHA256, SHA512 Hashes</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="main-card">
             <div class="input-section">
-                <label class="input-label">해시할 텍스트 입력:</label>
-                <textarea id="inputText" placeholder="여기에 텍스트를 입력하거나 붙여넣으세요..."></textarea>
+                <label class="input-label">Enter text to hash:</label>
+                <textarea id="inputText" placeholder="Enter or paste your text here..."></textarea>
             </div>
 
             <div class="options">
                 <div class="checkbox-item">
                     <input type="checkbox" id="uppercase">
-                    <label for="uppercase">대문자 출력</label>
+                    <label for="uppercase">Uppercase output</label>
                 </div>
             </div>
 
-            <button class="generate-btn" onclick="generateHashes()">모든 해시 생성</button>
+            <button class="generate-btn" onclick="generateHashes()">Generate All Hashes</button>
 
             <div class="results-section" id="results">
                 <div class="hash-result">
                     <div class="hash-header">
                         <span class="hash-name">MD5</span>
-                        <span class="hash-length">128비트 / 32자</span>
+                        <span class="hash-length">128-bit / 32 chars</span>
                     </div>
                     <div class="hash-value">
                         <span class="hash-text" id="md5Hash">-</span>
-                        <button class="copy-btn" onclick="copyHash('md5Hash')">복사</button>
+                        <button class="copy-btn" onclick="copyHash('md5Hash')">Copy</button>
                     </div>
                 </div>
 
                 <div class="hash-result">
                     <div class="hash-header">
                         <span class="hash-name">SHA-1</span>
-                        <span class="hash-length">160비트 / 40자</span>
+                        <span class="hash-length">160-bit / 40 chars</span>
                     </div>
                     <div class="hash-value">
                         <span class="hash-text" id="sha1Hash">-</span>
-                        <button class="copy-btn" onclick="copyHash('sha1Hash')">복사</button>
+                        <button class="copy-btn" onclick="copyHash('sha1Hash')">Copy</button>
                     </div>
                 </div>
 
                 <div class="hash-result">
                     <div class="hash-header">
                         <span class="hash-name">SHA-256</span>
-                        <span class="hash-length">256비트 / 64자</span>
+                        <span class="hash-length">256-bit / 64 chars</span>
                     </div>
                     <div class="hash-value">
                         <span class="hash-text" id="sha256Hash">-</span>
-                        <button class="copy-btn" onclick="copyHash('sha256Hash')">복사</button>
+                        <button class="copy-btn" onclick="copyHash('sha256Hash')">Copy</button>
                     </div>
                 </div>
 
                 <div class="hash-result">
                     <div class="hash-header">
                         <span class="hash-name">SHA-512</span>
-                        <span class="hash-length">512비트 / 128자</span>
+                        <span class="hash-length">512-bit / 128 chars</span>
                     </div>
                     <div class="hash-value">
                         <span class="hash-text" id="sha512Hash">-</span>
-                        <button class="copy-btn" onclick="copyHash('sha512Hash')">복사</button>
+                        <button class="copy-btn" onclick="copyHash('sha512Hash')">Copy</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="compare-section">
-            <h3>해시 비교</h3>
+            <h3>Hash Comparison</h3>
             <div class="compare-inputs">
-                <input type="text" class="compare-input" id="hash1" placeholder="첫 번째 해시 입력...">
-                <input type="text" class="compare-input" id="hash2" placeholder="두 번째 해시 입력...">
+                <input type="text" class="compare-input" id="hash1" placeholder="Enter first hash...">
+                <input type="text" class="compare-input" id="hash2" placeholder="Enter second hash...">
             </div>
             <div class="compare-result compare-waiting" id="compareResult">
-                비교할 두 해시를 입력하세요
+                Enter two hashes to compare
             </div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="info-section">
-            <h3>해시 함수란?</h3>
-            <p>해시 함수는 임의 크기의 입력 데이터를 고정 크기의 문자열로 변환하는 수학적 알고리즘입니다. 출력(해시)은 각 고유 입력에 대해 고유하므로 데이터 무결성 검증 및 보안에 유용합니다.</p>
+            <h3>What are Hash Functions?</h3>
+            <p>Hash functions are mathematical algorithms that transform input data of any size into a fixed-size string. The output (hash) is unique for each unique input, making it useful for data integrity verification and security.</p>
 
             <div class="algo-grid">
                 <div class="algo-card">
                     <h4>MD5</h4>
-                    <p>빠르지만 암호학적으로 취약함. 체크섬에만 사용, 보안 용도 X.</p>
+                    <p>Fast but cryptographically broken. Use only for checksums, not security.</p>
                 </div>
                 <div class="algo-card">
                     <h4>SHA-1</h4>
-                    <p>보안용으로 사용 중단됨. 일부 레거시 시스템에서 여전히 사용.</p>
+                    <p>Deprecated for security use. Still used in some legacy systems.</p>
                 </div>
                 <div class="algo-card">
                     <h4>SHA-256</h4>
-                    <p>업계 표준. 비트코인, SSL 인증서 등에 사용.</p>
+                    <p>Industry standard. Used in Bitcoin, SSL certificates, and more.</p>
                 </div>
                 <div class="algo-card">
                     <h4>SHA-512</h4>
-                    <p>최고 보안. 느리지만 최대한의 보호 제공.</p>
+                    <p>Maximum security. Slower but provides the highest protection.</p>
                 </div>
             </div>
         </div>
 
         <div class="info-section">
-            <h3>일반적인 사용 사례</h3>
-            <p>• <strong>비밀번호 저장</strong> - 평문 대신 해시 저장</p>
-            <p>• <strong>파일 무결성</strong> - 다운로드가 변조되지 않았는지 확인</p>
-            <p>• <strong>디지털 서명</strong> - 문서 서명 및 진위 확인</p>
-            <p>• <strong>데이터 중복 제거</strong> - 해시로 중복 파일 식별</p>
-            <p>• <strong>캐싱</strong> - 콘텐츠에서 캐시 키 생성</p>
+            <h3>Common Use Cases</h3>
+            <p>• <strong>Password Storage</strong> - Store hashes instead of plain text</p>
+            <p>• <strong>File Integrity</strong> - Verify downloads haven't been tampered with</p>
+            <p>• <strong>Digital Signatures</strong> - Sign and verify document authenticity</p>
+            <p>• <strong>Data Deduplication</strong> - Identify duplicate files by hash</p>
+            <p>• <strong>Caching</strong> - Generate cache keys from content</p>
         </div>
 
         <footer>
-            <p>개발자를 위해 정성껏 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>Made with care for developers</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
         </footer>
     </div>
 
@@ -507,7 +507,7 @@
             const uppercase = document.getElementById('uppercase').checked;
 
             if (!input) {
-                showToast('텍스트를 입력하세요');
+                showToast('Please enter text');
                 return;
             }
 
@@ -529,14 +529,14 @@
             document.getElementById('sha512Hash').textContent = sha512Hash;
 
             document.getElementById('results').classList.add('show');
-            showToast('해시 생성 완료!');
+            showToast('Hashes generated!');
         }
 
         function copyHash(elementId) {
             const hash = document.getElementById(elementId).textContent;
             if (hash && hash !== '-') {
                 navigator.clipboard.writeText(hash);
-                showToast('복사됨!');
+                showToast('Copied!');
             }
         }
 
@@ -550,16 +550,16 @@
 
             if (!hash1 || !hash2) {
                 result.className = 'compare-result compare-waiting';
-                result.textContent = '비교할 두 해시를 입력하세요';
+                result.textContent = 'Enter two hashes to compare';
                 return;
             }
 
             if (hash1 === hash2) {
                 result.className = 'compare-result compare-match';
-                result.textContent = '✓ 해시가 일치합니다!';
+                result.textContent = '✓ Hashes match!';
             } else {
                 result.className = 'compare-result compare-nomatch';
-                result.textContent = '✗ 해시가 일치하지 않습니다';
+                result.textContent = '✗ Hashes do not match';
             }
         }
 

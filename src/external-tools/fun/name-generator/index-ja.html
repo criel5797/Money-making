@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI ネーミングツール - 赤ちゃん、ペット、ブランド名生成</title>
+    <meta name="description" content="AIが完璧な名前を提案します。赤ちゃんの名前、ペットの名前、ブランド名、キャラクター名まで。意味のある名前を無料で提案します。">
+    <meta name="keywords" content="赤ちゃんの名前,名前提案,命名,ペット名前,犬の名前,猫の名前,ブランド名,AI命名">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #f8f4f0;
+            --bg-secondary: #ffffff;
+            --bg-accent: #fff8f0;
+            --text-primary: #2d2d2d;
+            --text-secondary: #666666;
+            --accent: #e67e22;
+            --accent-secondary: #f39c12;
+            --pink: #e91e8c;
+            --blue: #3498db;
+            --green: #27ae60;
+            --purple: #9b59b6;
+            --border: #eee;
+        }
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+        .logo { font-size: 3.5rem; margin-bottom: 15px; }
+        h1 {
+            font-size: 2.3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #e67e22, #e91e8c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: var(--text-secondary);
+        }
+
+        .type-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        @media (max-width: 600px) {
+            .type-selector { grid-template-columns: repeat(2, 1fr); }
+        }
+        .type-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .type-card.selected {
+            border-color: var(--accent);
+            background: var(--bg-accent);
+        }
+        .type-icon { font-size: 2.5rem; margin-bottom: 12px; }
+        .type-name { font-weight: 600; font-size: 1.05rem; }
+        .type-desc { font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px; }
+
+        .main-card {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 35px;
+            margin: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: none;
+        }
+        .main-card.show { display: block; }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--bg-primary);
+        }
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .style-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .style-chip {
+            padding: 10px 18px;
+            background: var(--bg-primary);
+            border: 2px solid #eee;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .style-chip:hover { border-color: var(--accent); }
+        .style-chip.selected {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(230,126,34,0.35);
+        }
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 30px;
+        }
+        .results-section.show { display: block; }
+
+        .results-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .name-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .name-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .name-info { flex: 1; }
+        .name-main {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .name-reading {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .name-meaning {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .name-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+        .action-btn.liked {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .saved-names {
+            background: var(--bg-accent);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        .saved-names.show { display: block; }
+        .saved-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .saved-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .saved-tag {
+            padding: 8px 15px;
+            background: white;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .remove-saved {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            font-size: 1rem;
+        }
+        .remove-saved:hover { color: #e74c3c; }
+
+        .more-btn {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+        .more-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tips-section {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .tips-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .tips-list {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            list-style: none;
+        }
+        .tips-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .tips-list li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">✨</div>
+            <h1>AI ネーミングツール</h1>
+            <p class="subtitle">特別な名前、AIが見つけます</p>
+        </header>
+
+        <div class="type-selector">
+            <div class="type-card" onclick="selectType('baby')" data-type="baby">
+                <div class="type-icon">👶</div>
+                <div class="type-name">赤ちゃんの名前</div>
+                <div class="type-desc">大切なお子様に</div>
+            </div>
+            <div class="type-card" onclick="selectType('pet')" data-type="pet">
+                <div class="type-icon">🐾</div>
+                <div class="type-name">ペットの名前</div>
+                <div class="type-desc">ペットに</div>
+            </div>
+            <div class="type-card" onclick="selectType('brand')" data-type="brand">
+                <div class="type-icon">💼</div>
+                <div class="type-name">ブランド名</div>
+                <div class="type-desc">ビジネス/プロジェクト</div>
+            </div>
+            <div class="type-card" onclick="selectType('nickname')" data-type="nickname">
+                <div class="type-icon">🎮</div>
+                <div class="type-name">ニックネーム</div>
+                <div class="type-desc">ゲーム/SNS用</div>
+            </div>
+        </div>
+
+        <div class="ad-banner">広告エリア</div>
+
+        <!-- 赤ちゃんの名前フォーム -->
+        <div class="main-card" id="babyForm">
+            <div class="section-title">👶 赤ちゃんの情報</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">性別</label>
+                    <select id="babyGender">
+                        <option value="male">男の子</option>
+                        <option value="female">女の子</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">苗字</label>
+                    <input type="text" id="babySurname" placeholder="例:田中、佐藤">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">希望のイメージ</div>
+            <div class="style-chips" id="babyStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">純粋な</span>
+                <span class="style-chip" onclick="toggleStyle(this)">強い</span>
+                <span class="style-chip" onclick="toggleStyle(this)">知的な</span>
+                <span class="style-chip" onclick="toggleStyle(this)">可愛い</span>
+                <span class="style-chip" onclick="toggleStyle(this)">上品な</span>
+                <span class="style-chip" onclick="toggleStyle(this)">伝統的な</span>
+                <span class="style-chip" onclick="toggleStyle(this)">現代的な</span>
+                <span class="style-chip" onclick="toggleStyle(this)">自然な</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('baby')">✨ 名前を生成</button>
+        </div>
+
+        <!-- ペットの名前フォーム -->
+        <div class="main-card" id="petForm">
+            <div class="section-title">🐾 ペット情報</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">種類</label>
+                    <select id="petType">
+                        <option value="dog">犬 🐕</option>
+                        <option value="cat">猫 🐱</option>
+                        <option value="bird">鳥 🐦</option>
+                        <option value="rabbit">うさぎ 🐰</option>
+                        <option value="hamster">ハムスター 🐹</option>
+                        <option value="other">その他</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">性別</label>
+                    <select id="petGender">
+                        <option value="male">オス</option>
+                        <option value="female">メス</option>
+                        <option value="unknown">不明</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">毛色/特徴</label>
+                    <input type="text" id="petFeature" placeholder="例:白い、ぶち">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">希望のスタイル</div>
+            <div class="style-chips" id="petStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">可愛い</span>
+                <span class="style-chip" onclick="toggleStyle(this)">かっこいい</span>
+                <span class="style-chip" onclick="toggleStyle(this)">優雅な</span>
+                <span class="style-chip" onclick="toggleStyle(this)">面白い</span>
+                <span class="style-chip" onclick="toggleStyle(this)">食べ物系</span>
+                <span class="style-chip" onclick="toggleStyle(this)">英語</span>
+                <span class="style-chip" onclick="toggleStyle(this)">日本語</span>
+                <span class="style-chip" onclick="toggleStyle(this)">韓国語</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('pet')">✨ 名前を生成</button>
+        </div>
+
+        <!-- ブランド名フォーム -->
+        <div class="main-card" id="brandForm">
+            <div class="section-title">💼 ブランド/ビジネス情報</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">業種/分野</label>
+                    <select id="brandCategory">
+                        <option value="tech">IT/テック</option>
+                        <option value="fashion">ファッション/美容</option>
+                        <option value="food">食品/飲食</option>
+                        <option value="health">健康/フィットネス</option>
+                        <option value="education">教育</option>
+                        <option value="creative">クリエイティブ/デザイン</option>
+                        <option value="service">サービス業</option>
+                        <option value="other">その他</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">核心キーワード</label>
+                    <input type="text" id="brandKeyword" placeholder="例:エコ、プレミアム">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">ブランドイメージ</div>
+            <div class="style-chips" id="brandStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">専門的</span>
+                <span class="style-chip" onclick="toggleStyle(this)">親しみやすい</span>
+                <span class="style-chip" onclick="toggleStyle(this)">革新的</span>
+                <span class="style-chip" onclick="toggleStyle(this)">信頼感</span>
+                <span class="style-chip" onclick="toggleStyle(this)">トレンディ</span>
+                <span class="style-chip" onclick="toggleStyle(this)">クラシック</span>
+                <span class="style-chip" onclick="toggleStyle(this)">英語</span>
+                <span class="style-chip" onclick="toggleStyle(this)">日本語</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('brand')">✨ ブランド名を生成</button>
+        </div>
+
+        <!-- ニックネームフォーム -->
+        <div class="main-card" id="nicknameForm">
+            <div class="section-title">🎮 ニックネーム情報</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">用途</label>
+                    <select id="nicknameUse">
+                        <option value="game">ゲーム</option>
+                        <option value="sns">SNS/インスタ</option>
+                        <option value="youtube">YouTube/配信</option>
+                        <option value="general">一般</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">含める単語(任意)</label>
+                    <input type="text" id="nicknameWord" placeholder="例:星、star、月">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">スタイル</div>
+            <div class="style-chips" id="nicknameStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">クールな</span>
+                <span class="style-chip" onclick="toggleStyle(this)">可愛い</span>
+                <span class="style-chip" onclick="toggleStyle(this)">ミステリアス</span>
+                <span class="style-chip" onclick="toggleStyle(this)">ユーモラス</span>
+                <span class="style-chip" onclick="toggleStyle(this)">プロフェッショナル</span>
+                <span class="style-chip" onclick="toggleStyle(this)">英語</span>
+                <span class="style-chip" onclick="toggleStyle(this)">日本語</span>
+                <span class="style-chip" onclick="toggleStyle(this)">数字を含む</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('nickname')">✨ ニックネームを生成</button>
+        </div>
+
+        <!-- 結果セクション -->
+        <div class="results-section" id="resultsSection">
+            <div class="section-title">🎉 おすすめの名前</div>
+            <div class="results-grid" id="resultsGrid"></div>
+
+            <div class="saved-names" id="savedNames">
+                <div class="saved-title">❤️ 保存した名前</div>
+                <div class="saved-list" id="savedList"></div>
+            </div>
+
+            <button class="more-btn" onclick="regenerate()">🔄 他の名前を見る</button>
+        </div>
+
+        <div class="ad-banner">広告エリア</div>
+
+        <div class="tips-section">
+            <div class="tips-title">良い名前を選ぶコツ</div>
+            <ul class="tips-list">
+                <li>声に出して読んでみましょう。呼びやすく聞きやすいか確認してください。</li>
+                <li>検索してみましょう。同じ名前が既に多く使われているか確認してください。</li>
+                <li>略称やニックネームに変形される可能性も考えてみましょう。</li>
+                <li>時間をかけて決めましょう。急いで決めると後悔するかもしれません。</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>完璧な名前、ここで見つけてください ✨</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentType = '';
+        let savedNamesList = [];
+
+        const nameDatabase = {
+            baby: {
+                male: [
+                    { name: '蓮', reading: 'レン (Ren)', meaning: '蓮の花のように清らかで美しい人。純粋さを象徴します。', styles: ['純粋な', '伝統的な'] },
+                    { name: '大翔', reading: 'ヒロト (Hiroto)', meaning: '大きく羽ばたく人。壮大な夢を象徴します。', styles: ['強い', '現代的な'] },
+                    { name: '颯', reading: 'ハヤテ (Hayate)', meaning: '爽やかな風。自由で清々しい印象を与えます。', styles: ['自然な', '現代的な'] },
+                    { name: '陽翔', reading: 'ハルト (Haruto)', meaning: '太陽のように明るく羽ばたく人。希望を象徴します。', styles: ['上品な', '現代的な'] },
+                    { name: '湊', reading: 'ミナト (Minato)', meaning: '人が集まる港のような存在。友好的な性格を表します。', styles: ['知的な', '現代的な'] },
+                    { name: '悠真', reading: 'ユウマ (Yuma)', meaning: 'ゆったりとした真実。落ち着いた性格を象徴します。', styles: ['上品な', '伝統的な'] },
+                    { name: '蒼', reading: 'アオイ (Aoi)', meaning: '青空のように広く深い心を持つ人。', styles: ['自然な', '現代的な'] },
+                    { name: '樹', reading: 'イツキ (Itsuki)', meaning: '大樹のようにしっかりした人。安定を象徴します。', styles: ['強い', '伝統的な'] },
+                    { name: '翔太', reading: 'ショウタ (Shota)', meaning: '大きく羽ばたく太い幹。力強さを表します。', styles: ['強い', '現代的な'] },
+                    { name: '陸', reading: 'リク (Riku)', meaning: '大陸のように広い心を持つ人。', styles: ['強い', '現代的な'] }
+                ],
+                female: [
+                    { name: '葵', reading: 'アオイ (Aoi)', meaning: '葵の花のように美しく清らかな人。', styles: ['可愛い', '伝統的な'] },
+                    { name: '結菜', reading: 'ユイナ (Yuina)', meaning: '人と人を結ぶ優しい存在。', styles: ['可愛い', '現代的な'] },
+                    { name: '陽菜', reading: 'ヒナ (Hina)', meaning: '太陽のように明るく温かい人。', styles: ['可愛い', '現代的な'] },
+                    { name: '凛', reading: 'リン (Rin)', meaning: '凛とした美しさ。気品を象徴します。', styles: ['上品な', '現代的な'] },
+                    { name: '美咲', reading: 'ミサキ (Misaki)', meaning: '美しく咲く花。華やかさを表します。', styles: ['可愛い', '伝統的な'] },
+                    { name: '花', reading: 'ハナ (Hana)', meaning: '花のように美しく優雅な人。', styles: ['可愛い', '自然な'] },
+                    { name: '紬', reading: 'ツムギ (Tsumugi)', meaning: '糸を紡ぐように丁寧な人。', styles: ['上品な', '伝統的な'] },
+                    { name: '杏', reading: 'アン (An)', meaning: '杏の実のように可愛らしい存在。', styles: ['可愛い', '自然な'] },
+                    { name: '心春', reading: 'コハル (Koharu)', meaning: '春のように優しい心を持つ人。', styles: ['純粋な', '現代的な'] },
+                    { name: '莉子', reading: 'リコ (Riko)', meaning: 'ジャスミンのように香り高い存在。', styles: ['上品な', '可愛い'] }
+                ]
+            },
+            pet: {
+                cute: ['モモ', 'コロ', 'モコ', 'トフ', 'モチ', 'クッキー', 'チョコ', 'クリ', 'ワタ', 'フク', 'ハチ', 'マメ', 'ドングリ', 'ゼリー', 'プリン', 'マカロン', 'ラテ', 'カプ', 'モモコ', 'マロン'],
+                cool: ['ジェイ', 'マックス', 'ルーク', 'タイガー', 'レオ', 'ミューズ', 'ブラック', 'シャドウ', 'ストーム', 'ロキシー', 'ハンター', 'ライオン', 'キング', 'ジェット', 'ブレイド', 'スパイク', 'チェイサー', 'ウルフ', 'ファントム', 'エース'],
+                elegant: ['ベラ', 'ルナ', 'ミア', 'ソフィア', 'クロエ', 'シャーロット', 'ビクトリア', 'オーロラ', 'アリア', 'セレナ', 'グレース', 'エリー', 'プリンセス', 'レディ', 'アンジュ', 'フレイア', 'ビアンカ', 'サブリナ', 'ディバ', 'ローズ'],
+                food: ['おもち', 'きなこ', 'あんこ', 'わさび', 'しょうゆ', 'みそ', 'のり', 'おにぎり', 'すし', 'てんぷら', 'カレー', 'ケチャップ', 'マヨ', 'わさび', 'ピザ', 'パスタ', 'うどん', 'そば', 'タコス', 'バーガー'],
+                korean: ['ダルレ', 'ナレ', 'バラム', 'ハヌル', 'グルム', 'ビョル', 'ハッピー', 'サラン', 'ミル', 'アリ', 'ソナ', 'ダン', 'ハンビョル', 'ボラム', 'セッビョル', 'ガオン', 'ガラム', 'ナム', 'プリプ', 'ボム'],
+                english: ['Buddy', 'Lucky', 'Charlie', 'Cooper', 'Bear', 'Duke', 'Tucker', 'Jack', 'Rocky', 'Teddy', 'Daisy', 'Lucy', 'Coco', 'Molly', 'Sadie', 'Lily', 'Zoey', 'Stella', 'Penny', 'Ruby']
+            },
+            brand: {
+                tech: ['テックノバ', 'イノフレックス', 'スマートオン', 'デジタルラボ', 'コードウェーブ', 'ネクストアップ', 'データリム', 'クラウディオ', 'インフィニティ', 'フューチャーリンク', 'Innovix', 'TechFlow', 'ByteWise', 'NeoSpark', 'CloudNest'],
+                fashion: ['ベルヴォワール', 'エレガンス', 'モダンシック', 'ルブラン', 'アトリエ', 'プリマ', 'ラヴィアン', 'ソレイユ', 'ローズ', 'ビアンカ', 'Luxire', 'Velora', 'Chique', 'Primrose', 'Ethereal'],
+                food: ['フレッシュテーブル', '職人キッチン', 'ネイチャーテーブル', 'フレッシュミール', 'フードストーリー', 'おいしい夢', '心のこもった一皿', '今日の食卓', '健康な一日', 'Freshly', 'Nourish', 'TasteBud', 'Flavora', 'PureEats'],
+                creative: ['クリエイタブル', 'アートスペース', 'ビジョンメーカー', 'インスピレーション', 'クラフトワークス', 'デザインルーム', 'アイデアファクトリー', 'Creatify', 'Artisan', 'Visionary', 'DesignLab', 'Inspiro']
+            },
+            nickname: {
+                cool: ['ダークフェニックス', 'シャドウハンター', 'ストームブリンガー', 'ナイトウルフ', 'アイスキング', 'サンダーストライク', 'サイレントブレード', 'スターキラー', 'ヴォイドウォーカー', 'ファイアロード'],
+                cute: ['はちみつうさぎ', 'ほしのこ', 'あまねこ', 'くもくま', 'きらほし', 'SweetBunny', 'StarDust', 'MoonChild', 'CozyBear', 'PinkCloud'],
+                funny: ['おもちウォリアー', 'ラーメンヒーロー', 'すしマスター', 'カレー愛好家', 'ねむねむパンダ', 'NoodleMaster', 'SleepyPanda', 'CouchPotato', 'LazyLion', 'ChickenKing'],
+                pro: ['プロプレイヤー', 'エリートゲーマー', 'マスターチーフ', 'ビクトリーキング', 'チャンピオンX', 'レジェンドワン', 'スプリームスター', 'アルティメットプロ', 'エースプレイヤー', 'トップティア']
+            }
+        };
+
+        function selectType(type) {
+            document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+            document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+            currentType = type;
+
+            document.querySelectorAll('.main-card').forEach(f => f.classList.remove('show'));
+            document.getElementById(`${type}Form`).classList.add('show');
+            document.getElementById('resultsSection').classList.remove('show');
+        }
+
+        function toggleStyle(el) {
+            el.classList.toggle('selected');
+        }
+
+        function generateNames(type) {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> 名前を生成中...';
+
+            setTimeout(() => {
+                let names = [];
+
+                if (type === 'baby') {
+                    const gender = document.getElementById('babyGender').value;
+                    const surname = document.getElementById('babySurname').value || '';
+                    const selectedStyles = getSelectedStyles('babyStyle');
+
+                    let pool = nameDatabase.baby[gender];
+                    if (selectedStyles.length > 0) {
+                        pool = pool.filter(n => n.styles.some(s => selectedStyles.includes(s)));
+                        if (pool.length < 5) pool = nameDatabase.baby[gender];
+                    }
+
+                    names = shuffle(pool).slice(0, 5).map(n => ({
+                        ...n,
+                        name: surname + n.name
+                    }));
+                } else if (type === 'pet') {
+                    const selectedStyles = getSelectedStyles('petStyle');
+                    let category = 'cute';
+                    if (selectedStyles.includes('かっこいい')) category = 'cool';
+                    if (selectedStyles.includes('優雅な')) category = 'elegant';
+                    if (selectedStyles.includes('食べ物系')) category = 'food';
+                    if (selectedStyles.includes('日本語')) category = 'cute';
+                    if (selectedStyles.includes('英語')) category = 'english';
+                    if (selectedStyles.includes('韓国語')) category = 'korean';
+
+                    names = shuffle(nameDatabase.pet[category]).slice(0, 6).map(n => ({
+                        name: n,
+                        reading: '',
+                        meaning: getPetMeaning(n)
+                    }));
+                } else if (type === 'brand') {
+                    const category = document.getElementById('brandCategory').value;
+                    const pool = nameDatabase.brand[category] || nameDatabase.brand.tech;
+
+                    names = shuffle(pool).slice(0, 6).map(n => ({
+                        name: n,
+                        reading: '',
+                        meaning: getBrandMeaning(n)
+                    }));
+                } else if (type === 'nickname') {
+                    const selectedStyles = getSelectedStyles('nicknameStyle');
+                    let category = 'cool';
+                    if (selectedStyles.includes('可愛い')) category = 'cute';
+                    if (selectedStyles.includes('ユーモラス')) category = 'funny';
+                    if (selectedStyles.includes('プロフェッショナル')) category = 'pro';
+
+                    const customWord = document.getElementById('nicknameWord').value;
+                    let pool = nameDatabase.nickname[category];
+
+                    names = shuffle(pool).slice(0, 6).map(n => {
+                        if (customWord && Math.random() > 0.5) {
+                            n = customWord + '_' + n.split(/[_\s]/)[1];
+                        }
+                        return {
+                            name: n,
+                            reading: '',
+                            meaning: getNicknameMeaning(n)
+                        };
+                    });
+                }
+
+                displayResults(names);
+                btn.disabled = false;
+                btn.innerHTML = '✨ 名前を生成';
+            }, 1500);
+        }
+
+        function getSelectedStyles(containerId) {
+            const container = document.getElementById(containerId);
+            return Array.from(container.querySelectorAll('.style-chip.selected')).map(el => el.textContent);
+        }
+
+        function shuffle(array) {
+            return [...array].sort(() => Math.random() - 0.5);
+        }
+
+        function getPetMeaning(name) {
+            const meanings = [
+                '愛らしくて可愛い印象の名前です。',
+                '呼びやすく親しみやすい名前です。',
+                'ユニークで個性的な名前です。',
+                '可愛くて活発な印象を与える名前です。',
+                '愛情を込めて呼ぶのに良い名前です。'
+            ];
+            return meanings[Math.floor(Math.random() * meanings.length)];
+        }
+
+        function getBrandMeaning(name) {
+            const meanings = [
+                '現代的で専門的なイメージを伝えます。',
+                '信頼感とイノベーションを同時に感じさせる名前です。',
+                '覚えやすく呼びやすいブランド名です。',
+                'トレンディでありながら安定感を与えます。',
+                'ユニークでありながら親しみやすいイメージの名前です。'
+            ];
+            return meanings[Math.floor(Math.random() * meanings.length)];
+        }
+
+        function getNicknameMeaning(name) {
+            const meanings = [
+                '個性的で印象に残るニックネームです。',
+                'センスがありトレンディなニックネームです。',
+                '目立ってインパクトのあるニックネームです。',
+                '親しみやすくてかっこいい印象のニックネームです。',
+                'ユニークで特別なニックネームです。'
+            ];
+            return meanings[Math.floor(Math.random() * meanings.length)];
+        }
+
+        function displayResults(names) {
+            const grid = document.getElementById('resultsGrid');
+            grid.innerHTML = names.map((n, i) => `
+                <div class="name-card" onclick="copyName('${n.name}')">
+                    <div class="name-info">
+                        <div class="name-main">${n.name}</div>
+                        ${n.reading ? `<div class="name-reading">${n.reading}</div>` : ''}
+                        <div class="name-meaning">${n.meaning}</div>
+                    </div>
+                    <div class="name-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); toggleSave('${n.name}')" id="save-${i}">❤️</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); copyName('${n.name}')">📋</button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('resultsSection').classList.add('show');
+            showToast('名前が生成されました!');
+        }
+
+        function toggleSave(name) {
+            const idx = savedNamesList.indexOf(name);
+            if (idx > -1) {
+                savedNamesList.splice(idx, 1);
+                showToast('保存リストから削除しました');
+            } else {
+                savedNamesList.push(name);
+                showToast('名前を保存しました!');
+            }
+            updateSavedList();
+        }
+
+        function updateSavedList() {
+            const container = document.getElementById('savedNames');
+            const list = document.getElementById('savedList');
+
+            if (savedNamesList.length > 0) {
+                container.classList.add('show');
+                list.innerHTML = savedNamesList.map(name => `
+                    <span class="saved-tag">
+                        ${name}
+                        <button class="remove-saved" onclick="removeSaved('${name}')">×</button>
+                    </span>
+                `).join('');
+            } else {
+                container.classList.remove('show');
+            }
+        }
+
+        function removeSaved(name) {
+            savedNamesList = savedNamesList.filter(n => n !== name);
+            updateSavedList();
+        }
+
+        function copyName(name) {
+            navigator.clipboard.writeText(name);
+            showToast(`"${name}" をコピーしました!`);
+        }
+
+        function regenerate() {
+            const btn = document.querySelector(`#${currentType}Form .generate-btn`);
+            btn.click();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>

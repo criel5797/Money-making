@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI計算機 - 体格指数計算</title>
+    <meta name="description" content="BMIを簡単に計算します。体格指数で健康状態を確認してください。">
+    <meta name="keywords" content="BMI計算機, 体格指数, 健康チェック, 体重計算">
+    <meta property="og:title" content="BMI計算機 - 体格指数">
+    <meta property="og:description" content="BMIを簡単に計算します。">
+    <meta property="og:type" content="website">
+    <link rel="alternate" hreflang="ja" href="index-ja.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="en" href="index-en.html">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Hiragino Kaku Gothic ProN',Meiryo,sans-serif;background:linear-gradient(135deg,#134e5e 0%,#71b280 100%);min-height:100vh;color:#fff;padding:20px}.container{max-width:500px;margin:0 auto}.ad-banner{background:rgba(255,255,255,.1);padding:20px;text-align:center;border-radius:12px;margin-bottom:20px;color:rgba(255,255,255,.5)}header{text-align:center;margin-bottom:30px}h1{font-size:1.8rem;margin-bottom:10px;background:linear-gradient(135deg,#a8e063,#56ab2f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.subtitle{color:rgba(255,255,255,.7);font-size:.95rem}.input-section{background:rgba(255,255,255,.1);border-radius:16px;padding:25px;margin-bottom:20px;backdrop-filter:blur(10px)}.input-group{margin-bottom:20px}label{display:block;margin-bottom:10px;color:rgba(255,255,255,.9);font-size:.95rem;font-weight:500}.input-wrapper{position:relative;display:flex;align-items:center}input[type=number]{width:100%;padding:16px 60px 16px 16px;border:2px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(255,255,255,.1);color:#fff;font-size:1.2rem;font-weight:600;transition:all .3s}input[type=number]:focus{outline:none;border-color:#a8e063;background:rgba(255,255,255,.15)}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.unit{position:absolute;right:16px;color:rgba(255,255,255,.6);font-size:1rem;font-weight:500}.calculate-btn{width:100%;padding:18px;background:linear-gradient(135deg,#a8e063,#56ab2f);border:none;border-radius:12px;color:#fff;font-size:1.1rem;font-weight:600;cursor:pointer;transition:transform .2s,box-shadow .2s;margin-top:10px}.calculate-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(86,171,47,.4)}.result-section{display:none;margin-top:25px}.result-section.show{display:block;animation:fadeIn .5s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.bmi-card{background:rgba(255,255,255,.1);border-radius:20px;padding:30px;text-align:center;backdrop-filter:blur(10px)}.bmi-value{font-size:4rem;font-weight:800;line-height:1;margin-bottom:10px}.bmi-category{font-size:1.4rem;font-weight:600;margin-bottom:20px}.bmi-bar{height:12px;background:linear-gradient(to right,#3498db 0%,#2ecc71 18.5%,#2ecc71 25%,#f1c40f 25%,#f1c40f 30%,#e67e22 30%,#e67e22 35%,#e74c3c 35%);border-radius:6px;position:relative;margin:25px 0}.bmi-indicator{position:absolute;top:-8px;width:4px;height:28px;background:#fff;border-radius:2px;transform:translateX(-50%);box-shadow:0 2px 10px rgba(0,0,0,.3);transition:left .5s ease}.bmi-labels{display:flex;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,.6);margin-top:5px}.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}.info-item{background:rgba(255,255,255,.1);border-radius:12px;padding:15px;text-align:center}.info-label{font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:5px}.info-value{font-size:1.2rem;font-weight:700}.category-table{background:rgba(255,255,255,.1);border-radius:16px;padding:20px;margin-top:20px;backdrop-filter:blur(10px)}.category-table h3{font-size:1rem;margin-bottom:15px;color:rgba(255,255,255,.9)}.category-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:.9rem}.category-row:last-child{border-bottom:none}.category-row.active{background:rgba(255,255,255,.1);margin:0 -10px;padding:10px;border-radius:8px}.category-name{color:rgba(255,255,255,.8)}.category-range{color:rgba(255,255,255,.6)}.share-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:10px;color:#fff;font-size:.95rem;cursor:pointer;transition:all .3s;margin-top:20px}.share-btn:hover{background:rgba(255,255,255,.2)}.disclaimer{background:rgba(255,255,255,.1);border-radius:10px;padding:12px;margin-top:20px;font-size:.8rem;color:rgba(255,255,255,.6);text-align:center}footer{text-align:center;margin-top:30px;color:rgba(255,255,255,.4);font-size:.8rem}.underweight{color:#3498db}.normal{color:#2ecc71}.overweight{color:#f1c40f}.obese{color:#e67e22}.severe-obese{color:#e74c3c}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+
+        <header>
+            <h1>⚖️ BMI計算機</h1>
+            <p class="subtitle">体格指数で健康状態を確認</p>
+        </header>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label>身長</label>
+                <div class="input-wrapper">
+                    <input type="number" id="height" placeholder="170" min="100" max="250">
+                    <span class="unit">cm</span>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>体重</label>
+                <div class="input-wrapper">
+                    <input type="number" id="weight" placeholder="65" min="20" max="300">
+                    <span class="unit">kg</span>
+                </div>
+            </div>
+            <button class="calculate-btn" onclick="calculateBMI()">BMIを計算</button>
+        </div>
+
+        <div class="result-section" id="result">
+            <div class="bmi-card">
+                <div class="bmi-value" id="bmiValue">0.0</div>
+                <div class="bmi-category" id="bmiCategory">-</div>
+
+                <div class="bmi-bar">
+                    <div class="bmi-indicator" id="bmiIndicator"></div>
+                </div>
+                <div class="bmi-labels">
+                    <span>低体重</span>
+                    <span>普通</span>
+                    <span>過体重</span>
+                    <span>肥満</span>
+                    <span>高度肥満</span>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">標準体重</div>
+                        <div class="info-value" id="idealWeight">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">正常範囲</div>
+                        <div class="info-value" id="normalRange">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-table">
+                <h3>📊 BMI分類</h3>
+                <div class="category-row" data-category="underweight">
+                    <span class="category-name">低体重</span>
+                    <span class="category-range">18.5 ↓</span>
+                </div>
+                <div class="category-row" data-category="normal">
+                    <span class="category-name">普通体重</span>
+                    <span class="category-range">18.5 - 22.9</span>
+                </div>
+                <div class="category-row" data-category="overweight">
+                    <span class="category-name">過体重</span>
+                    <span class="category-range">23 - 24.9</span>
+                </div>
+                <div class="category-row" data-category="obese">
+                    <span class="category-name">肥満</span>
+                    <span class="category-range">25 - 29.9</span>
+                </div>
+                <div class="category-row" data-category="severe-obese">
+                    <span class="category-name">高度肥満</span>
+                    <span class="category-range">30 ↑</span>
+                </div>
+            </div>
+
+            <button class="share-btn" onclick="shareResult()">
+                <span>📤</span> <span>結果を共有</span>
+            </button>
+        </div>
+
+        <div class="disclaimer">
+            BMIは参考指標です。
+        </div>
+
+        <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
+
+        <footer>
+            <p>© 2024 BMI Calculator</p>
+        </footer>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            if (!height || !weight) { alert('身長と体重を入力してください。'); return; }
+            if (height < 50 || height > 300) { alert('無効な身長です。'); return; }
+            if (weight < 10 || weight > 500) { alert('無効な体重です。'); return; }
+
+            const heightM = height / 100;
+            const bmi = weight / (heightM * heightM);
+            let category, colorClass;
+
+            if (bmi < 18.5) { category = '低体重'; colorClass = 'underweight'; }
+            else if (bmi < 23) { category = '普通体重'; colorClass = 'normal'; }
+            else if (bmi < 25) { category = '過体重'; colorClass = 'overweight'; }
+            else if (bmi < 30) { category = '肥満'; colorClass = 'obese'; }
+            else { category = '高度肥満'; colorClass = 'severe-obese'; }
+
+            const idealWeight = 22 * heightM * heightM;
+            const minNormal = 18.5 * heightM * heightM;
+            const maxNormal = 22.9 * heightM * heightM;
+            let indicatorPos = ((bmi - 15) / 20) * 100;
+            indicatorPos = Math.max(0, Math.min(100, indicatorPos));
+
+            document.getElementById('bmiValue').textContent = bmi.toFixed(1);
+            document.getElementById('bmiValue').className = 'bmi-value ' + colorClass;
+            document.getElementById('bmiCategory').textContent = category;
+            document.getElementById('bmiCategory').className = 'bmi-category ' + colorClass;
+            document.getElementById('bmiIndicator').style.left = indicatorPos + '%';
+            document.getElementById('idealWeight').textContent = idealWeight.toFixed(1) + ' kg';
+            document.getElementById('normalRange').textContent = minNormal.toFixed(1) + ' - ' + maxNormal.toFixed(1) + ' kg';
+
+            document.querySelectorAll('.category-row').forEach(row => {
+                row.classList.remove('active');
+                if (row.dataset.category === colorClass) row.classList.add('active');
+            });
+            document.getElementById('result').classList.add('show');
+        }
+
+        function shareResult() {
+            const bmi = document.getElementById('bmiValue').textContent;
+            const category = document.getElementById('bmiCategory').textContent;
+            const text = `⚖️ 私のBMI: ${bmi} (${category})`;
+            if (navigator.share) navigator.share({ title: 'BMI結果', text: text });
+            else { navigator.clipboard.writeText(text); alert("コピーしました: " + text); }
+        }
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) { if (e.key === 'Enter') calculateBMI(); });
+        });
+    </script>
+</body>
+</html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR 코드 생성기 - 무료 온라인 QR 코드 만들기</title>
-    <meta name="description" content="URL, 텍스트, WiFi 등의 QR 코드를 무료로 생성하세요. 색상과 크기를 자유롭게 설정할 수 있습니다.">
-    <meta name="keywords" content="QR코드 생성기, QR코드 만들기, QR코드 무료, 큐알코드">
-    <meta property="og:title" content="QR 코드 생성기 - 무료 온라인 QR 코드 만들기">
-    <meta property="og:description" content="URL, 텍스트, WiFi 등의 QR 코드를 무료로 생성하세요.">
+    <title>QR Code Generator - Free Online QR Code Maker</title>
+    <meta name="description" content="Generate QR codes for URLs, text, WiFi and more for free. Customize colors and sizes freely.">
+    <meta name="keywords" content="QR code generator, make QR code, free QR code, QR creator">
+    <meta property="og:title" content="QR Code Generator - Free Online QR Code Maker">
+    <meta property="og:description" content="Generate QR codes for URLs, text, WiFi and more for free.">
     <meta property="og:type" content="website">
 
     <style>
@@ -286,77 +286,77 @@
 <script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"QR 생성기","en":"QR Generator","ja":"QR生成"},"desc":{"ko":"QR 코드 생성","en":"Create QR","ja":"QR作成"}},"header":{"title":{"ko":"QR 코드 생성기","en":"QR Generator","ja":"QRコード生成"},"subtitle":{"ko":"다양한 QR 생성","en":"Create various QR","ja":"様々なQR生成"}},"tabs":{"url":{"ko":"URL","en":"URL","ja":"URL"},"text":{"ko":"텍스트","en":"Text","ja":"テキスト"},"wifi":{"ko":"와이파이","en":"WiFi","ja":"Wi-Fi"},"email":{"ko":"이메일","en":"Email","ja":"メール"},"phone":{"ko":"전화","en":"Phone","ja":"電話"}},"inputs":{"urlLabel":{"ko":"URL","en":"URL","ja":"URL"},"textLabel":{"ko":"내용","en":"Content","ja":"内容"},"ssid":{"ko":"SSID","en":"SSID","ja":"SSID"},"password":{"ko":"비밀번호","en":"Password","ja":"パスワード"},"security":{"ko":"보안","en":"Security","ja":"セキュリティ"},"emailAddr":{"ko":"주소","en":"Address","ja":"アドレス"},"subject":{"ko":"제목","en":"Subject","ja":"件名"},"body":{"ko":"내용","en":"Body","ja":"本文"},"phone":{"ko":"번호","en":"Number","ja":"番号"}},"customize":{"title":{"ko":"⚙️ 설정","en":"⚙️ Settings","ja":"⚙️ 設定"},"qrColor":{"ko":"QR 색상","en":"Color","ja":"色"},"bgColor":{"ko":"배경","en":"BG","ja":"背景"},"size":{"ko":"크기","en":"Size","ja":"サイズ"}},"generateBtn":{"ko":"✨ 생성하기","en":"✨ Generate","ja":"✨ 生成"},"preview":{"title":{"ko":"📱 미리보기","en":"📱 Preview","ja":"📱 プレビュー"}},"download":{"png":{"ko":"💾 PNG","en":"💾 PNG","ja":"💾 PNG"},"svg":{"ko":"📄 SVG","en":"📄 SVG","ja":"📄 SVG"}},"info":{"title":{"ko":"활용","en":"Usage","ja":"活用"}},"footer":{"ko":"유용하게","en":"Enjoy","ja":"便利に"}};</script></head>
 <body>
     <div class="lang-switch">
-        <a href="index.html">English</a>
+        <a href="index-ko.html">한국어</a>
     </div>
 
     <div class="container">
         <header>
-            <h1>QR 코드 생성기</h1>
-            <p class="subtitle">모든 용도의 QR 코드를 만드세요</p>
+            <h1>QR Code Generator</h1>
+            <p class="subtitle">Create QR codes for any purpose</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="main-grid">
             <div class="input-section">
                 <div class="tabs">
                     <button class="tab-btn active" onclick="switchTab('url')">🔗 URL</button>
-                    <button class="tab-btn" onclick="switchTab('text')">📝 텍스트</button>
+                    <button class="tab-btn" onclick="switchTab('text')">📝 Text</button>
                     <button class="tab-btn" onclick="switchTab('wifi')">📶 WiFi</button>
-                    <button class="tab-btn" onclick="switchTab('email')">📧 이메일</button>
-                    <button class="tab-btn" onclick="switchTab('phone')">📞 전화</button>
+                    <button class="tab-btn" onclick="switchTab('email')">📧 Email</button>
+                    <button class="tab-btn" onclick="switchTab('phone')">📞 Phone</button>
                 </div>
 
                 <div class="tab-content active" id="tab-url">
-                    <label>웹사이트 URL</label>
+                    <label>Website URL</label>
                     <input type="url" id="urlInput" placeholder="https://example.com" value="https://google.com">
                 </div>
 
                 <div class="tab-content" id="tab-text">
-                    <label>텍스트 내용</label>
-                    <textarea id="textInput" placeholder="원하는 텍스트를 입력하세요...">안녕하세요!</textarea>
+                    <label>Text Content</label>
+                    <textarea id="textInput" placeholder="Enter your text...">Hello!</textarea>
                 </div>
 
                 <div class="tab-content" id="tab-wifi">
-                    <label>네트워크 이름 (SSID)</label>
+                    <label>Network Name (SSID)</label>
                     <input type="text" id="wifiSsid" placeholder="MyWiFi">
-                    <label>비밀번호</label>
+                    <label>Password</label>
                     <input type="text" id="wifiPassword" placeholder="password123">
-                    <label>보안 유형</label>
+                    <label>Security Type</label>
                     <select id="wifiSecurity">
                         <option value="WPA">WPA/WPA2</option>
                         <option value="WEP">WEP</option>
-                        <option value="nopass">없음</option>
+                        <option value="nopass">None</option>
                     </select>
                 </div>
 
                 <div class="tab-content" id="tab-email">
-                    <label>이메일 주소</label>
+                    <label>Email Address</label>
                     <input type="email" id="emailAddress" placeholder="hello@example.com">
-                    <label>제목 (선택)</label>
-                    <input type="text" id="emailSubject" placeholder="제목">
-                    <label>내용 (선택)</label>
-                    <textarea id="emailBody" placeholder="메시지 내용..."></textarea>
+                    <label>Subject (Optional)</label>
+                    <input type="text" id="emailSubject" placeholder="Subject">
+                    <label>Body (Optional)</label>
+                    <textarea id="emailBody" placeholder="Message body..."></textarea>
                 </div>
 
                 <div class="tab-content" id="tab-phone">
-                    <label>전화번호</label>
-                    <input type="tel" id="phoneNumber" placeholder="010-1234-5678">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phoneNumber" placeholder="+1-234-567-8900">
                 </div>
 
                 <div class="customize-section">
-                    <div class="customize-title">⚙️ 커스터마이즈</div>
+                    <div class="customize-title">⚙️ Customize</div>
 
                     <div class="color-row">
                         <div class="color-group">
-                            <label>QR 색상</label>
+                            <label>QR Color</label>
                             <div class="color-input">
                                 <input type="color" id="qrColor" value="#000000">
                                 <span id="qrColorValue">#000000</span>
                             </div>
                         </div>
                         <div class="color-group">
-                            <label>배경 색상</label>
+                            <label>Background Color</label>
                             <div class="color-input">
                                 <input type="color" id="bgColor" value="#ffffff">
                                 <span id="bgColorValue">#ffffff</span>
@@ -364,42 +364,42 @@
                         </div>
                     </div>
 
-                    <label>크기</label>
+                    <label>Size</label>
                     <div class="size-slider">
                         <input type="range" id="sizeSlider" min="128" max="512" value="256">
                         <span class="size-value" id="sizeValue">256px</span>
                     </div>
                 </div>
 
-                <button class="generate-btn" onclick="generateQR()">✨ QR 코드 생성</button>
+                <button class="generate-btn" onclick="generateQR()">✨ Generate QR Code</button>
             </div>
 
             <div class="preview-section">
-                <div class="preview-title">📱 미리보기</div>
+                <div class="preview-title">📱 Preview</div>
                 <div class="qr-container">
                     <div id="qrcode"></div>
                 </div>
                 <div class="download-btns">
-                    <button class="btn btn-primary" onclick="downloadQR('png')">💾 PNG 다운로드</button>
-                    <button class="btn btn-secondary" onclick="downloadQR('svg')">📄 SVG 다운로드</button>
+                    <button class="btn btn-primary" onclick="downloadQR('png')">💾 Download PNG</button>
+                    <button class="btn btn-secondary" onclick="downloadQR('svg')">📄 Download SVG</button>
                 </div>
             </div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="info-section">
-            <h3>무엇을 담을 수 있나요?</h3>
-            <p><strong>URL:</strong> 어떤 웹사이트로도 연결</p>
-            <p><strong>텍스트:</strong> 모든 메시지나 정보</p>
-            <p><strong>WiFi:</strong> 네트워크 정보 공유 (스캔하면 바로 연결)</p>
-            <p><strong>이메일:</strong> 주소, 제목, 내용이 미리 입력된 이메일</p>
-            <p><strong>전화:</strong> 바로 전화 걸기</p>
+            <h3>What can you encode?</h3>
+            <p><strong>URL:</strong> Link to any website</p>
+            <p><strong>Text:</strong> Any message or information</p>
+            <p><strong>WiFi:</strong> Share network info (scan to connect instantly)</p>
+            <p><strong>Email:</strong> Pre-filled email with address, subject, and body</p>
+            <p><strong>Phone:</strong> Direct call link</p>
         </div>
 
         <footer>
-            <p>❤️ 모두를 위해 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>❤️ Made for everyone</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
         </footer>
     </div>
 
@@ -446,7 +446,7 @@
                 case 'url':
                     return document.getElementById('urlInput').value || 'https://example.com';
                 case 'text':
-                    return document.getElementById('textInput').value || '안녕하세요';
+                    return document.getElementById('textInput').value || 'Hello!';
                 case 'wifi':
                     const ssid = document.getElementById('wifiSsid').value;
                     const password = document.getElementById('wifiPassword').value;
@@ -474,7 +474,7 @@
         function downloadQR(format) {
             const canvas = document.querySelector('#qrcode canvas');
             if (!canvas) {
-                showToast('먼저 QR 코드를 생성하세요');
+                showToast('Please generate a QR code first');
                 return;
             }
 
@@ -510,7 +510,7 @@
                 link.click();
             }
 
-            showToast('다운로드 완료!');
+            showToast('Download complete!');
         }
 
         document.getElementById('qrColor').addEventListener('input', (e) => {

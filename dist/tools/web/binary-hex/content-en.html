@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>진법 변환기 - 2진수 16진수 8진수 10진수 변환</title>
-    <meta name="description" content="무료 진법 변환기. 2진수, 16진수, 8진수, 10진수를 즉시 변환하세요. 프로그래머와 학생에게 완벽한 도구.">
-    <meta name="keywords" content="진법 변환기, 2진수 변환, 16진수 변환, 10진수 2진수, 바이너리 변환, 헥사 변환">
+    <title>Number Base Converter - Binary Hexadecimal Octal Decimal</title>
+    <meta name="description" content="Free number base converter. Convert between binary, hexadecimal, octal, and decimal instantly. Perfect tool for programmers and students.">
+    <meta name="keywords" content="base converter, binary conversion, hexadecimal conversion, decimal to binary, binary converter, hex converter">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="진법 변환기 - 2진수 16진수 변환 도구">
-    <meta property="og:description" content="2진수, 16진수, 8진수, 10진수를 즉시 변환하세요.">
+    <meta property="og:title" content="Number Base Converter - Binary Hexadecimal Conversion Tool">
+    <meta property="og:description" content="Convert between binary, hexadecimal, octal, and decimal instantly.">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -373,127 +373,127 @@
 <body>
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="index-ko.html">Korean</a>
         </div>
 
         <header>
-            <h1>진법 변환기</h1>
-            <p class="subtitle">숫자를 다양한 진법으로 즉시 변환</p>
+            <h1>Number Base Converter</h1>
+            <p class="subtitle">Convert numbers between different bases instantly</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="card">
-            <h2>숫자 변환기</h2>
+            <h2>Number Converter</h2>
 
             <div class="converter-grid">
                 <div class="converter-row">
                     <div class="system-label">
                         <span class="system-badge">DEC</span>
-                        <span class="system-name">10진수</span>
+                        <span class="system-name">Decimal</span>
                     </div>
                     <div class="input-wrapper">
-                        <input type="text" id="decimal" placeholder="10진수를 입력하세요" oninput="convertFrom('decimal')">
+                        <input type="text" id="decimal" placeholder="Enter decimal number" oninput="convertFrom('decimal')">
                     </div>
-                    <button class="copy-btn" onclick="copyValue('decimal')">복사</button>
+                    <button class="copy-btn" onclick="copyValue('decimal')">Copy</button>
                 </div>
 
                 <div class="converter-row">
                     <div class="system-label">
                         <span class="system-badge">BIN</span>
-                        <span class="system-name">2진수</span>
+                        <span class="system-name">Binary</span>
                     </div>
                     <div class="input-wrapper">
-                        <input type="text" id="binary" placeholder="2진수를 입력하세요" oninput="convertFrom('binary')">
+                        <input type="text" id="binary" placeholder="Enter binary number" oninput="convertFrom('binary')">
                     </div>
-                    <button class="copy-btn" onclick="copyValue('binary')">복사</button>
+                    <button class="copy-btn" onclick="copyValue('binary')">Copy</button>
                 </div>
 
                 <div class="converter-row">
                     <div class="system-label">
                         <span class="system-badge">HEX</span>
-                        <span class="system-name">16진수</span>
+                        <span class="system-name">Hexadecimal</span>
                     </div>
                     <div class="input-wrapper">
-                        <input type="text" id="hex" placeholder="16진수를 입력하세요" oninput="convertFrom('hex')">
+                        <input type="text" id="hex" placeholder="Enter hexadecimal number" oninput="convertFrom('hex')">
                     </div>
-                    <button class="copy-btn" onclick="copyValue('hex')">복사</button>
+                    <button class="copy-btn" onclick="copyValue('hex')">Copy</button>
                 </div>
 
                 <div class="converter-row">
                     <div class="system-label">
                         <span class="system-badge">OCT</span>
-                        <span class="system-name">8진수</span>
+                        <span class="system-name">Octal</span>
                     </div>
                     <div class="input-wrapper">
-                        <input type="text" id="octal" placeholder="8진수를 입력하세요" oninput="convertFrom('octal')">
+                        <input type="text" id="octal" placeholder="Enter octal number" oninput="convertFrom('octal')">
                     </div>
-                    <button class="copy-btn" onclick="copyValue('octal')">복사</button>
+                    <button class="copy-btn" onclick="copyValue('octal')">Copy</button>
                 </div>
             </div>
 
             <div class="bit-display" id="bitDisplay" style="display: none;">
-                <h4>2진수 표현 (8비트 그룹)</h4>
+                <h4>Binary Representation (8-bit groups)</h4>
                 <div class="bit-grid" id="bitGrid"></div>
             </div>
 
             <div class="divider"></div>
 
             <div class="text-converter">
-                <h3>텍스트 ↔ 2진수/16진수 변환</h3>
+                <h3>Text ↔ Binary/Hexadecimal Converter</h3>
 
                 <div class="text-input-group">
-                    <label class="text-label">텍스트</label>
-                    <textarea id="textInput" placeholder="변환할 텍스트를 입력하세요..." oninput="convertText()">안녕하세요</textarea>
+                    <label class="text-label">Text</label>
+                    <textarea id="textInput" placeholder="Enter text to convert..." oninput="convertText()">Hello World</textarea>
                 </div>
 
                 <div class="convert-buttons">
-                    <button class="convert-btn" onclick="textToBinary()">텍스트 → 2진수</button>
-                    <button class="convert-btn" onclick="textToHex()">텍스트 → 16진수</button>
-                    <button class="convert-btn" onclick="binaryToText()">2진수 → 텍스트</button>
-                    <button class="convert-btn" onclick="hexToText()">16진수 → 텍스트</button>
+                    <button class="convert-btn" onclick="textToBinary()">Text → Binary</button>
+                    <button class="convert-btn" onclick="textToHex()">Text → Hexadecimal</button>
+                    <button class="convert-btn" onclick="binaryToText()">Binary → Text</button>
+                    <button class="convert-btn" onclick="hexToText()">Hexadecimal → Text</button>
                 </div>
 
                 <div class="text-input-group">
-                    <label class="text-label">결과</label>
-                    <textarea id="textOutput" placeholder="변환 결과가 여기에 표시됩니다..." readonly></textarea>
+                    <label class="text-label">Result</label>
+                    <textarea id="textOutput" placeholder="Conversion result will appear here..." readonly></textarea>
                 </div>
 
-                <button class="copy-btn" onclick="copyTextResult()" style="width: 100%;">결과 복사</button>
+                <button class="copy-btn" onclick="copyTextResult()" style="width: 100%;">Copy Result</button>
             </div>
         </div>
 
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#128290;</div>
-                <h3>모든 진법</h3>
-                <p>2진수, 10진수, 16진수, 8진수</p>
+                <h3>All Bases</h3>
+                <p>Binary, Decimal, Hexadecimal, Octal</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128221;</div>
-                <h3>텍스트 변환</h3>
-                <p>텍스트를 2진수나 16진수로 변환</p>
+                <h3>Text Conversion</h3>
+                <p>Convert text to binary or hexadecimal</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#9889;</div>
-                <h3>실시간</h3>
-                <p>입력과 동시에 즉시 변환</p>
+                <h3>Real-time</h3>
+                <p>Instant conversion as you type</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128203;</div>
-                <h3>원클릭 복사</h3>
-                <p>모든 결과를 즉시 복사</p>
+                <h3>One-click Copy</h3>
+                <p>Copy any result instantly</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 진법 변환기 | 2진수 16진수 변환 도구</p>
+            <p>Free Number Base Converter | Binary Hexadecimal Conversion Tool</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         function convertFrom(source) {
@@ -520,24 +520,24 @@
             try {
                 switch (source) {
                     case 'decimal':
-                        if (!/^-?\d+$/.test(value)) throw new Error('잘못된 10진수');
+                        if (!/^-?\d+$/.test(value)) throw new Error('Invalid decimal');
                         decimal = parseInt(value, 10);
                         break;
                     case 'binary':
-                        if (!/^[01]+$/.test(value)) throw new Error('잘못된 2진수');
+                        if (!/^[01]+$/.test(value)) throw new Error('Invalid binary');
                         decimal = parseInt(value, 2);
                         break;
                     case 'hex':
-                        if (!/^[0-9A-Fa-f]+$/.test(value)) throw new Error('잘못된 16진수');
+                        if (!/^[0-9A-Fa-f]+$/.test(value)) throw new Error('Invalid hexadecimal');
                         decimal = parseInt(value, 16);
                         break;
                     case 'octal':
-                        if (!/^[0-7]+$/.test(value)) throw new Error('잘못된 8진수');
+                        if (!/^[0-7]+$/.test(value)) throw new Error('Invalid octal');
                         decimal = parseInt(value, 8);
                         break;
                 }
 
-                if (isNaN(decimal)) throw new Error('잘못된 숫자');
+                if (isNaN(decimal)) throw new Error('Invalid number');
 
                 // Update all fields except source
                 if (source !== 'decimal') inputs.decimal.value = decimal;
@@ -586,7 +586,7 @@
             const value = document.getElementById(field).value;
             if (value) {
                 navigator.clipboard.writeText(value).then(() => {
-                    showToast('복사됨!');
+                    showToast('Copied!');
                 });
             }
         }
@@ -615,7 +615,7 @@
         function binaryToText() {
             const input = document.getElementById('textInput').value.replace(/\s/g, '');
             if (!/^[01]+$/.test(input) || input.length % 8 !== 0) {
-                document.getElementById('textOutput').value = '잘못된 2진수 (8비트 그룹이어야 함)';
+                document.getElementById('textOutput').value = 'Invalid binary (must be 8-bit groups)';
                 return;
             }
 
@@ -631,7 +631,7 @@
         function hexToText() {
             const input = document.getElementById('textInput').value.replace(/\s/g, '');
             if (!/^[0-9A-Fa-f]+$/.test(input) || input.length % 2 !== 0) {
-                document.getElementById('textOutput').value = '잘못된 16진수 (바이트 쌍이어야 함)';
+                document.getElementById('textOutput').value = 'Invalid hexadecimal (must be byte pairs)';
                 return;
             }
 
@@ -648,7 +648,7 @@
             const value = document.getElementById('textOutput').value;
             if (value) {
                 navigator.clipboard.writeText(value).then(() => {
-                    showToast('결과가 복사됨!');
+                    showToast('Result copied!');
                 });
             }
         }

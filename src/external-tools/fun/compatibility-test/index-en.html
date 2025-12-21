@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Compatibility Test - Free Name & Love Compatibility</title>
+    <meta name="description" content="Free AI compatibility test! Check your romantic destiny with name and birthdate compatibility. Get detailed compatibility scores and analysis.">
+    <meta name="keywords" content="compatibility, love test, couple test, relationship test, compatibility test">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI Compatibility Test - Free Love Compatibility">
+    <meta property="og:description" content="Discover your compatibility by name and birthdate!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=AI+Compatibility+Test">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44dff 50%, #6b5ce7 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: floatHeart 15s infinite linear;
+            opacity: 0.3;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .disclaimer {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .person-section {
+            background: linear-gradient(135deg, #fff5f8, #fff0f5);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .person-section.person2 {
+            background: linear-gradient(135deg, #f0f5ff, #f5f0ff);
+        }
+
+        .person-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #ff6b9d;
+            font-size: 18px;
+        }
+
+        .person-section.person2 .person-label {
+            color: #6b5ce7;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ff6b9d;
+        }
+
+        .person-section.person2 .input-group input:focus,
+        .person-section.person2 .input-group select:focus {
+            border-color: #6b5ce7;
+        }
+
+        .birth-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .check-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .heart-animation {
+            font-size: 80px;
+            animation: pulse 1s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .names-display {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .names-display span {
+            color: #ff6b9d;
+            font-weight: 600;
+        }
+
+        .score-container {
+            margin: 30px 0;
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .score-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .score-circle circle {
+            fill: none;
+            stroke-width: 12;
+        }
+
+        .score-circle .bg {
+            stroke: #f0f0f0;
+        }
+
+        .score-circle .progress {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .score-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-label {
+            color: #888;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .result-message {
+            font-size: 22px;
+            color: #333;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .analysis-section {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .analysis-item {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .analysis-item h4 {
+            color: #c44dff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .analysis-item p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .category-scores {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .category-item {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .category-item .cat-name {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .category-item .cat-score {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bar-container {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading-heart {
+            font-size: 60px;
+            animation: heartBeat 1s ease infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .card { padding: 25px; }
+            .names-display { font-size: 18px; }
+            .category-scores { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="heartsContainer"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>AI Compatibility Test</h1>
+            <p class="subtitle">Discover your destiny through name and birthdate</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            This is a fun compatibility test. Results are for entertainment only!
+        </div>
+
+        <div class="card">
+            <div id="inputSection">
+                <div class="person-section">
+                    <div class="person-label">
+                        <span>💗</span> First Person
+                    </div>
+                    <div class="input-group">
+                        <label>Name</label>
+                        <input type="text" id="name1" placeholder="Enter name">
+                    </div>
+                    <div class="input-group">
+                        <label>Birth Date</label>
+                        <div class="birth-row">
+                            <select id="year1">
+                                <option value="">Year</option>
+                            </select>
+                            <select id="month1">
+                                <option value="">Month</option>
+                            </select>
+                            <select id="day1">
+                                <option value="">Day</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="person-section person2">
+                    <div class="person-label">
+                        <span>💜</span> Second Person
+                    </div>
+                    <div class="input-group">
+                        <label>Name</label>
+                        <input type="text" id="name2" placeholder="Enter name">
+                    </div>
+                    <div class="input-group">
+                        <label>Birth Date</label>
+                        <div class="birth-row">
+                            <select id="year2">
+                                <option value="">Year</option>
+                            </select>
+                            <select id="month2">
+                                <option value="">Month</option>
+                            </select>
+                            <select id="day2">
+                                <option value="">Day</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="check-btn" onclick="checkCompatibility()">
+                    💕 Check Compatibility
+                </button>
+            </div>
+
+            <div class="loading" id="loadingSection">
+                <div class="loading-heart">💗</div>
+                <p style="color:#888; margin-top:20px;">Analyzing your compatibility...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="heart-animation">💕</div>
+
+                <div class="names-display">
+                    <span id="displayName1">Name 1</span> ❤️ <span id="displayName2">Name 2</span>
+                </div>
+
+                <div class="score-container">
+                    <div class="score-circle">
+                        <svg width="180" height="180" viewBox="0 0 180 180">
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#ff6b9d"/>
+                                    <stop offset="100%" stop-color="#c44dff"/>
+                                </linearGradient>
+                            </defs>
+                            <circle class="bg" cx="90" cy="90" r="78"/>
+                            <circle class="progress" id="progressCircle" cx="90" cy="90" r="78"
+                                stroke-dasharray="490" stroke-dashoffset="490"/>
+                        </svg>
+                        <div class="score-number" id="scoreNumber">0%</div>
+                    </div>
+                    <div class="score-label">Compatibility Score</div>
+                </div>
+
+                <div class="result-message" id="resultMessage">
+                    Perfect match!
+                </div>
+
+                <div class="category-scores" id="categoryScores"></div>
+
+                <div class="analysis-section" id="analysisSection"></div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">Share Result</button>
+                    <button class="share-btn secondary" onclick="resetTest()">Try Again</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>This test is for entertainment purposes.<br>Real relationships are built on mutual effort.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Heart background animation
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💕';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // Initialize date selects
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+
+            ['year1', 'year2'].forEach(id => {
+                const select = document.getElementById(id);
+                for (let y = currentYear; y >= 1950; y--) {
+                    select.innerHTML += `<option value="${y}">${y}</option>`;
+                }
+            });
+
+            ['month1', 'month2'].forEach(id => {
+                const select = document.getElementById(id);
+                for (let m = 1; m <= 12; m++) {
+                    select.innerHTML += `<option value="${m}">${m}</option>`;
+                }
+            });
+
+            ['day1', 'day2'].forEach(id => {
+                const select = document.getElementById(id);
+                for (let d = 1; d <= 31; d++) {
+                    select.innerHTML += `<option value="${d}">${d}</option>`;
+                }
+            });
+        }
+        initDateSelects();
+
+        let resultData = {};
+
+        function checkCompatibility() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+            const year1 = document.getElementById('year1').value;
+            const month1 = document.getElementById('month1').value;
+            const day1 = document.getElementById('day1').value;
+            const year2 = document.getElementById('year2').value;
+            const month2 = document.getElementById('month2').value;
+            const day2 = document.getElementById('day2').value;
+
+            if (!name1 || !name2) {
+                showToast('⚠️ Please enter both names!');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loadingSection').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name1, name2,
+                    { year: year1, month: month1, day: day1 },
+                    { year: year2, month: month2, day: day2 }
+                );
+            }, 2000);
+        }
+
+        function calculateResult(name1, name2, birth1, birth2) {
+            // Calculate name-based score
+            const nameScore = calculateNameScore(name1, name2);
+
+            // Calculate birthdate-based score
+            let birthScore = 50;
+            if (birth1.year && birth2.year) {
+                birthScore = calculateBirthScore(birth1, birth2);
+            }
+
+            // Final score calculation
+            const finalScore = Math.round((nameScore * 0.4 + birthScore * 0.6));
+
+            // Category scores
+            const categories = {
+                love: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
+                communication: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
+                trust: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
+                future: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15)))
+            };
+
+            resultData = {
+                name1,
+                name2,
+                score: finalScore,
+                categories
+            };
+
+            displayResult();
+        }
+
+        function calculateNameScore(name1, name2) {
+            // Generate seed from name strings
+            const combined = name1 + name2;
+            let hash = 0;
+            for (let i = 0; i < combined.length; i++) {
+                hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+                hash = hash & hash;
+            }
+
+            // Score between 50-100
+            return 50 + (Math.abs(hash) % 51);
+        }
+
+        function calculateBirthScore(birth1, birth2) {
+            const y1 = parseInt(birth1.year);
+            const m1 = parseInt(birth1.month);
+            const d1 = parseInt(birth1.day);
+            const y2 = parseInt(birth2.year);
+            const m2 = parseInt(birth2.month);
+            const d2 = parseInt(birth2.day);
+
+            // Age difference score
+            const ageDiff = Math.abs(y1 - y2);
+            let ageScore = 100;
+            if (ageDiff > 10) ageScore = 60;
+            else if (ageDiff > 5) ageScore = 80;
+            else if (ageDiff > 2) ageScore = 90;
+
+            // Month/day combination score
+            const dateHash = (m1 * d1 + m2 * d2) % 100;
+            const dateScore = 50 + (dateHash % 51);
+
+            return Math.round((ageScore + dateScore) / 2);
+        }
+
+        function randomRange(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function displayResult() {
+            document.getElementById('loadingSection').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('displayName1').textContent = resultData.name1;
+            document.getElementById('displayName2').textContent = resultData.name2;
+
+            // Score animation
+            const circumference = 2 * Math.PI * 78;
+            const offset = circumference - (resultData.score / 100) * circumference;
+
+            setTimeout(() => {
+                document.getElementById('progressCircle').style.strokeDashoffset = offset;
+                animateNumber('scoreNumber', 0, resultData.score, 1000);
+            }, 100);
+
+            // Result message
+            document.getElementById('resultMessage').textContent = getResultMessage(resultData.score);
+
+            // Category scores
+            const catNames = {
+                love: '💗 Romance',
+                communication: '💬 Communication',
+                trust: '🤝 Trust',
+                future: '🌟 Future'
+            };
+
+            let catHtml = '';
+            for (const [key, value] of Object.entries(resultData.categories)) {
+                catHtml += `
+                    <div class="category-item">
+                        <div class="cat-name">${catNames[key]}</div>
+                        <div class="cat-score">${value}%</div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: ${value}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('categoryScores').innerHTML = catHtml;
+
+            // Analysis content
+            document.getElementById('analysisSection').innerHTML = generateAnalysis(resultData);
+        }
+
+        function animateNumber(elementId, start, end, duration) {
+            const element = document.getElementById(elementId);
+            const range = end - start;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const value = Math.round(start + range * progress);
+                element.textContent = value + '%';
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        function getResultMessage(score) {
+            if (score >= 90) return "Soulmates! A match made in heaven! 💕";
+            if (score >= 80) return "Perfect match! You were meant for each other! ✨";
+            if (score >= 70) return "Great compatibility! You'll be happy together! 😊";
+            if (score >= 60) return "Good match! With effort, it gets better! 💪";
+            if (score >= 50) return "Average match! Mutual understanding needed! 🤔";
+            return "Challenging match! Requires significant effort! 💭";
+        }
+
+        function generateAnalysis(data) {
+            const analyses = [
+                {
+                    title: "💕 Your Chemistry",
+                    texts: [
+                        `${data.name1} and ${data.name2} complement each other. What one lacks, the other can provide.`,
+                        `When you're together, synergy happens. You can achieve greater results by leveraging each other's strengths.`,
+                        `Unlike first impressions, you'll discover more charm as you get to know each other.`
+                    ]
+                },
+                {
+                    title: "💬 Communication Style",
+                    texts: [
+                        `You have different ways of expressing yourselves. ${data.name1} is more direct, while ${data.name2} is more delicate.`,
+                        `When talking, it's important to listen to each other until the end. Small misunderstandings can lead to big conflicts.`,
+                        `The more honest conversations you have, the deeper your relationship will become.`
+                    ]
+                },
+                {
+                    title: "✨ Advice for the Future",
+                    texts: [
+                        `Share your hobbies and interests. You may discover new common ground.`,
+                        `Express gratitude for even the small things, and your relationship will improve.`,
+                        `Sometimes giving each other space is important. Respect personal time too.`
+                    ]
+                }
+            ];
+
+            return analyses.map(item => `
+                <div class="analysis-item">
+                    <h4>${item.title}</h4>
+                    <p>${item.texts[Math.floor(Math.random() * item.texts.length)]}</p>
+                </div>
+            `).join('');
+        }
+
+        function shareResult() {
+            const text = `💕 ${resultData.name1} ❤️ ${resultData.name2} Compatibility Results\n\n` +
+                        `Compatibility Score: ${resultData.score}%\n` +
+                        `${getResultMessage(resultData.score)}\n\n` +
+                        `Check your compatibility too 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'AI Compatibility Test Results', text: text }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 Results copied!'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 Results copied!');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+
+            // Reset inputs
+            document.getElementById('name1').value = '';
+            document.getElementById('name2').value = '';
+            document.getElementById('year1').value = '';
+            document.getElementById('month1').value = '';
+            document.getElementById('day1').value = '';
+            document.getElementById('year2').value = '';
+            document.getElementById('month2').value = '';
+            document.getElementById('day2').value = '';
+
+            // Reset score circle
+            document.getElementById('progressCircle').style.strokeDashoffset = 490;
+            document.getElementById('scoreNumber').textContent = '0%';
+        }
+    </script>
+</body>
+</html>

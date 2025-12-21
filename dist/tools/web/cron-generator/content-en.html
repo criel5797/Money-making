@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cron 표현식 생성기 - 무료 크론잡 생성 도구</title>
-    <meta name="description" content="무료 Cron 표현식 생성기. 시각적 인터페이스로 크론잡 스케줄을 쉽게 만드세요. Linux, AWS 등에서 사용할 크론 표현식을 생성하고 검증합니다.">
-    <meta name="keywords" content="cron 생성기, cron 표현식, 크론잡, crontab, 스케줄 생성기, cron 메이커">
+    <title>Cron Expression Generator - Free Cron Job Builder Tool</title>
+    <meta name="description" content="Free Cron Expression Generator. Easily create cron job schedules with a visual interface. Generate and validate cron expressions for Linux, AWS, and more.">
+    <meta name="keywords" content="cron generator, cron expression, cron job, crontab, schedule generator, cron maker">
 
-    <meta property="og:title" content="Cron 표현식 생성기 - 무료 크론잡 생성 도구">
-    <meta property="og:description" content="시각적 인터페이스로 크론잡 스케줄을 쉽게 만드세요.">
+    <meta property="og:title" content="Cron Expression Generator - Free Cron Job Builder Tool">
+    <meta property="og:description" content="Easily create cron job schedules with a visual interface.">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -268,101 +268,101 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">한국어</a>
             </div>
-            <h1>Cron 표현식 생성기</h1>
-            <p class="subtitle">크론잡 스케줄을 쉽게 만드세요</p>
+            <h1>Cron Expression Generator</h1>
+            <p class="subtitle">Easily create cron job schedules</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="card">
             <div class="result-box">
                 <div class="cron-expression" id="cronExpression">* * * * *</div>
-                <div class="cron-description" id="cronDescription">매 분마다</div>
+                <div class="cron-description" id="cronDescription">Every minute</div>
                 <div class="next-runs">
-                    다음 실행:
+                    Next runs:
                     <div class="next-runs-list" id="nextRuns"></div>
                 </div>
-                <button class="copy-btn" onclick="copyCron()">표현식 복사</button>
+                <button class="copy-btn" onclick="copyCron()">Copy Expression</button>
             </div>
 
             <div class="cron-fields">
                 <div class="cron-field">
                     <input type="text" id="fieldMinute" value="*" onchange="updateFromFields()">
-                    <label>분</label>
+                    <label>Minute</label>
                 </div>
                 <div class="cron-field">
                     <input type="text" id="fieldHour" value="*" onchange="updateFromFields()">
-                    <label>시</label>
+                    <label>Hour</label>
                 </div>
                 <div class="cron-field">
                     <input type="text" id="fieldDay" value="*" onchange="updateFromFields()">
-                    <label>일</label>
+                    <label>Day</label>
                 </div>
                 <div class="cron-field">
                     <input type="text" id="fieldMonth" value="*" onchange="updateFromFields()">
-                    <label>월</label>
+                    <label>Month</label>
                 </div>
                 <div class="cron-field">
                     <input type="text" id="fieldWeekday" value="*" onchange="updateFromFields()">
-                    <label>요일</label>
+                    <label>Weekday</label>
                 </div>
             </div>
 
             <div class="tabs">
-                <div class="tab active" onclick="switchTab('presets')">프리셋</div>
-                <div class="tab" onclick="switchTab('builder')">빌더</div>
+                <div class="tab active" onclick="switchTab('presets')">Presets</div>
+                <div class="tab" onclick="switchTab('builder')">Builder</div>
             </div>
 
             <div class="tab-content active" id="presetsTab">
                 <div class="preset-grid">
                     <div class="preset-item" onclick="setPreset('* * * * *')">
-                        <div class="preset-name">매 분마다</div>
+                        <div class="preset-name">Every Minute</div>
                         <div class="preset-cron">* * * * *</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('0 * * * *')">
-                        <div class="preset-name">매 시 정각</div>
+                        <div class="preset-name">Every Hour</div>
                         <div class="preset-cron">0 * * * *</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('0 0 * * *')">
-                        <div class="preset-name">매일 자정</div>
+                        <div class="preset-name">Daily at Midnight</div>
                         <div class="preset-cron">0 0 * * *</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('0 9 * * 1-5')">
-                        <div class="preset-name">평일 오전 9시</div>
+                        <div class="preset-name">Weekdays at 9 AM</div>
                         <div class="preset-cron">0 9 * * 1-5</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('0 0 * * 0')">
-                        <div class="preset-name">매주 일요일</div>
+                        <div class="preset-name">Every Sunday</div>
                         <div class="preset-cron">0 0 * * 0</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('0 0 1 * *')">
-                        <div class="preset-name">매월 1일</div>
+                        <div class="preset-name">First Day of Month</div>
                         <div class="preset-cron">0 0 1 * *</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('*/5 * * * *')">
-                        <div class="preset-name">5분마다</div>
+                        <div class="preset-name">Every 5 Minutes</div>
                         <div class="preset-cron">*/5 * * * *</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('*/15 * * * *')">
-                        <div class="preset-name">15분마다</div>
+                        <div class="preset-name">Every 15 Minutes</div>
                         <div class="preset-cron">*/15 * * * *</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('*/30 * * * *')">
-                        <div class="preset-name">30분마다</div>
+                        <div class="preset-name">Every 30 Minutes</div>
                         <div class="preset-cron">*/30 * * * *</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('0 */2 * * *')">
-                        <div class="preset-name">2시간마다</div>
+                        <div class="preset-name">Every 2 Hours</div>
                         <div class="preset-cron">0 */2 * * *</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('0 0 * * 1')">
-                        <div class="preset-name">매주 월요일</div>
+                        <div class="preset-name">Every Monday</div>
                         <div class="preset-cron">0 0 * * 1</div>
                     </div>
                     <div class="preset-item" onclick="setPreset('0 0 1 1 *')">
-                        <div class="preset-name">매년 1월 1일</div>
+                        <div class="preset-name">January 1st</div>
                         <div class="preset-cron">0 0 1 1 *</div>
                     </div>
                 </div>
@@ -371,117 +371,117 @@
             <div class="tab-content" id="builderTab">
                 <div class="field-group">
                     <div class="field-label">
-                        <span>분</span>
+                        <span>Minute</span>
                         <small>0-59</small>
                     </div>
                     <div class="field-options">
-                        <button class="option-btn selected" onclick="setField('minute', '*', this)">매번</button>
+                        <button class="option-btn selected" onclick="setField('minute', '*', this)">Every</button>
                         <button class="option-btn" onclick="setField('minute', '0', this)">:00</button>
                         <button class="option-btn" onclick="setField('minute', '15', this)">:15</button>
                         <button class="option-btn" onclick="setField('minute', '30', this)">:30</button>
                         <button class="option-btn" onclick="setField('minute', '45', this)">:45</button>
-                        <button class="option-btn" onclick="setField('minute', '*/5', this)">5분마다</button>
-                        <button class="option-btn" onclick="setField('minute', '*/10', this)">10분마다</button>
+                        <button class="option-btn" onclick="setField('minute', '*/5', this)">Every 5 min</button>
+                        <button class="option-btn" onclick="setField('minute', '*/10', this)">Every 10 min</button>
                     </div>
                 </div>
 
                 <div class="field-group">
                     <div class="field-label">
-                        <span>시</span>
+                        <span>Hour</span>
                         <small>0-23</small>
                     </div>
                     <div class="field-options">
-                        <button class="option-btn selected" onclick="setField('hour', '*', this)">매시</button>
-                        <button class="option-btn" onclick="setField('hour', '0', this)">00시</button>
-                        <button class="option-btn" onclick="setField('hour', '6', this)">06시</button>
-                        <button class="option-btn" onclick="setField('hour', '9', this)">09시</button>
-                        <button class="option-btn" onclick="setField('hour', '12', this)">12시</button>
-                        <button class="option-btn" onclick="setField('hour', '18', this)">18시</button>
-                        <button class="option-btn" onclick="setField('hour', '*/2', this)">2시간마다</button>
-                        <button class="option-btn" onclick="setField('hour', '9-17', this)">9-17시</button>
+                        <button class="option-btn selected" onclick="setField('hour', '*', this)">Every</button>
+                        <button class="option-btn" onclick="setField('hour', '0', this)">00:00</button>
+                        <button class="option-btn" onclick="setField('hour', '6', this)">06:00</button>
+                        <button class="option-btn" onclick="setField('hour', '9', this)">09:00</button>
+                        <button class="option-btn" onclick="setField('hour', '12', this)">12:00</button>
+                        <button class="option-btn" onclick="setField('hour', '18', this)">18:00</button>
+                        <button class="option-btn" onclick="setField('hour', '*/2', this)">Every 2 hrs</button>
+                        <button class="option-btn" onclick="setField('hour', '9-17', this)">9-17</button>
                     </div>
                 </div>
 
                 <div class="field-group">
                     <div class="field-label">
-                        <span>일</span>
+                        <span>Day</span>
                         <small>1-31</small>
                     </div>
                     <div class="field-options">
-                        <button class="option-btn selected" onclick="setField('day', '*', this)">매일</button>
-                        <button class="option-btn" onclick="setField('day', '1', this)">1일</button>
-                        <button class="option-btn" onclick="setField('day', '15', this)">15일</button>
-                        <button class="option-btn" onclick="setField('day', '1,15', this)">1일 & 15일</button>
+                        <button class="option-btn selected" onclick="setField('day', '*', this)">Every</button>
+                        <button class="option-btn" onclick="setField('day', '1', this)">1st</button>
+                        <button class="option-btn" onclick="setField('day', '15', this)">15th</button>
+                        <button class="option-btn" onclick="setField('day', '1,15', this)">1st & 15th</button>
                     </div>
                 </div>
 
                 <div class="field-group">
                     <div class="field-label">
-                        <span>월</span>
+                        <span>Month</span>
                         <small>1-12</small>
                     </div>
                     <div class="field-options">
-                        <button class="option-btn selected" onclick="setField('month', '*', this)">매월</button>
-                        <button class="option-btn" onclick="setField('month', '1', this)">1월</button>
-                        <button class="option-btn" onclick="setField('month', '1,4,7,10', this)">분기별</button>
+                        <button class="option-btn selected" onclick="setField('month', '*', this)">Every</button>
+                        <button class="option-btn" onclick="setField('month', '1', this)">January</button>
+                        <button class="option-btn" onclick="setField('month', '1,4,7,10', this)">Quarterly</button>
                     </div>
                 </div>
 
                 <div class="field-group">
                     <div class="field-label">
-                        <span>요일</span>
-                        <small>0-6 (일-토)</small>
+                        <span>Weekday</span>
+                        <small>0-6 (Sun-Sat)</small>
                     </div>
                     <div class="field-options">
-                        <button class="option-btn selected" onclick="setField('weekday', '*', this)">매일</button>
-                        <button class="option-btn" onclick="setField('weekday', '1-5', this)">월-금</button>
-                        <button class="option-btn" onclick="setField('weekday', '0,6', this)">주말</button>
-                        <button class="option-btn" onclick="setField('weekday', '1', this)">월요일</button>
-                        <button class="option-btn" onclick="setField('weekday', '5', this)">금요일</button>
+                        <button class="option-btn selected" onclick="setField('weekday', '*', this)">Every</button>
+                        <button class="option-btn" onclick="setField('weekday', '1-5', this)">Mon-Fri</button>
+                        <button class="option-btn" onclick="setField('weekday', '0,6', this)">Weekends</button>
+                        <button class="option-btn" onclick="setField('weekday', '1', this)">Monday</button>
+                        <button class="option-btn" onclick="setField('weekday', '5', this)">Friday</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="card reference">
-            <h3>Cron 문법 참조</h3>
+            <h3>Cron Syntax Reference</h3>
             <table class="reference-table">
                 <tr>
-                    <th>기호</th>
-                    <th>의미</th>
-                    <th>예시</th>
+                    <th>Symbol</th>
+                    <th>Meaning</th>
+                    <th>Example</th>
                 </tr>
                 <tr>
                     <td><code>*</code></td>
-                    <td>모든 값</td>
-                    <td><code>* * * * *</code> = 매 분마다</td>
+                    <td>Any value</td>
+                    <td><code>* * * * *</code> = Every minute</td>
                 </tr>
                 <tr>
                     <td><code>,</code></td>
-                    <td>목록 구분</td>
-                    <td><code>1,15 * * * *</code> = 1분과 15분에</td>
+                    <td>List separator</td>
+                    <td><code>1,15 * * * *</code> = At 1 and 15 minutes</td>
                 </tr>
                 <tr>
                     <td><code>-</code></td>
-                    <td>범위</td>
-                    <td><code>0 9-17 * * *</code> = 오전 9시부터 오후 5시까지</td>
+                    <td>Range</td>
+                    <td><code>0 9-17 * * *</code> = From 9 AM to 5 PM</td>
                 </tr>
                 <tr>
                     <td><code>/</code></td>
-                    <td>간격</td>
-                    <td><code>*/5 * * * *</code> = 5분마다</td>
+                    <td>Interval</td>
+                    <td><code>*/5 * * * *</code> = Every 5 minutes</td>
                 </tr>
             </table>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 Cron 표현식 생성기 | 모든 처리가 브라우저에서 수행됩니다</p>
+            <p>Free Cron Expression Generator | All processing happens in your browser</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         let cronFields = {
@@ -539,35 +539,35 @@
             const { minute, hour, day, month, weekday } = fields;
 
             if (minute === '*' && hour === '*' && day === '*' && month === '*' && weekday === '*') {
-                return '매 분마다';
+                return 'Every minute';
             }
             if (minute === '0' && hour === '*' && day === '*' && month === '*' && weekday === '*') {
-                return '매 시 정각';
+                return 'Every hour on the hour';
             }
             if (minute === '0' && hour === '0' && day === '*' && month === '*' && weekday === '*') {
-                return '매일 자정';
+                return 'Daily at midnight';
             }
             if (minute.startsWith('*/')) {
-                return `${minute.slice(2)}분마다`;
+                return `Every ${minute.slice(2)} minutes`;
             }
             if (hour.startsWith('*/')) {
-                return `${hour.slice(2)}시간마다 ${minute}분에`;
+                return `Every ${hour.slice(2)} hours at minute ${minute}`;
             }
 
             let desc = '';
-            desc += minute === '*' ? '매분' : `${minute}분에`;
-            desc += hour === '*' ? ', 매시' : `, ${hour}시`;
+            desc += minute === '*' ? 'Every minute' : `At minute ${minute}`;
+            desc += hour === '*' ? ', every hour' : `, hour ${hour}`;
 
-            if (day !== '*') desc += `, ${day}일`;
-            if (month !== '*') desc += `, ${month}월`;
+            if (day !== '*') desc += `, day ${day}`;
+            if (month !== '*') desc += `, month ${month}`;
             if (weekday !== '*') {
-                const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-                if (weekday === '1-5') desc += ', 월~금요일';
-                else if (weekday === '0,6') desc += ', 주말';
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                if (weekday === '1-5') desc += ', Monday-Friday';
+                else if (weekday === '0,6') desc += ', weekends';
                 else if (!weekday.includes(',') && !weekday.includes('-') && !weekday.includes('/')) {
                     desc += `, ${days[parseInt(weekday)]}`;
                 } else {
-                    desc += `, 요일 ${weekday}`;
+                    desc += `, weekday ${weekday}`;
                 }
             }
 
@@ -580,7 +580,7 @@
 
             for (let i = 0; i < 5 && runs.length < 5; i++) {
                 const next = new Date(now.getTime() + (i + 1) * 60000);
-                runs.push(next.toLocaleString('ko-KR', {
+                runs.push(next.toLocaleString('en-US', {
                     weekday: 'short',
                     month: 'short',
                     day: 'numeric',
@@ -597,7 +597,7 @@
         function copyCron() {
             const expression = document.getElementById('cronExpression').textContent;
             navigator.clipboard.writeText(expression).then(() => {
-                showToast('복사됨: ' + expression);
+                showToast('Copied: ' + expression);
             });
         }
 

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML 압축기 - 무료 온라인 HTML 미니파이어</title>
-    <meta name="description" content="무료 온라인 HTML 압축 도구. HTML 코드를 즉시 압축하고 최적화하세요. 공백, 주석 제거로 성능 향상.">
-    <meta name="keywords" content="HTML 압축, HTML 미니파이어, HTML 최적화, 웹 최적화, HTML 압축기">
+    <title>HTML圧縮ツール - 無料オンラインHTML最小化ツール</title>
+    <meta name="description" content="無料オンラインHTML圧縮ツール。HTMLコードを即座に圧縮・最適化します。空白やコメントを削除してパフォーマンスを向上させます。">
+    <meta name="keywords" content="HTML圧縮, HTML最小化, HTML最適化, Web最適化, HTML圧縮ツール">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="HTML 압축기 - 무료 온라인 HTML 미니파이어">
-    <meta property="og:description" content="HTML 코드를 즉시 압축하고 최적화하세요.">
+    <meta property="og:title" content="HTML圧縮ツール - 無料オンラインHTML最小化ツール">
+    <meta property="og:description" content="HTMLコードを即座に圧縮・最適化します。">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -345,58 +345,58 @@
         </div>
 
         <header>
-            <h1>HTML 압축기</h1>
-            <p class="subtitle">HTML 코드를 압축하고 최적화하여 로딩 속도 개선</p>
+            <h1>HTML圧縮ツール</h1>
+            <p class="subtitle">HTMLコードを圧縮・最適化して読み込み速度を向上</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="options-bar">
             <div class="option-item">
                 <input type="checkbox" id="removeComments" checked>
-                <label for="removeComments">주석 제거</label>
+                <label for="removeComments">コメントを削除</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="removeWhitespace" checked>
-                <label for="removeWhitespace">공백 제거</label>
+                <label for="removeWhitespace">空白を削除</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="removeEmptyAttributes" checked>
-                <label for="removeEmptyAttributes">빈 속성 제거</label>
+                <label for="removeEmptyAttributes">空の属性を削除</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="removeOptionalTags">
-                <label for="removeOptionalTags">선택적 태그 제거</label>
+                <label for="removeOptionalTags">省略可能なタグを削除</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="collapseInlineStyles">
-                <label for="collapseInlineStyles">인라인 스타일 압축</label>
+                <label for="collapseInlineStyles">インラインスタイルを圧縮</label>
             </div>
         </div>
 
         <div class="controls">
-            <button class="btn btn-primary" onclick="minifyHTML()">HTML 압축</button>
-            <button class="btn btn-secondary" onclick="beautifyHTML()">정리</button>
-            <button class="btn btn-secondary" onclick="clearAll()">초기화</button>
-            <button class="btn btn-secondary" onclick="loadSample()">샘플 로드</button>
+            <button class="btn btn-primary" onclick="minifyHTML()">HTML圧縮</button>
+            <button class="btn btn-secondary" onclick="beautifyHTML()">整形</button>
+            <button class="btn btn-secondary" onclick="clearAll()">クリア</button>
+            <button class="btn btn-secondary" onclick="loadSample()">サンプル読み込み</button>
         </div>
 
         <div class="main-content">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">입력 HTML</span>
+                    <span class="panel-title">入力HTML</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()">붙여넣기</button>
+                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()">貼り付け</button>
                     </div>
                 </div>
-                <textarea id="input" placeholder="HTML 코드를 여기에 붙여넣으세요..."></textarea>
+                <textarea id="input" placeholder="HTMLコードをここに貼り付けてください..."></textarea>
                 <div class="stats-bar">
                     <div class="stat-item">
-                        <span>크기:</span>
-                        <span class="stat-value" id="inputSize">0 바이트</span>
+                        <span>サイズ:</span>
+                        <span class="stat-value" id="inputSize">0 バイト</span>
                     </div>
                     <div class="stat-item">
-                        <span>줄 수:</span>
+                        <span>行数:</span>
                         <span class="stat-value" id="inputLines">0</span>
                     </div>
                 </div>
@@ -404,20 +404,20 @@
 
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">압축된 출력</span>
+                    <span class="panel-title">圧縮された出力</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="copyOutput()">복사</button>
-                        <button class="btn btn-small btn-secondary" onclick="downloadHTML()">다운로드</button>
+                        <button class="btn btn-small btn-secondary" onclick="copyOutput()">コピー</button>
+                        <button class="btn btn-small btn-secondary" onclick="downloadHTML()">ダウンロード</button>
                     </div>
                 </div>
-                <textarea id="output" readonly placeholder="압축된 HTML이 여기에 표시됩니다..."></textarea>
+                <textarea id="output" readonly placeholder="圧縮されたHTMLがここに表示されます..."></textarea>
                 <div class="stats-bar">
                     <div class="stat-item">
-                        <span>크기:</span>
-                        <span class="stat-value green" id="outputSize">0 바이트</span>
+                        <span>サイズ:</span>
+                        <span class="stat-value green" id="outputSize">0 バイト</span>
                     </div>
                     <div class="stat-item">
-                        <span>절감:</span>
+                        <span>削減:</span>
                         <span class="stat-value green" id="savedSize">0%</span>
                     </div>
                 </div>
@@ -425,18 +425,18 @@
         </div>
 
         <div class="comparison" id="comparisonSection" style="display:none;">
-            <h3>압축 결과</h3>
+            <h3>圧縮結果</h3>
             <div class="comparison-stats">
                 <div class="comparison-item">
-                    <div class="label">원본 크기</div>
+                    <div class="label">元のサイズ</div>
                     <div class="value original" id="compOriginal">0 KB</div>
                 </div>
                 <div class="comparison-item">
-                    <div class="label">압축 후 크기</div>
+                    <div class="label">圧縮後のサイズ</div>
                     <div class="value minified" id="compMinified">0 KB</div>
                 </div>
                 <div class="comparison-item">
-                    <div class="label">절감률</div>
+                    <div class="label">削減率</div>
                     <div class="value saved" id="compSaved">0%</div>
                 </div>
             </div>
@@ -445,34 +445,34 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#128640;</div>
-                <h3>빠른 압축</h3>
-                <p>브라우저에서 즉시 HTML 압축</p>
+                <h3>高速圧縮</h3>
+                <p>ブラウザで即座にHTML圧縮</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128274;</div>
-                <h3>100% 프라이빗</h3>
-                <p>모든 처리가 로컬에서 진행, 서버 전송 없음</p>
+                <h3>100%プライベート</h3>
+                <p>すべての処理がローカルで行われ、サーバーへのアップロードなし</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#9881;</div>
-                <h3>커스터마이징</h3>
-                <p>적용할 최적화 옵션 선택 가능</p>
+                <h3>カスタマイズ可能</h3>
+                <p>適用する最適化オプションを選択可能</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128190;</div>
-                <h3>다운로드 가능</h3>
-                <p>압축된 HTML을 파일로 다운로드</p>
+                <h3>ダウンロード可能</h3>
+                <p>圧縮されたHTMLをファイルとしてダウンロード</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>무료 HTML 압축 도구 | 모든 처리는 브라우저에서 이루어집니다</p>
+            <p>無料HTML圧縮ツール | すべての処理はブラウザで行われます</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">클립보드에 복사됨!</div>
+    <div class="toast" id="toast">クリップボードにコピーしました!</div>
 
     <script>
         const input = document.getElementById('input');
@@ -490,9 +490,9 @@
         }
 
         function formatBytes(bytes) {
-            if (bytes === 0) return '0 바이트';
+            if (bytes === 0) return '0 バイト';
             const k = 1024;
-            const sizes = ['바이트', 'KB', 'MB'];
+            const sizes = ['バイト', 'KB', 'MB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
@@ -500,7 +500,7 @@
         function minifyHTML() {
             const html = input.value;
             if (!html.trim()) {
-                showToast('HTML 코드를 입력하세요');
+                showToast('HTMLコードを入力してください');
                 return;
             }
 
@@ -548,7 +548,7 @@
 
             output.value = minified;
             updateOutputStats(html, minified);
-            showToast('HTML 압축 완료!');
+            showToast('HTML圧縮が完了しました!');
         }
 
         function updateOutputStats(original, minified) {
@@ -568,7 +568,7 @@
         function beautifyHTML() {
             const html = input.value;
             if (!html.trim()) {
-                showToast('HTML 코드를 입력하세요');
+                showToast('HTMLコードを入力してください');
                 return;
             }
 
@@ -599,26 +599,26 @@
             }
 
             output.value = result.join('\n');
-            showToast('HTML 정리 완료!');
+            showToast('HTML整形が完了しました!');
         }
 
         function clearAll() {
             input.value = '';
             output.value = '';
             updateInputStats();
-            document.getElementById('outputSize').textContent = '0 바이트';
+            document.getElementById('outputSize').textContent = '0 バイト';
             document.getElementById('savedSize').textContent = '0%';
             document.getElementById('comparisonSection').style.display = 'none';
         }
 
         function loadSample() {
             const sample = `<!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>샘플 페이지</title>
-    <!-- 이 주석은 제거됩니다 -->
+    <title>サンプルページ</title>
+    <!-- このコメントは削除されます -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -628,38 +628,38 @@
     </style>
 </head>
 <body>
-    <!-- 메인 컨텐츠 -->
+    <!-- メインコンテンツ -->
     <header>
-        <h1>내 웹사이트에 오신 것을 환영합니다</h1>
+        <h1>私のウェブサイトへようこそ</h1>
         <nav>
             <ul>
-                <li><a href="#home">홈</a></li>
-                <li><a href="#about">소개</a></li>
-                <li><a href="#contact">연락처</a></li>
+                <li><a href="#home">ホーム</a></li>
+                <li><a href="#about">紹介</a></li>
+                <li><a href="#contact">お問い合わせ</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section id="home">
-            <h2>홈 섹션</h2>
-            <p class="" data-empty="">홈 섹션의 내용입니다.</p>
+            <h2>ホームセクション</h2>
+            <p class="" data-empty="">ホームセクションの内容です。</p>
         </section>
 
         <section id="about">
-            <h2>소개 섹션</h2>
-            <p style="color: red;   font-size: 16px;   font-weight: bold;">소개 섹션입니다.</p>
+            <h2>紹介セクション</h2>
+            <p style="color: red;   font-size: 16px;   font-weight: bold;">紹介セクションです。</p>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 내 웹사이트</p>
+        <p>&copy; 2024 私のウェブサイト</p>
     </footer>
 <script src="/common/tool-i18n-handler.js"></script></body>
 </html>`;
             input.value = sample;
             updateInputStats();
-            showToast('샘플 로드됨!');
+            showToast('サンプルが読み込まれました!');
         }
 
         async function pasteFromClipboard() {
@@ -667,25 +667,25 @@
                 const text = await navigator.clipboard.readText();
                 input.value = text;
                 updateInputStats();
-                showToast('클립보드에서 붙여넣기됨!');
+                showToast('クリップボードから貼り付けました!');
             } catch (e) {
-                showToast('붙여넣기 실패');
+                showToast('貼り付けに失敗しました');
             }
         }
 
         function copyOutput() {
             if (!output.value) {
-                showToast('복사할 내용이 없습니다');
+                showToast('コピーする内容がありません');
                 return;
             }
             navigator.clipboard.writeText(output.value).then(() => {
-                showToast('클립보드에 복사됨!');
+                showToast('クリップボードにコピーしました!');
             });
         }
 
         function downloadHTML() {
             if (!output.value) {
-                showToast('다운로드할 내용이 없습니다');
+                showToast('ダウンロードする内容がありません');
                 return;
             }
             const blob = new Blob([output.value], { type: 'text/html' });
@@ -695,7 +695,7 @@
             a.download = 'minified.html';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드됨!');
+            showToast('ダウンロードしました!');
         }
 
         function showToast(message) {

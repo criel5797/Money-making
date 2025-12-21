@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Palm Reading - Free Palmistry Analysis</title>
+    <meta name="description" content="Free AI palm reading! Analyze your life line, head line, heart line, and fate line. Discover your destiny through palmistry.">
+    <meta name="keywords" content="palm reading, palmistry, palm analysis, life line, head line, heart line, fate line, free palm reading">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI Palm Reading - Free Palmistry Analysis">
+    <meta property="og:description" content="AI-powered palm reading! Discover your destiny through palm lines.">
+    <meta property="og:type" content="website">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 50%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .palm-visual {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .palm-emoji {
+            font-size: 8rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+        }
+
+        .palm-guide {
+            color: #ffd700;
+            font-size: 14px;
+        }
+
+        .line-selector {
+            margin-bottom: 25px;
+        }
+
+        .line-selector h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .lines-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .line-option {
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .line-option:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .line-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .line-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .line-name {
+            font-weight: 600;
+            color: #e4e4e4;
+            margin-bottom: 4px;
+        }
+
+        .line-desc {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .characteristics {
+            margin-bottom: 25px;
+        }
+
+        .characteristics h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .char-option {
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .char-option:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .char-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border: none;
+            border-radius: 12px;
+            color: #1a1a2e;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 140, 0, 0.15));
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .result-summary {
+            color: #e4e4e4;
+            line-height: 1.6;
+        }
+
+        .line-results {
+            display: grid;
+            gap: 20px;
+        }
+
+        .line-result {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 25px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .line-result-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .line-result-icon {
+            font-size: 1.8rem;
+        }
+
+        .line-result-name {
+            font-size: 1.2rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .line-score {
+            margin-bottom: 15px;
+        }
+
+        .score-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff8c00);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .score-label {
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .line-interpretation {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .overall-fortune {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .fortune-title {
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .fortune-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .fortune-item {
+            text-align: center;
+            padding: 15px 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+        }
+
+        .fortune-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .fortune-label {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .advice-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+        }
+
+        .advice-title {
+            color: #ffd700;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .advice-content {
+            color: #ccc;
+            line-height: 1.7;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
+        }
+
+        .retry-btn {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .disclaimer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .palm-emoji { font-size: 5rem; }
+            .lines-grid, .char-grid { grid-template-columns: 1fr; }
+            .fortune-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .action-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Palm Reading</h1>
+            <p class="subtitle">Discover Your Destiny Through Palm Lines</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div id="inputSection">
+            <div class="card palm-visual">
+                <div class="palm-emoji">&#9995;</div>
+                <p class="palm-guide">Open your left palm and select the characteristics of your palm lines</p>
+            </div>
+
+            <div class="card">
+                <div class="line-selector">
+                    <h3>&#128587; Life Line (Wraps around thumb)</h3>
+                    <div class="char-grid" data-line="life">
+                        <div class="char-option" data-value="long">Long & deep</div>
+                        <div class="char-option" data-value="short">Short or shallow</div>
+                        <div class="char-option" data-value="curved">Widely curved</div>
+                        <div class="char-option" data-value="straight">Nearly straight</div>
+                    </div>
+                </div>
+
+                <div class="line-selector">
+                    <h3>&#128161; Head Line (Horizontal center of palm)</h3>
+                    <div class="char-grid" data-line="head">
+                        <div class="char-option" data-value="long">Long & clear</div>
+                        <div class="char-option" data-value="short">Short</div>
+                        <div class="char-option" data-value="curved">Curves downward</div>
+                        <div class="char-option" data-value="straight">Straight</div>
+                    </div>
+                </div>
+
+                <div class="line-selector">
+                    <h3>&#128150; Heart Line (Upper horizontal line)</h3>
+                    <div class="char-grid" data-line="heart">
+                        <div class="char-option" data-value="long">Long & deep</div>
+                        <div class="char-option" data-value="short">Short</div>
+                        <div class="char-option" data-value="curved">Curves upward</div>
+                        <div class="char-option" data-value="wavy">Wavy</div>
+                    </div>
+                </div>
+
+                <div class="line-selector">
+                    <h3>&#11088; Fate Line (Vertical line)</h3>
+                    <div class="char-grid" data-line="fate">
+                        <div class="char-option" data-value="clear">Clear & distinct</div>
+                        <div class="char-option" data-value="faint">Faint</div>
+                        <div class="char-option" data-value="broken">Broken</div>
+                        <div class="char-option" data-value="none">None or not visible</div>
+                    </div>
+                </div>
+
+                <button class="analyze-btn" id="analyzeBtn" onclick="analyzePalm()">&#128302; Analyze Palm</button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section">
+            <div class="card">
+                <div class="result-header">
+                    <div class="result-title" id="resultTitle">Palm Reading Result</div>
+                    <p class="result-summary" id="resultSummary"></p>
+                </div>
+
+                <div class="line-results" id="lineResults"></div>
+
+                <div class="overall-fortune">
+                    <div class="fortune-title">&#127775; Overall Fortune Index</div>
+                    <div class="fortune-grid" id="fortuneGrid"></div>
+                </div>
+
+                <div class="advice-section">
+                    <div class="advice-title">&#128172; Advice</div>
+                    <p class="advice-content" id="adviceContent"></p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareResult()">Share Result</button>
+                    <button class="action-btn retry-btn" onclick="retry()">Try Again</button>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                &#9888;&#65039; This palm reading is for entertainment purposes and is not related to actual destiny.
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>AI Palm Reading | Free Palmistry</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let selectedLines = {
+            life: null,
+            head: null,
+            heart: null,
+            fate: null
+        };
+
+        const lineData = {
+            life: {
+                name: 'Life Line',
+                icon: '&#128587;',
+                interpretations: {
+                    long: { score: 90, text: 'You are full of vitality and energy. You are likely to live a long and healthy life with excellent recovery ability.' },
+                    short: { score: 65, text: 'A short life line indicates an efficient life. You pursue quality over quantity and live a focused life.' },
+                    curved: { score: 85, text: 'You have abundant energy and passion. You actively enjoy life and will have diverse experiences.' },
+                    straight: { score: 70, text: 'You have a cautious and careful personality. You seek a stable life and act according to plans.' }
+                }
+            },
+            head: {
+                name: 'Head Line',
+                icon: '&#128161;',
+                interpretations: {
+                    long: { score: 92, text: 'You have excellent intellectual ability and analytical skills. You can solve complex problems logically with outstanding learning capability.' },
+                    short: { score: 68, text: 'You have intuitive and practical thinking. You have quick judgment and are action-oriented.' },
+                    curved: { score: 80, text: 'You are creative and imaginative. You have artistic sense and generate many original ideas.' },
+                    straight: { score: 75, text: 'You think realistically and logically. You excel at finding practical solutions.' }
+                }
+            },
+            heart: {
+                name: 'Heart Line',
+                icon: '&#128150;',
+                interpretations: {
+                    long: { score: 88, text: 'You have deep and rich emotions. You are passionate about love and cherish relationships.' },
+                    short: { score: 62, text: 'You are independent and self-centered. You value reason over emotion and prefer practical relationships.' },
+                    curved: { score: 85, text: 'You have a warm and romantic personality. You are very expressive and loved by those around you.' },
+                    wavy: { score: 70, text: 'You have emotional ups and downs but experience various things. You grow through multiple relationships.' }
+                }
+            },
+            fate: {
+                name: 'Fate Line',
+                icon: '&#11088;',
+                interpretations: {
+                    clear: { score: 95, text: 'You have clear goals and direction. You are likely to build a successful career and carve out your own destiny.' },
+                    faint: { score: 72, text: 'You have a flexible attitude toward life. You are open to various possibilities and adapt to situations.' },
+                    broken: { score: 65, text: 'You experience turning points in life. You grow through changes and are not afraid of new beginnings.' },
+                    none: { score: 60, text: 'You possess a free spirit. You carve your own path rather than following a predetermined one.' }
+                }
+            }
+        };
+
+        // Event listeners for selection
+        document.querySelectorAll('.char-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const line = this.parentElement.dataset.line;
+                const value = this.dataset.value;
+
+                // Toggle selection
+                this.parentElement.querySelectorAll('.char-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+
+                selectedLines[line] = value;
+                updateButtonState();
+            });
+        });
+
+        function updateButtonState() {
+            const allSelected = Object.values(selectedLines).every(v => v !== null);
+            document.getElementById('analyzeBtn').disabled = !allSelected;
+        }
+
+        function analyzePalm() {
+            // Calculate results
+            let totalScore = 0;
+            let resultHTML = '';
+
+            Object.keys(selectedLines).forEach(line => {
+                const value = selectedLines[line];
+                const data = lineData[line];
+                const interpretation = data.interpretations[value];
+
+                totalScore += interpretation.score;
+
+                resultHTML += `
+                    <div class="line-result">
+                        <div class="line-result-header">
+                            <span class="line-result-icon">${data.icon}</span>
+                            <span class="line-result-name">${data.name}</span>
+                        </div>
+                        <div class="line-score">
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 0%;" data-score="${interpretation.score}"></div>
+                            </div>
+                            <div class="score-label">
+                                <span>Fortune Index</span>
+                                <span>${interpretation.score}</span>
+                            </div>
+                        </div>
+                        <p class="line-interpretation">${interpretation.text}</p>
+                    </div>
+                `;
+            });
+
+            const avgScore = Math.round(totalScore / 4);
+
+            // Generate fortune scores
+            const loveScore = Math.round((lineData.heart.interpretations[selectedLines.heart].score + avgScore) / 2);
+            const careerScore = Math.round((lineData.fate.interpretations[selectedLines.fate].score + lineData.head.interpretations[selectedLines.head].score) / 2);
+            const healthScore = lineData.life.interpretations[selectedLines.life].score;
+
+            const fortuneHTML = `
+                <div class="fortune-item">
+                    <div class="fortune-value">${loveScore}</div>
+                    <div class="fortune-label">Love</div>
+                </div>
+                <div class="fortune-item">
+                    <div class="fortune-value">${careerScore}</div>
+                    <div class="fortune-label">Career</div>
+                </div>
+                <div class="fortune-item">
+                    <div class="fortune-value">${healthScore}</div>
+                    <div class="fortune-label">Health</div>
+                </div>
+            `;
+
+            // Generate advice
+            const advices = [
+                avgScore >= 85 ? 'Your palm lines contain very good energy. Have confidence and take on challenges!' : '',
+                avgScore >= 70 && avgScore < 85 ? 'You are living a balanced life. Maintain your current direction.' : '',
+                avgScore < 70 ? 'New challenges and changes will be good opportunities for you.' : '',
+                healthScore >= 80 ? 'You are maintaining healthy lifestyle habits. Keep it up!' : 'Get regular exercise and sufficient rest.',
+                loveScore >= 80 ? 'You have positive energy regarding love.' : 'Open your heart and welcome new connections.'
+            ].filter(a => a).join(' ');
+
+            // Summary based on score
+            let summary = '';
+            if (avgScore >= 85) {
+                summary = '&#127775; Excellent palm lines! You have strong innate fortune and can achieve results proportional to your efforts.';
+            } else if (avgScore >= 75) {
+                summary = '&#128170; Well-balanced palm lines. You live a stable life and can succeed through consistent effort.';
+            } else if (avgScore >= 65) {
+                summary = '&#127808; Palm lines with development potential. Better fortune will come if you do not fear change.';
+            } else {
+                summary = '&#127793; Free-spirited palm lines. You will carve your own path and live a unique life.';
+            }
+
+            // Display results
+            document.getElementById('resultSummary').innerHTML = summary;
+            document.getElementById('lineResults').innerHTML = resultHTML;
+            document.getElementById('fortuneGrid').innerHTML = fortuneHTML;
+            document.getElementById('adviceContent').textContent = advices;
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('resultSection').classList.add('show');
+
+            // Animate score bars
+            setTimeout(() => {
+                document.querySelectorAll('.score-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.score + '%';
+                });
+            }, 100);
+        }
+
+        function shareResult() {
+            const text = 'Check out my AI palm reading results!';
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI Palm Reading Results',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
+                    showToast('Link copied!');
+                });
+            }
+        }
+
+        function retry() {
+            selectedLines = { life: null, head: null, heart: null, fate: null };
+            document.querySelectorAll('.char-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('resultSection').classList.remove('show');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>

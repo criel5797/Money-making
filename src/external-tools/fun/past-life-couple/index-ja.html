@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前世の縁診断テスト - 私たちは前世で何の関係？ | カップル前世テスト</title>
+    <meta name="description" content="私たちは前世で何の関係だったのか？カップル前世診断テストで二人の前世の縁を調べましょう。無料前世相性テスト！">
+    <meta name="keywords" content="前世の縁,カップルテスト,前世相性,前世関係,輪廻,縁診断">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="前世の縁診断テスト - 私たちは前世で何の関係？">
+    <meta property="og:description" content="カップルの前世の縁を調べましょう！">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/4a1c6b/ffd700?text=前世の縁">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #4a1c6b 50%, #1a0a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .mystical-particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: particleFloat 8s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { transform: translateY(-100px) translateX(50px); opacity: 0.8; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ffd700, #ff69b4, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #c8a8e8; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .couple-inputs {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .person-input {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .person-input.person1 { border-color: rgba(255, 105, 180, 0.3); }
+        .person-input.person2 { border-color: rgba(100, 149, 237, 0.3); }
+
+        .person-label {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .heart-divider {
+            font-size: 30px;
+            color: #ff69b4;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #c8a8e8;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ffd700;
+        }
+
+        .birth-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        .birth-row select { flex: 1; padding: 10px 5px; font-size: 12px; }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(196, 77, 255, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-animation {
+            font-size: 60px;
+            animation: heartPulse 1.5s infinite;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .loading p { color: #c8a8e8; margin-top: 20px; }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .names-display {
+            font-size: 1.3rem;
+            color: #e4e4e4;
+            margin-bottom: 15px;
+        }
+
+        .names-display .name1 { color: #ff69b4; }
+        .names-display .name2 { color: #6495ed; }
+
+        .era-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #c44dff);
+            color: #1a0a2e;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .relation-title {
+            font-size: 2rem;
+            color: #ffd700;
+            margin: 15px 0;
+        }
+
+        .relation-emoji {
+            font-size: 70px;
+            display: block;
+            margin: 15px 0;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #d8c8e8;
+            line-height: 1.8;
+        }
+
+        .karma-meter {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .karma-item {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            padding: 15px 10px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .karma-item .label { color: #c8a8e8; font-size: 12px; margin-bottom: 5px; }
+        .karma-item .value {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.7rem; }
+            .couple-inputs { grid-template-columns: 1fr; }
+            .heart-divider { padding: 10px 0; }
+            .relation-title { font-size: 1.5rem; }
+            .karma-meter { flex-wrap: wrap; }
+            .karma-item { flex: 1 1 45%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mystical-particles" id="particles"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>前世の縁診断テスト</h1>
+            <p class="subtitle">私たちは前世で何の関係だったのか？</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            楽しむための前世の縁診断テストです！
+        </div>
+
+        <div class="card">
+            <div class="input-section" id="inputSection">
+                <h2>二人の情報を入力してください</h2>
+
+                <div class="couple-inputs">
+                    <div class="person-input person1">
+                        <div class="person-label">💗 一人目</div>
+                        <div class="input-group">
+                            <label>名前</label>
+                            <input type="text" id="name1" placeholder="名前">
+                        </div>
+                        <div class="input-group">
+                            <label>生年月日</label>
+                            <div class="birth-row">
+                                <select id="year1"></select>
+                                <select id="month1"></select>
+                                <select id="day1"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="heart-divider">💕</div>
+
+                    <div class="person-input person2">
+                        <div class="person-label">💙 二人目</div>
+                        <div class="input-group">
+                            <label>名前</label>
+                            <input type="text" id="name2" placeholder="名前">
+                        </div>
+                        <div class="input-group">
+                            <label>生年月日</label>
+                            <div class="birth-row">
+                                <select id="year2"></select>
+                                <select id="month2"></select>
+                                <select id="day2"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="startTest()">前世の縁を診断する</button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-animation">💫</div>
+                <p>時を遡って前世を探しています...</p>
+                <p style="font-size: 13px; color: #888; margin-top: 10px;">二つの魂の縁を追跡中...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="names-display">
+                        <span class="name1" id="displayName1">太郎</span>
+                        &
+                        <span class="name2" id="displayName2">花子</span>
+                    </div>
+                    <div class="era-badge" id="resultEra">江戸時代</div>
+                    <span class="relation-emoji" id="resultEmoji">👑💕👸</span>
+                    <div class="relation-title" id="resultRelation">運命の恋人</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📜 前世の物語</h3>
+                    <p id="resultStory"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>🔮 縁の意味</h3>
+                    <p id="resultMeaning"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 現世でのアドバイス</h3>
+                    <p id="resultAdvice"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>✨ カルマ分析</h3>
+                    <div class="karma-meter" id="karmaMeter"></div>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="resetTest()">もう一度診断</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>このテストは娯楽のためのものです。<br>実際の前世とは関係ありません。</p>
+        </footer>
+    </div>
+
+    <script>
+        // パーティクル生成
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // 日付選択の初期化
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+            ['year1', 'year2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">年</option>';
+                for (let y = currentYear; y >= 1950; y--) {
+                    select.innerHTML += `<option value="${y}">${y}</option>`;
+                }
+            });
+            ['month1', 'month2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">月</option>';
+                for (let m = 1; m <= 12; m++) {
+                    select.innerHTML += `<option value="${m}">${m}</option>`;
+                }
+            });
+            ['day1', 'day2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">日</option>';
+                for (let d = 1; d <= 31; d++) {
+                    select.innerHTML += `<option value="${d}">${d}</option>`;
+                }
+            });
+        }
+        initDateSelects();
+
+        const relations = [
+            {
+                era: "古代エジプト",
+                relation: "ファラオと神官",
+                emoji: "👑✨🔮",
+                story: "お二人は古代エジプトでファラオとそれを補佐する最高神官でした。一緒にピラミッドを設計し、星を読みながら王国の繁栄を導きました。深い信頼と知的な交流で結ばれた関係でした。",
+                meaning: "この縁はお互いを高く評価し尊重する関係です。前世で一緒に大きなことを成し遂げただけに、現世でも一緒にいればシナジーが爆発するでしょう。",
+                advice: "お互いの知恵を尊重してください。一緒に目標を立てて達成していけば、驚くべき結果を生み出せます。",
+                karma: { trust: 95, passion: 70, destiny: 88, harmony: 82 }
+            },
+            {
+                era: "江戸時代",
+                relation: "運命の恋人",
+                emoji: "👨‍🎓💕👩‍🎓",
+                story: "お二人は江戸時代の武家の子供で、異なる家柄でしたが運命のように出会いました。身分の壁を越えて愛し合い、その心は今世まで続いています。",
+                meaning: "この縁はどんな障害も乗り越えられる強力な引力です。前世で成し遂げられなかった愛を現世で完成させるために再び出会ったのかもしれません。",
+                advice: "お互いへの信頼を失わないでください。困難が来ても一緒なら乗り越えられます。",
+                karma: { trust: 85, passion: 98, destiny: 95, harmony: 75 }
+            },
+            {
+                era: "中世ヨーロッパ",
+                relation: "騎士と王女",
+                emoji: "⚔️❤️👸",
+                story: "一人は勇敢な騎士で、もう一人は王国の王女でした。騎士は王女を守るために命を懸け、その献身は永遠の縁として残りました。",
+                meaning: "この縁は保護と献身の関係です。一方が他方を守ろうとする本能があり、お互いに深い責任感を感じます。",
+                advice: "守りたい気持ちも良いですが、時には相手が自ら成長できるようにしてあげてください。対等なパートナーとして一緒に歩んでください。",
+                karma: { trust: 90, passion: 85, destiny: 80, harmony: 78 }
+            },
+            {
+                era: "唐時代",
+                relation: "詩人とミューズ",
+                emoji: "📜💫🎭",
+                story: "一人は唐の有名な詩人で、もう一人はその人にインスピレーションを与えていたミューズでした。数多くの詩が相手のために書かれ、その作品は千年経っても語り継がれています。",
+                meaning: "この縁は芸術的でインスピレーションを与え合う関係です。一緒にいると創造力が湧き出し、お互いにインスピレーションとなります。",
+                advice: "お互いの才能を励まし合ってください。一緒に創造的な活動をすれば、より深い絆を感じられるでしょう。",
+                karma: { trust: 75, passion: 88, destiny: 82, harmony: 92 }
+            },
+            {
+                era: "ルネサンス時代",
+                relation: "同志的友人",
+                emoji: "🎨🤝📚",
+                story: "お二人はルネサンス時代のフィレンツェで一緒に芸術と学問を探求していた仲間でした。夜通し議論し、お互いの作品を批評しながら成長しました。",
+                meaning: "この縁は深い友情と知的交流を基盤としています。恋人である前に最高の友人であり、同志です。",
+                advice: "友人としての関係を大切にしてください。深い対話と共感が関係をより強固にします。",
+                karma: { trust: 92, passion: 65, destiny: 78, harmony: 95 }
+            },
+            {
+                era: "日本の江戸時代",
+                relation: "宿命のライバル",
+                emoji: "⚔️🔥⚔️",
+                story: "お二人は江戸時代の有名な剣客でした。お互いをライバルと見なして競い合いましたが、その中には深い尊敬がありました。お互いがいたからこそ、より強くなれました。",
+                meaning: "この縁はお互いを成長させる関係です。競争心があるかもしれませんが、それがむしろお互いを発展させます。",
+                advice: "健全な競争は良いですが、相手に勝とうとするよりも、一緒に成長すると考えてください。",
+                karma: { trust: 70, passion: 90, destiny: 75, harmony: 68 }
+            },
+            {
+                era: "古代ギリシャ",
+                relation: "魂の片割れ",
+                emoji: "⚡💕☀️",
+                story: "プラトンが語った「魂の片割れ」のように、お二人は元々一つだった魂が二つに分かれた存在です。数千年離れていて、ようやく現世で再会しました。",
+                meaning: "この縁は最も強力な魂の結びつきです。出会った瞬間から長年知っていたような感覚、それが前世の記憶です。",
+                advice: "すでに繋がっていることを信じてください。お互いを見つけたのですから、今は一緒に完全になる旅を楽しんでください。",
+                karma: { trust: 95, passion: 95, destiny: 99, harmony: 90 }
+            },
+            {
+                era: "ビクトリア時代",
+                relation: "師弟",
+                emoji: "📖💡🎓",
+                story: "一人はビクトリア時代の学者で、もう一人はその最も優秀な弟子でした。知識を分かち合い、お互いに深い印象を残しました。",
+                meaning: "この縁は教えと学びの関係です。お互いに学ぶことがあり、一緒に成長していきます。",
+                advice: "時には教え、時には学んでください。役割を固定せず、柔軟に与え合ってください。",
+                karma: { trust: 85, passion: 60, destiny: 72, harmony: 88 }
+            }
+        ];
+
+        let resultData = {};
+
+        function startTest() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+
+            if (!name1 || !name2) {
+                showToast('⚠️ 二人の名前を両方入力してください！');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name1, name2);
+            }, 2500);
+        }
+
+        function calculateResult(name1, name2) {
+            // 名前ベースのシード生成
+            let seed = 0;
+            for (let i = 0; i < name1.length; i++) {
+                seed += name1.charCodeAt(i) * (i + 1);
+            }
+            for (let i = 0; i < name2.length; i++) {
+                seed += name2.charCodeAt(i) * (i + 2);
+            }
+
+            // 関係選択
+            const relationIndex = seed % relations.length;
+            const selectedRelation = relations[relationIndex];
+
+            resultData = {
+                name1,
+                name2,
+                ...selectedRelation
+            };
+
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('displayName1').textContent = resultData.name1;
+            document.getElementById('displayName2').textContent = resultData.name2;
+            document.getElementById('resultEra').textContent = resultData.era;
+            document.getElementById('resultEmoji').textContent = resultData.emoji;
+            document.getElementById('resultRelation').textContent = resultData.relation;
+            document.getElementById('resultStory').textContent = resultData.story;
+            document.getElementById('resultMeaning').textContent = resultData.meaning;
+            document.getElementById('resultAdvice').textContent = resultData.advice;
+
+            const karmaLabels = {
+                trust: '信頼',
+                passion: '情熱',
+                destiny: '運命',
+                harmony: '調和'
+            };
+
+            document.getElementById('karmaMeter').innerHTML = Object.entries(resultData.karma).map(([key, value]) => `
+                <div class="karma-item">
+                    <div class="label">${karmaLabels[key]}</div>
+                    <div class="value">${value}%</div>
+                </div>
+            `).join('');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `💫 前世の縁診断テスト結果\n\n` +
+                        `${resultData.name1} 💕 ${resultData.name2}\n\n` +
+                        `【${resultData.era}】\n` +
+                        `${resultData.emoji}\n` +
+                        `"${resultData.relation}"\n\n` +
+                        `✨ 信頼 ${resultData.karma.trust}% | 情熱 ${resultData.karma.passion}%\n` +
+                        `🌟 運命 ${resultData.karma.destiny}% | 調和 ${resultData.karma.harmony}%\n\n` +
+                        `私たちも前世の縁を診断する 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: '前世の縁診断テスト', text: text })
+                    .catch(err => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 結果がコピーされました！');
+                });
+            }
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('name1').value = '';
+            document.getElementById('name2').value = '';
+            ['year1', 'month1', 'day1', 'year2', 'month2', 'day2'].forEach(id => {
+                document.getElementById(id).selectedIndex = 0;
+            });
+        }
+    </script>
+</body>
+</html>

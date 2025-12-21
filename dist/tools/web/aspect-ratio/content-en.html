@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>화면비 계산기 - 무료 이미지 & 영상 비율 도구</title>
-    <meta name="description" content="무료 화면비 계산기. 이미지 크기 계산, 비율 변환, 비율 유지하며 크기 조절을 쉽게 하세요.">
-    <meta name="keywords" content="화면비 계산기, 이미지 비율, 영상 비율, 16:9, 4:3, 해상도 계산기, 종횡비">
+    <title>Aspect Ratio Calculator - Free Image & Video Ratio Tool</title>
+    <meta name="description" content="Free aspect ratio calculator. Easily calculate image sizes, convert ratios, and resize while maintaining aspect ratio.">
+    <meta name="keywords" content="aspect ratio calculator, image ratio, video ratio, 16:9, 4:3, resolution calculator, aspect ratio">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="화면비 계산기 - 이미지 & 영상 비율 도구">
-    <meta property="og:description" content="이미지와 영상의 화면비를 즉시 계산하고 변환하세요.">
+    <meta property="og:title" content="Aspect Ratio Calculator - Image & Video Ratio Tool">
+    <meta property="og:description" content="Calculate and convert aspect ratios for images and videos instantly.">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -363,22 +363,22 @@
 <body>
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="index-ko.html">Korean</a>
         </div>
 
         <header>
-            <h1>화면비 계산기</h1>
-            <p class="subtitle">이미지 & 영상 크기를 계산하고 변환하세요</p>
+            <h1>Aspect Ratio Calculator</h1>
+            <p class="subtitle">Calculate and Convert Image & Video Sizes</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="card">
-            <h2>비율 계산</h2>
+            <h2>Ratio Calculator</h2>
             <div class="calculator-grid">
                 <div>
                     <div class="input-group">
-                        <label class="input-label">원본 크기</label>
+                        <label class="input-label">Original Size</label>
                         <div class="input-row">
                             <input type="number" id="width1" value="1920" oninput="calculate()">
                             <span class="divider">×</span>
@@ -392,12 +392,12 @@
                     </div>
 
                     <div class="input-group">
-                        <label class="input-label">크기 조절 (비율 고정)</label>
+                        <label class="input-label">Resize (Lock Ratio)</label>
                         <div class="input-row">
                             <input type="number" id="width2" value="1920" oninput="scaleWidth()">
                             <span class="divider">×</span>
                             <input type="number" id="height2" value="1080" oninput="scaleHeight()">
-                            <button class="lock-btn locked" id="lockBtn" onclick="toggleLock()" title="비율 고정">&#128274;</button>
+                            <button class="lock-btn locked" id="lockBtn" onclick="toggleLock()" title="Lock ratio">&#128274;</button>
                         </div>
                     </div>
                 </div>
@@ -409,27 +409,27 @@
 
                     <div class="result-section">
                         <div class="result-row">
-                            <span class="result-label">화면비</span>
+                            <span class="result-label">Aspect Ratio</span>
                             <span>
                                 <span class="result-value" id="resultRatio">16:9</span>
-                                <button class="copy-btn" onclick="copyValue('16:9')">복사</button>
+                                <button class="copy-btn" onclick="copyValue('16:9')">Copy</button>
                             </span>
                         </div>
                         <div class="result-row">
-                            <span class="result-label">소수점</span>
+                            <span class="result-label">Decimal</span>
                             <span>
                                 <span class="result-value" id="resultDecimal">1.778</span>
-                                <button class="copy-btn" onclick="copyValue('1.778')">복사</button>
+                                <button class="copy-btn" onclick="copyValue('1.778')">Copy</button>
                             </span>
                         </div>
                         <div class="result-row">
-                            <span class="result-label">픽셀 수</span>
+                            <span class="result-label">Total Pixels</span>
                             <span>
                                 <span class="result-value" id="resultPixels">2,073,600</span>
                             </span>
                         </div>
                         <div class="result-row">
-                            <span class="result-label">메가픽셀</span>
+                            <span class="result-label">Megapixels</span>
                             <span>
                                 <span class="result-value" id="resultMegapixels">2.07 MP</span>
                             </span>
@@ -439,44 +439,44 @@
             </div>
 
             <div class="presets-section">
-                <h3>자주 쓰는 프리셋</h3>
+                <h3>Common Presets</h3>
 
                 <div class="preset-category">
-                    <div class="preset-category-title">영상</div>
+                    <div class="preset-category-title">Video</div>
                     <div class="presets-grid">
                         <button class="preset-btn active" onclick="applyPreset(1920, 1080)">1920×1080 (16:9)</button>
                         <button class="preset-btn" onclick="applyPreset(3840, 2160)">4K UHD</button>
                         <button class="preset-btn" onclick="applyPreset(1280, 720)">720p HD</button>
                         <button class="preset-btn" onclick="applyPreset(2560, 1440)">1440p QHD</button>
-                        <button class="preset-btn" onclick="applyPreset(2560, 1080)">21:9 울트라와이드</button>
+                        <button class="preset-btn" onclick="applyPreset(2560, 1080)">21:9 Ultrawide</button>
                     </div>
                 </div>
 
                 <div class="preset-category">
-                    <div class="preset-category-title">소셜 미디어</div>
+                    <div class="preset-category-title">Social Media</div>
                     <div class="presets-grid">
-                        <button class="preset-btn" onclick="applyPreset(1080, 1080)">인스타그램 (1:1)</button>
-                        <button class="preset-btn" onclick="applyPreset(1080, 1350)">인스타 세로형</button>
-                        <button class="preset-btn" onclick="applyPreset(1080, 1920)">스토리 (9:16)</button>
-                        <button class="preset-btn" onclick="applyPreset(1200, 630)">페이스북 링크</button>
-                        <button class="preset-btn" onclick="applyPreset(1500, 500)">트위터 헤더</button>
-                        <button class="preset-btn" onclick="applyPreset(2560, 1440)">유튜브 배너</button>
+                        <button class="preset-btn" onclick="applyPreset(1080, 1080)">Instagram Square (1:1)</button>
+                        <button class="preset-btn" onclick="applyPreset(1080, 1350)">Instagram Portrait</button>
+                        <button class="preset-btn" onclick="applyPreset(1080, 1920)">Story (9:16)</button>
+                        <button class="preset-btn" onclick="applyPreset(1200, 630)">Facebook Link</button>
+                        <button class="preset-btn" onclick="applyPreset(1500, 500)">Twitter Header</button>
+                        <button class="preset-btn" onclick="applyPreset(2560, 1440)">YouTube Banner</button>
                     </div>
                 </div>
 
                 <div class="preset-category">
-                    <div class="preset-category-title">사진</div>
+                    <div class="preset-category-title">Photography</div>
                     <div class="presets-grid">
                         <button class="preset-btn" onclick="applyPreset(6000, 4000)">3:2 DSLR</button>
-                        <button class="preset-btn" onclick="applyPreset(4000, 3000)">4:3 마이크로포서드</button>
-                        <button class="preset-btn" onclick="applyPreset(4000, 4000)">1:1 정사각형</button>
-                        <button class="preset-btn" onclick="applyPreset(4000, 5000)">4:5 세로형</button>
-                        <button class="preset-btn" onclick="applyPreset(5000, 7000)">5:7 인쇄용</button>
+                        <button class="preset-btn" onclick="applyPreset(4000, 3000)">4:3 Micro Four Thirds</button>
+                        <button class="preset-btn" onclick="applyPreset(4000, 4000)">1:1 Square</button>
+                        <button class="preset-btn" onclick="applyPreset(4000, 5000)">4:5 Portrait</button>
+                        <button class="preset-btn" onclick="applyPreset(5000, 7000)">5:7 Print</button>
                     </div>
                 </div>
 
                 <div class="preset-category">
-                    <div class="preset-category-title">기본</div>
+                    <div class="preset-category-title">Standard</div>
                     <div class="presets-grid">
                         <button class="preset-btn" onclick="applyPreset(1024, 768)">4:3</button>
                         <button class="preset-btn" onclick="applyPreset(1920, 1080)">16:9</button>
@@ -491,34 +491,34 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#128208;</div>
-                <h3>이미지 리사이즈</h3>
-                <p>비율을 유지하며 새 크기 계산</p>
+                <h3>Image Resize</h3>
+                <p>Calculate new sizes while maintaining ratio</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#127909;</div>
-                <h3>영상 포맷</h3>
-                <p>영상 및 스트리밍용 프리셋</p>
+                <h3>Video Formats</h3>
+                <p>Presets for video and streaming</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128241;</div>
-                <h3>소셜 미디어</h3>
-                <p>모든 SNS 플랫폼 최적 사이즈</p>
+                <h3>Social Media</h3>
+                <p>Optimal sizes for all SNS platforms</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#9881;&#65039;</div>
-                <h3>비율 고정</h3>
-                <p>크기 조절 시 비율 유지</p>
+                <h3>Lock Ratio</h3>
+                <p>Maintain aspect ratio when resizing</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 화면비 계산기 | 이미지 & 영상 크기 도구</p>
+            <p>Free Aspect Ratio Calculator | Image & Video Size Tool</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사 완료!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         let isLocked = true;
@@ -637,7 +637,7 @@
 
         function copyValue(value) {
             navigator.clipboard.writeText(value).then(() => {
-                showToast('복사됨: ' + value);
+                showToast('Copied: ' + value);
             });
         }
 

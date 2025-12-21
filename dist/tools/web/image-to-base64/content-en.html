@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이미지를 Base64로 변환 - 무료 온라인 도구</title>
-    <meta name="description" content="이미지를 Base64 문자열로 즉시 변환하세요. HTML, CSS, JSON에 이미지를 임베드하기 위한 무료 온라인 도구입니다.">
-    <meta name="keywords" content="이미지 base64, base64 인코더, 이미지 인코더, data uri, 이미지 임베드, base64 변환기">
+    <title>Image to Base64 Converter - Free Online Tool</title>
+    <meta name="description" content="Convert images to Base64 strings instantly. Free online tool for embedding images in HTML, CSS, and JSON.">
+    <meta name="keywords" content="image base64, base64 encoder, image encoder, data uri, image embed, base64 converter">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -281,53 +281,53 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">Korean</a>
             </div>
-            <h1>이미지 → Base64</h1>
-            <p class="subtitle">이미지를 Base64 인코딩 문자열로 변환</p>
+            <h1>Image → Base64</h1>
+            <p class="subtitle">Convert images to Base64 encoded strings</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
             <div class="upload-icon">🖼️</div>
-            <p class="upload-text">이미지를 여기에 드래그 & 드롭하거나 클릭하여 찾아보기</p>
-            <p class="upload-hint">지원 형식: JPG, PNG, GIF, SVG, WebP, ICO</p>
-            <button class="upload-btn">이미지 선택</button>
+            <p class="upload-text">Drag & drop your image here or click to browse</p>
+            <p class="upload-hint">Supported formats: JPG, PNG, GIF, SVG, WebP, ICO</p>
+            <button class="upload-btn">Choose Image</button>
             <input type="file" id="fileInput" accept="image/*">
         </div>
 
         <div class="preview-section" id="previewSection">
             <div class="preview-header">
-                <span class="preview-title">이미지 미리보기</span>
+                <span class="preview-title">Image Preview</span>
                 <div class="preview-actions">
-                    <button class="btn-sm" onclick="clearImage()">지우기</button>
+                    <button class="btn-sm" onclick="clearImage()">Clear</button>
                 </div>
             </div>
 
             <div class="preview-grid">
                 <div class="preview-image">
-                    <img id="previewImg" src="" alt="미리보기">
+                    <img id="previewImg" src="" alt="Preview">
                 </div>
                 <div class="preview-info">
                     <div class="info-item">
-                        <span class="info-label">파일명</span>
+                        <span class="info-label">File Name</span>
                         <span class="info-value" id="fileName">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">파일 형식</span>
+                        <span class="info-label">File Type</span>
                         <span class="info-value" id="fileType">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">원본 크기</span>
+                        <span class="info-label">Original Size</span>
                         <span class="info-value" id="fileSize">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">해상도</span>
+                        <span class="info-label">Dimensions</span>
                         <span class="info-value" id="dimensions">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Base64 크기</span>
+                        <span class="info-label">Base64 Size</span>
                         <span class="info-value" id="base64Size">-</span>
                     </div>
                 </div>
@@ -336,48 +336,48 @@
             <div class="output-section">
                 <div class="tabs">
                     <button class="tab active" onclick="switchTab('datauri')">Data URI</button>
-                    <button class="tab" onclick="switchTab('base64')">Base64만</button>
+                    <button class="tab" onclick="switchTab('base64')">Base64 Only</button>
                     <button class="tab" onclick="switchTab('html')">HTML &lt;img&gt;</button>
-                    <button class="tab" onclick="switchTab('css')">CSS 배경</button>
+                    <button class="tab" onclick="switchTab('css')">CSS Background</button>
                 </div>
 
                 <div class="output-header">
-                    <span class="output-label" id="outputLabel">Data URI (바로 사용 가능)</span>
-                    <button class="btn-sm" onclick="copyOutput()">복사</button>
+                    <span class="output-label" id="outputLabel">Data URI (ready to use)</span>
+                    <button class="btn-sm" onclick="copyOutput()">Copy</button>
                 </div>
                 <textarea id="outputText" readonly></textarea>
 
-                <button class="copy-all-btn" onclick="copyOutput()">📋 클립보드에 복사</button>
+                <button class="copy-all-btn" onclick="copyOutput()">📋 Copy to Clipboard</button>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="info-section">
-            <h3>Base64 인코딩이란?</h3>
-            <p>Base64는 바이너리 데이터(이미지 같은)를 ASCII 텍스트로 표현하는 바이너리-텍스트 인코딩 방식입니다. 이를 통해 이미지를 별도의 파일 없이 HTML, CSS 또는 JSON에 직접 임베드할 수 있습니다.</p>
+            <h3>What is Base64 Encoding?</h3>
+            <p>Base64 is a binary-to-text encoding scheme that represents binary data (like images) in an ASCII string format. This allows you to embed images directly in HTML, CSS, or JSON without separate files.</p>
         </div>
 
         <div class="info-section">
-            <h3>Base64 이미지를 사용해야 할 때</h3>
-            <p>✅ <strong>작은 이미지</strong> - 10KB 미만의 아이콘, 로고</p>
-            <p>✅ <strong>HTTP 요청 줄이기</strong> - 중요한 이미지를 인라인으로 임베드</p>
-            <p>✅ <strong>이메일 템플릿</strong> - 외부 로딩 없이 표시되는 이미지 임베드</p>
-            <p>✅ <strong>단일 파일 HTML</strong> - 독립적인 HTML 파일 생성</p>
-            <p>❌ <strong>큰 이미지</strong> - Base64는 크기를 약 33% 증가시킴</p>
-            <p>❌ <strong>자주 변경되는 이미지</strong> - 별도로 캐시할 수 없음</p>
+            <h3>When to Use Base64 Images</h3>
+            <p>✅ <strong>Small images</strong> - Icons, logos under 10KB</p>
+            <p>✅ <strong>Reduce HTTP requests</strong> - Inline critical images</p>
+            <p>✅ <strong>Email templates</strong> - Embed images that display without external loading</p>
+            <p>✅ <strong>Single-file HTML</strong> - Create self-contained HTML files</p>
+            <p>❌ <strong>Large images</strong> - Base64 increases size by ~33%</p>
+            <p>❌ <strong>Frequently changing images</strong> - Cannot be cached separately</p>
         </div>
 
         <div class="info-section">
-            <h3>사용 예시</h3>
+            <h3>Usage Examples</h3>
             <p><strong>HTML:</strong> <code>&lt;img src="data:image/png;base64,..."&gt;</code></p>
             <p><strong>CSS:</strong> <code>background-image: url(data:image/png;base64,...);</code></p>
             <p><strong>JSON:</strong> <code>{"image": "data:image/png;base64,..."}</code></p>
         </div>
 
         <footer>
-            <p>웹 개발자를 위해 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>Built for web developers</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
         </footer>
     </div>
 
@@ -444,7 +444,7 @@
 
                 // Update output
                 updateOutput();
-                showToast('이미지가 변환되었습니다!');
+                showToast('Image converted successfully!');
             };
 
             reader.readAsDataURL(file);
@@ -471,19 +471,19 @@
             switch (currentTab) {
                 case 'datauri':
                     output.value = dataUri;
-                    label.textContent = 'Data URI (바로 사용 가능)';
+                    label.textContent = 'Data URI (ready to use)';
                     break;
                 case 'base64':
                     output.value = currentBase64;
-                    label.textContent = 'Base64 문자열만';
+                    label.textContent = 'Base64 string only';
                     break;
                 case 'html':
                     output.value = `<img src="${dataUri}" alt="Image">`;
-                    label.textContent = 'HTML <img> 태그';
+                    label.textContent = 'HTML <img> tag';
                     break;
                 case 'css':
                     output.value = `background-image: url(${dataUri});`;
-                    label.textContent = 'CSS 배경 속성';
+                    label.textContent = 'CSS background property';
                     break;
             }
         }
@@ -492,7 +492,7 @@
             const output = document.getElementById('outputText').value;
             if (output) {
                 navigator.clipboard.writeText(output);
-                showToast('복사되었습니다!');
+                showToast('Copied to clipboard!');
             }
         }
 

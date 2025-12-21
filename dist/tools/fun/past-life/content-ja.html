@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전생 테스트 - 나의 전생은? | 무료 전생 알아보기</title>
-    <meta name="description" content="무료 전생 테스트! 나는 전생에 누구였을까? 생년월일로 알아보는 나의 전생 직업, 성격, 시대. 지금 바로 확인하세요!">
-    <meta name="keywords" content="전생, 전생테스트, 전생알아보기, 전생확인, 윤회, 전생체험">
+    <title>前世診断テスト - あなたの前世は？ | 無料前世占い</title>
+    <meta name="description" content="無料前世診断テスト！私は前世で誰だったのか？生年月日で分かるあなたの前世の職業、性格、時代。今すぐチェック！">
+    <meta name="keywords" content="前世,前世診断,前世占い,前世確認,輪廻,前世体験">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="전생 테스트 - 나의 전생은?">
-    <meta property="og:description" content="나는 전생에 누구였을까? 지금 바로 확인하세요!">
+    <meta property="og:title" content="前世診断テスト - あなたの前世は？">
+    <meta property="og:description" content="私は前世で誰だったのか？今すぐチェック！">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=전생+테스트">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=前世診断">
     <link rel="canonical" href="">
 
     <style>
@@ -36,7 +36,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -394,92 +394,92 @@
 
     <div class="container">
         <header>
-            <h1>전생 테스트</h1>
-            <p class="subtitle">나는 전생에 누구였을까?</p>
+            <h1>前世診断テスト</h1>
+            <p class="subtitle">私は前世で誰だったのか？</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
 
         <div class="disclaimer">
-            재미로 즐기는 전생 테스트입니다. 결과는 오락 목적으로만 참고하세요!
+            楽しむための前世診断テストです。結果は娯楽目的のみでご参考ください！
         </div>
 
         <div class="card">
             <div class="input-section" id="inputSection">
-                <h2>당신의 정보를 알려주세요</h2>
+                <h2>あなたの情報を教えてください</h2>
 
                 <div class="input-group">
-                    <label>이름</label>
-                    <input type="text" id="userName" placeholder="이름을 입력하세요">
+                    <label>名前</label>
+                    <input type="text" id="userName" placeholder="名前を入力してください">
                 </div>
 
                 <div class="input-group">
-                    <label>생년월일</label>
+                    <label>生年月日</label>
                     <div class="birth-row">
-                        <select id="birthYear"><option value="">년도</option></select>
-                        <select id="birthMonth"><option value="">월</option></select>
-                        <select id="birthDay"><option value="">일</option></select>
+                        <select id="birthYear"><option value="">年</option></select>
+                        <select id="birthMonth"><option value="">月</option></select>
+                        <select id="birthDay"><option value="">日</option></select>
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label>성별</label>
+                    <label>性別</label>
                     <div class="gender-options">
                         <div class="gender-option" data-gender="male" onclick="selectGender('male')">
                             <span>👨</span>
-                            남성
+                            男性
                         </div>
                         <div class="gender-option" data-gender="female" onclick="selectGender('female')">
                             <span>👩</span>
-                            여성
+                            女性
                         </div>
                     </div>
                 </div>
 
                 <button class="start-btn" onclick="startTest()">
-                    전생 알아보기
+                    前世を診断する
                 </button>
             </div>
 
             <div class="loading" id="loading">
                 <div class="loading-icon">🔮</div>
                 <div class="loading-bar"><div class="loading-bar-fill"></div></div>
-                <p>시간의 문을 열고 있습니다...</p>
-                <p style="font-size: 13px; margin-top: 10px; color: #666;">당신의 영혼 기록을 찾는 중...</p>
+                <p>時の扉を開いています...</p>
+                <p style="font-size: 13px; margin-top: 10px; color: #666;">あなたの魂の記録を探しています...</p>
             </div>
 
             <div class="result-section" id="resultSection">
                 <div class="result-header">
-                    <p><span id="resultName">홍길동</span>님의 전생은...</p>
-                    <div class="era-badge" id="resultEra">조선시대</div>
+                    <p><span id="resultName">太郎</span>さんの前世は...</p>
+                    <div class="era-badge" id="resultEra">江戸時代</div>
                     <span class="past-life-emoji" id="resultEmoji">👑</span>
-                    <div class="past-life-title" id="resultTitle">왕실의 학자</div>
+                    <div class="past-life-title" id="resultTitle">宮廷の学者</div>
                 </div>
 
                 <div class="result-card">
-                    <h3>📜 전생의 삶</h3>
-                    <p id="resultStory">당신은 조선시대 왕실에서 학문을 연구하던 학자였습니다...</p>
+                    <h3>📜 前世の人生</h3>
+                    <p id="resultStory">あなたは江戸時代の宮廷で学問を研究していた学者でした...</p>
                 </div>
 
                 <div class="result-card">
-                    <h3>✨ 전생의 성격</h3>
-                    <p id="resultPersonality">지적 호기심이 강하고 진리를 탐구하는 것을 좋아했습니다...</p>
+                    <h3>✨ 前世の性格</h3>
+                    <p id="resultPersonality">知的好奇心が強く、真理を探求することを好んでいました...</p>
                     <div class="traits-grid" id="traitsGrid"></div>
                 </div>
 
                 <div class="result-card karma-section">
-                    <h3>🔄 현생으로 이어온 것</h3>
-                    <p id="resultKarma">전생에서 쌓은 학문의 카르마로 현생에서도 지식에 대한 갈망이 있습니다...</p>
+                    <h3>🔄 現世に引き継がれたもの</h3>
+                    <p id="resultKarma">前世で積んだ学問のカルマにより、現世でも知識への渇望があります...</p>
                 </div>
 
                 <div class="result-card">
-                    <h3>💡 전생이 주는 조언</h3>
-                    <p id="resultAdvice">전생의 경험을 바탕으로 현생에서는...</p>
+                    <h3>💡 前世からのアドバイス</h3>
+                    <p id="resultAdvice">前世の経験を基に、現世では...</p>
                 </div>
 
                 <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="resetTest()">もう一度診断</button>
                 </div>
             </div>
         </div>
@@ -487,12 +487,12 @@
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>이 테스트는 재미를 위한 것입니다.<br>실제 전생과는 관련이 없습니다.</p>
+            <p>このテストは娯楽のためのものです。<br>実際の前世とは関係ありません。</p>
         </footer>
     </div>
 
     <script>
-        // 날짜 선택 초기화
+        // 日付選択の初期化
         function initDateSelects() {
             const currentYear = new Date().getFullYear();
             const yearSelect = document.getElementById('birthYear');
@@ -500,13 +500,13 @@
             const daySelect = document.getElementById('birthDay');
 
             for (let y = currentYear; y >= 1940; y--) {
-                yearSelect.innerHTML += `<option value="${y}">${y}년</option>`;
+                yearSelect.innerHTML += `<option value="${y}">${y}年</option>`;
             }
             for (let m = 1; m <= 12; m++) {
-                monthSelect.innerHTML += `<option value="${m}">${m}월</option>`;
+                monthSelect.innerHTML += `<option value="${m}">${m}月</option>`;
             }
             for (let d = 1; d <= 31; d++) {
-                daySelect.innerHTML += `<option value="${d}">${d}일</option>`;
+                daySelect.innerHTML += `<option value="${d}">${d}日</option>`;
             }
         }
         initDateSelects();
@@ -520,147 +520,147 @@
             });
         }
 
-        // 전생 데이터 - 확장된 버전
+        // 前世データ - 拡張版
         const pastLives = {
             ancient: [
-                { era: "고대 이집트", emoji: "🏛️", title: "파라오의 서기관",
-                  story: "당신은 고대 이집트에서 파라오를 섬기는 서기관이었습니다. 상형문자를 기록하고 신전의 비밀을 지키는 중요한 역할을 맡았죠. 피라미드 건설 계획서를 작성하고, 나일강의 범람을 예측하는 기록도 남겼습니다.",
-                  personality: "비밀을 잘 지키고 꼼꼼한 성격이었습니다. 지식에 대한 욕구가 강했고, 신성한 것을 존중했습니다.",
-                  traits: ["지적 호기심", "비밀 유지", "꼼꼼함", "신비주의"],
-                  karma: "전생에서 기록하고 보존하는 일을 했기에, 현생에서도 정보를 수집하고 정리하는 것에 능숙합니다. 역사나 고대 문명에 끌리는 이유이기도 합니다.",
-                  advice: "전생의 지혜를 현생에서도 활용하세요. 기록하고 정리하는 습관이 큰 도움이 될 것입니다." },
-                { era: "고대 그리스", emoji: "🏺", title: "철학자의 제자",
-                  story: "당신은 아테네에서 철학자의 가르침을 받던 제자였습니다. 아고라 광장에서 토론하고, 진리를 탐구하며 살았습니다. 소크라테스의 문답법을 익히고 논리학을 연구했죠.",
-                  personality: "논리적이고 호기심이 많았으며, 세상의 본질에 대해 끊임없이 질문했습니다.",
-                  traits: ["논리적 사고", "호기심", "토론 능력", "진리 추구"],
-                  karma: "전생에서 진리를 탐구했기에, 현생에서도 '왜?'라는 질문을 자주 합니다.",
-                  advice: "질문하는 것을 멈추지 마세요. 그것이 당신의 본질입니다." },
-                { era: "고대 로마", emoji: "⚔️", title: "검투사",
-                  story: "당신은 로마의 콜로세움에서 싸우던 검투사였습니다. 관중의 함성 속에서 생존을 위해 싸웠고, 많은 승리를 거뒀습니다. 결국 자유민이 되어 검술 학교를 열었습니다.",
-                  personality: "용감하고 결단력이 있었으며, 압박감 속에서도 침착함을 유지했습니다.",
-                  traits: ["용기", "결단력", "생존 본능", "카리스마"],
-                  karma: "전생의 투쟁 본능이 현생에서 경쟁심과 승부욕으로 나타납니다.",
-                  advice: "싸울 때와 물러설 때를 구분하세요. 모든 싸움이 가치 있는 것은 아닙니다." },
-                { era: "고대 이집트", emoji: "✨", title: "클레오파트라의 시녀",
-                  story: "당신은 이집트 최후의 파라오 클레오파트라를 모시던 시녀였습니다. 왕궁의 비밀을 알고 있었고, 향료와 화장술에 능했습니다.",
-                  personality: "충성스럽고 관찰력이 뛰어났으며, 아름다움을 가꾸는 것에 재능이 있었습니다.",
-                  traits: ["충성심", "관찰력", "미적 감각", "비밀 유지"],
-                  karma: "전생의 왕실 경험이 현생에서 우아함과 품격에 대한 안목으로 나타납니다.",
-                  advice: "외적 아름다움뿐 아니라 내면의 아름다움도 가꾸세요." },
-                { era: "고대 그리스", emoji: "🏃", title: "올림피아 경기 선수",
-                  story: "당신은 고대 올림피아 경기에 출전한 선수였습니다. 달리기와 레슬링에서 승리하여 고향에 영광을 가져다주었습니다.",
-                  personality: "경쟁심이 강하고 체력과 정신력이 뛰어났습니다.",
-                  traits: ["경쟁심", "인내력", "신체 능력", "영광 추구"],
-                  karma: "전생의 운동 선수 경험이 현생에서 도전정신과 승부욕으로 나타납니다.",
-                  advice: "건강한 경쟁을 즐기되, 승리보다 과정을 중요시하세요." }
+                { era: "古代エジプト", emoji: "🏛️", title: "ファラオの書記官",
+                  story: "あなたは古代エジプトでファラオに仕える書記官でした。象形文字を記録し、神殿の秘密を守る重要な役割を担っていました。ピラミッド建設の計画書を作成し、ナイル川の氾濫を予測する記録も残しました。",
+                  personality: "秘密を守り、几帳面な性格でした。知識への欲求が強く、神聖なものを尊重していました。",
+                  traits: ["知的好奇心", "秘密保持", "几帳面さ", "神秘主義"],
+                  karma: "前世で記録と保存の仕事をしていたため、現世でも情報を収集し整理することが得意です。歴史や古代文明に惹かれる理由でもあります。",
+                  advice: "前世の知恵を現世でも活用してください。記録し整理する習慣が大きな助けとなるでしょう。" },
+                { era: "古代ギリシャ", emoji: "🏺", title: "哲学者の弟子",
+                  story: "あなたはアテネで哲学者の教えを受けていた弟子でした。アゴラ広場で議論し、真理を探求して生きていました。ソクラテスの問答法を学び、論理学を研究しました。",
+                  personality: "論理的で好奇心旺盛、世界の本質について絶えず問いかけていました。",
+                  traits: ["論理的思考", "好奇心", "討論能力", "真理追求"],
+                  karma: "前世で真理を探求していたため、現世でも「なぜ？」という質問をよくします。",
+                  advice: "質問することをやめないでください。それがあなたの本質です。" },
+                { era: "古代ローマ", emoji: "⚔️", title: "剣闘士",
+                  story: "あなたはローマのコロッセオで戦っていた剣闘士でした。観衆の歓声の中で生存のために戦い、多くの勝利を収めました。最終的に自由民となり、剣術学校を開きました。",
+                  personality: "勇敢で決断力があり、プレッシャーの中でも冷静さを保っていました。",
+                  traits: ["勇気", "決断力", "生存本能", "カリスマ"],
+                  karma: "前世の闘争本能が現世では競争心と勝負欲として現れます。",
+                  advice: "戦うべき時と引くべき時を区別してください。すべての戦いが価値あるものではありません。" },
+                { era: "古代エジプト", emoji: "✨", title: "クレオパトラの侍女",
+                  story: "あなたはエジプト最後のファラオ、クレオパトラに仕えていた侍女でした。宮廷の秘密を知っており、香料と化粧術に長けていました。",
+                  personality: "忠実で観察力に優れ、美を磨くことに才能がありました。",
+                  traits: ["忠誠心", "観察力", "美的感覚", "秘密保持"],
+                  karma: "前世の宮廷経験が現世では優雅さと品格への眼識として現れます。",
+                  advice: "外面の美しさだけでなく、内面の美しさも磨いてください。" },
+                { era: "古代ギリシャ", emoji: "🏃", title: "オリンピア競技選手",
+                  story: "あなたは古代オリンピア競技に出場した選手でした。走りとレスリングで勝利し、故郷に栄光をもたらしました。",
+                  personality: "競争心が強く、体力と精神力に優れていました。",
+                  traits: ["競争心", "忍耐力", "身体能力", "栄光追求"],
+                  karma: "前世の運動選手経験が現世では挑戦精神と勝負欲として現れます。",
+                  advice: "健全な競争を楽しんでください。ただし、勝利よりもプロセスを重視してください。" }
             ],
             medieval: [
-                { era: "중세 유럽", emoji: "🏰", title: "성의 기사",
-                  story: "당신은 중세 유럽의 왕국을 지키던 기사였습니다. 명예와 충성을 중시하며 전장에서 싸웠습니다. 십자군 원정에도 참여했죠.",
-                  personality: "의리가 강하고 정의로웠으며, 약자를 보호하는 것을 사명으로 여겼습니다.",
-                  traits: ["명예심", "충성심", "정의감", "보호 본능"],
-                  karma: "전생의 기사도 정신이 현생에서 정의감과 약자에 대한 배려로 나타납니다.",
-                  advice: "당신의 정의감을 잃지 마세요. 하지만 때로는 유연함도 필요합니다." },
-                { era: "중세 유럽", emoji: "📿", title: "수도원의 수도사",
-                  story: "당신은 깊은 산속 수도원에서 기도하며 살았습니다. 고요함 속에서 영적 진리를 추구하고, 귀한 필사본을 복사하는 일을 했습니다.",
-                  personality: "내성적이고 명상을 즐겼으며, 물질보다 정신적 가치를 중시했습니다.",
-                  traits: ["명상적", "내성적", "영적 감수성", "인내심"],
-                  karma: "전생의 영적 수행이 현생에서 직관력과 내면의 평화로 나타납니다.",
-                  advice: "혼자만의 시간을 소중히 여기세요. 그 시간이 당신을 충전시킵니다." },
-                { era: "중세 아라비아", emoji: "🌙", title: "사막의 상인",
-                  story: "당신은 실크로드를 오가며 귀한 물건을 거래하던 상인이었습니다. 낙타 대상을 이끌고 사막을 횡단하며 동서양의 문물을 연결했습니다.",
-                  personality: "협상에 능했고 모험심이 강했으며, 다양한 문화를 이해했습니다.",
-                  traits: ["협상 능력", "모험심", "문화 이해력", "인내심"],
-                  karma: "전생의 무역 경험이 현생에서 의사소통 능력과 적응력으로 나타납니다.",
-                  advice: "새로운 경험을 두려워하지 마세요. 그것이 당신을 성장시킵니다." },
-                { era: "중세 유럽", emoji: "🧙", title: "연금술사",
-                  story: "당신은 중세 유럽에서 연금술을 연구하던 학자였습니다. 납을 금으로 바꾸려 했지만, 그 과정에서 화학의 기초를 발견했습니다.",
-                  personality: "실험정신이 강하고 끈기가 있었으며, 불가능을 믿지 않았습니다.",
-                  traits: ["탐구심", "끈기", "실험정신", "비밀주의"],
-                  karma: "전생의 연금술 경험이 현생에서 과학적 호기심과 변화에 대한 믿음으로 나타납니다.",
-                  advice: "실패를 두려워하지 마세요. 모든 실패는 성공의 재료입니다." },
-                { era: "중세 유럽", emoji: "🎪", title: "떠돌이 음유시인",
-                  story: "당신은 중세 유럽의 성에서 성으로 떠돌며 노래하던 음유시인이었습니다. 사랑과 전쟁의 이야기를 노래로 전했습니다.",
-                  personality: "자유로운 영혼이었고, 이야기를 전하는 재능이 있었습니다.",
-                  traits: ["예술성", "자유로움", "소통력", "낭만"],
-                  karma: "전생의 음유시인 경험이 현생에서 언어적 재능과 스토리텔링 능력으로 나타납니다.",
-                  advice: "당신의 이야기를 세상에 전하세요. 많은 이들이 귀 기울일 것입니다." }
+                { era: "中世ヨーロッパ", emoji: "🏰", title: "城の騎士",
+                  story: "あなたは中世ヨーロッパの王国を守る騎士でした。名誉と忠誠を重んじ、戦場で戦いました。十字軍遠征にも参加しました。",
+                  personality: "義理堅く正義感があり、弱者を守ることを使命と考えていました。",
+                  traits: ["名誉心", "忠誠心", "正義感", "保護本能"],
+                  karma: "前世の騎士道精神が現世では正義感と弱者への配慮として現れます。",
+                  advice: "あなたの正義感を失わないでください。ただし、時には柔軟性も必要です。" },
+                { era: "中世ヨーロッパ", emoji: "📿", title: "修道院の修道士",
+                  story: "あなたは深い山中の修道院で祈りながら生きていました。静寂の中で霊的真理を追求し、貴重な写本を複写する仕事をしていました。",
+                  personality: "内向的で瞑想を好み、物質よりも精神的価値を重視していました。",
+                  traits: ["瞑想的", "内向的", "霊的感受性", "忍耐力"],
+                  karma: "前世の霊的修行が現世では直観力と内なる平和として現れます。",
+                  advice: "一人の時間を大切にしてください。その時間があなたを充電させます。" },
+                { era: "中世アラビア", emoji: "🌙", title: "砂漠の商人",
+                  story: "あなたはシルクロードを行き来し、貴重な品を取引していた商人でした。ラクダの隊商を率いて砂漠を横断し、東西の文物を結びつけました。",
+                  personality: "交渉に長け、冒険心が強く、多様な文化を理解していました。",
+                  traits: ["交渉能力", "冒険心", "文化理解力", "忍耐力"],
+                  karma: "前世の貿易経験が現世ではコミュニケーション能力と適応力として現れます。",
+                  advice: "新しい経験を恐れないでください。それがあなたを成長させます。" },
+                { era: "中世ヨーロッパ", emoji: "🧙", title: "錬金術師",
+                  story: "あなたは中世ヨーロッパで錬金術を研究していた学者でした。鉛を金に変えようとしましたが、その過程で化学の基礎を発見しました。",
+                  personality: "実験精神が強く、粘り強く、不可能を信じませんでした。",
+                  traits: ["探求心", "粘り強さ", "実験精神", "秘密主義"],
+                  karma: "前世の錬金術経験が現世では科学的好奇心と変化への信念として現れます。",
+                  advice: "失敗を恐れないでください。すべての失敗は成功の材料です。" },
+                { era: "中世ヨーロッパ", emoji: "🎪", title: "放浪の吟遊詩人",
+                  story: "あなたは中世ヨーロッパの城から城へ放浪しながら歌っていた吟遊詩人でした。愛と戦争の物語を歌で伝えました。",
+                  personality: "自由な魂で、物語を伝える才能がありました。",
+                  traits: ["芸術性", "自由さ", "コミュニケーション力", "ロマン"],
+                  karma: "前世の吟遊詩人経験が現世では言語的才能とストーリーテリング能力として現れます。",
+                  advice: "あなたの物語を世界に伝えてください。多くの人が耳を傾けるでしょう。" }
             ],
             asian: [
-                { era: "조선시대", emoji: "👑", title: "왕실의 학자",
-                  story: "당신은 조선의 궁궐에서 학문을 연구하던 학자였습니다. 경전을 연구하고 왕에게 조언을 드렸으며, 세종대왕의 한글 창제에도 참여했습니다.",
-                  personality: "지적이고 신중했으며, 예의와 도덕을 중시했습니다.",
-                  traits: ["학구열", "신중함", "도덕심", "충성심"],
-                  karma: "전생의 학문 추구가 현생에서 지식에 대한 갈망으로 나타납니다.",
-                  advice: "배움을 멈추지 마세요. 그것이 당신의 영혼이 원하는 것입니다." },
-                { era: "조선시대", emoji: "🎭", title: "광대패의 일원",
-                  story: "당신은 조선시대 마을을 돌아다니며 공연하던 광대패의 일원이었습니다. 탈춤과 판소리로 사람들에게 웃음과 즐거움을 선사했습니다.",
-                  personality: "유머 감각이 뛰어나고 자유로운 영혼이었습니다.",
-                  traits: ["유머 감각", "자유로움", "표현력", "적응력"],
-                  karma: "전생의 엔터테인먼트 재능이 현생에서 사교성과 유머로 나타납니다.",
-                  advice: "웃음을 잃지 마세요. 당신의 밝은 에너지가 주변을 행복하게 합니다." },
-                { era: "일본 에도시대", emoji: "🗡️", title: "사무라이",
-                  story: "당신은 에도시대 일본의 사무라이였습니다. 검의 도를 수행하며 명예롭게 살았습니다. 주군에 대한 충성을 목숨보다 중하게 여겼죠.",
-                  personality: "절제력이 강하고 의무감이 투철했으며, 완벽을 추구했습니다.",
-                  traits: ["절제력", "의무감", "완벽주의", "집중력"],
-                  karma: "전생의 무도 수행이 현생에서 자기 수양과 집중력으로 나타납니다.",
-                  advice: "완벽을 추구하되, 자신을 너무 몰아붙이지는 마세요." },
-                { era: "중국 당나라", emoji: "🎨", title: "궁중 화가",
-                  story: "당신은 당나라 궁궐에서 황실을 위해 그림을 그리던 화가였습니다. 산수화와 인물화로 이름을 떨쳤습니다.",
-                  personality: "예술적 감각이 뛰어나고 섬세했으며, 아름다움을 추구했습니다.",
-                  traits: ["예술성", "섬세함", "관찰력", "창의력"],
-                  karma: "전생의 예술 혼이 현생에서 미적 감각과 창의성으로 나타납니다.",
-                  advice: "당신만의 표현 방식을 찾으세요. 예술이든 다른 어떤 것이든." },
-                { era: "조선시대", emoji: "🏺", title: "명의 어의",
-                  story: "당신은 조선시대 궁중 어의였습니다. 왕실의 건강을 책임지며, 동의보감을 연구하고 수많은 환자를 치료했습니다.",
-                  personality: "인술을 베푸는 마음이 깊었고, 관찰력과 판단력이 뛰어났습니다.",
-                  traits: ["치유력", "관찰력", "인내심", "봉사정신"],
-                  karma: "전생의 의술 경험이 현생에서 타인을 돌보는 마음으로 나타납니다.",
-                  advice: "치유의 손길을 멈추지 마세요. 당신의 존재가 누군가에게 큰 위로입니다." },
-                { era: "일본 헤이안시대", emoji: "📜", title: "궁중 여관",
-                  story: "당신은 헤이안 시대 궁중 여관이었습니다. 겐지 이야기 같은 아름다운 문학을 창작하고, 와카(和歌)로 마음을 표현했습니다.",
-                  personality: "감수성이 풍부하고 문학적 재능이 뛰어났으며, 미묘한 감정을 포착했습니다.",
-                  traits: ["문학적 감성", "섬세함", "표현력", "낭만"],
-                  karma: "전생의 문학 경험이 현생에서 글쓰기 재능과 감성적 표현력으로 나타납니다.",
-                  advice: "당신의 감정을 글로 표현해보세요. 많은 이들의 공감을 얻을 것입니다." }
+                { era: "江戸時代", emoji: "👑", title: "宮廷の学者",
+                  story: "あなたは江戸時代の宮廷で学問を研究していた学者でした。経典を研究し、将軍に助言を与え、文字の普及にも参加しました。",
+                  personality: "知的で慎重、礼儀と道徳を重視していました。",
+                  traits: ["学究熱", "慎重さ", "道徳心", "忠誠心"],
+                  karma: "前世の学問追求が現世では知識への渇望として現れます。",
+                  advice: "学びを止めないでください。それがあなたの魂が望むことです。" },
+                { era: "江戸時代", emoji: "🎭", title: "芸人の一員",
+                  story: "あなたは江戸時代、村々を巡って公演していた芸人の一員でした。舞踊と語りで人々に笑いと楽しみを提供しました。",
+                  personality: "ユーモアのセンスに優れ、自由な魂でした。",
+                  traits: ["ユーモアセンス", "自由さ", "表現力", "適応力"],
+                  karma: "前世のエンターテインメント才能が現世では社交性とユーモアとして現れます。",
+                  advice: "笑いを失わないでください。あなたの明るいエネルギーが周りを幸せにします。" },
+                { era: "日本の江戸時代", emoji: "🗡️", title: "武士",
+                  story: "あなたは江戸時代日本の武士でした。剣の道を修行し、名誉を重んじて生きました。主君への忠誠を命より重く考えていました。",
+                  personality: "自制心が強く、義務感が強く、完璧を追求していました。",
+                  traits: ["自制力", "義務感", "完璧主義", "集中力"],
+                  karma: "前世の武道修行が現世では自己修養と集中力として現れます。",
+                  advice: "完璧を追求しても、自分を追い詰めすぎないでください。" },
+                { era: "中国の唐時代", emoji: "🎨", title: "宮廷画家",
+                  story: "あなたは唐の宮廷で皇室のために絵を描いていた画家でした。山水画と人物画で名を馳せました。",
+                  personality: "芸術的感覚に優れ、繊細で、美を追求していました。",
+                  traits: ["芸術性", "繊細さ", "観察力", "創造力"],
+                  karma: "前世の芸術魂が現世では美的感覚と創造性として現れます。",
+                  advice: "あなただけの表現方法を見つけてください。芸術でも他の何でも。" },
+                { era: "江戸時代", emoji: "🏺", title: "名医",
+                  story: "あなたは江戸時代の宮廷医師でした。将軍の健康を担当し、医学書を研究し、数多くの患者を治療しました。",
+                  personality: "医術を施す心が深く、観察力と判断力に優れていました。",
+                  traits: ["治癒力", "観察力", "忍耐力", "奉仕精神"],
+                  karma: "前世の医術経験が現世では他人を思いやる心として現れます。",
+                  advice: "癒しの手を止めないでください。あなたの存在が誰かにとって大きな慰めです。" },
+                { era: "日本の平安時代", emoji: "📜", title: "宮廷女官",
+                  story: "あなたは平安時代の宮廷女官でした。源氏物語のような美しい文学を創作し、和歌で心を表現しました。",
+                  personality: "感受性が豊かで、文学的才能に優れ、微妙な感情を捉えていました。",
+                  traits: ["文学的感性", "繊細さ", "表現力", "ロマン"],
+                  karma: "前世の文学経験が現世では文章力と感性的表現力として現れます。",
+                  advice: "あなたの感情を文章で表現してみてください。多くの人の共感を得るでしょう。" }
             ],
             mystical: [
-                { era: "고대 켈트", emoji: "🌿", title: "드루이드 사제",
-                  story: "당신은 고대 켈트족의 드루이드 사제였습니다. 숲에서 자연의 신비를 연구하고 별을 읽었습니다. 오크나무 아래서 의식을 거행했죠.",
-                  personality: "자연과 하나가 되었고, 신비로운 지식을 가지고 있었습니다.",
-                  traits: ["자연 친화", "직관력", "신비주의", "치유 능력"],
-                  karma: "전생의 자연과의 교감이 현생에서 식물이나 동물과의 친밀감으로 나타납니다.",
-                  advice: "자연 속에서 시간을 보내세요. 그곳에서 치유와 영감을 얻을 것입니다." },
-                { era: "인도 고대", emoji: "🧘", title: "요가 수행자",
-                  story: "당신은 히말라야 산자락에서 요가를 수행하던 수행자였습니다. 명상을 통해 깨달음을 추구하고, 많은 제자들을 가르쳤습니다.",
-                  personality: "평온하고 지혜로웠으며, 물질적 욕망을 초월했습니다.",
-                  traits: ["평온함", "지혜", "인내", "명상적"],
-                  karma: "전생의 수행이 현생에서 내면의 평화와 직관력으로 나타납니다.",
-                  advice: "명상이나 요가를 시도해보세요. 익숙함을 느낄 것입니다." },
-                { era: "고대 마야", emoji: "⭐", title: "별을 읽는 사제",
-                  story: "당신은 마야 문명에서 별의 움직임을 관찰하고 예언하던 사제였습니다. 태양력을 계산하고 미래를 예측했습니다.",
-                  personality: "우주적 시각을 가졌고, 시간의 흐름을 이해했습니다.",
-                  traits: ["통찰력", "예언 능력", "수학적 사고", "신비주의"],
-                  karma: "전생의 별 읽기가 현생에서 미래를 내다보는 직관으로 나타납니다.",
-                  advice: "당신의 직감을 믿으세요. 그것은 전생에서 온 선물입니다." },
-                { era: "아틀란티스", emoji: "🔮", title: "수정궁의 현자",
-                  story: "당신은 전설의 아틀란티스에서 수정 에너지를 다루던 현자였습니다. 고도의 문명에서 치유와 예언을 담당했습니다.",
-                  personality: "초월적 지식을 가졌고, 에너지를 느끼고 다루는 능력이 있었습니다.",
-                  traits: ["에너지 감지", "치유력", "예지력", "고대 지식"],
-                  karma: "전생의 수정 에너지 경험이 현생에서 직관과 치유 능력으로 나타납니다.",
-                  advice: "수정이나 천연석에 끌린다면 그것을 탐구해보세요. 전생의 기억일 수 있습니다." },
-                { era: "북유럽 바이킹", emoji: "⚡", title: "룬 마법사",
-                  story: "당신은 바이킹 시대의 룬 마법사였습니다. 룬 문자를 해석하고 운명을 점쳤으며, 전사들에게 축복을 내렸습니다.",
-                  personality: "신비로운 힘을 다루었고, 운명의 실타래를 읽을 수 있었습니다.",
-                  traits: ["운명 해석", "마법적 감각", "지혜", "리더십"],
-                  karma: "전생의 룬 마법 경험이 현생에서 상징과 패턴을 읽는 능력으로 나타납니다.",
-                  advice: "타로나 점술에 관심이 있다면 시도해보세요. 놀라운 재능을 발견할 수 있습니다." },
-                { era: "고대 티베트", emoji: "🏔️", title: "라마 승려",
-                  story: "당신은 티베트 고원의 사원에서 수행하던 라마 승려였습니다. 만다라를 그리고 밀교의 비밀을 전수받았습니다.",
-                  personality: "자비로웠고 깨달음을 추구했으며, 윤회의 순환을 이해했습니다.",
-                  traits: ["자비심", "깨달음", "인내", "영적 지혜"],
-                  karma: "전생의 수행 경험이 현생에서 영적 감수성과 자비로운 마음으로 나타납니다.",
-                  advice: "모든 존재에게 자비를 베푸세요. 그것이 당신의 영혼을 정화합니다." }
+                { era: "古代ケルト", emoji: "🌿", title: "ドルイド僧侶",
+                  story: "あなたは古代ケルト族のドルイド僧侶でした。森で自然の神秘を研究し、星を読んでいました。オークの木の下で儀式を執り行いました。",
+                  personality: "自然と一体となり、神秘的な知識を持っていました。",
+                  traits: ["自然親和", "直感力", "神秘主義", "治癒能力"],
+                  karma: "前世の自然との交感が現世では植物や動物との親密感として現れます。",
+                  advice: "自然の中で時間を過ごしてください。そこで癒しとインスピレーションを得るでしょう。" },
+                { era: "古代インド", emoji: "🧘", title: "ヨガ修行者",
+                  story: "あなたはヒマラヤの麓でヨガを修行していた修行者でした。瞑想を通じて悟りを追求し、多くの弟子を教えました。",
+                  personality: "穏やかで賢明、物質的欲望を超越していました。",
+                  traits: ["穏やかさ", "知恵", "忍耐", "瞑想的"],
+                  karma: "前世の修行が現世では内なる平和と直観力として現れます。",
+                  advice: "瞑想やヨガを試してみてください。親しみを感じるでしょう。" },
+                { era: "古代マヤ", emoji: "⭐", title: "星を読む僧侶",
+                  story: "あなたはマヤ文明で星の動きを観察し予言していた僧侶でした。太陽暦を計算し、未来を予測しました。",
+                  personality: "宇宙的視点を持ち、時間の流れを理解していました。",
+                  traits: ["洞察力", "予言能力", "数学的思考", "神秘主義"],
+                  karma: "前世の星読みが現世では未来を見通す直感として現れます。",
+                  advice: "あなたの直感を信じてください。それは前世からの贈り物です。" },
+                { era: "アトランティス", emoji: "🔮", title: "水晶宮の賢者",
+                  story: "あなたは伝説のアトランティスで水晶エネルギーを扱っていた賢者でした。高度な文明で治癒と予言を担当していました。",
+                  personality: "超越的知識を持ち、エネルギーを感じ扱う能力がありました。",
+                  traits: ["エネルギー感知", "治癒力", "予知力", "古代知識"],
+                  karma: "前世の水晶エネルギー経験が現世では直感と治癒能力として現れます。",
+                  advice: "水晶や天然石に惹かれるなら、それを探求してみてください。前世の記憶かもしれません。" },
+                { era: "北欧バイキング", emoji: "⚡", title: "ルーン魔法使い",
+                  story: "あなたはバイキング時代のルーン魔法使いでした。ルーン文字を解釈し運命を占い、戦士たちに祝福を与えました。",
+                  personality: "神秘的な力を扱い、運命の糸を読むことができました。",
+                  traits: ["運命解釈", "魔法的感覚", "知恵", "リーダーシップ"],
+                  karma: "前世のルーン魔法経験が現世ではシンボルとパターンを読む能力として現れます。",
+                  advice: "タロットや占いに興味があれば試してみてください。驚くべき才能を発見できるかもしれません。" },
+                { era: "古代チベット", emoji: "🏔️", title: "ラマ僧",
+                  story: "あなたはチベット高原の寺院で修行していたラマ僧でした。曼荼羅を描き、密教の秘密を伝授されました。",
+                  personality: "慈悲深く、悟りを追求し、輪廻の循環を理解していました。",
+                  traits: ["慈悲心", "悟り", "忍耐", "霊的知恵"],
+                  karma: "前世の修行経験が現世では霊的感受性と慈悲深い心として現れます。",
+                  advice: "すべての存在に慈悲を施してください。それがあなたの魂を浄化します。" }
             ]
         };
 
@@ -673,11 +673,11 @@
             const day = document.getElementById('birthDay').value;
 
             if (!name) {
-                showToast('⚠️ 이름을 입력해주세요!');
+                showToast('⚠️ 名前を入力してください！');
                 return;
             }
             if (!year || !month || !day) {
-                showToast('⚠️ 생년월일을 선택해주세요!');
+                showToast('⚠️ 生年月日を選択してください！');
                 return;
             }
 
@@ -690,27 +690,27 @@
         }
 
         function calculateResult(name, year, month, day) {
-            // 이름과 생년월일로 시드 생성
+            // 名前と生年月日でシード生成
             let seed = 0;
             for (let i = 0; i < name.length; i++) {
                 seed += name.charCodeAt(i);
             }
             seed += parseInt(year) + parseInt(month) * 100 + parseInt(day) * 10;
 
-            // 시대 선택
+            // 時代選択
             const eras = Object.keys(pastLives);
             const eraIndex = seed % eras.length;
             const selectedEra = eras[eraIndex];
 
-            // 해당 시대의 직업 선택
+            // その時代の職業選択
             const lives = pastLives[selectedEra];
             const lifeIndex = (seed + parseInt(month)) % lives.length;
             const selectedLife = lives[lifeIndex];
 
-            // 성별에 따른 수정
+            // 性別による修正
             let title = selectedLife.title;
             if (selectedGender === 'female') {
-                title = title.replace('기사', '귀부인').replace('사무라이', '무녀').replace('상인', '상인의 딸').replace('검투사', '여전사');
+                title = title.replace('騎士', '貴婦人').replace('武士', '巫女').replace('商人', '商人の娘').replace('剣闘士', '女戦士');
             }
 
             resultData = {
@@ -755,21 +755,21 @@
         }
 
         function shareResult() {
-            const text = `🔮 나의 전생 테스트 결과\n\n` +
-                        `${resultData.name}님은 전생에...\n` +
+            const text = `🔮 私の前世診断テスト結果\n\n` +
+                        `${resultData.name}さんの前世は...\n` +
                         `【${resultData.era}】\n` +
                         `${resultData.emoji} ${resultData.title}\n\n` +
                         `✨ "${resultData.story.substring(0, 50)}..."\n\n` +
-                        `나도 전생 알아보기 👉`;
+                        `前世を診断する 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: '전생 테스트 결과', text: text })
+                navigator.share({ title: '前世診断テスト結果', text: text })
                     .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
                     });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                    showToast('📋 結果がコピーされました！');
                 });
             }
         }

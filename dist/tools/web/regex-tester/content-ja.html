@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>정규표현식 테스터 - 무료 온라인 Regex 테스트 도구</title>
-    <meta name="description" content="정규표현식을 실시간으로 테스트하고 디버깅하세요. 매치 하이라이팅, 설명, 자주 쓰는 패턴을 제공하는 무료 정규식 테스터입니다.">
-    <meta name="keywords" content="정규표현식 테스터, regex 테스터, 정규식 테스트, 정규표현식 검사기, 정규식 온라인">
+    <title>正規表現テスター - 無料オンライン正規表現テストツール</title>
+    <meta name="description" content="正規表現をリアルタイムでテストしてデバッグします。マッチのハイライト表示、説明、よく使うパターンを提供する無料正規表現テスターです。">
+    <meta name="keywords" content="正規表現テスター, regexテスター, 正規表現テスト, 正規表現チェッカー, 正規表現オンライン">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="정규표현식 테스터 - 무료 온라인 Regex 테스트 도구">
-    <meta property="og:description" content="정규표현식을 실시간으로 테스트하고 디버깅하세요. 무료 온라인 정규식 테스터.">
+    <meta property="og:title" content="正規表現テスター - 無料オンライン正規表現テストツール">
+    <meta property="og:description" content="正規表現をリアルタイムでテストしてデバッグします。無料オンライン正規表現テスター。">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -491,64 +491,64 @@
             <div class="lang-switch">
                 <a href="index.html">English</a>
             </div>
-            <h1>정규표현식 테스터</h1>
-            <p class="subtitle">정규표현식을 실시간으로 테스트하고 디버깅하세요</p>
+            <h1>正規表現テスター</h1>
+            <p class="subtitle">正規表現をリアルタイムでテストしてデバッグ</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <!-- Regex Input -->
         <div class="regex-section">
             <div class="regex-input-wrapper">
                 <span class="regex-delimiter">/</span>
-                <input type="text" id="regexInput" placeholder="정규표현식 패턴을 입력하세요...">
+                <input type="text" id="regexInput" placeholder="正規表現パターンを入力してください...">
                 <span class="regex-delimiter">/</span>
                 <div class="flags-wrapper">
-                    <button class="flag-btn active" data-flag="g" title="전역 검색">g</button>
-                    <button class="flag-btn" data-flag="i" title="대소문자 무시">i</button>
-                    <button class="flag-btn active" data-flag="m" title="여러 줄">m</button>
-                    <button class="flag-btn" data-flag="s" title="점이 줄바꿈도 매치">s</button>
+                    <button class="flag-btn active" data-flag="g" title="グローバル検索">g</button>
+                    <button class="flag-btn" data-flag="i" title="大文字小文字を区別しない">i</button>
+                    <button class="flag-btn active" data-flag="m" title="複数行">m</button>
+                    <button class="flag-btn" data-flag="s" title="ドットが改行にもマッチ">s</button>
                 </div>
             </div>
             <div class="regex-status empty" id="regexStatus">
-                정규표현식을 입력하면 테스트가 시작됩니다
+                正規表現を入力するとテストが開始されます
             </div>
         </div>
 
         <!-- Common Patterns -->
         <div class="patterns-section">
-            <div class="patterns-title">자주 쓰는 패턴 (클릭하여 사용)</div>
+            <div class="patterns-title">よく使うパターン（クリックして使用）</div>
             <div class="patterns-grid">
                 <button class="pattern-btn" data-pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
-                    <div class="pattern-name">이메일</div>
+                    <div class="pattern-name">メールアドレス</div>
                     <div class="pattern-regex">[a-zA-Z0-9._%+-]+@...</div>
                 </button>
                 <button class="pattern-btn" data-pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)">
                     <div class="pattern-name">URL</div>
                     <div class="pattern-regex">https?:\/\/...</div>
                 </button>
-                <button class="pattern-btn" data-pattern="^01[0-9]-?[0-9]{3,4}-?[0-9]{4}$">
-                    <div class="pattern-name">한국 휴대폰 번호</div>
-                    <div class="pattern-regex">^01[0-9]-?...</div>
+                <button class="pattern-btn" data-pattern="^0\d{1,4}-\d{1,4}-\d{4}$">
+                    <div class="pattern-name">日本の電話番号</div>
+                    <div class="pattern-regex">^0\d{1,4}-...</div>
                 </button>
                 <button class="pattern-btn" data-pattern="^\d{4}-\d{2}-\d{2}$">
-                    <div class="pattern-name">날짜 (YYYY-MM-DD)</div>
+                    <div class="pattern-name">日付 (YYYY-MM-DD)</div>
                     <div class="pattern-regex">^\d{4}-\d{2}-\d{2}$</div>
                 </button>
                 <button class="pattern-btn" data-pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
-                    <div class="pattern-name">비밀번호 (8자 이상)</div>
+                    <div class="pattern-name">パスワード（8文字以上）</div>
                     <div class="pattern-regex">^(?=.*[A-Za-z])...</div>
                 </button>
                 <button class="pattern-btn" data-pattern="#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})">
-                    <div class="pattern-name">Hex 색상 코드</div>
+                    <div class="pattern-name">16進数カラーコード</div>
                     <div class="pattern-regex">#?([a-fA-F0-9]...</div>
                 </button>
                 <button class="pattern-btn" data-pattern="^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$">
-                    <div class="pattern-name">IPv4 주소</div>
+                    <div class="pattern-name">IPv4アドレス</div>
                     <div class="pattern-regex">^((25[0-5]|...</div>
                 </button>
                 <button class="pattern-btn" data-pattern="<[^>]+>">
-                    <div class="pattern-name">HTML 태그</div>
+                    <div class="pattern-name">HTMLタグ</div>
                     <div class="pattern-regex">&lt;[^&gt;]+&gt;</div>
                 </button>
             </div>
@@ -558,21 +558,21 @@
         <div class="test-section">
             <div class="panel">
                 <div class="panel-header">
-                    <span>테스트 문자열</span>
-                    <button class="btn" onclick="loadSample()">샘플 불러오기</button>
+                    <span>テスト文字列</span>
+                    <button class="btn" onclick="loadSample()">サンプルを読み込む</button>
                 </div>
                 <div class="panel-content">
-                    <textarea id="testString" placeholder="정규표현식으로 테스트할 텍스트를 입력하세요..."></textarea>
+                    <textarea id="testString" placeholder="正規表現でテストするテキストを入力してください..."></textarea>
                 </div>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
-                    <span>매치 결과</span>
-                    <button class="btn" onclick="copyMatches()">매치 복사</button>
+                    <span>マッチ結果</span>
+                    <button class="btn" onclick="copyMatches()">マッチをコピー</button>
                 </div>
                 <div class="panel-content">
-                    <div id="matchResult">매치된 부분이 여기에 하이라이트됩니다...</div>
+                    <div id="matchResult">マッチした部分がここにハイライト表示されます...</div>
                     <div class="match-info" id="matchInfo" style="display: none;">
                         <div class="match-count" id="matchCount"></div>
                         <div class="match-list" id="matchList"></div>
@@ -581,76 +581,76 @@
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <!-- Cheatsheet -->
         <div class="cheatsheet">
-            <h3>정규표현식 치트시트</h3>
+            <h3>正規表現チートシート</h3>
             <div class="cheatsheet-grid">
                 <div class="cheatsheet-category">
-                    <h4>문자 클래스</h4>
-                    <div class="cheatsheet-item"><code>.</code> <span>모든 문자</span></div>
-                    <div class="cheatsheet-item"><code>\d</code> <span>숫자 [0-9]</span></div>
-                    <div class="cheatsheet-item"><code>\w</code> <span>단어 [A-Za-z0-9_]</span></div>
-                    <div class="cheatsheet-item"><code>\s</code> <span>공백 문자</span></div>
-                    <div class="cheatsheet-item"><code>[abc]</code> <span>a, b, 또는 c</span></div>
-                    <div class="cheatsheet-item"><code>[^abc]</code> <span>a, b, c가 아닌 것</span></div>
+                    <h4>文字クラス</h4>
+                    <div class="cheatsheet-item"><code>.</code> <span>任意の文字</span></div>
+                    <div class="cheatsheet-item"><code>\d</code> <span>数字 [0-9]</span></div>
+                    <div class="cheatsheet-item"><code>\w</code> <span>単語 [A-Za-z0-9_]</span></div>
+                    <div class="cheatsheet-item"><code>\s</code> <span>空白文字</span></div>
+                    <div class="cheatsheet-item"><code>[abc]</code> <span>a、b、またはc</span></div>
+                    <div class="cheatsheet-item"><code>[^abc]</code> <span>a、b、c以外</span></div>
                 </div>
                 <div class="cheatsheet-category">
-                    <h4>수량자</h4>
-                    <div class="cheatsheet-item"><code>*</code> <span>0개 이상</span></div>
-                    <div class="cheatsheet-item"><code>+</code> <span>1개 이상</span></div>
-                    <div class="cheatsheet-item"><code>?</code> <span>0 또는 1개</span></div>
-                    <div class="cheatsheet-item"><code>{n}</code> <span>정확히 n개</span></div>
-                    <div class="cheatsheet-item"><code>{n,}</code> <span>n개 이상</span></div>
-                    <div class="cheatsheet-item"><code>{n,m}</code> <span>n~m개 사이</span></div>
+                    <h4>量指定子</h4>
+                    <div class="cheatsheet-item"><code>*</code> <span>0回以上</span></div>
+                    <div class="cheatsheet-item"><code>+</code> <span>1回以上</span></div>
+                    <div class="cheatsheet-item"><code>?</code> <span>0回または1回</span></div>
+                    <div class="cheatsheet-item"><code>{n}</code> <span>正確にn回</span></div>
+                    <div class="cheatsheet-item"><code>{n,}</code> <span>n回以上</span></div>
+                    <div class="cheatsheet-item"><code>{n,m}</code> <span>n回からm回</span></div>
                 </div>
                 <div class="cheatsheet-category">
-                    <h4>앵커</h4>
-                    <div class="cheatsheet-item"><code>^</code> <span>문자열 시작</span></div>
-                    <div class="cheatsheet-item"><code>$</code> <span>문자열 끝</span></div>
-                    <div class="cheatsheet-item"><code>\b</code> <span>단어 경계</span></div>
+                    <h4>アンカー</h4>
+                    <div class="cheatsheet-item"><code>^</code> <span>文字列の先頭</span></div>
+                    <div class="cheatsheet-item"><code>$</code> <span>文字列の末尾</span></div>
+                    <div class="cheatsheet-item"><code>\b</code> <span>単語境界</span></div>
                 </div>
                 <div class="cheatsheet-category">
-                    <h4>그룹</h4>
-                    <div class="cheatsheet-item"><code>(abc)</code> <span>캡처 그룹</span></div>
-                    <div class="cheatsheet-item"><code>(?:abc)</code> <span>비캡처 그룹</span></div>
-                    <div class="cheatsheet-item"><code>a|b</code> <span>a 또는 b</span></div>
+                    <h4>グループ</h4>
+                    <div class="cheatsheet-item"><code>(abc)</code> <span>キャプチャグループ</span></div>
+                    <div class="cheatsheet-item"><code>(?:abc)</code> <span>非キャプチャグループ</span></div>
+                    <div class="cheatsheet-item"><code>a|b</code> <span>aまたはb</span></div>
                 </div>
             </div>
         </div>
 
         <!-- SEO Content -->
         <div class="seo-content">
-            <h2>무료 온라인 정규표현식 테스터</h2>
-            <p>무료 온라인 정규표현식 테스터로 정규식을 즉시 테스트하세요. 입력하는 즉시 매치 결과를 실시간으로 하이라이트하여 보여드립니다.</p>
+            <h2>無料オンライン正規表現テスター</h2>
+            <p>無料オンライン正規表現テスターで正規表現を即座にテストします。入力するとすぐにマッチ結果がリアルタイムでハイライト表示されます。</p>
 
-            <h3>주요 기능</h3>
+            <h3>主な機能</h3>
             <ul>
-                <li><strong>실시간 테스트:</strong> 입력하는 대로 즉시 결과 확인</li>
-                <li><strong>매치 하이라이팅:</strong> 매치된 텍스트를 시각적으로 표시</li>
-                <li><strong>자주 쓰는 패턴:</strong> 이메일, URL, 전화번호 등 미리 준비된 패턴</li>
-                <li><strong>플래그 지원:</strong> 전역, 대소문자 무시, 여러 줄, dotall 플래그</li>
-                <li><strong>치트시트:</strong> 정규표현식 문법 빠른 참조</li>
+                <li><strong>リアルタイムテスト:</strong> 入力するとすぐに結果を確認</li>
+                <li><strong>マッチのハイライト表示:</strong> マッチしたテキストを視覚的に表示</li>
+                <li><strong>よく使うパターン:</strong> メールアドレス、URL、電話番号などのあらかじめ用意されたパターン</li>
+                <li><strong>フラグサポート:</strong> グローバル、大文字小文字を区別しない、複数行、dotallフラグ</li>
+                <li><strong>チートシート:</strong> 正規表現構文のクイックリファレンス</li>
             </ul>
 
-            <h3>사용 방법</h3>
+            <h3>使用方法</h3>
             <ul>
-                <li>입력 필드에 정규표현식 패턴을 입력하세요</li>
-                <li>필요에 따라 플래그(g, i, m, s)를 선택하세요</li>
-                <li>테스트 문자열을 붙여넣거나 입력하세요</li>
-                <li>매치된 부분이 자동으로 하이라이트됩니다</li>
+                <li>入力フィールドに正規表現パターンを入力してください</li>
+                <li>必要に応じてフラグ（g、i、m、s）を選択してください</li>
+                <li>テスト文字列を貼り付けまたは入力してください</li>
+                <li>マッチした部分が自動的にハイライト表示されます</li>
             </ul>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>개발자를 위해 만들었습니다</p>
+            <p>開発者のために作りました</p>
             <p style="margin-top: 10px;">
-                <a href="/">홈</a> ·
-                <a href="#privacy">개인정보처리방침</a> ·
-                <a href="#terms">이용약관</a>
+                <a href="/">ホーム</a> ·
+                <a href="#privacy">プライバシーポリシー</a> ·
+                <a href="#terms">利用規約</a>
             </p>
         </footer>
     </div>
@@ -702,8 +702,8 @@
 
             if (!pattern) {
                 regexStatus.className = 'regex-status empty';
-                regexStatus.textContent = '정규표현식을 입력하면 테스트가 시작됩니다';
-                matchResult.innerHTML = text || '매치된 부분이 여기에 하이라이트됩니다...';
+                regexStatus.textContent = '正規表現を入力するとテストが開始されます';
+                matchResult.innerHTML = text || 'マッチした部分がここにハイライト表示されます...';
                 matchInfo.style.display = 'none';
                 return;
             }
@@ -711,10 +711,10 @@
             try {
                 const regex = new RegExp(pattern, flags);
                 regexStatus.className = 'regex-status valid';
-                regexStatus.textContent = '✓ 유효한 정규표현식입니다';
+                regexStatus.textContent = '✓ 有効な正規表現です';
 
                 if (!text) {
-                    matchResult.innerHTML = '테스트 문자열을 입력하면 매치 결과를 확인할 수 있습니다...';
+                    matchResult.innerHTML = 'テスト文字列を入力するとマッチ結果を確認できます...';
                     matchInfo.style.display = 'none';
                     return;
                 }
@@ -724,7 +724,7 @@
 
                 if (matches.length === 0) {
                     matchResult.innerHTML = escapeHtml(text);
-                    matchCount.textContent = '매치 결과 없음';
+                    matchCount.textContent = 'マッチ結果なし';
                     matchList.innerHTML = '';
                     matchInfo.style.display = 'block';
                     return;
@@ -744,7 +744,7 @@
                 matchResult.innerHTML = result;
 
                 // Match info
-                matchCount.textContent = `${matches.length}개 매치됨`;
+                matchCount.textContent = `${matches.length}個マッチしました`;
                 matchList.innerHTML = matches.map((m, i) => `
                     <div class="match-item">
                         <span class="match-index">#${i + 1} [${m.index}]</span>
@@ -756,7 +756,7 @@
             } catch (e) {
                 regexStatus.className = 'regex-status invalid';
                 regexStatus.textContent = '✗ ' + e.message;
-                matchResult.innerHTML = escapeHtml(text) || '매치된 부분이 여기에 하이라이트됩니다...';
+                matchResult.innerHTML = escapeHtml(text) || 'マッチした部分がここにハイライト表示されます...';
                 matchInfo.style.display = 'none';
             }
         }
@@ -768,21 +768,21 @@
         }
 
         function loadSample() {
-            testString.value = `테스트용 샘플 텍스트:
+            testString.value = `サンプルテキスト:
 
-이메일: hong.gildong@example.com
-전화번호: 010-1234-5678
+メール: tanaka@example.com
+電話番号: 03-1234-5678
 URL: https://www.example.com/path?query=123
-날짜: 2024-01-15
+日付: 2024-01-15
 IP: 192.168.1.1
-색상 코드: #ff5733
+カラーコード: #ff5733
 
 <div class="container">
-  <p>안녕하세요</p>
+  <p>こんにちは</p>
 </div>
 
 Password123
-test@test.co.kr`;
+test@test.co.jp`;
             testRegex();
         }
 
@@ -791,7 +791,7 @@ test@test.co.kr`;
             const text = testString.value;
 
             if (!pattern || !text) {
-                showToast('복사할 매치가 없습니다');
+                showToast('コピーするマッチがありません');
                 return;
             }
 
@@ -800,14 +800,14 @@ test@test.co.kr`;
                 const matches = [...text.matchAll(regex)].map(m => m[0]);
 
                 if (matches.length === 0) {
-                    showToast('복사할 매치가 없습니다');
+                    showToast('コピーするマッチがありません');
                     return;
                 }
 
                 navigator.clipboard.writeText(matches.join('\n'));
-                showToast(`${matches.length}개 매치 복사됨!`);
+                showToast(`${matches.length}個のマッチをコピーしました!`);
             } catch (e) {
-                showToast('매치 복사 중 오류 발생');
+                showToast('マッチのコピー中にエラーが発生しました');
             }
         }
 

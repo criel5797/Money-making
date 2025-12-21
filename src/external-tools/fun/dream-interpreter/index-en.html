@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Dream Interpreter - Free Dream Interpretation & Analysis</title>
+    <meta name="description" content="Enter your dream and AI will interpret it. Free dream interpretation, dream analysis, determine good or bad dreams. All dream meanings.">
+    <meta name="keywords" content="dream interpretation, dream analysis, dream meaning, good dream, bad dream, AI interpretation">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0d0d1a;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #16213e;
+            --text-primary: #eee;
+            --text-secondary: #a0a0c0;
+            --accent: #e94560;
+            --accent-secondary: #7b2cbf;
+            --gold: #ffd700;
+            --border: #2a2a4a;
+        }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            background-image:
+                radial-gradient(ellipse at top, #1a1a3e 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, #0d0d1a 0%, transparent 50%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .logo { font-size: 4rem; margin-bottom: 15px; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #e94560, #7b2cbf, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 35px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .input-section { margin-bottom: 25px; }
+        .input-label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        textarea {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            font-size: 1rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            min-height: 150px;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.7;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.2);
+        }
+        textarea::placeholder { color: var(--text-secondary); }
+
+        .quick-dreams {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .quick-btn {
+            padding: 10px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .quick-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .interpret-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .interpret-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+        .interpret-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+        }
+        .result-section.show { display: block; }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .fortune-type {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .fortune-good {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #333;
+        }
+        .fortune-neutral {
+            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+            color: white;
+        }
+        .fortune-bad {
+            background: linear-gradient(135deg, #666, #888);
+            color: white;
+        }
+        .fortune-percent {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .result-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        .result-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .result-text {
+            line-height: 1.9;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .symbols-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .symbol-item {
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .symbol-icon { font-size: 2rem; margin-bottom: 8px; }
+        .symbol-name { font-weight: 500; margin-bottom: 5px; }
+        .symbol-meaning { font-size: 0.85rem; color: var(--text-secondary); }
+
+        .lucky-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .lucky-item {
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .lucky-label { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
+        .lucky-value { font-size: 1.3rem; font-weight: 600; color: var(--gold); }
+
+        .share-section {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        .share-btn {
+            padding: 12px 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .share-btn:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+
+        .popular-dreams {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+        .popular-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .popular-item {
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .popular-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.2);
+        }
+        .popular-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .popular-name { font-size: 0.95rem; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading-animation {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .main-card { padding: 25px 20px; }
+            .lucky-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">🔮</div>
+            <h1>AI Dream Interpreter</h1>
+            <p class="subtitle">Discover the message your dream is sending you</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="main-card">
+            <div class="input-section">
+                <label class="input-label">✨ What did you dream about last night?</label>
+                <textarea id="dreamInput" placeholder="Describe your dream in detail.&#10;&#10;Example: I had a dream about flying. I was freely flying above the clouds and felt amazing..."></textarea>
+            </div>
+
+            <div class="quick-dreams">
+                <button class="quick-btn" onclick="setQuickDream('Dream about pigs')">🐷 Pig dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about snakes')">🐍 Snake dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about losing teeth')">🦷 Teeth dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about water')">🌊 Water dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about flying')">🦅 Flying dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about deceased person')">👻 Deceased dream</button>
+            </div>
+
+            <button class="interpret-btn" id="interpretBtn" onclick="interpretDream()">
+                🔮 Interpret Dream
+            </button>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="fortune-type" id="fortuneType">Good Dream</div>
+                    <div class="fortune-percent" id="fortunePercent">Fortune Index: 85%</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">📖 Dream Interpretation</div>
+                    <div class="result-text" id="interpretation"></div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">🎯 Symbols and Meanings</div>
+                    <div class="symbols-grid" id="symbolsGrid"></div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">💫 Today's Fortune</div>
+                    <div class="lucky-section">
+                        <div class="lucky-item">
+                            <div class="lucky-label">Lucky Numbers</div>
+                            <div class="lucky-value" id="luckyNumber">7, 14, 28</div>
+                        </div>
+                        <div class="lucky-item">
+                            <div class="lucky-label">Lucky Color</div>
+                            <div class="lucky-value" id="luckyColor">Gold</div>
+                        </div>
+                        <div class="lucky-item">
+                            <div class="lucky-label">Lucky Direction</div>
+                            <div class="lucky-value" id="luckyDirection">East</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">💡 Advice</div>
+                    <div class="result-text" id="advice"></div>
+                </div>
+
+                <div class="share-section">
+                    <button class="share-btn" onclick="copyResult()">📋 Copy Result</button>
+                    <button class="share-btn" onclick="shareResult()">📤 Share</button>
+                    <button class="share-btn" onclick="newDream()">🔄 New Dream</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="popular-dreams">
+            <div class="popular-title">🌟 Popular Dream Interpretations</div>
+            <div class="popular-grid">
+                <div class="popular-item" onclick="setQuickDream('Dream about golden pig entering house')">
+                    <div class="popular-icon">🐷</div>
+                    <div class="popular-name">Golden Pig Dream</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('Dream about snake wrapping around body')">
+                    <div class="popular-icon">🐍</div>
+                    <div class="popular-name">Snake Wrapping Dream</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('Dream about failing exam')">
+                    <div class="popular-icon">📝</div>
+                    <div class="popular-name">Exam Dream</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('Dream about being chased')">
+                    <div class="popular-icon">🏃</div>
+                    <div class="popular-name">Chasing Dream</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('Dream about finding money')">
+                    <div class="popular-icon">💰</div>
+                    <div class="popular-name">Money Dream</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('Dream about getting married')">
+                    <div class="popular-icon">💒</div>
+                    <div class="popular-name">Marriage Dream</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('Dream about giving birth')">
+                    <div class="popular-icon">👶</div>
+                    <div class="popular-name">Birth Dream</div>
+                </div>
+                <div class="popular-item" onclick="setQuickDream('Dream about house collapsing')">
+                    <div class="popular-icon">🏚️</div>
+                    <div class="popular-name">House Collapse Dream</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>Dreams are messages from the subconscious 🌙</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
+            <p style="margin-top: 15px; font-size: 0.85rem; color: #666;">
+                ※ This service is for entertainment purposes and does not predict actual fortune or future.
+            </p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        const dreamInterpretations = {
+            'pig': {
+                icon: '🐷',
+                meaning: 'Wealth and abundance',
+                good: true,
+                interpretation: 'Pigs traditionally symbolize wealth and blessings. Golden or fat pigs especially suggest great fortune.',
+                advice: 'Financial opportunities may come your way. Pay attention to investment or business opportunities.'
+            },
+            'snake': {
+                icon: '🐍',
+                meaning: 'Change and wisdom',
+                good: true,
+                interpretation: 'Snakes symbolize change, healing, and wisdom. Like a snake shedding its skin, you may be facing a new beginning.',
+                advice: 'Don\'t fear change. It can be a new opportunity.'
+            },
+            'teeth': {
+                icon: '🦷',
+                meaning: 'Anxiety and change',
+                good: false,
+                interpretation: 'Dreams about losing teeth can indicate loss of confidence or fear of change.',
+                advice: 'If you\'re experiencing stress or anxiety, get enough rest.'
+            },
+            'water': {
+                icon: '🌊',
+                meaning: 'Emotions and unconscious',
+                good: null,
+                interpretation: 'Water reflects emotional states. Clear water suggests peace, murky water can mean confused emotions.',
+                advice: 'Take time to reflect on and organize your emotional state.'
+            },
+            'fly': {
+                icon: '🦅',
+                meaning: 'Freedom and achievement',
+                good: true,
+                interpretation: 'Flying dreams represent desire for freedom or confidence in achieving goals.',
+                advice: 'Believe in your abilities and take on challenges. Good results await.'
+            },
+            'deceased': {
+                icon: '👻',
+                meaning: 'Longing and message',
+                good: null,
+                interpretation: 'Dreams of deceased loved ones express longing or may be messages from your subconscious.',
+                advice: 'Take time to remember them, or reflect on what\'s important in life.'
+            },
+            'chase': {
+                icon: '🏃',
+                meaning: 'Avoidance and fear',
+                good: false,
+                interpretation: 'Being chased symbolizes problems or fears you want to avoid in real life.',
+                advice: 'If there are problems you\'re avoiding, gather courage to face them.'
+            },
+            'money': {
+                icon: '💰',
+                meaning: 'Value and opportunity',
+                good: true,
+                interpretation: 'Money dreams symbolize recognition of self-worth or opportunities.',
+                advice: 'Believe in your value and don\'t miss upcoming opportunities.'
+            },
+            'marr': {
+                icon: '💒',
+                meaning: 'Union and new beginning',
+                good: true,
+                interpretation: 'Marriage dreams can mean new beginnings, partnerships, or integration of self.',
+                advice: 'Good things may happen in relationships, so cherish those around you.'
+            },
+            'baby': {
+                icon: '👶',
+                meaning: 'New beginning',
+                good: true,
+                interpretation: 'Babies symbolize new beginnings, creativity, and possibilities.',
+                advice: 'It\'s a good time to start new projects or ideas.'
+            },
+            'house': {
+                icon: '🏠',
+                meaning: 'Self and stability',
+                good: null,
+                interpretation: 'Houses symbolize self and inner world. The house\'s condition can reflect your psychological state.',
+                advice: 'Take time to find inner stability.'
+            },
+            'exam': {
+                icon: '📝',
+                meaning: 'Evaluation and preparation',
+                good: false,
+                interpretation: 'Exam dreams represent anxiety about self-evaluation or lack of preparation.',
+                advice: 'If you have important tasks ahead, prepare in advance. Preparation reduces anxiety.'
+            }
+        };
+
+        const colors = ['Gold', 'Red', 'Blue', 'Green', 'Purple', 'White', 'Yellow'];
+        const directions = ['East', 'West', 'South', 'North', 'Southeast', 'Northwest'];
+
+        function setQuickDream(dream) {
+            document.getElementById('dreamInput').value = 'I had a ' + dream.toLowerCase() + '.';
+        }
+
+        function interpretDream() {
+            const dream = document.getElementById('dreamInput').value.trim();
+
+            if (!dream) {
+                showToast('Please enter your dream');
+                return;
+            }
+
+            const btn = document.getElementById('interpretBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-animation"></span> Interpreting...';
+
+            setTimeout(() => {
+                generateInterpretation(dream);
+                btn.disabled = false;
+                btn.innerHTML = '🔮 Interpret Dream';
+            }, 2000);
+        }
+
+        function generateInterpretation(dream) {
+            const dreamLower = dream.toLowerCase();
+            const foundSymbols = [];
+            let isGood = null;
+            let mainInterpretation = '';
+            let mainAdvice = '';
+
+            for (const [keyword, data] of Object.entries(dreamInterpretations)) {
+                if (dreamLower.includes(keyword)) {
+                    foundSymbols.push(data);
+                    if (isGood === null) isGood = data.good;
+                    if (!mainInterpretation) {
+                        mainInterpretation = data.interpretation;
+                        mainAdvice = data.advice;
+                    }
+                }
+            }
+
+            if (foundSymbols.length === 0) {
+                foundSymbols.push({
+                    icon: '🌙',
+                    meaning: 'Subconscious message',
+                    good: null
+                });
+                mainInterpretation = 'This dream is a personal message from your subconscious. The emotions you felt in the dream can reflect your current psychological state. If it was a pleasant dream, positive energy is with you. If anxious, there may be unresolved emotions.';
+                mainAdvice = 'Reflect on the emotions you felt in the dream and see if there are similar situations in real life.';
+                isGood = Math.random() > 0.5;
+            }
+
+            const fortuneScore = isGood === true ? Math.floor(Math.random() * 20) + 75 :
+                                 isGood === false ? Math.floor(Math.random() * 30) + 30 :
+                                 Math.floor(Math.random() * 30) + 50;
+
+            const fortuneType = fortuneScore >= 70 ? 'Good Dream' : fortuneScore >= 50 ? 'Neutral Dream' : 'Warning Dream';
+            const fortuneClass = fortuneScore >= 70 ? 'fortune-good' : fortuneScore >= 50 ? 'fortune-neutral' : 'fortune-bad';
+
+            document.getElementById('fortuneType').textContent = fortuneType;
+            document.getElementById('fortuneType').className = `fortune-type ${fortuneClass}`;
+            document.getElementById('fortunePercent').textContent = `Fortune Index: ${fortuneScore}%`;
+            document.getElementById('interpretation').textContent = mainInterpretation;
+            document.getElementById('advice').textContent = mainAdvice;
+
+            const symbolsGrid = document.getElementById('symbolsGrid');
+            symbolsGrid.innerHTML = foundSymbols.slice(0, 4).map(s => `
+                <div class="symbol-item">
+                    <div class="symbol-icon">${s.icon}</div>
+                    <div class="symbol-name">${s.meaning}</div>
+                </div>
+            `).join('');
+
+            const luckyNums = [];
+            while (luckyNums.length < 3) {
+                const n = Math.floor(Math.random() * 45) + 1;
+                if (!luckyNums.includes(n)) luckyNums.push(n);
+            }
+            document.getElementById('luckyNumber').textContent = luckyNums.sort((a,b) => a-b).join(', ');
+            document.getElementById('luckyColor').textContent = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById('luckyDirection').textContent = directions[Math.floor(Math.random() * directions.length)];
+
+            document.getElementById('resultSection').classList.add('show');
+            showToast('Interpretation complete!');
+        }
+
+        function copyResult() {
+            const fortune = document.getElementById('fortuneType').textContent;
+            const score = document.getElementById('fortunePercent').textContent;
+            const interpretation = document.getElementById('interpretation').textContent;
+            const advice = document.getElementById('advice').textContent;
+
+            const text = `🔮 AI Dream Interpretation\n\n` +
+                        `[${fortune}] ${score}\n\n` +
+                        `📖 Interpretation:\n${interpretation}\n\n` +
+                        `💡 Advice:\n${advice}\n\n` +
+                        `More dream interpretations 👉 [website]`;
+
+            navigator.clipboard.writeText(text);
+            showToast('Result copied!');
+        }
+
+        function shareResult() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI Dream Interpretation Result',
+                    text: document.getElementById('interpretation').textContent,
+                    url: window.location.href
+                });
+            } else {
+                copyResult();
+                showToast('Copied! Share it!');
+            }
+        }
+
+        function newDream() {
+            document.getElementById('dreamInput').value = '';
+            document.getElementById('resultSection').classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>

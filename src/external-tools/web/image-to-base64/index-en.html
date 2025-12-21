@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Base64 Converter - Free Online Tool</title>
+    <meta name="description" content="Convert images to Base64 strings instantly. Free online tool for embedding images in HTML, CSS, and JSON.">
+    <meta name="keywords" content="image base64, base64 encoder, image encoder, data uri, image embed, base64 converter">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #14b8a6;
+            --accent-hover: #0d9488;
+            --border: #475569;
+            --success: #22c55e;
+        }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 30px 20px; position: relative; }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .lang-switch a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        .upload-zone {
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--accent);
+            background: rgba(20, 184, 166, 0.05);
+        }
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .upload-text { color: var(--text-secondary); margin-bottom: 15px; }
+        .upload-hint { color: var(--text-secondary); font-size: 0.85rem; }
+        .upload-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .upload-btn:hover { background: var(--accent-hover); }
+        input[type="file"] { display: none; }
+
+        .preview-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            display: none;
+        }
+        .preview-section.show { display: block; }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .preview-title { font-weight: 600; }
+        .preview-actions { display: flex; gap: 10px; }
+        .btn-sm {
+            padding: 8px 15px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-sm:hover { background: var(--border); }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 700px) {
+            .preview-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+            .lang-switch { position: static; margin-bottom: 20px; }
+            header { padding-top: 20px; }
+        }
+
+        .preview-image {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+        .preview-image img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+        }
+
+        .preview-info {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .info-item:last-child { border-bottom: none; }
+        .info-label { color: var(--text-secondary); }
+        .info-value { color: var(--accent); font-family: monospace; }
+
+        .output-section {
+            margin-top: 25px;
+        }
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .output-label { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--success);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            resize: vertical;
+        }
+        textarea:focus { outline: none; border-color: var(--accent); }
+
+        .copy-all-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), #06b6d4);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        .copy-all-btn:hover { transform: translateY(-2px); }
+
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .info-section h3 { margin-bottom: 15px; color: var(--accent); }
+        .info-section p { color: var(--text-secondary); margin-bottom: 10px; line-height: 1.7; }
+        .info-section code {
+            background: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lang-switch">
+                <a href="index-ko.html">Korean</a>
+            </div>
+            <h1>Image → Base64</h1>
+            <p class="subtitle">Convert images to Base64 encoded strings</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">🖼️</div>
+            <p class="upload-text">Drag & drop your image here or click to browse</p>
+            <p class="upload-hint">Supported formats: JPG, PNG, GIF, SVG, WebP, ICO</p>
+            <button class="upload-btn">Choose Image</button>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+
+        <div class="preview-section" id="previewSection">
+            <div class="preview-header">
+                <span class="preview-title">Image Preview</span>
+                <div class="preview-actions">
+                    <button class="btn-sm" onclick="clearImage()">Clear</button>
+                </div>
+            </div>
+
+            <div class="preview-grid">
+                <div class="preview-image">
+                    <img id="previewImg" src="" alt="Preview">
+                </div>
+                <div class="preview-info">
+                    <div class="info-item">
+                        <span class="info-label">File Name</span>
+                        <span class="info-value" id="fileName">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">File Type</span>
+                        <span class="info-value" id="fileType">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Original Size</span>
+                        <span class="info-value" id="fileSize">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Dimensions</span>
+                        <span class="info-value" id="dimensions">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Base64 Size</span>
+                        <span class="info-value" id="base64Size">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('datauri')">Data URI</button>
+                    <button class="tab" onclick="switchTab('base64')">Base64 Only</button>
+                    <button class="tab" onclick="switchTab('html')">HTML &lt;img&gt;</button>
+                    <button class="tab" onclick="switchTab('css')">CSS Background</button>
+                </div>
+
+                <div class="output-header">
+                    <span class="output-label" id="outputLabel">Data URI (ready to use)</span>
+                    <button class="btn-sm" onclick="copyOutput()">Copy</button>
+                </div>
+                <textarea id="outputText" readonly></textarea>
+
+                <button class="copy-all-btn" onclick="copyOutput()">📋 Copy to Clipboard</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="info-section">
+            <h3>What is Base64 Encoding?</h3>
+            <p>Base64 is a binary-to-text encoding scheme that represents binary data (like images) in an ASCII string format. This allows you to embed images directly in HTML, CSS, or JSON without separate files.</p>
+        </div>
+
+        <div class="info-section">
+            <h3>When to Use Base64 Images</h3>
+            <p>✅ <strong>Small images</strong> - Icons, logos under 10KB</p>
+            <p>✅ <strong>Reduce HTTP requests</strong> - Inline critical images</p>
+            <p>✅ <strong>Email templates</strong> - Embed images that display without external loading</p>
+            <p>✅ <strong>Single-file HTML</strong> - Create self-contained HTML files</p>
+            <p>❌ <strong>Large images</strong> - Base64 increases size by ~33%</p>
+            <p>❌ <strong>Frequently changing images</strong> - Cannot be cached separately</p>
+        </div>
+
+        <div class="info-section">
+            <h3>Usage Examples</h3>
+            <p><strong>HTML:</strong> <code>&lt;img src="data:image/png;base64,..."&gt;</code></p>
+            <p><strong>CSS:</strong> <code>background-image: url(data:image/png;base64,...);</code></p>
+            <p><strong>JSON:</strong> <code>{"image": "data:image/png;base64,..."}</code></p>
+        </div>
+
+        <footer>
+            <p>Built for web developers</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentBase64 = '';
+        let currentMimeType = '';
+        let currentTab = 'datauri';
+
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+
+        // Drag and drop
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                processFile(file);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        });
+
+        function processFile(file) {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const dataUri = e.target.result;
+                currentBase64 = dataUri.split(',')[1];
+                currentMimeType = file.type;
+
+                // Show preview
+                document.getElementById('previewImg').src = dataUri;
+                document.getElementById('previewSection').classList.add('show');
+
+                // Show info
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileType').textContent = file.type;
+                document.getElementById('fileSize').textContent = formatSize(file.size);
+                document.getElementById('base64Size').textContent = formatSize(currentBase64.length);
+
+                // Get dimensions
+                const img = new Image();
+                img.onload = () => {
+                    document.getElementById('dimensions').textContent = `${img.width} x ${img.height}px`;
+                };
+                img.src = dataUri;
+
+                // Update output
+                updateOutput();
+                showToast('Image converted successfully!');
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            updateOutput();
+        }
+
+        function updateOutput() {
+            const output = document.getElementById('outputText');
+            const label = document.getElementById('outputLabel');
+            const dataUri = `data:${currentMimeType};base64,${currentBase64}`;
+
+            switch (currentTab) {
+                case 'datauri':
+                    output.value = dataUri;
+                    label.textContent = 'Data URI (ready to use)';
+                    break;
+                case 'base64':
+                    output.value = currentBase64;
+                    label.textContent = 'Base64 string only';
+                    break;
+                case 'html':
+                    output.value = `<img src="${dataUri}" alt="Image">`;
+                    label.textContent = 'HTML <img> tag';
+                    break;
+                case 'css':
+                    output.value = `background-image: url(${dataUri});`;
+                    label.textContent = 'CSS background property';
+                    break;
+            }
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (output) {
+                navigator.clipboard.writeText(output);
+                showToast('Copied to clipboard!');
+            }
+        }
+
+        function clearImage() {
+            currentBase64 = '';
+            currentMimeType = '';
+            document.getElementById('previewSection').classList.remove('show');
+            document.getElementById('outputText').value = '';
+            fileInput.value = '';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>

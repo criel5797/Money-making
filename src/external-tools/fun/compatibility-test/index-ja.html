@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI相性診断 - 無料名前相性、恋愛相性 | 恋愛テスト</title>
+    <meta name="description" content="無料AI相性診断！名前相性、生年月日相性で恋愛運命を確認しましょう。二人の相性スコアと詳細分析を提供します。">
+    <meta name="keywords" content="相性診断, 名前相性, 恋愛相性, 恋愛テスト, カップルテスト, 相性テスト">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI相性診断 - 無料恋愛相性">
+    <meta property="og:description" content="名前と生年月日で分かる二人の相性！">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=AI+相性診断">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44dff 50%, #6b5ce7 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: floatHeart 15s infinite linear;
+            opacity: 0.3;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .disclaimer {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .person-section {
+            background: linear-gradient(135deg, #fff5f8, #fff0f5);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .person-section.person2 {
+            background: linear-gradient(135deg, #f0f5ff, #f5f0ff);
+        }
+
+        .person-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #ff6b9d;
+            font-size: 18px;
+        }
+
+        .person-section.person2 .person-label {
+            color: #6b5ce7;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ff6b9d;
+        }
+
+        .person-section.person2 .input-group input:focus,
+        .person-section.person2 .input-group select:focus {
+            border-color: #6b5ce7;
+        }
+
+        .birth-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .check-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .heart-animation {
+            font-size: 80px;
+            animation: pulse 1s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .names-display {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .names-display span {
+            color: #ff6b9d;
+            font-weight: 600;
+        }
+
+        .score-container {
+            margin: 30px 0;
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .score-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .score-circle circle {
+            fill: none;
+            stroke-width: 12;
+        }
+
+        .score-circle .bg {
+            stroke: #f0f0f0;
+        }
+
+        .score-circle .progress {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .score-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-label {
+            color: #888;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .result-message {
+            font-size: 22px;
+            color: #333;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .analysis-section {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .analysis-item {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .analysis-item h4 {
+            color: #c44dff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .analysis-item p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .category-scores {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .category-item {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .category-item .cat-name {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .category-item .cat-score {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bar-container {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading-heart {
+            font-size: 60px;
+            animation: heartBeat 1s ease infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .card { padding: 25px; }
+            .names-display { font-size: 18px; }
+            .category-scores { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="heartsContainer"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>AI相性診断</h1>
+            <p class="subtitle">名前と生年月日で分かる二人の運命</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            楽しむための相性診断です。結果は参考程度にご覧ください！
+        </div>
+
+        <div class="card">
+            <div id="inputSection">
+                <div class="person-section">
+                    <div class="person-label">
+                        <span>💗</span> 一人目
+                    </div>
+                    <div class="input-group">
+                        <label>名前</label>
+                        <input type="text" id="name1" placeholder="名前を入力してください">
+                    </div>
+                    <div class="input-group">
+                        <label>生年月日</label>
+                        <div class="birth-row">
+                            <select id="year1">
+                                <option value="">年</option>
+                            </select>
+                            <select id="month1">
+                                <option value="">月</option>
+                            </select>
+                            <select id="day1">
+                                <option value="">日</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="person-section person2">
+                    <div class="person-label">
+                        <span>💜</span> 二人目
+                    </div>
+                    <div class="input-group">
+                        <label>名前</label>
+                        <input type="text" id="name2" placeholder="名前を入力してください">
+                    </div>
+                    <div class="input-group">
+                        <label>生年月日</label>
+                        <div class="birth-row">
+                            <select id="year2">
+                                <option value="">年</option>
+                            </select>
+                            <select id="month2">
+                                <option value="">月</option>
+                            </select>
+                            <select id="day2">
+                                <option value="">日</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="check-btn" onclick="checkCompatibility()">
+                    💕 相性を確認する
+                </button>
+            </div>
+
+            <div class="loading" id="loadingSection">
+                <div class="loading-heart">💗</div>
+                <p style="color:#888; margin-top:20px;">二人の相性を分析しています...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="heart-animation">💕</div>
+
+                <div class="names-display">
+                    <span id="displayName1">名前1</span> ❤️ <span id="displayName2">名前2</span>
+                </div>
+
+                <div class="score-container">
+                    <div class="score-circle">
+                        <svg width="180" height="180" viewBox="0 0 180 180">
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#ff6b9d"/>
+                                    <stop offset="100%" stop-color="#c44dff"/>
+                                </linearGradient>
+                            </defs>
+                            <circle class="bg" cx="90" cy="90" r="78"/>
+                            <circle class="progress" id="progressCircle" cx="90" cy="90" r="78"
+                                stroke-dasharray="490" stroke-dashoffset="490"/>
+                        </svg>
+                        <div class="score-number" id="scoreNumber">0%</div>
+                    </div>
+                    <div class="score-label">相性スコア</div>
+                </div>
+
+                <div class="result-message" id="resultMessage">
+                    最高の相性！
+                </div>
+
+                <div class="category-scores" id="categoryScores"></div>
+
+                <div class="analysis-section" id="analysisSection"></div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">結果を共有</button>
+                    <button class="share-btn secondary" onclick="resetTest()">もう一度</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>このテストは娯楽目的です。<br>実際の関係はお互いの努力で築かれます。</p>
+        </footer>
+    </div>
+
+    <script>
+        // ハート背景アニメーション
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💕';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // 日付選択の初期化
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+
+            ['year1', 'year2'].forEach(id => {
+                const select = document.getElementById(id);
+                for (let y = currentYear; y >= 1950; y--) {
+                    select.innerHTML += `<option value="${y}">${y}年</option>`;
+                }
+            });
+
+            ['month1', 'month2'].forEach(id => {
+                const select = document.getElementById(id);
+                for (let m = 1; m <= 12; m++) {
+                    select.innerHTML += `<option value="${m}">${m}月</option>`;
+                }
+            });
+
+            ['day1', 'day2'].forEach(id => {
+                const select = document.getElementById(id);
+                for (let d = 1; d <= 31; d++) {
+                    select.innerHTML += `<option value="${d}">${d}日</option>`;
+                }
+            });
+        }
+        initDateSelects();
+
+        let resultData = {};
+
+        function checkCompatibility() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+            const year1 = document.getElementById('year1').value;
+            const month1 = document.getElementById('month1').value;
+            const day1 = document.getElementById('day1').value;
+            const year2 = document.getElementById('year2').value;
+            const month2 = document.getElementById('month2').value;
+            const day2 = document.getElementById('day2').value;
+
+            if (!name1 || !name2) {
+                showToast('⚠️ 名前を入力してください！');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loadingSection').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name1, name2,
+                    { year: year1, month: month1, day: day1 },
+                    { year: year2, month: month2, day: day2 }
+                );
+            }, 2000);
+        }
+
+        function calculateResult(name1, name2, birth1, birth2) {
+            // 名前ベースのスコア計算
+            const nameScore = calculateNameScore(name1, name2);
+
+            // 生年月日ベースのスコア計算
+            let birthScore = 50;
+            if (birth1.year && birth2.year) {
+                birthScore = calculateBirthScore(birth1, birth2);
+            }
+
+            // 最終スコア計算
+            const finalScore = Math.round((nameScore * 0.4 + birthScore * 0.6));
+
+            // カテゴリ別スコア
+            const categories = {
+                love: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
+                communication: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
+                trust: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
+                future: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15)))
+            };
+
+            resultData = {
+                name1,
+                name2,
+                score: finalScore,
+                categories
+            };
+
+            displayResult();
+        }
+
+        function calculateNameScore(name1, name2) {
+            // 名前文字列からシード生成
+            const combined = name1 + name2;
+            let hash = 0;
+            for (let i = 0; i < combined.length; i++) {
+                hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+                hash = hash & hash;
+            }
+
+            // 50-100の範囲のスコア
+            return 50 + (Math.abs(hash) % 51);
+        }
+
+        function calculateBirthScore(birth1, birth2) {
+            const y1 = parseInt(birth1.year);
+            const m1 = parseInt(birth1.month);
+            const d1 = parseInt(birth1.day);
+            const y2 = parseInt(birth2.year);
+            const m2 = parseInt(birth2.month);
+            const d2 = parseInt(birth2.day);
+
+            // 年齢差スコア
+            const ageDiff = Math.abs(y1 - y2);
+            let ageScore = 100;
+            if (ageDiff > 10) ageScore = 60;
+            else if (ageDiff > 5) ageScore = 80;
+            else if (ageDiff > 2) ageScore = 90;
+
+            // 月日の組み合わせスコア
+            const dateHash = (m1 * d1 + m2 * d2) % 100;
+            const dateScore = 50 + (dateHash % 51);
+
+            return Math.round((ageScore + dateScore) / 2);
+        }
+
+        function randomRange(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function displayResult() {
+            document.getElementById('loadingSection').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('displayName1').textContent = resultData.name1;
+            document.getElementById('displayName2').textContent = resultData.name2;
+
+            // スコアアニメーション
+            const circumference = 2 * Math.PI * 78;
+            const offset = circumference - (resultData.score / 100) * circumference;
+
+            setTimeout(() => {
+                document.getElementById('progressCircle').style.strokeDashoffset = offset;
+                animateNumber('scoreNumber', 0, resultData.score, 1000);
+            }, 100);
+
+            // 結果メッセージ
+            document.getElementById('resultMessage').textContent = getResultMessage(resultData.score);
+
+            // カテゴリスコア
+            const catNames = {
+                love: '💗 恋愛運',
+                communication: '💬 コミュニケーション',
+                trust: '🤝 信頼',
+                future: '🌟 未来'
+            };
+
+            let catHtml = '';
+            for (const [key, value] of Object.entries(resultData.categories)) {
+                catHtml += `
+                    <div class="category-item">
+                        <div class="cat-name">${catNames[key]}</div>
+                        <div class="cat-score">${value}%</div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: ${value}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('categoryScores').innerHTML = catHtml;
+
+            // 分析内容
+            document.getElementById('analysisSection').innerHTML = generateAnalysis(resultData);
+        }
+
+        function animateNumber(elementId, start, end, duration) {
+            const element = document.getElementById(elementId);
+            const range = end - start;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const value = Math.round(start + range * progress);
+                element.textContent = value + '%';
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        function getResultMessage(score) {
+            if (score >= 90) return "運命的な出会い！天性の相性です！ 💕";
+            if (score >= 80) return "最高の相性！お互いのために生まれてきました！ ✨";
+            if (score >= 70) return "良い相性！一緒なら幸せです！ 😊";
+            if (score >= 60) return "まあまあの相性！努力すればもっと良くなります！ 💪";
+            if (score >= 50) return "普通の相性！お互いの理解が必要です！ 🤔";
+            return "挑戦的な相性！多くの努力が必要です！ 💭";
+        }
+
+        function generateAnalysis(data) {
+            const analyses = [
+                {
+                    title: "💕 二人のケミストリー",
+                    texts: [
+                        `${data.name1}さんと${data.name2}さんはお互いを補完し合う関係です。一人の足りないところを、もう一人が埋めることができます。`,
+                        `二人が一緒にいると相乗効果が生まれます。お互いの長所を活かせば、より大きな成果を作ることができます。`,
+                        `第一印象とは違い、知れば知るほど魅力を感じることができる組み合わせです。`
+                    ]
+                },
+                {
+                    title: "💬 コミュニケーションスタイル",
+                    texts: [
+                        `お互い違う表現方法を持っています。${data.name1}さんはより直接的で、${data.name2}さんはより繊細な方です。`,
+                        `会話する時は、お互いの話を最後まで聞くことが重要です。小さな誤解が大きな対立になることがあります。`,
+                        `正直な会話を交わすほど、関係が深まっていきます。`
+                    ]
+                },
+                {
+                    title: "✨ 今後のアドバイス",
+                    texts: [
+                        `お互いの趣味や関心事を共有してみてください。新しい共感を発見できます。`,
+                        `小さなことにも感謝を表現すれば、関係がより良くなります。`,
+                        `時にはお互いに時間を与えることも重要です。個人の時間も尊重してください。`
+                    ]
+                }
+            ];
+
+            return analyses.map(item => `
+                <div class="analysis-item">
+                    <h4>${item.title}</h4>
+                    <p>${item.texts[Math.floor(Math.random() * item.texts.length)]}</p>
+                </div>
+            `).join('');
+        }
+
+        function shareResult() {
+            const text = `💕 ${resultData.name1} ❤️ ${resultData.name2} 相性診断結果\n\n` +
+                        `相性スコア: ${resultData.score}%\n` +
+                        `${getResultMessage(resultData.score)}\n\n` +
+                        `私も相性を確認する 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'AI相性診断結果', text: text }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 結果がコピーされました！');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+
+            // 入力のリセット
+            document.getElementById('name1').value = '';
+            document.getElementById('name2').value = '';
+            document.getElementById('year1').value = '';
+            document.getElementById('month1').value = '';
+            document.getElementById('day1').value = '';
+            document.getElementById('year2').value = '';
+            document.getElementById('month2').value = '';
+            document.getElementById('day2').value = '';
+
+            // スコアサークルのリセット
+            document.getElementById('progressCircle').style.strokeDashoffset = 490;
+            document.getElementById('scoreNumber').textContent = '0%';
+        }
+    </script>
+</body>
+</html>

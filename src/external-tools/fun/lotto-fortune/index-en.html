@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lottery Number Generator - Lucky Number Recommendations</title>
+    <meta name="description" content="Lucky lottery numbers recommended by AI! Generate lottery numbers based on your birthday and fortune. Free lottery number recommendations.">
+    <meta name="keywords" content="lottery numbers, lottery recommendations, lottery number generator, lucky numbers, lottery fortune">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI Lottery Number Generator">
+    <meta property="og:description" content="Get your lucky lottery numbers recommended by AI!">
+    <meta property="og:type" content="website">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff6b35, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lucky-icon {
+            text-align: center;
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .input-section h3 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            color: #ffd700;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .date-inputs {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .date-inputs select {
+            padding: 15px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .date-inputs select:focus {
+            border-color: #ffd700;
+        }
+
+        .date-inputs select option {
+            background: #1a1a2e;
+        }
+
+        .mode-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .mode-option {
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-option:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .mode-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .mode-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .mode-name {
+            font-weight: 600;
+            color: #e4e4e4;
+            margin-bottom: 5px;
+        }
+
+        .mode-desc {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffd700, #ff6b35);
+            border: none;
+            border-radius: 15px;
+            color: #1a1a2e;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            to { left: 100%; }
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .result-section {
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .result-subtitle {
+            color: #888;
+        }
+
+        .lotto-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .lotto-ball {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3), inset 0 -5px 10px rgba(0,0,0,0.2);
+            animation: popIn 0.5s ease backwards;
+            position: relative;
+        }
+
+        .lotto-ball::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0) rotate(-180deg); opacity: 0; }
+            to { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        .ball-1-10 { background: linear-gradient(135deg, #ffd700, #ffb700); }
+        .ball-11-20 { background: linear-gradient(135deg, #4dabf7, #228be6); }
+        .ball-21-30 { background: linear-gradient(135deg, #ff6b6b, #e03131); }
+        .ball-31-40 { background: linear-gradient(135deg, #868e96, #495057); }
+        .ball-41-45 { background: linear-gradient(135deg, #51cf66, #2f9e44); }
+
+        .bonus-divider {
+            color: #ffd700;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+
+        .fortune-message {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 53, 0.1));
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .fortune-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .fortune-text {
+            color: #e4e4e4;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .lucky-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .lucky-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        .lucky-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .lucky-value {
+            font-size: 1.2rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .history-section {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .history-title {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .clear-history {
+            padding: 5px 12px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #888;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            gap: 8px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-ball {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .history-date {
+            font-size: 11px;
+            color: #666;
+            margin-left: auto;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .regenerate-btn {
+            background: linear-gradient(135deg, #ffd700, #ff6b35);
+            color: #1a1a2e;
+        }
+
+        .share-btn {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .disclaimer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ff6b35);
+            color: #1a1a2e;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .lotto-ball { width: 50px; height: 50px; font-size: 1.2rem; }
+            .mode-selector { grid-template-columns: 1fr; }
+            .lucky-info { grid-template-columns: 1fr; }
+            .action-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <header>
+            <h1>AI Lottery Number Generator</h1>
+            <p class="subtitle">Find your lucky numbers</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div id="inputSection">
+            <div class="card">
+                <div class="lucky-icon">&#127920;</div>
+
+                <div class="input-section">
+                    <h3>Generate your lucky numbers!</h3>
+
+                    <div class="input-group">
+                        <label class="input-label">Date of Birth (Optional)</label>
+                        <div class="date-inputs">
+                            <select id="birthYear">
+                                <option value="">Year</option>
+                            </select>
+                            <select id="birthMonth">
+                                <option value="">Month</option>
+                            </select>
+                            <select id="birthDay">
+                                <option value="">Day</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mode-selector">
+                        <div class="mode-option selected" data-mode="random" onclick="selectMode('random')">
+                            <div class="mode-icon">&#127922;</div>
+                            <div class="mode-name">Pure Random</div>
+                            <div class="mode-desc">Completely random numbers</div>
+                        </div>
+                        <div class="mode-option" data-mode="fortune" onclick="selectMode('fortune')">
+                            <div class="mode-icon">&#128302;</div>
+                            <div class="mode-name">Fortune Based</div>
+                            <div class="mode-desc">Based on your birthday</div>
+                        </div>
+                        <div class="mode-option" data-mode="balanced" onclick="selectMode('balanced')">
+                            <div class="mode-icon">&#9878;&#65039;</div>
+                            <div class="mode-name">Balanced</div>
+                            <div class="mode-desc">Evenly distributed</div>
+                        </div>
+                        <div class="mode-option" data-mode="hot" onclick="selectMode('hot')">
+                            <div class="mode-icon">&#128293;</div>
+                            <div class="mode-name">Hot Numbers</div>
+                            <div class="mode-desc">Frequently drawn ranges</div>
+                        </div>
+                    </div>
+
+                    <button class="generate-btn" onclick="generateNumbers()">
+                        &#127775; Generate Lucky Numbers
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section">
+            <div class="card">
+                <div class="result-header">
+                    <div class="result-title" id="resultTitle">&#127775; Your Lucky Numbers</div>
+                    <p class="result-subtitle">May fortune be with you!</p>
+                </div>
+
+                <div class="lotto-numbers" id="lottoNumbers"></div>
+
+                <div class="fortune-message">
+                    <div class="fortune-icon" id="fortuneIcon">&#127775;</div>
+                    <p class="fortune-text" id="fortuneText"></p>
+                </div>
+
+                <div class="lucky-info" id="luckyInfo"></div>
+
+                <div class="action-buttons">
+                    <button class="action-btn regenerate-btn" onclick="generateNumbers()">
+                        &#128260; Generate Again
+                    </button>
+                    <button class="action-btn share-btn" onclick="shareResult()">
+                        &#128279; Share
+                    </button>
+                </div>
+            </div>
+
+            <div class="card history-section" id="historySection" style="display:none;">
+                <div class="history-title">
+                    <span>&#128203; History</span>
+                    <button class="clear-history" onclick="clearHistory()">Clear</button>
+                </div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            &#9888;&#65039; This service is for entertainment purposes only and does not guarantee winning.<br>
+            Play lottery responsibly.
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>AI Lottery Number Generator | Lucky Number Recommendations</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentMode = 'random';
+        let history = JSON.parse(localStorage.getItem('lottoHistory') || '[]');
+
+        // Initialize date selects
+        function initDateSelects() {
+            const yearSelect = document.getElementById('birthYear');
+            const monthSelect = document.getElementById('birthMonth');
+            const daySelect = document.getElementById('birthDay');
+
+            const currentYear = new Date().getFullYear();
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
+            }
+
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${m}</option>`;
+            }
+
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}</option>`;
+            }
+        }
+
+        function selectMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.mode === mode);
+            });
+        }
+
+        function generateNumbers() {
+            let numbers = [];
+            const year = document.getElementById('birthYear').value;
+            const month = document.getElementById('birthMonth').value;
+            const day = document.getElementById('birthDay').value;
+
+            switch (currentMode) {
+                case 'random':
+                    numbers = generateRandom();
+                    break;
+                case 'fortune':
+                    numbers = generateFortune(year, month, day);
+                    break;
+                case 'balanced':
+                    numbers = generateBalanced();
+                    break;
+                case 'hot':
+                    numbers = generateHot();
+                    break;
+            }
+
+            displayResult(numbers);
+            addToHistory(numbers);
+        }
+
+        function generateRandom() {
+            const numbers = new Set();
+            while (numbers.size < 6) {
+                numbers.add(Math.floor(Math.random() * 45) + 1);
+            }
+            return [...numbers].sort((a, b) => a - b);
+        }
+
+        function generateFortune(year, month, day) {
+            const numbers = new Set();
+            const seed = (parseInt(year) || 1990) + (parseInt(month) || 6) * 100 + (parseInt(day) || 15);
+            const today = new Date();
+            const dateSeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+
+            // Use seed for pseudo-random
+            let current = seed + dateSeed;
+            while (numbers.size < 6) {
+                current = (current * 9301 + 49297) % 233280;
+                const num = (current % 45) + 1;
+                numbers.add(num);
+            }
+            return [...numbers].sort((a, b) => a - b);
+        }
+
+        function generateBalanced() {
+            const ranges = [
+                [1, 9], [10, 18], [19, 27], [28, 36], [37, 45]
+            ];
+            const numbers = new Set();
+
+            // Pick at least one from each range
+            const usedRanges = new Set();
+            while (numbers.size < 5) {
+                const rangeIdx = Math.floor(Math.random() * ranges.length);
+                if (!usedRanges.has(rangeIdx)) {
+                    const [min, max] = ranges[rangeIdx];
+                    const num = Math.floor(Math.random() * (max - min + 1)) + min;
+                    numbers.add(num);
+                    usedRanges.add(rangeIdx);
+                }
+            }
+
+            // Fill the last one randomly
+            while (numbers.size < 6) {
+                numbers.add(Math.floor(Math.random() * 45) + 1);
+            }
+
+            return [...numbers].sort((a, b) => a - b);
+        }
+
+        function generateHot() {
+            // Statistically "hot" number ranges (just for fun)
+            const hotNumbers = [1, 7, 11, 17, 24, 27, 33, 34, 38, 40, 42, 43];
+            const numbers = new Set();
+
+            // Pick mostly from hot numbers
+            while (numbers.size < 4) {
+                const num = hotNumbers[Math.floor(Math.random() * hotNumbers.length)];
+                numbers.add(num);
+            }
+
+            // Fill rest randomly
+            while (numbers.size < 6) {
+                numbers.add(Math.floor(Math.random() * 45) + 1);
+            }
+
+            return [...numbers].sort((a, b) => a - b);
+        }
+
+        function getBallClass(num) {
+            if (num <= 10) return 'ball-1-10';
+            if (num <= 20) return 'ball-11-20';
+            if (num <= 30) return 'ball-21-30';
+            if (num <= 40) return 'ball-31-40';
+            return 'ball-41-45';
+        }
+
+        function displayResult(numbers) {
+            const container = document.getElementById('lottoNumbers');
+            container.innerHTML = numbers.map((num, idx) =>
+                `<div class="lotto-ball ${getBallClass(num)}" style="animation-delay: ${idx * 0.1}s">${num}</div>`
+            ).join('');
+
+            // Fortune message
+            const fortunes = [
+                { icon: '&#127775;', text: 'Today your fortune is strong! Challenge with a positive mindset.' },
+                { icon: '&#128176;', text: 'Your wealth luck is rising. Good news may be coming.' },
+                { icon: '&#127808;', text: 'Good fortune follows new beginnings. Be brave and take the challenge.' },
+                { icon: '&#11088;', text: 'Trust your intuition! Today\'s choice may bring you luck.' },
+                { icon: '&#128302;', text: 'The cosmic energy is on your side. Be confident!' },
+                { icon: '&#127752;', text: 'Fortune beyond the rainbow! Don\'t lose hope.' }
+            ];
+            const fortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+            document.getElementById('fortuneIcon').innerHTML = fortune.icon;
+            document.getElementById('fortuneText').textContent = fortune.text;
+
+            // Lucky info
+            const luckyColors = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Pink', 'Sky Blue'];
+            const luckyDirections = ['East', 'West', 'South', 'North', 'Southeast', 'Northwest'];
+            const luckyTimes = ['6 AM', '9 AM', 'Noon', '3 PM', '6 PM', '9 PM'];
+
+            document.getElementById('luckyInfo').innerHTML = `
+                <div class="lucky-item">
+                    <div class="lucky-label">Lucky Color</div>
+                    <div class="lucky-value">${luckyColors[Math.floor(Math.random() * luckyColors.length)]}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="lucky-label">Lucky Direction</div>
+                    <div class="lucky-value">${luckyDirections[Math.floor(Math.random() * luckyDirections.length)]}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="lucky-label">Lucky Time</div>
+                    <div class="lucky-value">${luckyTimes[Math.floor(Math.random() * luckyTimes.length)]}</div>
+                </div>
+            `;
+
+            document.getElementById('resultSection').classList.add('show');
+            renderHistory();
+        }
+
+        function addToHistory(numbers) {
+            const now = new Date();
+            const dateStr = `${now.getMonth() + 1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            history.unshift({ numbers, date: dateStr });
+            history = history.slice(0, 10);
+            localStorage.setItem('lottoHistory', JSON.stringify(history));
+        }
+
+        function renderHistory() {
+            if (history.length === 0) {
+                document.getElementById('historySection').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('historySection').style.display = 'block';
+            const container = document.getElementById('historyList');
+            container.innerHTML = history.map(item => `
+                <div class="history-item">
+                    ${item.numbers.map(num => `<div class="history-ball ${getBallClass(num)}">${num}</div>`).join('')}
+                    <span class="history-date">${item.date}</span>
+                </div>
+            `).join('');
+        }
+
+        function clearHistory() {
+            history = [];
+            localStorage.removeItem('lottoHistory');
+            document.getElementById('historySection').style.display = 'none';
+            showToast('History cleared');
+        }
+
+        function shareResult() {
+            const numbers = [...document.querySelectorAll('.lotto-ball')].map(b => b.textContent).join(', ');
+            const text = `My lucky numbers: ${numbers}\nTry the AI Lottery Number Generator!`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI Lottery Numbers',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
+                    showToast('Copied!');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Initialize
+        initDateSelects();
+        createParticles();
+        renderHistory();
+    </script>
+</body>
+</html>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQL 포매터 - 무료 온라인 SQL 정리 도구</title>
-    <meta name="description" content="무료 온라인 SQL 포매터 및 정리 도구. SQL 쿼리를 즉시 정리하고 보기 좋게 만드세요. MySQL, PostgreSQL, Oracle, SQL Server 지원.">
-    <meta name="keywords" content="SQL 포매터, SQL 정리, SQL 포맷, SQL 예쁘게, SQL 온라인 도구, 쿼리 정리">
+    <title>SQL Formatter - Free Online SQL Beautifier Tool</title>
+    <meta name="description" content="Free online SQL formatter and beautifier tool. Instantly format and beautify your SQL queries. Supports MySQL, PostgreSQL, Oracle, SQL Server.">
+    <meta name="keywords" content="SQL formatter, SQL beautifier, SQL format, SQL pretty print, SQL online tool, query formatter">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="SQL 포매터 - 무료 온라인 SQL 정리 도구">
-    <meta property="og:description" content="SQL 쿼리를 즉시 정리하고 보기 좋게 만드세요. 무료 온라인 도구.">
+    <meta property="og:title" content="SQL Formatter - Free Online SQL Beautifier Tool">
+    <meta property="og:description" content="Instantly format and beautify your SQL queries. Free online tool.">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -344,35 +344,35 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">Korean</a>
             </div>
-            <h1>SQL 포매터</h1>
-            <p class="subtitle">SQL 쿼리를 즉시 정리하고 보기 좋게 만드세요</p>
+            <h1>SQL Formatter</h1>
+            <p class="subtitle">Instantly format and beautify your SQL queries</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="options-bar">
             <div class="option-group">
-                <label>들여쓰기:</label>
+                <label>Indentation:</label>
                 <select id="indent">
-                    <option value="2">공백 2칸</option>
-                    <option value="4" selected>공백 4칸</option>
-                    <option value="tab">탭</option>
+                    <option value="2">2 Spaces</option>
+                    <option value="4" selected>4 Spaces</option>
+                    <option value="tab">Tab</option>
                 </select>
             </div>
             <div class="option-group">
-                <label>키워드:</label>
+                <label>Keywords:</label>
                 <select id="keywordCase">
-                    <option value="upper" selected>대문자</option>
-                    <option value="lower">소문자</option>
-                    <option value="capitalize">첫글자만 대문자</option>
+                    <option value="upper" selected>UPPERCASE</option>
+                    <option value="lower">lowercase</option>
+                    <option value="capitalize">Capitalize</option>
                 </select>
             </div>
             <div class="option-group">
-                <label>SQL 종류:</label>
+                <label>SQL Dialect:</label>
                 <select id="dialect">
-                    <option value="standard">표준 SQL</option>
+                    <option value="standard">Standard SQL</option>
                     <option value="mysql">MySQL</option>
                     <option value="postgresql">PostgreSQL</option>
                     <option value="oracle">Oracle</option>
@@ -381,31 +381,31 @@
         </div>
 
         <div class="controls">
-            <button class="btn btn-primary" onclick="formatSQL()">SQL 정리</button>
-            <button class="btn btn-secondary" onclick="minifySQL()">압축</button>
-            <button class="btn btn-secondary" onclick="clearAll()">지우기</button>
+            <button class="btn btn-primary" onclick="formatSQL()">Format SQL</button>
+            <button class="btn btn-secondary" onclick="minifySQL()">Minify</button>
+            <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
         </div>
 
         <div class="main-content">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">입력 SQL</span>
+                    <span class="panel-title">Input SQL</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()">붙여넣기</button>
+                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()">Paste</button>
                     </div>
                 </div>
-                <textarea id="input" placeholder="SQL 쿼리를 여기에 붙여넣으세요..."></textarea>
+                <textarea id="input" placeholder="Paste your SQL query here..."></textarea>
                 <div class="status-bar">
-                    <span id="inputStatus">준비됨</span>
+                    <span id="inputStatus">Ready</span>
                 </div>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">정리된 결과</span>
+                    <span class="panel-title">Formatted Result</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="copyOutput()">복사</button>
-                        <button class="btn btn-small btn-secondary" onclick="downloadSQL()">다운로드</button>
+                        <button class="btn btn-small btn-secondary" onclick="copyOutput()">Copy</button>
+                        <button class="btn btn-small btn-secondary" onclick="downloadSQL()">Download</button>
                     </div>
                 </div>
                 <div class="output-area">
@@ -418,11 +418,11 @@
         </div>
 
         <div class="samples">
-            <h3>샘플 쿼리 사용해보기</h3>
+            <h3>Try Sample Queries</h3>
             <div class="sample-buttons">
                 <button class="sample-btn" onclick="loadSample('select')">SELECT</button>
                 <button class="sample-btn" onclick="loadSample('join')">JOIN</button>
-                <button class="sample-btn" onclick="loadSample('subquery')">서브쿼리</button>
+                <button class="sample-btn" onclick="loadSample('subquery')">Subquery</button>
                 <button class="sample-btn" onclick="loadSample('insert')">INSERT</button>
                 <button class="sample-btn" onclick="loadSample('update')">UPDATE</button>
                 <button class="sample-btn" onclick="loadSample('create')">CREATE TABLE</button>
@@ -432,34 +432,34 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#128295;</div>
-                <h3>스마트 정리</h3>
-                <p>가독성 좋은 SQL을 위한 지능적인 들여쓰기와 줄바꿈</p>
+                <h3>Smart Formatting</h3>
+                <p>Intelligent indentation and line breaks for readable SQL</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#127912;</div>
-                <h3>구문 강조</h3>
-                <p>키워드, 문자열, 함수를 색상으로 구분</p>
+                <h3>Syntax Highlighting</h3>
+                <p>Color-coded keywords, strings, and functions</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#9881;</div>
-                <h3>커스터마이즈</h3>
-                <p>들여쓰기 스타일, 키워드 대소문자, SQL 종류 선택</p>
+                <h3>Customizable</h3>
+                <p>Choose indentation style, keyword case, and SQL dialect</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128274;</div>
-                <h3>안전하고 비공개</h3>
-                <p>모든 처리가 브라우저에서 진행됨</p>
+                <h3>Safe & Private</h3>
+                <p>All processing happens in your browser</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 SQL 포매터 도구 | 서버로 데이터가 전송되지 않습니다</p>
+            <p>Free SQL Formatter Tool | No data sent to servers</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사되었습니다!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         const input = document.getElementById('input');
@@ -505,7 +505,7 @@
         function formatSQL() {
             let sql = input.value.trim();
             if (!sql) {
-                showToast('SQL을 입력해주세요');
+                showToast('Please enter SQL');
                 return;
             }
 
@@ -583,8 +583,8 @@
 
             // Highlight syntax
             output.innerHTML = highlightSQL(formatted);
-            document.getElementById('outputStatus').textContent = '정리 완료';
-            showToast('SQL 정리 완료!');
+            document.getElementById('outputStatus').textContent = 'Formatted';
+            showToast('SQL formatted!');
         }
 
         function highlightSQL(sql) {
@@ -624,7 +624,7 @@
         function minifySQL() {
             let sql = input.value.trim();
             if (!sql) {
-                showToast('SQL을 입력해주세요');
+                showToast('Please enter SQL');
                 return;
             }
 
@@ -636,14 +636,14 @@
             sql = sql.replace(/\s+/g, ' ').trim();
 
             output.textContent = sql;
-            document.getElementById('outputStatus').textContent = '압축 완료';
-            showToast('SQL 압축 완료!');
+            document.getElementById('outputStatus').textContent = 'Minified';
+            showToast('SQL minified!');
         }
 
         function clearAll() {
             input.value = '';
             output.innerHTML = '';
-            document.getElementById('inputStatus').textContent = '준비됨';
+            document.getElementById('inputStatus').textContent = 'Ready';
             document.getElementById('outputStatus').textContent = '-';
         }
 
@@ -654,7 +654,7 @@
 
             subquery: `select * from employees where department_id in (select id from departments where budget > (select avg(budget) from departments)) and salary > (select avg(salary) from employees)`,
 
-            insert: `insert into users (first_name, last_name, email, password, status, created_at) values ('홍', '길동', 'hong@example.com', 'hashed_password', 'active', now())`,
+            insert: `insert into users (first_name, last_name, email, password, status, created_at) values ('John', 'Doe', 'john@example.com', 'hashed_password', 'active', now())`,
 
             update: `update products set price = price * 1.10, updated_at = now() where category_id = 5 and stock_quantity > 0 and last_sale_date < '2024-01-01'`,
 
@@ -663,35 +663,35 @@
 
         function loadSample(type) {
             input.value = samples[type];
-            document.getElementById('inputStatus').textContent = '샘플 로드됨';
-            showToast('샘플이 로드되었습니다!');
+            document.getElementById('inputStatus').textContent = 'Sample loaded';
+            showToast('Sample loaded!');
         }
 
         async function pasteFromClipboard() {
             try {
                 const text = await navigator.clipboard.readText();
                 input.value = text;
-                showToast('붙여넣기 완료!');
+                showToast('Pasted!');
             } catch (e) {
-                showToast('붙여넣기 실패');
+                showToast('Paste failed');
             }
         }
 
         function copyOutput() {
             const text = output.textContent;
             if (!text) {
-                showToast('복사할 내용이 없습니다');
+                showToast('Nothing to copy');
                 return;
             }
             navigator.clipboard.writeText(text).then(() => {
-                showToast('복사되었습니다!');
+                showToast('Copied!');
             });
         }
 
         function downloadSQL() {
             const text = output.textContent;
             if (!text) {
-                showToast('다운로드할 내용이 없습니다');
+                showToast('Nothing to download');
                 return;
             }
             const blob = new Blob([text], { type: 'text/sql' });
@@ -701,7 +701,7 @@
             a.download = 'formatted.sql';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드 완료!');
+            showToast('Downloaded!');
         }
 
         function showToast(message) {

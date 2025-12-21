@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR 코드 생성기 - 무료 온라인 QR 코드 만들기</title>
-    <meta name="description" content="URL, 텍스트, WiFi 등의 QR 코드를 무료로 생성하세요. 색상과 크기를 자유롭게 설정할 수 있습니다.">
-    <meta name="keywords" content="QR코드 생성기, QR코드 만들기, QR코드 무료, 큐알코드">
-    <meta property="og:title" content="QR 코드 생성기 - 무료 온라인 QR 코드 만들기">
-    <meta property="og:description" content="URL, 텍스트, WiFi 등의 QR 코드를 무료로 생성하세요.">
+    <title>QRコード生成器 - 無料オンラインQRコード作成</title>
+    <meta name="description" content="URL、テキスト、WiFiなどのQRコードを無料で生成します。色とサイズを自由に設定できます。">
+    <meta name="keywords" content="QRコード生成器, QRコード作成, QRコード無料, キューアールコード">
+    <meta property="og:title" content="QRコード生成器 - 無料オンラインQRコード作成">
+    <meta property="og:description" content="URL、テキスト、WiFiなどのQRコードを無料で生成します。">
     <meta property="og:type" content="website">
 
     <style>
@@ -291,72 +291,72 @@
 
     <div class="container">
         <header>
-            <h1>QR 코드 생성기</h1>
-            <p class="subtitle">모든 용도의 QR 코드를 만드세요</p>
+            <h1>QRコード生成器</h1>
+            <p class="subtitle">あらゆる用途のQRコードを作成</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告</div>
 
         <div class="main-grid">
             <div class="input-section">
                 <div class="tabs">
                     <button class="tab-btn active" onclick="switchTab('url')">🔗 URL</button>
-                    <button class="tab-btn" onclick="switchTab('text')">📝 텍스트</button>
+                    <button class="tab-btn" onclick="switchTab('text')">📝 テキスト</button>
                     <button class="tab-btn" onclick="switchTab('wifi')">📶 WiFi</button>
-                    <button class="tab-btn" onclick="switchTab('email')">📧 이메일</button>
-                    <button class="tab-btn" onclick="switchTab('phone')">📞 전화</button>
+                    <button class="tab-btn" onclick="switchTab('email')">📧 メール</button>
+                    <button class="tab-btn" onclick="switchTab('phone')">📞 電話</button>
                 </div>
 
                 <div class="tab-content active" id="tab-url">
-                    <label>웹사이트 URL</label>
+                    <label>ウェブサイトURL</label>
                     <input type="url" id="urlInput" placeholder="https://example.com" value="https://google.com">
                 </div>
 
                 <div class="tab-content" id="tab-text">
-                    <label>텍스트 내용</label>
-                    <textarea id="textInput" placeholder="원하는 텍스트를 입력하세요...">안녕하세요!</textarea>
+                    <label>テキスト内容</label>
+                    <textarea id="textInput" placeholder="テキストを入力してください...">こんにちは！</textarea>
                 </div>
 
                 <div class="tab-content" id="tab-wifi">
-                    <label>네트워크 이름 (SSID)</label>
+                    <label>ネットワーク名 (SSID)</label>
                     <input type="text" id="wifiSsid" placeholder="MyWiFi">
-                    <label>비밀번호</label>
+                    <label>パスワード</label>
                     <input type="text" id="wifiPassword" placeholder="password123">
-                    <label>보안 유형</label>
+                    <label>セキュリティタイプ</label>
                     <select id="wifiSecurity">
                         <option value="WPA">WPA/WPA2</option>
                         <option value="WEP">WEP</option>
-                        <option value="nopass">없음</option>
+                        <option value="nopass">なし</option>
                     </select>
                 </div>
 
                 <div class="tab-content" id="tab-email">
-                    <label>이메일 주소</label>
+                    <label>メールアドレス</label>
                     <input type="email" id="emailAddress" placeholder="hello@example.com">
-                    <label>제목 (선택)</label>
-                    <input type="text" id="emailSubject" placeholder="제목">
-                    <label>내용 (선택)</label>
-                    <textarea id="emailBody" placeholder="메시지 내용..."></textarea>
+                    <label>件名 (オプション)</label>
+                    <input type="text" id="emailSubject" placeholder="件名">
+                    <label>本文 (オプション)</label>
+                    <textarea id="emailBody" placeholder="メッセージ本文..."></textarea>
                 </div>
 
                 <div class="tab-content" id="tab-phone">
-                    <label>전화번호</label>
-                    <input type="tel" id="phoneNumber" placeholder="010-1234-5678">
+                    <label>電話番号</label>
+                    <input type="tel" id="phoneNumber" placeholder="090-1234-5678">
                 </div>
 
                 <div class="customize-section">
-                    <div class="customize-title">⚙️ 커스터마이즈</div>
+                    <div class="customize-title">⚙️ カスタマイズ</div>
 
                     <div class="color-row">
                         <div class="color-group">
-                            <label>QR 색상</label>
+                            <label>QRカラー</label>
                             <div class="color-input">
                                 <input type="color" id="qrColor" value="#000000">
                                 <span id="qrColorValue">#000000</span>
                             </div>
                         </div>
                         <div class="color-group">
-                            <label>배경 색상</label>
+                            <label>背景色</label>
                             <div class="color-input">
                                 <input type="color" id="bgColor" value="#ffffff">
                                 <span id="bgColorValue">#ffffff</span>
@@ -364,42 +364,42 @@
                         </div>
                     </div>
 
-                    <label>크기</label>
+                    <label>サイズ</label>
                     <div class="size-slider">
                         <input type="range" id="sizeSlider" min="128" max="512" value="256">
                         <span class="size-value" id="sizeValue">256px</span>
                     </div>
                 </div>
 
-                <button class="generate-btn" onclick="generateQR()">✨ QR 코드 생성</button>
+                <button class="generate-btn" onclick="generateQR()">✨ QRコード生成</button>
             </div>
 
             <div class="preview-section">
-                <div class="preview-title">📱 미리보기</div>
+                <div class="preview-title">📱 プレビュー</div>
                 <div class="qr-container">
                     <div id="qrcode"></div>
                 </div>
                 <div class="download-btns">
-                    <button class="btn btn-primary" onclick="downloadQR('png')">💾 PNG 다운로드</button>
-                    <button class="btn btn-secondary" onclick="downloadQR('svg')">📄 SVG 다운로드</button>
+                    <button class="btn btn-primary" onclick="downloadQR('png')">💾 PNGダウンロード</button>
+                    <button class="btn btn-secondary" onclick="downloadQR('svg')">📄 SVGダウンロード</button>
                 </div>
             </div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告</div>
 
         <div class="info-section">
-            <h3>무엇을 담을 수 있나요?</h3>
-            <p><strong>URL:</strong> 어떤 웹사이트로도 연결</p>
-            <p><strong>텍스트:</strong> 모든 메시지나 정보</p>
-            <p><strong>WiFi:</strong> 네트워크 정보 공유 (스캔하면 바로 연결)</p>
-            <p><strong>이메일:</strong> 주소, 제목, 내용이 미리 입력된 이메일</p>
-            <p><strong>전화:</strong> 바로 전화 걸기</p>
+            <h3>何をエンコードできますか？</h3>
+            <p><strong>URL:</strong> 任意のウェブサイトへのリンク</p>
+            <p><strong>テキスト:</strong> あらゆるメッセージや情報</p>
+            <p><strong>WiFi:</strong> ネットワーク情報を共有 (スキャンで即座に接続)</p>
+            <p><strong>メール:</strong> アドレス、件名、本文が事前入力されたメール</p>
+            <p><strong>電話:</strong> 直接通話リンク</p>
         </div>
 
         <footer>
-            <p>❤️ 모두를 위해 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>❤️ すべての人のために作られました</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
         </footer>
     </div>
 
@@ -446,7 +446,7 @@
                 case 'url':
                     return document.getElementById('urlInput').value || 'https://example.com';
                 case 'text':
-                    return document.getElementById('textInput').value || '안녕하세요';
+                    return document.getElementById('textInput').value || 'こんにちは！';
                 case 'wifi':
                     const ssid = document.getElementById('wifiSsid').value;
                     const password = document.getElementById('wifiPassword').value;
@@ -474,7 +474,7 @@
         function downloadQR(format) {
             const canvas = document.querySelector('#qrcode canvas');
             if (!canvas) {
-                showToast('먼저 QR 코드를 생성하세요');
+                showToast('まずQRコードを生成してください');
                 return;
             }
 
@@ -510,7 +510,7 @@
                 link.click();
             }
 
-            showToast('다운로드 완료!');
+            showToast('ダウンロード完了！');
         }
 
         document.getElementById('qrColor').addEventListener('input', (e) => {

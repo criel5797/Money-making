@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS圧縮ツール - 無料オンラインCSSミニファイア</title>
+    <meta name="description" content="CSSコードを即座に圧縮します。無料オンラインCSS圧縮ツールでファイルサイズを削減し、ウェブサイトの読み込み速度を向上させます。">
+    <meta name="keywords" content="CSS圧縮, CSSミニファイア, CSS最適化, CSS圧縮ツール, ウェブ最適化">
+
+    <meta property="og:title" content="CSS圧縮ツール - 無料オンラインCSSミニファイア">
+    <meta property="og:description" content="CSSコードを即座に圧縮してファイルサイズを削減します。">
+    <meta property="og:type" content="website">
+
+    <link rel="alternate" hreflang="en" href="index.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --border: #475569;
+            --success: #22c55e;
+        }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        .lang-switch {
+            text-align: right;
+            padding: 10px 0;
+        }
+
+        .lang-switch a {
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .lang-switch a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        header { text-align: center; padding: 30px 20px; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        @media (max-width: 900px) {
+            .editor-container { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border);
+        }
+        .panel-title { font-weight: 600; }
+        .panel-actions { display: flex; gap: 10px; }
+        .btn-sm {
+            padding: 6px 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .btn-sm:hover { background: var(--border); }
+
+        textarea {
+            width: 100%;
+            height: 400px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border: none;
+            color: var(--text-primary);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        textarea:focus { outline: none; }
+        textarea::placeholder { color: var(--text-secondary); }
+        .output-area { color: var(--success); }
+
+        .minify-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), #ef4444);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 20px 0;
+        }
+        .minify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        .stat-value.green { color: var(--success); }
+
+        .options {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .options-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .options-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+        .checkbox-item label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .info-section h3 { margin-bottom: 15px; color: var(--accent); }
+        .info-section p { color: var(--text-secondary); margin-bottom: 10px; line-height: 1.7; }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a href="index.html">English</a>
+        </div>
+
+        <header>
+            <h1>CSS圧縮ツール</h1>
+            <p class="subtitle">CSSを圧縮してファイルサイズを削減</p>
+        </header>
+
+        <div class="ad-banner">広告</div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="originalSize">0</div>
+                <div class="stat-label">元のサイズ (バイト)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value green" id="minifiedSize">0</div>
+                <div class="stat-label">圧縮後 (バイト)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value green" id="savings">0%</div>
+                <div class="stat-label">削減率</div>
+            </div>
+        </div>
+
+        <div class="options">
+            <div class="options-title">オプション</div>
+            <div class="options-grid">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="removeComments" checked>
+                    <label for="removeComments">コメントを削除</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="removeWhitespace" checked>
+                    <label for="removeWhitespace">空白を削除</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="removeLastSemicolon" checked>
+                    <label for="removeLastSemicolon">最後のセミコロンを削除</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="shortenColors" checked>
+                    <label for="shortenColors">カラーコードを短縮</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="removeZeroUnits" checked>
+                    <label for="removeZeroUnits">ゼロ単位を削除</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="editor-container">
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">入力CSS</span>
+                    <div class="panel-actions">
+                        <button class="btn-sm" onclick="loadSample()">サンプル</button>
+                        <button class="btn-sm" onclick="clearInput()">クリア</button>
+                    </div>
+                </div>
+                <textarea id="inputCSS" placeholder="CSSコードをここに貼り付けてください..."></textarea>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">圧縮された出力</span>
+                    <div class="panel-actions">
+                        <button class="btn-sm" onclick="copyOutput()">コピー</button>
+                        <button class="btn-sm" onclick="downloadCSS()">ダウンロード</button>
+                    </div>
+                </div>
+                <textarea id="outputCSS" class="output-area" readonly placeholder="圧縮されたCSSがここに表示されます..."></textarea>
+            </div>
+        </div>
+
+        <button class="minify-btn" onclick="minify()">CSSを圧縮</button>
+
+        <div class="ad-banner">広告</div>
+
+        <div class="info-section">
+            <h3>CSSを圧縮する理由</h3>
+            <p>CSS圧縮は、コードの機能を変更せずに不要な文字を削除します。これには空白、コメントの削除、値の最適化が含まれます。</p>
+            <p><strong>メリット:</strong></p>
+            <p>• ページの読み込みが速くなる - ファイルサイズが小さいほどダウンロードが速い</p>
+            <p>• 帯域幅の使用量削減 - ホスティングコストの節約</p>
+            <p>• SEOの向上 - ページ速度は検索順位の要因</p>
+            <p>• ユーザー体験の向上 - 特にモバイルデバイスで</p>
+        </div>
+
+        <div class="info-section">
+            <h3>何が圧縮されますか?</h3>
+            <p>• コメント (/* ... */)</p>
+            <p>• 不要な空白と改行</p>
+            <p>• 宣言ブロックの最後のセミコロン</p>
+            <p>• カラーコード (#ffffff → #fff)</p>
+            <p>• ゼロ単位 (0px → 0)</p>
+        </div>
+
+        <footer>
+            <p>ウェブ開発者のために丁寧に作成</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシー</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function minifyCSS(css) {
+            let result = css;
+
+            // Remove comments
+            if (document.getElementById('removeComments').checked) {
+                result = result.replace(/\/\*[\s\S]*?\*\//g, '');
+            }
+
+            // Remove whitespace
+            if (document.getElementById('removeWhitespace').checked) {
+                result = result.replace(/\s+/g, ' ');
+                result = result.replace(/\s*{\s*/g, '{');
+                result = result.replace(/\s*}\s*/g, '}');
+                result = result.replace(/\s*;\s*/g, ';');
+                result = result.replace(/\s*:\s*/g, ':');
+                result = result.replace(/\s*,\s*/g, ',');
+            }
+
+            // Remove last semicolon before }
+            if (document.getElementById('removeLastSemicolon').checked) {
+                result = result.replace(/;}/g, '}');
+            }
+
+            // Shorten hex colors
+            if (document.getElementById('shortenColors').checked) {
+                result = result.replace(/#([0-9a-fA-F])\1([0-9a-fA-F])\2([0-9a-fA-F])\3/gi, '#$1$2$3');
+            }
+
+            // Remove zero units
+            if (document.getElementById('removeZeroUnits').checked) {
+                result = result.replace(/(\s|:)0(px|em|rem|%|pt|pc|in|cm|mm|ex|vh|vw|vmin|vmax)/gi, '$10');
+            }
+
+            return result.trim();
+        }
+
+        function minify() {
+            const input = document.getElementById('inputCSS').value;
+            const output = minifyCSS(input);
+
+            document.getElementById('outputCSS').value = output;
+
+            // Update stats
+            const originalSize = new Blob([input]).size;
+            const minifiedSize = new Blob([output]).size;
+            const savings = originalSize > 0 ? Math.round((1 - minifiedSize / originalSize) * 100) : 0;
+
+            document.getElementById('originalSize').textContent = originalSize.toLocaleString();
+            document.getElementById('minifiedSize').textContent = minifiedSize.toLocaleString();
+            document.getElementById('savings').textContent = savings + '%';
+
+            showToast('CSS圧縮完了!');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputCSS').value;
+            if (output) {
+                navigator.clipboard.writeText(output);
+                showToast('コピー完了!');
+            }
+        }
+
+        function downloadCSS() {
+            const output = document.getElementById('outputCSS').value;
+            if (output) {
+                const blob = new Blob([output], { type: 'text/css' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'styles.min.css';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('ダウンロード完了!');
+            }
+        }
+
+        function loadSample() {
+            document.getElementById('inputCSS').value = `/* ウェブサイトメインスタイル */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ヘッダースタイル */
+.header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    padding: 15px 0px;
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* ナビゲーション */
+.nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav a {
+    color: #666666;
+    text-decoration: none;
+    padding: 10px 15px;
+}
+
+.nav a:hover {
+    color: #000000;
+    background-color: #f5f5f5;
+}
+
+/* ボタンスタイル */
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #0066ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0055dd;
+}`;
+            showToast('サンプル読み込み完了!');
+        }
+
+        function clearInput() {
+            document.getElementById('inputCSS').value = '';
+            document.getElementById('outputCSS').value = '';
+            document.getElementById('originalSize').textContent = '0';
+            document.getElementById('minifiedSize').textContent = '0';
+            document.getElementById('savings').textContent = '0%';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Auto minify on input change
+        document.getElementById('inputCSS').addEventListener('input', () => {
+            if (document.getElementById('inputCSS').value) {
+                minify();
+            }
+        });
+
+        // Re-minify when options change
+        document.querySelectorAll('.options input').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                if (document.getElementById('inputCSS').value) {
+                    minify();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

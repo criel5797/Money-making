@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON 포맷터 - 무료 온라인 JSON 정렬 도구</title>
-    <meta name="description" content="무료 온라인 JSON 포맷터. JSON 데이터를 즉시 정렬하고 검증하세요. 구문 강조로 JSON을 보기 좋게 정리합니다.">
-    <meta name="keywords" content="JSON 포맷터, JSON 정렬, JSON 검증, JSON 뷰어, JSON 변환기">
+    <title>JSON Formatter - Free Online JSON Beautifier Tool</title>
+    <meta name="description" content="Free online JSON formatter. Format and validate your JSON data instantly. Beautify JSON with syntax highlighting.">
+    <meta name="keywords" content="JSON formatter, JSON beautifier, JSON validator, JSON viewer, JSON converter">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="JSON 포맷터 - 무료 온라인 JSON 정렬 도구">
-    <meta property="og:description" content="JSON 데이터를 즉시 정렬하고 검증하세요. 구문 강조로 보기 쉽게.">
+    <meta property="og:title" content="JSON Formatter - Free Online JSON Beautifier Tool">
+    <meta property="og:description" content="Format and validate your JSON data instantly. Easy viewing with syntax highlighting.">
     <meta property="og:type" content="website">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -223,15 +223,15 @@
 <body>
     <div class="container">
         <header>
-            <h1 data-i18n="header.title">JSON 포맷터 & 뷰어</h1>
-            <p class="subtitle" data-i18n="header.subtitle">JSON 데이터를 즉시 정렬하고 검증하세요</p>
+            <h1>JSON Formatter & Viewer</h1>
+            <p class="subtitle">Format and validate your JSON data instantly</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
 
         <div class="options">
             <div class="option-group">
-                <label for="indent" data-i18n="options.indent">들여쓰기:</label>
+                <label for="indent">Indentation:</label>
                 <select id="indent">
                     <option value="2">2 Spaces</option>
                     <option value="4">4 Spaces</option>
@@ -239,7 +239,7 @@
                 </select>
             </div>
             <div class="option-group">
-                <label for="viewMode" data-i18n="options.view">보기:</label>
+                <label for="viewMode">View:</label>
                 <select id="viewMode">
                     <option value="formatted">Formatted</option>
                     <option value="tree">Tree View</option>
@@ -249,34 +249,34 @@
         </div>
 
         <div class="controls">
-            <button class="btn btn-primary" onclick="formatJSON()" data-i18n="controls.format">JSON 정렬</button>
-            <button class="btn btn-secondary" onclick="minifyJSON()" data-i18n="controls.minify">압축</button>
-            <button class="btn btn-secondary" onclick="validateJSON()" data-i18n="controls.validate">검증</button>
-            <button class="btn btn-secondary" onclick="clearAll()" data-i18n="controls.clear">지우기</button>
-            <button class="btn btn-secondary" onclick="loadSample()" data-i18n="controls.sample">샘플 로드</button>
+            <button class="btn btn-primary" onclick="formatJSON()">Format JSON</button>
+            <button class="btn btn-secondary" onclick="minifyJSON()">Minify</button>
+            <button class="btn btn-secondary" onclick="validateJSON()">Validate</button>
+            <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+            <button class="btn btn-secondary" onclick="loadSample()">Load Sample</button>
         </div>
 
         <div class="main-content">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title" data-i18n="panel.input">입력 JSON</span>
+                    <span class="panel-title">Input JSON</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()" data-i18n="panel.paste">붙여넣기</button>
+                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()">Paste</button>
                     </div>
                 </div>
-                <textarea id="input" placeholder="Paste your JSON here..." data-i18n-placeholder="panel.placeholder"></textarea>
+                <textarea id="input" placeholder="Paste your JSON here..."></textarea>
                 <div class="status-bar">
-                    <span id="inputStatus" data-i18n="panel.ready">준비됨</span>
+                    <span id="inputStatus">Ready</span>
                     <span id="inputSize">0 bytes</span>
                 </div>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title" data-i18n="panel.output">출력</span>
+                    <span class="panel-title">Output</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="copyOutput()" data-i18n="panel.copy">복사</button>
-                        <button class="btn btn-small btn-secondary" onclick="downloadJSON()" data-i18n="panel.download">다운로드</button>
+                        <button class="btn btn-small btn-secondary" onclick="copyOutput()">Copy</button>
+                        <button class="btn btn-small btn-secondary" onclick="downloadJSON()">Download</button>
                     </div>
                 </div>
                 <div class="output-area" id="outputArea">
@@ -292,30 +292,30 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">{ }</div>
-                <h3 data-i18n="features.f1.title">정렬 & 뷰티파이</h3>
-                <p data-i18n="features.f1.desc">원하는 들여쓰기로 JSON을 예쁘게 정렬</p>
+                <h3>Format & Beautify</h3>
+                <p>Beautify JSON with your preferred indentation</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">✓</div>
-                <h3 data-i18n="features.f2.title">JSON 검증</h3>
-                <p data-i18n="features.f2.desc">상세한 오류 메시지로 JSON 유효성 검사</p>
+                <h3>JSON Validation</h3>
+                <p>Validate JSON with detailed error messages</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">👁</div>
-                <h3 data-i18n="features.f3.title">구문 강조</h3>
-                <p data-i18n="features.f3.desc">읽기 쉬운 색상 코드 출력</p>
+                <h3>Syntax Highlighting</h3>
+                <p>Easy-to-read color-coded output</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">📦</div>
-                <h3 data-i18n="features.f4.title">압축</h3>
-                <p data-i18n="features.f4.desc">공백을 제거하여 JSON 압축</p>
+                <h3>Minify</h3>
+                <p>Compress JSON by removing whitespace</p>
             </div>
         </div>
 
         <div class="ad-banner">Advertisement</div>
 
-        <footer data-i18n="footer">
-            <p>무료 JSON 포맷터 도구 | 서버로 데이터가 전송되지 않습니다</p>
+        <footer>
+            <p>Free JSON Formatter Tool | No data sent to server</p>
         </footer>
     </div>
 
@@ -378,13 +378,13 @@
                     updateOutputStatus(formatted, true);
                 }
 
-                document.getElementById('inputStatus').textContent = '유효한 JSON';
+                document.getElementById('inputStatus').textContent = 'Valid JSON';
                 document.getElementById('inputStatus').className = 'status-valid';
 
             } catch (e) {
                 outputArea.innerHTML = '<pre id="output"></pre>';
-                document.getElementById('output').innerHTML = `<div class="error-message">오류: ${e.message}</div>`;
-                document.getElementById('inputStatus').textContent = '유효하지 않은 JSON';
+                document.getElementById('output').innerHTML = `<div class="error-message">Error: ${e.message}</div>`;
+                document.getElementById('inputStatus').textContent = 'Invalid JSON';
                 document.getElementById('inputStatus').className = 'status-invalid';
                 updateOutputStatus('', false);
             }
@@ -400,27 +400,27 @@
                 outputArea.innerHTML = '<pre id="output"></pre>';
                 document.getElementById('output').textContent = minified;
                 updateOutputStatus(minified, true);
-                showToast('JSON 압축 완료!');
+                showToast('JSON minified!');
             } catch (e) {
-                showToast('유효하지 않은 JSON!');
+                showToast('Invalid JSON!');
             }
         }
 
         function validateJSON() {
             const text = input.value.trim();
             if (!text) {
-                showToast('JSON을 입력하세요');
+                showToast('Please enter JSON');
                 return;
             }
 
             try {
                 JSON.parse(text);
-                showToast('유효한 JSON입니다!');
-                document.getElementById('inputStatus').textContent = '유효한 JSON';
+                showToast('Valid JSON!');
+                document.getElementById('inputStatus').textContent = 'Valid JSON';
                 document.getElementById('inputStatus').className = 'status-valid';
             } catch (e) {
-                showToast('유효하지 않음: ' + e.message);
-                document.getElementById('inputStatus').textContent = '유효하지 않은 JSON';
+                showToast('Invalid: ' + e.message);
+                document.getElementById('inputStatus').textContent = 'Invalid JSON';
                 document.getElementById('inputStatus').className = 'status-invalid';
             }
         }
@@ -490,19 +490,19 @@
             if (text) {
                 const bytes = new Blob([text]).size;
                 document.getElementById('outputSize').textContent = formatBytes(bytes);
-                document.getElementById('outputStatus').textContent = valid ? '정렬됨' : '오류';
+                document.getElementById('outputStatus').textContent = valid ? 'Formatted' : 'Error';
                 document.getElementById('outputStatus').className = valid ? 'status-valid' : 'status-invalid';
             } else {
-                document.getElementById('outputSize').textContent = '0 바이트';
+                document.getElementById('outputSize').textContent = '0 bytes';
                 document.getElementById('outputStatus').textContent = '-';
                 document.getElementById('outputStatus').className = '';
             }
         }
 
         function formatBytes(bytes) {
-            if (bytes === 0) return '0 바이트';
+            if (bytes === 0) return '0 bytes';
             const k = 1024;
-            const sizes = ['바이트', 'KB', 'MB'];
+            const sizes = ['bytes', 'KB', 'MB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
@@ -515,8 +515,8 @@
             } else {
                 text = document.getElementById('output').textContent;
             }
-            if (!text) { showToast('복사할 내용이 없습니다'); return; }
-            navigator.clipboard.writeText(text).then(() => showToast('클립보드에 복사되었습니다!'));
+            if (!text) { showToast('Nothing to copy'); return; }
+            navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
         }
 
         function downloadJSON() {
@@ -527,7 +527,7 @@
             } else {
                 text = document.getElementById('output').textContent;
             }
-            if (!text) { showToast('다운로드할 내용이 없습니다'); return; }
+            if (!text) { showToast('Nothing to download'); return; }
 
             const blob = new Blob([text], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -536,7 +536,7 @@
             a.download = 'formatted.json';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드 완료!');
+            showToast('Download complete!');
         }
 
         async function pasteFromClipboard() {
@@ -545,16 +545,16 @@
                 input.value = text;
                 updateInputStatus();
                 formatJSON();
-                showToast('클립보드에서 붙여넣기 완료!');
+                showToast('Pasted from clipboard!');
             } catch (e) {
-                showToast('붙여넣기 실패');
+                showToast('Paste failed');
             }
         }
 
         function clearAll() {
             input.value = '';
             outputArea.innerHTML = '<pre id="output"></pre>';
-            document.getElementById('inputStatus').textContent = '준비됨';
+            document.getElementById('inputStatus').textContent = 'Ready';
             document.getElementById('inputStatus').className = '';
             updateInputStatus();
             updateOutputStatus('', false);
@@ -563,12 +563,12 @@
 
         function loadSample() {
             const sample = {
-                "이름": "JSON 포맷터",
-                "버전": "1.0.0",
-                "기능": ["정렬", "검증", "압축", "트리 뷰"],
-                "설정": { "들여쓰기": 2, "구문강조": true },
-                "통계": { "사용자수": 10000, "평점": 4.9 },
-                "활성화": true
+                "name": "JSON Formatter",
+                "version": "1.0.0",
+                "features": ["format", "validate", "minify", "tree view"],
+                "settings": { "indent": 2, "syntaxHighlight": true },
+                "stats": { "users": 10000, "rating": 4.9 },
+                "active": true
             };
             input.value = JSON.stringify(sample);
             updateInputStatus();

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS 그라데이션 생성기 - 무료 온라인 그라데이션 도구</title>
-    <meta name="description" content="무료 CSS 그라데이션 생성기. 간편한 비주얼 에디터로 아름다운 선형 및 원형 그라데이션을 만들고 CSS 코드를 바로 복사하세요.">
-    <meta name="keywords" content="CSS 그라데이션, 그라데이션 생성기, 선형 그라데이션, 원형 그라데이션, CSS 배경, 색상 그라데이션">
+    <title>CSSグラデーションジェネレーター - 無料オンライングラデーションツール</title>
+    <meta name="description" content="無料CSSグラデーションジェネレーター。簡単なビジュアルエディターで美しいリニアおよび放射状グラデーションを作成し、CSSコードをすぐにコピーできます。">
+    <meta name="keywords" content="CSSグラデーション, グラデーションジェネレーター, リニアグラデーション, 放射状グラデーション, CSS背景, カラーグラデーション">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="CSS 그라데이션 생성기 - 아름다운 그라데이션 만들기">
-    <meta property="og:description" content="비주얼 컨트롤로 멋진 CSS 그라데이션을 생성하세요. 코드 즉시 복사.">
+    <meta property="og:title" content="CSSグラデーションジェネレーター - 美しいグラデーションを作成">
+    <meta property="og:description" content="ビジュアルコントロールで素晴らしいCSSグラデーションを生成します。コードを即座にコピー。">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -428,11 +428,11 @@
         </div>
 
         <header>
-            <h1>CSS 그라데이션 생성기</h1>
-            <p class="subtitle">비주얼 컨트롤로 아름다운 그라데이션 만들기</p>
+            <h1>CSSグラデーションジェネレーター</h1>
+            <p class="subtitle">ビジュアルコントロールで美しいグラデーションを作成</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="preview-section">
             <div class="gradient-preview" id="preview"></div>
@@ -440,16 +440,16 @@
 
         <div class="controls-section">
             <div class="control-group">
-                <label class="control-label">그라데이션 유형</label>
+                <label class="control-label">グラデーションタイプ</label>
                 <div class="type-buttons">
-                    <button class="type-btn active" data-type="linear" onclick="setType('linear')">선형</button>
-                    <button class="type-btn" data-type="radial" onclick="setType('radial')">원형</button>
-                    <button class="type-btn" data-type="conic" onclick="setType('conic')">원뿔형</button>
+                    <button class="type-btn active" data-type="linear" onclick="setType('linear')">線形</button>
+                    <button class="type-btn" data-type="radial" onclick="setType('radial')">放射状</button>
+                    <button class="type-btn" data-type="conic" onclick="setType('conic')">円錐形</button>
                 </div>
             </div>
 
             <div class="control-group" id="directionControl">
-                <label class="control-label">방향</label>
+                <label class="control-label">方向</label>
                 <div class="direction-grid">
                     <button class="direction-btn" data-dir="to top left" onclick="setDirection('to top left')">&#8598;</button>
                     <button class="direction-btn" data-dir="to top" onclick="setDirection('to top')">&#8593;</button>
@@ -461,40 +461,40 @@
                     <button class="direction-btn active" data-dir="to left" onclick="setDirection('to left')">&#8592;</button>
                 </div>
                 <div class="angle-control">
-                    <span>사용자 정의 각도:</span>
+                    <span>カスタム角度:</span>
                     <input type="range" class="angle-slider" id="angleSlider" min="0" max="360" value="90" oninput="setAngle(this.value)">
                     <span class="angle-value" id="angleValue">90°</span>
                 </div>
             </div>
 
             <div class="control-group">
-                <label class="control-label">색상 정지점</label>
+                <label class="control-label">カラーストップ</label>
                 <div class="color-stops-container" id="colorStops"></div>
-                <button class="add-color-btn" onclick="addColorStop()">+ 색상 추가</button>
+                <button class="add-color-btn" onclick="addColorStop()">+ 色を追加</button>
             </div>
         </div>
 
         <div class="code-section">
-            <h2>CSS 코드</h2>
+            <h2>CSSコード</h2>
             <div class="code-box">
                 <pre class="code-content" id="cssCode"></pre>
-                <button class="copy-btn" onclick="copyCode()">복사</button>
+                <button class="copy-btn" onclick="copyCode()">コピー</button>
             </div>
         </div>
 
         <div class="presets-section">
-            <h2>프리셋</h2>
+            <h2>プリセット</h2>
             <div class="presets-grid" id="presets"></div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>무료 CSS 그라데이션 생성기 | 아름다운 배경 만들기</p>
+            <p>無料CSSグラデーションジェネレーター | 美しい背景を作成</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사 완료!</div>
+    <div class="toast" id="toast">コピーしました!</div>
 
     <script>
         let gradientType = 'linear';
@@ -506,18 +506,18 @@
         ];
 
         const presets = [
-            { colors: ['#667eea', '#764ba2'], name: '퍼플 러브' },
-            { colors: ['#f093fb', '#f5576c'], name: '핑크 선셋' },
-            { colors: ['#4facfe', '#00f2fe'], name: '오션 블루' },
-            { colors: ['#43e97b', '#38f9d7'], name: '프레시 민트' },
-            { colors: ['#fa709a', '#fee140'], name: '선라이즈' },
-            { colors: ['#a8edea', '#fed6e3'], name: '소프트 핑크' },
-            { colors: ['#ff9a9e', '#fecfef'], name: '로즈 워터' },
-            { colors: ['#ffecd2', '#fcb69f'], name: '피치' },
-            { colors: ['#667eea', '#764ba2', '#f093fb'], name: '바이올렛' },
-            { colors: ['#11998e', '#38ef7d'], name: '민트 그린' },
-            { colors: ['#ee0979', '#ff6a00'], name: '웜 플레임' },
-            { colors: ['#2193b0', '#6dd5ed'], name: '쿨 스카이' }
+            { colors: ['#667eea', '#764ba2'], name: 'パープルラブ' },
+            { colors: ['#f093fb', '#f5576c'], name: 'ピンクサンセット' },
+            { colors: ['#4facfe', '#00f2fe'], name: 'オーシャンブルー' },
+            { colors: ['#43e97b', '#38f9d7'], name: 'フレッシュミント' },
+            { colors: ['#fa709a', '#fee140'], name: 'サンライズ' },
+            { colors: ['#a8edea', '#fed6e3'], name: 'ソフトピンク' },
+            { colors: ['#ff9a9e', '#fecfef'], name: 'ローズウォーター' },
+            { colors: ['#ffecd2', '#fcb69f'], name: 'ピーチ' },
+            { colors: ['#667eea', '#764ba2', '#f093fb'], name: 'バイオレット' },
+            { colors: ['#11998e', '#38ef7d'], name: 'ミントグリーン' },
+            { colors: ['#ee0979', '#ff6a00'], name: 'ウォームフレーム' },
+            { colors: ['#2193b0', '#6dd5ed'], name: 'クールスカイ' }
         ];
 
         function setType(type) {
@@ -630,7 +630,7 @@
         function copyCode() {
             const code = `background: ${generateGradientCSS()};`;
             navigator.clipboard.writeText(code).then(() => {
-                showToast('CSS 코드가 복사되었습니다!');
+                showToast('CSSコードをコピーしました!');
             });
         }
 
@@ -652,7 +652,7 @@
             }));
             renderColorStops();
             updateGradient();
-            showToast(`적용됨: ${preset.name}`);
+            showToast(`適用しました: ${preset.name}`);
         }
 
         function showToast(message) {

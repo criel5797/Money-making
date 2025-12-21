@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>랜덤 뽑기 - 무작위 추첨, 제비뽑기</title>
-    <meta name="description" content="이름이나 항목을 입력하고 랜덤으로 추첨하세요. 당첨자 선정, 순서 정하기, 팀 나누기에 유용합니다.">
-    <meta name="keywords" content="랜덤 뽑기, 추첨, 제비뽑기, 당첨자, 무작위, 룰렛">
-    <meta property="og:title" content="랜덤 뽑기 - 무작위 추첨">
-    <meta property="og:description" content="이름이나 항목을 입력하고 랜덤으로 추첨하세요.">
+    <title>ランダム抽選 - 無料くじ引き、ランダムピッカー</title>
+    <meta name="description" content="名前や項目を入力してランダムに抽選します。当選者選定、順番決め、チーム分けに便利です。">
+    <meta name="keywords" content="ランダム抽選, くじ引き, 抽選, 当選者, ランダム, ルーレット">
+    <meta property="og:title" content="ランダム抽選 - 無料くじ引き">
+    <meta property="og:description" content="名前や項目を入力してランダムに抽選します。">
     <meta property="og:type" content="website">
-    <link rel="alternate" hreflang="ko" href="index.html">
+    <link rel="alternate" hreflang="ja" href="index-ja.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="en" href="index-en.html">
     <style>
         * {
             margin: 0;
@@ -18,7 +20,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #fff;
@@ -340,50 +342,50 @@
         <div class="ad-banner">Advertisement</div>
 
         <header>
-            <h1>🎲 랜덤 뽑기</h1>
-            <p class="subtitle">공정한 무작위 추첨으로 행운의 주인공을 찾아보세요</p>
+            <h1>🎲 ランダム抽選</h1>
+            <p class="subtitle">公平な無作為抽選で幸運の主人公を見つけましょう</p>
         </header>
 
         <div class="input-section">
             <div class="input-group">
-                <label>항목 입력 (줄바꿈으로 구분)</label>
-                <textarea id="items" placeholder="홍길동
-김철수
-이영희
-박민수
-최지영"></textarea>
-                <div class="item-count" id="itemCount">0개 항목</div>
+                <label>項目入力（改行で区切る）</label>
+                <textarea id="items" placeholder="田中太郎
+鈴木花子
+佐藤次郎
+高橋美咲
+伊藤健太"></textarea>
+                <div class="item-count" id="itemCount">0個の項目</div>
             </div>
 
             <div class="input-group">
-                <label>뽑을 개수</label>
+                <label>抽選個数</label>
                 <div class="count-input">
                     <input type="number" id="pickCount" value="1" min="1" max="100">
-                    <span>명 추첨</span>
+                    <span>名抽選</span>
                 </div>
             </div>
 
-            <button class="pick-btn" id="pickBtn" onclick="startPick()">🎯 추첨하기!</button>
+            <button class="pick-btn" id="pickBtn" onclick="startPick()">🎯 抽選する！</button>
         </div>
 
         <div class="result-section" id="result">
             <div class="result-card">
-                <div class="result-label">🎉 당첨!</div>
+                <div class="result-label">🎉 当選！</div>
                 <div id="resultContent"></div>
             </div>
             <div class="btn-group">
                 <button class="retry-btn" onclick="startPick()">
-                    <span>🔄</span> 다시 뽑기
+                    <span>🔄</span> もう一度
                 </button>
                 <button class="share-btn" onclick="shareResult()">
-                    <span>📤</span> 공유하기
+                    <span>📤</span> 共有
                 </button>
             </div>
         </div>
 
         <div class="history-section" id="historySection" style="display: none;">
             <div class="history-title">
-                <span>📜</span> 추첨 기록
+                <span>📜</span> 抽選履歴
             </div>
             <div class="history-list" id="historyList"></div>
         </div>
@@ -391,7 +393,7 @@
         <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
 
         <footer>
-            <p>© 2024 랜덤 뽑기</p>
+            <p>&copy; 2024 ランダム抽選</p>
         </footer>
     </div>
 
@@ -406,7 +408,7 @@
 
         function updateItemCount() {
             const items = getItems();
-            itemCountDiv.textContent = items.length + '개 항목';
+            itemCountDiv.textContent = items.length + '個の項目';
         }
 
         function getItems() {
@@ -420,25 +422,23 @@
             const pickCount = parseInt(document.getElementById('pickCount').value);
 
             if (items.length === 0) {
-                alert('추첨할 항목을 입력해주세요.');
+                alert('抽選する項目を入力してください。');
                 return;
             }
 
             if (pickCount > items.length) {
-                alert(`뽑을 개수(${pickCount})가 항목 수(${items.length})보다 많습니다.`);
+                alert(`抽選個数(${pickCount})が項目数(${items.length})より多いです。`);
                 return;
             }
 
             if (pickCount < 1) {
-                alert('최소 1개 이상 뽑아야 합니다.');
+                alert('最低1個以上選んでください。');
                 return;
             }
 
-            // 버튼 비활성화
             const pickBtn = document.getElementById('pickBtn');
             pickBtn.disabled = true;
 
-            // 셔플 애니메이션
             const resultSection = document.getElementById('result');
             const resultContent = document.getElementById('resultContent');
             resultSection.classList.add('show');
@@ -458,7 +458,6 @@
         }
 
         function showResult(items, pickCount) {
-            // Fisher-Yates 셔플
             const shuffled = [...items];
             for (let i = shuffled.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -489,9 +488,8 @@
                 resultContent.innerHTML = `<div class="winners-list">${winnersHTML}</div>`;
             }
 
-            // 기록 저장
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+            const timeStr = now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
             history.unshift({
                 winners: [...currentWinners],
                 time: timeStr
@@ -523,21 +521,21 @@
 
             let text;
             if (currentWinners.length === 1) {
-                text = `🎉 랜덤 추첨 결과!\n\n당첨: ${currentWinners[0]}\n\n랜덤 뽑기로 공정하게 추첨했습니다!`;
+                text = `🎉 ランダム抽選結果！\n\n当選: ${currentWinners[0]}\n\nランダム抽選で公平に選出しました！`;
             } else {
                 const winnerList = currentWinners.map((w, i) => `${i + 1}. ${w}`).join('\n');
-                text = `🎉 랜덤 추첨 결과!\n\n${winnerList}\n\n랜덤 뽑기로 공정하게 추첨했습니다!`;
+                text = `🎉 ランダム抽選結果！\n\n${winnerList}\n\nランダム抽選で公平に選出しました！`;
             }
 
             if (navigator.share) {
                 navigator.share({
-                    title: '랜덤 추첨 결과',
+                    title: 'ランダム抽選結果',
                     text: text,
                     url: window.location.href
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
+                    alert('結果がクリップボードにコピーされました！');
                 });
             }
         }

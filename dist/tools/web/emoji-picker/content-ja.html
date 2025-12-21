@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이모지 피커 - 이모지 즉시 복사</title>
-    <meta name="description" content="무료 이모지 피커 도구. 이모지를 찾고, 검색하고, 즉시 복사하세요. 메시지, 소셜 미디어, 문서에 완벽한 이모지를 찾아보세요.">
-    <meta name="keywords" content="이모지 피커, 이모지 복사, 이모지 검색, 이모티콘, 이모지 키보드, 복사 붙여넣기 이모지">
+    <title>絵文字ピッカー - 絵文字を即座にコピー</title>
+    <meta name="description" content="無料絵文字ピッカーツール。絵文字を検索して即座にコピーします。メッセージ、ソーシャルメディア、ドキュメントに最適な絵文字を見つけましょう。">
+    <meta name="keywords" content="絵文字ピッカー, 絵文字コピー, 絵文字検索, エモーティコン, 絵文字キーボード, コピー＆ペースト絵文字">
 
-    <meta property="og:title" content="이모지 피커 - 이모지 즉시 복사">
-    <meta property="og:description" content="클릭 한 번으로 이모지를 찾고 복사하세요. 무료 이모지 피커 도구.">
+    <meta property="og:title" content="絵文字ピッカー - 絵文字を即座にコピー">
+    <meta property="og:description" content="ワンクリックで絵文字を検索してコピーします。無料絵文字ピッカーツール。">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -254,25 +254,25 @@
             <div class="lang-switch">
                 <a href="index.html">English</a>
             </div>
-            <h1>이모지 피커</h1>
-            <p class="subtitle">클릭해서 복사, 검색해서 찾기</p>
+            <h1>絵文字ピッカー</h1>
+            <p class="subtitle">クリックしてコピー、検索して見つける</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="search-section">
             <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="이모지 검색... (예: 웃음, 하트, 불)" oninput="searchEmojis()">
+                <input type="text" class="search-input" id="searchInput" placeholder="絵文字を検索... (例: 笑顔、ハート、火)" oninput="searchEmojis()">
             </div>
         </div>
 
         <div class="recent-section" id="recentSection">
             <div class="section-header">
-                <span class="section-title">최근 사용</span>
-                <button class="clear-btn" onclick="clearRecent()">지우기</button>
+                <span class="section-title">最近使用</span>
+                <button class="clear-btn" onclick="clearRecent()">クリア</button>
             </div>
             <div class="recent-emojis" id="recentEmojis">
-                <span class="recent-empty">최근 사용한 이모지가 없습니다</span>
+                <span class="recent-empty">最近使用した絵文字はありません</span>
             </div>
         </div>
 
@@ -281,335 +281,335 @@
         <div class="emoji-grid" id="emojiGrid"></div>
 
         <div class="copied-section">
-            <h3>수집한 이모지</h3>
+            <h3>収集した絵文字</h3>
             <div class="copied-area">
-                <input type="text" class="copied-input" id="collectedEmojis" readonly placeholder="이모지를 클릭하여 수집">
-                <button class="copy-all-btn" onclick="copyAll()">모두 복사</button>
+                <input type="text" class="copied-input" id="collectedEmojis" readonly placeholder="絵文字をクリックして収集">
+                <button class="copy-all-btn" onclick="copyAll()">すべてコピー</button>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>무료 이모지 피커 | 이모지 즉시 복사</p>
+            <p>無料絵文字ピッカー | 絵文字を即座にコピー</p>
         </footer>
     </div>
 
     <div class="emoji-preview" id="emojiPreview">
         <div class="preview-emoji" id="previewEmoji"></div>
-        <div class="preview-name" id="previewName">복사됨!</div>
+        <div class="preview-name" id="previewName">コピーしました！</div>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">コピーしました！</div>
 
     <script>
         const emojiData = {
-            '웃는 얼굴': [
-                { emoji: '😀', name: '활짝 웃는 얼굴' },
-                { emoji: '😃', name: '큰 눈으로 웃는 얼굴' },
-                { emoji: '😄', name: '웃는 눈으로 웃는 얼굴' },
-                { emoji: '😁', name: '빛나는 얼굴' },
-                { emoji: '😆', name: '눈을 찡그리며 웃는 얼굴' },
-                { emoji: '😅', name: '땀 흘리며 웃는 얼굴' },
-                { emoji: '🤣', name: '바닥 구르며 웃기' },
-                { emoji: '😂', name: '기쁨의 눈물' },
-                { emoji: '🙂', name: '살짝 웃는 얼굴' },
-                { emoji: '🙃', name: '뒤집힌 얼굴' },
-                { emoji: '😉', name: '윙크' },
-                { emoji: '😊', name: '웃는 눈으로 미소' },
-                { emoji: '😇', name: '후광 있는 미소' },
-                { emoji: '🥰', name: '하트 있는 미소' },
-                { emoji: '😍', name: '하트 눈' },
-                { emoji: '🤩', name: '스타 눈' },
-                { emoji: '😘', name: '키스 보내기' },
-                { emoji: '😗', name: '키스 얼굴' },
-                { emoji: '😚', name: '눈 감은 키스' },
-                { emoji: '😋', name: '맛있는 얼굴' },
-                { emoji: '😛', name: '혀 내민 얼굴' },
-                { emoji: '😜', name: '윙크하며 혀 내밈' },
-                { emoji: '🤪', name: '장난스러운 얼굴' },
-                { emoji: '😝', name: '눈 찡그리며 혀 내밈' },
-                { emoji: '🤑', name: '돈 입 얼굴' },
-                { emoji: '🤗', name: '포옹 얼굴' },
-                { emoji: '🤭', name: '입 가린 얼굴' },
-                { emoji: '🤫', name: '쉿 얼굴' },
-                { emoji: '🤔', name: '생각하는 얼굴' },
-                { emoji: '🤐', name: '지퍼 입' },
-                { emoji: '😐', name: '무표정' },
-                { emoji: '😑', name: '표현 없는 얼굴' },
-                { emoji: '😶', name: '입 없는 얼굴' },
-                { emoji: '😏', name: '히죽 웃는 얼굴' },
-                { emoji: '😒', name: '시큰둥한 얼굴' },
-                { emoji: '🙄', name: '눈 굴리기' },
-                { emoji: '😬', name: '찡그린 얼굴' },
-                { emoji: '🤥', name: '거짓말 얼굴' },
-                { emoji: '😌', name: '안도한 얼굴' },
-                { emoji: '😔', name: '생각에 잠긴 얼굴' },
-                { emoji: '😪', name: '졸린 얼굴' },
-                { emoji: '🤤', name: '침 흘리는 얼굴' },
-                { emoji: '😴', name: '자는 얼굴' },
-                { emoji: '😎', name: '선글라스 쓴 미소' },
-                { emoji: '🤓', name: '안경 쓴 얼굴' },
-                { emoji: '🧐', name: '모노클 쓴 얼굴' },
-                { emoji: '🥳', name: '파티 얼굴' }
+            '笑顔': [
+                { emoji: '😀', name: 'Grinning Face' },
+                { emoji: '😃', name: 'Grinning Face with Big Eyes' },
+                { emoji: '😄', name: 'Grinning Face with Smiling Eyes' },
+                { emoji: '😁', name: 'Beaming Face' },
+                { emoji: '😆', name: 'Grinning Squinting Face' },
+                { emoji: '😅', name: 'Grinning Face with Sweat' },
+                { emoji: '🤣', name: 'Rolling on the Floor Laughing' },
+                { emoji: '😂', name: 'Face with Tears of Joy' },
+                { emoji: '🙂', name: 'Slightly Smiling Face' },
+                { emoji: '🙃', name: 'Upside-Down Face' },
+                { emoji: '😉', name: 'Winking Face' },
+                { emoji: '😊', name: 'Smiling Face with Smiling Eyes' },
+                { emoji: '😇', name: 'Smiling Face with Halo' },
+                { emoji: '🥰', name: 'Smiling Face with Hearts' },
+                { emoji: '😍', name: 'Smiling Face with Heart-Eyes' },
+                { emoji: '🤩', name: 'Star-Struck' },
+                { emoji: '😘', name: 'Face Blowing a Kiss' },
+                { emoji: '😗', name: 'Kissing Face' },
+                { emoji: '😚', name: 'Kissing Face with Closed Eyes' },
+                { emoji: '😋', name: 'Face Savoring Food' },
+                { emoji: '😛', name: 'Face with Tongue' },
+                { emoji: '😜', name: 'Winking Face with Tongue' },
+                { emoji: '🤪', name: 'Zany Face' },
+                { emoji: '😝', name: 'Squinting Face with Tongue' },
+                { emoji: '🤑', name: 'Money-Mouth Face' },
+                { emoji: '🤗', name: 'Hugging Face' },
+                { emoji: '🤭', name: 'Face with Hand Over Mouth' },
+                { emoji: '🤫', name: 'Shushing Face' },
+                { emoji: '🤔', name: 'Thinking Face' },
+                { emoji: '🤐', name: 'Zipper-Mouth Face' },
+                { emoji: '😐', name: 'Neutral Face' },
+                { emoji: '😑', name: 'Expressionless Face' },
+                { emoji: '😶', name: 'Face Without Mouth' },
+                { emoji: '😏', name: 'Smirking Face' },
+                { emoji: '😒', name: 'Unamused Face' },
+                { emoji: '🙄', name: 'Face with Rolling Eyes' },
+                { emoji: '😬', name: 'Grimacing Face' },
+                { emoji: '🤥', name: 'Lying Face' },
+                { emoji: '😌', name: 'Relieved Face' },
+                { emoji: '😔', name: 'Pensive Face' },
+                { emoji: '😪', name: 'Sleepy Face' },
+                { emoji: '🤤', name: 'Drooling Face' },
+                { emoji: '😴', name: 'Sleeping Face' },
+                { emoji: '😎', name: 'Smiling Face with Sunglasses' },
+                { emoji: '🤓', name: 'Nerd Face' },
+                { emoji: '🧐', name: 'Face with Monocle' },
+                { emoji: '🥳', name: 'パーティー顔' }
             ],
-            '감정': [
-                { emoji: '😟', name: '걱정하는 얼굴' },
-                { emoji: '🙁', name: '살짝 찌푸린 얼굴' },
-                { emoji: '😮', name: '입 벌린 얼굴' },
-                { emoji: '😯', name: '조용한 얼굴' },
-                { emoji: '😲', name: '놀란 얼굴' },
-                { emoji: '😳', name: '상기된 얼굴' },
-                { emoji: '🥺', name: '애원하는 얼굴' },
-                { emoji: '😦', name: '입 벌리고 찌푸림' },
-                { emoji: '😧', name: '괴로운 얼굴' },
-                { emoji: '😨', name: '무서운 얼굴' },
-                { emoji: '😰', name: '땀 흘리는 불안' },
-                { emoji: '😥', name: '슬프지만 안도' },
-                { emoji: '😢', name: '우는 얼굴' },
-                { emoji: '😭', name: '크게 우는 얼굴' },
-                { emoji: '😱', name: '공포에 비명' },
-                { emoji: '😖', name: '당혹스러운 얼굴' },
-                { emoji: '😣', name: '인내하는 얼굴' },
-                { emoji: '😞', name: '실망한 얼굴' },
-                { emoji: '😓', name: '땀 흘리며 풀 죽은' },
-                { emoji: '😩', name: '지친 얼굴' },
-                { emoji: '😫', name: '피곤한 얼굴' },
-                { emoji: '🥱', name: '하품하는 얼굴' },
-                { emoji: '😤', name: '김 나는 얼굴' },
-                { emoji: '😡', name: '뿔난 얼굴' },
-                { emoji: '😠', name: '화난 얼굴' },
-                { emoji: '🤬', name: '욕하는 얼굴' },
-                { emoji: '😈', name: '뿔 달린 미소' },
-                { emoji: '👿', name: '뿔 달린 화난' },
-                { emoji: '💀', name: '해골' },
-                { emoji: '💩', name: '똥' },
-                { emoji: '🤡', name: '광대' },
-                { emoji: '👻', name: '유령' },
-                { emoji: '👽', name: '외계인' },
-                { emoji: '🤖', name: '로봇' },
-                { emoji: '🤯', name: '머리 터짐' }
+            '感情': [
+                { emoji: '😟', name: 'Worried Face' },
+                { emoji: '🙁', name: 'Slightly Frowning Face' },
+                { emoji: '😮', name: 'Face with Open Mouth' },
+                { emoji: '😯', name: 'Hushed Face' },
+                { emoji: '😲', name: 'Astonished Face' },
+                { emoji: '😳', name: 'Flushed Face' },
+                { emoji: '🥺', name: 'Pleading Face' },
+                { emoji: '😦', name: 'Frowning Face with Open Mouth' },
+                { emoji: '😧', name: 'Anguished Face' },
+                { emoji: '😨', name: 'Fearful Face' },
+                { emoji: '😰', name: 'Anxious Face with Sweat' },
+                { emoji: '😥', name: 'Sad but Relieved Face' },
+                { emoji: '😢', name: 'Crying Face' },
+                { emoji: '😭', name: 'Loudly Crying Face' },
+                { emoji: '😱', name: 'Face Screaming in Fear' },
+                { emoji: '😖', name: 'Confounded Face' },
+                { emoji: '😣', name: 'Persevering Face' },
+                { emoji: '😞', name: 'Disappointed Face' },
+                { emoji: '😓', name: 'Downcast Face with Sweat' },
+                { emoji: '😩', name: 'Weary Face' },
+                { emoji: '😫', name: 'Tired Face' },
+                { emoji: '🥱', name: 'Yawning Face' },
+                { emoji: '😤', name: 'Face with Steam From Nose' },
+                { emoji: '😡', name: 'Pouting Face' },
+                { emoji: '😠', name: 'Angry Face' },
+                { emoji: '🤬', name: 'Face with Symbols on Mouth' },
+                { emoji: '😈', name: 'Smiling Face with Horns' },
+                { emoji: '👿', name: 'Angry Face with Horns' },
+                { emoji: '💀', name: 'Skull' },
+                { emoji: '💩', name: 'Pile of Poo' },
+                { emoji: '🤡', name: 'Clown Face' },
+                { emoji: '👻', name: 'Ghost' },
+                { emoji: '👽', name: 'Alien' },
+                { emoji: '🤖', name: 'Robot' },
+                { emoji: '🤯', name: '頭が爆発' }
             ],
-            '손동작': [
-                { emoji: '👋', name: '손 흔들기' },
-                { emoji: '🤚', name: '손등 들기' },
-                { emoji: '🖐️', name: '손가락 펴기' },
-                { emoji: '✋', name: '손 들기' },
-                { emoji: '🖖', name: '벌칸 인사' },
-                { emoji: '👌', name: 'OK 손' },
-                { emoji: '🤌', name: '손가락 모으기' },
-                { emoji: '🤏', name: '꼬집기 손' },
-                { emoji: '✌️', name: '브이' },
-                { emoji: '🤞', name: '손가락 교차' },
-                { emoji: '🤟', name: '사랑해 제스처' },
-                { emoji: '🤘', name: '뿔 사인' },
-                { emoji: '🤙', name: '전화해 손' },
-                { emoji: '👈', name: '왼쪽 가리키기' },
-                { emoji: '👉', name: '오른쪽 가리키기' },
-                { emoji: '👆', name: '위 가리키기' },
-                { emoji: '👇', name: '아래 가리키기' },
-                { emoji: '☝️', name: '검지 위' },
-                { emoji: '👍', name: '엄지 척' },
-                { emoji: '👎', name: '엄지 아래' },
-                { emoji: '✊', name: '주먹 들기' },
-                { emoji: '👊', name: '주먹' },
-                { emoji: '🤛', name: '왼쪽 주먹' },
-                { emoji: '🤜', name: '오른쪽 주먹' },
-                { emoji: '👏', name: '박수' },
-                { emoji: '🙌', name: '만세' },
-                { emoji: '👐', name: '열린 손' },
-                { emoji: '🤲', name: '손바닥 위로' },
-                { emoji: '🤝', name: '악수' },
-                { emoji: '🙏', name: '합장' },
-                { emoji: '✍️', name: '쓰는 손' },
-                { emoji: '💪', name: '근육' }
+            '手のジェスチャー': [
+                { emoji: '👋', name: 'Waving Hand' },
+                { emoji: '🤚', name: 'Raised Back of Hand' },
+                { emoji: '🖐️', name: 'Hand with Fingers Splayed' },
+                { emoji: '✋', name: 'Raised Hand' },
+                { emoji: '🖖', name: 'Vulcan Salute' },
+                { emoji: '👌', name: 'OK Hand' },
+                { emoji: '🤌', name: 'Pinched Fingers' },
+                { emoji: '🤏', name: 'Pinching Hand' },
+                { emoji: '✌️', name: 'Victory Hand' },
+                { emoji: '🤞', name: 'Crossed Fingers' },
+                { emoji: '🤟', name: 'Love-You Gesture' },
+                { emoji: '🤘', name: 'Sign of the Horns' },
+                { emoji: '🤙', name: 'Call Me Hand' },
+                { emoji: '👈', name: 'Backhand Index Pointing Left' },
+                { emoji: '👉', name: 'Backhand Index Pointing Right' },
+                { emoji: '👆', name: 'Backhand Index Pointing Up' },
+                { emoji: '👇', name: 'Backhand Index Pointing Down' },
+                { emoji: '☝️', name: 'Index Pointing Up' },
+                { emoji: '👍', name: 'Thumbs Up' },
+                { emoji: '👎', name: 'Thumbs Down' },
+                { emoji: '✊', name: 'Raised Fist' },
+                { emoji: '👊', name: 'Oncoming Fist' },
+                { emoji: '🤛', name: 'Left-Facing Fist' },
+                { emoji: '🤜', name: 'Right-Facing Fist' },
+                { emoji: '👏', name: 'Clapping Hands' },
+                { emoji: '🙌', name: 'Raising Hands' },
+                { emoji: '👐', name: 'Open Hands' },
+                { emoji: '🤲', name: 'Palms Up Together' },
+                { emoji: '🤝', name: 'Handshake' },
+                { emoji: '🙏', name: 'Folded Hands' },
+                { emoji: '✍️', name: 'Writing Hand' },
+                { emoji: '💪', name: '力こぶ' }
             ],
-            '하트': [
-                { emoji: '❤️', name: '빨간 하트' },
-                { emoji: '🧡', name: '주황 하트' },
-                { emoji: '💛', name: '노란 하트' },
-                { emoji: '💚', name: '초록 하트' },
-                { emoji: '💙', name: '파란 하트' },
-                { emoji: '💜', name: '보라 하트' },
-                { emoji: '🖤', name: '검은 하트' },
-                { emoji: '🤍', name: '하얀 하트' },
-                { emoji: '🤎', name: '갈색 하트' },
-                { emoji: '💔', name: '깨진 하트' },
-                { emoji: '💕', name: '두 하트' },
-                { emoji: '💞', name: '회전하는 하트' },
-                { emoji: '💓', name: '뛰는 하트' },
-                { emoji: '💗', name: '커지는 하트' },
-                { emoji: '💖', name: '반짝이는 하트' },
-                { emoji: '💘', name: '화살 맞은 하트' },
-                { emoji: '💝', name: '리본 하트' },
-                { emoji: '💟', name: '하트 장식' },
-                { emoji: '💌', name: '러브레터' },
-                { emoji: '💋', name: '키스 마크' },
-                { emoji: '💯', name: '백점' },
-                { emoji: '💢', name: '분노 기호' },
-                { emoji: '💥', name: '충돌' },
-                { emoji: '💫', name: '어지러움' },
-                { emoji: '💦', name: '땀방울' },
-                { emoji: '💨', name: '후다닥' },
-                { emoji: '💬', name: '말풍선' },
-                { emoji: '💭', name: '생각풍선' },
-                { emoji: '💤', name: 'zzz' }
+            'ハート': [
+                { emoji: '❤️', name: 'Red Heart' },
+                { emoji: '🧡', name: 'Orange Heart' },
+                { emoji: '💛', name: 'Yellow Heart' },
+                { emoji: '💚', name: 'Green Heart' },
+                { emoji: '💙', name: 'Blue Heart' },
+                { emoji: '💜', name: 'Purple Heart' },
+                { emoji: '🖤', name: 'Black Heart' },
+                { emoji: '🤍', name: 'White Heart' },
+                { emoji: '🤎', name: 'Brown Heart' },
+                { emoji: '💔', name: 'Broken Heart' },
+                { emoji: '💕', name: 'Two Hearts' },
+                { emoji: '💞', name: 'Revolving Hearts' },
+                { emoji: '💓', name: 'Beating Heart' },
+                { emoji: '💗', name: 'Growing Heart' },
+                { emoji: '💖', name: 'Sparkling Heart' },
+                { emoji: '💘', name: 'Heart with Arrow' },
+                { emoji: '💝', name: 'Heart with Ribbon' },
+                { emoji: '💟', name: 'Heart Decoration' },
+                { emoji: '💌', name: 'Love Letter' },
+                { emoji: '💋', name: 'Kiss Mark' },
+                { emoji: '💯', name: 'Hundred Points' },
+                { emoji: '💢', name: 'Anger Symbol' },
+                { emoji: '💥', name: 'Collision' },
+                { emoji: '💫', name: 'Dizzy' },
+                { emoji: '💦', name: 'Sweat Droplets' },
+                { emoji: '💨', name: 'Dashing Away' },
+                { emoji: '💬', name: 'Speech Balloon' },
+                { emoji: '💭', name: 'Thought Balloon' },
+                { emoji: '💤', name: 'Zzz' }
             ],
-            '동물': [
-                { emoji: '🐶', name: '강아지' },
-                { emoji: '🐱', name: '고양이' },
-                { emoji: '🐭', name: '쥐' },
-                { emoji: '🐹', name: '햄스터' },
-                { emoji: '🐰', name: '토끼' },
-                { emoji: '🦊', name: '여우' },
-                { emoji: '🐻', name: '곰' },
-                { emoji: '🐼', name: '판다' },
-                { emoji: '🐨', name: '코알라' },
-                { emoji: '🐯', name: '호랑이' },
-                { emoji: '🦁', name: '사자' },
-                { emoji: '🐮', name: '소' },
-                { emoji: '🐷', name: '돼지' },
-                { emoji: '🐸', name: '개구리' },
-                { emoji: '🐵', name: '원숭이' },
-                { emoji: '🙈', name: '눈 가린 원숭이' },
-                { emoji: '🙉', name: '귀 막은 원숭이' },
-                { emoji: '🙊', name: '입 막은 원숭이' },
-                { emoji: '🐔', name: '닭' },
-                { emoji: '🐧', name: '펭귄' },
-                { emoji: '🐦', name: '새' },
-                { emoji: '🦆', name: '오리' },
-                { emoji: '🦅', name: '독수리' },
-                { emoji: '🦉', name: '올빼미' },
-                { emoji: '🦇', name: '박쥐' },
-                { emoji: '🐺', name: '늑대' },
-                { emoji: '🐴', name: '말' },
-                { emoji: '🦄', name: '유니콘' },
-                { emoji: '🐝', name: '꿀벌' },
-                { emoji: '🐛', name: '벌레' },
-                { emoji: '🦋', name: '나비' },
-                { emoji: '🐌', name: '달팽이' },
-                { emoji: '🐢', name: '거북이' },
-                { emoji: '🐍', name: '뱀' },
-                { emoji: '🦖', name: '공룡' },
-                { emoji: '🐙', name: '문어' },
-                { emoji: '🦐', name: '새우' },
-                { emoji: '🦀', name: '게' },
-                { emoji: '🐠', name: '열대어' },
-                { emoji: '🐬', name: '돌고래' },
-                { emoji: '🐳', name: '고래' },
-                { emoji: '🦈', name: '상어' }
+            '動物': [
+                { emoji: '🐶', name: 'Dog Face' },
+                { emoji: '🐱', name: 'Cat Face' },
+                { emoji: '🐭', name: 'Mouse Face' },
+                { emoji: '🐹', name: 'Hamster' },
+                { emoji: '🐰', name: 'Rabbit Face' },
+                { emoji: '🦊', name: 'Fox' },
+                { emoji: '🐻', name: 'Bear' },
+                { emoji: '🐼', name: 'Panda' },
+                { emoji: '🐨', name: 'Koala' },
+                { emoji: '🐯', name: 'Tiger Face' },
+                { emoji: '🦁', name: 'Lion' },
+                { emoji: '🐮', name: 'Cow Face' },
+                { emoji: '🐷', name: 'Pig Face' },
+                { emoji: '🐸', name: 'Frog' },
+                { emoji: '🐵', name: 'Monkey Face' },
+                { emoji: '🙈', name: 'See-No-Evil Monkey' },
+                { emoji: '🙉', name: 'Hear-No-Evil Monkey' },
+                { emoji: '🙊', name: 'Speak-No-Evil Monkey' },
+                { emoji: '🐔', name: 'Chicken' },
+                { emoji: '🐧', name: 'Penguin' },
+                { emoji: '🐦', name: 'Bird' },
+                { emoji: '🦆', name: 'Duck' },
+                { emoji: '🦅', name: 'Eagle' },
+                { emoji: '🦉', name: 'Owl' },
+                { emoji: '🦇', name: 'Bat' },
+                { emoji: '🐺', name: 'Wolf' },
+                { emoji: '🐴', name: 'Horse Face' },
+                { emoji: '🦄', name: 'Unicorn' },
+                { emoji: '🐝', name: 'Honeybee' },
+                { emoji: '🐛', name: 'Bug' },
+                { emoji: '🦋', name: 'Butterfly' },
+                { emoji: '🐌', name: 'Snail' },
+                { emoji: '🐢', name: 'Turtle' },
+                { emoji: '🐍', name: 'Snake' },
+                { emoji: '🦖', name: 'T-Rex' },
+                { emoji: '🐙', name: 'Octopus' },
+                { emoji: '🦐', name: 'Shrimp' },
+                { emoji: '🦀', name: 'Crab' },
+                { emoji: '🐠', name: 'Tropical Fish' },
+                { emoji: '🐬', name: 'Dolphin' },
+                { emoji: '🐳', name: 'Spouting Whale' },
+                { emoji: '🦈', name: 'サメ' }
             ],
-            '음식': [
-                { emoji: '🍎', name: '사과' },
-                { emoji: '🍐', name: '배' },
-                { emoji: '🍊', name: '귤' },
-                { emoji: '🍋', name: '레몬' },
-                { emoji: '🍌', name: '바나나' },
-                { emoji: '🍉', name: '수박' },
-                { emoji: '🍇', name: '포도' },
-                { emoji: '🍓', name: '딸기' },
-                { emoji: '🍑', name: '복숭아' },
-                { emoji: '🥭', name: '망고' },
-                { emoji: '🍍', name: '파인애플' },
-                { emoji: '🥑', name: '아보카도' },
-                { emoji: '🍆', name: '가지' },
-                { emoji: '🥕', name: '당근' },
-                { emoji: '🌽', name: '옥수수' },
-                { emoji: '🌶️', name: '고추' },
-                { emoji: '🥒', name: '오이' },
-                { emoji: '🥦', name: '브로콜리' },
-                { emoji: '🍄', name: '버섯' },
-                { emoji: '🍞', name: '빵' },
-                { emoji: '🥐', name: '크루아상' },
-                { emoji: '🧀', name: '치즈' },
-                { emoji: '🥚', name: '달걀' },
-                { emoji: '🍳', name: '프라이' },
-                { emoji: '🥓', name: '베이컨' },
-                { emoji: '🥩', name: '고기' },
-                { emoji: '🍗', name: '닭다리' },
-                { emoji: '🌭', name: '핫도그' },
-                { emoji: '🍔', name: '햄버거' },
-                { emoji: '🍟', name: '감자튀김' },
-                { emoji: '🍕', name: '피자' },
-                { emoji: '🥪', name: '샌드위치' },
-                { emoji: '🌮', name: '타코' },
-                { emoji: '🌯', name: '부리토' },
-                { emoji: '🍜', name: '라면' },
-                { emoji: '🍝', name: '스파게티' },
-                { emoji: '🍣', name: '초밥' },
-                { emoji: '🍱', name: '도시락' },
-                { emoji: '🍛', name: '카레' },
-                { emoji: '🍚', name: '밥' },
-                { emoji: '🍰', name: '케이크' },
-                { emoji: '🧁', name: '컵케이크' },
-                { emoji: '🍩', name: '도넛' },
-                { emoji: '🍪', name: '쿠키' },
-                { emoji: '🍫', name: '초콜릿' },
-                { emoji: '🍭', name: '막대사탕' },
-                { emoji: '🍦', name: '아이스크림' },
-                { emoji: '☕', name: '커피' },
-                { emoji: '🍵', name: '차' },
-                { emoji: '🧃', name: '주스' },
-                { emoji: '🍺', name: '맥주' },
-                { emoji: '🍷', name: '와인' }
+            '食べ物': [
+                { emoji: '🍎', name: 'Red Apple' },
+                { emoji: '🍐', name: 'Pear' },
+                { emoji: '🍊', name: 'Tangerine' },
+                { emoji: '🍋', name: 'Lemon' },
+                { emoji: '🍌', name: 'Banana' },
+                { emoji: '🍉', name: 'Watermelon' },
+                { emoji: '🍇', name: 'Grapes' },
+                { emoji: '🍓', name: 'Strawberry' },
+                { emoji: '🍑', name: 'Peach' },
+                { emoji: '🥭', name: 'Mango' },
+                { emoji: '🍍', name: 'Pineapple' },
+                { emoji: '🥑', name: 'Avocado' },
+                { emoji: '🍆', name: 'Eggplant' },
+                { emoji: '🥕', name: 'Carrot' },
+                { emoji: '🌽', name: 'Corn' },
+                { emoji: '🌶️', name: 'Hot Pepper' },
+                { emoji: '🥒', name: 'Cucumber' },
+                { emoji: '🥦', name: 'Broccoli' },
+                { emoji: '🍄', name: 'Mushroom' },
+                { emoji: '🍞', name: 'Bread' },
+                { emoji: '🥐', name: 'Croissant' },
+                { emoji: '🧀', name: 'Cheese Wedge' },
+                { emoji: '🥚', name: 'Egg' },
+                { emoji: '🍳', name: 'Cooking' },
+                { emoji: '🥓', name: 'Bacon' },
+                { emoji: '🥩', name: 'Cut of Meat' },
+                { emoji: '🍗', name: 'Poultry Leg' },
+                { emoji: '🌭', name: 'Hot Dog' },
+                { emoji: '🍔', name: 'Hamburger' },
+                { emoji: '🍟', name: 'French Fries' },
+                { emoji: '🍕', name: 'Pizza' },
+                { emoji: '🥪', name: 'Sandwich' },
+                { emoji: '🌮', name: 'Taco' },
+                { emoji: '🌯', name: 'Burrito' },
+                { emoji: '🍜', name: 'Steaming Bowl' },
+                { emoji: '🍝', name: 'Spaghetti' },
+                { emoji: '🍣', name: 'Sushi' },
+                { emoji: '🍱', name: 'Bento Box' },
+                { emoji: '🍛', name: 'Curry Rice' },
+                { emoji: '🍚', name: 'Cooked Rice' },
+                { emoji: '🍰', name: 'Shortcake' },
+                { emoji: '🧁', name: 'Cupcake' },
+                { emoji: '🍩', name: 'Doughnut' },
+                { emoji: '🍪', name: 'Cookie' },
+                { emoji: '🍫', name: 'Chocolate Bar' },
+                { emoji: '🍭', name: 'Lollipop' },
+                { emoji: '🍦', name: 'Soft Ice Cream' },
+                { emoji: '☕', name: 'Hot Beverage' },
+                { emoji: '🍵', name: 'Teacup Without Handle' },
+                { emoji: '🧃', name: 'Beverage Box' },
+                { emoji: '🍺', name: 'Beer Mug' },
+                { emoji: '🍷', name: 'ワイングラス' }
             ],
-            '기호': [
-                { emoji: '✅', name: '체크' },
-                { emoji: '❌', name: 'X 표시' },
-                { emoji: '⭐', name: '별' },
-                { emoji: '🌟', name: '빛나는 별' },
-                { emoji: '✨', name: '반짝임' },
-                { emoji: '⚡', name: '번개' },
-                { emoji: '🔥', name: '불' },
-                { emoji: '💧', name: '물방울' },
-                { emoji: '🌈', name: '무지개' },
-                { emoji: '☀️', name: '태양' },
-                { emoji: '🌙', name: '초승달' },
-                { emoji: '⭕', name: '빈 원' },
-                { emoji: '❗', name: '느낌표' },
-                { emoji: '❓', name: '물음표' },
-                { emoji: '✔️', name: '체크 표시' },
-                { emoji: '➕', name: '더하기' },
-                { emoji: '➖', name: '빼기' },
-                { emoji: '➗', name: '나누기' },
-                { emoji: '♾️', name: '무한' },
-                { emoji: '🔴', name: '빨간 원' },
-                { emoji: '🟠', name: '주황 원' },
-                { emoji: '🟡', name: '노란 원' },
-                { emoji: '🟢', name: '초록 원' },
-                { emoji: '🔵', name: '파란 원' },
-                { emoji: '🟣', name: '보라 원' },
-                { emoji: '⚫', name: '검은 원' },
-                { emoji: '⚪', name: '하얀 원' },
-                { emoji: '▶️', name: '재생' },
-                { emoji: '⏸️', name: '일시정지' },
-                { emoji: '⏹️', name: '정지' }
+            '記号': [
+                { emoji: '✅', name: 'Check Mark Button' },
+                { emoji: '❌', name: 'Cross Mark' },
+                { emoji: '⭐', name: 'Star' },
+                { emoji: '🌟', name: 'Glowing Star' },
+                { emoji: '✨', name: 'Sparkles' },
+                { emoji: '⚡', name: 'High Voltage' },
+                { emoji: '🔥', name: 'Fire' },
+                { emoji: '💧', name: 'Droplet' },
+                { emoji: '🌈', name: 'Rainbow' },
+                { emoji: '☀️', name: 'Sun' },
+                { emoji: '🌙', name: 'Crescent Moon' },
+                { emoji: '⭕', name: 'Hollow Red Circle' },
+                { emoji: '❗', name: 'Exclamation Mark' },
+                { emoji: '❓', name: 'Question Mark' },
+                { emoji: '✔️', name: 'Check Mark' },
+                { emoji: '➕', name: 'Plus' },
+                { emoji: '➖', name: 'Minus' },
+                { emoji: '➗', name: 'Divide' },
+                { emoji: '♾️', name: 'Infinity' },
+                { emoji: '🔴', name: 'Red Circle' },
+                { emoji: '🟠', name: 'Orange Circle' },
+                { emoji: '🟡', name: 'Yellow Circle' },
+                { emoji: '🟢', name: 'Green Circle' },
+                { emoji: '🔵', name: 'Blue Circle' },
+                { emoji: '🟣', name: 'Purple Circle' },
+                { emoji: '⚫', name: 'Black Circle' },
+                { emoji: '⚪', name: 'White Circle' },
+                { emoji: '▶️', name: 'Play Button' },
+                { emoji: '⏸️', name: 'Pause Button' },
+                { emoji: '⏹️', name: '停止ボタン' }
             ],
-            '국기': [
-                { emoji: '🇰🇷', name: '한국' },
-                { emoji: '🇺🇸', name: '미국' },
-                { emoji: '🇯🇵', name: '일본' },
-                { emoji: '🇨🇳', name: '중국' },
-                { emoji: '🇬🇧', name: '영국' },
-                { emoji: '🇫🇷', name: '프랑스' },
-                { emoji: '🇩🇪', name: '독일' },
-                { emoji: '🇮🇹', name: '이탈리아' },
-                { emoji: '🇪🇸', name: '스페인' },
-                { emoji: '🇧🇷', name: '브라질' },
-                { emoji: '🇨🇦', name: '캐나다' },
-                { emoji: '🇦🇺', name: '호주' },
-                { emoji: '🇮🇳', name: '인도' },
-                { emoji: '🇷🇺', name: '러시아' },
-                { emoji: '🇲🇽', name: '멕시코' },
-                { emoji: '🏳️', name: '하얀 깃발' },
-                { emoji: '🏴', name: '검은 깃발' },
-                { emoji: '🏁', name: '체크 깃발' },
-                { emoji: '🚩', name: '삼각 깃발' },
-                { emoji: '🏳️‍🌈', name: '무지개 깃발' }
+            '旗': [
+                { emoji: '🇰🇷', name: 'South Korea' },
+                { emoji: '🇺🇸', name: 'United States' },
+                { emoji: '🇯🇵', name: 'Japan' },
+                { emoji: '🇨🇳', name: 'China' },
+                { emoji: '🇬🇧', name: 'United Kingdom' },
+                { emoji: '🇫🇷', name: 'France' },
+                { emoji: '🇩🇪', name: 'Germany' },
+                { emoji: '🇮🇹', name: 'Italy' },
+                { emoji: '🇪🇸', name: 'Spain' },
+                { emoji: '🇧🇷', name: 'Brazil' },
+                { emoji: '🇨🇦', name: 'Canada' },
+                { emoji: '🇦🇺', name: 'Australia' },
+                { emoji: '🇮🇳', name: 'India' },
+                { emoji: '🇷🇺', name: 'Russia' },
+                { emoji: '🇲🇽', name: 'Mexico' },
+                { emoji: '🏳️', name: 'White Flag' },
+                { emoji: '🏴', name: 'Black Flag' },
+                { emoji: '🏁', name: 'Chequered Flag' },
+                { emoji: '🚩', name: 'Triangular Flag' },
+                { emoji: '🏳️‍🌈', name: 'Rainbow Flag' }
             ]
         };
 
-        let currentCategory = '웃는 얼굴';
+        let currentCategory = '笑顔';
         let recentEmojis = JSON.parse(localStorage.getItem('recentEmojis') || '[]');
         let collectedEmojis = '';
 
@@ -629,7 +629,7 @@
         function renderEmojis(emojis) {
             const container = document.getElementById('emojiGrid');
             if (emojis.length === 0) {
-                container.innerHTML = '<div class="no-results"><span>🔍</span>이모지를 찾을 수 없습니다</div>';
+                container.innerHTML = '<div class="no-results"><span>🔍</span>絵文字が見つかりません</div>';
                 return;
             }
             container.innerHTML = emojis.map(e =>
@@ -650,7 +650,7 @@
             setTimeout(() => preview.classList.remove('show'), 1000);
 
             addToRecent(emoji, name);
-            showToast(`${emoji} 복사됨!`);
+            showToast(`${emoji} Copied!`);
         }
 
         function addToRecent(emoji, name) {
@@ -664,7 +664,7 @@
         function renderRecentEmojis() {
             const container = document.getElementById('recentEmojis');
             if (recentEmojis.length === 0) {
-                container.innerHTML = '<span class="recent-empty">최근 사용한 이모지가 없습니다</span>';
+                container.innerHTML = '<span class="recent-empty">最近使用した絵文字はありません</span>';
                 return;
             }
             container.innerHTML = recentEmojis.map(e =>
@@ -676,7 +676,7 @@
             recentEmojis = [];
             localStorage.removeItem('recentEmojis');
             renderRecentEmojis();
-            showToast('최근 이모지 삭제됨');
+            showToast('最近の絵文字がクリアされました');
         }
 
         function searchEmojis() {
@@ -698,10 +698,10 @@
         function copyAll() {
             if (collectedEmojis) {
                 navigator.clipboard.writeText(collectedEmojis).then(() => {
-                    showToast('모든 이모지 복사됨!');
+                    showToast('すべての絵文字がコピーされました！');
                 });
             } else {
-                showToast('수집한 이모지가 없습니다');
+                showToast('収集された絵文字がありません');
             }
         }
 

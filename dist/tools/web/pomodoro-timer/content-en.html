@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>뽀모도로 타이머 - 무료 온라인 집중 타이머 | 생산성 도구</title>
-    <meta name="description" content="무료 온라인 뽀모도로 타이머로 생산성을 높이세요. 25분 집중, 휴식, 더 많은 일을 해내세요. 간단한 타이머로 작업 세션을 추적하세요.">
-    <meta name="keywords" content="뽀모도로 타이머, 집중 타이머, 생산성 타이머, 작업 타이머, 공부 타이머, 집중력">
+    <title>Pomodoro Timer - Free Online Focus Timer | Productivity Tool</title>
+    <meta name="description" content="Free online Pomodoro timer to boost your productivity. Focus for 25 minutes, take breaks, and get more done. Track your work sessions with this simple timer.">
+    <meta name="keywords" content="pomodoro timer, focus timer, productivity timer, work timer, study timer, concentration">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="뽀모도로 타이머 - 무료 온라인 집중 타이머">
-    <meta property="og:description" content="25분 집중, 휴식, 생산성 향상.">
+    <meta property="og:title" content="Pomodoro Timer - Free Online Focus Timer">
+    <meta property="og:description" content="25 minutes of focus, breaks, and improved productivity.">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -367,24 +367,24 @@
 <body class="focus">
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="index-ko.html">한국어</a>
         </div>
 
         <header>
-            <h1>뽀모도로 타이머</h1>
-            <p class="subtitle">집중하고 생산성을 높이세요</p>
+            <h1>Pomodoro Timer</h1>
+            <p class="subtitle">Focus and boost your productivity</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="mode-tabs">
-            <button class="mode-tab active" onclick="setMode('focus')">집중</button>
-            <button class="mode-tab" onclick="setMode('short-break')">짧은 휴식</button>
-            <button class="mode-tab" onclick="setMode('long-break')">긴 휴식</button>
+            <button class="mode-tab active" onclick="setMode('focus')">Focus</button>
+            <button class="mode-tab" onclick="setMode('short-break')">Short Break</button>
+            <button class="mode-tab" onclick="setMode('long-break')">Long Break</button>
         </div>
 
         <div class="task-input-container">
-            <input type="text" class="task-input" id="taskInput" placeholder="무엇을 하고 계신가요?">
+            <input type="text" class="task-input" id="taskInput" placeholder="What are you working on?">
         </div>
 
         <div class="timer-container">
@@ -395,17 +395,17 @@
                         stroke-dasharray="942" stroke-dashoffset="0"/>
                 </svg>
                 <div class="time-display" id="timeDisplay">25:00</div>
-                <div class="session-label" id="sessionLabel">집중 시간</div>
+                <div class="session-label" id="sessionLabel">Focus Time</div>
             </div>
 
             <div class="controls">
-                <button class="control-btn" onclick="resetTimer()" title="리셋">
+                <button class="control-btn" onclick="resetTimer()" title="Reset">
                     &#8634;
                 </button>
                 <button class="control-btn primary" id="playPauseBtn" onclick="toggleTimer()">
                     &#9654;
                 </button>
-                <button class="control-btn" onclick="skipSession()" title="건너뛰기">
+                <button class="control-btn" onclick="skipSession()" title="Skip">
                     &#9197;
                 </button>
             </div>
@@ -414,44 +414,44 @@
         <div class="stats-bar">
             <div class="stat-item">
                 <div class="stat-value" id="completedSessions">0</div>
-                <div class="stat-label">세션</div>
+                <div class="stat-label">Sessions</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value" id="totalMinutes">0</div>
-                <div class="stat-label">분</div>
+                <div class="stat-label">Minutes</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value" id="streak">0</div>
-                <div class="stat-label">연속</div>
+                <div class="stat-label">Streak</div>
             </div>
         </div>
 
-        <button class="toggle-settings" onclick="toggleSettings()">&#9881; 설정</button>
+        <button class="toggle-settings" onclick="toggleSettings()">&#9881; Settings</button>
 
         <div class="settings-panel" id="settingsPanel">
-            <div class="settings-title">타이머 설정 (분)</div>
+            <div class="settings-title">Timer Settings (minutes)</div>
             <div class="setting-row">
-                <span class="setting-label">집중 시간</span>
+                <span class="setting-label">Focus Time</span>
                 <input type="number" class="setting-input" id="focusDuration" value="25" min="1" max="60" onchange="updateSettings()">
             </div>
             <div class="setting-row">
-                <span class="setting-label">짧은 휴식</span>
+                <span class="setting-label">Short Break</span>
                 <input type="number" class="setting-input" id="shortBreakDuration" value="5" min="1" max="30" onchange="updateSettings()">
             </div>
             <div class="setting-row">
-                <span class="setting-label">긴 휴식</span>
+                <span class="setting-label">Long Break</span>
                 <input type="number" class="setting-input" id="longBreakDuration" value="15" min="1" max="60" onchange="updateSettings()">
             </div>
             <div class="setting-row">
-                <span class="setting-label">긴 휴식 전 세션 수</span>
+                <span class="setting-label">Sessions Before Long Break</span>
                 <input type="number" class="setting-input" id="sessionsBeforeLong" value="4" min="1" max="10" onchange="updateSettings()">
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 뽀모도로 타이머 | 집중하고, 생산적이 되세요</p>
+            <p>Free Pomodoro Timer | Focus and be productive</p>
         </footer>
     </div>
 
@@ -488,7 +488,7 @@
             const offset = circumference * (1 - progress);
             document.getElementById('progressCircle').style.strokeDashoffset = offset;
 
-            document.title = `${formatTime(timeRemaining)} - 뽀모도로 타이머`;
+            document.title = `${formatTime(timeRemaining)} - Pomodoro Timer`;
         }
 
         function setMode(mode) {
@@ -503,9 +503,9 @@
             document.body.className = mode;
 
             const labels = {
-                'focus': '집중 시간',
-                'short-break': '짧은 휴식',
-                'long-break': '긴 휴식'
+                'focus': 'Focus Time',
+                'short-break': 'Short Break',
+                'long-break': 'Long Break'
             };
             document.getElementById('sessionLabel').textContent = labels[mode];
 
@@ -593,8 +593,8 @@
 
         function playNotification() {
             if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('뽀모도로 타이머', {
-                    body: currentMode === 'focus' ? '잘 하셨어요! 휴식 시간입니다.' : '휴식 끝! 다시 집중할 준비 됐나요?',
+                new Notification('Pomodoro Timer', {
+                    body: currentMode === 'focus' ? 'Great work! Time for a break.' : 'Break is over! Ready to focus again?',
                     icon: '🍅'
                 });
             }
@@ -614,7 +614,7 @@
                 oscillator.start();
                 setTimeout(() => oscillator.stop(), 200);
             } catch (e) {
-                console.log('오디오 지원 안됨');
+                console.log('Audio not supported');
             }
         }
 

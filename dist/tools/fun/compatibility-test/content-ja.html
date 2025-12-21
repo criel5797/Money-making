@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 궁합 테스트 - 무료 이름 궁합, 연애 궁합 | 사랑 테스트</title>
-    <meta name="description" content="무료 AI 궁합 테스트! 이름 궁합, 생년월일 궁합으로 연애 운명을 확인하세요. 두 사람의 궁합 점수와 상세 분석을 제공합니다.">
-    <meta name="keywords" content="궁합, 이름궁합, 연애궁합, 사랑테스트, 커플테스트, 궁합테스트, 무료궁합">
+    <title>AI相性診断 - 無料名前相性、恋愛相性 | 恋愛テスト</title>
+    <meta name="description" content="無料AI相性診断！名前相性、生年月日相性で恋愛運命を確認しましょう。二人の相性スコアと詳細分析を提供します。">
+    <meta name="keywords" content="相性診断, 名前相性, 恋愛相性, 恋愛テスト, カップルテスト, 相性テスト">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="AI 궁합 테스트 - 무료 연애 궁합">
-    <meta property="og:description" content="이름과 생년월일로 알아보는 두 사람의 궁합!">
+    <meta property="og:title" content="AI相性診断 - 無料恋愛相性">
+    <meta property="og:description" content="名前と生年月日で分かる二人の相性！">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=AI+궁합+테스트">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=AI+相性診断">
 
     <style>
         .toast {
@@ -40,7 +40,7 @@
         }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro', -apple-system, sans-serif;
             background: linear-gradient(135deg, #ff6b9d 0%, #c44dff 50%, #6b5ce7 100%);
             min-height: 100vh;
             color: #333;
@@ -458,37 +458,37 @@
 
     <div class="container">
         <header>
-            <h1>AI 궁합 테스트</h1>
-            <p class="subtitle">이름과 생년월일로 알아보는 두 사람의 운명</p>
+            <h1>AI相性診断</h1>
+            <p class="subtitle">名前と生年月日で分かる二人の運命</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
 
         <div class="disclaimer">
-            재미로 즐기는 궁합 테스트입니다. 결과는 참고용으로만 봐주세요!
+            楽しむための相性診断です。結果は参考程度にご覧ください！
         </div>
 
         <div class="card">
             <div id="inputSection">
                 <div class="person-section">
                     <div class="person-label">
-                        <span>💗</span> 첫 번째 사람
+                        <span>💗</span> 一人目
                     </div>
                     <div class="input-group">
-                        <label>이름</label>
-                        <input type="text" id="name1" placeholder="이름을 입력하세요">
+                        <label>名前</label>
+                        <input type="text" id="name1" placeholder="名前を入力してください">
                     </div>
                     <div class="input-group">
-                        <label>생년월일</label>
+                        <label>生年月日</label>
                         <div class="birth-row">
                             <select id="year1">
-                                <option value="">년도</option>
+                                <option value="">年</option>
                             </select>
                             <select id="month1">
-                                <option value="">월</option>
+                                <option value="">月</option>
                             </select>
                             <select id="day1">
-                                <option value="">일</option>
+                                <option value="">日</option>
                             </select>
                         </div>
                     </div>
@@ -496,43 +496,43 @@
 
                 <div class="person-section person2">
                     <div class="person-label">
-                        <span>💜</span> 두 번째 사람
+                        <span>💜</span> 二人目
                     </div>
                     <div class="input-group">
-                        <label>이름</label>
-                        <input type="text" id="name2" placeholder="이름을 입력하세요">
+                        <label>名前</label>
+                        <input type="text" id="name2" placeholder="名前を入力してください">
                     </div>
                     <div class="input-group">
-                        <label>생년월일</label>
+                        <label>生年月日</label>
                         <div class="birth-row">
                             <select id="year2">
-                                <option value="">년도</option>
+                                <option value="">年</option>
                             </select>
                             <select id="month2">
-                                <option value="">월</option>
+                                <option value="">月</option>
                             </select>
                             <select id="day2">
-                                <option value="">일</option>
+                                <option value="">日</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
                 <button class="check-btn" onclick="checkCompatibility()">
-                    💕 궁합 확인하기
+                    💕 相性を確認する
                 </button>
             </div>
 
             <div class="loading" id="loadingSection">
                 <div class="loading-heart">💗</div>
-                <p style="color:#888; margin-top:20px;">두 분의 궁합을 분석하고 있어요...</p>
+                <p style="color:#888; margin-top:20px;">二人の相性を分析しています...</p>
             </div>
 
             <div class="result-section" id="resultSection">
                 <div class="heart-animation">💕</div>
 
                 <div class="names-display">
-                    <span id="displayName1">홍길동</span> ❤️ <span id="displayName2">김철수</span>
+                    <span id="displayName1">名前1</span> ❤️ <span id="displayName2">名前2</span>
                 </div>
 
                 <div class="score-container">
@@ -550,11 +550,11 @@
                         </svg>
                         <div class="score-number" id="scoreNumber">0%</div>
                     </div>
-                    <div class="score-label">궁합 점수</div>
+                    <div class="score-label">相性スコア</div>
                 </div>
 
                 <div class="result-message" id="resultMessage">
-                    두 분은 환상의 궁합!
+                    最高の相性！
                 </div>
 
                 <div class="category-scores" id="categoryScores"></div>
@@ -562,8 +562,8 @@
                 <div class="analysis-section" id="analysisSection"></div>
 
                 <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                    <button class="share-btn primary" onclick="shareResult()">結果を共有</button>
+                    <button class="share-btn secondary" onclick="resetTest()">もう一度</button>
                 </div>
             </div>
         </div>
@@ -571,12 +571,12 @@
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>이 테스트는 재미를 위한 것입니다.<br>실제 관계는 서로의 노력으로 만들어집니다.</p>
+            <p>このテストは娯楽目的です。<br>実際の関係はお互いの努力で築かれます。</p>
         </footer>
     </div>
 
     <script>
-        // 하트 배경 생성
+        // ハート背景アニメーション
         function createHearts() {
             const container = document.getElementById('heartsContainer');
             for (let i = 0; i < 20; i++) {
@@ -591,28 +591,28 @@
         }
         createHearts();
 
-        // 날짜 선택 옵션 생성
+        // 日付選択の初期化
         function initDateSelects() {
             const currentYear = new Date().getFullYear();
 
             ['year1', 'year2'].forEach(id => {
                 const select = document.getElementById(id);
                 for (let y = currentYear; y >= 1950; y--) {
-                    select.innerHTML += `<option value="${y}">${y}년</option>`;
+                    select.innerHTML += `<option value="${y}">${y}年</option>`;
                 }
             });
 
             ['month1', 'month2'].forEach(id => {
                 const select = document.getElementById(id);
                 for (let m = 1; m <= 12; m++) {
-                    select.innerHTML += `<option value="${m}">${m}월</option>`;
+                    select.innerHTML += `<option value="${m}">${m}月</option>`;
                 }
             });
 
             ['day1', 'day2'].forEach(id => {
                 const select = document.getElementById(id);
                 for (let d = 1; d <= 31; d++) {
-                    select.innerHTML += `<option value="${d}">${d}일</option>`;
+                    select.innerHTML += `<option value="${d}">${d}日</option>`;
                 }
             });
         }
@@ -631,7 +631,7 @@
             const day2 = document.getElementById('day2').value;
 
             if (!name1 || !name2) {
-                showToast('⚠️ 이름을 입력해주세요!');
+                showToast('⚠️ 名前を入力してください！');
                 return;
             }
 
@@ -647,19 +647,19 @@
         }
 
         function calculateResult(name1, name2, birth1, birth2) {
-            // 이름 기반 점수 계산
+            // 名前ベースのスコア計算
             const nameScore = calculateNameScore(name1, name2);
 
-            // 생년월일 기반 점수 계산
+            // 生年月日ベースのスコア計算
             let birthScore = 50;
             if (birth1.year && birth2.year) {
                 birthScore = calculateBirthScore(birth1, birth2);
             }
 
-            // 최종 점수 계산
+            // 最終スコア計算
             const finalScore = Math.round((nameScore * 0.4 + birthScore * 0.6));
 
-            // 카테고리별 점수
+            // カテゴリ別スコア
             const categories = {
                 love: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
                 communication: Math.min(100, Math.max(30, finalScore + randomRange(-15, 15))),
@@ -678,7 +678,7 @@
         }
 
         function calculateNameScore(name1, name2) {
-            // 이름 문자열 기반 시드 생성
+            // 名前文字列からシード生成
             const combined = name1 + name2;
             let hash = 0;
             for (let i = 0; i < combined.length; i++) {
@@ -686,7 +686,7 @@
                 hash = hash & hash;
             }
 
-            // 50-100 사이 점수
+            // 50-100の範囲のスコア
             return 50 + (Math.abs(hash) % 51);
         }
 
@@ -698,14 +698,14 @@
             const m2 = parseInt(birth2.month);
             const d2 = parseInt(birth2.day);
 
-            // 나이 차이 점수
+            // 年齢差スコア
             const ageDiff = Math.abs(y1 - y2);
             let ageScore = 100;
             if (ageDiff > 10) ageScore = 60;
             else if (ageDiff > 5) ageScore = 80;
             else if (ageDiff > 2) ageScore = 90;
 
-            // 월/일 조합 점수
+            // 月日の組み合わせスコア
             const dateHash = (m1 * d1 + m2 * d2) % 100;
             const dateScore = 50 + (dateHash % 51);
 
@@ -723,7 +723,7 @@
             document.getElementById('displayName1').textContent = resultData.name1;
             document.getElementById('displayName2').textContent = resultData.name2;
 
-            // 점수 애니메이션
+            // スコアアニメーション
             const circumference = 2 * Math.PI * 78;
             const offset = circumference - (resultData.score / 100) * circumference;
 
@@ -732,15 +732,15 @@
                 animateNumber('scoreNumber', 0, resultData.score, 1000);
             }, 100);
 
-            // 결과 메시지
+            // 結果メッセージ
             document.getElementById('resultMessage').textContent = getResultMessage(resultData.score);
 
-            // 카테고리 점수
+            // カテゴリスコア
             const catNames = {
-                love: '💗 애정운',
-                communication: '💬 소통력',
-                trust: '🤝 신뢰도',
-                future: '🌟 미래'
+                love: '💗 恋愛運',
+                communication: '💬 コミュニケーション',
+                trust: '🤝 信頼',
+                future: '🌟 未来'
             };
 
             let catHtml = '';
@@ -757,7 +757,7 @@
             }
             document.getElementById('categoryScores').innerHTML = catHtml;
 
-            // 분석 내용
+            // 分析内容
             document.getElementById('analysisSection').innerHTML = generateAnalysis(resultData);
         }
 
@@ -780,38 +780,38 @@
         }
 
         function getResultMessage(score) {
-            if (score >= 90) return "운명적인 만남! 천생연분이에요! 💕";
-            if (score >= 80) return "환상의 궁합! 서로를 위해 태어났어요! ✨";
-            if (score >= 70) return "좋은 궁합! 함께라면 행복해요! 😊";
-            if (score >= 60) return "괜찮은 궁합! 노력하면 더 좋아져요! 💪";
-            if (score >= 50) return "보통 궁합! 서로 이해가 필요해요! 🤔";
-            return "도전적인 궁합! 많은 노력이 필요해요! 💭";
+            if (score >= 90) return "運命的な出会い！天性の相性です！ 💕";
+            if (score >= 80) return "最高の相性！お互いのために生まれてきました！ ✨";
+            if (score >= 70) return "良い相性！一緒なら幸せです！ 😊";
+            if (score >= 60) return "まあまあの相性！努力すればもっと良くなります！ 💪";
+            if (score >= 50) return "普通の相性！お互いの理解が必要です！ 🤔";
+            return "挑戦的な相性！多くの努力が必要です！ 💭";
         }
 
         function generateAnalysis(data) {
             const analyses = [
                 {
-                    title: "💕 두 사람의 케미",
+                    title: "💕 二人のケミストリー",
                     texts: [
-                        `${data.name1}님과 ${data.name2}님은 서로를 보완하는 관계입니다. 한 사람의 부족한 점을 다른 사람이 채워줄 수 있어요.`,
-                        `두 분이 함께할 때 시너지가 발생합니다. 서로의 장점을 살리면 더 큰 결과를 만들 수 있어요.`,
-                        `첫인상과 달리 알면 알수록 매력을 느낄 수 있는 조합입니다.`
+                        `${data.name1}さんと${data.name2}さんはお互いを補完し合う関係です。一人の足りないところを、もう一人が埋めることができます。`,
+                        `二人が一緒にいると相乗効果が生まれます。お互いの長所を活かせば、より大きな成果を作ることができます。`,
+                        `第一印象とは違い、知れば知るほど魅力を感じることができる組み合わせです。`
                     ]
                 },
                 {
-                    title: "💬 소통 스타일",
+                    title: "💬 コミュニケーションスタイル",
                     texts: [
-                        `서로 다른 표현 방식을 가지고 있어요. ${data.name1}님은 더 직접적이고, ${data.name2}님은 더 섬세한 편입니다.`,
-                        `대화할 때 서로의 말을 끝까지 듣는 것이 중요해요. 작은 오해가 큰 갈등이 될 수 있습니다.`,
-                        `솔직한 대화를 나눌수록 관계가 깊어질 거예요.`
+                        `お互い違う表現方法を持っています。${data.name1}さんはより直接的で、${data.name2}さんはより繊細な方です。`,
+                        `会話する時は、お互いの話を最後まで聞くことが重要です。小さな誤解が大きな対立になることがあります。`,
+                        `正直な会話を交わすほど、関係が深まっていきます。`
                     ]
                 },
                 {
-                    title: "✨ 앞으로의 조언",
+                    title: "✨ 今後のアドバイス",
                     texts: [
-                        `서로의 취미나 관심사를 공유해보세요. 새로운 공감대를 발견할 수 있어요.`,
-                        `작은 것에도 감사를 표현하면 관계가 더 좋아집니다.`,
-                        `가끔은 서로에게 시간을 주는 것도 중요해요. 개인 시간도 존중해주세요.`
+                        `お互いの趣味や関心事を共有してみてください。新しい共感を発見できます。`,
+                        `小さなことにも感謝を表現すれば、関係がより良くなります。`,
+                        `時にはお互いに時間を与えることも重要です。個人の時間も尊重してください。`
                     ]
                 }
             ];
@@ -825,18 +825,18 @@
         }
 
         function shareResult() {
-            const text = `💕 ${resultData.name1} ❤️ ${resultData.name2} 궁합 결과\n\n` +
-                        `궁합 점수: ${resultData.score}%\n` +
+            const text = `💕 ${resultData.name1} ❤️ ${resultData.name2} 相性診断結果\n\n` +
+                        `相性スコア: ${resultData.score}%\n` +
                         `${getResultMessage(resultData.score)}\n\n` +
-                        `나도 궁합 확인하기 👉`;
+                        `私も相性を確認する 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: 'AI 궁합 테스트 결과', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                navigator.share({ title: 'AI相性診断結果', text: text }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                    showToast('📋 結果がコピーされました！');
                 });
             }
         }
@@ -852,7 +852,7 @@
             document.getElementById('resultSection').classList.remove('show');
             document.getElementById('inputSection').style.display = 'block';
 
-            // 입력 초기화
+            // 入力のリセット
             document.getElementById('name1').value = '';
             document.getElementById('name2').value = '';
             document.getElementById('year1').value = '';
@@ -862,7 +862,7 @@
             document.getElementById('month2').value = '';
             document.getElementById('day2').value = '';
 
-            // 점수 원 초기화
+            // スコアサークルのリセット
             document.getElementById('progressCircle').style.strokeDashoffset = 490;
             document.getElementById('scoreNumber').textContent = '0%';
         }

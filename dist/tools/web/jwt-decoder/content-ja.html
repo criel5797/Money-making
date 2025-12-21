@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JWT 디코더 - 무료 온라인 JWT 토큰 파서</title>
-    <meta name="description" content="JWT 토큰을 즉시 디코딩하고 검사하세요. 무료 온라인 JWT 디코더로 헤더, 페이로드를 확인하고 토큰 구조를 검증하세요.">
-    <meta name="keywords" content="JWT 디코더, JWT 파서, JSON 웹 토큰, JWT 디버거, 토큰 디코더">
+    <title>JWTデコーダー - 無料オンラインJWTトークンパーサー</title>
+    <meta name="description" content="JWTトークンを即座にデコードして検査します。無料オンラインJWTデコーダーでヘッダー、ペイロードを確認し、トークン構造を検証します。">
+    <meta name="keywords" content="JWTデコーダー, JWTパーサー, JSONウェブトークン, JWTデバッガー, トークンデコーダー">
 
-    <meta property="og:title" content="JWT 디코더 - 무료 온라인 JWT 토큰 파서">
-    <meta property="og:description" content="JWT 토큰을 즉시 디코딩하고 검사하세요.">
+    <meta property="og:title" content="JWTデコーダー - 無料オンラインJWTトークンパーサー">
+    <meta property="og:description" content="JWTトークンを即座にデコードして検査します。">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -332,30 +332,30 @@
         </div>
 
         <header>
-            <h1>JWT 디코더</h1>
-            <p class="subtitle">JSON 웹 토큰을 디코딩하고 검사하세요</p>
+            <h1>JWTデコーダー</h1>
+            <p class="subtitle">JSONウェブトークンをデコードして検査</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="main-card">
             <div class="input-section">
-                <label class="input-label">아래에 JWT 토큰을 붙여넣으세요:</label>
+                <label class="input-label">以下にJWTトークンを貼り付けてください:</label>
                 <textarea id="jwtInput" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"></textarea>
             </div>
 
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-color header"></div>
-                    <span>헤더</span>
+                    <span>ヘッダー</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color payload"></div>
-                    <span>페이로드</span>
+                    <span>ペイロード</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color signature"></div>
-                    <span>서명</span>
+                    <span>署名</span>
                 </div>
             </div>
 
@@ -363,7 +363,7 @@
                 <span class="token-header" id="previewHeader"></span><span class="token-dot">.</span><span class="token-payload" id="previewPayload"></span><span class="token-dot">.</span><span class="token-signature" id="previewSignature"></span>
             </div>
 
-            <button class="decode-btn" onclick="decodeJWT()">토큰 디코딩</button>
+            <button class="decode-btn" onclick="decodeJWT()">トークンをデコード</button>
         </div>
 
         <div id="resultsSection" class="hidden">
@@ -372,8 +372,8 @@
             <div class="results">
                 <div class="result-card">
                     <div class="result-header header-type">
-                        <span>헤더</span>
-                        <button class="btn-copy" onclick="copySection('header')">복사</button>
+                        <span>ヘッダー</span>
+                        <button class="btn-copy" onclick="copySection('header')">コピー</button>
                     </div>
                     <div class="result-content">
                         <pre id="headerContent"></pre>
@@ -382,8 +382,8 @@
 
                 <div class="result-card">
                     <div class="result-header payload-type">
-                        <span>페이로드</span>
-                        <button class="btn-copy" onclick="copySection('payload')">복사</button>
+                        <span>ペイロード</span>
+                        <button class="btn-copy" onclick="copySection('payload')">コピー</button>
                     </div>
                     <div class="result-content">
                         <pre id="payloadContent"></pre>
@@ -392,44 +392,44 @@
             </div>
 
             <div class="signature-section">
-                <div class="signature-header">서명</div>
+                <div class="signature-header">署名</div>
                 <div class="signature-info">
-                    <p>알고리즘: <span class="signature-algo" id="algoDisplay">-</span></p>
-                    <p style="margin-top: 10px;">서명은 JWT 발신자의 신원을 확인하고 메시지가 변경되지 않았음을 보장하는 데 사용됩니다.</p>
-                    <p style="margin-top: 10px; color: var(--warning);">참고: 이 도구는 토큰을 디코딩만 합니다. 서명을 검증하려면 비밀 키 또는 공개 키가 필요합니다.</p>
+                    <p>アルゴリズム: <span class="signature-algo" id="algoDisplay">-</span></p>
+                    <p style="margin-top: 10px;">署名は、送信者の身元を確認し、メッセージが変更されていないことを保証するために使用されます。</p>
+                    <p style="margin-top: 10px; color: var(--warning);">注意: このツールはトークンをデコードするのみです。署名を検証するには、秘密鍵または公開鍵が必要です。</p>
                 </div>
             </div>
 
             <div id="claimsSection" class="info-section">
-                <h3>표준 클레임</h3>
+                <h3>標準クレーム</h3>
                 <table class="claims-table" id="claimsTable"></table>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="info-section">
-            <h3>JWT란 무엇인가요?</h3>
-            <p>JSON 웹 토큰(JWT)은 당사자 간에 정보를 JSON 객체로 안전하게 전송하기 위한 개방형 표준(RFC 7519)입니다. JWT는 웹 애플리케이션에서 인증 및 권한 부여에 일반적으로 사용됩니다.</p>
-            <p>JWT는 점으로 구분된 세 부분으로 구성됩니다:</p>
-            <p>• <strong style="color: var(--header-color);">헤더</strong> - 토큰 유형과 서명 알고리즘을 포함</p>
-            <p>• <strong style="color: var(--payload-color);">페이로드</strong> - 클레임(사용자 데이터 및 메타데이터)을 포함</p>
-            <p>• <strong style="color: var(--signature-color);">서명</strong> - 토큰의 무결성을 검증</p>
+            <h3>JWTとは何ですか？</h3>
+            <p>JSON Web Token（JWT）は、当事者間で情報をJSONオブジェクトとして安全に送信するためのオープンスタンダード（RFC 7519）です。JWTは、Webアプリケーションでの認証と認可に一般的に使用されます。</p>
+            <p>JWTは、ドットで区切られた3つの部分で構成されています：</p>
+            <p>• <strong style="color: var(--header-color);">ヘッダー</strong> - トークンタイプと署名アルゴリズムを含む</p>
+            <p>• <strong style="color: var(--payload-color);">ペイロード</strong> - クレーム（ユーザーデータとメタデータ）を含む</p>
+            <p>• <strong style="color: var(--signature-color);">署名</strong> - トークンの整合性を検証</p>
         </div>
 
         <div class="info-section">
-            <h3>일반적인 JWT 클레임</h3>
-            <p><code>iss</code> - 토큰 발급자</p>
-            <p><code>sub</code> - 주제 (일반적으로 사용자 ID)</p>
-            <p><code>aud</code> - 대상 (의도된 수신자)</p>
-            <p><code>exp</code> - 만료 시간</p>
-            <p><code>nbf</code> - 활성화 시간</p>
-            <p><code>iat</code> - 발급 시간</p>
-            <p><code>jti</code> - JWT ID (고유 식별자)</p>
+            <h3>一般的なJWTクレーム</h3>
+            <p><code>iss</code> - トークン発行者</p>
+            <p><code>sub</code> - 件名（通常はユーザーID）</p>
+            <p><code>aud</code> - 対象者（意図された受信者）</p>
+            <p><code>exp</code> - 有効期限</p>
+            <p><code>nbf</code> - 有効開始時刻</p>
+            <p><code>iat</code> - 発行時刻</p>
+            <p><code>jti</code> - JWT ID（一意の識別子）</p>
         </div>
 
         <footer>
-            <p>개발자를 위해 정성껏 만들었습니다</p>
+            <p>開発者のために丁寧に作りました</p>
         </footer>
     </div>
 
@@ -440,12 +440,12 @@
         let decodedPayload = null;
 
         const standardClaims = {
-            'iss': '발급자',
-            'sub': '주제',
-            'aud': '대상',
-            'exp': '만료 시간',
-            'nbf': '활성화 시간',
-            'iat': '발급 시간',
+            'iss': '発行者',
+            'sub': '件名',
+            'aud': '対象者',
+            'exp': '有効期限',
+            'nbf': '有効開始時刻',
+            'iat': '発行時刻',
             'jti': 'JWT ID'
         };
 
@@ -465,7 +465,7 @@
 
         function formatTimestamp(ts) {
             const date = new Date(ts * 1000);
-            return date.toLocaleString('ko-KR') + ' (' + getRelativeTime(date) + ')';
+            return date.toLocaleString('ja-JP') + ' (' + getRelativeTime(date) + ')';
         }
 
         function getRelativeTime(date) {
@@ -473,10 +473,10 @@
             const diff = date - now;
             const absDiff = Math.abs(diff);
 
-            if (absDiff < 60000) return diff > 0 ? '1분 이내' : '1분 전';
-            if (absDiff < 3600000) return diff > 0 ? `${Math.round(absDiff/60000)}분 후` : `${Math.round(absDiff/60000)}분 전`;
-            if (absDiff < 86400000) return diff > 0 ? `${Math.round(absDiff/3600000)}시간 후` : `${Math.round(absDiff/3600000)}시간 전`;
-            return diff > 0 ? `${Math.round(absDiff/86400000)}일 후` : `${Math.round(absDiff/86400000)}일 전`;
+            if (absDiff < 60000) return diff > 0 ? '1分以内' : '1分前';
+            if (absDiff < 3600000) return diff > 0 ? `${Math.round(absDiff/60000)}分後` : `${Math.round(absDiff/60000)}分前`;
+            if (absDiff < 86400000) return diff > 0 ? `${Math.round(absDiff/3600000)}時間後` : `${Math.round(absDiff/3600000)}時間前`;
+            return diff > 0 ? `${Math.round(absDiff/86400000)}日後` : `${Math.round(absDiff/86400000)}日前`;
         }
 
         function updatePreview() {
@@ -499,7 +499,7 @@
             const parts = jwt.split('.');
 
             if (parts.length !== 3) {
-                showToast('잘못된 JWT 형식입니다');
+                showToast('無効なJWT形式です');
                 return;
             }
 
@@ -509,15 +509,15 @@
 
                 document.getElementById('headerContent').textContent = formatJSON(decodedHeader);
                 document.getElementById('payloadContent').textContent = formatJSON(decodedPayload);
-                document.getElementById('algoDisplay').textContent = decodedHeader.alg || '알 수 없음';
+                document.getElementById('algoDisplay').textContent = decodedHeader.alg || '不明';
 
                 buildClaimsTable();
                 checkTokenStatus();
 
                 document.getElementById('resultsSection').classList.remove('hidden');
-                showToast('토큰 디코딩 완료!');
+                showToast('トークンのデコードが完了しました!');
             } catch (e) {
-                showToast('토큰 디코딩 실패');
+                showToast('トークンのデコードに失敗しました');
                 console.error(e);
             }
         }
@@ -550,12 +550,12 @@
                 const now = new Date();
 
                 if (expDate < now) {
-                    container.innerHTML = '<span class="status-badge status-expired">토큰 만료됨</span>';
+                    container.innerHTML = '<span class="status-badge status-expired">トークンが期限切れです</span>';
                 } else {
-                    container.innerHTML = '<span class="status-badge status-valid">토큰 유효함 (만료되지 않음)</span>';
+                    container.innerHTML = '<span class="status-badge status-valid">トークンは有効です（期限切れではありません）</span>';
                 }
             } else {
-                container.innerHTML = '<span class="status-badge status-warning">만료 시간 미설정</span>';
+                container.innerHTML = '<span class="status-badge status-warning">有効期限が設定されていません</span>';
             }
         }
 
@@ -567,7 +567,7 @@
                 text = formatJSON(decodedPayload);
             }
             navigator.clipboard.writeText(text);
-            showToast('복사됨!');
+            showToast('コピーしました!');
         }
 
         function showToast(msg) {

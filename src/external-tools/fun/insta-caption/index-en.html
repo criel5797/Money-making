@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Instagram Caption Generator - Emotional Phrases & Auto Hashtags</title>
+    <meta name="description" content="When you're stuck on Instagram captions! AI automatically generates emotional phrases and hashtags. Customized captions for travel, cafe, daily life, OOTD, and more.">
+    <meta name="keywords" content="instagram caption, instagram phrases, emotional captions, hashtag generator, instagram quotes, SNS captions">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --bg-card: rgba(255,255,255,0.95);
+            --text-primary: #262626;
+            --text-secondary: #666666;
+            --accent: #e1306c;
+            --accent2: #833ab4;
+            --accent3: #fd1d1d;
+            --purple: #833ab4;
+            --pink: #e1306c;
+            --orange: #f77737;
+            --yellow: #fcaf45;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 25px;
+            color: white;
+        }
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .ad-banner {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin: 15px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .main-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .category-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .category-scroll::-webkit-scrollbar { height: 0; }
+
+        .category-chip {
+            flex-shrink: 0;
+            padding: 12px 20px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .category-chip:hover {
+            background: #eee;
+        }
+        .category-chip.selected {
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            color: white;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 400px) {
+            .mood-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .mood-btn {
+            padding: 12px 8px;
+            background: #f5f5f5;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        .mood-btn:hover { background: #eee; }
+        .mood-btn.selected {
+            border-color: var(--accent);
+            background: #fef2f5;
+        }
+        .mood-emoji { font-size: 1.3rem; margin-bottom: 4px; }
+
+        .input-group { margin-bottom: 20px; }
+        .input-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #eee;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: none;
+            min-height: 80px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        textarea::placeholder { color: #aaa; }
+
+        .generate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, var(--purple), var(--pink), var(--orange));
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(225, 48, 108, 0.4);
+        }
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .results-section.show { display: block; }
+
+        .result-card {
+            background: #fafafa;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .result-caption {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+        }
+        .result-hashtags {
+            color: #00376b;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+        .result-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .more-btn {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .more-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tips-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .tips-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--purple);
+        }
+        .tips-list {
+            list-style: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .tips-list li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .tips-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        footer a { color: white; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 25px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            font-size: 0.95rem;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">📸</div>
+            <h1>AI Instagram Caption</h1>
+            <p class="subtitle">Perfect emotional phrases + auto-generated hashtags</p>
+        </header>
+
+        <div class="ad-banner">Ad Space</div>
+
+        <div class="main-card">
+            <div class="section-title">📌 What kind of photo?</div>
+            <div class="category-scroll" id="categoryScroll">
+                <button class="category-chip selected" onclick="selectCategory(this)" data-cat="daily">Daily</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="cafe">Cafe</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="travel">Travel</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="food">Food</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="ootd">OOTD</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="selfie">Selfie</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="nature">Nature</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="pet">Pet</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="fitness">Fitness</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="couple">Couple</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="friend">Friends</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="work">Work/Study</button>
+            </div>
+
+            <div class="section-title">💭 What vibe?</div>
+            <div class="mood-grid" id="moodGrid">
+                <button class="mood-btn selected" onclick="selectMood(this)" data-mood="emotional">
+                    <div class="mood-emoji">🌙</div>
+                    <div>Emotional</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="happy">
+                    <div class="mood-emoji">✨</div>
+                    <div>Happy</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="funny">
+                    <div class="mood-emoji">😆</div>
+                    <div>Funny</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="chill">
+                    <div class="mood-emoji">☕</div>
+                    <div>Chill</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="aesthetic">
+                    <div class="mood-emoji">🎨</div>
+                    <div>Aesthetic</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="minimal">
+                    <div class="mood-emoji">🤍</div>
+                    <div>Minimal</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="motivation">
+                    <div class="mood-emoji">💪</div>
+                    <div>Motivation</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="love">
+                    <div class="mood-emoji">💕</div>
+                    <div>Love</div>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">✍️ Additional info (optional)</label>
+                <textarea id="additionalInfo" placeholder="e.g., Sunrise Peak in Jeju, trip with friends, nice weather"></textarea>
+            </div>
+
+            <button class="generate-btn" id="generateBtn" onclick="generate()">
+                ✨ Generate Caption
+            </button>
+
+            <div class="results-section" id="resultsSection">
+                <div id="resultsContainer"></div>
+                <button class="more-btn" onclick="generate()">🔄 Generate Different Caption</button>
+            </div>
+        </main-card>
+
+        <div class="ad-banner">Ad Space</div>
+
+        <div class="tips-card">
+            <div class="tips-title">💡 Instagram Tips</div>
+            <ul class="tips-list">
+                <li>20-30 hashtags is optimal</li>
+                <li>First line matters most! Make it intriguing</li>
+                <li>Use emojis appropriately to stand out</li>
+                <li>Best posting times: Lunch (12pm), Evening (7-9pm)!</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Complete your Instagram aesthetic here 📸</p>
+            <p style="margin-top: 8px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let selectedCategory = 'daily';
+        let selectedMood = 'emotional';
+
+        const captionTemplates = {
+            daily: {
+                emotional: [
+                    "Living my own way today ✨\nGrateful for the little things",
+                    "When ordinary days become special 🌙\nThese moments make up a life",
+                    "When everyday becomes an adventure\nEvery day brings new discoveries ☁️",
+                    "This moment will be tomorrow's memory\nTrying to live my best today 💫"
+                ],
+                happy: [
+                    "Feeling amazing today 💛\nHappy for no reason!",
+                    "Simple but certain happiness ✨\nI love days like this",
+                    "Happiness isn't far away\nIt's right here, right now 💕"
+                ],
+                funny: [
+                    "Today's TMI: Tired even though I did nothing 😴",
+                    "I hate Mondays (feels like Monday every day)\nBut gotta live lol",
+                    "Living my best life\n(lying down)"
+                ],
+                minimal: [
+                    "today.",
+                    "✨",
+                    "just today"
+                ]
+            },
+            cafe: {
+                emotional: [
+                    "A moment with coffee ☕\nThis time keeps me going",
+                    "Sweet and bitter afternoon\nCaffeine and emotions recharged ✨",
+                    "Lost in thought by the window\nI love this peaceful time 🌙"
+                ],
+                chill: [
+                    "Coffee time? ☕️\nHappiness in a leisurely afternoon",
+                    "My time at the cafe\nThis is true healing ✨",
+                    "With just a cup of americano\nFeeling like I have the world 💫"
+                ],
+                aesthetic: [
+                    "light & coffee ☕\n",
+                    "mood: cafe vibes ✨",
+                    "coffee o'clock ⏰☕"
+                ]
+            },
+            travel: {
+                emotional: [
+                    "Travel is meeting another me ✈️\nUnfamiliar happiness in strange places",
+                    "Things you only know when you leave\nI'll remember this moment forever 🌏",
+                    "A new world beyond daily life\nHere I am free ✨"
+                ],
+                happy: [
+                    "Calories don't count when traveling 🍽️\nEat and eat again!",
+                    "This place is insane 🤯\nPhotos can't capture 1% of it",
+                    "Got the perfect shot 📸\nFeeling happy every trip ✨"
+                ],
+                aesthetic: [
+                    "somewhere new ✈️",
+                    "wanderlust 🌍",
+                    "lost in the moment ✨"
+                ]
+            },
+            food: {
+                emotional: [
+                    "All worries disappear before delicious food 🍽️\nHappiness recharged today",
+                    "How do I describe this taste\nJust... pure happiness ✨"
+                ],
+                happy: [
+                    "Calories don't count if it's delicious 🍕\nAte happily today",
+                    "This is a real gem 😋\nI'll be back!",
+                    "Food is what remains 🍜\nLife is short, restaurants are many"
+                ],
+                funny: [
+                    "Diet starts tomorrow (every tomorrow)",
+                    "Should I start a mukbang channel?\nSubscribe like and hit the bell 🔔",
+                    "Stomach is full but heart is still hungry"
+                ]
+            },
+            ootd: {
+                emotional: [
+                    "Today's me, today's outfit 👗\nStyle is my language",
+                    "Today's mood found in the closet ✨",
+                    "Being myself is the coolest 💫"
+                ],
+                aesthetic: [
+                    "today's fit ✨",
+                    "details 👀",
+                    "simple but not boring"
+                ],
+                minimal: [
+                    "ootd.",
+                    "🖤",
+                    "daily look"
+                ]
+            },
+            selfie: {
+                emotional: [
+                    "Met my eyes in the mirror 👀\nYou did well today",
+                    "I like myself as I am ✨\nBeing me today too"
+                ],
+                happy: [
+                    "Feeling amazing today 📸\nGotta take selfies on days like this",
+                    "Mirror mirror, who's the prettiest?\nMe. 🪞✨"
+                ],
+                funny: [
+                    "1 out of 100 shots\nResult of hard work 📸",
+                    "I'm prettier in person (not)\nJust photo magic lol",
+                    "Good hair day = life shot"
+                ]
+            },
+            nature: {
+                emotional: [
+                    "Before nature I feel small\nBut my heart feels bigger 🌿",
+                    "No words needed before this view\nJust looking is enough ✨",
+                    "Nature's comfort exists\nTime to sort out complicated feelings 🍃"
+                ],
+                chill: [
+                    "Peace found in nature 🌲\nNeeded this time",
+                    "Healing beyond the city 💚\nFeels like I can breathe"
+                ]
+            },
+            pet: {
+                emotional: [
+                    "Happy because of you 🐾\nEvery day is a gift",
+                    "We understand without words 💕\nMost precious being in the world"
+                ],
+                happy: [
+                    "Cuteness overload today 💣💕\nHang in there heart",
+                    "This cutie is mine 🥹\nSee them every day but always new"
+                ],
+                love: [
+                    "Love you my baby 💕\nYou're the best gift of my life",
+                    "Magic of happiness just seeing you ✨\nLet's be together forever 🐾"
+                ]
+            },
+            couple: {
+                emotional: [
+                    "Today shines because I'm with you 💑\nEvery moment is special",
+                    "Love is walking together\nSide by side today too ✨"
+                ],
+                love: [
+                    "My favorite person in the world 💕\nToday, tomorrow, forever",
+                    "Glad it's you 💑\nThank you every day, I love you"
+                ],
+                happy: [
+                    "Our lovegram today too 📸💕\nOkay to show off when happy right?",
+                    "Best date ever 💑\nSee you again (person I see every day)"
+                ]
+            },
+            friend: {
+                emotional: [
+                    "Moments that shine more together ✨\nThank you friend",
+                    "Our friendship doesn't change with time\nFriends forever 💫"
+                ],
+                happy: [
+                    "Time with best friends 💛\nI love days like this!",
+                    "When we meet = laughter explosion 😂\nAs expected today"
+                ],
+                funny: [
+                    "Friend = someone to be silly with\nBeing silly hard today 🤪",
+                    "This combo is real 👯‍♀️\nPlease take care of us lol"
+                ]
+            },
+            fitness: {
+                motivation: [
+                    "Pushing beyond limits today 💪\nGetting stronger than yesterday",
+                    "I know sweat doesn't betray\nDid my best today 🏋️",
+                    "When you want to give up is when you grow\nHang in there a bit more 🔥"
+                ],
+                happy: [
+                    "Satisfaction after workout 😤💪\nThis is why I exercise",
+                    "Workout done! 🏋️‍♀️\nLived hard today"
+                ]
+            },
+            work: {
+                emotional: [
+                    "Running hard today too 💼\nOne step at a time toward dreams",
+                    "Today's effort creates tomorrow's me\nFighting 🌟"
+                ],
+                motivation: [
+                    "I can do it, I can do it, I can do it 💪\nFighting today!",
+                    "Growth is uncomfortable\nBut moving forward anyway 🚀"
+                ],
+                funny: [
+                    "Want to be paid to relax but\nWorking hard now 💼",
+                    "When is quitting time? (just clocked in)\nBut fighting... 🥲"
+                ]
+            }
+        };
+
+        const hashtagSets = {
+            daily: ['#daily', '#dailylife', '#dailygram', '#instadaily', '#photooftheday', '#today', '#life', '#instagood', '#follow', '#like', '#photography', '#mood', '#instagram'],
+            cafe: ['#cafe', '#cafestagram', '#coffee', '#coffeetime', '#coffeelover', '#coffeeaddict', '#cafehop', '#cafevibes', '#americano', '#latte', '#coffeegram', '#☕'],
+            travel: ['#travel', '#travelphotography', '#traveling', '#instatravel', '#trip', '#wanderlust', '#adventure', '#explore', '#vacation', '#tourism', '#travelgram', '#✈️'],
+            food: ['#food', '#foodstagram', '#instafood', '#foodie', '#foodporn', '#foodlover', '#yummy', '#delicious', '#foodphotography', '#eating', '#foodgram', '#tasty'],
+            ootd: ['#ootd', '#fashion', '#style', '#outfit', '#fashionstagram', #dailylook', '#fashiongram', '#outfitoftheday', '#styling', '#fashionista', '#look'],
+            selfie: ['#selfie', '#selca', '#me', '#portrait', '#selfietime', '#selfiegram', '#selfieoftheday', '#instaselfie', '#face', '#myself'],
+            nature: ['#nature', '#naturephotography', '#landscape', '#scenery', #view', '#naturegram', '#sky', '#sunset', '#beautiful', '#peaceful', '#outdoor'],
+            pet: ['#pet', '#petstagram', '#dogstagram', '#catstagram', '#dog', '#cat', '#puppy', '#kitten', '#cute', '#animal', '#petlover', '#🐾'],
+            fitness: ['#fitness', '#workout', '#gym', '#fitnessmotivation', '#training', '#exercise', '#fit', '#gymlife', '#fitfam', '#健康', '#health', '#💪'],
+            couple: ['#couple', #love', '#couplegoals', '#relationship', '#together', '#boyfriend', '#girlfriend', '#lovestagram', '#romance', '#💕'],
+            friend: ['#friends', '#friendship', '#bestfriends', '#squad', '#friendshipgoals', '#bff', '#together', '#memories', '#goodtimes', '#💛'],
+            work: ['#work', '#office', '#working', '#business', '#career', '#motivation', '#success', '#goals', '#hustle', '#grind', '#professional']
+        };
+
+        function selectCategory(el) {
+            document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedCategory = el.dataset.cat;
+        }
+
+        function selectMood(el) {
+            document.querySelectorAll('.mood-btn').forEach(m => m.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedMood = el.dataset.mood;
+        }
+
+        function generate() {
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Generating...';
+
+            setTimeout(() => {
+                const captions = generateCaptions();
+                displayResults(captions);
+                btn.disabled = false;
+                btn.innerHTML = '✨ Generate Caption';
+            }, 1200);
+        }
+
+        function generateCaptions() {
+            const templates = captionTemplates[selectedCategory]?.[selectedMood] ||
+                             captionTemplates[selectedCategory]?.emotional ||
+                             captionTemplates.daily.emotional;
+
+            const hashtags = hashtagSets[selectedCategory] || hashtagSets.daily;
+            const additionalInfo = document.getElementById('additionalInfo').value;
+
+            // Shuffle and pick 3
+            const shuffled = [...templates].sort(() => Math.random() - 0.5);
+            const selectedCaptions = shuffled.slice(0, 3);
+
+            return selectedCaptions.map(caption => {
+                // Add additional info if provided
+                let finalCaption = caption;
+                if (additionalInfo) {
+                    finalCaption = caption + '\n\n📍 ' + additionalInfo;
+                }
+
+                // Generate hashtags
+                const shuffledTags = [...hashtags].sort(() => Math.random() - 0.5);
+                const selectedTags = shuffledTags.slice(0, 12);
+
+                return {
+                    caption: finalCaption,
+                    hashtags: selectedTags.join(' ')
+                };
+            });
+        }
+
+        function displayResults(captions) {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = captions.map((item, i) => `
+                <div class="result-card">
+                    <div class="result-caption">${item.caption}</div>
+                    <div class="result-hashtags">${item.hashtags}</div>
+                    <div class="result-actions">
+                        <button class="action-btn" onclick="copyCaption(${i})">📋 Copy Caption</button>
+                        <button class="action-btn" onclick="copyAll(${i})">📎 Copy All</button>
+                    </div>
+                </div>
+            `).join('');
+
+            window.generatedCaptions = captions;
+            document.getElementById('resultsSection').classList.add('show');
+            showToast('Caption generated! ✨');
+        }
+
+        function copyCaption(index) {
+            const caption = window.generatedCaptions[index].caption;
+            navigator.clipboard.writeText(caption);
+            showToast('Caption copied!');
+        }
+
+        function copyAll(index) {
+            const item = window.generatedCaptions[index];
+            const text = item.caption + '\n\n' + item.hashtags;
+            navigator.clipboard.writeText(text);
+            showToast('Caption + hashtags copied!');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>

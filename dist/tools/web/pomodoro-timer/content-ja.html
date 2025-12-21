@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>뽀모도로 타이머 - 무료 온라인 집중 타이머 | 생산성 도구</title>
-    <meta name="description" content="무료 온라인 뽀모도로 타이머로 생산성을 높이세요. 25분 집중, 휴식, 더 많은 일을 해내세요. 간단한 타이머로 작업 세션을 추적하세요.">
-    <meta name="keywords" content="뽀모도로 타이머, 집중 타이머, 생산성 타이머, 작업 타이머, 공부 타이머, 집중력">
+    <title>ポモドーロタイマー - 無料オンライン集中タイマー | 生産性ツール</title>
+    <meta name="description" content="無料のオンラインポモドーロタイマーで生産性を向上させましょう。25分間集中、休憩、そしてもっと多くのことを成し遂げましょう。シンプルなタイマーで作業セッションを追跡します。">
+    <meta name="keywords" content="ポモドーロタイマー, 集中タイマー, 生産性タイマー, 作業タイマー, 勉強タイマー, 集中力">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="뽀모도로 타이머 - 무료 온라인 집중 타이머">
-    <meta property="og:description" content="25분 집중, 휴식, 생산성 향상.">
+    <meta property="og:title" content="ポモドーロタイマー - 無料オンライン集中タイマー">
+    <meta property="og:description" content="25分間の集中、休憩、生産性向上">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -17,7 +17,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -27,7 +27,7 @@
         }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -367,24 +367,24 @@
 <body class="focus">
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="index-ko.html">한국어</a>
         </div>
 
         <header>
-            <h1>뽀모도로 타이머</h1>
-            <p class="subtitle">집중하고 생산성을 높이세요</p>
+            <h1>ポモドーロタイマー</h1>
+            <p class="subtitle">集中して生産性を向上</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="mode-tabs">
-            <button class="mode-tab active" onclick="setMode('focus')">집중</button>
-            <button class="mode-tab" onclick="setMode('short-break')">짧은 휴식</button>
-            <button class="mode-tab" onclick="setMode('long-break')">긴 휴식</button>
+            <button class="mode-tab active" onclick="setMode('focus')">集中</button>
+            <button class="mode-tab" onclick="setMode('short-break')">短い休憩</button>
+            <button class="mode-tab" onclick="setMode('long-break')">長い休憩</button>
         </div>
 
         <div class="task-input-container">
-            <input type="text" class="task-input" id="taskInput" placeholder="무엇을 하고 계신가요?">
+            <input type="text" class="task-input" id="taskInput" placeholder="何をしていますか？">
         </div>
 
         <div class="timer-container">
@@ -395,17 +395,17 @@
                         stroke-dasharray="942" stroke-dashoffset="0"/>
                 </svg>
                 <div class="time-display" id="timeDisplay">25:00</div>
-                <div class="session-label" id="sessionLabel">집중 시간</div>
+                <div class="session-label" id="sessionLabel">集中時間</div>
             </div>
 
             <div class="controls">
-                <button class="control-btn" onclick="resetTimer()" title="리셋">
+                <button class="control-btn" onclick="resetTimer()" title="リセット">
                     &#8634;
                 </button>
                 <button class="control-btn primary" id="playPauseBtn" onclick="toggleTimer()">
                     &#9654;
                 </button>
-                <button class="control-btn" onclick="skipSession()" title="건너뛰기">
+                <button class="control-btn" onclick="skipSession()" title="スキップ">
                     &#9197;
                 </button>
             </div>
@@ -414,44 +414,44 @@
         <div class="stats-bar">
             <div class="stat-item">
                 <div class="stat-value" id="completedSessions">0</div>
-                <div class="stat-label">세션</div>
+                <div class="stat-label">セッション</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value" id="totalMinutes">0</div>
-                <div class="stat-label">분</div>
+                <div class="stat-label">分</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value" id="streak">0</div>
-                <div class="stat-label">연속</div>
+                <div class="stat-label">連続</div>
             </div>
         </div>
 
-        <button class="toggle-settings" onclick="toggleSettings()">&#9881; 설정</button>
+        <button class="toggle-settings" onclick="toggleSettings()">&#9881; 設定</button>
 
         <div class="settings-panel" id="settingsPanel">
-            <div class="settings-title">타이머 설정 (분)</div>
+            <div class="settings-title">タイマー設定（分）</div>
             <div class="setting-row">
-                <span class="setting-label">집중 시간</span>
+                <span class="setting-label">集中時間</span>
                 <input type="number" class="setting-input" id="focusDuration" value="25" min="1" max="60" onchange="updateSettings()">
             </div>
             <div class="setting-row">
-                <span class="setting-label">짧은 휴식</span>
+                <span class="setting-label">短い休憩</span>
                 <input type="number" class="setting-input" id="shortBreakDuration" value="5" min="1" max="30" onchange="updateSettings()">
             </div>
             <div class="setting-row">
-                <span class="setting-label">긴 휴식</span>
+                <span class="setting-label">長い休憩</span>
                 <input type="number" class="setting-input" id="longBreakDuration" value="15" min="1" max="60" onchange="updateSettings()">
             </div>
             <div class="setting-row">
-                <span class="setting-label">긴 휴식 전 세션 수</span>
+                <span class="setting-label">長い休憩前のセッション数</span>
                 <input type="number" class="setting-input" id="sessionsBeforeLong" value="4" min="1" max="10" onchange="updateSettings()">
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>무료 뽀모도로 타이머 | 집중하고, 생산적이 되세요</p>
+            <p>無料ポモドーロタイマー | 集中して生産的に</p>
         </footer>
     </div>
 
@@ -488,7 +488,7 @@
             const offset = circumference * (1 - progress);
             document.getElementById('progressCircle').style.strokeDashoffset = offset;
 
-            document.title = `${formatTime(timeRemaining)} - 뽀모도로 타이머`;
+            document.title = `${formatTime(timeRemaining)} - ポモドーロタイマー`;
         }
 
         function setMode(mode) {
@@ -503,9 +503,9 @@
             document.body.className = mode;
 
             const labels = {
-                'focus': '집중 시간',
-                'short-break': '짧은 휴식',
-                'long-break': '긴 휴식'
+                'focus': '集中時間',
+                'short-break': '短い休憩',
+                'long-break': '長い休憩'
             };
             document.getElementById('sessionLabel').textContent = labels[mode];
 
@@ -593,8 +593,8 @@
 
         function playNotification() {
             if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('뽀모도로 타이머', {
-                    body: currentMode === 'focus' ? '잘 하셨어요! 휴식 시간입니다.' : '휴식 끝! 다시 집중할 준비 됐나요?',
+                new Notification('ポモドーロタイマー', {
+                    body: currentMode === 'focus' ? '素晴らしい！休憩時間です。' : '休憩終了！再び集中する準備はできましたか？',
                     icon: '🍅'
                 });
             }
@@ -614,7 +614,7 @@
                 oscillator.start();
                 setTimeout(() => oscillator.stop(), 200);
             } catch (e) {
-                console.log('오디오 지원 안됨');
+                console.log('オーディオサポートなし');
             }
         }
 

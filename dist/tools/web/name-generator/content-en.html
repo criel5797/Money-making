@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>랜덤 이름 생성기 - 무료 가짜 이름 생성 도구</title>
-    <meta name="description" content="무료 랜덤 이름 생성기. 테스트, 캐릭터, 익명성을 위한 가짜 이름을 생성하세요. 실감나는 이름과 성을 즉시 만들어드립니다.">
-    <meta name="keywords" content="랜덤 이름 생성기, 가짜 이름, 이름 생성기, 캐릭터 이름, 테스트 데이터">
+    <title>Random Name Generator - Free Fake Name Tool</title>
+    <meta name="description" content="Free Random Name Generator. Generate fake names for testing, characters, or anonymity. Create realistic first and last names instantly.">
+    <meta name="keywords" content="random name generator, fake names, name generator, character names, test data">
 
-    <meta property="og:title" content="랜덤 이름 생성기 - 무료 가짜 이름 도구">
-    <meta property="og:description" content="실감나는 랜덤 이름을 즉시 생성하세요. 테스트나 캐릭터에 완벽.">
+    <meta property="og:title" content="Random Name Generator - Free Fake Name Tool">
+    <meta property="og:description" content="Generate realistic random names instantly. Perfect for testing or characters.">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -213,65 +213,65 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">한국어</a>
             </div>
-            <h1>랜덤 이름 생성기</h1>
-            <p class="subtitle">실감나는 랜덤 이름을 즉시 생성</p>
+            <h1>Random Name Generator</h1>
+            <p class="subtitle">Generate realistic random names instantly</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="card">
             <div class="options-grid">
                 <div class="option-group">
-                    <label>이름 유형</label>
+                    <label>Name Type</label>
                     <select id="nameType">
-                        <option value="full">전체 이름</option>
-                        <option value="first">이름만</option>
-                        <option value="last">성만</option>
+                        <option value="full">Full Name</option>
+                        <option value="first">First Name Only</option>
+                        <option value="last">Last Name Only</option>
                     </select>
                 </div>
                 <div class="option-group">
-                    <label>성별</label>
+                    <label>Gender</label>
                     <select id="gender">
-                        <option value="random">랜덤</option>
-                        <option value="male">남성</option>
-                        <option value="female">여성</option>
+                        <option value="random">Random</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                     </select>
                 </div>
                 <div class="option-group">
-                    <label>스타일</label>
+                    <label>Style</label>
                     <select id="style">
-                        <option value="korean">한국 이름</option>
-                        <option value="common">일반 영어</option>
-                        <option value="classic">클래식 영어</option>
-                        <option value="fantasy">판타지</option>
+                        <option value="common">Common English</option>
+                        <option value="classic">Classic English</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="korean">Korean Names</option>
                     </select>
                 </div>
                 <div class="option-group">
-                    <label>생성 개수</label>
+                    <label>Number to Generate</label>
                     <input type="number" id="count" value="10" min="1" max="100">
                 </div>
             </div>
 
             <div class="controls">
-                <button class="btn btn-primary" onclick="generateNames()">이름 생성</button>
-                <button class="btn btn-secondary" onclick="clearNames()">지우기</button>
+                <button class="btn btn-primary" onclick="generateNames()">Generate Names</button>
+                <button class="btn btn-secondary" onclick="clearNames()">Clear</button>
             </div>
         </div>
 
         <div class="card" id="resultsCard">
             <div class="results-header">
-                <h3>생성된 이름</h3>
+                <h3>Generated Names</h3>
                 <div class="results-actions">
-                    <button class="btn btn-small btn-secondary" onclick="copyAllNames()">모두 복사</button>
-                    <button class="btn btn-small btn-secondary" onclick="downloadNames()">다운로드</button>
+                    <button class="btn btn-small btn-secondary" onclick="copyAllNames()">Copy All</button>
+                    <button class="btn btn-small btn-secondary" onclick="downloadNames()">Download</button>
                 </div>
             </div>
 
             <div class="empty-state" id="emptyState">
                 <div class="icon">&#128100;</div>
-                <p>"이름 생성" 버튼을 클릭하여 랜덤 이름을 만드세요</p>
+                <p>Click "Generate Names" to create random names</p>
             </div>
 
             <div class="names-grid" id="namesGrid"></div>
@@ -280,34 +280,34 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#127919;</div>
-                <h3>다양한 스타일</h3>
-                <p>한국, 영어, 클래식, 판타지 이름 스타일</p>
+                <h3>Multiple Styles</h3>
+                <p>Korean, English, Classic, and Fantasy name styles</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128100;</div>
-                <h3>성별 옵션</h3>
-                <p>남성, 여성, 또는 랜덤 성별 이름 생성</p>
+                <h3>Gender Options</h3>
+                <p>Generate male, female, or random gender names</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128203;</div>
-                <h3>대량 생성</h3>
-                <p>한 번에 최대 100개의 이름 생성</p>
+                <h3>Bulk Generation</h3>
+                <p>Generate up to 100 names at once</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128190;</div>
-                <h3>쉬운 내보내기</h3>
-                <p>생성된 이름 복사 또는 다운로드</p>
+                <h3>Easy Export</h3>
+                <p>Copy or download generated names</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 랜덤 이름 생성기 | 테스트, 캐릭터 등에 완벽</p>
+            <p>Free Random Name Generator | Perfect for testing, characters, and more</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         const nameData = {
@@ -390,7 +390,7 @@
             }
 
             displayNames();
-            showToast(`${count}개 이름 생성됨!`);
+            showToast(`${count} names generated!`);
         }
 
         function displayNames() {
@@ -408,8 +408,8 @@
                 <div class="name-card" onclick="copyName(${index}, this)">
                     <div class="name-full">${item.name}</div>
                     <div class="name-meta">
-                        <span>${item.gender === 'male' ? '♂' : '♀'} ${item.gender === 'male' ? '남성' : '여성'}</span>
-                        <span>클릭하여 복사</span>
+                        <span>${item.gender === 'male' ? '♂' : '♀'} ${item.gender === 'male' ? 'Male' : 'Female'}</span>
+                        <span>Click to copy</span>
                     </div>
                 </div>
             `).join('');
@@ -420,24 +420,24 @@
             navigator.clipboard.writeText(name).then(() => {
                 element.classList.add('copied');
                 setTimeout(() => element.classList.remove('copied'), 1000);
-                showToast(`복사됨: ${name}`);
+                showToast(`Copied: ${name}`);
             });
         }
 
         function copyAllNames() {
             if (generatedNames.length === 0) {
-                showToast('복사할 이름이 없습니다');
+                showToast('No names to copy');
                 return;
             }
             const text = generatedNames.map(n => n.name).join('\n');
             navigator.clipboard.writeText(text).then(() => {
-                showToast('모든 이름 복사됨!');
+                showToast('All names copied!');
             });
         }
 
         function downloadNames() {
             if (generatedNames.length === 0) {
-                showToast('다운로드할 이름이 없습니다');
+                showToast('No names to download');
                 return;
             }
             const text = generatedNames.map(n => n.name).join('\n');
@@ -448,7 +448,7 @@
             a.download = 'random-names.txt';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드됨!');
+            showToast('Downloaded!');
         }
 
         function clearNames() {

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポモドーロタイマー - 無料オンライン集中タイマー | 生産性ツール</title>
+    <meta name="description" content="無料のオンラインポモドーロタイマーで生産性を向上させましょう。25分間集中、休憩、そしてもっと多くのことを成し遂げましょう。シンプルなタイマーで作業セッションを追跡します。">
+    <meta name="keywords" content="ポモドーロタイマー, 集中タイマー, 生産性タイマー, 作業タイマー, 勉強タイマー, 集中力">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="ポモドーロタイマー - 無料オンライン集中タイマー">
+    <meta property="og:description" content="25分間の集中、休憩、生産性向上">
+    <meta property="og:type" content="website">
+
+    <link rel="alternate" hreflang="en" href="index.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.5s;
+        }
+
+        body.focus {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        body.short-break {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+
+        body.long-break {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lang-switch {
+            text-align: right;
+            padding: 10px 0;
+        }
+
+        .lang-switch a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .lang-switch a:hover {
+            color: white;
+            border-color: white;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .mode-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .mode-tab {
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-tab:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .mode-tab.active {
+            background: white;
+            color: #333;
+        }
+
+        .timer-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timer-circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timer-circle::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            border: 5px solid rgba(255,255,255,0.3);
+        }
+
+        .timer-circle svg {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 310px;
+            height: 310px;
+            transform: rotate(-90deg);
+        }
+
+        .timer-circle circle {
+            fill: none;
+            stroke-width: 5;
+        }
+
+        .timer-circle .progress {
+            stroke: white;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .time-display {
+            font-size: 72px;
+            font-weight: 700;
+            color: white;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .session-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .control-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid white;
+            background: transparent;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            background: white;
+            color: #333;
+        }
+
+        .control-btn.primary {
+            width: 90px;
+            height: 90px;
+            background: white;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .control-btn.primary:hover {
+            transform: scale(1.05);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 5px;
+        }
+
+        .settings-panel {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .settings-panel.show {
+            display: block;
+        }
+
+        .settings-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            color: white;
+        }
+
+        .setting-input {
+            width: 80px;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .setting-input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.3);
+        }
+
+        .toggle-settings {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .toggle-settings:hover {
+            opacity: 1;
+        }
+
+        .task-input-container {
+            margin-bottom: 20px;
+        }
+
+        .task-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .task-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .task-input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .timer-circle { width: 250px; height: 250px; }
+            .timer-circle svg { width: 260px; height: 260px; }
+            .time-display { font-size: 56px; }
+            .stats-bar { gap: 20px; }
+        }
+    </style>
+</head>
+<body class="focus">
+    <div class="container">
+        <div class="lang-switch">
+            <a href="index-ko.html">한국어</a>
+        </div>
+
+        <header>
+            <h1>ポモドーロタイマー</h1>
+            <p class="subtitle">集中して生産性を向上</p>
+        </header>
+
+        <div class="ad-banner">広告</div>
+
+        <div class="mode-tabs">
+            <button class="mode-tab active" onclick="setMode('focus')">集中</button>
+            <button class="mode-tab" onclick="setMode('short-break')">短い休憩</button>
+            <button class="mode-tab" onclick="setMode('long-break')">長い休憩</button>
+        </div>
+
+        <div class="task-input-container">
+            <input type="text" class="task-input" id="taskInput" placeholder="何をしていますか？">
+        </div>
+
+        <div class="timer-container">
+            <div class="timer-circle">
+                <svg viewBox="0 0 310 310">
+                    <circle cx="155" cy="155" r="150" stroke="rgba(255,255,255,0.2)"/>
+                    <circle class="progress" id="progressCircle" cx="155" cy="155" r="150"
+                        stroke-dasharray="942" stroke-dashoffset="0"/>
+                </svg>
+                <div class="time-display" id="timeDisplay">25:00</div>
+                <div class="session-label" id="sessionLabel">集中時間</div>
+            </div>
+
+            <div class="controls">
+                <button class="control-btn" onclick="resetTimer()" title="リセット">
+                    &#8634;
+                </button>
+                <button class="control-btn primary" id="playPauseBtn" onclick="toggleTimer()">
+                    &#9654;
+                </button>
+                <button class="control-btn" onclick="skipSession()" title="スキップ">
+                    &#9197;
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value" id="completedSessions">0</div>
+                <div class="stat-label">セッション</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalMinutes">0</div>
+                <div class="stat-label">分</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="streak">0</div>
+                <div class="stat-label">連続</div>
+            </div>
+        </div>
+
+        <button class="toggle-settings" onclick="toggleSettings()">&#9881; 設定</button>
+
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-title">タイマー設定（分）</div>
+            <div class="setting-row">
+                <span class="setting-label">集中時間</span>
+                <input type="number" class="setting-input" id="focusDuration" value="25" min="1" max="60" onchange="updateSettings()">
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">短い休憩</span>
+                <input type="number" class="setting-input" id="shortBreakDuration" value="5" min="1" max="30" onchange="updateSettings()">
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">長い休憩</span>
+                <input type="number" class="setting-input" id="longBreakDuration" value="15" min="1" max="60" onchange="updateSettings()">
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">長い休憩前のセッション数</span>
+                <input type="number" class="setting-input" id="sessionsBeforeLong" value="4" min="1" max="10" onchange="updateSettings()">
+            </div>
+        </div>
+
+        <div class="ad-banner">広告</div>
+
+        <footer>
+            <p>無料ポモドーロタイマー | 集中して生産的に</p>
+        </footer>
+    </div>
+
+    <script>
+        let settings = {
+            focus: 25 * 60,
+            shortBreak: 5 * 60,
+            longBreak: 15 * 60,
+            sessionsBeforeLong: 4
+        };
+
+        let currentMode = 'focus';
+        let timeRemaining = settings.focus;
+        let totalTime = settings.focus;
+        let isRunning = false;
+        let timerInterval = null;
+        let completedSessions = 0;
+        let totalMinutes = 0;
+        let sessionsInRound = 0;
+
+        const circumference = 2 * Math.PI * 150;
+        document.getElementById('progressCircle').style.strokeDasharray = circumference;
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateDisplay() {
+            document.getElementById('timeDisplay').textContent = formatTime(timeRemaining);
+
+            const progress = (totalTime - timeRemaining) / totalTime;
+            const offset = circumference * (1 - progress);
+            document.getElementById('progressCircle').style.strokeDashoffset = offset;
+
+            document.title = `${formatTime(timeRemaining)} - ポモドーロタイマー`;
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            isRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('playPauseBtn').innerHTML = '&#9654;';
+
+            document.querySelectorAll('.mode-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`.mode-tab:nth-child(${mode === 'focus' ? 1 : mode === 'short-break' ? 2 : 3})`).classList.add('active');
+
+            document.body.className = mode;
+
+            const labels = {
+                'focus': '集中時間',
+                'short-break': '短い休憩',
+                'long-break': '長い休憩'
+            };
+            document.getElementById('sessionLabel').textContent = labels[mode];
+
+            switch(mode) {
+                case 'focus':
+                    totalTime = settings.focus;
+                    break;
+                case 'short-break':
+                    totalTime = settings.shortBreak;
+                    break;
+                case 'long-break':
+                    totalTime = settings.longBreak;
+                    break;
+            }
+            timeRemaining = totalTime;
+            updateDisplay();
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            isRunning = true;
+            document.getElementById('playPauseBtn').innerHTML = '&#10074;&#10074;';
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateDisplay();
+
+                if (timeRemaining <= 0) {
+                    completeSession();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('playPauseBtn').innerHTML = '&#9654;';
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timeRemaining = totalTime;
+            updateDisplay();
+        }
+
+        function skipSession() {
+            completeSession();
+        }
+
+        function completeSession() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            document.getElementById('playPauseBtn').innerHTML = '&#9654;';
+
+            playNotification();
+
+            if (currentMode === 'focus') {
+                completedSessions++;
+                sessionsInRound++;
+                totalMinutes += Math.floor(settings.focus / 60);
+
+                document.getElementById('completedSessions').textContent = completedSessions;
+                document.getElementById('totalMinutes').textContent = totalMinutes;
+                document.getElementById('streak').textContent = completedSessions;
+
+                if (sessionsInRound >= settings.sessionsBeforeLong) {
+                    sessionsInRound = 0;
+                    setMode('long-break');
+                } else {
+                    setMode('short-break');
+                }
+            } else {
+                setMode('focus');
+            }
+
+            saveStats();
+        }
+
+        function playNotification() {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('ポモドーロタイマー', {
+                    body: currentMode === 'focus' ? '素晴らしい！休憩時間です。' : '休憩終了！再び集中する準備はできましたか？',
+                    icon: '🍅'
+                });
+            }
+
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                gainNode.gain.value = 0.3;
+
+                oscillator.start();
+                setTimeout(() => oscillator.stop(), 200);
+            } catch (e) {
+                console.log('オーディオサポートなし');
+            }
+        }
+
+        function toggleSettings() {
+            document.getElementById('settingsPanel').classList.toggle('show');
+        }
+
+        function updateSettings() {
+            settings.focus = parseInt(document.getElementById('focusDuration').value) * 60;
+            settings.shortBreak = parseInt(document.getElementById('shortBreakDuration').value) * 60;
+            settings.longBreak = parseInt(document.getElementById('longBreakDuration').value) * 60;
+            settings.sessionsBeforeLong = parseInt(document.getElementById('sessionsBeforeLong').value);
+
+            localStorage.setItem('pomodoroSettings', JSON.stringify(settings));
+            setMode(currentMode);
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('pomodoroSettings');
+            if (saved) {
+                settings = JSON.parse(saved);
+                document.getElementById('focusDuration').value = settings.focus / 60;
+                document.getElementById('shortBreakDuration').value = settings.shortBreak / 60;
+                document.getElementById('longBreakDuration').value = settings.longBreak / 60;
+                document.getElementById('sessionsBeforeLong').value = settings.sessionsBeforeLong;
+            }
+        }
+
+        function saveStats() {
+            const stats = { completedSessions, totalMinutes };
+            localStorage.setItem('pomodoroStats', JSON.stringify(stats));
+        }
+
+        function loadStats() {
+            const saved = localStorage.getItem('pomodoroStats');
+            if (saved) {
+                const stats = JSON.parse(saved);
+                completedSessions = stats.completedSessions || 0;
+                totalMinutes = stats.totalMinutes || 0;
+                document.getElementById('completedSessions').textContent = completedSessions;
+                document.getElementById('totalMinutes').textContent = totalMinutes;
+                document.getElementById('streak').textContent = completedSessions;
+            }
+        }
+
+        if ('Notification' in window && Notification.permission !== 'granted') {
+            Notification.requestPermission();
+        }
+
+        loadSettings();
+        loadStats();
+        setMode('focus');
+    </script>
+</body>
+</html>

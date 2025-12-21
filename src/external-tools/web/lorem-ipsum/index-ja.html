@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorem Ipsum生成 - 無料ダミーテキスト生成</title>
+    <meta name="description" content="デザイン用のLorem Ipsumプレースホルダーテキストを生成。様々なスタイルで段落、文、単語を生成できます。">
+    <meta name="keywords" content="lorem ipsum 生成, ダミーテキスト, プレースホルダーテキスト, フィラーテキスト, リプサム">
+    <meta property="og:title" content="Lorem Ipsum生成 - 無料ダミーテキスト生成">
+    <meta property="og:description" content="デザイン用のプレースホルダーテキストを生成。">
+    <meta property="og:type" content="website">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #a855f7;
+            --accent-hover: #9333ea;
+            --border: #475569;
+            --success: #22c55e;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 40px 20px; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+        .controls {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .control-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        select:focus, input:focus { outline: none; border-color: var(--accent); }
+        .checkbox-row { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+        .checkbox-item { display: flex; align-items: center; gap: 8px; }
+        .checkbox-item input { width: 18px; height: 18px; accent-color: var(--accent); }
+        .checkbox-item label { color: var(--text-secondary); font-size: 0.9rem; cursor: pointer; }
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), #ec4899);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(168, 85, 247, 0.3);
+        }
+        .output-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border);
+        }
+        .output-info { color: var(--text-secondary); font-size: 0.9rem; }
+        .output-actions { display: flex; gap: 10px; }
+        .btn {
+            padding: 8px 16px;
+            background: var(--accent);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: var(--accent-hover); }
+        .btn-secondary { background: var(--bg-tertiary); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--border); }
+        .output-content { padding: 25px; min-height: 200px; line-height: 1.8; font-size: 1rem; }
+        .output-content p { margin-bottom: 1em; }
+        .output-content p:last-child { margin-bottom: 0; }
+        .presets-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .presets-title { font-weight: 600; margin-bottom: 15px; color: var(--accent); }
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .preset-btn {
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .preset-btn:hover { border-color: var(--accent); background: var(--bg-primary); }
+        .preset-name { font-weight: 500; margin-bottom: 5px; }
+        .preset-desc { font-size: 0.75rem; color: var(--text-secondary); }
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .info-section h3 { margin-bottom: 15px; color: var(--accent); }
+        .info-section p { color: var(--text-secondary); margin-bottom: 10px; }
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .lang-switch a:hover { background: var(--bg-tertiary); }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-switch">
+        <a href="index-en.html">English</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Lorem Ipsum生成</h1>
+            <p class="subtitle">デザイン用のプレースホルダーテキストを生成</p>
+        </header>
+
+        <div class="ad-banner">広告エリア</div>
+
+        <div class="presets-section">
+            <div class="presets-title">⚡ クイックプリセット</div>
+            <div class="presets-grid">
+                <button class="preset-btn" onclick="applyPreset(1, 'paragraphs')">
+                    <div class="preset-name">1段落</div>
+                    <div class="preset-desc">クイックフィル</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(3, 'paragraphs')">
+                    <div class="preset-name">3段落</div>
+                    <div class="preset-desc">記事プレビュー</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(5, 'paragraphs')">
+                    <div class="preset-name">5段落</div>
+                    <div class="preset-desc">完全な記事</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(100, 'words')">
+                    <div class="preset-name">100単語</div>
+                    <div class="preset-desc">短いテキスト</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(500, 'words')">
+                    <div class="preset-name">500単語</div>
+                    <div class="preset-desc">中程度のテキスト</div>
+                </button>
+                <button class="preset-btn" onclick="applyPreset(10, 'sentences')">
+                    <div class="preset-name">10文</div>
+                    <div class="preset-desc">リスト項目</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label>タイプ</label>
+                    <select id="typeSelect">
+                        <option value="paragraphs">段落</option>
+                        <option value="sentences">文</option>
+                        <option value="words">単語</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>数量</label>
+                    <input type="number" id="amountInput" value="3" min="1" max="100">
+                </div>
+                <div class="control-group">
+                    <label>スタイル</label>
+                    <select id="styleSelect">
+                        <option value="classic">クラシック Lorem Ipsum</option>
+                        <option value="hipster">ヒップスター Ipsum</option>
+                        <option value="corporate">コーポレート Ipsum</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="checkbox-row">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="startLorem" checked>
+                    <label for="startLorem">"Lorem ipsum..."で始める</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="includeHtml">
+                    <label for="includeHtml">&lt;p&gt;タグを含める</label>
+                </div>
+            </div>
+
+            <button class="generate-btn" onclick="generate()">✨ テキスト生成</button>
+        </div>
+
+        <div class="output-section">
+            <div class="output-header">
+                <span class="output-info" id="outputInfo">0段落、0単語</span>
+                <div class="output-actions">
+                    <button class="btn" onclick="copyText()">📋 コピー</button>
+                    <button class="btn btn-secondary" onclick="downloadText()">💾 ダウンロード</button>
+                </div>
+            </div>
+            <div class="output-content" id="outputContent">
+                <p>"テキスト生成"をクリックしてLorem Ipsumコンテンツを作成...</p>
+            </div>
+        </div>
+
+        <div class="ad-banner">広告エリア</div>
+
+        <div class="info-section">
+            <h3>Lorem Ipsumとは？</h3>
+            <p>Lorem Ipsumは、印刷・組版業界で使用されるダミーテキストです。1500年代に無名の印刷業者が活字見本帳を作るために活字を混ぜ合わせて以来、業界標準のダミーテキストとなっています。</p>
+            <p>デザイナーは、最終的なコピーが準備される前にレイアウトを埋めるために使用し、読めるコンテンツに気を取られることなく視覚的要素に集中できるようにします。</p>
+        </div>
+
+        <footer>
+            <p>デザイナーと開発者のために ❤️ 作成</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const LOREM_WORDS = [
+            "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
+            "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
+            "magna", "aliqua", "enim", "ad", "minim", "veniam", "quis", "nostrud",
+            "exercitation", "ullamco", "laboris", "nisi", "aliquip", "ex", "ea", "commodo",
+            "consequat", "duis", "aute", "irure", "in", "reprehenderit", "voluptate",
+            "velit", "esse", "cillum", "fugiat", "nulla", "pariatur", "excepteur", "sint",
+            "occaecat", "cupidatat", "non", "proident", "sunt", "culpa", "qui", "officia",
+            "deserunt", "mollit", "anim", "id", "est", "laborum", "perspiciatis", "unde",
+            "omnis", "iste", "natus", "error", "voluptatem", "accusantium", "doloremque",
+            "laudantium", "totam", "rem", "aperiam", "eaque", "ipsa", "quae", "ab", "illo",
+            "inventore", "veritatis", "quasi", "architecto", "beatae", "vitae", "dicta"
+        ];
+
+        const HIPSTER_WORDS = [
+            "artisan", "craft", "beer", "vegan", "organic", "sustainable", "vinyl", "aesthetic",
+            "brooklyn", "portland", "fixie", "bicycle", "coffee", "latte", "avocado", "toast",
+            "kombucha", "kale", "quinoa", "meditation", "yoga", "mindful", "vintage", "retro",
+            "handcrafted", "small-batch", "farm-to-table", "gluten-free", "ethical", "conscious"
+        ];
+
+        const CORPORATE_WORDS = [
+            "synergy", "leverage", "paradigm", "proactive", "bandwidth", "holistic", "scalable",
+            "enterprise", "solution", "innovative", "strategic", "optimize", "streamline",
+            "stakeholder", "deliverable", "milestone", "KPI", "ROI", "agile", "dynamic"
+        ];
+
+        function getWordList() {
+            const style = document.getElementById('styleSelect').value;
+            switch(style) {
+                case 'hipster': return [...LOREM_WORDS, ...HIPSTER_WORDS];
+                case 'corporate': return [...LOREM_WORDS, ...CORPORATE_WORDS];
+                default: return LOREM_WORDS;
+            }
+        }
+
+        function generateWord(words) {
+            return words[Math.floor(Math.random() * words.length)];
+        }
+
+        function generateSentence(words, minWords = 8, maxWords = 15) {
+            const length = Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
+            let sentence = [];
+            for (let i = 0; i < length; i++) {
+                sentence.push(generateWord(words));
+            }
+            sentence[0] = sentence[0].charAt(0).toUpperCase() + sentence[0].slice(1);
+            return sentence.join(' ') + '.';
+        }
+
+        function generateParagraph(words, minSentences = 4, maxSentences = 8) {
+            const length = Math.floor(Math.random() * (maxSentences - minSentences + 1)) + minSentences;
+            let sentences = [];
+            for (let i = 0; i < length; i++) {
+                sentences.push(generateSentence(words));
+            }
+            return sentences.join(' ');
+        }
+
+        function generate() {
+            const type = document.getElementById('typeSelect').value;
+            const amount = Math.min(100, Math.max(1, parseInt(document.getElementById('amountInput').value) || 1));
+            const startLorem = document.getElementById('startLorem').checked;
+            const includeHtml = document.getElementById('includeHtml').checked;
+            const words = getWordList();
+
+            let result = [];
+            let wordCount = 0;
+
+            if (type === 'paragraphs') {
+                for (let i = 0; i < amount; i++) {
+                    let para = generateParagraph(words);
+                    if (i === 0 && startLorem) {
+                        para = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' + para;
+                    }
+                    result.push(para);
+                    wordCount += para.split(' ').length;
+                }
+            } else if (type === 'sentences') {
+                for (let i = 0; i < amount; i++) {
+                    let sentence = generateSentence(words);
+                    if (i === 0 && startLorem) {
+                        sentence = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+                    }
+                    result.push(sentence);
+                    wordCount += sentence.split(' ').length;
+                }
+            } else {
+                let wordList = [];
+                if (startLorem) {
+                    wordList = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet'];
+                }
+                while (wordList.length < amount) {
+                    wordList.push(generateWord(words));
+                }
+                result = [wordList.slice(0, amount).join(' ')];
+                wordCount = amount;
+            }
+
+            const output = document.getElementById('outputContent');
+            if (includeHtml) {
+                output.innerHTML = result.map(p => `<p>&lt;p&gt;${p}&lt;/p&gt;</p>`).join('');
+            } else {
+                output.innerHTML = result.map(p => `<p>${p}</p>`).join('');
+            }
+
+            const info = document.getElementById('outputInfo');
+            if (type === 'paragraphs') {
+                info.textContent = `${amount}段落、${wordCount}単語`;
+            } else if (type === 'sentences') {
+                info.textContent = `${amount}文、${wordCount}単語`;
+            } else {
+                info.textContent = `${amount}単語`;
+            }
+
+            showToast('生成完了！');
+        }
+
+        function applyPreset(amount, type) {
+            document.getElementById('amountInput').value = amount;
+            document.getElementById('typeSelect').value = type;
+            generate();
+        }
+
+        function copyText() {
+            const output = document.getElementById('outputContent');
+            navigator.clipboard.writeText(output.innerText);
+            showToast('クリップボードにコピーしました！');
+        }
+
+        function downloadText() {
+            const output = document.getElementById('outputContent');
+            const blob = new Blob([output.innerText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lorem-ipsum.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('ダウンロード完了！');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        generate();
+    </script>
+</body>
+</html>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마크다운을 HTML로 변환 - 무료 온라인 도구</title>
-    <meta name="description" content="마크다운을 HTML로 즉시 변환하세요. 실시간 미리보기, 구문 강조, 복사/다운로드 기능을 제공하는 무료 온라인 변환기입니다.">
-    <meta name="keywords" content="마크다운 html 변환, md 변환기, 마크다운 변환기, 마크다운 미리보기, 온라인 마크다운 에디터">
+    <title>マークダウンをHTMLに変換 - 無料オンラインツール</title>
+    <meta name="description" content="マークダウンをHTMLに即座に変換します。リアルタイムプレビュー、構文ハイライト、コピー/ダウンロード機能を備えた無料オンライン変換器。">
+    <meta name="keywords" content="マークダウン html 変換, md 変換器, マークダウン変換器, マークダウンプレビュー, オンラインマークダウンエディター">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,7 +25,7 @@
             --success: #22c55e;
         }
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -271,35 +271,35 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">한국어</a>
             </div>
-            <h1>마크다운 → HTML</h1>
-            <p class="subtitle">실시간 미리보기로 마크다운을 HTML로 변환</p>
+            <h1>マークダウン → HTML</h1>
+            <p class="subtitle">リアルタイムプレビューでマークダウンをHTMLに変換</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="editor-container">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">마크다운 입력</span>
+                    <span class="panel-title">マークダウン入力</span>
                     <div class="panel-actions">
-                        <button class="btn-sm" onclick="loadSample()">샘플</button>
-                        <button class="btn-sm" onclick="clearInput()">지우기</button>
+                        <button class="btn-sm" onclick="loadSample()">サンプル</button>
+                        <button class="btn-sm" onclick="clearInput()">クリア</button>
                     </div>
                 </div>
-                <textarea id="markdownInput" placeholder="여기에 마크다운을 입력하세요..."></textarea>
+                <textarea id="markdownInput" placeholder="ここにマークダウンを入力してください..."></textarea>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
                     <div class="tabs">
-                        <button class="tab active" onclick="switchTab('preview')">미리보기</button>
-                        <button class="tab" onclick="switchTab('html')">HTML 코드</button>
+                        <button class="tab active" onclick="switchTab('preview')">プレビュー</button>
+                        <button class="tab" onclick="switchTab('html')">HTMLコード</button>
                     </div>
                     <div class="panel-actions">
-                        <button class="btn-sm" onclick="copyOutput()">복사</button>
-                        <button class="btn-sm" onclick="downloadHTML()">다운로드</button>
+                        <button class="btn-sm" onclick="copyOutput()">コピー</button>
+                        <button class="btn-sm" onclick="downloadHTML()">ダウンロード</button>
                     </div>
                 </div>
                 <div id="previewPanel" class="output-panel active">
@@ -311,55 +311,55 @@
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="info-section">
-            <h3>마크다운 치트시트</h3>
+            <h3>マークダウンチートシート</h3>
             <div class="cheatsheet">
                 <div class="cheat-item">
-                    <span class="cheat-label">제목</span>
-                    <code># 제목1<br>## 제목2<br>### 제목3</code>
+                    <span class="cheat-label">見出し</span>
+                    <code># 見出し1<br>## 見出し2<br>### 見出し3</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">굵게 & 기울임</span>
-                    <code>**굵게**<br>*기울임*<br>***둘 다***</code>
+                    <span class="cheat-label">太字 & 斜体</span>
+                    <code>**太字**<br>*斜体*<br>***両方***</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">링크</span>
-                    <code>[텍스트](url)</code>
+                    <span class="cheat-label">リンク</span>
+                    <code>[テキスト](url)</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">이미지</span>
-                    <code>![대체텍스트](url)</code>
+                    <span class="cheat-label">画像</span>
+                    <code>![代替テキスト](url)</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">코드</span>
-                    <code>`인라인`<br>```블록```</code>
+                    <span class="cheat-label">コード</span>
+                    <code>`インライン`<br>```ブロック```</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">목록</span>
-                    <code>- 항목<br>1. 항목</code>
+                    <span class="cheat-label">リスト</span>
+                    <code>- 項目<br>1. 項目</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">인용</span>
-                    <code>> 인용문</code>
+                    <span class="cheat-label">引用</span>
+                    <code>> 引用文</code>
                 </div>
                 <div class="cheat-item">
-                    <span class="cheat-label">구분선</span>
+                    <span class="cheat-label">水平線</span>
                     <code>---</code>
                 </div>
             </div>
         </div>
 
         <div class="info-section">
-            <h3>마크다운이란?</h3>
-            <p>마크다운은 2004년 John Gruber가 만든 경량 마크업 언어입니다. 일반 텍스트 편집기를 사용하여 서식 있는 텍스트를 작성할 수 있어 읽고 쓰기가 쉽습니다.</p>
-            <p>마크다운은 문서화, README 파일, 블로그 게시물, 포럼, 메시징 앱에서 널리 사용됩니다.</p>
+            <h3>マークダウンとは？</h3>
+            <p>マークダウンは、2004年にJohn Gruberによって作成された軽量マークアップ言語です。プレーンテキストエディターを使用してフォーマットされたテキストを書くことができ、読み書きが簡単です。</p>
+            <p>マークダウンは、ドキュメント、READMEファイル、ブログ投稿、フォーラム、メッセージングアプリで広く使用されています。</p>
         </div>
 
         <footer>
-            <p>작가와 개발자를 위해 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>作家と開発者のために作成しました</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
         </footer>
     </div>
 
@@ -470,17 +470,17 @@
         function copyOutput() {
             const text = currentTab === 'preview' ? htmlOutput.value : htmlOutput.value;
             navigator.clipboard.writeText(text);
-            showToast('HTML 복사됨!');
+            showToast('HTMLをコピーしました！');
         }
 
         function downloadHTML() {
             const html = htmlOutput.value;
             const fullHTML = `<!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>문서</title>
+    <title>ドキュメント</title>
 </head>
 <body>
 ${html}
@@ -493,45 +493,45 @@ ${html}
             a.download = 'document.html';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드됨!');
+            showToast('ダウンロードしました！');
         }
 
         function loadSample() {
-            markdownInput.value = `# 마크다운에 오신 것을 환영합니다
+            markdownInput.value = `# マークダウンへようこそ
 
-이것은 **굵은** 텍스트이고 이것은 *기울임* 텍스트입니다.
+これは**太字**テキストで、これは*斜体*テキストです。
 
-## 특징
+## 機能
 
-- 쓰기 쉬움
-- 깔끔한 문법
-- 폭넓은 지원
+- 書きやすい
+- クリーンな構文
+- 広くサポート
 
-### 코드 예시
+### コード例
 
 \`\`\`javascript
 function hello() {
-    console.log("안녕하세요!");
+    console.log("こんにちは！");
 }
 \`\`\`
 
-\`인라인 코드\`도 이렇게 사용할 수 있습니다.
+\`インラインコード\`もこのように使用できます。
 
-> 이것은 인용문입니다. 중요한 정보를 강조할 때 좋습니다.
+> これは引用文です。重要な情報を強調するのに最適です。
 
-### 링크와 이미지
+### リンクと画像
 
-더 많은 정보는 [Google](https://google.com)을 확인하세요.
+詳細は[Google](https://google.com)をご覧ください。
 
 ---
 
-1. 첫 번째 항목
-2. 두 번째 항목
-3. 세 번째 항목
+1. 最初の項目
+2. 2番目の項目
+3. 3番目の項目
 
-지금까지입니다!`;
+以上です！`;
             convert();
-            showToast('샘플 로드됨!');
+            showToast('サンプルを読み込みました！');
         }
 
         function clearInput() {

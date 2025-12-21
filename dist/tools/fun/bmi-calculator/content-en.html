@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI 계산기 - 체질량지수 계산</title>
+    <title>BMI Calculator - Body Mass Index Calculator</title>
+    <meta name="description" content="Calculate your BMI easily. Check your body mass index and health status.">
+    <meta name="keywords" content="BMI calculator, body mass index, health check, weight calculator">
+    <meta property="og:title" content="BMI Calculator - Body Mass Index">
+    <meta property="og:description" content="Calculate your BMI easily.">
+    <meta property="og:type" content="website">
+    <link rel="alternate" hreflang="en" href="index-en.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="ja" href="index-ja.html">
     <style>
-        /* Styles remain the same */
         *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#134e5e 0%,#71b280 100%);min-height:100vh;color:#fff;padding:20px}.container{max-width:500px;margin:0 auto}.ad-banner{background:rgba(255,255,255,.1);padding:20px;text-align:center;border-radius:12px;margin-bottom:20px;color:rgba(255,255,255,.5)}header{text-align:center;margin-bottom:30px}h1{font-size:1.8rem;margin-bottom:10px;background:linear-gradient(135deg,#a8e063,#56ab2f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.subtitle{color:rgba(255,255,255,.7);font-size:.95rem}.input-section{background:rgba(255,255,255,.1);border-radius:16px;padding:25px;margin-bottom:20px;backdrop-filter:blur(10px)}.input-group{margin-bottom:20px}label{display:block;margin-bottom:10px;color:rgba(255,255,255,.9);font-size:.95rem;font-weight:500}.input-wrapper{position:relative;display:flex;align-items:center}input[type=number]{width:100%;padding:16px 60px 16px 16px;border:2px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(255,255,255,.1);color:#fff;font-size:1.2rem;font-weight:600;transition:all .3s}input[type=number]:focus{outline:none;border-color:#a8e063;background:rgba(255,255,255,.15)}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.unit{position:absolute;right:16px;color:rgba(255,255,255,.6);font-size:1rem;font-weight:500}.calculate-btn{width:100%;padding:18px;background:linear-gradient(135deg,#a8e063,#56ab2f);border:none;border-radius:12px;color:#fff;font-size:1.1rem;font-weight:600;cursor:pointer;transition:transform .2s,box-shadow .2s;margin-top:10px}.calculate-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(86,171,47,.4)}.result-section{display:none;margin-top:25px}.result-section.show{display:block;animation:fadeIn .5s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.bmi-card{background:rgba(255,255,255,.1);border-radius:20px;padding:30px;text-align:center;backdrop-filter:blur(10px)}.bmi-value{font-size:4rem;font-weight:800;line-height:1;margin-bottom:10px}.bmi-category{font-size:1.4rem;font-weight:600;margin-bottom:20px}.bmi-bar{height:12px;background:linear-gradient(to right,#3498db 0%,#2ecc71 18.5%,#2ecc71 25%,#f1c40f 25%,#f1c40f 30%,#e67e22 30%,#e67e22 35%,#e74c3c 35%);border-radius:6px;position:relative;margin:25px 0}.bmi-indicator{position:absolute;top:-8px;width:4px;height:28px;background:#fff;border-radius:2px;transform:translateX(-50%);box-shadow:0 2px 10px rgba(0,0,0,.3);transition:left .5s ease}.bmi-labels{display:flex;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,.6);margin-top:5px}.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}.info-item{background:rgba(255,255,255,.1);border-radius:12px;padding:15px;text-align:center}.info-label{font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:5px}.info-value{font-size:1.2rem;font-weight:700}.category-table{background:rgba(255,255,255,.1);border-radius:16px;padding:20px;margin-top:20px;backdrop-filter:blur(10px)}.category-table h3{font-size:1rem;margin-bottom:15px;color:rgba(255,255,255,.9)}.category-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:.9rem}.category-row:last-child{border-bottom:none}.category-row.active{background:rgba(255,255,255,.1);margin:0 -10px;padding:10px;border-radius:8px}.category-name{color:rgba(255,255,255,.8)}.category-range{color:rgba(255,255,255,.6)}.share-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:10px;color:#fff;font-size:.95rem;cursor:pointer;transition:all .3s;margin-top:20px}.share-btn:hover{background:rgba(255,255,255,.2)}.disclaimer{background:rgba(255,255,255,.1);border-radius:10px;padding:12px;margin-top:20px;font-size:.8rem;color:rgba(255,255,255,.6);text-align:center}footer{text-align:center;margin-top:30px;color:rgba(255,255,255,.4);font-size:.8rem}.underweight{color:#3498db}.normal{color:#2ecc71}.overweight{color:#f1c40f}.obese{color:#e67e22}.severe-obese{color:#e74c3c}
     </style>
 <script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"BMI 계산기","en":"BMI Calculator","ja":"BMI計算機"},"desc":{"ko":"체질량지수 계산","en":"Calculate BMI","ja":"BMI計算"}},"header":{"title":{"ko":"⚖️ BMI 계산기","en":"⚖️ BMI Calculator","ja":"⚖️ BMI計算機"},"subtitle":{"ko":"건강 상태 확인","en":"Check Health","ja":"健康状態確認"}},"input":{"height":{"ko":"키 (Height)","en":"Height","ja":"身長"},"weight":{"ko":"몸무게 (Weight)","en":"Weight","ja":"体重"},"btn":{"ko":"BMI 계산하기","en":"Calculate","ja":"計算"}},"result":{"val":{"ko":"BMI","en":"BMI","ja":"BMI"},"cat":{"ko":"판정","en":"Category","ja":"判定"},"ideal":{"ko":"표준 체중","en":"Ideal Weight","ja":"標準体重"},"range":{"ko":"정상 범위","en":"Normal Range","ja":"正常範囲"}},"cats":{"under":{"ko":"저체중","en":"Underweight","ja":"低体重"},"norm":{"ko":"정상","en":"Normal","ja":"正常"},"over":{"ko":"과체중","en":"Overweight","ja":"過体重"},"obese":{"ko":"비만","en":"Obese","ja":"肥満"},"severe":{"ko":"고도비만","en":"Severe","ja":"高度肥満"}},"share":{"ko":"결과 공유","en":"Share","ja":"共有"},"disclaimer":{"ko":"참고용입니다.","en":"Reference only.","ja":"参考用です。"}};</script></head>
@@ -14,26 +21,26 @@
         <div class="ad-banner">Advertisement</div>
 
         <header>
-            <h1 data-i18n="header.title">⚖️ BMI 계산기</h1>
-            <p class="subtitle" data-i18n="header.subtitle">체질량지수로 건강 상태를 확인하세요</p>
+            <h1>⚖️ BMI Calculator</h1>
+            <p class="subtitle">Check your health status with Body Mass Index</p>
         </header>
 
         <div class="input-section">
             <div class="input-group">
-                <label data-i18n="input.height">키 (Height)</label>
+                <label>Height</label>
                 <div class="input-wrapper">
                     <input type="number" id="height" placeholder="170" min="100" max="250">
                     <span class="unit">cm</span>
                 </div>
             </div>
             <div class="input-group">
-                <label data-i18n="input.weight">몸무게 (Weight)</label>
+                <label>Weight</label>
                 <div class="input-wrapper">
                     <input type="number" id="weight" placeholder="65" min="20" max="300">
                     <span class="unit">kg</span>
                 </div>
             </div>
-            <button class="calculate-btn" onclick="calculateBMI()" data-i18n="input.btn">BMI 계산하기</button>
+            <button class="calculate-btn" onclick="calculateBMI()">Calculate BMI</button>
         </div>
 
         <div class="result-section" id="result">
@@ -45,20 +52,20 @@
                     <div class="bmi-indicator" id="bmiIndicator"></div>
                 </div>
                 <div class="bmi-labels">
-                    <span data-i18n="cats.under">저체중</span>
-                    <span data-i18n="cats.norm">정상</span>
-                    <span data-i18n="cats.over">과체중</span>
-                    <span data-i18n="cats.obese">비만</span>
-                    <span data-i18n="cats.severe">고도비만</span>
+                    <span>Underweight</span>
+                    <span>Normal</span>
+                    <span>Overweight</span>
+                    <span>Obese</span>
+                    <span>Severe</span>
                 </div>
 
                 <div class="info-grid">
                     <div class="info-item">
-                        <div class="info-label" data-i18n="result.ideal">표준 체중</div>
+                        <div class="info-label">Ideal Weight</div>
                         <div class="info-value" id="idealWeight">-</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label" data-i18n="result.range">정상 체중 범위</div>
+                        <div class="info-label">Normal Range</div>
                         <div class="info-value" id="normalRange">-</div>
                     </div>
                 </div>
@@ -67,34 +74,34 @@
             <div class="category-table">
                 <h3>📊 BMI Classification</h3>
                 <div class="category-row" data-category="underweight">
-                    <span class="category-name" data-i18n="cats.under">저체중</span>
+                    <span class="category-name">Underweight</span>
                     <span class="category-range">18.5 ↓</span>
                 </div>
                 <div class="category-row" data-category="normal">
-                    <span class="category-name" data-i18n="cats.norm">정상</span>
+                    <span class="category-name">Normal</span>
                     <span class="category-range">18.5 - 22.9</span>
                 </div>
                 <div class="category-row" data-category="overweight">
-                    <span class="category-name" data-i18n="cats.over">과체중</span>
+                    <span class="category-name">Overweight</span>
                     <span class="category-range">23 - 24.9</span>
                 </div>
                 <div class="category-row" data-category="obese">
-                    <span class="category-name" data-i18n="cats.obese">비만</span>
+                    <span class="category-name">Obese</span>
                     <span class="category-range">25 - 29.9</span>
                 </div>
                 <div class="category-row" data-category="severe-obese">
-                    <span class="category-name" data-i18n="cats.severe">고도비만</span>
+                    <span class="category-name">Severe Obese</span>
                     <span class="category-range">30 ↑</span>
                 </div>
             </div>
 
             <button class="share-btn" onclick="shareResult()">
-                <span>📤</span> <span data-i18n="share">결과 공유하기</span>
+                <span>📤</span> <span>Share Result</span>
             </button>
         </div>
 
-        <div class="disclaimer" data-i18n="disclaimer">
-            BMI는 참고용 지표입니다.
+        <div class="disclaimer">
+            BMI is a reference indicator.
         </div>
 
         <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
@@ -115,17 +122,12 @@
             const heightM = height / 100;
             const bmi = weight / (heightM * heightM);
             let category, colorClass;
-            
-            // Dynamic text retrieval needed for category name if we want JS to be localized too
-            // For now, using keys or fallback
-            const lang = window.currentLang || 'en';
-            const cats = window.toolI18n?.cats || {};
 
-            if (bmi < 18.5) { category = cats.under?.[lang] || 'Underweight'; colorClass = 'underweight'; }
-            else if (bmi < 23) { category = cats.norm?.[lang] || 'Normal'; colorClass = 'normal'; }
-            else if (bmi < 25) { category = cats.over?.[lang] || 'Overweight'; colorClass = 'overweight'; }
-            else if (bmi < 30) { category = cats.obese?.[lang] || 'Obese'; colorClass = 'obese'; }
-            else { category = cats.severe?.[lang] || 'Severe'; colorClass = 'severe-obese'; }
+            if (bmi < 18.5) { category = 'Underweight'; colorClass = 'underweight'; }
+            else if (bmi < 23) { category = 'Normal'; colorClass = 'normal'; }
+            else if (bmi < 25) { category = 'Overweight'; colorClass = 'overweight'; }
+            else if (bmi < 30) { category = 'Obese'; colorClass = 'obese'; }
+            else { category = 'Severe Obese'; colorClass = 'severe-obese'; }
 
             const idealWeight = 22 * heightM * heightM;
             const minNormal = 18.5 * heightM * heightM;
@@ -150,9 +152,10 @@
 
         function shareResult() {
             const bmi = document.getElementById('bmiValue').textContent;
-            const text = `BMI: ${bmi}`;
+            const category = document.getElementById('bmiCategory').textContent;
+            const text = `⚖️ My BMI: ${bmi} (${category})`;
             if (navigator.share) navigator.share({ title: 'BMI Result', text: text });
-            else alert("Copied: " + text);
+            else { navigator.clipboard.writeText(text); alert("Copied: " + text); }
         }
 
         document.querySelectorAll('input').forEach(input => {

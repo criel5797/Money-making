@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 관상 분석 - 무료 관상 보기 | 얼굴로 보는 운세</title>
-    <meta name="description" content="무료 AI 관상 분석! 얼굴 특징으로 알아보는 나의 성격, 연애운, 재물운. 이마, 눈, 코, 입 관상으로 운명을 확인하세요!">
-    <meta name="keywords" content="관상, 관상보기, 무료관상, 얼굴관상, 관상분석, 관상운세, 얼굴분석">
+    <title>AI人相占い - 無料人相診断 | 顔で見る運勢</title>
+    <meta name="description" content="無料AI人相診断!顔の特徴で分かるあなたの性格、恋愛運、財運。額、目、鼻、口の人相で運命を確認しましょう!">
+    <meta name="keywords" content="人相、人相占い、無料人相、顔占い、人相分析、人相運勢、顔分析">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="AI 관상 분석 - 무료 관상 보기">
-    <meta property="og:description" content="얼굴 특징으로 알아보는 나의 운세!">
+    <meta property="og:title" content="AI人相占い - 無料人相診断">
+    <meta property="og:description" content="顔の特徴で分かるあなたの運勢!">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/2c1810/ffd700?text=AI+관상+분석">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/2c1810/ffd700?text=AI+人相占い">
 
     <style>
         .toast {
@@ -35,7 +35,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
             background: linear-gradient(135deg, #2c1810 0%, #4a2c2a 50%, #1a0a0a 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -359,14 +359,14 @@
     <div class="toast" id="toast"></div>
     <div class="container">
         <header>
-            <h1>AI 관상 분석</h1>
-            <p class="subtitle">얼굴 특징으로 보는 나의 운명</p>
+            <h1>AI人相占い</h1>
+            <p class="subtitle">顔の特徴で見るあなたの運命</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
 
         <div class="disclaimer">
-            재미로 즐기는 관상 분석입니다. 결과는 오락 목적으로만 참고하세요!
+            楽しみのための人相診断です。結果は娯楽目的でのみご参考ください!
         </div>
 
         <div class="card">
@@ -378,202 +378,202 @@
                 <div class="step-dot"></div>
             </div>
 
-            <!-- 이마 선택 -->
+            <!-- 額の選択 -->
             <div class="feature-section active" id="step0">
                 <div class="section-title">
                     <span class="emoji">👤</span>
-                    <h2>이마 모양을 선택하세요</h2>
-                    <p>거울을 보며 가장 비슷한 것을 선택해주세요</p>
+                    <h2>額の形を選んでください</h2>
+                    <p>鏡を見て最も近いものを選んでください</p>
                 </div>
                 <div class="feature-options">
                     <div class="feature-option" data-value="wide" onclick="selectFeature(0, this)">
                         <span class="icon">▭</span>
-                        <span class="label">넓고 평평함</span>
+                        <span class="label">広くて平ら</span>
                     </div>
                     <div class="feature-option" data-value="narrow" onclick="selectFeature(0, this)">
                         <span class="icon">▯</span>
-                        <span class="label">좁은 편</span>
+                        <span class="label">狭い</span>
                     </div>
                     <div class="feature-option" data-value="round" onclick="selectFeature(0, this)">
                         <span class="icon">◠</span>
-                        <span class="label">둥글고 볼록함</span>
+                        <span class="label">丸くて凸</span>
                     </div>
                     <div class="feature-option" data-value="high" onclick="selectFeature(0, this)">
                         <span class="icon">△</span>
-                        <span class="label">높고 넓음</span>
+                        <span class="label">高くて広い</span>
                     </div>
                 </div>
                 <div class="nav-buttons">
-                    <button class="nav-btn prev" disabled>이전</button>
-                    <button class="nav-btn next" id="next0" onclick="nextStep(0)" disabled>다음</button>
+                    <button class="nav-btn prev" disabled>前へ</button>
+                    <button class="nav-btn next" id="next0" onclick="nextStep(0)" disabled>次へ</button>
                 </div>
             </div>
 
-            <!-- 눈 선택 -->
+            <!-- 目の選択 -->
             <div class="feature-section" id="step1">
                 <div class="section-title">
                     <span class="emoji">👁️</span>
-                    <h2>눈 모양을 선택하세요</h2>
+                    <h2>目の形を選んでください</h2>
                 </div>
                 <div class="feature-options">
                     <div class="feature-option" data-value="big" onclick="selectFeature(1, this)">
                         <span class="icon">◉</span>
-                        <span class="label">크고 동그란 눈</span>
+                        <span class="label">大きくて丸い目</span>
                     </div>
                     <div class="feature-option" data-value="long" onclick="selectFeature(1, this)">
                         <span class="icon">━</span>
-                        <span class="label">길고 날카로운 눈</span>
+                        <span class="label">長くて鋭い目</span>
                     </div>
                     <div class="feature-option" data-value="single" onclick="selectFeature(1, this)">
                         <span class="icon">─</span>
-                        <span class="label">무쌍/속쌍 눈</span>
+                        <span class="label">一重/奥二重</span>
                     </div>
                     <div class="feature-option" data-value="double" onclick="selectFeature(1, this)">
                         <span class="icon">☰</span>
-                        <span class="label">쌍꺼풀 있는 눈</span>
+                        <span class="label">二重まぶた</span>
                     </div>
                 </div>
                 <div class="nav-buttons">
-                    <button class="nav-btn prev" onclick="prevStep(1)">이전</button>
-                    <button class="nav-btn next" id="next1" onclick="nextStep(1)" disabled>다음</button>
+                    <button class="nav-btn prev" onclick="prevStep(1)">前へ</button>
+                    <button class="nav-btn next" id="next1" onclick="nextStep(1)" disabled>次へ</button>
                 </div>
             </div>
 
-            <!-- 코 선택 -->
+            <!-- 鼻の選択 -->
             <div class="feature-section" id="step2">
                 <div class="section-title">
                     <span class="emoji">👃</span>
-                    <h2>코 모양을 선택하세요</h2>
+                    <h2>鼻の形を選んでください</h2>
                 </div>
                 <div class="feature-options">
                     <div class="feature-option" data-value="high" onclick="selectFeature(2, this)">
                         <span class="icon">🔺</span>
-                        <span class="label">높고 오똑함</span>
+                        <span class="label">高くて鼻筋が通る</span>
                     </div>
                     <div class="feature-option" data-value="flat" onclick="selectFeature(2, this)">
                         <span class="icon">▬</span>
-                        <span class="label">낮고 퍼진 편</span>
+                        <span class="label">低くて横に広い</span>
                     </div>
                     <div class="feature-option" data-value="straight" onclick="selectFeature(2, this)">
                         <span class="icon">│</span>
-                        <span class="label">곧고 단정함</span>
+                        <span class="label">まっすぐで整っている</span>
                     </div>
                     <div class="feature-option" data-value="round" onclick="selectFeature(2, this)">
                         <span class="icon">◯</span>
-                        <span class="label">둥글고 귀여움</span>
+                        <span class="label">丸くてかわいい</span>
                     </div>
                 </div>
                 <div class="nav-buttons">
-                    <button class="nav-btn prev" onclick="prevStep(2)">이전</button>
-                    <button class="nav-btn next" id="next2" onclick="nextStep(2)" disabled>다음</button>
+                    <button class="nav-btn prev" onclick="prevStep(2)">前へ</button>
+                    <button class="nav-btn next" id="next2" onclick="nextStep(2)" disabled>次へ</button>
                 </div>
             </div>
 
-            <!-- 입 선택 -->
+            <!-- 口の選択 -->
             <div class="feature-section" id="step3">
                 <div class="section-title">
                     <span class="emoji">👄</span>
-                    <h2>입 모양을 선택하세요</h2>
+                    <h2>口の形を選んでください</h2>
                 </div>
                 <div class="feature-options">
                     <div class="feature-option" data-value="big" onclick="selectFeature(3, this)">
                         <span class="icon">━━</span>
-                        <span class="label">크고 넓은 입</span>
+                        <span class="label">大きくて広い口</span>
                     </div>
                     <div class="feature-option" data-value="small" onclick="selectFeature(3, this)">
                         <span class="icon">─</span>
-                        <span class="label">작고 앙증맞은 입</span>
+                        <span class="label">小さくてかわいい口</span>
                     </div>
                     <div class="feature-option" data-value="thick" onclick="selectFeature(3, this)">
                         <span class="icon">▄▄</span>
-                        <span class="label">두툼한 입술</span>
+                        <span class="label">厚い唇</span>
                     </div>
                     <div class="feature-option" data-value="thin" onclick="selectFeature(3, this)">
                         <span class="icon">──</span>
-                        <span class="label">얇은 입술</span>
+                        <span class="label">薄い唇</span>
                     </div>
                 </div>
                 <div class="nav-buttons">
-                    <button class="nav-btn prev" onclick="prevStep(3)">이전</button>
-                    <button class="nav-btn next" id="next3" onclick="nextStep(3)" disabled>다음</button>
+                    <button class="nav-btn prev" onclick="prevStep(3)">前へ</button>
+                    <button class="nav-btn next" id="next3" onclick="nextStep(3)" disabled>次へ</button>
                 </div>
             </div>
 
-            <!-- 얼굴형 선택 -->
+            <!-- 顔型の選択 -->
             <div class="feature-section" id="step4">
                 <div class="section-title">
                     <span class="emoji">🥚</span>
-                    <h2>얼굴형을 선택하세요</h2>
+                    <h2>顔の形を選んでください</h2>
                 </div>
                 <div class="feature-options">
                     <div class="feature-option" data-value="oval" onclick="selectFeature(4, this)">
                         <span class="icon">⬭</span>
-                        <span class="label">계란형</span>
+                        <span class="label">卵型</span>
                     </div>
                     <div class="feature-option" data-value="round" onclick="selectFeature(4, this)">
                         <span class="icon">⬤</span>
-                        <span class="label">둥근 얼굴</span>
+                        <span class="label">丸顔</span>
                     </div>
                     <div class="feature-option" data-value="square" onclick="selectFeature(4, this)">
                         <span class="icon">▣</span>
-                        <span class="label">각진 얼굴</span>
+                        <span class="label">角ばった顔</span>
                     </div>
                     <div class="feature-option" data-value="long" onclick="selectFeature(4, this)">
                         <span class="icon">▯</span>
-                        <span class="label">긴 얼굴</span>
+                        <span class="label">面長</span>
                     </div>
                 </div>
                 <div class="nav-buttons">
-                    <button class="nav-btn prev" onclick="prevStep(4)">이전</button>
-                    <button class="nav-btn next" id="next4" onclick="analyzeResult()" disabled>관상 분석하기</button>
+                    <button class="nav-btn prev" onclick="prevStep(4)">前へ</button>
+                    <button class="nav-btn next" id="next4" onclick="analyzeResult()" disabled>人相を診断</button>
                 </div>
             </div>
 
-            <!-- 로딩 -->
+            <!-- ローディング -->
             <div class="loading" id="loading">
                 <div class="loading-face">🔮</div>
-                <p>관상을 분석하고 있습니다...</p>
-                <p style="font-size: 13px; color: #888; margin-top: 10px;">얼굴의 기운을 읽는 중...</p>
+                <p>人相を分析しています...</p>
+                <p style="font-size: 13px; color: #888; margin-top: 10px;">顔のエネルギーを読み取っています...</p>
             </div>
 
-            <!-- 결과 -->
+            <!-- 結果 -->
             <div class="result-section" id="resultSection">
                 <div class="result-header">
                     <div class="result-face">🧑</div>
-                    <div class="fortune-grade" id="fortuneGrade">길상 (吉相)</div>
+                    <div class="fortune-grade" id="fortuneGrade">吉相</div>
                 </div>
 
                 <div class="fortune-meters" id="fortuneMeters"></div>
 
                 <div class="result-card">
-                    <h3>👤 총평</h3>
+                    <h3>👤 総合評価</h3>
                     <p id="overallReading"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>💝 성격 분석</h3>
+                    <h3>💝 性格分析</h3>
                     <p id="personalityReading"></p>
                     <div class="feature-summary" id="featureSummary"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3>💰 재물운</h3>
+                    <h3>💰 財運</h3>
                     <p id="wealthReading"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>❤️ 연애운</h3>
+                    <h3>❤️ 恋愛運</h3>
                     <p id="loveReading"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>💼 직업운</h3>
+                    <h3>💼 仕事運</h3>
                     <p id="careerReading"></p>
                 </div>
 
                 <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                    <button class="share-btn primary" onclick="shareResult()">結果を共有</button>
+                    <button class="share-btn secondary" onclick="resetTest()">もう一度</button>
                 </div>
             </div>
         </div>
@@ -581,7 +581,7 @@
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>이 관상 분석은 재미를 위한 것입니다.<br>실제 관상학과는 다를 수 있습니다.</p>
+            <p>この人相診断は娯楽のためのものです。<br>実際の人相学とは異なる場合があります。</p>
         </footer>
     </div>
 
@@ -591,34 +591,34 @@
 
         const meanings = {
             forehead: {
-                wide: { trait: "넓은 이마", meaning: "지혜롭고 이성적", fortune: "학문운 상승" },
-                narrow: { trait: "좁은 이마", meaning: "집중력이 강함", fortune: "전문 분야에서 성공" },
-                round: { trait: "둥근 이마", meaning: "온화하고 인자함", fortune: "대인관계 좋음" },
-                high: { trait: "높은 이마", meaning: "야망과 리더십", fortune: "사회적 성공 가능" }
+                wide: { trait: "広い額", meaning: "知的で理性的", fortune: "学業運上昇" },
+                narrow: { trait: "狭い額", meaning: "集中力が強い", fortune: "専門分野での成功" },
+                round: { trait: "丸い額", meaning: "穏やかで優しい", fortune: "対人関係良好" },
+                high: { trait: "高い額", meaning: "野心とリーダーシップ", fortune: "社会的成功" }
             },
             eyes: {
-                big: { trait: "큰 눈", meaning: "순수하고 정직함", fortune: "인기운 상승" },
-                long: { trait: "긴 눈", meaning: "날카롭고 통찰력 있음", fortune: "사업운 좋음" },
-                single: { trait: "무쌍 눈", meaning: "내성적이지만 끈기 있음", fortune: "늦게 피는 꽃" },
-                double: { trait: "쌍꺼풀 눈", meaning: "표현력이 풍부함", fortune: "예술적 재능" }
+                big: { trait: "大きい目", meaning: "純粋で正直", fortune: "人気運上昇" },
+                long: { trait: "長い目", meaning: "鋭くて洞察力がある", fortune: "事業運良好" },
+                single: { trait: "一重目", meaning: "内向的だが根気がある", fortune: "遅咲きの花" },
+                double: { trait: "二重まぶた", meaning: "表現力が豊か", fortune: "芸術的才能" }
             },
             nose: {
-                high: { trait: "높은 코", meaning: "자존심이 강함", fortune: "명예운 상승" },
-                flat: { trait: "낮은 코", meaning: "겸손하고 친근함", fortune: "협동 운 좋음" },
-                straight: { trait: "곧은 코", meaning: "정직하고 원칙적", fortune: "신뢰를 얻음" },
-                round: { trait: "둥근 코", meaning: "복 많고 인복 좋음", fortune: "재물운 상승" }
+                high: { trait: "高い鼻", meaning: "プライドが強い", fortune: "名誉運上昇" },
+                flat: { trait: "低い鼻", meaning: "謙虚で親しみやすい", fortune: "協調運良好" },
+                straight: { trait: "まっすぐな鼻", meaning: "正直で原則的", fortune: "信頼を得る" },
+                round: { trait: "丸い鼻", meaning: "福が多く人徳がある", fortune: "財運上昇" }
             },
             mouth: {
-                big: { trait: "큰 입", meaning: "적극적이고 사교적", fortune: "식복과 재복" },
-                small: { trait: "작은 입", meaning: "섬세하고 신중함", fortune: "내조의 여왕/왕" },
-                thick: { trait: "두꺼운 입술", meaning: "정열적이고 감성적", fortune: "연애운 상승" },
-                thin: { trait: "얇은 입술", meaning: "이성적이고 냉철함", fortune: "결단력 있음" }
+                big: { trait: "大きい口", meaning: "積極的で社交的", fortune: "食福と財福" },
+                small: { trait: "小さい口", meaning: "繊細で慎重", fortune: "内助の功" },
+                thick: { trait: "厚い唇", meaning: "情熱的で感性的", fortune: "恋愛運上昇" },
+                thin: { trait: "薄い唇", meaning: "理性的で冷静", fortune: "決断力がある" }
             },
             face: {
-                oval: { trait: "계란형", meaning: "균형 잡힌 성격", fortune: "전반적 행운" },
-                round: { trait: "둥근 얼굴", meaning: "낙천적이고 복스러움", fortune: "재물복 좋음" },
-                square: { trait: "각진 얼굴", meaning: "의지가 강하고 고집", fortune: "자수성가" },
-                long: { trait: "긴 얼굴", meaning: "예술적 감성", fortune: "창의력으로 성공" }
+                oval: { trait: "卵型", meaning: "バランスの取れた性格", fortune: "全般的に幸運" },
+                round: { trait: "丸顔", meaning: "楽天的で福徳がある", fortune: "財運良好" },
+                square: { trait: "角ばった顔", meaning: "意志が強く頑固", fortune: "自力で成功" },
+                long: { trait: "面長", meaning: "芸術的感性", fortune: "創造力で成功" }
             }
         };
 
@@ -673,7 +673,7 @@
                 meanings.face[selections[4]]
             ];
 
-            // 점수 계산
+            // スコア計算
             const baseScore = 65;
             const scores = {
                 love: baseScore + Math.floor(Math.random() * 25),
@@ -682,20 +682,20 @@
                 health: baseScore + Math.floor(Math.random() * 25)
             };
 
-            // 특정 조합 보너스
+            // 特定の組み合わせにボーナス
             if (selections[2] === 'round') scores.wealth += 10;
             if (selections[3] === 'thick') scores.love += 10;
             if (selections[0] === 'high') scores.career += 10;
 
-            // 최대 100으로 제한
+            // 最大100に制限
             Object.keys(scores).forEach(k => scores[k] = Math.min(100, scores[k]));
 
             const avgScore = Math.round((scores.love + scores.wealth + scores.career + scores.health) / 4);
 
-            let grade = '평상 (平相)';
-            if (avgScore >= 85) grade = '대길상 (大吉相)';
-            else if (avgScore >= 75) grade = '길상 (吉相)';
-            else if (avgScore >= 65) grade = '소길상 (小吉相)';
+            let grade = '平相';
+            if (avgScore >= 85) grade = '大吉相';
+            else if (avgScore >= 75) grade = '吉相';
+            else if (avgScore >= 65) grade = '小吉相';
 
             resultData = {
                 grade,
@@ -711,14 +711,14 @@
             document.getElementById('resultSection').classList.add('show');
             document.getElementById('fortuneGrade').textContent = resultData.grade;
 
-            // 운세 미터
-            const labels = { love: '❤️ 연애운', wealth: '💰 재물운', career: '💼 직업운', health: '💪 건강운' };
+            // 運勢メーター
+            const labels = { love: '❤️ 恋愛運', wealth: '💰 財運', career: '💼 仕事運', health: '💪 健康運' };
             let metersHtml = '';
             Object.entries(resultData.scores).forEach(([key, value]) => {
                 metersHtml += `
                     <div class="fortune-meter">
                         <div class="label">${labels[key]}</div>
-                        <div class="score">${value}점</div>
+                        <div class="score">${value}点</div>
                         <div class="fortune-bar">
                             <div class="fortune-bar-fill" style="width: ${value}%"></div>
                         </div>
@@ -727,38 +727,38 @@
             });
             document.getElementById('fortuneMeters').innerHTML = metersHtml;
 
-            // 특징 태그
+            // 特徴タグ
             document.getElementById('featureSummary').innerHTML = resultData.traits.map(t =>
                 `<span class="feature-tag">${t}</span>`
             ).join('');
 
-            // 분석 텍스트
+            // 分析テキスト
             document.getElementById('overallReading').textContent =
-                `당신의 관상은 ${resultData.grade}입니다. 전체적으로 ${resultData.features[4].meaning}한 기운이 느껴지며, ` +
-                `${resultData.features[0].fortune}의 운이 함께합니다. 삶의 균형이 잘 잡혀 있어 큰 어려움 없이 안정적인 삶을 살 수 있습니다.`;
+                `あなたの人相は${resultData.grade}です。全体的に${resultData.features[4].meaning}気質が感じられ、` +
+                `${resultData.features[0].fortune}の運が伴っています。人生のバランスがよく取れており、大きな困難なく安定した人生を送ることができます。`;
 
             document.getElementById('personalityReading').textContent =
-                `${resultData.features[0].trait}에서 ${resultData.features[0].meaning}한 성격이 보이고, ` +
-                `${resultData.features[1].trait}은 ${resultData.features[1].meaning}을 나타냅니다. ` +
-                `${resultData.features[3].trait}에서는 ${resultData.features[3].meaning}한 특성이 엿보입니다.`;
+                `${resultData.features[0].trait}から${resultData.features[0].meaning}性格が見られ、` +
+                `${resultData.features[1].trait}は${resultData.features[1].meaning}ことを示しています。` +
+                `${resultData.features[3].trait}からは${resultData.features[3].meaning}特性がうかがえます。`;
 
             document.getElementById('wealthReading').textContent =
-                `${resultData.features[2].trait}에서 ${resultData.features[2].fortune}의 기운이 보입니다. ` +
+                `${resultData.features[2].trait}から${resultData.features[2].fortune}の気運が見られます。` +
                 (resultData.scores.wealth >= 80 ?
-                    '재물운이 상당히 좋아 경제적으로 풍요로운 삶이 예상됩니다.' :
-                    '꾸준히 노력하면 안정적인 재정 상태를 유지할 수 있습니다.');
+                    '財運が非常に良く、経済的に豊かな人生が期待できます。' :
+                    '着実に努力すれば安定した財政状態を維持できます。');
 
             document.getElementById('loveReading').textContent =
-                `${resultData.features[1].trait}과 ${resultData.features[3].trait}에서 연애운이 보입니다. ` +
+                `${resultData.features[1].trait}と${resultData.features[3].trait}から恋愛運が見られます。` +
                 (resultData.scores.love >= 80 ?
-                    '매력이 넘쳐 이성에게 인기가 많을 상입니다. 좋은 인연을 만날 확률이 높습니다.' :
-                    '진심을 다해 다가가면 좋은 인연을 만날 수 있습니다.');
+                    '魅力にあふれ、異性に人気があります。良い縁に出会う確率が高いです。' :
+                    '真心を持って接すれば、良い縁に出会うことができます。');
 
             document.getElementById('careerReading').textContent =
-                `${resultData.features[0].fortune}의 기운과 ${resultData.features[4].meaning}한 성향이 결합되어, ` +
+                `${resultData.features[0].fortune}の気運と${resultData.features[4].meaning}傾向が結合し、` +
                 (resultData.scores.career >= 80 ?
-                    '사회적으로 인정받고 성공할 가능성이 높습니다.' :
-                    '본인의 강점을 살리면 직장에서 인정받을 수 있습니다.');
+                    '社会的に認められ成功する可能性が高いです。' :
+                    '自分の強みを活かせば職場で認められることができます。');
         }
 
         function showToast(message) {
@@ -770,23 +770,23 @@
 
         function shareResult() {
             const avgScore = Math.round((resultData.scores.love + resultData.scores.wealth + resultData.scores.career + resultData.scores.health) / 4);
-            const text = `🔮 AI 관상 분석 결과\n\n` +
+            const text = `🔮 AI人相診断結果\n\n` +
                         `【${resultData.grade}】\n` +
-                        `📊 종합 ${avgScore}점\n\n` +
-                        `❤️ 연애운: ${resultData.scores.love}점\n` +
-                        `💰 재물운: ${resultData.scores.wealth}점\n` +
-                        `💼 직업운: ${resultData.scores.career}점\n` +
-                        `💪 건강운: ${resultData.scores.health}점\n\n` +
-                        `나도 관상 보기 👉`;
+                        `📊 総合 ${avgScore}点\n\n` +
+                        `❤️ 恋愛運: ${resultData.scores.love}点\n` +
+                        `💰 財運: ${resultData.scores.wealth}点\n` +
+                        `💼 仕事運: ${resultData.scores.career}点\n` +
+                        `💪 健康運: ${resultData.scores.health}点\n\n` +
+                        `人相を占う 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: 'AI 관상 분석', text: text })
+                navigator.share({ title: 'AI人相診断', text: text })
                     .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果をコピーしました!'));
                     });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                    showToast('📋 結果をコピーしました!');
                 });
             }
         }

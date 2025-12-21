@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>색상 변환기 - HEX RGB HSL 무료 온라인 도구</title>
-    <meta name="description" content="HEX, RGB, HSL 형식 간 색상을 즉시 변환하세요. 실시간 미리보기와 복사 기능이 포함된 무료 온라인 색상 변환기.">
-    <meta name="keywords" content="색상 변환기, hex rgb 변환, rgb hex 변환, hsl 변환, 컬러 피커, 색상 코드">
-    <meta property="og:title" content="색상 변환기 - HEX RGB HSL 무료 온라인 도구">
-    <meta property="og:description" content="HEX, RGB, HSL 형식 간 색상을 즉시 변환하세요.">
+    <title>Color Converter - HEX RGB HSL Free Online Tool</title>
+    <meta name="description" content="Convert colors between HEX, RGB, HSL formats instantly. Free online color converter with real-time preview and copy feature.">
+    <meta name="keywords" content="color converter, hex rgb converter, rgb hex converter, hsl converter, color picker, color codes">
+    <meta property="og:title" content="Color Converter - HEX RGB HSL Free Online Tool">
+    <meta property="og:description" content="Convert colors between HEX, RGB, HSL formats instantly.">
     <meta property="og:type" content="website">
 
     <style>
@@ -22,7 +22,7 @@
             --border: #475569;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -260,25 +260,25 @@
 <script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"색상 변환기","en":"Color Converter","ja":"カラーコンバーター"},"desc":{"ko":"색상 변환","en":"Color Convert","ja":"色変換"}},"header":{"title":{"ko":"색상 변환기","en":"Color Converter","ja":"カラーコンバーター"},"subtitle":{"ko":"색상 코드 변환","en":"Convert Codes","ja":"コード変換"}},"preview":{"desc":{"ko":"선택 또는 입력","en":"Pick or Enter","ja":"選択または入力"},"random":{"ko":"🎲 랜덤","en":"🎲 Random","ja":"🎲 ランダム"}},"formats":{"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"palette":{"title":{"ko":"🎨 팔레트","en":"🎨 Palette","ja":"🎨 パレット"}},"saved":{"title":{"ko":"💾 저장됨","en":"💾 Saved","ja":"💾 保存済み"},"save":{"ko":"저장","en":"Save","ja":"保存"},"clear":{"ko":"삭제","en":"Clear","ja":"削除"},"empty":{"ko":"없음","en":"Empty","ja":"なし"}},"footer":{"ko":"편리한 도구","en":"Useful Tool","ja":"便利なツール"}};</script></head>
 <body>
     <div class="lang-switch">
-        <a href="index.html">English</a>
+        <a href="index-ko.html">Korean</a>
     </div>
 
     <div class="container">
         <header>
-            <h1>색상 변환기</h1>
-            <p class="subtitle">HEX, RGB, HSL 형식 간 즉시 변환</p>
+            <h1>Color Converter</h1>
+            <p class="subtitle">Convert instantly between HEX, RGB, HSL formats</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="preview-section">
             <div class="color-preview" id="colorPreview">#3b82f6</div>
             <div class="picker-wrapper">
                 <div class="color-picker-row">
                     <input type="color" id="colorPicker" value="#3b82f6">
-                    <span style="color: var(--text-secondary)">클릭하여 색상을 선택하거나 아래에 값을 입력하세요</span>
+                    <span style="color: var(--text-secondary)">Click to select a color or enter values below</span>
                 </div>
-                <button class="btn" onclick="randomColor()">🎲 랜덤 색상</button>
+                <button class="btn" onclick="randomColor()">🎲 Random Color</button>
             </div>
         </div>
 
@@ -286,7 +286,7 @@
             <div class="format-card">
                 <div class="format-header">
                     <span class="format-label">HEX</span>
-                    <button class="copy-btn" onclick="copyValue('hex')">복사</button>
+                    <button class="copy-btn" onclick="copyValue('hex')">Copy</button>
                 </div>
                 <input type="text" class="format-input" id="hexInput" value="#3b82f6" placeholder="#000000">
             </div>
@@ -294,7 +294,7 @@
             <div class="format-card">
                 <div class="format-header">
                     <span class="format-label">RGB</span>
-                    <button class="copy-btn" onclick="copyValue('rgb')">복사</button>
+                    <button class="copy-btn" onclick="copyValue('rgb')">Copy</button>
                 </div>
                 <input type="text" class="format-input" id="rgbInput" value="rgb(59, 130, 246)" placeholder="rgb(0, 0, 0)">
                 <div class="slider-group" style="margin-top: 15px;">
@@ -319,7 +319,7 @@
             <div class="format-card">
                 <div class="format-header">
                     <span class="format-label">HSL</span>
-                    <button class="copy-btn" onclick="copyValue('hsl')">복사</button>
+                    <button class="copy-btn" onclick="copyValue('hsl')">Copy</button>
                 </div>
                 <input type="text" class="format-input" id="hslInput" value="hsl(217, 91%, 60%)" placeholder="hsl(0, 0%, 0%)">
                 <div class="slider-group" style="margin-top: 15px;">
@@ -343,26 +343,26 @@
         </div>
 
         <div class="palette-section">
-            <div class="palette-title">🎨 명도 변화</div>
+            <div class="palette-title">🎨 Lightness Variations</div>
             <div class="palette-grid" id="paletteGrid"></div>
         </div>
 
         <div class="saved-section">
             <div class="saved-header">
-                <span class="palette-title">💾 저장된 색상</span>
+                <span class="palette-title">💾 Saved Colors</span>
                 <div>
-                    <button class="btn" onclick="saveColor()">현재 색상 저장</button>
-                    <button class="btn btn-secondary" onclick="clearSaved()">전체 삭제</button>
+                    <button class="btn" onclick="saveColor()">Save Current Color</button>
+                    <button class="btn btn-secondary" onclick="clearSaved()">Clear All</button>
                 </div>
             </div>
             <div class="saved-colors" id="savedColors"></div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>디자이너와 개발자를 위해 ❤️ 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>Made with ❤️ for designers and developers</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
         </footer>
     </div>
 
@@ -543,7 +543,7 @@
                 item.onclick = () => {
                     currentColor = rgb;
                     updateAllFromRGB();
-                    showToast('색상 선택됨!');
+                    showToast('Color selected!');
                 };
                 grid.appendChild(item);
             }
@@ -557,7 +557,7 @@
                 case 'hsl': value = document.getElementById('hslInput').value; break;
             }
             navigator.clipboard.writeText(value);
-            showToast('복사됨: ' + value);
+            showToast('Copied: ' + value);
         }
 
         function randomColor() {
@@ -575,7 +575,7 @@
                 savedColors.push(hex);
                 localStorage.setItem('savedColors', JSON.stringify(savedColors));
                 renderSavedColors();
-                showToast('색상 저장됨!');
+                showToast('Color saved!');
             }
         }
 
@@ -589,7 +589,7 @@
             const container = document.getElementById('savedColors');
             container.innerHTML = savedColors.map(hex =>
                 `<div class="saved-color" style="background:${hex}" onclick="loadColor('${hex}')" title="${hex}"></div>`
-            ).join('') || '<span style="color: var(--text-secondary)">저장된 색상이 없습니다</span>';
+            ).join('') || '<span style="color: var(--text-secondary)">No saved colors</span>';
         }
 
         function loadColor(hex) {

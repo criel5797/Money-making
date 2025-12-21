@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>학점 계산기 - 대학교 평점 계산</title>
-    <meta name="description" content="대학교 학점(GPA)을 쉽게 계산하세요. 4.5 만점, 4.3 만점 모두 지원합니다.">
-    <meta name="keywords" content="학점 계산기, GPA, 평점, 대학교 학점, 성적 계산">
-    <meta property="og:title" content="학점 계산기 - 대학교 평점 계산">
-    <meta property="og:description" content="대학교 학점(GPA)을 쉽게 계산하세요.">
+    <title>GPA Calculator - College GPA Calculator</title>
+    <meta name="description" content="Calculate your college GPA easily. Supports both 4.5 and 4.3 scales.">
+    <meta name="keywords" content="GPA calculator, grade point average, college GPA, grade calculator">
+    <meta property="og:title" content="GPA Calculator - College GPA Calculator">
+    <meta property="og:description" content="Calculate your college GPA easily.">
     <meta property="og:type" content="website">
-    <link rel="alternate" hreflang="ko" href="index.html">
+    <link rel="alternate" hreflang="en" href="index-en.html">
     <style>
         * {
             margin: 0;
@@ -387,24 +387,24 @@
         <div class="ad-banner">Advertisement</div>
 
         <header>
-            <h1>📚 학점 계산기</h1>
-            <p class="subtitle">대학교 평점(GPA)을 쉽게 계산하세요</p>
+            <h1>📚 GPA Calculator</h1>
+            <p class="subtitle">Calculate your college GPA easily</p>
         </header>
 
         <div class="settings-section">
             <div class="scale-options">
-                <button class="scale-btn active" onclick="setScale(4.5)" id="scale45">4.5 만점</button>
-                <button class="scale-btn" onclick="setScale(4.3)" id="scale43">4.3 만점</button>
+                <button class="scale-btn active" onclick="setScale(4.5)" id="scale45">4.5 Scale</button>
+                <button class="scale-btn" onclick="setScale(4.3)" id="scale43">4.3 Scale</button>
             </div>
         </div>
 
         <div class="courses-section">
-            <div class="section-title">📝 과목 입력</div>
+            <div class="section-title">📝 Enter Courses</div>
             <div class="course-list" id="courseList">
-                <!-- 과목들이 여기에 추가됨 -->
+                <!-- Courses will be added here -->
             </div>
-            <button class="add-btn" onclick="addCourse()">+ 과목 추가</button>
-            <button class="calculate-btn" onclick="calculateGPA()">📊 평점 계산하기</button>
+            <button class="add-btn" onclick="addCourse()">+ Add Course</button>
+            <button class="calculate-btn" onclick="calculateGPA()">📊 Calculate GPA</button>
         </div>
 
         <div class="result-section" id="result">
@@ -415,30 +415,30 @@
                 <div class="stats-grid">
                     <div class="stat-item">
                         <div class="stat-value" id="totalCredits">0</div>
-                        <div class="stat-label">총 학점</div>
+                        <div class="stat-label">Total Credits</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="totalCourses">0</div>
-                        <div class="stat-label">과목 수</div>
+                        <div class="stat-label">Courses</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="percentile">0%</div>
-                        <div class="stat-label">백분율</div>
+                        <div class="stat-label">Percentage</div>
                     </div>
                 </div>
 
                 <div class="grade-distribution">
-                    <h4>📈 성적 분포</h4>
+                    <h4>📈 Grade Distribution</h4>
                     <div id="distributionChart"></div>
                 </div>
             </div>
 
             <div class="btn-group">
                 <button class="reset-btn" onclick="resetAll()">
-                    <span>🔄</span> 초기화
+                    <span>🔄</span> Reset
                 </button>
                 <button class="share-btn" onclick="shareResult()">
-                    <span>📤</span> 공유하기
+                    <span>📤</span> Share
                 </button>
             </div>
         </div>
@@ -446,7 +446,7 @@
         <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
 
         <footer>
-            <p>© 2024 학점 계산기</p>
+            <p>© 2024 GPA Calculator</p>
         </footer>
     </div>
 
@@ -471,7 +471,7 @@
             document.querySelectorAll('.scale-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(newScale === 4.5 ? 'scale45' : 'scale43').classList.add('active');
 
-            // 기존 과목들의 성적 옵션 업데이트
+            // Update existing course grade options
             document.querySelectorAll('.course-grade').forEach(select => {
                 const currentValue = select.value;
                 updateGradeOptions(select);
@@ -495,8 +495,8 @@
 
             const courseHTML = `
                 <div class="course-item" id="course-${courseCount}">
-                    <input type="text" class="course-name" placeholder="과목명" />
-                    <input type="number" class="course-credits" placeholder="학점" value="3" min="1" max="6" />
+                    <input type="text" class="course-name" placeholder="Course Name" />
+                    <input type="number" class="course-credits" placeholder="Credits" value="3" min="1" max="6" />
                     <select class="course-grade">
                         ${Object.keys(grades).map(grade => `<option value="${grade}">${grade}</option>`).join('')}
                     </select>
@@ -519,7 +519,7 @@
             const grades = scale === 4.5 ? grades45 : grades43;
 
             if (courseItems.length === 0) {
-                alert('과목을 추가해주세요.');
+                alert('Please add courses.');
                 return;
             }
 
@@ -539,21 +539,21 @@
             });
 
             if (totalCredits === 0) {
-                alert('학점을 입력해주세요.');
+                alert('Please enter credits.');
                 return;
             }
 
             const gpa = totalPoints / totalCredits;
             const percentile = (gpa / scale * 100).toFixed(1);
 
-            // 결과 표시
+            // Display results
             document.getElementById('gpaValue').textContent = gpa.toFixed(2);
             document.getElementById('gpaScale').textContent = `/ ${scale}`;
             document.getElementById('totalCredits').textContent = totalCredits;
             document.getElementById('totalCourses').textContent = courseItems.length;
             document.getElementById('percentile').textContent = percentile + '%';
 
-            // 분포 차트
+            // Distribution chart
             const maxCount = Math.max(...Object.values(gradeCount), 1);
             const distributionHTML = Object.keys(grades).map(grade => {
                 const count = gradeCount[grade] || 0;
@@ -587,22 +587,22 @@
             const totalCredits = document.getElementById('totalCredits').textContent;
             const percentile = document.getElementById('percentile').textContent;
 
-            const text = `📚 내 학점 계산 결과\n\n평점: ${gpa} / ${scale}\n총 학점: ${totalCredits}\n백분율: ${percentile}\n\n학점 계산기로 확인해보세요!`;
+            const text = `📚 My GPA Results\n\nGPA: ${gpa} / ${scale}\nTotal Credits: ${totalCredits}\nPercentage: ${percentile}\n\nCheck with GPA Calculator!`;
 
             if (navigator.share) {
                 navigator.share({
-                    title: '학점 계산 결과',
+                    title: 'GPA Results',
                     text: text,
                     url: window.location.href
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
+                    alert('Results copied to clipboard!');
                 });
             }
         }
 
-        // 초기 과목 3개 추가
+        // Initialize with 3 courses
         addCourse();
         addCourse();
         addCourse();

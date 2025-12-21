@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正規表現テスター - 無料オンライン正規表現テストツール</title>
+    <meta name="description" content="正規表現をリアルタイムでテストしてデバッグします。マッチのハイライト表示、説明、よく使うパターンを提供する無料正規表現テスターです。">
+    <meta name="keywords" content="正規表現テスター, regexテスター, 正規表現テスト, 正規表現チェッカー, 正規表現オンライン">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="正規表現テスター - 無料オンライン正規表現テストツール">
+    <meta property="og:description" content="正規表現をリアルタイムでテストしてデバッグします。無料オンライン正規表現テスター。">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --border: #475569;
+            --match-bg: rgba(139, 92, 246, 0.3);
+            --group-1: rgba(59, 130, 246, 0.3);
+            --group-2: rgba(34, 197, 94, 0.3);
+            --group-3: rgba(249, 115, 22, 0.3);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .lang-switch a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* Regex Input Section */
+        .regex-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .regex-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 5px 15px;
+            border: 2px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
+        .regex-input-wrapper:focus-within {
+            border-color: var(--accent);
+        }
+
+        .regex-delimiter {
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        #regexInput {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 1.1rem;
+            padding: 10px;
+            outline: none;
+        }
+
+        .flags-wrapper {
+            display: flex;
+            gap: 5px;
+            margin-left: 10px;
+        }
+
+        .flag-btn {
+            padding: 5px 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .flag-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .flag-btn:hover {
+            border-color: var(--accent);
+        }
+
+        /* Status */
+        .regex-status {
+            margin-top: 15px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .regex-status.valid {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        .regex-status.invalid {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        .regex-status.empty {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* Test String Section */
+        .test-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 800px) {
+            .test-section {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 1.8rem; }
+            .lang-switch {
+                position: static;
+                margin-bottom: 20px;
+            }
+            header {
+                padding-top: 20px;
+            }
+        }
+
+        .panel {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .panel-header {
+            padding: 15px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-content {
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: var(--accent);
+        }
+
+        /* Match Results */
+        #matchResult {
+            min-height: 200px;
+            padding: 15px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            line-height: 1.8;
+        }
+
+        .match {
+            background: var(--match-bg);
+            border-radius: 3px;
+            padding: 2px 0;
+        }
+
+        .group-1 { background: var(--group-1); }
+        .group-2 { background: var(--group-2); }
+        .group-3 { background: var(--group-3); }
+
+        /* Match Info */
+        .match-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .match-count {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .match-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .match-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .match-index {
+            color: var(--text-secondary);
+        }
+
+        .match-value {
+            color: var(--success);
+        }
+
+        /* Common Patterns */
+        .patterns-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .patterns-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .pattern-btn {
+            padding: 10px 15px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .pattern-btn:hover {
+            border-color: var(--accent);
+            background: var(--bg-primary);
+        }
+
+        .pattern-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .pattern-regex {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-top: 5px;
+        }
+
+        /* Cheatsheet */
+        .cheatsheet {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .cheatsheet h3 {
+            margin-bottom: 15px;
+        }
+
+        .cheatsheet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .cheatsheet-category h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .cheatsheet-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cheatsheet-item code {
+            color: var(--warning);
+            font-family: monospace;
+        }
+
+        .cheatsheet-item span {
+            color: var(--text-secondary);
+        }
+
+        /* SEO Content */
+        .seo-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 1px solid var(--border);
+        }
+
+        .seo-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .seo-content p, .seo-content li {
+            color: var(--text-secondary);
+        }
+
+        .seo-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            background: var(--accent);
+            color: white;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lang-switch">
+                <a href="index.html">English</a>
+            </div>
+            <h1>正規表現テスター</h1>
+            <p class="subtitle">正規表現をリアルタイムでテストしてデバッグ</p>
+        </header>
+
+        <div class="ad-banner">広告</div>
+
+        <!-- Regex Input -->
+        <div class="regex-section">
+            <div class="regex-input-wrapper">
+                <span class="regex-delimiter">/</span>
+                <input type="text" id="regexInput" placeholder="正規表現パターンを入力してください...">
+                <span class="regex-delimiter">/</span>
+                <div class="flags-wrapper">
+                    <button class="flag-btn active" data-flag="g" title="グローバル検索">g</button>
+                    <button class="flag-btn" data-flag="i" title="大文字小文字を区別しない">i</button>
+                    <button class="flag-btn active" data-flag="m" title="複数行">m</button>
+                    <button class="flag-btn" data-flag="s" title="ドットが改行にもマッチ">s</button>
+                </div>
+            </div>
+            <div class="regex-status empty" id="regexStatus">
+                正規表現を入力するとテストが開始されます
+            </div>
+        </div>
+
+        <!-- Common Patterns -->
+        <div class="patterns-section">
+            <div class="patterns-title">よく使うパターン（クリックして使用）</div>
+            <div class="patterns-grid">
+                <button class="pattern-btn" data-pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+                    <div class="pattern-name">メールアドレス</div>
+                    <div class="pattern-regex">[a-zA-Z0-9._%+-]+@...</div>
+                </button>
+                <button class="pattern-btn" data-pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)">
+                    <div class="pattern-name">URL</div>
+                    <div class="pattern-regex">https?:\/\/...</div>
+                </button>
+                <button class="pattern-btn" data-pattern="^0\d{1,4}-\d{1,4}-\d{4}$">
+                    <div class="pattern-name">日本の電話番号</div>
+                    <div class="pattern-regex">^0\d{1,4}-...</div>
+                </button>
+                <button class="pattern-btn" data-pattern="^\d{4}-\d{2}-\d{2}$">
+                    <div class="pattern-name">日付 (YYYY-MM-DD)</div>
+                    <div class="pattern-regex">^\d{4}-\d{2}-\d{2}$</div>
+                </button>
+                <button class="pattern-btn" data-pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+                    <div class="pattern-name">パスワード（8文字以上）</div>
+                    <div class="pattern-regex">^(?=.*[A-Za-z])...</div>
+                </button>
+                <button class="pattern-btn" data-pattern="#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})">
+                    <div class="pattern-name">16進数カラーコード</div>
+                    <div class="pattern-regex">#?([a-fA-F0-9]...</div>
+                </button>
+                <button class="pattern-btn" data-pattern="^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$">
+                    <div class="pattern-name">IPv4アドレス</div>
+                    <div class="pattern-regex">^((25[0-5]|...</div>
+                </button>
+                <button class="pattern-btn" data-pattern="<[^>]+>">
+                    <div class="pattern-name">HTMLタグ</div>
+                    <div class="pattern-regex">&lt;[^&gt;]+&gt;</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Test Area -->
+        <div class="test-section">
+            <div class="panel">
+                <div class="panel-header">
+                    <span>テスト文字列</span>
+                    <button class="btn" onclick="loadSample()">サンプルを読み込む</button>
+                </div>
+                <div class="panel-content">
+                    <textarea id="testString" placeholder="正規表現でテストするテキストを入力してください..."></textarea>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span>マッチ結果</span>
+                    <button class="btn" onclick="copyMatches()">マッチをコピー</button>
+                </div>
+                <div class="panel-content">
+                    <div id="matchResult">マッチした部分がここにハイライト表示されます...</div>
+                    <div class="match-info" id="matchInfo" style="display: none;">
+                        <div class="match-count" id="matchCount"></div>
+                        <div class="match-list" id="matchList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">広告</div>
+
+        <!-- Cheatsheet -->
+        <div class="cheatsheet">
+            <h3>正規表現チートシート</h3>
+            <div class="cheatsheet-grid">
+                <div class="cheatsheet-category">
+                    <h4>文字クラス</h4>
+                    <div class="cheatsheet-item"><code>.</code> <span>任意の文字</span></div>
+                    <div class="cheatsheet-item"><code>\d</code> <span>数字 [0-9]</span></div>
+                    <div class="cheatsheet-item"><code>\w</code> <span>単語 [A-Za-z0-9_]</span></div>
+                    <div class="cheatsheet-item"><code>\s</code> <span>空白文字</span></div>
+                    <div class="cheatsheet-item"><code>[abc]</code> <span>a、b、またはc</span></div>
+                    <div class="cheatsheet-item"><code>[^abc]</code> <span>a、b、c以外</span></div>
+                </div>
+                <div class="cheatsheet-category">
+                    <h4>量指定子</h4>
+                    <div class="cheatsheet-item"><code>*</code> <span>0回以上</span></div>
+                    <div class="cheatsheet-item"><code>+</code> <span>1回以上</span></div>
+                    <div class="cheatsheet-item"><code>?</code> <span>0回または1回</span></div>
+                    <div class="cheatsheet-item"><code>{n}</code> <span>正確にn回</span></div>
+                    <div class="cheatsheet-item"><code>{n,}</code> <span>n回以上</span></div>
+                    <div class="cheatsheet-item"><code>{n,m}</code> <span>n回からm回</span></div>
+                </div>
+                <div class="cheatsheet-category">
+                    <h4>アンカー</h4>
+                    <div class="cheatsheet-item"><code>^</code> <span>文字列の先頭</span></div>
+                    <div class="cheatsheet-item"><code>$</code> <span>文字列の末尾</span></div>
+                    <div class="cheatsheet-item"><code>\b</code> <span>単語境界</span></div>
+                </div>
+                <div class="cheatsheet-category">
+                    <h4>グループ</h4>
+                    <div class="cheatsheet-item"><code>(abc)</code> <span>キャプチャグループ</span></div>
+                    <div class="cheatsheet-item"><code>(?:abc)</code> <span>非キャプチャグループ</span></div>
+                    <div class="cheatsheet-item"><code>a|b</code> <span>aまたはb</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <div class="seo-content">
+            <h2>無料オンライン正規表現テスター</h2>
+            <p>無料オンライン正規表現テスターで正規表現を即座にテストします。入力するとすぐにマッチ結果がリアルタイムでハイライト表示されます。</p>
+
+            <h3>主な機能</h3>
+            <ul>
+                <li><strong>リアルタイムテスト:</strong> 入力するとすぐに結果を確認</li>
+                <li><strong>マッチのハイライト表示:</strong> マッチしたテキストを視覚的に表示</li>
+                <li><strong>よく使うパターン:</strong> メールアドレス、URL、電話番号などのあらかじめ用意されたパターン</li>
+                <li><strong>フラグサポート:</strong> グローバル、大文字小文字を区別しない、複数行、dotallフラグ</li>
+                <li><strong>チートシート:</strong> 正規表現構文のクイックリファレンス</li>
+            </ul>
+
+            <h3>使用方法</h3>
+            <ul>
+                <li>入力フィールドに正規表現パターンを入力してください</li>
+                <li>必要に応じてフラグ（g、i、m、s）を選択してください</li>
+                <li>テスト文字列を貼り付けまたは入力してください</li>
+                <li>マッチした部分が自動的にハイライト表示されます</li>
+            </ul>
+        </div>
+
+        <div class="ad-banner">広告</div>
+
+        <footer>
+            <p>開発者のために作りました</p>
+            <p style="margin-top: 10px;">
+                <a href="/">ホーム</a> ·
+                <a href="#privacy">プライバシーポリシー</a> ·
+                <a href="#terms">利用規約</a>
+            </p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const regexInput = document.getElementById('regexInput');
+        const testString = document.getElementById('testString');
+        const matchResult = document.getElementById('matchResult');
+        const regexStatus = document.getElementById('regexStatus');
+        const matchInfo = document.getElementById('matchInfo');
+        const matchCount = document.getElementById('matchCount');
+        const matchList = document.getElementById('matchList');
+
+        let flags = 'gm';
+
+        // Flag buttons
+        document.querySelectorAll('.flag-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('active');
+                updateFlags();
+                testRegex();
+            });
+        });
+
+        function updateFlags() {
+            flags = '';
+            document.querySelectorAll('.flag-btn.active').forEach(btn => {
+                flags += btn.dataset.flag;
+            });
+        }
+
+        // Pattern buttons
+        document.querySelectorAll('.pattern-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                regexInput.value = btn.dataset.pattern;
+                testRegex();
+            });
+        });
+
+        // Real-time testing
+        regexInput.addEventListener('input', testRegex);
+        testString.addEventListener('input', testRegex);
+
+        function testRegex() {
+            const pattern = regexInput.value;
+            const text = testString.value;
+
+            if (!pattern) {
+                regexStatus.className = 'regex-status empty';
+                regexStatus.textContent = '正規表現を入力するとテストが開始されます';
+                matchResult.innerHTML = text || 'マッチした部分がここにハイライト表示されます...';
+                matchInfo.style.display = 'none';
+                return;
+            }
+
+            try {
+                const regex = new RegExp(pattern, flags);
+                regexStatus.className = 'regex-status valid';
+                regexStatus.textContent = '✓ 有効な正規表現です';
+
+                if (!text) {
+                    matchResult.innerHTML = 'テスト文字列を入力するとマッチ結果を確認できます...';
+                    matchInfo.style.display = 'none';
+                    return;
+                }
+
+                // Find matches
+                const matches = [...text.matchAll(new RegExp(pattern, flags.includes('g') ? flags : flags + 'g'))];
+
+                if (matches.length === 0) {
+                    matchResult.innerHTML = escapeHtml(text);
+                    matchCount.textContent = 'マッチ結果なし';
+                    matchList.innerHTML = '';
+                    matchInfo.style.display = 'block';
+                    return;
+                }
+
+                // Highlight matches
+                let result = '';
+                let lastIndex = 0;
+
+                matches.forEach((match, i) => {
+                    result += escapeHtml(text.slice(lastIndex, match.index));
+                    result += `<span class="match">${escapeHtml(match[0])}</span>`;
+                    lastIndex = match.index + match[0].length;
+                });
+                result += escapeHtml(text.slice(lastIndex));
+
+                matchResult.innerHTML = result;
+
+                // Match info
+                matchCount.textContent = `${matches.length}個マッチしました`;
+                matchList.innerHTML = matches.map((m, i) => `
+                    <div class="match-item">
+                        <span class="match-index">#${i + 1} [${m.index}]</span>
+                        <span class="match-value">"${escapeHtml(m[0])}"</span>
+                    </div>
+                `).join('');
+                matchInfo.style.display = 'block';
+
+            } catch (e) {
+                regexStatus.className = 'regex-status invalid';
+                regexStatus.textContent = '✗ ' + e.message;
+                matchResult.innerHTML = escapeHtml(text) || 'マッチした部分がここにハイライト表示されます...';
+                matchInfo.style.display = 'none';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function loadSample() {
+            testString.value = `サンプルテキスト:
+
+メール: tanaka@example.com
+電話番号: 03-1234-5678
+URL: https://www.example.com/path?query=123
+日付: 2024-01-15
+IP: 192.168.1.1
+カラーコード: #ff5733
+
+<div class="container">
+  <p>こんにちは</p>
+</div>
+
+Password123
+test@test.co.jp`;
+            testRegex();
+        }
+
+        function copyMatches() {
+            const pattern = regexInput.value;
+            const text = testString.value;
+
+            if (!pattern || !text) {
+                showToast('コピーするマッチがありません');
+                return;
+            }
+
+            try {
+                const regex = new RegExp(pattern, flags.includes('g') ? flags : flags + 'g');
+                const matches = [...text.matchAll(regex)].map(m => m[0]);
+
+                if (matches.length === 0) {
+                    showToast('コピーするマッチがありません');
+                    return;
+                }
+
+                navigator.clipboard.writeText(matches.join('\n'));
+                showToast(`${matches.length}個のマッチをコピーしました!`);
+            } catch (e) {
+                showToast('マッチのコピー中にエラーが発生しました');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Keyboard shortcut
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                testRegex();
+            }
+        });
+    </script>
+</body>
+</html>

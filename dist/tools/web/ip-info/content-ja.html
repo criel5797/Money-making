@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP 주소 정보 - 무료 IP 조회 도구</title>
-    <meta name="description" content="무료 IP 주소 조회 도구. 공인 IP, 위치, ISP 및 네트워크 정보를 즉시 확인하세요. 모든 IP 주소의 상세 정보를 조회합니다.">
-    <meta name="keywords" content="IP 주소, IP 조회, 내 IP 확인, IP 위치, IP 정보, 네트워크 정보">
+    <title>IPアドレス情報 - 無料IP検索ツール</title>
+    <meta name="description" content="無料IPアドレス検索ツール。グローバルIP、位置情報、ISP、ネットワーク情報を即座に確認できます。すべてのIPアドレスの詳細情報を検索します。">
+    <meta name="keywords" content="IPアドレス, IP検索, 私のIP確認, IP位置情報, IP情報, ネットワーク情報">
 
-    <meta property="og:title" content="IP 주소 정보 - 무료 IP 조회 도구">
-    <meta property="og:description" content="IP 주소와 위치 정보를 즉시 확인하세요.">
+    <meta property="og:title" content="IPアドレス情報 - 無料IP検索ツール">
+    <meta property="og:description" content="IPアドレスと位置情報を即座に確認できます。">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -277,67 +277,67 @@
             <div class="lang-switch">
                 <a href="index.html">English</a>
             </div>
-            <h1>IP 주소 정보</h1>
-            <p class="subtitle">IP 주소와 위치 정보 확인</p>
+            <h1>IPアドレス情報</h1>
+            <p class="subtitle">IPアドレスと位置情報を確認</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="ip-display">
-            <div class="ip-label">내 공인 IP 주소</div>
-            <div class="ip-address" id="myIp">로딩 중...</div>
+            <div class="ip-label">私のグローバルIPアドレス</div>
+            <div class="ip-address" id="myIp">読み込み中...</div>
             <div class="ip-actions">
-                <button class="btn btn-primary" onclick="copyIP()">IP 복사</button>
-                <button class="btn btn-secondary" onclick="refreshIP()">새로고침</button>
+                <button class="btn btn-primary" onclick="copyIP()">IPをコピー</button>
+                <button class="btn btn-secondary" onclick="refreshIP()">更新</button>
             </div>
         </div>
 
         <div id="infoContent">
             <div class="loading">
                 <div class="spinner"></div>
-                <span>IP 정보를 가져오는 중...</span>
+                <span>IP情報を取得中...</span>
             </div>
         </div>
 
         <div class="lookup-section">
-            <h2>다른 IP 주소 조회</h2>
+            <h2>他のIPアドレスを検索</h2>
             <div class="lookup-form">
-                <input type="text" class="lookup-input" id="lookupInput" placeholder="IP 주소 입력 (예: 8.8.8.8)">
-                <button class="btn btn-primary" onclick="lookupIP()">조회</button>
+                <input type="text" class="lookup-input" id="lookupInput" placeholder="IPアドレスを入力 (例: 8.8.8.8)">
+                <button class="btn btn-primary" onclick="lookupIP()">検索</button>
             </div>
         </div>
 
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#127760;</div>
-                <h3>위치 정보</h3>
-                <p>국가, 지역, 도시, 시간대</p>
+                <h3>位置情報</h3>
+                <p>国、地域、都市、タイムゾーン</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128225;</div>
-                <h3>ISP 정보</h3>
-                <p>인터넷 서비스 제공자 상세</p>
+                <h3>ISP情報</h3>
+                <p>インターネットサービスプロバイダーの詳細</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128274;</div>
-                <h3>개인정보 확인</h3>
-                <p>VPN 및 프록시 감지</p>
+                <h3>プライバシー確認</h3>
+                <p>VPNとプロキシの検出</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#9889;</div>
-                <h3>즉시 결과</h3>
-                <p>실시간 IP 정보 조회</p>
+                <h3>即時結果</h3>
+                <p>リアルタイムIP情報検索</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>무료 IP 주소 조회 도구 | IP 위치 및 상세 정보 확인</p>
+            <p>無料IPアドレス検索ツール | IP位置情報と詳細を確認</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">コピーしました!</div>
 
     <script>
         let currentIP = '';
@@ -349,13 +349,13 @@
                 const response = await fetch(url);
 
                 if (!response.ok) {
-                    throw new Error('IP 정보 가져오기 실패');
+                    throw new Error('IP情報の取得に失敗しました');
                 }
 
                 const data = await response.json();
 
                 if (data.error) {
-                    throw new Error(data.reason || '잘못된 IP 주소');
+                    throw new Error(data.reason || '無効なIPアドレス');
                 }
 
                 return data;
@@ -375,54 +375,54 @@
                     <div class="info-card">
                         <div class="info-card-header">
                             <span class="info-icon">&#127758;</span>
-                            <span class="info-title">위치</span>
+                            <span class="info-title">位置情報</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">국가</span>
-                            <span class="info-value">${data.country_name || '정보 없음'} ${data.country_code ? `(${data.country_code})` : ''}</span>
+                            <span class="info-label">国</span>
+                            <span class="info-value">${data.country_name || '情報なし'} ${data.country_code ? `(${data.country_code})` : ''}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">지역</span>
-                            <span class="info-value">${data.region || '정보 없음'}</span>
+                            <span class="info-label">地域</span>
+                            <span class="info-value">${data.region || '情報なし'}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">도시</span>
-                            <span class="info-value">${data.city || '정보 없음'}</span>
+                            <span class="info-label">都市</span>
+                            <span class="info-value">${data.city || '情報なし'}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">우편번호</span>
-                            <span class="info-value">${data.postal || '정보 없음'}</span>
+                            <span class="info-label">郵便番号</span>
+                            <span class="info-value">${data.postal || '情報なし'}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">좌표</span>
-                            <span class="info-value">${data.latitude || '정보 없음'}, ${data.longitude || '정보 없음'}</span>
+                            <span class="info-label">座標</span>
+                            <span class="info-value">${data.latitude || '情報なし'}, ${data.longitude || '情報なし'}</span>
                         </div>
                     </div>
 
                     <div class="info-card">
                         <div class="info-card-header">
                             <span class="info-icon">&#128225;</span>
-                            <span class="info-title">네트워크</span>
+                            <span class="info-title">ネットワーク</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">ISP</span>
-                            <span class="info-value">${data.org || '정보 없음'}</span>
+                            <span class="info-value">${data.org || '情報なし'}</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">ASN</span>
-                            <span class="info-value">${data.asn || '정보 없음'}</span>
+                            <span class="info-value">${data.asn || '情報なし'}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">시간대</span>
-                            <span class="info-value">${data.timezone || '정보 없음'}</span>
+                            <span class="info-label">タイムゾーン</span>
+                            <span class="info-value">${data.timezone || '情報なし'}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">UTC 오프셋</span>
-                            <span class="info-value">${data.utc_offset || '정보 없음'}</span>
+                            <span class="info-label">UTCオフセット</span>
+                            <span class="info-value">${data.utc_offset || '情報なし'}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">통화</span>
-                            <span class="info-value">${data.currency_name || '정보 없음'} (${data.currency || '정보 없음'})</span>
+                            <span class="info-label">通貨</span>
+                            <span class="info-value">${data.currency_name || '情報なし'} (${data.currency || '情報なし'})</span>
                         </div>
                     </div>
                 </div>
@@ -448,17 +448,17 @@
         function copyIP() {
             if (currentIP) {
                 navigator.clipboard.writeText(currentIP).then(() => {
-                    showToast('IP 주소 복사됨!');
+                    showToast('IPアドレスをコピーしました!');
                 });
             }
         }
 
         async function refreshIP() {
-            document.getElementById('myIp').textContent = '로딩 중...';
+            document.getElementById('myIp').textContent = '読み込み中...';
             document.getElementById('infoContent').innerHTML = `
                 <div class="loading">
                     <div class="spinner"></div>
-                    <span>IP 정보를 새로고침 중...</span>
+                    <span>IP情報を更新中...</span>
                 </div>
             `;
 
@@ -466,7 +466,7 @@
                 const data = await fetchIPInfo();
                 displayIPInfo(data);
             } catch (error) {
-                displayError('IP 정보를 가져오지 못했습니다. 다시 시도해주세요.');
+                displayError('IP情報を取得できませんでした。もう一度お試しください。');
             }
         }
 
@@ -474,7 +474,7 @@
             const ip = document.getElementById('lookupInput').value.trim();
 
             if (!ip) {
-                showToast('IP 주소를 입력해주세요');
+                showToast('IPアドレスを入力してください');
                 return;
             }
 
@@ -482,15 +482,15 @@
             const ipv6Regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
 
             if (!ipv4Regex.test(ip) && !ipv6Regex.test(ip)) {
-                showToast('유효한 IP 주소를 입력해주세요');
+                showToast('有効なIPアドレスを入力してください');
                 return;
             }
 
-            document.getElementById('myIp').textContent = '로딩 중...';
+            document.getElementById('myIp').textContent = '読み込み中...';
             document.getElementById('infoContent').innerHTML = `
                 <div class="loading">
                     <div class="spinner"></div>
-                    <span>${ip} 조회 중...</span>
+                    <span>${ip} を検索中...</span>
                 </div>
             `;
 
@@ -498,7 +498,7 @@
                 const data = await fetchIPInfo(ip);
                 displayIPInfo(data);
             } catch (error) {
-                displayError(`IP 조회 실패: ${error.message}`);
+                displayError(`IP検索に失敗しました: ${error.message}`);
                 document.getElementById('myIp').textContent = ip;
             }
         }
@@ -521,7 +521,7 @@
                 const data = await fetchIPInfo();
                 displayIPInfo(data);
             } catch (error) {
-                displayError('IP 정보를 가져오지 못했습니다. 페이지를 새로고침해주세요.');
+                displayError('IP情報を取得できませんでした。ページを更新してください。');
             }
         })();
     </script>

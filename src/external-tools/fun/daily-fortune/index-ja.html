@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日の運勢 - AI無料占い</title>
+    <style>
+        /* Styles remain the same */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; color: #fff; position: relative; overflow-x: hidden; }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 2s infinite ease-in-out; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+        .moon { position: fixed; top: 50px; right: 50px; width: 80px; height: 80px; background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%); border-radius: 50%; box-shadow: 0 0 50px rgba(253, 203, 110, 0.5); z-index: 0; }
+        .moon::before { content: ''; position: absolute; top: 10px; right: -5px; width: 70px; height: 70px; background: #16213e; border-radius: 50%; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+        header { text-align: center; padding: 30px 0; }
+        .logo { font-size: 2.5rem; margin-bottom: 10px; }
+        h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { color: #a0a0c0; margin-top: 8px; font-size: 0.95rem; }
+        .today-date { background: rgba(255, 255, 255, 0.1); padding: 10px 20px; border-radius: 20px; display: inline-block; margin-top: 15px; font-size: 0.9rem; color: #ffeaa7; }
+        .ad-banner { background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 20px; text-align: center; margin: 20px 0; color: rgba(255, 255, 255, 0.4); font-size: 0.85rem; }
+        .input-section { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; color: #ffeaa7; display: flex; align-items: center; gap: 8px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab { flex: 1; min-width: 80px; padding: 12px 15px; background: rgba(255, 255, 255, 0.1); border: none; border-radius: 12px; color: #a0a0c0; font-size: 0.9rem; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+        .tab:hover { background: rgba(255, 255, 255, 0.15); }
+        .tab.active { background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); color: #fff; }
+        .options-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .options-grid.zodiac { grid-template-columns: repeat(3, 1fr); }
+        .option-btn { padding: 15px 10px; background: rgba(255, 255, 255, 0.08); border: 2px solid transparent; border-radius: 12px; color: #ccc; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; font-family: inherit; text-align: center; }
+        .option-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(108, 92, 231, 0.5); }
+        .option-btn.selected { background: rgba(108, 92, 231, 0.2); border-color: #6c5ce7; color: #fff; }
+        .option-btn .icon { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        .generate-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); border: none; border-radius: 15px; color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(108, 92, 231, 0.4); }
+        .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .result-section { display: none; animation: fadeIn 0.5s ease; }
+        .result-section.show { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fortune-card { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .fortune-header { text-align: center; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .user-info { font-size: 1.2rem; color: #ffeaa7; margin-bottom: 10px; }
+        .overall-score { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; }
+        .score-label { font-size: 0.9rem; color: #a0a0c0; }
+        .score-stars { font-size: 1.5rem; color: #ffeaa7; }
+        .score-text { font-size: 0.9rem; color: #a29bfe; font-weight: 600; }
+        .fortune-categories { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; }
+        .fortune-category { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; text-align: center; }
+        .category-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .category-name { font-size: 0.85rem; color: #a0a0c0; margin-bottom: 5px; }
+        .category-score { font-size: 1rem; color: #ffeaa7; }
+        .main-fortune { background: rgba(108, 92, 231, 0.15); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        .main-fortune-title { font-size: 1rem; color: #a29bfe; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .main-fortune-text { font-size: 0.95rem; line-height: 1.8; color: #e0e0e0; }
+        .advice-section { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .advice-item { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; text-align: center; }
+        .advice-label { font-size: 0.8rem; color: #a0a0c0; margin-bottom: 8px; }
+        .advice-value { font-size: 1rem; color: #ffeaa7; font-weight: 500; }
+        .action-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .action-btn { flex: 1; padding: 15px; background: rgba(255, 255, 255, 0.1); border: none; border-radius: 12px; color: #fff; font-size: 0.9rem; cursor: pointer; transition: all 0.3s; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .action-btn:hover { background: rgba(255, 255, 255, 0.15); }
+        .action-btn.primary { background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(0, 0, 0, 0.9); color: #fff; padding: 15px 25px; border-radius: 10px; font-size: 0.9rem; z-index: 1000; transition: transform 0.3s; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        footer { text-align: center; padding: 30px; color: #666; font-size: 0.85rem; }
+        .loading { display: none; text-align: center; padding: 40px; }
+        .loading.show { display: block; }
+        .crystal-ball { font-size: 4rem; animation: float 2s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .loading-text { margin-top: 15px; color: #a0a0c0; }
+        @media (max-width: 480px) { .options-grid { grid-template-columns: repeat(3, 1fr); } .options-grid.zodiac { grid-template-columns: repeat(3, 1fr); } .fortune-categories { grid-template-columns: 1fr; } .advice-section { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="moon"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">🔮</div>
+            <h1>今日の運勢</h1>
+            <p class="subtitle">AIが分析するあなただけのデイリー運勢</p>
+            <div class="today-date" id="todayDate"></div>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="input-section">
+            <div class="section-title">🌙 占いタイプを選択</div>
+            <div class="tabs">
+                <button class="tab active" data-type="zodiac">星座</button>
+                <button class="tab" data-type="chinese">干支</button>
+                <button class="tab" data-type="blood">血液型</button>
+            </div>
+
+            <div id="zodiac-options" class="options-container">
+                <div class="options-grid zodiac">
+                    <button class="option-btn" data-value="aries"><span class="icon">♈</span><span class="label">牡羊座</span><br><small>3.21-4.19</small></button>
+                    <button class="option-btn" data-value="taurus"><span class="icon">♉</span><span class="label">牡牛座</span><br><small>4.20-5.20</small></button>
+                    <button class="option-btn" data-value="gemini"><span class="icon">♊</span><span class="label">双子座</span><br><small>5.21-6.21</small></button>
+                    <button class="option-btn" data-value="cancer"><span class="icon">♋</span><span class="label">蟹座</span><br><small>6.22-7.22</small></button>
+                    <button class="option-btn" data-value="leo"><span class="icon">♌</span><span class="label">獅子座</span><br><small>7.23-8.22</small></button>
+                    <button class="option-btn" data-value="virgo"><span class="icon">♍</span><span class="label">乙女座</span><br><small>8.23-9.22</small></button>
+                    <button class="option-btn" data-value="libra"><span class="icon">♎</span><span class="label">天秤座</span><br><small>9.23-10.22</small></button>
+                    <button class="option-btn" data-value="scorpio"><span class="icon">♏</span><span class="label">蠍座</span><br><small>10.23-11.21</small></button>
+                    <button class="option-btn" data-value="sagittarius"><span class="icon">♐</span><span class="label">射手座</span><br><small>11.22-12.21</small></button>
+                    <button class="option-btn" data-value="capricorn"><span class="icon">♑</span><span class="label">山羊座</span><br><small>12.22-1.19</small></button>
+                    <button class="option-btn" data-value="aquarius"><span class="icon">♒</span><span class="label">水瓶座</span><br><small>1.20-2.18</small></button>
+                    <button class="option-btn" data-value="pisces"><span class="icon">♓</span><span class="label">魚座</span><br><small>2.19-3.20</small></button>
+                </div>
+            </div>
+
+            <div id="chinese-options" class="options-container" style="display: none;">
+                <div class="options-grid">
+                    <button class="option-btn" data-value="rat"><span class="icon">🐭</span><span class="label">子年</span></button>
+                    <button class="option-btn" data-value="ox"><span class="icon">🐮</span><span class="label">丑年</span></button>
+                    <button class="option-btn" data-value="tiger"><span class="icon">🐯</span><span class="label">寅年</span></button>
+                    <button class="option-btn" data-value="rabbit"><span class="icon">🐰</span><span class="label">卯年</span></button>
+                    <button class="option-btn" data-value="dragon"><span class="icon">🐲</span><span class="label">辰年</span></button>
+                    <button class="option-btn" data-value="snake"><span class="icon">🐍</span><span class="label">巳年</span></button>
+                    <button class="option-btn" data-value="horse"><span class="icon">🐴</span><span class="label">午年</span></button>
+                    <button class="option-btn" data-value="sheep"><span class="icon">🐑</span><span class="label">未年</span></button>
+                    <button class="option-btn" data-value="monkey"><span class="icon">🐵</span><span class="label">申年</span></button>
+                    <button class="option-btn" data-value="rooster"><span class="icon">🐔</span><span class="label">酉年</span></button>
+                    <button class="option-btn" data-value="dog"><span class="icon">🐶</span><span class="label">戌年</span></button>
+                    <button class="option-btn" data-value="pig"><span class="icon">🐷</span><span class="label">亥年</span></button>
+                </div>
+            </div>
+
+            <div id="blood-options" class="options-container" style="display: none;">
+                <div class="options-grid">
+                    <button class="option-btn" data-value="A"><span class="icon">🅰️</span><span class="label">A型</span></button>
+                    <button class="option-btn" data-value="B"><span class="icon">🅱️</span><span class="label">B型</span></button>
+                    <button class="option-btn" data-value="O"><span class="icon">🅾️</span><span class="label">O型</span></button>
+                    <button class="option-btn" data-value="AB"><span class="icon">🆎</span><span class="label">AB型</span></button>
+                </div>
+            </div>
+
+            <button class="generate-btn" id="generateBtn" disabled>
+                <span>🔮</span> <span>今日の運勢を見る</span>
+            </button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="crystal-ball">🔮</div>
+            <p class="loading-text">運勢を占い中...</p>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="fortune-card">
+                <div class="fortune-header">
+                    <div class="user-info" id="userInfo"></div>
+                    <div class="overall-score">
+                        <span class="score-label">今日の運勢</span>
+                        <span class="score-stars" id="scoreStars"></span>
+                        <span class="score-text" id="scoreText"></span>
+                    </div>
+                </div>
+
+                <div class="fortune-categories">
+                    <div class="fortune-category">
+                        <div class="category-icon">💕</div>
+                        <div class="category-name">恋愛運</div>
+                        <div class="category-score" id="loveScore"></div>
+                    </div>
+                    <div class="fortune-category">
+                        <div class="category-icon">💰</div>
+                        <div class="category-name">金運</div>
+                        <div class="category-score" id="moneyScore"></div>
+                    </div>
+                    <div class="fortune-category">
+                        <div class="category-icon">💼</div>
+                        <div class="category-name">仕事運</div>
+                        <div class="category-score" id="workScore"></div>
+                    </div>
+                    <div class="fortune-category">
+                        <div class="category-icon">💪</div>
+                        <div class="category-name">健康運</div>
+                        <div class="category-score" id="healthScore"></div>
+                    </div>
+                </div>
+
+                <div class="main-fortune">
+                    <div class="main-fortune-title">✨ 今日の総合運</div>
+                    <p class="main-fortune-text" id="mainFortune"></p>
+                </div>
+
+                <div class="advice-section">
+                    <div class="advice-item">
+                        <div class="advice-label">ラッキーナンバー</div>
+                        <div class="advice-value" id="luckyNumber"></div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-label">ラッキーカラー</div>
+                        <div class="advice-value" id="luckyColor"></div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-label">ラッキー方位</div>
+                        <div class="advice-value" id="luckyDirection"></div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-label">今日のアドバイス</div>
+                        <div class="advice-value" id="advice"></div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn" id="copyBtn">📋 コピー</button>
+                    <button class="action-btn" id="shareBtn">📤 シェア</button>
+                    <button class="action-btn primary" id="retryBtn">🔄 もう一度</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            運勢は楽しみとしてご覧ください 😊
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function createStars(){const t=document.getElementById("stars");for(let e=0;e<100;e++){const n=document.createElement("div");n.className="star",n.style.left=100*Math.random()+"%",n.style.top=100*Math.random()+"%",n.style.width=3*Math.random()+1+"px",n.style.height=n.style.width,n.style.animationDelay=2*Math.random()+"s",t.appendChild(n)}}createStars();
+        const today=new Date,options={year:"numeric",month:"long",day:"numeric",weekday:"long"};
+        document.getElementById("todayDate").textContent=today.toLocaleDateString("ja-JP",options);
+
+        const fortunesFallback = {
+            総運: ["今日は新しい始まりに良い日です。", "幸運が訪れる一日です。"],
+            恋愛: ["恋人と良い時間になるでしょう。", "新しい出会いがあるかもしれません。"],
+            金銭: ["予想外の収入が期待できます。", "支出に注意しましょう。"],
+            職場: ["業務効率が上がる日です。", "認められる機会があります。"],
+            健康: ["コンディションがとても良いです。", "休息が必要です。"]
+        };
+        const luckyColorsFallback = ['赤', '青', '黄色', '緑'];
+        const luckyDirectionsFallback = ['東', '西', '南', '北'];
+        const advicesFallback = ['笑顔を', '休息を'];
+
+        let currentType="zodiac",selectedValue=null;
+
+        document.querySelectorAll(".tab").forEach(t=>{t.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(e=>e.classList.remove("active")),t.classList.add("active"),currentType=t.dataset.type,document.querySelectorAll(".options-container").forEach(e=>e.style.display="none"),document.getElementById(`${currentType}-options`).style.display="block",document.querySelectorAll(".option-btn").forEach(e=>e.classList.remove("selected")),selectedValue=null,updateGenerateButton()})});
+        document.querySelectorAll(".option-btn").forEach(t=>{t.addEventListener("click",()=>{t.closest(".options-container").querySelectorAll(".option-btn").forEach(e=>e.classList.remove("selected")),t.classList.add("selected"),selectedValue=t.dataset.value,updateGenerateButton()})});
+        function updateGenerateButton(){document.getElementById("generateBtn").disabled=!selectedValue}
+        function seededRandom(t){const e=1e4*Math.sin(t);return e-Math.floor(e)}
+        function getSeededRandom(t,e){return t[Math.floor(seededRandom(e)*t.length)]}
+        function generateScore(t){return Math.floor(seededRandom(t)*5)+1}
+        function getStars(t){return"★".repeat(t)+"☆".repeat(5-t)}
+        function getScoreText(t){return["低い","普通","良い","とても良い","最高"][t-1]}
+
+        document.getElementById("generateBtn").addEventListener("click",generateFortune);
+
+        function generateFortune(){
+            const t=document.getElementById("loading"),e=document.getElementById("resultSection");
+            t.classList.add("show"),e.classList.remove("show"),setTimeout(()=>{
+                const t=today.toISOString().split("T")[0],n=t+selectedValue+currentType;
+                let o=0;for(let a=0;a<n.length;a++)o+=n.charCodeAt(a)*(a+1);
+
+                document.getElementById("userInfo").textContent=selectedValue;
+
+                const r=generateScore(o),c=generateScore(o+1),l=generateScore(o+2),s=generateScore(o+3),d=generateScore(o+4);
+                document.getElementById("scoreStars").textContent=getStars(r),
+                document.getElementById("scoreText").textContent=r+"/5",
+                document.getElementById("loveScore").textContent=getStars(c),
+                document.getElementById("moneyScore").textContent=getStars(l),
+                document.getElementById("workScore").textContent=getStars(s),
+                document.getElementById("healthScore").textContent=getStars(d);
+
+                const mainFortune = "あなたの運勢は" + r + "/5です。" + (r>3 ? "素晴らしい日になるでしょう！" : "安全にお過ごしください。");
+                document.getElementById("mainFortune").textContent = mainFortune;
+
+                document.getElementById("luckyNumber").textContent=getSeededRandom(["3","7","8","9"],o+100),
+                document.getElementById("luckyColor").textContent=getSeededRandom(["赤","青","緑"],o+200),
+                document.getElementById("luckyDirection").textContent=getSeededRandom(["東","西"],o+300),
+                document.getElementById("advice").textContent=getSeededRandom(["笑顔を","頑張って"],o+400),
+
+                t.classList.remove("show"),e.classList.add("show")
+            },1500)
+        }
+
+        document.getElementById("copyBtn").addEventListener("click",()=>{
+            navigator.clipboard.writeText(document.getElementById("mainFortune").textContent).then(()=>alert("コピーしました！"))
+        });
+        document.getElementById("shareBtn").addEventListener("click",()=>{
+            navigator.share?navigator.share({title:"運勢",text:document.getElementById("mainFortune").textContent}):alert("シェアに対応していません")
+        });
+        document.getElementById("retryBtn").addEventListener("click",()=>{
+            document.getElementById("resultSection").classList.remove("show"),
+            document.querySelectorAll(".option-btn").forEach(t=>t.classList.remove("selected")),
+            selectedValue=null,updateGenerateButton(),window.scrollTo({top:0,behavior:"smooth"})
+        });
+    </script>
+</body>
+</html>

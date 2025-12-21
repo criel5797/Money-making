@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI手相占い - 無料手相診断</title>
+    <meta name="description" content="無料AI手相診断!生命線、頭脳線、感情線、運命線を分析します。手相で分かるあなたの運命と性格。">
+    <meta name="keywords" content="手相、手相占い、手相診断、生命線、頭脳線、感情線、運命線、無料手相">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI手相占い - 無料手相診断">
+    <meta property="og:description" content="AIが分析する手相!生命線、頭脳線、感情線で分かるあなたの運命。">
+    <meta property="og:type" content="website">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 50%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .palm-visual {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .palm-emoji {
+            font-size: 8rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+        }
+
+        .palm-guide {
+            color: #ffd700;
+            font-size: 14px;
+        }
+
+        .line-selector {
+            margin-bottom: 25px;
+        }
+
+        .line-selector h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .lines-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .line-option {
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .line-option:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .line-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .line-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .line-name {
+            font-weight: 600;
+            color: #e4e4e4;
+            margin-bottom: 4px;
+        }
+
+        .line-desc {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .characteristics {
+            margin-bottom: 25px;
+        }
+
+        .characteristics h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .char-option {
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .char-option:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .char-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border: none;
+            border-radius: 12px;
+            color: #1a1a2e;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 140, 0, 0.15));
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .result-summary {
+            color: #e4e4e4;
+            line-height: 1.6;
+        }
+
+        .line-results {
+            display: grid;
+            gap: 20px;
+        }
+
+        .line-result {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 25px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .line-result-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .line-result-icon {
+            font-size: 1.8rem;
+        }
+
+        .line-result-name {
+            font-size: 1.2rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .line-score {
+            margin-bottom: 15px;
+        }
+
+        .score-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff8c00);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .score-label {
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .line-interpretation {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .overall-fortune {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .fortune-title {
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .fortune-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .fortune-item {
+            text-align: center;
+            padding: 15px 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+        }
+
+        .fortune-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .fortune-label {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .advice-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+        }
+
+        .advice-title {
+            color: #ffd700;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .advice-content {
+            color: #ccc;
+            line-height: 1.7;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
+        }
+
+        .retry-btn {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .disclaimer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .palm-emoji { font-size: 5rem; }
+            .lines-grid, .char-grid { grid-template-columns: 1fr; }
+            .fortune-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .action-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI手相占い</h1>
+            <p class="subtitle">手相で分かるあなたの運命</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div id="inputSection">
+            <div class="card palm-visual">
+                <div class="palm-emoji">&#9995;</div>
+                <p class="palm-guide">左手を開いて手相の特徴を選んでください</p>
+            </div>
+
+            <div class="card">
+                <div class="line-selector">
+                    <h3>&#128587; 生命線（親指を囲む線）</h3>
+                    <div class="char-grid" data-line="life">
+                        <div class="char-option" data-value="long">長くて深い</div>
+                        <div class="char-option" data-value="short">短いか浅い</div>
+                        <div class="char-option" data-value="curved">大きく湾曲</div>
+                        <div class="char-option" data-value="straight">直線に近い</div>
+                    </div>
+                </div>
+
+                <div class="line-selector">
+                    <h3>&#128161; 頭脳線（手のひら中央の横線）</h3>
+                    <div class="char-grid" data-line="head">
+                        <div class="char-option" data-value="long">長くて明瞭</div>
+                        <div class="char-option" data-value="short">短い</div>
+                        <div class="char-option" data-value="curved">下向きに曲がる</div>
+                        <div class="char-option" data-value="straight">直線</div>
+                    </div>
+                </div>
+
+                <div class="line-selector">
+                    <h3>&#128150; 感情線（手のひら上部の横線）</h3>
+                    <div class="char-grid" data-line="heart">
+                        <div class="char-option" data-value="long">長くて深い</div>
+                        <div class="char-option" data-value="short">短い</div>
+                        <div class="char-option" data-value="curved">上向きに曲がる</div>
+                        <div class="char-option" data-value="wavy">波状</div>
+                    </div>
+                </div>
+
+                <div class="line-selector">
+                    <h3>&#11088; 運命線（縦線）</h3>
+                    <div class="char-grid" data-line="fate">
+                        <div class="char-option" data-value="clear">はっきりしている</div>
+                        <div class="char-option" data-value="faint">かすかに見える</div>
+                        <div class="char-option" data-value="broken">途切れている</div>
+                        <div class="char-option" data-value="none">ないか見えない</div>
+                    </div>
+                </div>
+
+                <button class="analyze-btn" id="analyzeBtn" onclick="analyzePalm()">&#128302; 手相を診断</button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section">
+            <div class="card">
+                <div class="result-header">
+                    <div class="result-title" id="resultTitle">手相診断結果</div>
+                    <p class="result-summary" id="resultSummary"></p>
+                </div>
+
+                <div class="line-results" id="lineResults"></div>
+
+                <div class="overall-fortune">
+                    <div class="fortune-title">&#127775; 総合運勢指数</div>
+                    <div class="fortune-grid" id="fortuneGrid"></div>
+                </div>
+
+                <div class="advice-section">
+                    <div class="advice-title">&#128172; アドバイス</div>
+                    <p class="advice-content" id="adviceContent"></p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn share-btn" onclick="shareResult()">結果を共有</button>
+                    <button class="action-btn retry-btn" onclick="retry()">もう一度占う</button>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                &#9888;&#65039; この手相診断は娯楽のためのものであり、実際の運命とは関係ありません。
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>AI手相占い | 無料手相診断</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let selectedLines = {
+            life: null,
+            head: null,
+            heart: null,
+            fate: null
+        };
+
+        const lineData = {
+            life: {
+                name: '生命線',
+                icon: '&#128587;',
+                interpretations: {
+                    long: { score: 90, text: '生命力に満ち溢れ、活力があります。健康で長い人生を生きる可能性が高く、回復力も優れています。' },
+                    short: { score: 65, text: '短い生命線は効率的な人生を意味します。量より質を追求し、集中力のある人生を送ります。' },
+                    curved: { score: 85, text: '豊かなエネルギーと情熱を持っています。人生を積極的に楽しみ、多様な経験をします。' },
+                    straight: { score: 70, text: '慎重で用心深い性格です。安定した人生を求め、計画的に行動します。' }
+                }
+            },
+            head: {
+                name: '頭脳線',
+                icon: '&#128161;',
+                interpretations: {
+                    long: { score: 92, text: '優れた知的能力と分析力を持っています。複雑な問題も論理的に解決し、学習能力が卓越しています。' },
+                    short: { score: 68, text: '直感的で実用的な思考方式です。素早い判断力を持ち、行動指向的です。' },
+                    curved: { score: 80, text: '創造的で想像力が豊かです。芸術的感覚があり、独創的なアイデアをたくさん出します。' },
+                    straight: { score: 75, text: '現実的で論理的な思考をします。実用的な解決策を見つける能力に優れています。' }
+                }
+            },
+            heart: {
+                name: '感情線',
+                icon: '&#128150;',
+                interpretations: {
+                    long: { score: 88, text: '深く豊かな感情を持っています。愛に情熱的で、関係を大切にします。' },
+                    short: { score: 62, text: '独立的で自己中心的です。感情より理性を重視し、実用的な関係を好みます。' },
+                    curved: { score: 85, text: '温かくロマンチックな性格です。表現力に優れ、周りの人々に愛されます。' },
+                    wavy: { score: 70, text: '感情の起伏がありますが、多様な経験をします。複数の恋愛を通じて成長するタイプです。' }
+                }
+            },
+            fate: {
+                name: '運命線',
+                icon: '&#11088;',
+                interpretations: {
+                    clear: { score: 95, text: 'はっきりとした目標と方向性を持っています。成功的なキャリアを築く可能性が高く、自分の運命を切り開きます。' },
+                    faint: { score: 72, text: '柔軟な人生の態度を持っています。様々な可能性に開かれており、状況に応じて適応します。' },
+                    broken: { score: 65, text: '人生の転換点を経験します。変化を通じて成長し、新しい始まりを恐れません。' },
+                    none: { score: 60, text: '自由な魂の持ち主です。決められた道より自分だけの道を切り開いていきます。' }
+                }
+            }
+        };
+
+        // Event listeners for selection
+        document.querySelectorAll('.char-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const line = this.parentElement.dataset.line;
+                const value = this.dataset.value;
+
+                // Toggle selection
+                this.parentElement.querySelectorAll('.char-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+
+                selectedLines[line] = value;
+                updateButtonState();
+            });
+        });
+
+        function updateButtonState() {
+            const allSelected = Object.values(selectedLines).every(v => v !== null);
+            document.getElementById('analyzeBtn').disabled = !allSelected;
+        }
+
+        function analyzePalm() {
+            // Calculate results
+            let totalScore = 0;
+            let resultHTML = '';
+
+            Object.keys(selectedLines).forEach(line => {
+                const value = selectedLines[line];
+                const data = lineData[line];
+                const interpretation = data.interpretations[value];
+
+                totalScore += interpretation.score;
+
+                resultHTML += `
+                    <div class="line-result">
+                        <div class="line-result-header">
+                            <span class="line-result-icon">${data.icon}</span>
+                            <span class="line-result-name">${data.name}</span>
+                        </div>
+                        <div class="line-score">
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 0%;" data-score="${interpretation.score}"></div>
+                            </div>
+                            <div class="score-label">
+                                <span>運勢指数</span>
+                                <span>${interpretation.score}点</span>
+                            </div>
+                        </div>
+                        <p class="line-interpretation">${interpretation.text}</p>
+                    </div>
+                `;
+            });
+
+            const avgScore = Math.round(totalScore / 4);
+
+            // Generate fortune scores
+            const loveScore = Math.round((lineData.heart.interpretations[selectedLines.heart].score + avgScore) / 2);
+            const careerScore = Math.round((lineData.fate.interpretations[selectedLines.fate].score + lineData.head.interpretations[selectedLines.head].score) / 2);
+            const healthScore = lineData.life.interpretations[selectedLines.life].score;
+
+            const fortuneHTML = `
+                <div class="fortune-item">
+                    <div class="fortune-value">${loveScore}</div>
+                    <div class="fortune-label">恋愛運</div>
+                </div>
+                <div class="fortune-item">
+                    <div class="fortune-value">${careerScore}</div>
+                    <div class="fortune-label">仕事運</div>
+                </div>
+                <div class="fortune-item">
+                    <div class="fortune-value">${healthScore}</div>
+                    <div class="fortune-label">健康運</div>
+                </div>
+            `;
+
+            // Generate advice
+            const advices = [
+                avgScore >= 85 ? 'あなたの手相は非常に良いエネルギーを秘めています。自信を持って挑戦しましょう!' : '',
+                avgScore >= 70 && avgScore < 85 ? 'バランスの取れた人生を送っています。現在の方向性を維持しましょう。' : '',
+                avgScore < 70 ? '新しい挑戦と変化があなたに良い機会となるでしょう。' : '',
+                healthScore >= 80 ? '健康的な生活習慣を維持していますね。これからも続けましょう!' : '規則的な運動と十分な休息を取りましょう。',
+                loveScore >= 80 ? '愛について肯定的なエネルギーがあります。' : '心を開いて新しい縁を受け入れてみましょう。'
+            ].filter(a => a).join(' ');
+
+            // Summary based on score
+            let summary = '';
+            if (avgScore >= 85) {
+                summary = '&#127775; 非常に良い手相です!生まれつき強い運を持ち、努力した分だけ成果を得られる運を持っています。';
+            } else if (avgScore >= 75) {
+                summary = '&#128170; バランスの取れた良い手相です。安定した人生を歩み、着実な努力で成功できます。';
+            } else if (avgScore >= 65) {
+                summary = '&#127808; 発展の可能性がある手相です。変化を恐れなければより良い運が訪れるでしょう。';
+            } else {
+                summary = '&#127793; 自由な魂の手相です。自分だけの道を切り開き、ユニークな人生を送ることになるでしょう。';
+            }
+
+            // Display results
+            document.getElementById('resultSummary').innerHTML = summary;
+            document.getElementById('lineResults').innerHTML = resultHTML;
+            document.getElementById('fortuneGrid').innerHTML = fortuneHTML;
+            document.getElementById('adviceContent').textContent = advices;
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('resultSection').classList.add('show');
+
+            // Animate score bars
+            setTimeout(() => {
+                document.querySelectorAll('.score-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.score + '%';
+                });
+            }, 100);
+        }
+
+        function shareResult() {
+            const text = '私のAI手相診断結果を確認してみてください!';
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI手相占い結果',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
+                    showToast('リンクをコピーしました!');
+                });
+            }
+        }
+
+        function retry() {
+            selectedLines = { life: null, head: null, heart: null, fate: null };
+            document.querySelectorAll('.char-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('resultSection').classList.remove('show');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>

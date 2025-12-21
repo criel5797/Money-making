@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UUID 생성기 - 무료 온라인 UUID/GUID 생성</title>
-    <meta name="description" content="UUID (v1, v4)를 즉시 생성하세요. 대량 생성, 복사, 다운로드 기능이 포함된 무료 온라인 UUID 생성기.">
-    <meta name="keywords" content="uuid 생성기, guid 생성기, uuid v4, 랜덤 uuid, 고유 아이디 생성">
-    <meta property="og:title" content="UUID 생성기 - 무료 온라인 UUID/GUID 생성">
-    <meta property="og:description" content="UUID를 즉시 생성하세요. 대량 생성 지원.">
+    <title>UUID Generator - Free Online UUID/GUID Generator</title>
+    <meta name="description" content="Generate UUIDs (v1, v4) instantly. Free online UUID generator with bulk generation, copy, and download features.">
+    <meta name="keywords" content="uuid generator, guid generator, uuid v4, random uuid, unique id generator">
+    <meta property="og:title" content="UUID Generator - Free Online UUID/GUID Generator">
+    <meta property="og:description" content="Generate UUIDs instantly. Supports bulk generation.">
     <meta property="og:type" content="website">
 
     <style>
@@ -24,7 +24,7 @@
             --success: #22c55e;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -255,33 +255,33 @@
 <script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"UUID 생성기","en":"UUID Generator","ja":"UUID生成器"},"desc":{"ko":"UUID 생성","en":"Generate UUID","ja":"UUID生成"}},"header":{"title":{"ko":"UUID 생성기","en":"UUID Generator","ja":"UUID生成器"},"subtitle":{"ko":"고유 식별자 생성","en":"Generate Unique IDs","ja":"一意識別子生成"}},"display":{"placeholder":{"ko":"생성 클릭","en":"Click Generate","ja":"生成クリック"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}},"options":{"version":{"label":{"ko":"버전:","en":"Version:","ja":"バージョン:"},"v4":{"ko":"v4 (랜덤)","en":"v4 (Random)","ja":"v4 (ランダム)"},"v1":{"ko":"v1 (시간)","en":"v1 (Time)","ja":"v1 (時間)"}},"count":{"label":{"ko":"개수:","en":"Count:","ja":"個数:"}},"opts":{"upper":{"ko":"대문자","en":"Uppercase","ja":"大文字"},"nodash":{"ko":"하이픈 제외","en":"No Dashes","ja":"ハイフンなし"},"braces":{"ko":"중괄호 {}","en":"Braces {}","ja":"中括弧 {}"}}},"generate":{"ko":"🎲 생성하기","en":"🎲 Generate","ja":"🎲 生成"},"bulk":{"title":{"ko":"목록","en":"List","ja":"リスト"},"copyAll":{"ko":"전체 복사","en":"Copy All","ja":"全コピー"},"download":{"ko":"다운로드","en":"Download","ja":"DL"},"clear":{"ko":"지우기","en":"Clear","ja":"クリア"}},"info":{"title":{"ko":"UUID란?","en":"What is UUID?","ja":"UUIDとは？"}}};</script></head>
 <body>
     <div class="lang-switch">
-        <a href="index.html">English</a>
+        <a href="index-ko.html">한국어</a>
     </div>
 
     <div class="container">
         <header>
-            <h1>UUID 생성기</h1>
-            <p class="subtitle">고유 식별자를 즉시 생성하세요</p>
+            <h1>UUID Generator</h1>
+            <p class="subtitle">Generate unique identifiers instantly</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="main-card">
             <div class="uuid-display">
-                <span class="uuid-text" id="uuidDisplay">생성 버튼을 클릭하세요</span>
-                <button class="copy-btn" onclick="copyUUID()">📋 복사</button>
+                <span class="uuid-text" id="uuidDisplay">Click generate button</span>
+                <button class="copy-btn" onclick="copyUUID()">📋 Copy</button>
             </div>
 
             <div class="options-row">
                 <div class="option-group">
-                    <span class="option-label">버전:</span>
+                    <span class="option-label">Version:</span>
                     <select id="versionSelect">
-                        <option value="4" selected>v4 (랜덤)</option>
-                        <option value="1">v1 (타임스탬프)</option>
+                        <option value="4" selected>v4 (Random)</option>
+                        <option value="1">v1 (Timestamp)</option>
                     </select>
                 </div>
                 <div class="option-group">
-                    <span class="option-label">개수:</span>
+                    <span class="option-label">Count:</span>
                     <input type="number" id="countInput" value="1" min="1" max="100">
                 </div>
             </div>
@@ -289,65 +289,65 @@
             <div class="checkbox-group" style="margin-bottom: 20px;">
                 <div class="checkbox-item">
                     <input type="checkbox" id="uppercase">
-                    <label for="uppercase">대문자</label>
+                    <label for="uppercase">Uppercase</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="noDashes">
-                    <label for="noDashes">하이픈 제거</label>
+                    <label for="noDashes">Remove Dashes</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="braces">
-                    <label for="braces">중괄호 추가 {}</label>
+                    <label for="braces">Add Braces {}</label>
                 </div>
             </div>
 
-            <button class="generate-btn" onclick="generate()">🎲 UUID 생성</button>
+            <button class="generate-btn" onclick="generate()">🎲 Generate UUID</button>
         </div>
 
         <div class="bulk-section" id="bulkSection">
             <div class="bulk-header">
-                <span class="bulk-title" id="bulkTitle">생성된 UUID</span>
+                <span class="bulk-title" id="bulkTitle">Generated UUIDs</span>
                 <div class="bulk-actions">
-                    <button class="btn-sm" onclick="copyAll()">📋 전체 복사</button>
-                    <button class="btn-sm" onclick="downloadAll()">💾 다운로드</button>
-                    <button class="btn-sm" onclick="clearBulk()">🗑️ 지우기</button>
+                    <button class="btn-sm" onclick="copyAll()">📋 Copy All</button>
+                    <button class="btn-sm" onclick="downloadAll()">💾 Download</button>
+                    <button class="btn-sm" onclick="clearBulk()">🗑️ Clear</button>
                 </div>
             </div>
             <div class="bulk-list" id="bulkList"></div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="info-section">
-            <h3>UUID란?</h3>
-            <p>UUID (범용 고유 식별자)는 공간과 시간 모두에서 고유한 128비트 식별자입니다. UUID는 중앙 조정 기관 없이도 정보를 식별하기 위해 소프트웨어 개발에서 사용됩니다.</p>
+            <h3>What is UUID?</h3>
+            <p>UUID (Universally Unique Identifier) is a 128-bit identifier that is unique across both space and time. UUIDs are used in software development to identify information without requiring a central coordinating authority.</p>
 
             <div class="info-grid">
                 <div class="info-card">
-                    <h4>UUID v4 (랜덤)</h4>
-                    <p>랜덤 또는 의사 난수를 사용하여 생성됩니다. 일반적인 용도로 가장 많이 사용됩니다.</p>
-                    <p>예: <code>550e8400-e29b-41d4-a716-446655440000</code></p>
+                    <h4>UUID v4 (Random)</h4>
+                    <p>Generated using random or pseudo-random numbers. Most commonly used for general purposes.</p>
+                    <p>Example: <code>550e8400-e29b-41d4-a716-446655440000</code></p>
                 </div>
                 <div class="info-card">
-                    <h4>UUID v1 (타임스탬프)</h4>
-                    <p>타임스탬프와 MAC 주소를 기반으로 합니다. 시간순으로 정렬된 ID가 필요할 때 유용합니다.</p>
-                    <p>예: <code>6ba7b810-9dad-11d1-80b4-00c04fd430c8</code></p>
+                    <h4>UUID v1 (Timestamp)</h4>
+                    <p>Based on timestamp and MAC address. Useful when time-ordered IDs are needed.</p>
+                    <p>Example: <code>6ba7b810-9dad-11d1-80b4-00c04fd430c8</code></p>
                 </div>
             </div>
         </div>
 
         <div class="info-section">
-            <h3>일반적인 사용 사례</h3>
-            <p>• 데이터베이스 기본 키</p>
-            <p>• 세션 식별자</p>
-            <p>• API 요청 추적</p>
-            <p>• 파일 이름 지정</p>
-            <p>• 분산 시스템</p>
+            <h3>Common Use Cases</h3>
+            <p>• Database primary keys</p>
+            <p>• Session identifiers</p>
+            <p>• API request tracking</p>
+            <p>• File naming</p>
+            <p>• Distributed systems</p>
         </div>
 
         <footer>
-            <p>개발자를 위해 ❤️ 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>Made with ❤️ for developers</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
         </footer>
     </div>
 
@@ -395,13 +395,13 @@
             const bulkSection = document.getElementById('bulkSection');
             if (count > 1) {
                 bulkSection.classList.add('show');
-                document.getElementById('bulkTitle').textContent = `${count}개의 UUID 생성됨`;
+                document.getElementById('bulkTitle').textContent = `${count} UUIDs Generated`;
                 renderBulkList();
             } else {
                 bulkSection.classList.remove('show');
             }
 
-            showToast(count + '개의 UUID 생성됨');
+            showToast(count + ' UUID(s) generated');
         }
 
         function renderBulkList() {
@@ -409,27 +409,27 @@
             list.innerHTML = generatedUUIDs.map((uuid, i) =>
                 `<div class="bulk-item">
                     <span>${uuid}</span>
-                    <button class="bulk-item-copy" onclick="copyOne('${uuid}')">복사</button>
+                    <button class="bulk-item-copy" onclick="copyOne('${uuid}')">Copy</button>
                 </div>`
             ).join('');
         }
 
         function copyUUID() {
             const uuid = document.getElementById('uuidDisplay').textContent;
-            if (uuid && !uuid.includes('클릭')) {
+            if (uuid && !uuid.includes('Click')) {
                 navigator.clipboard.writeText(uuid);
-                showToast('복사됨!');
+                showToast('Copied!');
             }
         }
 
         function copyOne(uuid) {
             navigator.clipboard.writeText(uuid);
-            showToast('복사됨!');
+            showToast('Copied!');
         }
 
         function copyAll() {
             navigator.clipboard.writeText(generatedUUIDs.join('\n'));
-            showToast('전체 UUID 복사됨!');
+            showToast('All UUIDs copied!');
         }
 
         function downloadAll() {
@@ -440,13 +440,13 @@
             a.download = 'uuids.txt';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드 완료!');
+            showToast('Download complete!');
         }
 
         function clearBulk() {
             generatedUUIDs = [];
             document.getElementById('bulkSection').classList.remove('show');
-            document.getElementById('uuidDisplay').textContent = '생성 버튼을 클릭하세요';
+            document.getElementById('uuidDisplay').textContent = 'Click generate button';
         }
 
         function showToast(msg) {

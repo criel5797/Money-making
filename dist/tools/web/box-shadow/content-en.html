@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Box Shadow 생성기 - 무료 CSS 그림자 도구</title>
-    <meta name="description" content="무료 CSS box shadow 생성기. 시각적 컨트롤로 아름다운 그림자를 만드세요. 다중 레이어, inset 그림자를 생성하고 CSS 코드를 즉시 복사하세요.">
-    <meta name="keywords" content="box shadow, CSS 그림자, 그림자 생성기, CSS 도구, 드롭 섀도우, inset 그림자">
+    <title>Box Shadow Generator - Free CSS Shadow Tool</title>
+    <meta name="description" content="Free CSS box shadow generator. Create beautiful shadows with visual controls. Generate multi-layer and inset shadows, and copy CSS code instantly.">
+    <meta name="keywords" content="box shadow, CSS shadow, shadow generator, CSS tool, drop shadow, inset shadow">
 
-    <meta property="og:title" content="Box Shadow 생성기 - CSS 그림자 만들기">
-    <meta property="og:description" content="시각적 컨트롤로 아름다운 CSS box shadow를 생성하세요.">
+    <meta property="og:title" content="Box Shadow Generator - Create CSS Shadows">
+    <meta property="og:description" content="Generate beautiful CSS box shadows with visual controls.">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -320,13 +320,13 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">Korean</a>
             </div>
-            <h1>Box Shadow 생성기</h1>
-            <p class="subtitle">시각적 컨트롤로 아름다운 CSS 그림자 만들기</p>
+            <h1>Box Shadow Generator</h1>
+            <p class="subtitle">Create Beautiful CSS Shadows with Visual Controls</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="main-content">
             <div class="preview-section">
@@ -344,26 +344,26 @@
         </div>
 
         <div class="code-section">
-            <h2>CSS 코드</h2>
+            <h2>CSS Code</h2>
             <div class="code-box">
                 <pre class="code-content" id="cssCode"></pre>
-                <button class="copy-btn" onclick="copyCode()">복사</button>
+                <button class="copy-btn" onclick="copyCode()">Copy</button>
             </div>
         </div>
 
         <div class="presets-section">
-            <h2>프리셋</h2>
+            <h2>Presets</h2>
             <div class="presets-grid" id="presets"></div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 Box Shadow 생성기 | CSS 그림자 만들기</p>
+            <p>Free Box Shadow Generator | Create CSS Shadows</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         let layers = [
@@ -372,17 +372,17 @@
         let activeLayer = 0;
 
         const presets = [
-            { name: '부드럽게', layers: [{ offsetX: 0, offsetY: 4, blur: 20, spread: 0, color: '#000000', opacity: 0.1, inset: false }] },
-            { name: '중간', layers: [{ offsetX: 0, offsetY: 10, blur: 30, spread: 0, color: '#000000', opacity: 0.15, inset: false }] },
-            { name: '강하게', layers: [{ offsetX: 0, offsetY: 20, blur: 40, spread: 0, color: '#000000', opacity: 0.25, inset: false }] },
-            { name: '선명하게', layers: [{ offsetX: 5, offsetY: 5, blur: 0, spread: 0, color: '#000000', opacity: 0.3, inset: false }] },
-            { name: '레이어드', layers: [
+            { name: 'Soft', layers: [{ offsetX: 0, offsetY: 4, blur: 20, spread: 0, color: '#000000', opacity: 0.1, inset: false }] },
+            { name: 'Medium', layers: [{ offsetX: 0, offsetY: 10, blur: 30, spread: 0, color: '#000000', opacity: 0.15, inset: false }] },
+            { name: 'Strong', layers: [{ offsetX: 0, offsetY: 20, blur: 40, spread: 0, color: '#000000', opacity: 0.25, inset: false }] },
+            { name: 'Sharp', layers: [{ offsetX: 5, offsetY: 5, blur: 0, spread: 0, color: '#000000', opacity: 0.3, inset: false }] },
+            { name: 'Layered', layers: [
                 { offsetX: 0, offsetY: 1, blur: 2, spread: 0, color: '#000000', opacity: 0.05, inset: false },
                 { offsetX: 0, offsetY: 4, blur: 8, spread: 0, color: '#000000', opacity: 0.1, inset: false },
                 { offsetX: 0, offsetY: 16, blur: 32, spread: 0, color: '#000000', opacity: 0.1, inset: false }
             ]},
             { name: 'Inset', layers: [{ offsetX: 0, offsetY: 4, blur: 10, spread: 0, color: '#000000', opacity: 0.2, inset: true }] },
-            { name: '글로우', layers: [{ offsetX: 0, offsetY: 0, blur: 30, spread: 5, color: '#6366f1', opacity: 0.5, inset: false }] },
+            { name: 'Glow', layers: [{ offsetX: 0, offsetY: 0, blur: 30, spread: 5, color: '#6366f1', opacity: 0.5, inset: false }] },
             { name: '3D', layers: [
                 { offsetX: 0, offsetY: 1, blur: 0, spread: 0, color: '#e2e8f0', opacity: 1, inset: false },
                 { offsetX: 0, offsetY: 3, blur: 0, spread: 0, color: '#cbd5e1', opacity: 1, inset: false },
@@ -400,8 +400,8 @@
         function renderLayerTabs() {
             const container = document.getElementById('layerTabs');
             container.innerHTML = layers.map((_, index) =>
-                `<button class="layer-tab ${index === activeLayer ? 'active' : ''}" onclick="selectLayer(${index})">레이어 ${index + 1}</button>`
-            ).join('') + `<button class="add-layer-btn" onclick="addLayer()">+ 추가</button>`;
+                `<button class="layer-tab ${index === activeLayer ? 'active' : ''}" onclick="selectLayer(${index})">Layer ${index + 1}</button>`
+            ).join('') + `<button class="add-layer-btn" onclick="addLayer()">+ Add</button>`;
         }
 
         function renderLayerControls() {
@@ -410,7 +410,7 @@
             container.innerHTML = `
                 <div class="control-group">
                     <div class="control-label">
-                        <span>가로 오프셋</span>
+                        <span>Horizontal Offset</span>
                         <span class="control-value" id="offsetXValue">${layer.offsetX}px</span>
                     </div>
                     <input type="range" class="slider" min="-100" max="100" value="${layer.offsetX}" oninput="updateLayer('offsetX', this.value)">
@@ -418,7 +418,7 @@
 
                 <div class="control-group">
                     <div class="control-label">
-                        <span>세로 오프셋</span>
+                        <span>Vertical Offset</span>
                         <span class="control-value" id="offsetYValue">${layer.offsetY}px</span>
                     </div>
                     <input type="range" class="slider" min="-100" max="100" value="${layer.offsetY}" oninput="updateLayer('offsetY', this.value)">
@@ -426,7 +426,7 @@
 
                 <div class="control-group">
                     <div class="control-label">
-                        <span>블러 반경</span>
+                        <span>Blur Radius</span>
                         <span class="control-value" id="blurValue">${layer.blur}px</span>
                     </div>
                     <input type="range" class="slider" min="0" max="100" value="${layer.blur}" oninput="updateLayer('blur', this.value)">
@@ -434,7 +434,7 @@
 
                 <div class="control-group">
                     <div class="control-label">
-                        <span>확산 반경</span>
+                        <span>Spread Radius</span>
                         <span class="control-value" id="spreadValue">${layer.spread}px</span>
                     </div>
                     <input type="range" class="slider" min="-50" max="50" value="${layer.spread}" oninput="updateLayer('spread', this.value)">
@@ -442,7 +442,7 @@
 
                 <div class="control-group">
                     <div class="control-label">
-                        <span>그림자 색상 & 불투명도</span>
+                        <span>Shadow Color & Opacity</span>
                         <span class="control-value" id="opacityValue">${Math.round(layer.opacity * 100)}%</span>
                     </div>
                     <div class="color-group">
@@ -454,11 +454,11 @@
                 <div class="control-group">
                     <div class="checkbox-group">
                         <input type="checkbox" id="insetCheck" ${layer.inset ? 'checked' : ''} onchange="updateLayer('inset', this.checked)">
-                        <label for="insetCheck">Inset 그림자 (내부)</label>
+                        <label for="insetCheck">Inset Shadow (Inner)</label>
                     </div>
                 </div>
 
-                ${layers.length > 1 ? `<button class="remove-layer-btn" onclick="removeLayer(${activeLayer})">이 레이어 삭제</button>` : ''}
+                ${layers.length > 1 ? `<button class="remove-layer-btn" onclick="removeLayer(${activeLayer})">Remove This Layer</button>` : ''}
             `;
         }
 
@@ -533,7 +533,7 @@
         function copyCode() {
             const code = `box-shadow: ${generateShadowCSS()};`;
             navigator.clipboard.writeText(code).then(() => {
-                showToast('CSS 코드 복사됨!');
+                showToast('CSS code copied!');
             });
         }
 
@@ -560,7 +560,7 @@
             renderLayerTabs();
             renderLayerControls();
             updateShadow();
-            showToast(`적용됨: ${presets[index].name}`);
+            showToast(`Applied: ${presets[index].name}`);
         }
 
         function showToast(message) {

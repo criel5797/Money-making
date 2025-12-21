@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메타 태그 생성기 - SEO 메타 태그 만들기</title>
-    <meta name="description" content="무료 SEO 메타 태그 생성기. HTML 메타 태그, Open Graph 태그, 트위터 카드를 생성하세요. 웹사이트 검색 노출을 개선하세요.">
-    <meta name="keywords" content="메타 태그 생성기, SEO 태그, 오픈그래프, 트위터 카드, HTML 메타, SEO 도구">
+    <title>Meta Tag Generator - Create SEO Meta Tags</title>
+    <meta name="description" content="Free SEO Meta Tag Generator. Create HTML meta tags, Open Graph tags, and Twitter Cards. Improve your website's search visibility.">
+    <meta name="keywords" content="meta tag generator, SEO tags, open graph, twitter cards, HTML meta, SEO tools">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="메타 태그 생성기 - SEO 메타 태그 만들기">
-    <meta property="og:description" content="더 나은 SEO와 소셜 공유를 위한 HTML 메타 태그를 생성하세요.">
+    <meta property="og:title" content="Meta Tag Generator - Create SEO Meta Tags">
+    <meta property="og:description" content="Generate HTML meta tags for better SEO and social sharing.">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -413,136 +413,136 @@
 <body>
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="index-ko.html">한국어</a>
         </div>
 
         <header>
-            <h1>메타 태그 생성기</h1>
-            <p class="subtitle">웹사이트를 위한 SEO 친화적 메타 태그 만들기</p>
+            <h1>Meta Tag Generator</h1>
+            <p class="subtitle">Create SEO-friendly meta tags for your website</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="card">
-            <h2>기본 메타 태그 <span class="badge">필수</span></h2>
+            <h2>Basic Meta Tags <span class="badge">Required</span></h2>
             <div class="form-grid">
                 <div class="form-group full-width">
-                    <label class="form-label">페이지 제목</label>
-                    <input type="text" id="title" placeholder="페이지 제목" value="나의 멋진 웹사이트" oninput="generateTags()">
-                    <div class="char-counter" id="titleCounter">10 / 60 글자</div>
+                    <label class="form-label">Page Title</label>
+                    <input type="text" id="title" placeholder="Enter page title" value="My Awesome Website" oninput="generateTags()">
+                    <div class="char-counter" id="titleCounter">10 / 60 characters</div>
                 </div>
 
                 <div class="form-group full-width">
-                    <label class="form-label">메타 설명</label>
-                    <textarea id="description" placeholder="페이지에 대한 간략한 설명" oninput="generateTags()">환영합니다. 멋진 콘텐츠와 리소스를 만나보세요.</textarea>
-                    <div class="char-counter" id="descCounter">28 / 160 글자</div>
+                    <label class="form-label">Meta Description</label>
+                    <textarea id="description" placeholder="Brief description of the page" oninput="generateTags()">Welcome to our amazing content and resources.</textarea>
+                    <div class="char-counter" id="descCounter">28 / 160 characters</div>
                 </div>
 
                 <div class="form-group full-width">
-                    <label class="form-label">키워드 (쉼표로 구분)</label>
-                    <input type="text" id="keywords" placeholder="키워드1, 키워드2, 키워드3" value="웹사이트, 블로그, 리소스" oninput="generateTags()">
+                    <label class="form-label">Keywords (comma-separated)</label>
+                    <input type="text" id="keywords" placeholder="keyword1, keyword2, keyword3" value="website, blog, resources" oninput="generateTags()">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">사이트 URL</label>
+                    <label class="form-label">Site URL</label>
                     <input type="url" id="url" placeholder="https://example.com" value="https://example.com" oninput="generateTags()">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">작성자</label>
-                    <input type="text" id="author" placeholder="작성자 이름" value="" oninput="generateTags()">
+                    <label class="form-label">Author</label>
+                    <input type="text" id="author" placeholder="Author name" value="" oninput="generateTags()">
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h2>Open Graph 태그 <span class="badge">페이스북 / 링크드인</span></h2>
+            <h2>Open Graph Tags <span class="badge">Facebook / LinkedIn</span></h2>
             <div class="form-grid">
                 <div class="form-group">
-                    <label class="form-label">OG 타입</label>
+                    <label class="form-label">OG Type</label>
                     <select id="ogType" onchange="generateTags()">
-                        <option value="website">웹사이트</option>
-                        <option value="article">기사</option>
-                        <option value="blog">블로그</option>
-                        <option value="product">제품</option>
+                        <option value="website">Website</option>
+                        <option value="article">Article</option>
+                        <option value="blog">Blog</option>
+                        <option value="product">Product</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">OG 이미지 URL</label>
+                    <label class="form-label">OG Image URL</label>
                     <input type="url" id="ogImage" placeholder="https://example.com/image.jpg" oninput="generateTags()">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">사이트 이름</label>
-                    <input type="text" id="siteName" placeholder="사이트 이름" oninput="generateTags()">
+                    <label class="form-label">Site Name</label>
+                    <input type="text" id="siteName" placeholder="Site name" oninput="generateTags()">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">언어</label>
+                    <label class="form-label">Language</label>
                     <select id="locale" onchange="generateTags()">
-                        <option value="ko_KR" selected>한국어</option>
-                        <option value="en_US">영어 (미국)</option>
-                        <option value="en_GB">영어 (영국)</option>
-                        <option value="ja_JP">일본어</option>
-                        <option value="zh_CN">중국어 (간체)</option>
-                        <option value="de_DE">독일어</option>
-                        <option value="fr_FR">프랑스어</option>
-                        <option value="es_ES">스페인어</option>
+                        <option value="en_US" selected>English (US)</option>
+                        <option value="en_GB">English (UK)</option>
+                        <option value="ko_KR">Korean</option>
+                        <option value="ja_JP">Japanese</option>
+                        <option value="zh_CN">Chinese (Simplified)</option>
+                        <option value="de_DE">German</option>
+                        <option value="fr_FR">French</option>
+                        <option value="es_ES">Spanish</option>
                     </select>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h2>트위터 카드 태그 <span class="badge">트위터 / X</span></h2>
+            <h2>Twitter Card Tags <span class="badge">Twitter / X</span></h2>
             <div class="form-grid">
                 <div class="form-group">
-                    <label class="form-label">카드 타입</label>
+                    <label class="form-label">Card Type</label>
                     <select id="twitterCard" onchange="generateTags()">
-                        <option value="summary_large_image">큰 이미지 요약</option>
-                        <option value="summary">요약</option>
-                        <option value="app">앱</option>
-                        <option value="player">플레이어</option>
+                        <option value="summary_large_image">Summary Large Image</option>
+                        <option value="summary">Summary</option>
+                        <option value="app">App</option>
+                        <option value="player">Player</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">트위터 @사용자명</label>
-                    <input type="text" id="twitterSite" placeholder="@사용자명" oninput="generateTags()">
+                    <label class="form-label">Twitter @username</label>
+                    <input type="text" id="twitterSite" placeholder="@username" oninput="generateTags()">
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h2>추가 옵션</h2>
+            <h2>Additional Options</h2>
             <div class="toggle-group">
                 <div class="toggle-item">
                     <input type="checkbox" id="robotsIndex" checked onchange="generateTags()">
-                    <label for="robotsIndex">색인 허용</label>
+                    <label for="robotsIndex">Allow Indexing</label>
                 </div>
                 <div class="toggle-item">
                     <input type="checkbox" id="robotsFollow" checked onchange="generateTags()">
-                    <label for="robotsFollow">링크 추적 허용</label>
+                    <label for="robotsFollow">Allow Following Links</label>
                 </div>
                 <div class="toggle-item">
                     <input type="checkbox" id="viewport" checked onchange="generateTags()">
-                    <label for="viewport">반응형 뷰포트</label>
+                    <label for="viewport">Responsive Viewport</label>
                 </div>
                 <div class="toggle-item">
                     <input type="checkbox" id="charset" checked onchange="generateTags()">
-                    <label for="charset">UTF-8 문자셋</label>
+                    <label for="charset">UTF-8 Charset</label>
                 </div>
                 <div class="toggle-item">
                     <input type="checkbox" id="canonical" checked onchange="generateTags()">
-                    <label for="canonical">정규 URL</label>
+                    <label for="canonical">Canonical URL</label>
                 </div>
             </div>
 
             <div class="output-section">
                 <div class="output-header">
-                    <span class="output-title">생성된 메타 태그</span>
-                    <button class="copy-btn" onclick="copyTags()">전체 복사</button>
+                    <span class="output-title">Generated Meta Tags</span>
+                    <button class="copy-btn" onclick="copyTags()">Copy All</button>
                 </div>
                 <div class="code-output">
                     <pre id="codeOutput"></pre>
@@ -550,28 +550,28 @@
             </div>
 
             <div class="preview-section">
-                <h3 class="preview-title">미리보기</h3>
+                <h3 class="preview-title">Preview</h3>
                 <div class="preview-grid">
                     <div class="preview-card">
-                        <div class="preview-card-header">구글 검색</div>
+                        <div class="preview-card-header">Google Search</div>
                         <div class="preview-card-content">
                             <div class="google-preview">
-                                <div class="google-title" id="previewGoogleTitle">나의 멋진 웹사이트</div>
+                                <div class="google-title" id="previewGoogleTitle">My Awesome Website</div>
                                 <div class="google-url" id="previewGoogleUrl">https://example.com</div>
-                                <div class="google-desc" id="previewGoogleDesc">환영합니다. 멋진 콘텐츠와 리소스를 만나보세요.</div>
+                                <div class="google-desc" id="previewGoogleDesc">Welcome to our amazing content and resources.</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="preview-card">
-                        <div class="preview-card-header">소셜 미디어</div>
+                        <div class="preview-card-header">Social Media</div>
                         <div class="preview-card-content">
                             <div class="social-preview">
-                                <div class="social-image" id="previewSocialImage">이미지 미지정</div>
+                                <div class="social-image" id="previewSocialImage">No image specified</div>
                                 <div class="social-content">
                                     <div class="social-site" id="previewSocialSite">example.com</div>
-                                    <div class="social-title" id="previewSocialTitle">나의 멋진 웹사이트</div>
-                                    <div class="social-desc" id="previewSocialDesc">환영합니다. 멋진 콘텐츠와 리소스를 만나보세요.</div>
+                                    <div class="social-title" id="previewSocialTitle">My Awesome Website</div>
+                                    <div class="social-desc" id="previewSocialDesc">Welcome to our amazing content and resources.</div>
                                 </div>
                             </div>
                         </div>
@@ -580,14 +580,14 @@
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>무료 메타 태그 생성기 | SEO 최적화 도구</p>
+            <p>Free Meta Tag Generator | SEO Optimization Tool</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사됨!</div>
+    <div class="toast" id="toast">Copied!</div>
 
     <script>
         function generateTags() {
@@ -680,7 +680,7 @@
 
         function updateCounter(id, current, max) {
             const counter = document.getElementById(id);
-            counter.textContent = `${current} / ${max} 글자`;
+            counter.textContent = `${current} / ${max} characters`;
             counter.className = 'char-counter';
             if (current > max) {
                 counter.classList.add('error');
@@ -697,9 +697,9 @@
 
         function updatePreviews(title, description, url, image, siteName) {
             // Google preview
-            document.getElementById('previewGoogleTitle').textContent = title || '페이지 제목';
+            document.getElementById('previewGoogleTitle').textContent = title || 'Page Title';
             document.getElementById('previewGoogleUrl').textContent = url || 'https://example.com';
-            document.getElementById('previewGoogleDesc').textContent = description || '페이지 설명이 여기에 표시됩니다...';
+            document.getElementById('previewGoogleDesc').textContent = description || 'Page description appears here...';
 
             // Social preview
             let domain = 'example.com';
@@ -707,8 +707,8 @@
                 domain = url ? new URL(url).hostname : 'example.com';
             } catch (e) {}
             document.getElementById('previewSocialSite').textContent = siteName || domain;
-            document.getElementById('previewSocialTitle').textContent = title || '페이지 제목';
-            document.getElementById('previewSocialDesc').textContent = description || '페이지 설명...';
+            document.getElementById('previewSocialTitle').textContent = title || 'Page Title';
+            document.getElementById('previewSocialDesc').textContent = description || 'Page description...';
 
             const imagePreview = document.getElementById('previewSocialImage');
             if (image) {
@@ -718,14 +718,14 @@
                 imagePreview.textContent = '';
             } else {
                 imagePreview.style.backgroundImage = 'none';
-                imagePreview.textContent = '이미지 미지정';
+                imagePreview.textContent = 'No image specified';
             }
         }
 
         function copyTags() {
             const code = document.getElementById('codeOutput').textContent;
             navigator.clipboard.writeText(code).then(() => {
-                showToast('메타 태그가 복사됨!');
+                showToast('Meta tags copied!');
             });
         }
 

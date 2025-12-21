@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>年齢計算機 - 満年齢 & 韓国年齢</title>
+    <meta name="description" content="生年月日を入力すると、満年齢と韓国年齢を自動で計算します。干支と星座も一緒に確認できます。">
+    <meta name="keywords" content="年齢計算機, 満年齢, 韓国年齢, 数え年, 干支, 星座">
+    <meta property="og:title" content="年齢計算機 - 満年齢 & 韓国年齢">
+    <meta property="og:description" content="生年月日を入力すると、満年齢と韓国年齢を自動で計算します。">
+    <meta property="og:type" content="website">
+    <link rel="alternate" hreflang="ja" href="index-ja.html">
+    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="en" href="index-en.html">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+        }
+
+        .input-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255,255,255,0.1);
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-title {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-value small {
+            font-size: 1rem;
+            -webkit-text-fill-color: rgba(255,255,255,0.6);
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .result-grid .result-card {
+            margin-bottom: 0;
+        }
+
+        .result-grid .result-value {
+            font-size: 1.5rem;
+        }
+
+        .info-card {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .info-card h3 {
+            font-size: 0.9rem;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .info-card p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+
+        .extra-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .extra-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .extra-item .label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 4px;
+        }
+
+        .extra-item .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .share-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+        }
+
+        .disclaimer {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+
+        <header>
+            <h1>🎂 年齢計算機</h1>
+            <p class="subtitle">満年齢と韓国年齢を一度に確認</p>
+        </header>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label for="birthdate">生年月日を選択してください</label>
+                <input type="date" id="birthdate" max="">
+            </div>
+            <button class="calculate-btn" onclick="calculateAge()">年齢を計算する</button>
+        </div>
+
+        <div class="result-section" id="result">
+            <div class="result-grid">
+                <div class="result-card">
+                    <div class="result-title">満年齢</div>
+                    <div class="result-value" id="internationalAge">-</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-title">韓国年齢</div>
+                    <div class="result-value" id="koreanAge">-</div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-title">次の誕生日まで</div>
+                <div class="result-value" id="nextBirthday">- <small>日</small></div>
+            </div>
+
+            <div class="extra-info">
+                <div class="extra-item">
+                    <div class="label">干支</div>
+                    <div class="value" id="zodiac">-</div>
+                </div>
+                <div class="extra-item">
+                    <div class="label">星座</div>
+                    <div class="value" id="constellation">-</div>
+                </div>
+                <div class="extra-item">
+                    <div class="label">誕生曜日</div>
+                    <div class="value" id="birthDay">-</div>
+                </div>
+                <div class="extra-item">
+                    <div class="label">生きた日数</div>
+                    <div class="value" id="daysLived">-</div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>📌 2023年から満年齢統一</h3>
+                <p>韓国は2023年6月28日から法的に「満年齢」を使用しています。日常でも満年齢の使用が推奨されます。</p>
+            </div>
+
+            <button class="share-btn" onclick="shareResult()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+                <span>結果を共有</span>
+            </button>
+        </div>
+
+        <div class="disclaimer">
+            このツールは参考用であり、法的効力はありません。
+        </div>
+
+        <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
+
+        <footer>
+            <p>© 2024 Age Calculator</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set max date to today
+        document.getElementById('birthdate').max = new Date().toISOString().split('T')[0];
+
+        const zodiacs = ['申', '酉', '戌', '亥', '子', '丑', '寅', '卯', '辰', '巳', '午', '未'];
+        const constellations = [
+            { name: '山羊座', start: [1, 1], end: [1, 19] },
+            { name: '水瓶座', start: [1, 20], end: [2, 18] },
+            { name: '魚座', start: [2, 19], end: [3, 20] },
+            { name: '牡羊座', start: [3, 21], end: [4, 19] },
+            { name: '牡牛座', start: [4, 20], end: [5, 20] },
+            { name: '双子座', start: [5, 21], end: [6, 21] },
+            { name: '蟹座', start: [6, 22], end: [7, 22] },
+            { name: '獅子座', start: [7, 23], end: [8, 22] },
+            { name: '乙女座', start: [8, 23], end: [9, 22] },
+            { name: '天秤座', start: [9, 23], end: [10, 22] },
+            { name: '蠍座', start: [10, 23], end: [11, 21] },
+            { name: '射手座', start: [11, 22], end: [12, 21] },
+            { name: '山羊座', start: [12, 22], end: [12, 31] }
+        ];
+        const days = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'];
+
+        function calculateAge() {
+            const birthdate = document.getElementById('birthdate').value;
+            if (!birthdate) {
+                alert('生年月日を選択してください。');
+                return;
+            }
+
+            const birth = new Date(birthdate);
+            const today = new Date();
+
+            // 満年齢計算
+            let internationalAge = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                internationalAge--;
+            }
+
+            // 韓国年齢計算（2023年以前方式）
+            const koreanAge = today.getFullYear() - birth.getFullYear() + 1;
+
+            // 次の誕生日まで残り日数
+            let nextBirthday = new Date(today.getFullYear(), birth.getMonth(), birth.getDate());
+            if (nextBirthday <= today) {
+                nextBirthday = new Date(today.getFullYear() + 1, birth.getMonth(), birth.getDate());
+            }
+            const daysUntilBirthday = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
+
+            // 干支計算
+            const zodiac = zodiacs[birth.getFullYear() % 12];
+
+            // 星座計算
+            const month = birth.getMonth() + 1;
+            const day = birth.getDate();
+            let constellation = '';
+            for (const c of constellations) {
+                if ((month === c.start[0] && day >= c.start[1]) || (month === c.end[0] && day <= c.end[1])) {
+                    constellation = c.name;
+                    break;
+                }
+            }
+
+            // 誕生曜日
+            const birthDay = days[birth.getDay()];
+
+            // 生きた日数
+            const daysLived = Math.floor((today - birth) / (1000 * 60 * 60 * 24));
+
+            // 結果表示
+            document.getElementById('internationalAge').textContent = internationalAge + '歳';
+            document.getElementById('koreanAge').textContent = koreanAge + '歳';
+            document.getElementById('nextBirthday').innerHTML = daysUntilBirthday + ' <small>日</small>';
+            document.getElementById('zodiac').textContent = zodiac;
+            document.getElementById('constellation').textContent = constellation;
+            document.getElementById('birthDay').textContent = birthDay;
+            document.getElementById('daysLived').textContent = daysLived.toLocaleString() + '日';
+
+            document.getElementById('result').classList.add('show');
+        }
+
+        function shareResult() {
+            const internationalAge = document.getElementById('internationalAge').textContent;
+            const koreanAge = document.getElementById('koreanAge').textContent;
+            const zodiac = document.getElementById('zodiac').textContent;
+            const constellation = document.getElementById('constellation').textContent;
+
+            const text = `🎂 私の年齢計算結果\n\n満年齢: ${internationalAge}\n韓国年齢: ${koreanAge}\n干支: ${zodiac}\n星座: ${constellation}\n\n年齢計算機で確認してみてください！`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: '年齢計算結果',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('結果がクリップボードにコピーされました！');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

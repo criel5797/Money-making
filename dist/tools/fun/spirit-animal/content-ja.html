@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나를 동물로 표현하면? - 동물 성격 테스트 | 나의 동물 찾기</title>
-    <meta name="description" content="나를 동물로 표현하면 뭘까? 무료 동물 성격 테스트로 나의 동물을 찾아보세요. 고양이? 강아지? 여우? 지금 바로 확인!">
-    <meta name="keywords" content="동물테스트, 동물성격, 나를동물로, 동물성격테스트, 나의동물, 동물심리테스트">
+    <title>私を動物で表現すると？ - 動物性格テスト | 私の動物探し</title>
+    <meta name="description" content="私を動物で表現すると何だろう？無料動物性格テストで私の動物を探してみよう。猫？犬？狐？今すぐ確認！">
+    <meta name="keywords" content="動物テスト,動物性格,私を動物で,動物性格テスト,私の動物,動物心理テスト">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="나를 동물로 표현하면? - 동물 성격 테스트">
-    <meta property="og:description" content="나의 동물을 찾아보세요!">
+    <meta property="og:title" content="私を動物で表現すると？ - 動物性格テスト">
+    <meta property="og:description" content="私の動物を探してみよう！">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a472a/90EE90?text=동물+성격+테스트">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a472a/90EE90?text=動物性格テスト">
 
     <style>
         .toast {
@@ -35,7 +35,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, sans-serif;
             background: linear-gradient(135deg, #1a472a 0%, #2d5016 50%, #1a472a 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -377,26 +377,26 @@
 
     <div class="container">
         <header>
-            <h1>나를 동물로 표현하면?</h1>
-            <p class="subtitle">당신의 영혼 동물을 찾아보세요</p>
+            <h1>私を動物で表現すると？</h1>
+            <p class="subtitle">あなたのスピリットアニマルを探してみよう</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
 
         <div class="disclaimer">
-            재미로 즐기는 동물 성격 테스트입니다!
+            お遊びで楽しむ動物性格テストです！
         </div>
 
         <div class="card">
             <div class="intro-section" id="introSection">
                 <div class="animal-preview">🦊🐱🐶🦁</div>
-                <h2>당신은 어떤 동물일까요?</h2>
+                <h2>あなたはどんな動物でしょうか？</h2>
                 <p>
-                    모든 사람에게는 닮은 동물이 있어요.<br>
-                    8가지 질문으로 당신의 영혼 동물을 찾아드릴게요!<br><br>
-                    직관적으로 답해주세요.
+                    すべての人には似ている動物がいます。<br>
+                    8つの質問であなたのスピリットアニマルを見つけます！<br><br>
+                    直感的に答えてください。
                 </p>
-                <button class="start-btn" onclick="startTest()">테스트 시작하기</button>
+                <button class="start-btn" onclick="startTest()">テストを始める</button>
             </div>
 
             <div class="question-section" id="questionSection">
@@ -411,36 +411,36 @@
 
             <div class="result-section" id="resultSection">
                 <div class="result-header">
-                    <p>당신의 영혼 동물은...</p>
+                    <p>あなたのスピリットアニマルは...</p>
                     <span class="animal-emoji" id="animalEmoji">🦊</span>
-                    <div class="animal-name" id="animalName">여우</div>
-                    <div class="animal-title" id="animalTitle">"영리한 전략가"</div>
+                    <div class="animal-name" id="animalName">狐</div>
+                    <div class="animal-title" id="animalTitle">"賢い戦略家"</div>
                 </div>
 
                 <div class="result-card">
-                    <h3>🌟 성격 특징</h3>
+                    <h3>🌟 性格特徴</h3>
                     <p id="animalDescription"></p>
                     <div class="traits-container" id="traitsContainer"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3>💪 장점</h3>
+                    <h3>💪 長所</h3>
                     <p id="animalStrength"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>⚠️ 주의할 점</h3>
+                    <h3>⚠️ 注意点</h3>
                     <p id="animalWeakness"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3>💕 궁합 동물</h3>
+                    <h3>💕 相性動物</h3>
                     <div class="match-section" id="matchSection"></div>
                 </div>
 
                 <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="resetTest()">やり直す</button>
                 </div>
             </div>
         </div>
@@ -448,12 +448,12 @@
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>이 테스트는 재미를 위한 것입니다.</p>
+            <p>このテストはお遊びです。</p>
         </footer>
     </div>
 
     <script>
-        // 나뭇잎 배경
+        // 葉の背景
         function createLeaves() {
             const container = document.getElementById('natureBg');
             const leaves = ['🍃', '🌿', '🍂', '🌱'];
@@ -471,75 +471,75 @@
 
         const questions = [
             {
-                text: "주말 아침, 당신은?",
+                text: "週末の朝、あなたは？",
                 options: [
-                    { text: "일찍 일어나서 활동 시작!", type: "active" },
-                    { text: "늦잠 자고 느긋하게", type: "calm" },
-                    { text: "할 일 계획 세우기", type: "smart" },
-                    { text: "기분 따라 다름", type: "free" }
+                    { text: "早く起きて活動開始！", type: "active" },
+                    { text: "寝坊してゆっくり", type: "calm" },
+                    { text: "やることの計画を立てる", type: "smart" },
+                    { text: "気分次第", type: "free" }
                 ]
             },
             {
-                text: "친구들 사이에서 나는?",
+                text: "友達の間で私は？",
                 options: [
-                    { text: "분위기 메이커", type: "active" },
-                    { text: "조용한 관찰자", type: "calm" },
-                    { text: "조언해주는 역할", type: "smart" },
-                    { text: "혼자 다니는 편", type: "lone" }
+                    { text: "ムードメーカー", type: "active" },
+                    { text: "静かなオブザーバー", type: "calm" },
+                    { text: "アドバイスする役割", type: "smart" },
+                    { text: "一人で行動する方", type: "lone" }
                 ]
             },
             {
-                text: "스트레스 받을 때 나는?",
+                text: "ストレスを感じた時、私は？",
                 options: [
-                    { text: "운동하거나 밖에 나감", type: "active" },
-                    { text: "혼자 조용히 쉼", type: "calm" },
-                    { text: "문제 해결책을 찾음", type: "smart" },
-                    { text: "자유롭게 여행 떠남", type: "free" }
+                    { text: "運動したり外に出る", type: "active" },
+                    { text: "一人で静かに休む", type: "calm" },
+                    { text: "問題の解決策を探す", type: "smart" },
+                    { text: "自由に旅に出る", type: "free" }
                 ]
             },
             {
-                text: "일할 때 나는?",
+                text: "仕事をする時、私は？",
                 options: [
-                    { text: "리더 역할을 맡음", type: "leader" },
-                    { text: "팀원과 협력함", type: "social" },
-                    { text: "혼자 집중해서 일함", type: "lone" },
-                    { text: "창의적인 아이디어 냄", type: "free" }
+                    { text: "リーダーの役割を担う", type: "leader" },
+                    { text: "チームメンバーと協力する", type: "social" },
+                    { text: "一人で集中して仕事する", type: "lone" },
+                    { text: "創造的なアイデアを出す", type: "free" }
                 ]
             },
             {
-                text: "새로운 사람을 만나면?",
+                text: "新しい人に会うと？",
                 options: [
-                    { text: "먼저 다가가서 말 검", type: "social" },
-                    { text: "천천히 관찰함", type: "calm" },
-                    { text: "상대를 파악함", type: "smart" },
-                    { text: "경계하는 편", type: "lone" }
+                    { text: "先に近づいて話しかける", type: "social" },
+                    { text: "ゆっくり観察する", type: "calm" },
+                    { text: "相手を把握する", type: "smart" },
+                    { text: "警戒する方", type: "lone" }
                 ]
             },
             {
-                text: "갈등이 생기면?",
+                text: "葛藤が生じると？",
                 options: [
-                    { text: "직접적으로 해결함", type: "leader" },
-                    { text: "피하고 싶음", type: "calm" },
-                    { text: "전략적으로 대응함", type: "smart" },
-                    { text: "그냥 떠나버림", type: "free" }
+                    { text: "直接的に解決する", type: "leader" },
+                    { text: "避けたい", type: "calm" },
+                    { text: "戦略的に対応する", type: "smart" },
+                    { text: "そのまま去ってしまう", type: "free" }
                 ]
             },
             {
-                text: "가장 중요하게 생각하는 것은?",
+                text: "一番大切に思うことは？",
                 options: [
-                    { text: "성취와 성공", type: "leader" },
-                    { text: "평화와 안정", type: "calm" },
-                    { text: "지식과 지혜", type: "smart" },
-                    { text: "자유와 모험", type: "free" }
+                    { text: "達成と成功", type: "leader" },
+                    { text: "平和と安定", type: "calm" },
+                    { text: "知識と知恵", type: "smart" },
+                    { text: "自由と冒険", type: "free" }
                 ]
             },
             {
-                text: "이상적인 삶의 공간은?",
+                text: "理想的な生活空間は？",
                 options: [
-                    { text: "활기찬 도시 중심", type: "social" },
-                    { text: "조용한 시골", type: "calm" },
-                    { text: "깔끔한 아파트", type: "smart" },
-                    { text: "자유롭게 이동하며", type: "free" }
+                    { text: "活気ある都心", type: "social" },
+                    { text: "静かな田舎", type: "calm" },
+                    { text: "きれいなマンション", type: "smart" },
+                    { text: "自由に移動しながら", type: "free" }
                 ]
             }
         ];
@@ -547,91 +547,91 @@
         const animals = {
             lion: {
                 emoji: "🦁",
-                name: "사자",
-                title: "\"당당한 리더\"",
-                description: "당신은 타고난 리더입니다. 당당하고 자신감 있으며, 사람들이 자연스럽게 따르게 됩니다. 책임감이 강하고 목표를 향해 거침없이 나아갑니다.",
-                traits: ["리더십", "자신감", "책임감", "당당함", "카리스마"],
-                strength: "어떤 상황에서도 주눅 들지 않고 리더십을 발휘합니다. 팀을 이끌고 큰 일을 해낼 수 있는 능력이 있습니다.",
-                weakness: "때로는 너무 강해 보여 다가가기 어려울 수 있어요. 다른 사람의 의견도 경청해보세요.",
-                goodMatch: { emoji: "🐺", name: "늑대" },
-                badMatch: { emoji: "🦊", name: "여우" }
+                name: "ライオン",
+                title: "\"堂々としたリーダー\"",
+                description: "あなたは生まれながらのリーダーです。堂々として自信があり、人々が自然についてきます。責任感が強く、目標に向かって大胆に進みます。",
+                traits: ["リーダーシップ", "自信", "責任感", "堂々", "カリスマ"],
+                strength: "どんな状況でも萎縮せずにリーダーシップを発揮します。チームを導いて大きなことを成し遂げる能力があります。",
+                weakness: "時には強く見えすぎて近づきにくいことがあります。他人の意見も聞いてみてください。",
+                goodMatch: { emoji: "🐺", name: "オオカミ" },
+                badMatch: { emoji: "🦊", name: "キツネ" }
             },
             cat: {
                 emoji: "🐱",
-                name: "고양이",
-                title: "\"독립적인 귀족\"",
-                description: "당신은 독립적이고 자신만의 세계가 있습니다. 사람들과 어울리지만 혼자만의 시간도 중요하게 여깁니다. 우아하고 신비로운 매력이 있어요.",
-                traits: ["독립적", "신비로움", "우아함", "직관적", "까칠함"],
-                strength: "자기만의 영역을 지키면서도 매력적인 존재감을 뽐냅니다. 필요할 때 혼자서도 잘 해냅니다.",
-                weakness: "가끔 너무 쿨해 보여서 오해받을 수 있어요. 감정 표현을 조금 더 해보세요.",
-                goodMatch: { emoji: "🦉", name: "부엉이" },
-                badMatch: { emoji: "🐶", name: "강아지" }
+                name: "ネコ",
+                title: "\"独立的な貴族\"",
+                description: "あなたは独立的で自分だけの世界があります。人々と付き合いますが、一人の時間も大切にします。優雅で神秘的な魅力があります。",
+                traits: ["独立的", "神秘的", "優雅", "直感的", "気まぐれ"],
+                strength: "自分の領域を守りながらも魅力的な存在感を発揮します。必要な時に一人でもうまくやります。",
+                weakness: "時にはクールすぎて誤解されることがあります。感情表現をもう少ししてみてください。",
+                goodMatch: { emoji: "🦉", name: "フクロウ" },
+                badMatch: { emoji: "🐶", name: "イヌ" }
             },
             dog: {
                 emoji: "🐶",
-                name: "강아지",
-                title: "\"충직한 친구\"",
-                description: "당신은 따뜻하고 친절한 사람입니다. 주변 사람들을 진심으로 아끼고, 그들과 함께할 때 행복을 느낍니다. 충성스럽고 믿을 수 있는 친구예요.",
-                traits: ["친절함", "충성심", "사교적", "따뜻함", "낙천적"],
-                strength: "진심 어린 마음으로 사람들에게 다가갑니다. 함께 있으면 편안하고 행복해지는 사람이에요.",
-                weakness: "너무 남에게 맞추다 자신을 잃을 수 있어요. 가끔은 자기 자신을 위한 시간도 가지세요.",
-                goodMatch: { emoji: "🐱", name: "고양이" },
-                badMatch: { emoji: "🦅", name: "독수리" }
+                name: "イヌ",
+                title: "\"忠実な友達\"",
+                description: "あなたは温かくて親切な人です。周りの人を心から大切にし、一緒にいる時に幸せを感じます。忠実で信頼できる友達です。",
+                traits: ["親切", "忠誠心", "社交的", "温かさ", "楽天的"],
+                strength: "真心を込めて人々に接します。一緒にいると楽で幸せになる人です。",
+                weakness: "他人に合わせすぎて自分を失うことがあります。時には自分のための時間も持ってください。",
+                goodMatch: { emoji: "🐱", name: "ネコ" },
+                badMatch: { emoji: "🦅", name: "ワシ" }
             },
             fox: {
                 emoji: "🦊",
-                name: "여우",
-                title: "\"영리한 전략가\"",
-                description: "당신은 영리하고 눈치가 빠릅니다. 상황을 빠르게 파악하고 최선의 방법을 찾아냅니다. 적응력이 뛰어나고 위기 상황에서 빛을 발합니다.",
-                traits: ["영리함", "적응력", "관찰력", "전략적", "매력적"],
-                strength: "어떤 상황에서도 살아남는 방법을 알고 있습니다. 사람의 마음을 읽는 능력이 뛰어나요.",
-                weakness: "너무 계산적으로 보일 수 있어요. 가끔은 순수하게 마음을 열어보세요.",
-                goodMatch: { emoji: "🐰", name: "토끼" },
-                badMatch: { emoji: "🦁", name: "사자" }
+                name: "キツネ",
+                title: "\"賢い戦略家\"",
+                description: "あなたは賢くて察しが良いです。状況を素早く把握して最善の方法を見つけます。適応力に優れ、危機的状況で真価を発揮します。",
+                traits: ["賢さ", "適応力", "観察力", "戦略的", "魅力的"],
+                strength: "どんな状況でも生き残る方法を知っています。人の心を読む能力に優れています。",
+                weakness: "計算的に見られることがあります。時には純粋に心を開いてみてください。",
+                goodMatch: { emoji: "🐰", name: "ウサギ" },
+                badMatch: { emoji: "🦁", name: "ライオン" }
             },
             owl: {
                 emoji: "🦉",
-                name: "부엉이",
-                title: "\"지혜로운 현자\"",
-                description: "당신은 깊이 생각하고 분석하는 것을 좋아합니다. 조용히 관찰하며 본질을 파악합니다. 지식과 지혜를 추구하는 사색가예요.",
-                traits: ["지혜로움", "관찰력", "분석적", "차분함", "신중함"],
-                strength: "복잡한 문제도 차분하게 분석해 해결책을 찾습니다. 조언을 구하면 믿을 수 있는 답을 줍니다.",
-                weakness: "너무 생각이 많아 행동이 늦어질 수 있어요. 때로는 먼저 움직이는 것도 필요합니다.",
-                goodMatch: { emoji: "🐱", name: "고양이" },
-                badMatch: { emoji: "🐵", name: "원숭이" }
+                name: "フクロウ",
+                title: "\"賢明な賢者\"",
+                description: "あなたは深く考えて分析することが好きです。静かに観察して本質を把握します。知識と知恵を追求する思索家です。",
+                traits: ["知恵", "観察力", "分析的", "落ち着き", "慎重"],
+                strength: "複雑な問題も落ち着いて分析して解決策を見つけます。アドバイスを求めると信頼できる答えをくれます。",
+                weakness: "考えすぎて行動が遅れることがあります。時には先に動くことも必要です。",
+                goodMatch: { emoji: "🐱", name: "ネコ" },
+                badMatch: { emoji: "🐵", name: "サル" }
             },
             wolf: {
                 emoji: "🐺",
-                name: "늑대",
-                title: "\"고독한 전사\"",
-                description: "당신은 강인하고 독립적입니다. 무리와 함께하지만 혼자서도 강합니다. 충성스럽고 가족과 친구를 끝까지 지킵니다.",
-                traits: ["강인함", "독립심", "충성심", "본능적", "신중함"],
-                strength: "위기 상황에서 진가를 발휘합니다. 소중한 것을 지키기 위해 무엇이든 합니다.",
-                weakness: "쉽게 마음을 열지 않아 외로울 수 있어요. 신뢰할 수 있는 사람에게는 마음을 열어보세요.",
-                goodMatch: { emoji: "🦁", name: "사자" },
-                badMatch: { emoji: "🦋", name: "나비" }
+                name: "オオカミ",
+                title: "\"孤独な戦士\"",
+                description: "あなたは強くて独立的です。群れと一緒にいますが一人でも強いです。忠実で家族と友達を最後まで守ります。",
+                traits: ["強靭", "独立心", "忠誠心", "本能的", "慎重"],
+                strength: "危機的状況で真価を発揮します。大切なものを守るために何でもします。",
+                weakness: "簡単に心を開かないので孤独を感じることがあります。信頼できる人には心を開いてみてください。",
+                goodMatch: { emoji: "🦁", name: "ライオン" },
+                badMatch: { emoji: "🦋", name: "チョウ" }
             },
             butterfly: {
                 emoji: "🦋",
-                name: "나비",
-                title: "\"자유로운 영혼\"",
-                description: "당신은 자유롭고 아름다운 영혼입니다. 한 곳에 머무르기보다 새로운 경험을 추구합니다. 창의적이고 예술적인 감성이 있어요.",
-                traits: ["자유로움", "창의성", "변화", "아름다움", "가벼움"],
-                strength: "변화를 두려워하지 않고 새로운 것에 도전합니다. 어디서든 아름다움을 찾아냅니다.",
-                weakness: "한 가지에 집중하기 어려울 수 있어요. 때로는 깊이 파고드는 것도 필요합니다.",
-                goodMatch: { emoji: "🌸", name: "꽃" },
-                badMatch: { emoji: "🐺", name: "늑대" }
+                name: "チョウ",
+                title: "\"自由な魂\"",
+                description: "あなたは自由で美しい魂です。一箇所に留まるより新しい経験を追求します。創造的で芸術的な感性があります。",
+                traits: ["自由", "創造性", "変化", "美しさ", "軽さ"],
+                strength: "変化を恐れず新しいことに挑戦します。どこでも美しさを見つけます。",
+                weakness: "一つに集中するのが難しいことがあります。時には深く掘り下げることも必要です。",
+                goodMatch: { emoji: "🌸", name: "花" },
+                badMatch: { emoji: "🐺", name: "オオカミ" }
             },
             rabbit: {
                 emoji: "🐰",
-                name: "토끼",
-                title: "\"귀여운 센스쟁이\"",
-                description: "당신은 귀엽고 센스 있는 사람입니다. 빠른 판단력과 민첩함을 가지고 있어요. 주변 분위기를 밝게 만드는 힘이 있습니다.",
-                traits: ["귀여움", "민첩함", "센스", "사교적", "예민함"],
-                strength: "분위기 파악이 빠르고 재치있게 대응합니다. 사람들에게 사랑받는 매력이 있어요.",
-                weakness: "너무 예민해서 작은 일에도 상처받을 수 있어요. 조금 더 강해져도 괜찮아요.",
-                goodMatch: { emoji: "🦊", name: "여우" },
-                badMatch: { emoji: "🦅", name: "독수리" }
+                name: "ウサギ",
+                title: "\"可愛いセンスの持ち主\"",
+                description: "あなたは可愛くてセンスのある人です。素早い判断力と機敏さを持っています。周りの雰囲気を明るくする力があります。",
+                traits: ["可愛さ", "機敏", "センス", "社交的", "敏感"],
+                strength: "雰囲気把握が早く、機転を利かせて対応します。人々に愛される魅力があります。",
+                weakness: "敏感すぎて小さなことでも傷つくことがあります。もう少し強くなっても大丈夫です。",
+                goodMatch: { emoji: "🦊", name: "キツネ" },
+                badMatch: { emoji: "🦅", name: "ワシ" }
             }
         };
 
@@ -677,14 +677,14 @@
         }
 
         function calculateResult() {
-            // 유형 카운트
+            // タイプカウント
             const counts = {};
             answers.forEach(type => {
                 counts[type] = (counts[type] || 0) + 1;
             });
 
-            // 동물 매칭
-            let animal = 'fox'; // 기본값
+            // 動物マッチング
+            let animal = 'fox'; // デフォルト
 
             if (counts.leader >= 2 && counts.active >= 1) animal = 'lion';
             else if (counts.calm >= 3 || (counts.lone >= 2 && counts.calm >= 1)) animal = 'cat';
@@ -716,12 +716,12 @@
 
             document.getElementById('matchSection').innerHTML = `
                 <div class="match-item good">
-                    <div class="label">잘 맞는 동물</div>
+                    <div class="label">相性の良い動物</div>
                     <div class="emoji">${resultData.goodMatch.emoji}</div>
                     <div class="name">${resultData.goodMatch.name}</div>
                 </div>
                 <div class="match-item bad">
-                    <div class="label">주의할 동물</div>
+                    <div class="label">注意する動物</div>
                     <div class="emoji">${resultData.badMatch.emoji}</div>
                     <div class="name">${resultData.badMatch.name}</div>
                 </div>
@@ -736,20 +736,20 @@
         }
 
         function shareResult() {
-            const text = `🌿 나를 동물로 표현하면?\n\n` +
+            const text = `🌿 私を動物で表現すると？\n\n` +
                         `${resultData.emoji} ${resultData.name}\n` +
                         `${resultData.title}\n\n` +
                         `✨ ${resultData.traits.slice(0, 3).join(' · ')}\n\n` +
-                        `나도 테스트하기 👉`;
+                        `私もテストする 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: '동물 성격 테스트', text: text })
+                navigator.share({ title: '動物性格テスト', text: text })
                     .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
                     });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                    showToast('📋 結果がコピーされました！');
                 });
             }
         }

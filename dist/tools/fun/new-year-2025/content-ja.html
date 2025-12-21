@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 나에게 주는 한마디 - 새해 운세 메시지 | 2025년 키워드</title>
-    <meta name="description" content="2025년 나에게 주는 특별한 한마디! 새해 운세 메시지와 2025년 키워드를 확인하세요. 행운의 색, 숫자, 조언까지!">
-    <meta name="keywords" content="2025운세, 새해운세, 2025년운세, 신년운세, 2025키워드, 새해메시지">
+    <title>2025 あなたへのメッセージ - 新年運勢メッセージ | 2025年キーワード</title>
+    <meta name="description" content="2025年あなたへの特別なメッセージ!新年運勢メッセージと2025年のキーワードを確認しましょう。ラッキーカラー、数字、アドバイスまで!">
+    <meta name="keywords" content="2025運勢,新年運勢,2025年運勢,新春占い,2025キーワード,新年メッセージ">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="2025 나에게 주는 한마디">
-    <meta property="og:description" content="새해에 받는 특별한 메시지!">
+    <meta property="og:title" content="2025 あなたへのメッセージ">
+    <meta property="og:description" content="新年に受け取る特別なメッセージ!">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/0a0a1a/ffd700?text=2025+나에게+주는+한마디">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/0a0a1a/ffd700?text=2025+あなたへのメッセージ">
 
     <style>
         .toast {
@@ -35,7 +35,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
             background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -399,204 +399,182 @@
 
     <div class="container">
         <header>
-            <div class="year-badge" data-i18n="header.yearBadge">2025</div>
-            <h1 data-i18n="header.title">나에게 주는 한마디</h1>
-            <p class="subtitle" data-i18n="header.subtitle">새해, 당신에게 전하는 특별한 메시지</p>
+            <div class="year-badge">2025</div>
+            <h1>あなたへのメッセージ</h1>
+            <p class="subtitle">新年、あなたに贈る特別なメッセージ</p>
         </header>
 
-        <div class="ad-banner">Advertisement</div>
+        <div class="ad-banner">広告</div>
 
-        <div class="disclaimer" data-i18n="disclaimer">
-            재미로 즐기는 새해 운세입니다!
+        <div class="disclaimer">
+            楽しむための新年占いです!
         </div>
 
         <div class="card">
             <div class="input-section" id="inputSection">
-                <h2 data-i18n="inputSection.heading">당신의 정보를 알려주세요</h2>
+                <h2>あなたの情報を教えてください</h2>
 
                 <div class="input-group">
-                    <label data-i18n="inputSection.name.label">이름</label>
-                    <input type="text" id="userName" data-i18n-placeholder="inputSection.name.placeholder" placeholder="이름을 입력하세요">
+                    <label>お名前</label>
+                    <input type="text" id="userName" placeholder="お名前を入力してください">
                 </div>
 
                 <div class="input-group">
-                    <label data-i18n="inputSection.birthDate.label">생년월일</label>
+                    <label>生年月日</label>
                     <div class="birth-row">
-                        <select id="birthYear"><option value="" data-i18n="inputSection.birthDate.year">년도</option></select>
-                        <select id="birthMonth"><option value="" data-i18n="inputSection.birthDate.month">월</option></select>
-                        <select id="birthDay"><option value="" data-i18n="inputSection.birthDate.day">일</option></select>
+                        <select id="birthYear"><option value="">年</option></select>
+                        <select id="birthMonth"><option value="">月</option></select>
+                        <select id="birthDay"><option value="">日</option></select>
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label data-i18n="inputSection.hope.label">2025년 가장 바라는 것은?</label>
+                    <label>2025年に最も望むことは?</label>
                     <div class="hope-options">
                         <div class="hope-option" onclick="selectHope(this, 'love')">
                             <div class="icon">❤️</div>
-                            <div class="label" data-i18n="inputSection.hope.love">사랑/인연</div>
+                            <div class="label">愛/出会い</div>
                         </div>
                         <div class="hope-option" onclick="selectHope(this, 'money')">
                             <div class="icon">💰</div>
-                            <div class="label" data-i18n="inputSection.hope.money">재물/성공</div>
+                            <div class="label">財運/成功</div>
                         </div>
                         <div class="hope-option" onclick="selectHope(this, 'health')">
                             <div class="icon">💪</div>
-                            <div class="label" data-i18n="inputSection.hope.health">건강/활력</div>
+                            <div class="label">健康/活力</div>
                         </div>
                         <div class="hope-option" onclick="selectHope(this, 'growth')">
                             <div class="icon">🌱</div>
-                            <div class="label" data-i18n="inputSection.hope.growth">성장/변화</div>
+                            <div class="label">成長/変化</div>
                         </div>
                     </div>
                 </div>
 
-                <button class="start-btn" onclick="getMyMessage()" data-i18n="buttons.start">나의 한마디 받기</button>
+                <button class="start-btn" onclick="getMyMessage()">メッセージを受け取る</button>
             </div>
 
             <div class="loading" id="loading">
                 <div class="loading-icon">🎊</div>
-                <p data-i18n="loading.text">2025년 메시지를 준비하고 있어요...</p>
+                <p>2025年のメッセージを準備しています...</p>
             </div>
 
             <div class="result-section" id="resultSection">
                 <div class="result-header">
-                    <p data-i18n="resultSection.header.year">2025년</p>
-                    <div class="result-name" id="resultName">홍길동</div>
-                    <p data-i18n="resultSection.header.suffix">님에게 전하는 한마디</p>
+                    <p>2025年</p>
+                    <div class="result-name" id="resultName">山田太郎</div>
+                    <p>さんへのメッセージ</p>
                 </div>
 
                 <div class="message-box">
                     <div class="message-emoji" id="messageEmoji">✨</div>
-                    <div class="message-quote" id="messageQuote">"당신의 빛나는 한 해가 시작됩니다"</div>
+                    <div class="message-quote" id="messageQuote">"あなたの輝く一年が始まります"</div>
                 </div>
 
                 <div class="keyword-section">
-                    <div class="keyword-label" data-i18n="resultSection.keywordLabel">2025년 키워드</div>
+                    <div class="keyword-label">2025年キーワード</div>
                     <div class="keyword-tags" id="keywordTags"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3 data-i18n="resultSection.sections.yearFortune">🌟 2025년 운세</h3>
+                    <h3>🌟 2025年運勢</h3>
                     <p id="yearFortune"></p>
                 </div>
 
                 <div class="result-card">
-                    <h3 data-i18n="resultSection.sections.luckyElements">🍀 행운의 요소</h3>
+                    <h3>🍀 幸運の要素</h3>
                     <div class="lucky-grid" id="luckyGrid"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3 data-i18n="resultSection.sections.monthlyFortune">📅 월별 운세</h3>
+                    <h3>📅 月別運勢</h3>
                     <div class="month-fortune" id="monthFortune"></div>
                 </div>
 
                 <div class="result-card">
-                    <h3 data-i18n="resultSection.sections.specialAdvice">💝 특별한 조언</h3>
+                    <h3>💝 特別なアドバイス</h3>
                     <p id="specialAdvice"></p>
                 </div>
 
                 <div class="share-buttons">
-                    <button class="share-btn primary" onclick="shareResult()" data-i18n="buttons.share">결과 공유하기</button>
-                    <button class="share-btn secondary" onclick="resetTest()" data-i18n="buttons.retry">다시 하기</button>
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="resetTest()">もう一度</button>
                 </div>
             </div>
         </div>
 
-        <div class="ad-banner">Advertisement</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p data-i18n="footer">새해 복 많이 받으세요! 🎊</p>
+            <p>あけましておめでとうございます! 🎊</p>
         </footer>
     </div>
 
     <script>
-        // i18n 헬퍼 함수들
-        function getLang() {
-            return window.currentLang || 'ko';
-        }
+        // データ
+        const messages = {
+            love: [
+                { emoji: '💕', quote: '今年はあなたの心に愛が芽生えるでしょう', keywords: ['恋愛', 'つながり', '温もり'] },
+                { emoji: '💑', quote: '意味のある出会いが訪れます', keywords: ['出会い', '運命', '心'] },
+                { emoji: '🌹', quote: 'あなたの誠実さが誰かの心を動かします', keywords: ['誠実', '愛', '情熱'] },
+                { emoji: '💖', quote: '大切な絆が花開くでしょう', keywords: ['絆', '共に', '喜び'] }
+            ],
+            money: [
+                { emoji: '💰', quote: '成功のチャンスがあなたの扉をノックします', keywords: ['成功', '達成', '繁栄'] },
+                { emoji: '🎯', quote: 'あなたの努力が実を結びます', keywords: ['目標', '成長', '成果'] },
+                { emoji: '🏆', quote: 'あなたの成功の舞台が整います', keywords: ['勝利', '栄光', 'triumph'] },
+                { emoji: '📈', quote: '成長と発展の一年が待っています', keywords: ['進歩', '前進', '機会'] }
+            ],
+            health: [
+                { emoji: '💪', quote: 'エネルギーと活力に満ちた年になります', keywords: ['健康', 'エネルギー', '活力'] },
+                { emoji: '🌟', quote: '心と体のバランスが取れるでしょう', keywords: ['バランス', 'ウェルネス', '調和'] },
+                { emoji: '🧘', quote: '日常生活に平和を見出します', keywords: ['平和', '快適', '安定'] },
+                { emoji: '⚡', quote: 'ポジティブなエネルギーに溢れます', keywords: ['活力', '情熱', 'ダイナミズム'] }
+            ],
+            growth: [
+                { emoji: '🌱', quote: '新しい始まりの年になります', keywords: ['スタート', '挑戦', '成長'] },
+                { emoji: '🦋', quote: '変容と変化の時です', keywords: ['変化', '発展', '進化'] },
+                { emoji: '🎨', quote: 'あなたの創造性が輝きます', keywords: ['創造性', '表現', 'インスピレーション'] },
+                { emoji: '🚀', quote: '夢に向かって飛翔しましょう', keywords: ['夢', '冒険', '勇気'] }
+            ]
+        };
 
-        function getI18n() {
-            return window.toolI18n || {};
-        }
+        const fortunes = [
+            '今年はあなたがさらに成長する時です。新しい挑戦がチャンスになるでしょう。',
+            'ポジティブなエネルギーがあなたを包みます。努力は必ず実を結びます。',
+            '大切な人々との出会いの年です。ご縁を大切にしてください。',
+            'あなたの夢が現実になります。自分を信じて前進しましょう。',
+            '新しい可能性に満ちた一年です。新しいことに挑戦することを恐れないでください。',
+            '心も体も健康になります。日常生活でバランスを見つけてください。',
+            '目標を達成する年です。あなたの情熱が道を示すでしょう。',
+            '良い機会が訪れます。チャンスを逃さないでください。'
+        ];
 
-        function t(key, fallback) {
-            var i18n = getI18n();
-            var lang = getLang();
-            var val = key.split('.').reduce(function(prev, curr) {
-                return prev ? prev[curr] : null;
-            }, i18n);
-            if (val && typeof val === 'object' && val[lang]) return val[lang];
-            if (val && typeof val !== 'object') return val;
-            return fallback || key;
-        }
+        const advices = [
+            '最も重要なのは自己ケアです。ポジティブな気持ちで毎日を始めましょう。',
+            '小さな習慣が大きな変化を生みます。今日できることに集中しましょう。',
+            '愛する人々との時間を楽しんでください。大切な思い出は真の財産です。',
+            '新しい挑戦を恐れないでください。あなたには乗り越える力があります。',
+            '感謝の心を持ち続けましょう。幸せは小さなことから生まれます。',
+            '仕事と休息のバランスを保ちましょう。自分を大切にすることは利己的ではありません。',
+            '内なる声に耳を傾けてください。あなたは正しい道を知っています。',
+            '周りの人々と笑顔を分かち合いましょう。あなたのポジティブさが広がります。'
+        ];
 
-        // 로컬라이징된 데이터 가져오기
-        function getMessages() {
-            var i18n = getI18n();
-            var lang = getLang();
-            if (!i18n.messages) return null;
-            var result = {};
-            for (var cat in i18n.messages) {
-                result[cat] = i18n.messages[cat].map(function(m) {
-                    return {
-                        emoji: m.emoji,
-                        quote: m.quote[lang] || m.quote.ko,
-                        keywords: m.keywords[lang] || m.keywords.ko
-                    };
-                });
-            }
-            return result;
-        }
+        const colors = ['ゴールド', 'スカイブルー', 'ピンク', 'エメラルドグリーン', 'パープル', 'コーラル', 'シルバー', 'ネイビー'];
+        const directions = ['東', '西', '南', '北', '南東', '北東', '南西', '北西'];
+        const days = ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日'];
+        const numbers = [3, 5, 7, 8, 9, 11, 12, 15, 21, 25];
 
-        function getFortunes() {
-            var i18n = getI18n();
-            var lang = getLang();
-            if (!i18n.fortunes) return [];
-            return i18n.fortunes.map(function(f) { return f[lang] || f.ko; });
-        }
+        let selectedHope = null;
+        let resultData = {};
 
-        function getAdvices() {
-            var i18n = getI18n();
-            var lang = getLang();
-            if (!i18n.advices) return [];
-            return i18n.advices.map(function(a) { return a[lang] || a.ko; });
-        }
-
-        function getColors() {
-            var i18n = getI18n();
-            var lang = getLang();
-            if (!i18n.colors) return [];
-            return i18n.colors[lang] || i18n.colors.ko || [];
-        }
-
-        function getDirections() {
-            var i18n = getI18n();
-            var lang = getLang();
-            if (!i18n.directions) return [];
-            return i18n.directions[lang] || i18n.directions.ko || [];
-        }
-
-        function getDays() {
-            var i18n = getI18n();
-            var lang = getLang();
-            if (!i18n.days) return [];
-            return i18n.days[lang] || i18n.days.ko || [];
-        }
-
-        function getMonthSuffix() {
-            var i18n = getI18n();
-            var lang = getLang();
-            if (!i18n.monthSuffix) return '월';
-            return i18n.monthSuffix[lang] !== undefined ? i18n.monthSuffix[lang] : '월';
-        }
-
-        // 불꽃놀이 효과
+        // 花火エフェクト
         function createFireworks() {
-            var container = document.getElementById('fireworks');
-            var colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#ff69b4', '#00ff88'];
+            const container = document.getElementById('fireworks');
+            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#ff69b4', '#00ff88'];
 
-            for (var i = 0; i < 50; i++) {
-                var spark = document.createElement('div');
+            for (let i = 0; i < 50; i++) {
+                const spark = document.createElement('div');
                 spark.className = 'spark';
                 spark.style.left = Math.random() * 100 + '%';
                 spark.style.top = Math.random() * 100 + '%';
@@ -608,114 +586,92 @@
         }
         createFireworks();
 
-        // 날짜 선택 초기화
+        // 日付選択の初期化
         function initDateSelects() {
-            var i18n = getI18n();
-            var lang = getLang();
-            var currentYear = new Date().getFullYear();
-
-            var yearSuffix = (i18n.inputSection && i18n.inputSection.birthDate && i18n.inputSection.birthDate.yearSuffix)
-                ? (i18n.inputSection.birthDate.yearSuffix[lang] || '') : '년';
-            var monthSuffix = (i18n.inputSection && i18n.inputSection.birthDate && i18n.inputSection.birthDate.monthSuffix)
-                ? (i18n.inputSection.birthDate.monthSuffix[lang] || '') : '월';
-            var daySuffix = (i18n.inputSection && i18n.inputSection.birthDate && i18n.inputSection.birthDate.daySuffix)
-                ? (i18n.inputSection.birthDate.daySuffix[lang] || '') : '일';
-
-            var yearSelect = document.getElementById('birthYear');
-            for (var y = currentYear; y >= 1940; y--) {
-                yearSelect.innerHTML += '<option value="' + y + '">' + y + yearSuffix + '</option>';
+            const currentYear = new Date().getFullYear();
+            const yearSelect = document.getElementById('birthYear');
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}年</option>`;
             }
-            var monthSelect = document.getElementById('birthMonth');
-            for (var m = 1; m <= 12; m++) {
-                monthSelect.innerHTML += '<option value="' + m + '">' + m + monthSuffix + '</option>';
+            const monthSelect = document.getElementById('birthMonth');
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${m}月</option>`;
             }
-            var daySelect = document.getElementById('birthDay');
-            for (var d = 1; d <= 31; d++) {
-                daySelect.innerHTML += '<option value="' + d + '">' + d + daySuffix + '</option>';
+            const daySelect = document.getElementById('birthDay');
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}日</option>`;
             }
         }
         initDateSelects();
 
-        var selectedHope = null;
-        var numbers = [3, 5, 7, 8, 9, 11, 12, 15, 21, 25];
-        var resultData = {};
-
         function selectHope(element, hope) {
             selectedHope = hope;
-            document.querySelectorAll('.hope-option').forEach(function(o) { o.classList.remove('selected'); });
+            document.querySelectorAll('.hope-option').forEach(o => o.classList.remove('selected'));
             element.classList.add('selected');
         }
 
         function getMyMessage() {
-            var name = document.getElementById('userName').value.trim();
-            var year = document.getElementById('birthYear').value;
-            var month = document.getElementById('birthMonth').value;
-            var day = document.getElementById('birthDay').value;
+            const name = document.getElementById('userName').value.trim();
+            const year = document.getElementById('birthYear').value;
+            const month = document.getElementById('birthMonth').value;
+            const day = document.getElementById('birthDay').value;
 
             if (!name) {
-                showToast('⚠️ ' + t('toastMessages.nameRequired', '이름을 입력해주세요!'));
+                showToast('⚠️ お名前を入力してください!');
                 return;
             }
 
             if (!selectedHope) {
-                showToast('⚠️ ' + t('toastMessages.hopeRequired', '2025년 가장 바라는 것을 선택해주세요!'));
+                showToast('⚠️ 2025年に最も望むことを選択してください!');
                 return;
             }
 
             document.getElementById('inputSection').style.display = 'none';
             document.getElementById('loading').classList.add('show');
 
-            setTimeout(function() {
+            setTimeout(() => {
                 calculateResult(name, year, month, day);
             }, 2000);
         }
 
         function calculateResult(name, year, month, day) {
-            // 로컬라이징된 데이터 가져오기
-            var messages = getMessages();
-            var fortunes = getFortunes();
-            var advices = getAdvices();
-            var colors = getColors();
-            var directions = getDirections();
-            var days = getDays();
-
-            // 시드 생성
-            var seed = 0;
-            for (var i = 0; i < name.length; i++) {
+            // シード生成
+            let seed = 0;
+            for (let i = 0; i < name.length; i++) {
                 seed += name.charCodeAt(i);
             }
             if (year) seed += parseInt(year);
             if (month) seed += parseInt(month) * 10;
             if (day) seed += parseInt(day);
 
-            // 메시지 선택
-            var hopeMessages = messages ? messages[selectedHope] : [];
-            var messageIndex = seed % (hopeMessages.length || 1);
-            var selectedMessage = hopeMessages[messageIndex] || { emoji: '✨', quote: '', keywords: [] };
+            // メッセージ選択
+            const hopeMessages = messages[selectedHope];
+            const messageIndex = seed % hopeMessages.length;
+            const selectedMessage = hopeMessages[messageIndex];
 
-            // 운세, 조언 선택
-            var fortuneIndex = seed % (fortunes.length || 1);
-            var adviceIndex = (seed + 1) % (advices.length || 1);
+            // 運勢とアドバイス選択
+            const fortuneIndex = seed % fortunes.length;
+            const adviceIndex = (seed + 1) % advices.length;
 
-            // 행운 요소
-            var luckyColor = colors[seed % (colors.length || 1)] || '';
-            var luckyDirection = directions[seed % (directions.length || 1)] || '';
-            var luckyNumber = numbers[seed % numbers.length];
-            var luckyDay = days[seed % (days.length || 1)] || '';
+            // 幸運の要素
+            const luckyColor = colors[seed % colors.length];
+            const luckyDirection = directions[seed % directions.length];
+            const luckyNumber = numbers[seed % numbers.length];
+            const luckyDay = days[seed % days.length];
 
-            // 월별 운세
-            var monthLuck = [];
-            var luckIcons = ['🌟', '⭐', '✨', '💫', '🌙'];
-            for (var m = 1; m <= 12; m++) {
-                var luck = luckIcons[(seed + m) % luckIcons.length];
+            // 月別運勢
+            const monthLuck = [];
+            const luckIcons = ['🌟', '⭐', '✨', '💫', '🌙'];
+            for (let m = 1; m <= 12; m++) {
+                const luck = luckIcons[(seed + m) % luckIcons.length];
                 monthLuck.push({ month: m, luck: luck });
             }
 
             resultData = {
                 name: name,
                 message: selectedMessage,
-                fortune: fortunes[fortuneIndex] || '',
-                advice: advices[adviceIndex] || '',
+                fortune: fortunes[fortuneIndex],
+                advice: advices[adviceIndex],
                 lucky: { color: luckyColor, direction: luckyDirection, number: luckyNumber, day: luckyDay },
                 monthLuck: monthLuck
             };
@@ -731,81 +687,58 @@
             document.getElementById('messageEmoji').textContent = resultData.message.emoji;
             document.getElementById('messageQuote').textContent = '"' + resultData.message.quote + '"';
 
-            document.getElementById('keywordTags').innerHTML = resultData.message.keywords.map(function(k) {
-                return '<span class="keyword-tag">#' + k + '</span>';
-            }).join('');
+            document.getElementById('keywordTags').innerHTML = resultData.message.keywords.map(k =>
+                `<span class="keyword-tag">#${k}</span>`
+            ).join('');
 
             document.getElementById('yearFortune').textContent = resultData.fortune;
             document.getElementById('specialAdvice').textContent = resultData.advice;
 
-            var colorLabel = t('resultSection.luckyItems.color', '행운의 색');
-            var directionLabel = t('resultSection.luckyItems.direction', '행운의 방향');
-            var numberLabel = t('resultSection.luckyItems.number', '행운의 숫자');
-            var dayLabel = t('resultSection.luckyItems.day', '행운의 요일');
+            document.getElementById('luckyGrid').innerHTML = `
+                <div class="lucky-item">
+                    <div class="label">ラッキーカラー</div>
+                    <div class="value">🎨 ${resultData.lucky.color}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="label">ラッキー方位</div>
+                    <div class="value">🧭 ${resultData.lucky.direction}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="label">ラッキーナンバー</div>
+                    <div class="value">🔢 ${resultData.lucky.number}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="label">ラッキーデー</div>
+                    <div class="value">📅 ${resultData.lucky.day}</div>
+                </div>
+            `;
 
-            document.getElementById('luckyGrid').innerHTML =
-                '<div class="lucky-item">' +
-                    '<div class="label">' + colorLabel + '</div>' +
-                    '<div class="value">🎨 ' + resultData.lucky.color + '</div>' +
-                '</div>' +
-                '<div class="lucky-item">' +
-                    '<div class="label">' + directionLabel + '</div>' +
-                    '<div class="value">🧭 ' + resultData.lucky.direction + '</div>' +
-                '</div>' +
-                '<div class="lucky-item">' +
-                    '<div class="label">' + numberLabel + '</div>' +
-                    '<div class="value">🔢 ' + resultData.lucky.number + '</div>' +
-                '</div>' +
-                '<div class="lucky-item">' +
-                    '<div class="label">' + dayLabel + '</div>' +
-                    '<div class="value">📅 ' + resultData.lucky.day + '</div>' +
-                '</div>';
-
-            var monthSuffix = getMonthSuffix();
-            document.getElementById('monthFortune').innerHTML = resultData.monthLuck.map(function(m) {
-                return '<div class="month-item">' +
-                    '<div class="month">' + m.month + monthSuffix + '</div>' +
-                    '<div class="luck">' + m.luck + '</div>' +
-                '</div>';
-            }).join('');
+            document.getElementById('monthFortune').innerHTML = resultData.monthLuck.map(m => `
+                <div class="month-item">
+                    <div class="month">${m.month}月</div>
+                    <div class="luck">${m.luck}</div>
+                </div>
+            `).join('');
         }
 
         function showToast(message) {
-            var toast = document.getElementById('toast');
+            const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');
-            setTimeout(function() { toast.classList.remove('show'); }, 2500);
+            setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
         function shareResult() {
-            var i18n = getI18n();
-            var lang = getLang();
-            var shareText = i18n.shareText || {};
-
-            var title = (shareText.title && shareText.title[lang]) || '2025 나에게 주는 한마디';
-            var messageFor = (shareText.messageFor && shareText.messageFor[lang]) || '님에게 전하는 메시지:';
-            var luckyColorLabel = (shareText.luckyColor && shareText.luckyColor[lang]) || '행운의 색:';
-            var luckyNumberLabel = (shareText.luckyNumber && shareText.luckyNumber[lang]) || '행운의 숫자:';
-            var tryIt = (shareText.tryIt && shareText.tryIt[lang]) || '나도 받아보기';
-
-            var text = '🎊 ' + title + '\n\n' +
-                        resultData.name + messageFor + '\n\n' +
-                        resultData.message.emoji + ' "' + resultData.message.quote + '"\n\n' +
-                        '🏷️ #' + resultData.message.keywords.join(' #') + '\n\n' +
-                        '🍀 ' + luckyColorLabel + ' ' + resultData.lucky.color + '\n' +
-                        '🔢 ' + luckyNumberLabel + ' ' + resultData.lucky.number + '\n\n' +
-                        tryIt + ' 👉';
-
-            var copiedMsg = '📋 ' + t('toastMessages.copied', '결과가 복사되었어요!');
+            const text = `🎊 2025 あなたへのメッセージ\n\n${resultData.name}さんへのメッセージ:\n\n${resultData.message.emoji} "${resultData.message.quote}"\n\n🏷️ #${resultData.message.keywords.join(' #')}\n\n🍀 ラッキーカラー: ${resultData.lucky.color}\n🔢 ラッキーナンバー: ${resultData.lucky.number}\n\nあなたも受け取る 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: title, text: text })
-                    .catch(function(err) {
-                        navigator.clipboard.writeText(text).then(function() { showToast(copiedMsg); });
+                navigator.share({ title: '2025 あなたへのメッセージ', text: text })
+                    .catch(() => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果をコピーしました!'));
                     });
             } else {
-                navigator.clipboard.writeText(text).then(function() {
-                    showToast(copiedMsg);
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 結果をコピーしました!');
                 });
             }
         }
@@ -818,7 +751,7 @@
             document.getElementById('birthMonth').selectedIndex = 0;
             document.getElementById('birthDay').selectedIndex = 0;
             selectedHope = null;
-            document.querySelectorAll('.hope-option').forEach(function(o) { o.classList.remove('selected'); });
+            document.querySelectorAll('.hope-option').forEach(o => o.classList.remove('selected'));
         }
     </script>
 <script src="/common/tool-i18n-handler.js"></script></body>

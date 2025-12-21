@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 사주 풀이 - 무료 사주팔자 운세 | 생년월일 운세</title>
-    <meta name="description" content="무료 AI 사주 풀이! 생년월일시로 알아보는 당신의 사주팔자. 성격, 재물운, 연애운, 직업운까지 상세한 사주 분석을 제공합니다.">
-    <meta name="keywords" content="사주, 사주풀이, 사주팔자, 무료사주, 생년월일운세, 오늘의운세, 사주보기">
+    <title>AI Saju Fortune Reading - Free Four Pillars of Destiny | Birth Date Fortune</title>
+    <meta name="description" content="Free AI Saju reading! Discover your destiny through Four Pillars based on birth date and time. Detailed analysis of personality, wealth, love, and career fortune.">
+    <meta name="keywords" content="saju, four pillars, destiny reading, free saju, birth date fortune, today's fortune, saju reading">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="AI 사주 풀이 - 무료 사주팔자 운세">
-    <meta property="og:description" content="생년월일로 알아보는 나의 사주팔자!">
+    <meta property="og:title" content="AI Saju Fortune Reading - Free Four Pillars of Destiny">
+    <meta property="og:description" content="Discover your Four Pillars of Destiny through your birth date!">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=AI+사주+풀이">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=AI+Saju+Reading">
 
     <style>
         .toast {
@@ -40,7 +40,7 @@
         }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -444,83 +444,83 @@
 
     <div class="container">
         <header>
-            <h1>AI 사주 풀이</h1>
-            <p class="subtitle">생년월일시로 알아보는 당신의 운명</p>
+            <h1>AI Saju Fortune Reading</h1>
+            <p class="subtitle">Discover your destiny through birth date and time</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
 
         <div class="disclaimer">
-            재미로 즐기는 사주 풀이입니다. 중요한 결정의 근거로 삼지 마세요.
+            This is for entertainment purposes only. Do not use it as a basis for important decisions.
         </div>
 
         <div class="card" id="inputSection">
             <div class="input-section">
-                <h2>생년월일시를 입력하세요</h2>
+                <h2>Enter your birth date and time</h2>
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>성별</label>
+                        <label>Gender</label>
                         <div class="gender-options">
                             <div class="gender-option selected" onclick="selectGender('male', this)">
                                 <span>&#9794;</span>
-                                남자
+                                Male
                             </div>
                             <div class="gender-option" onclick="selectGender('female', this)">
                                 <span>&#9792;</span>
-                                여자
+                                Female
                             </div>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>양력/음력</label>
+                            <label>Calendar Type</label>
                             <select id="calendarType">
-                                <option value="solar">양력</option>
-                                <option value="lunar">음력</option>
+                                <option value="solar">Solar</option>
+                                <option value="lunar">Lunar</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>출생년도</label>
+                            <label>Birth Year</label>
                             <select id="year"></select>
                         </div>
                         <div class="form-group">
-                            <label>월</label>
+                            <label>Month</label>
                             <select id="month"></select>
                         </div>
                         <div class="form-group">
-                            <label>일</label>
+                            <label>Day</label>
                             <select id="day"></select>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>태어난 시간</label>
+                            <label>Birth Time</label>
                             <select id="hour">
-                                <option value="-1">모름</option>
-                                <option value="0">자시 (23:30-01:30)</option>
-                                <option value="1">축시 (01:30-03:30)</option>
-                                <option value="2">인시 (03:30-05:30)</option>
-                                <option value="3">묘시 (05:30-07:30)</option>
-                                <option value="4">진시 (07:30-09:30)</option>
-                                <option value="5">사시 (09:30-11:30)</option>
-                                <option value="6">오시 (11:30-13:30)</option>
-                                <option value="7">미시 (13:30-15:30)</option>
-                                <option value="8">신시 (15:30-17:30)</option>
-                                <option value="9">유시 (17:30-19:30)</option>
-                                <option value="10">술시 (19:30-21:30)</option>
-                                <option value="11">해시 (21:30-23:30)</option>
+                                <option value="-1">Unknown</option>
+                                <option value="0">Zi (23:30-01:30)</option>
+                                <option value="1">Chou (01:30-03:30)</option>
+                                <option value="2">Yin (03:30-05:30)</option>
+                                <option value="3">Mao (05:30-07:30)</option>
+                                <option value="4">Chen (07:30-09:30)</option>
+                                <option value="5">Si (09:30-11:30)</option>
+                                <option value="6">Wu (11:30-13:30)</option>
+                                <option value="7">Wei (13:30-15:30)</option>
+                                <option value="8">Shen (15:30-17:30)</option>
+                                <option value="9">You (17:30-19:30)</option>
+                                <option value="10">Xu (19:30-21:30)</option>
+                                <option value="11">Hai (21:30-23:30)</option>
                             </select>
                         </div>
                     </div>
 
                     <button class="submit-btn" onclick="analyzeSaju()">
-                        사주 풀이 보기
+                        Get My Fortune Reading
                     </button>
                 </div>
             </div>
@@ -528,12 +528,12 @@
 
         <div class="loading" id="loading">
             <div class="bagua">☯</div>
-            <p style="color:#ffd700;">사주팔자를 분석하고 있습니다...</p>
+            <p style="color:#ffd700;">Analyzing your Four Pillars...</p>
         </div>
 
         <div class="result-section" id="resultSection">
             <div class="card">
-                <h2 style="color:#ffd700; text-align:center; margin-bottom:25px;">당신의 사주팔자</h2>
+                <h2 style="color:#ffd700; text-align:center; margin-bottom:25px;">Your Four Pillars</h2>
 
                 <div class="saju-chart" id="sajuChart"></div>
 
@@ -549,50 +549,50 @@
             </div>
 
             <div class="share-buttons">
-                <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                <button class="share-btn secondary" onclick="retryAnalysis()">다시 하기</button>
+                <button class="share-btn primary" onclick="shareResult()">Share Results</button>
+                <button class="share-btn secondary" onclick="retryAnalysis()">Try Again</button>
             </div>
         </div>
 
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>이 사주 풀이는 재미를 위한 것입니다.<br>중요한 결정은 전문가와 상담하세요.</p>
+            <p>This Saju reading is for entertainment purposes.<br>Please consult a professional for important decisions.</p>
         </footer>
     </div>
 
     <script>
-        // 천간
+        // Heavenly Stems
         const heavenlyStems = ['갑', '을', '병', '정', '무', '기', '경', '신', '임', '계'];
         const stemElements = ['목', '목', '화', '화', '토', '토', '금', '금', '수', '수'];
 
-        // 지지
+        // Earthly Branches
         const earthlyBranches = ['자', '축', '인', '묘', '진', '사', '오', '미', '신', '유', '술', '해'];
         const branchElements = ['수', '토', '목', '목', '토', '화', '화', '토', '금', '금', '토', '수'];
 
-        // 오행
+        // Five Elements
         const elements = { '목': 'wood', '화': 'fire', '토': 'earth', '금': 'metal', '수': 'water' };
-        const elementNames = { 'wood': '목(木)', 'fire': '화(火)', 'earth': '토(土)', 'metal': '금(金)', 'water': '수(水)' };
+        const elementNames = { 'wood': 'Wood', 'fire': 'Fire', 'earth': 'Earth', 'metal': 'Metal', 'water': 'Water' };
 
         let selectedGender = 'male';
         let resultData = {};
 
-        // 초기화
+        // Initialize
         function init() {
             const yearSelect = document.getElementById('year');
             const currentYear = new Date().getFullYear();
             for (let y = currentYear; y >= 1940; y--) {
-                yearSelect.innerHTML += `<option value="${y}">${y}년</option>`;
+                yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
             }
 
             const monthSelect = document.getElementById('month');
             for (let m = 1; m <= 12; m++) {
-                monthSelect.innerHTML += `<option value="${m}">${m}월</option>`;
+                monthSelect.innerHTML += `<option value="${m}">${m}</option>`;
             }
 
             const daySelect = document.getElementById('day');
             for (let d = 1; d <= 31; d++) {
-                daySelect.innerHTML += `<option value="${d}">${d}일</option>`;
+                daySelect.innerHTML += `<option value="${d}">${d}</option>`;
             }
         }
         init();
@@ -604,20 +604,20 @@
         }
 
         function calculateSaju(year, month, day, hour) {
-            // 년주 계산
+            // Year pillar calculation
             const yearStemIdx = (year - 4) % 10;
             const yearBranchIdx = (year - 4) % 12;
 
-            // 월주 계산 (간략화)
+            // Month pillar calculation (simplified)
             const monthStemIdx = ((year - 4) % 5 * 2 + month + 1) % 10;
             const monthBranchIdx = (month + 1) % 12;
 
-            // 일주 계산 (간략화 - 실제로는 만세력 필요)
+            // Day pillar calculation (simplified)
             const dayOffset = Math.floor((year - 1900) * 365.25 + (month - 1) * 30.44 + day);
             const dayStemIdx = dayOffset % 10;
             const dayBranchIdx = dayOffset % 12;
 
-            // 시주 계산
+            // Hour pillar calculation
             let hourStemIdx = 0;
             let hourBranchIdx = 0;
             if (hour >= 0) {
@@ -640,7 +640,7 @@
             const hour = parseInt(document.getElementById('hour').value);
 
             if (!year || !month || !day) {
-                showToast('⚠️ 생년월일을 입력해주세요.');
+                showToast('⚠️ Please enter your birth date.');
                 return;
             }
 
@@ -655,7 +655,7 @@
         }
 
         function generateAnalysis(saju, gender) {
-            // 오행 분포 계산
+            // Calculate element distribution
             const elementCount = { '목': 0, '화': 0, '토': 0, '금': 0, '수': 0 };
 
             const pillars = ['year', 'month', 'day'];
@@ -666,10 +666,10 @@
                 elementCount[branchElements[saju[pillar].branch]]++;
             });
 
-            // 일간(일주 천간) 기준 분석
+            // Day master based analysis
             const dayMaster = stemElements[saju.day.stem];
 
-            // 운세 점수 생성
+            // Generate fortune scores
             const fortunes = {
                 overall: 60 + Math.floor(Math.random() * 35),
                 love: 50 + Math.floor(Math.random() * 45),
@@ -685,62 +685,62 @@
             document.getElementById('loading').classList.remove('show');
             document.getElementById('resultSection').classList.add('show');
 
-            // 사주 차트
+            // Saju chart
             const chartHtml = `
                 <div class="saju-pillar">
-                    <div class="pillar-title">년주</div>
+                    <div class="pillar-title">Year</div>
                     <div class="pillar-char chun">${heavenlyStems[saju.year.stem]}</div>
                     <div class="pillar-char ji">${earthlyBranches[saju.year.branch]}</div>
                     <div class="pillar-element">${stemElements[saju.year.stem]} / ${branchElements[saju.year.branch]}</div>
                 </div>
                 <div class="saju-pillar">
-                    <div class="pillar-title">월주</div>
+                    <div class="pillar-title">Month</div>
                     <div class="pillar-char chun">${heavenlyStems[saju.month.stem]}</div>
                     <div class="pillar-char ji">${earthlyBranches[saju.month.branch]}</div>
                     <div class="pillar-element">${stemElements[saju.month.stem]} / ${branchElements[saju.month.branch]}</div>
                 </div>
                 <div class="saju-pillar">
-                    <div class="pillar-title">일주</div>
+                    <div class="pillar-title">Day</div>
                     <div class="pillar-char chun">${heavenlyStems[saju.day.stem]}</div>
                     <div class="pillar-char ji">${earthlyBranches[saju.day.branch]}</div>
                     <div class="pillar-element">${stemElements[saju.day.stem]} / ${branchElements[saju.day.branch]}</div>
                 </div>
                 ${saju.hour ? `
                 <div class="saju-pillar">
-                    <div class="pillar-title">시주</div>
+                    <div class="pillar-title">Hour</div>
                     <div class="pillar-char chun">${heavenlyStems[saju.hour.stem]}</div>
                     <div class="pillar-char ji">${earthlyBranches[saju.hour.branch]}</div>
                     <div class="pillar-element">${stemElements[saju.hour.stem]} / ${branchElements[saju.hour.branch]}</div>
                 </div>
                 ` : `
                 <div class="saju-pillar" style="opacity:0.5">
-                    <div class="pillar-title">시주</div>
+                    <div class="pillar-title">Hour</div>
                     <div class="pillar-char">?</div>
                     <div class="pillar-char">?</div>
-                    <div class="pillar-element">시간 미입력</div>
+                    <div class="pillar-element">Time not entered</div>
                 </div>
                 `}
             `;
             document.getElementById('sajuChart').innerHTML = chartHtml;
 
-            // 오행 분포
+            // Element distribution
             let elementHtml = '';
             for (const [elem, cls] of Object.entries(elements)) {
                 elementHtml += `
                     <div class="element-item ${cls}">
-                        <div class="element-name">${elem}</div>
-                        <div class="element-count">${resultData.elementCount[elem]}개</div>
+                        <div class="element-name">${elementNames[cls]}</div>
+                        <div class="element-count">${resultData.elementCount[elem]}</div>
                     </div>
                 `;
             }
             document.getElementById('elementSection').innerHTML = elementHtml;
 
-            // 운세 그리드
+            // Fortune grid
             const fortuneIcons = {
                 overall: '⭐', love: '💕', wealth: '💰', career: '💼', health: '❤️'
             };
             const fortuneNames = {
-                overall: '종합운', love: '연애운', wealth: '재물운', career: '직업운', health: '건강운'
+                overall: 'Overall', love: 'Love', wealth: 'Wealth', career: 'Career', health: 'Health'
             };
 
             let fortuneHtml = '';
@@ -749,7 +749,7 @@
                     <div class="fortune-item">
                         <div class="fortune-icon">${fortuneIcons[key]}</div>
                         <div class="fortune-name">${fortuneNames[key]}</div>
-                        <div class="fortune-score">${score}점</div>
+                        <div class="fortune-score">${score} pts</div>
                         <div class="fortune-bar">
                             <div class="fortune-fill" style="width:${score}%"></div>
                         </div>
@@ -758,55 +758,55 @@
             }
             document.getElementById('fortuneGrid').innerHTML = fortuneHtml;
 
-            // 상세 분석
+            // Detailed analysis
             document.getElementById('analysisContent').innerHTML = generateDetailedAnalysis();
         }
 
         function generateDetailedAnalysis() {
             const analyses = {
                 personality: {
-                    title: '성격 분석',
+                    title: 'Personality Analysis',
                     icon: '👤',
                     texts: [
-                        '당신은 깊은 내면의 세계를 가진 사람입니다. 겉으로는 차분해 보이지만, 내면에는 뜨거운 열정을 품고 있습니다. 타인의 감정을 잘 이해하며, 공감 능력이 뛰어납니다.',
-                        '리더십과 추진력이 강한 편입니다. 목표를 정하면 끝까지 해내는 집념이 있으며, 어려운 상황에서도 포기하지 않는 강인함을 가지고 있습니다.',
-                        '창의적이고 독창적인 사고방식을 가지고 있습니다. 남들과 다른 시각으로 세상을 바라보며, 새로운 아이디어를 떠올리는 것을 좋아합니다.'
+                        'You have a deep inner world. Though you may appear calm on the surface, you harbor passionate enthusiasm within. You understand others\' emotions well and possess excellent empathy.',
+                        'You have strong leadership and drive. Once you set a goal, you have the determination to see it through, and you possess the strength to persevere even in difficult situations.',
+                        'You have creative and original thinking. You view the world from a different perspective than others and enjoy coming up with new ideas.'
                     ]
                 },
                 love: {
-                    title: '연애운',
+                    title: 'Love Fortune',
                     icon: '💕',
                     texts: [
-                        '사랑에 있어서 진지하고 헌신적인 타입입니다. 한 번 마음을 주면 쉽게 변하지 않으며, 상대방을 위해 많은 것을 희생할 준비가 되어 있습니다.',
-                        '연애 초반에는 조심스럽지만, 관계가 깊어질수록 깊은 애정을 표현합니다. 안정적이고 신뢰할 수 있는 파트너가 될 수 있습니다.',
-                        '감정 표현이 서툴 수 있지만, 행동으로 사랑을 보여주는 타입입니다. 상대방의 작은 것까지 세심하게 챙기는 다정함이 있습니다.'
+                        'You are serious and devoted in love. Once you give your heart, you don\'t change easily and are ready to sacrifice much for your partner.',
+                        'You are cautious at the beginning of a relationship, but express deep affection as it deepens. You can be a stable and trustworthy partner.',
+                        'You may be awkward at expressing emotions, but you are the type to show love through actions. You have the tenderness to care for even the smallest details about your partner.'
                     ]
                 },
                 career: {
-                    title: '직업운',
+                    title: 'Career Fortune',
                     icon: '💼',
                     texts: [
-                        '전문성을 살릴 수 있는 분야에서 두각을 나타낼 수 있습니다. 꾸준한 노력으로 분야의 전문가가 될 가능성이 높습니다.',
-                        '조직 내에서 중요한 역할을 맡게 될 운입니다. 신뢰를 바탕으로 점점 더 큰 책임을 맡게 될 것입니다.',
-                        '창업이나 자영업에도 적성이 있습니다. 독립적으로 일할 때 더 큰 성과를 낼 수 있는 기운이 있습니다.'
+                        'You can excel in fields where you can utilize your expertise. There is a high possibility of becoming an expert in your field through steady effort.',
+                        'You are likely to take on important roles within an organization. You will gradually be entrusted with greater responsibilities based on trust.',
+                        'You also have an aptitude for entrepreneurship or self-employment. You have the energy to achieve greater results when working independently.'
                     ]
                 },
                 wealth: {
-                    title: '재물운',
+                    title: 'Wealth Fortune',
                     icon: '💰',
                     texts: [
-                        '안정적인 재물 축적이 가능한 사주입니다. 큰 행운보다는 꾸준한 노력으로 재산을 모으는 타입입니다.',
-                        '투자에 있어서는 신중한 접근이 필요합니다. 안전한 투자 방식이 당신에게 더 맞을 수 있습니다.',
-                        '중년 이후로 재물운이 상승하는 흐름입니다. 젊을 때 쌓은 경험과 인맥이 나중에 큰 도움이 됩니다.'
+                        'This is a chart that allows for stable wealth accumulation. You are the type who accumulates wealth through steady effort rather than great fortune.',
+                        'A cautious approach to investment is necessary. Safe investment methods may be better suited for you.',
+                        'There is a trend of rising wealth fortune after middle age. The experience and connections built in youth will be of great help later.'
                     ]
                 },
                 advice: {
-                    title: '조언',
+                    title: 'Advice',
                     icon: '💡',
                     texts: [
-                        '때로는 남의 의견도 귀 기울여 들을 필요가 있습니다. 고집을 버리고 유연하게 대처하면 더 좋은 결과를 얻을 수 있습니다.',
-                        '건강 관리에 신경 쓰세요. 특히 스트레스 관리가 중요합니다. 규칙적인 운동과 충분한 휴식을 권장합니다.',
-                        '인간관계를 소홀히 하지 마세요. 좋은 인연이 당신의 운을 크게 바꿀 수 있습니다.'
+                        'Sometimes it\'s necessary to listen to others\' opinions as well. If you let go of stubbornness and respond flexibly, you can achieve better results.',
+                        'Pay attention to health management. Stress management is especially important. Regular exercise and sufficient rest are recommended.',
+                        'Don\'t neglect personal relationships. Good connections can greatly change your fortune.'
                     ]
                 }
             };
@@ -828,19 +828,19 @@
         }
 
         function shareResult() {
-            const text = `나의 사주 풀이 결과\n` +
-                        `종합운: ${resultData.fortunes.overall}점\n` +
-                        `연애운: ${resultData.fortunes.love}점\n` +
-                        `재물운: ${resultData.fortunes.wealth}점\n\n` +
-                        `나도 사주 보기 👉`;
+            const text = `My Saju Fortune Reading Results\n` +
+                        `Overall: ${resultData.fortunes.overall} pts\n` +
+                        `Love: ${resultData.fortunes.love} pts\n` +
+                        `Wealth: ${resultData.fortunes.wealth} pts\n\n` +
+                        `Get your Saju reading too 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: 'AI 사주 풀이', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                navigator.share({ title: 'AI Saju Reading', text: text }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 Results copied!'));
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                    showToast('📋 Results copied!');
                 });
             }
         }

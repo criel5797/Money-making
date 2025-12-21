@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Message Generator - Congratulations, Thanks, Comfort, Confession Messages</title>
+    <meta name="description" content="AI writes the perfect message for any situation. Birthday wishes, wedding congratulations, thank you notes, words of comfort, confession messages and more.">
+    <meta name="keywords" content="congratulations message, thank you message, comfort message, confession message, AI message, message writing, greeting generator">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #fef7f0;
+            --bg-secondary: #ffffff;
+            --bg-accent: #fff5eb;
+            --text-primary: #2d2d2d;
+            --text-secondary: #666666;
+            --accent: #ff6b6b;
+            --accent-secondary: #feca57;
+            --accent-gradient: linear-gradient(135deg, #ff6b6b, #feca57);
+            --border: #eee;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+        .logo { font-size: 3rem; margin-bottom: 15px; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: var(--text-secondary);
+        }
+
+        .main-card {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 35px;
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .category-btn {
+            padding: 18px 15px;
+            background: var(--bg-accent);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .category-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.2);
+        }
+        .category-btn.selected {
+            border-color: var(--accent);
+            background: #fff5f5;
+        }
+        .category-icon { font-size: 1.8rem; margin-bottom: 8px; }
+        .category-name { font-size: 0.95rem; font-weight: 500; }
+
+        .sub-options {
+            display: none;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-accent);
+            border-radius: 16px;
+        }
+        .sub-options.show { display: flex; }
+        .sub-btn {
+            padding: 10px 18px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .sub-btn:hover { border-color: var(--accent); }
+        .sub-btn.selected {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .input-section { margin-bottom: 25px; }
+        .input-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid #eee;
+            border-radius: 14px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        textarea { resize: vertical; min-height: 100px; }
+
+        .tone-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .tone-btn {
+            padding: 12px 20px;
+            background: var(--bg-accent);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .tone-btn:hover { background: #ffe8d6; }
+        .tone-btn.selected {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,107,107,0.35);
+        }
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px dashed #eee;
+        }
+        .result-section.show { display: block; }
+
+        .result-card {
+            background: var(--bg-accent);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        .result-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        .result-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .action-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .regenerate-btn {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .regenerate-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tips-section {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+        .tips-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .tips-list {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .tips-list li { margin-bottom: 8px; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .main-card { padding: 25px 20px; }
+            h1 { font-size: 1.8rem; }
+            .category-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">💌</div>
+            <h1>AI Message Generator</h1>
+            <p class="subtitle">AI writes the perfect message for any situation</p>
+        </header>
+
+        <div class="ad-banner">Ad Space</div>
+
+        <div class="main-card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                What type of message do you need?
+            </div>
+            <div class="category-grid" id="categoryGrid">
+                <div class="category-btn" data-category="celebration" onclick="selectCategory(this)">
+                    <div class="category-icon">🎉</div>
+                    <div class="category-name">Celebration</div>
+                </div>
+                <div class="category-btn" data-category="thanks" onclick="selectCategory(this)">
+                    <div class="category-icon">🙏</div>
+                    <div class="category-name">Thanks</div>
+                </div>
+                <div class="category-btn" data-category="comfort" onclick="selectCategory(this)">
+                    <div class="category-icon">🤗</div>
+                    <div class="category-name">Comfort</div>
+                </div>
+                <div class="category-btn" data-category="love" onclick="selectCategory(this)">
+                    <div class="category-icon">💕</div>
+                    <div class="category-name">Love</div>
+                </div>
+                <div class="category-btn" data-category="apology" onclick="selectCategory(this)">
+                    <div class="category-icon">😢</div>
+                    <div class="category-name">Apology</div>
+                </div>
+                <div class="category-btn" data-category="encourage" onclick="selectCategory(this)">
+                    <div class="category-icon">💪</div>
+                    <div class="category-name">Encouragement</div>
+                </div>
+            </div>
+
+            <div class="sub-options" id="subOptions"></div>
+
+            <div class="step-title">
+                <span class="step-number">2</span>
+                Tell us more details
+            </div>
+            <div class="input-section">
+                <label class="input-label">Relationship to recipient</label>
+                <select id="relationship">
+                    <option value="">Please select</option>
+                    <option value="friend">Friend</option>
+                    <option value="partner">Partner</option>
+                    <option value="parents">Parents</option>
+                    <option value="sibling">Sibling</option>
+                    <option value="senior">Senior</option>
+                    <option value="junior">Junior</option>
+                    <option value="colleague">Colleague</option>
+                    <option value="boss">Boss</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="acquaintance">Acquaintance</option>
+                </select>
+            </div>
+
+            <div class="input-section">
+                <label class="input-label">Additional information (optional)</label>
+                <textarea id="additionalInfo" placeholder="e.g., 10-year friend, first workplace colleague, someone who always cares for me, etc."></textarea>
+            </div>
+
+            <div class="step-title">
+                <span class="step-number">3</span>
+                Choose your preferred tone
+            </div>
+            <div class="tone-selector" id="toneSelector">
+                <button class="tone-btn selected" data-tone="warm and sincere" onclick="selectTone(this)">💛 Warm</button>
+                <button class="tone-btn" data-tone="humorous and fun" onclick="selectTone(this)">😄 Funny</button>
+                <button class="tone-btn" data-tone="formal and polite" onclick="selectTone(this)">🎩 Formal</button>
+                <button class="tone-btn" data-tone="emotional and poetic" onclick="selectTone(this)">🌙 Emotional</button>
+                <button class="tone-btn" data-tone="brief and impactful" onclick="selectTone(this)">⚡ Brief</button>
+            </div>
+
+            <button class="generate-btn" id="generateBtn" onclick="generateMessage()">
+                ✨ Generate Message
+            </button>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-card">
+                    <div class="result-label">Generated Message</div>
+                    <div class="result-text" id="resultText"></div>
+                    <div class="result-actions">
+                        <button class="action-btn" onclick="copyMessage()">📋 Copy</button>
+                        <button class="action-btn" onclick="shareKakao()">💬 Share</button>
+                    </div>
+                </div>
+                <button class="regenerate-btn" onclick="generateMessage()">🔄 Generate Different Version</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">Ad Space</div>
+
+        <div class="tips-section">
+            <div class="tips-title">💡 Tips for Better Messages</div>
+            <ul class="tips-list">
+                <li>The more specific your relationship and situation, the more customized the message</li>
+                <li>Generate multiple times and choose your favorite version</li>
+                <li>Adding your own personal touch makes the message more sincere</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>The easiest way to express your heart 💌</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let selectedCategory = '';
+        let selectedSubOption = '';
+        let selectedTone = 'warm and sincere';
+
+        const subOptionsData = {
+            celebration: ['Birthday', 'Wedding', 'Passing Exam', 'New Job', 'Promotion', 'New Baby', 'Graduation', 'Housewarming', 'Grand Opening'],
+            thanks: ['Help', 'Gift', 'Advice', 'Support', 'Time', 'Always'],
+            comfort: ['Breakup', 'Failure/Setback', 'Health Issues', 'Family Matters', 'Work Stress', 'Hard Times'],
+            love: ['First Confession', 'Anniversary', 'Everyday Love', 'Long-term Partner', 'Crush', 'Reunion'],
+            apology: ['Broke Promise', 'Made Mistake', 'Hurt Feelings', 'No Contact', 'Misunderstanding', 'Late Apology'],
+            encourage: ['Exam/Interview', 'New Challenge', 'Difficult Time', 'Goal Achievement', 'Health Recovery', 'New Beginning']
+        };
+
+        const messageTemplates = {
+            celebration: {
+                'Birthday': [
+                    "Dear {relation},\n\nHappy birthday! 🎂\n\n{tone} speaking, today - the day you were born - is truly special. I hope this year brings you nothing but smiles and you achieve everything you want! {extra}\n\nHappy birthday, you amazing person! 🎉",
+                    "It's {relation}'s birthday! 🎈\n\nThank you for being born. {tone}, I wanted to say that my life is richer because of you. I hope you stay healthy and happy, and achieve all your dreams. {extra}\n\nHave the best day ever! 💕",
+                    "{relation}, happy birthday! 🥳\n\n{tone}, let me just say... I'm so lucky to have you as my {relation}. I hope this year brings you even more wonderful things! {extra}\n\nLove you, happy birthday! ✨"
+                ],
+                'Wedding': [
+                    "Congratulations on your wedding, {relation}! 💒\n\n{tone}, I hope your love lasts forever. {extra}\n\nMay your journey ahead be filled with happiness! Congratulations! 💐",
+                    "Finally getting married! {relation}, congratulations! 💍\n\n{tone} I want to tell you. I'm so happy you found someone wonderful. {extra} I hope you cherish and love each other for life.\n\nLive happily ever after! Congratulations! 🎊"
+                ],
+                'Passing Exam': [
+                    "{relation}, congratulations on passing! 🎉\n\n{tone}, your hard work finally paid off! {extra} I'm so proud, and I'll support you on your journey ahead.\n\nHeartfelt congratulations! 🏆",
+                    "You passed!! {relation}, you're amazing! ✨\n\n{tone}, I know how hard you worked, so this feels even more special. {extra}\n\nThis is just the beginning, fighting! Congratulations! 🎊"
+                ],
+                'New Job': [
+                    "{relation}, congratulations on your new job! 🎉\n\n{tone}, you've finally found a stage to showcase your abilities! {extra} I'll support your new beginning.\n\nBecome an amazing professional! Congratulations! 💼",
+                    "When I heard about your new job, I was so happy! {relation}, congratulations! 🌟\n\n{tone} I'll say this. You've worked hard, and now only good things await. {extra}\n\nFighting! Heartfelt congratulations! 🎊"
+                ],
+                'Promotion': [
+                    "{relation}, congratulations on your promotion! 🎊\n\n{tone}, your hard work and achievements have been recognized. {extra} I believe you'll shine even brighter in your new position.\n\nHeartfelt congratulations! 🏆",
+                    "I was so happy to hear about your promotion! {relation}, congratulations! ✨\n\n{tone} I want to say. May only good things come your way! {extra}\n\nCongratulations! 🎉"
+                ],
+                'New Baby': [
+                    "{relation}, congratulations on your new baby! 👶\n\n{tone} let me say. The birth of new life is truly miraculous and blessed. {extra}\n\nI hope both baby and parents stay healthy! 💕",
+                    "So happy about your baby's arrival! {relation}, congratulations! 🍼\n\n{tone} I'll say. May you have happy days with your beautiful baby! {extra}\n\nHeartfelt congratulations! 🎀"
+                ],
+                'Graduation': [
+                    "{relation}, congratulations on graduating! 🎓\n\n{tone} let me say. You've worked so hard! {extra} A new world is waiting for you now.\n\nCongratulations on graduating, and may your future be filled with happiness! 🌸",
+                    "Finally graduated! {relation}, congratulations! 🎉\n\n{tone} to be honest, it's amazing that you've come this far. {extra}\n\nI'll support your new beginning! Congratulations on graduating! ✨"
+                ],
+                'Housewarming': [
+                    "{relation}, congratulations on your new home! 🏠\n\n{tone} I'll say. May only good things happen in your new nest! {extra}\n\nLive happily in your beautiful home! Congratulations! 🎊",
+                    "Congrats on the new place! {relation}! 🏡\n\n{tone} I want to say. I hope it becomes a warm and comfortable space! {extra}\n\nCongratulations on the housewarming, I'll come visit! 🎉"
+                ],
+                'Grand Opening': [
+                    "{relation}, congratulations on your grand opening! 🎊\n\n{tone} let me say. I applaud your new challenge! {extra}\n\nI hope your business thrives! Congratulations! 💰",
+                    "So happy to hear about your opening! {relation}, congratulations! 🏪\n\n{tone} I'll say. May everything go well! {extra}\n\nMay your business prosper! Congratulations! 🎉"
+                ]
+            },
+            thanks: {
+                'Help': [
+                    "Dear {relation},\n\n{tone} I want to thank you. You were such a great help. {extra}\n\nThanks to you, I was able to resolve it well. Thank you so much! 🙏",
+                    "{relation}, thank you so much! 💕\n\n{tone} let me say. I really appreciate your help. {extra} I don't know how to repay you.\n\nTruly grateful! ✨"
+                ],
+                'Gift': [
+                    "{relation}, thank you for the gift! 🎁\n\n{tone} let me say. I was so touched by your thoughtfulness. {extra}\n\nI'll treasure it. Thank you so much! 💕",
+                    "Loved the gift, {relation}! ✨\n\n{tone} I want to say. The thoughtful gift made me so happy. {extra}\n\nThank you! 🙏"
+                ],
+                'Advice': [
+                    "{relation}, thank you for the advice! 🙏\n\n{tone} let me say. Thanks to you, I found direction. {extra}\n\nThank you so much for the wise words! ✨",
+                    "{relation}'s advice was such a big help! 💪\n\n{tone} I'll say. Your wise counsel gave me confidence. {extra}\n\nThank you so much! 🙏"
+                ],
+                'Support': [
+                    "{relation}, thank you for your support! 💪\n\n{tone} I'll say. Your encouragement gave me strength. {extra}\n\nThanks to you, I could keep going. Really, thank you! ✨",
+                    "Your support gave me strength, {relation}! 🌟\n\n{tone} I want to say. I feel secure knowing you're there. {extra}\n\nThank you, really! 💕"
+                ],
+                'Time': [
+                    "{relation}, thank you for taking time despite being busy! ⏰\n\n{tone} let me say. I really appreciate you spending your precious time. {extra}\n\nIt was such a great time thanks to you. Thank you! 🙏",
+                    "Thank you so much for making time, {relation}! ✨\n\n{tone} I'll say. Thank you despite your busy schedule. {extra}\n\nI'll repay you for sure! 🙏"
+                ],
+                'Always': [
+                    "To {relation},\n\n{tone} I want to say something I haven't said before. Thank you for always being there and caring. {extra}\n\nI won't take it for granted. Truly grateful! 💕",
+                    "{relation}, I haven't said this often but... 💕\n\n{tone} let me say. I'm always grateful. {extra}\n\nI look forward to continuing our relationship. Thank you! 🙏"
+                ]
+            },
+            comfort: {
+                'Breakup': [
+                    "{relation},\n\n{tone} I'll say. It must be really hard, right? I know nothing registers right now... {extra}\n\nTime will make it better. I'll be here for you. Stay strong. 💕",
+                    "{relation}, are you okay? 💔\n\n{tone} I want to say. It's okay to cry when you want to. {extra} I know how hard it is now.\n\nCall me anytime. I'll be by your side. 🤗"
+                ],
+                'Failure/Setback': [
+                    "{relation},\n\n{tone} I'll say. It didn't work out this time, but that doesn't change your value. {extra}\n\nYou can rise again, I believe in you. Stay strong! 💪",
+                    "{relation}, you must be so disappointed, right? 😢\n\n{tone} I'll say. Failure is the mother of success. {extra} This experience will definitely help.\n\nYou can do it. I'm rooting for you! ✨"
+                ],
+                'Health Issues': [
+                    "{relation}, how are you feeling? 🏥\n\n{tone} let me say. Health comes first. Everything else can wait. {extra}\n\nGet plenty of rest and get well soon. 🙏",
+                    "{relation}, I'm worried about you. 💕\n\n{tone} I'll say. Being sick is hard on the heart too. {extra}\n\nI truly hope you recover quickly. Stay strong! 🍀"
+                ],
+                'Family Matters': [
+                    "{relation},\n\n{tone} I'll say. Family matters weigh so heavy on the heart. {extra}\n\nDon't try to bear it alone. I'll be here for you. 🤗",
+                    "{relation}, that must have been hard. 😢\n\n{tone} I want to say. It's too heavy a burden to carry alone. {extra}\n\nTalk to me anytime. I'll listen. 💕"
+                ],
+                'Work Stress': [
+                    "{relation}, is work stressing you out lately? 😮‍💨\n\n{tone} I'll say. Work is just work, your health matters more. {extra}\n\nDon't push yourself too hard. Rest when you need to! 💪",
+                    "{relation}, you've been so stressed. 😢\n\n{tone} I'll say. It's okay not to be perfect. {extra}\n\nYou're doing great. Hang in there a little longer! ✨"
+                ],
+                'Hard Times': [
+                    "{relation},\n\n{tone} I'll say. I know you're going through a really tough time. {extra}\n\nThis too shall pass. I'll be by your side. 🤗",
+                    "{relation}, things have been really tough lately, right? 💕\n\n{tone} I want to say. It's okay to say it's hard when it is. {extra}\n\nYou're not alone. Call me anytime. ✨"
+                ]
+            },
+            love: {
+                'First Confession': [
+                    "To {relation},\n\n{tone} I'll say. Honestly, I like you. {extra}\n\nI'm gathering courage to say this. Will you accept my feelings? 💕",
+                    "{relation},\n\nI'm nervous to say this but... {tone} I'll confess. I like you. {extra}\n\nWill you go out with me? 💗"
+                ],
+                'Anniversary': [
+                    "To my beloved {relation},\n\n{tone} I'll say. Today is our special day. {extra}\n\nLet's stay together forever. I love you! 💕",
+                    "{relation}, you know what day it is, right? 💗\n\n{tone} I'll say. The time spent with you is so precious. {extra}\n\nLet's be together forever! I love you! ✨"
+                ],
+                'Everyday Love': [
+                    "I suddenly wanted to tell {relation} today. 💕\n\n{tone} I'll confess. Just... I'm happy because of you. {extra}\n\nThank you, I love you! 💗",
+                    "{relation},\n\nIt's not a special day but {tone} I wanted to say. Thank you for being by my side. {extra}\n\nI love you so much! 💕"
+                ],
+                'Long-term Partner': [
+                    "To my {relation},\n\n{tone} I'll say. It's been a while, but I still like you. {extra}\n\nLet's spend our whole lives together. I love you! 💕",
+                    "{relation}, this is embarrassing to say but... 💗\n\n{tone} I'll say. As time passes, you become more precious to me. {extra}\n\nAlways grateful, and I love you! ✨"
+                ],
+                'Crush': [
+                    "To {relation},\n\n{tone} I'll gather courage to say. Actually, I've liked you for a long time. {extra}\n\nI hope I'm not making you uncomfortable. It's just how I feel. 💕",
+                    "{relation},\n\nI'm nervous but {tone} I'll confess. I like you, for quite a while now. {extra}\n\nIt's okay if you don't reply. I just wanted you to know. 💗"
+                ],
+                'Reunion': [
+                    "{relation},\n\nLong time no see. {tone} I'll say. I've thought about you a lot. {extra}\n\nCan we start over? 💕",
+                    "To {relation},\n\n{tone} I want to say. Even after time passed, I still think of you. {extra}\n\nCan we meet again? 💗"
+                ]
+            },
+            apology: {
+                'Broke Promise': [
+                    "To {relation},\n\n{tone} I apologize. I'm really sorry for breaking my promise. {extra}\n\nI'll make sure this never happens again. Please forgive me. 🙏",
+                    "{relation}, I'm really sorry. 😢\n\n{tone} I'll say. There's no excuse for breaking a promise. {extra}\n\nI'll keep it next time for sure. I'm sorry. 🙏"
+                ],
+                'Made Mistake': [
+                    "To {relation},\n\n{tone} I apologize. It was my mistake. {extra}\n\nI'll be more careful from now on. I'm truly sorry. 🙏",
+                    "{relation}, I made a mistake. I'm sorry. 😢\n\n{tone} let me say. I won't make excuses. {extra}\n\nPlease forgive me. 🙏"
+                ],
+                'Hurt Feelings': [
+                    "{relation},\n\n{tone} I apologize. I know I hurt you. {extra}\n\nI'm really sorry. I didn't mean to. Can you forgive me? 😢",
+                    "To {relation},\n\nYou were really hurt, weren't you? {tone} I'll say. It was my fault. {extra}\n\nI'm truly sorry. 🙏"
+                ],
+                'No Contact': [
+                    "{relation}, long time no see. 😅\n\n{tone} I apologize. Sorry for not being in touch. {extra}\n\nI know being busy is no excuse. I'll contact you more often! 🙏",
+                    "To {relation},\n\nSorry for not staying in touch. {tone} I'll say. I didn't forget about you. {extra}\n\nI'll pay more attention from now on. Sorry! 😢"
+                ],
+                'Misunderstanding': [
+                    "{relation},\n\n{tone} I'll say. There seems to have been a misunderstanding. It's my fault. {extra}\n\nI want to clear things up and be like before. I'm sorry. 🙏",
+                    "To {relation},\n\n{tone} I apologize. I seem to have caused a misunderstanding. {extra}\n\nCan we clear this up? I'm really sorry. 😢"
+                ],
+                'Late Apology': [
+                    "To {relation},\n\n{tone} I'll say. I'm sorry for apologizing only now. I was really wrong back then. {extra}\n\nI know it's late, but I wanted to say I'm truly sorry. 🙏",
+                    "{relation},\n\nI know it's very late but... {tone} I apologize. It's been weighing on me all this time. {extra}\n\nIt's okay if you don't forgive me, I just wanted to say I'm sorry. 😢"
+                ]
+            },
+            encourage: {
+                'Exam/Interview': [
+                    "{relation}, the exam is coming up soon, right? 💪\n\n{tone} I'll support you. I know how hard you've been working. {extra}\n\nYou'll definitely do well! Fighting! ✨",
+                    "{relation}, nervous about the interview? 🍀\n\n{tone} I'll say. I believe in your abilities. {extra}\n\nGo in with confidence! I'm rooting for you! 💪"
+                ],
+                'New Challenge': [
+                    "{relation}, you're facing a new challenge! ✨\n\n{tone} I'll support you. Half the battle is starting. {extra}\n\nYou can do it! Fighting! 💪",
+                    "I support {relation}'s new challenge! 🚀\n\n{tone} I'll say. It's amazing that you had the courage to start. {extra}\n\nI'll support you till the end! Fighting! ✨"
+                ],
+                'Difficult Time': [
+                    "{relation}, things are tough right now, aren't they? 🤗\n\n{tone} I'll support you. You're doing great. {extra}\n\nHang in there a little longer! You're a strong person! 💪",
+                    "{relation}, I know it's hard. 😢\n\n{tone} I'll say. Don't give up. {extra}\n\nI'll be by your side. You can do it! ✨"
+                ],
+                'Goal Achievement': [
+                    "{relation}, you're running toward your goal! 🏃\n\n{tone} I'll support you. Your passion is amazing. {extra}\n\nFighting till the end! You can make it! 💪",
+                    "I support {relation}'s passion! ✨\n\n{tone} I'll say. I'll be with you until you achieve your goal. {extra}\n\nFighting! 🚀"
+                ],
+                'Health Recovery': [
+                    "{relation}, you need to get better soon! 🏥\n\n{tone} I'll support you. Your body comes first. {extra}\n\nGet lots of rest and come back healthy! I'll be waiting! 💕",
+                    "{relation}, I hope you recover soon! 🍀\n\n{tone} I'll say. You'll get better little by little. {extra}\n\nStay strong! Get well soon! 🙏"
+                ],
+                'New Beginning': [
+                    "{relation}, a new beginning! 🌱\n\n{tone} I'll support you. Congratulations on your fresh start. {extra}\n\nOnly good things will come! Fighting! ✨",
+                    "I support {relation}'s new beginning! 🚀\n\n{tone} I'll say. I'm excited for what's ahead. {extra}\n\nLet's do this amazingly! Fighting! 💪"
+                ]
+            }
+        };
+
+        function selectCategory(el) {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedCategory = el.dataset.category;
+            selectedSubOption = '';
+
+            const subOptions = document.getElementById('subOptions');
+            const options = subOptionsData[selectedCategory];
+
+            subOptions.innerHTML = options.map(opt =>
+                `<button class="sub-btn" onclick="selectSubOption(this)" data-option="${opt}">${opt}</button>`
+            ).join('');
+            subOptions.classList.add('show');
+        }
+
+        function selectSubOption(el) {
+            document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedSubOption = el.dataset.option;
+        }
+
+        function selectTone(el) {
+            document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTone = el.dataset.tone;
+        }
+
+        function generateMessage() {
+            if (!selectedCategory) {
+                showToast('Please select a message type');
+                return;
+            }
+            if (!selectedSubOption) {
+                showToast('Please select a detailed option');
+                return;
+            }
+
+            const relationship = document.getElementById('relationship').value || 'you';
+            const additionalInfo = document.getElementById('additionalInfo').value;
+            const btn = document.getElementById('generateBtn');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Generating message...';
+
+            setTimeout(() => {
+                const templates = messageTemplates[selectedCategory][selectedSubOption];
+                const template = templates[Math.floor(Math.random() * templates.length)];
+
+                let message = template
+                    .replace(/{relation}/g, relationship)
+                    .replace(/{tone}/g, selectedTone)
+                    .replace(/{extra}/g, additionalInfo ? `(${additionalInfo})` : '');
+
+                // Clean up
+                message = message.replace(/\(\)/g, '').replace(/  /g, ' ');
+
+                document.getElementById('resultText').textContent = message;
+                document.getElementById('resultSection').classList.add('show');
+
+                btn.disabled = false;
+                btn.innerHTML = '✨ Generate Message';
+
+                showToast('Message generated!');
+            }, 1500);
+        }
+
+        function copyMessage() {
+            const text = document.getElementById('resultText').textContent;
+            navigator.clipboard.writeText(text);
+            showToast('Message copied!');
+        }
+
+        function shareKakao() {
+            const text = document.getElementById('resultText').textContent;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI Generated Message',
+                    text: text
+                });
+            } else {
+                copyMessage();
+                showToast('Copied! Please paste it where you need');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>

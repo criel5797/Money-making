@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percent Calculator</title>
+    <style>
+        /* Styles remain the same */
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%);min-height:100vh;color:#fff;padding:20px}.container{max-width:500px;margin:0 auto}.ad-banner{background:rgba(255,255,255,.1);padding:20px;text-align:center;border-radius:12px;margin-bottom:20px;color:rgba(255,255,255,.5)}header{text-align:center;margin-bottom:30px}h1{font-size:1.8rem;margin-bottom:10px}.subtitle{color:rgba(255,255,255,.8);font-size:.95rem}.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.tab{flex:1;min-width:100px;padding:12px 8px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:10px;color:#fff;font-size:.85rem;cursor:pointer;transition:all .3s;text-align:center}.tab:hover{background:rgba(255,255,255,.2)}.tab.active{background:rgba(255,255,255,.3);border-color:#fff}.calculator-section{display:none;background:rgba(255,255,255,.15);border-radius:16px;padding:25px;backdrop-filter:blur(10px);animation:fadeIn .3s ease}.calculator-section.active{display:block}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.calc-title{font-size:1.1rem;margin-bottom:8px;text-align:center}.calc-desc{font-size:.85rem;color:rgba(255,255,255,.7);text-align:center;margin-bottom:20px}.formula{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}.formula input{width:100px;padding:14px;border:2px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font-size:1.1rem;text-align:center;font-weight:600}.formula input:focus{outline:none;border-color:#fff;background:rgba(255,255,255,.15)}.formula input::placeholder{color:rgba(255,255,255,.5)}.formula span{font-size:1.2rem;font-weight:600;color:rgba(255,255,255,.8)}.calculate-btn{width:100%;padding:16px;background:#fff;border:none;border-radius:12px;color:#11998e;font-size:1.1rem;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s}.calculate-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.2)}.result-box{background:rgba(255,255,255,.2);border-radius:16px;padding:25px;text-align:center;margin-top:20px;display:none}.result-box.show{display:block;animation:popIn .3s ease}@keyframes popIn{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}.result-label{font-size:.9rem;color:rgba(255,255,255,.7);margin-bottom:10px}.result-value{font-size:2.5rem;font-weight:800}.result-detail{font-size:.9rem;color:rgba(255,255,255,.7);margin-top:10px}.copy-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:rgba(255,255,255,.2);border:none;border-radius:8px;color:#fff;font-size:.9rem;cursor:pointer;margin-top:15px;transition:all .3s}.copy-btn:hover{background:rgba(255,255,255,.3)}.quick-calc{margin-top:25px;padding-top:20px;border-top:1px solid rgba(255,255,255,.2)}.quick-calc h4{font-size:.9rem;color:rgba(255,255,255,.7);margin-bottom:12px}.quick-buttons{display:flex;flex-wrap:wrap;gap:8px}.quick-btn{padding:8px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:#fff;font-size:.85rem;cursor:pointer;transition:all .3s}.quick-btn:hover{background:rgba(255,255,255,.2)}footer{text-align:center;margin-top:30px;color:rgba(255,255,255,.5);font-size:.8rem}.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(0,0,0,.9);color:#fff;padding:12px 24px;border-radius:8px;font-size:.9rem;opacity:0;transition:all .3s;z-index:1000}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+
+        <header>
+            <h1>🔢 Percent Calculator</h1>
+            <p class="subtitle">Easy percentage calculations</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('basic')">Basic</button>
+            <button class="tab" onclick="showTab('discount')">Discount</button>
+            <button class="tab" onclick="showTab('change')">Change</button>
+            <button class="tab" onclick="showTab('ratio')">Ratio</button>
+        </div>
+
+        <div class="calculator-section active" id="basic">
+            <div class="calc-title">What is B% of A?</div>
+            <div class="formula">
+                <input type="number" id="basic-a" placeholder="50000">
+                <span>of</span>
+                <input type="number" id="basic-b" placeholder="20">
+                <span>%</span>
+            </div>
+            <button class="calculate-btn" onclick="calcBasic()">Calculate</button>
+            <div class="result-box" id="basic-result">
+                <div class="result-label">Result</div>
+                <div class="result-value" id="basic-value">0</div>
+                <button class="copy-btn" onclick="copyResult('basic-value')">📋 Copy</button>
+            </div>
+            <div class="quick-calc">
+                <h4>Quick Calc</h4>
+                <div class="quick-buttons">
+                    <button class="quick-btn" onclick="quickBasic(10)">10%</button>
+                    <button class="quick-btn" onclick="quickBasic(20)">20%</button>
+                    <button class="quick-btn" onclick="quickBasic(50)">50%</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="calculator-section" id="discount">
+            <div class="calc-title">Discount Calculator</div>
+            <div class="formula">
+                <input type="number" id="discount-price" placeholder="50000">
+                <span>-</span>
+                <input type="number" id="discount-rate" placeholder="20">
+                <span>%</span>
+            </div>
+            <button class="calculate-btn" onclick="calcDiscount()">Calculate</button>
+            <div class="result-box" id="discount-result">
+                <div class="result-label">Price</div>
+                <div class="result-value" id="discount-value">0</div>
+                <div class="result-detail" id="discount-detail"></div>
+                <button class="copy-btn" onclick="copyResult('discount-value')">📋 Copy</button>
+            </div>
+        </div>
+
+        <div class="calculator-section" id="change">
+            <div class="calc-title">Percentage Change</div>
+            <div class="formula">
+                <input type="number" id="change-from" placeholder="100">
+                <span>→</span>
+                <input type="number" id="change-to" placeholder="150">
+            </div>
+            <button class="calculate-btn" onclick="calcChange()">Calculate</button>
+            <div class="result-box" id="change-result">
+                <div class="result-label">Rate</div>
+                <div class="result-value" id="change-value">0%</div>
+                <button class="copy-btn" onclick="copyResult('change-value')">📋 Copy</button>
+            </div>
+        </div>
+
+        <div class="calculator-section" id="ratio">
+            <div class="calc-title">Ratio Calculator</div>
+            <div class="formula">
+                <input type="number" id="ratio-part" placeholder="30">
+                <span>:</span>
+                <input type="number" id="ratio-total" placeholder="120">
+            </div>
+            <button class="calculate-btn" onclick="calcRatio()">Calculate</button>
+            <div class="result-box" id="ratio-result">
+                <div class="result-label">Ratio</div>
+                <div class="result-value" id="ratio-value">0%</div>
+                <button class="copy-btn" onclick="copyResult('ratio-value')">📋 Copy</button>
+            </div>
+        </div>
+
+        <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
+
+        <footer>
+            <p>© 2024 Percent Calculator</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.calculator-section').forEach(s => s.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function formatNumber(num) { return num.toLocaleString('en-US', { maximumFractionDigits: 2 }); }
+
+        function calcBasic() {
+            const a = parseFloat(document.getElementById('basic-a').value);
+            const b = parseFloat(document.getElementById('basic-b').value);
+            if (isNaN(a) || isNaN(b)) return;
+            const result = a * (b / 100);
+            document.getElementById('basic-value').textContent = formatNumber(result);
+            document.getElementById('basic-result').classList.add('show');
+        }
+
+        function quickBasic(percent) {
+            document.getElementById('basic-b').value = percent;
+            if (document.getElementById('basic-a').value) calcBasic();
+        }
+
+        function calcDiscount() {
+            const price = parseFloat(document.getElementById('discount-price').value);
+            const rate = parseFloat(document.getElementById('discount-rate').value);
+            if (isNaN(price) || isNaN(rate)) return;
+            const discountAmount = price * (rate / 100);
+            const finalPrice = price - discountAmount;
+            document.getElementById('discount-value').textContent = formatNumber(finalPrice);
+            document.getElementById('discount-detail').textContent = `Save: ${formatNumber(discountAmount)}`;
+            document.getElementById('discount-result').classList.add('show');
+        }
+
+        function calcChange() {
+            const from = parseFloat(document.getElementById('change-from').value);
+            const to = parseFloat(document.getElementById('change-to').value);
+            if (isNaN(from) || isNaN(to) || from === 0) return;
+            const change = ((to - from) / from) * 100;
+            const sign = change >= 0 ? '+' : '';
+            document.getElementById('change-value').textContent = sign + formatNumber(change) + '%';
+            document.getElementById('change-result').classList.add('show');
+        }
+
+        function calcRatio() {
+            const part = parseFloat(document.getElementById('ratio-part').value);
+            const total = parseFloat(document.getElementById('ratio-total').value);
+            if (isNaN(part) || isNaN(total) || total === 0) return;
+            const ratio = (part / total) * 100;
+            document.getElementById('ratio-value').textContent = formatNumber(ratio) + '%';
+            document.getElementById('ratio-result').classList.add('show');
+        }
+
+        function copyResult(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const section = this.closest('.calculator-section');
+                    section.querySelector('.calculate-btn').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

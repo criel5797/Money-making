@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS 압축기 - 무료 온라인 CSS 미니파이어</title>
-    <meta name="description" content="CSS 코드를 즉시 압축하세요. 무료 온라인 CSS 압축기로 파일 크기를 줄이고 웹사이트 로딩 속도를 개선하세요.">
-    <meta name="keywords" content="CSS 압축, CSS 미니파이어, CSS 최적화, CSS 압축기, 웹 최적화">
+    <title>CSS Minifier - Free Online CSS Compressor Tool</title>
+    <meta name="description" content="Minify your CSS code instantly. Reduce file size and improve website loading speed with our free online CSS compressor.">
+    <meta name="keywords" content="CSS minifier, CSS compressor, CSS optimization, CSS minify tool, web optimization">
 
-    <meta property="og:title" content="CSS 압축기 - 무료 온라인 CSS 미니파이어">
-    <meta property="og:description" content="CSS 코드를 즉시 압축하여 파일 크기를 줄이세요.">
+    <meta property="og:title" content="CSS Minifier - Free Online CSS Compressor Tool">
+    <meta property="og:description" content="Minify your CSS code instantly to reduce file size.">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -244,53 +244,53 @@
 <body>
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="index-ko.html">한국어</a>
         </div>
 
         <header>
-            <h1>CSS 압축기</h1>
-            <p class="subtitle">CSS를 압축하여 파일 크기를 줄이세요</p>
+            <h1>CSS Minifier</h1>
+            <p class="subtitle">Compress your CSS to reduce file size</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-value" id="originalSize">0</div>
-                <div class="stat-label">원본 (바이트)</div>
+                <div class="stat-label">Original (bytes)</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value green" id="minifiedSize">0</div>
-                <div class="stat-label">압축 후 (바이트)</div>
+                <div class="stat-label">Minified (bytes)</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value green" id="savings">0%</div>
-                <div class="stat-label">절감률</div>
+                <div class="stat-label">Saved</div>
             </div>
         </div>
 
         <div class="options">
-            <div class="options-title">옵션</div>
+            <div class="options-title">Options</div>
             <div class="options-grid">
                 <div class="checkbox-item">
                     <input type="checkbox" id="removeComments" checked>
-                    <label for="removeComments">주석 제거</label>
+                    <label for="removeComments">Remove comments</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="removeWhitespace" checked>
-                    <label for="removeWhitespace">공백 제거</label>
+                    <label for="removeWhitespace">Remove whitespace</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="removeLastSemicolon" checked>
-                    <label for="removeLastSemicolon">마지막 세미콜론 제거</label>
+                    <label for="removeLastSemicolon">Remove last semicolon</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="shortenColors" checked>
-                    <label for="shortenColors">색상 코드 단축</label>
+                    <label for="shortenColors">Shorten color codes</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="removeZeroUnits" checked>
-                    <label for="removeZeroUnits">0 단위 제거</label>
+                    <label for="removeZeroUnits">Remove zero units</label>
                 </div>
             </div>
         </div>
@@ -298,53 +298,53 @@
         <div class="editor-container">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">입력 CSS</span>
+                    <span class="panel-title">Input CSS</span>
                     <div class="panel-actions">
-                        <button class="btn-sm" onclick="loadSample()">샘플</button>
-                        <button class="btn-sm" onclick="clearInput()">초기화</button>
+                        <button class="btn-sm" onclick="loadSample()">Sample</button>
+                        <button class="btn-sm" onclick="clearInput()">Clear</button>
                     </div>
                 </div>
-                <textarea id="inputCSS" placeholder="CSS 코드를 여기에 붙여넣으세요..."></textarea>
+                <textarea id="inputCSS" placeholder="Paste your CSS code here..."></textarea>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">압축된 출력</span>
+                    <span class="panel-title">Minified Output</span>
                     <div class="panel-actions">
-                        <button class="btn-sm" onclick="copyOutput()">복사</button>
-                        <button class="btn-sm" onclick="downloadCSS()">다운로드</button>
+                        <button class="btn-sm" onclick="copyOutput()">Copy</button>
+                        <button class="btn-sm" onclick="downloadCSS()">Download</button>
                     </div>
                 </div>
-                <textarea id="outputCSS" class="output-area" readonly placeholder="압축된 CSS가 여기에 표시됩니다..."></textarea>
+                <textarea id="outputCSS" class="output-area" readonly placeholder="Minified CSS will appear here..."></textarea>
             </div>
         </div>
 
-        <button class="minify-btn" onclick="minify()">CSS 압축하기</button>
+        <button class="minify-btn" onclick="minify()">Minify CSS</button>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="info-section">
-            <h3>왜 CSS를 압축해야 할까요?</h3>
-            <p>CSS 압축은 코드의 기능을 변경하지 않고 불필요한 문자를 제거합니다. 여기에는 공백, 주석 제거 및 값 최적화가 포함됩니다.</p>
-            <p><strong>장점:</strong></p>
-            <p>• 빠른 페이지 로딩 - 작은 파일은 더 빨리 다운로드됩니다</p>
-            <p>• 대역폭 사용량 감소 - 호스팅 비용 절감</p>
-            <p>• SEO 개선 - 페이지 속도는 검색 순위 요소입니다</p>
-            <p>• 사용자 경험 향상 - 특히 모바일 기기에서</p>
+            <h3>Why minify CSS?</h3>
+            <p>CSS minification removes unnecessary characters from your code without changing its functionality. This includes removing whitespace, comments, and optimizing values.</p>
+            <p><strong>Benefits:</strong></p>
+            <p>• Faster page loading - smaller files download quicker</p>
+            <p>• Reduced bandwidth usage - saves hosting costs</p>
+            <p>• Better SEO - page speed is a ranking factor</p>
+            <p>• Improved user experience - especially on mobile devices</p>
         </div>
 
         <div class="info-section">
-            <h3>무엇이 압축되나요?</h3>
-            <p>• 주석 (/* ... */)</p>
-            <p>• 불필요한 공백 및 줄바꿈</p>
-            <p>• 선언 블록의 마지막 세미콜론</p>
-            <p>• 색상 코드 (#ffffff → #fff)</p>
-            <p>• 0 단위 (0px → 0)</p>
+            <h3>What gets minified?</h3>
+            <p>• Comments (/* ... */)</p>
+            <p>• Unnecessary whitespace and line breaks</p>
+            <p>• Last semicolons in declaration blocks</p>
+            <p>• Color codes (#ffffff → #fff)</p>
+            <p>• Zero units (0px → 0)</p>
         </div>
 
         <footer>
-            <p>웹 개발자를 위해 정성껏 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보</a></p>
+            <p>Made with care for web developers</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy</a></p>
         </footer>
     </div>
 
@@ -402,14 +402,14 @@
             document.getElementById('minifiedSize').textContent = minifiedSize.toLocaleString();
             document.getElementById('savings').textContent = savings + '%';
 
-            showToast('CSS 압축 완료!');
+            showToast('CSS minified successfully!');
         }
 
         function copyOutput() {
             const output = document.getElementById('outputCSS').value;
             if (output) {
                 navigator.clipboard.writeText(output);
-                showToast('복사 완료!');
+                showToast('Copied to clipboard!');
             }
         }
 
@@ -423,19 +423,19 @@
                 a.download = 'styles.min.css';
                 a.click();
                 URL.revokeObjectURL(url);
-                showToast('다운로드 완료!');
+                showToast('Downloaded!');
             }
         }
 
         function loadSample() {
-            document.getElementById('inputCSS').value = `/* 웹사이트 메인 스타일 */
+            document.getElementById('inputCSS').value = `/* Website Main Styles */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* 헤더 스타일 */
+/* Header Styles */
 .header {
     background-color: #ffffff;
     border-bottom: 1px solid #eeeeee;
@@ -448,7 +448,7 @@
     color: #333333;
 }
 
-/* 네비게이션 */
+/* Navigation */
 .nav {
     display: flex;
     gap: 20px;
@@ -465,7 +465,7 @@
     background-color: #f5f5f5;
 }
 
-/* 버튼 스타일 */
+/* Button Styles */
 .button {
     display: inline-block;
     padding: 12px 24px;
@@ -479,7 +479,7 @@
 .button:hover {
     background-color: #0055dd;
 }`;
-            showToast('샘플 로드됨!');
+            showToast('Sample loaded!');
         }
 
         function clearInput() {

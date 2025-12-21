@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI性格タイプテスト</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;color:#333}.container{max-width:700px;margin:0 auto;padding:20px}header{text-align:center;padding:40px 0}h1{font-size:2.5rem;color:#fff;margin-bottom:10px;text-shadow:0 2px 10px rgba(0,0,0,.2)}.subtitle{color:rgba(255,255,255,.9);font-size:1.1rem}.ad-banner{background:rgba(255,255,255,.1);border:1px dashed rgba(255,255,255,.3);padding:20px;text-align:center;margin:20px 0;border-radius:12px;color:rgba(255,255,255,.7)}.card{background:#fff;border-radius:20px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.15);margin-bottom:20px}.intro{text-align:center}.intro h2{color:#667eea;margin-bottom:20px}.intro p{color:#666;line-height:1.8;margin-bottom:20px}.start-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:18px 50px;font-size:18px;border-radius:30px;cursor:pointer;transition:all .3s;font-weight:600}.start-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(102,126,234,.4)}.progress-container{margin-bottom:30px}.progress-bar{height:8px;background:#eee;border-radius:4px;overflow:hidden}.progress-fill{height:100%;background:linear-gradient(135deg,#667eea,#764ba2);transition:width .3s ease}.progress-text{text-align:center;margin-top:10px;color:#888;font-size:14px}.question-section{display:none}.question-section.active{display:block;animation:fadeIn .4s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.question-number{color:#667eea;font-size:14px;font-weight:600;margin-bottom:15px}.question-text{font-size:20px;color:#333;line-height:1.6;margin-bottom:30px}.options{display:flex;flex-direction:column;gap:12px}.option{padding:18px 24px;border:2px solid #eee;border-radius:12px;cursor:pointer;transition:all .3s;font-size:16px;color:#555}.option:hover{border-color:#667eea;background:rgba(102,126,234,.05)}.option.selected{border-color:#667eea;background:linear-gradient(135deg,rgba(102,126,234,.1),rgba(118,75,162,.1));color:#667eea;font-weight:500}.nav-buttons{display:flex;justify-content:space-between;margin-top:30px}.nav-btn{padding:12px 30px;border-radius:25px;cursor:pointer;font-size:15px;font-weight:500;transition:all .3s}.prev-btn{background:#f5f5f5;border:none;color:#666}.prev-btn:hover{background:#eee}.next-btn{background:linear-gradient(135deg,#667eea,#764ba2);border:none;color:#fff}.next-btn:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(102,126,234,.4)}.next-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.result-section{display:none;text-align:center}.result-section.active{display:block;animation:fadeIn .5s ease}.result-type{font-size:5rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:20px 0}.result-name{font-size:1.8rem;color:#333;margin-bottom:10px}.result-nickname{color:#667eea;font-size:1.2rem;margin-bottom:30px}.result-description{background:#f8f9ff;padding:25px;border-radius:15px;margin-bottom:25px;text-align:left}.result-description h3{color:#667eea;margin-bottom:15px}.result-description p{color:#555;line-height:1.8}.traits{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:25px}.trait{background:#f8f9ff;padding:15px;border-radius:12px;text-align:center}.trait-label{font-size:13px;color:#888;margin-bottom:5px}.trait-value{font-size:24px;font-weight:700;color:#667eea}.trait-name{font-size:12px;color:#555}.compatibility{background:#fff5f8;padding:20px;border-radius:15px;margin-bottom:25px}.compatibility h4{color:#e91e63;margin-bottom:10px}.compatibility p{color:#666}.share-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.share-btn{padding:12px 25px;border-radius:25px;cursor:pointer;font-size:14px;font-weight:500;transition:all .3s;border:none}.share-btn.primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}.share-btn.secondary{background:#f5f5f5;color:#666}.share-btn:hover{transform:translateY(-2px)}footer{text-align:center;padding:30px;color:rgba(255,255,255,.7);font-size:13px}@media (max-width:600px){h1{font-size:1.8rem}.result-type{font-size:3.5rem}.traits{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MBTIテスト</h1>
+            <p class="subtitle">12問簡易検査</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="card">
+            <div class="intro" id="introSection">
+                <h2>私のMBTIは？</h2>
+                <p>
+                    12個の簡単な質問で性格タイプを調べてみよう！<br>
+                    あまり長く悩まずに直感的に答えてください。
+                </p>
+                <button class="start-btn" onclick="startTest()">始める</button>
+            </div>
+
+            <div class="question-section" id="questionSection">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">1 / 12</div>
+                </div>
+
+                <div id="questionContainer"></div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn prev-btn" onclick="prevQuestion()" id="prevBtn" style="visibility:hidden;">前へ</button>
+                    <button class="nav-btn next-btn" onclick="nextQuestion()" id="nextBtn" disabled>次へ</button>
+                </div>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <p style="color:#888; font-size:14px;">あなたのMBTIタイプは</p>
+                <div class="result-type" id="resultType">ENFP</div>
+                <div class="result-name" id="resultName"></div>
+                <div class="result-nickname" id="resultNickname"></div>
+
+                <div class="traits" id="traitsContainer"></div>
+
+                <div class="result-description" id="resultDescription">
+                    <h3>性格特性</h3>
+                    <p id="descriptionText"></p>
+                </div>
+
+                <div class="compatibility" id="compatibilitySection">
+                    <h4>相性の良いタイプ</h4>
+                    <p id="compatibilityText"></p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="retakeTest()">やり直す</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            このテストはお遊びです。
+        </footer>
+    </div>
+
+    <script>
+        const questions = [
+            { text: "週末の予定は？", options: [{ text: "友達と集まり", value: "E" }, { text: "家で休む", value: "I" }] },
+            { text: "新しい人と会う時？", options: [{ text: "先に話しかける", value: "E" }, { text: "相手が話しかけるのを待つ", value: "I" }] },
+            { text: "パーティーに行くと？", options: [{ text: "いろんな人と話す", value: "E" }, { text: "知り合い中心に会話する", value: "I" }] },
+            { text: "問題を解決する時？", options: [{ text: "具体的な事実に集中する", value: "S" }, { text: "全体的な絵を見る", value: "N" }] },
+            { text: "新しいアイデアが浮かぶと？", options: [{ text: "すぐに実行可能性を考える", value: "S" }, { text: "可能性と意味を先に考える", value: "N" }] },
+            { text: "説明書を読む時？", options: [{ text: "最初から最後まで順番に", value: "S" }, { text: "必要な部分だけ選んで", value: "N" }] },
+            { text: "友達が悩みを話す時？", options: [{ text: "解決策を提示する", value: "T" }, { text: "共感して慰める", value: "F" }] },
+            { text: "決定を下す時にもっと重要なことは？", options: [{ text: "論理と合理性", value: "T" }, { text: "人々の感情", value: "F" }] },
+            { text: "批判を受けると？", options: [{ text: "客観的に分析する", value: "T" }, { text: "感情が傷つく", value: "F" }] },
+            { text: "旅行計画を立てる時？", options: [{ text: "詳細な日程を事前に決める", value: "J" }, { text: "即興的に決める", value: "P" }] },
+            { text: "締め切りがあると？", options: [{ text: "早めに終わらせる", value: "J" }, { text: "締め切り直前に終わらせる", value: "P" }] },
+            { text: "一日の予定は？", options: [{ text: "規則的で計画的", value: "J" }, { text: "柔軟で自由に", value: "P" }] }
+        ];
+
+        const mbtiTypes = {
+            INTJ: { name: "建築家", nickname: "戦略家", match: "ENFP, ENTP", desc: "独創的な思考力と強い意志を持っています。目標を達成するための戦略を立てることに長けています。" },
+            INTP: { name: "論理学者", nickname: "思想家", match: "ENTJ, ESTJ", desc: "論理的で分析的な思考を好みます。知識と理解を深めることに情熱を持っています。" },
+            ENTJ: { name: "指揮官", nickname: "リーダー", match: "INTP, ISTP", desc: "生まれながらのリーダーです。効率的で論理的な決定を下すことができます。" },
+            ENTP: { name: "討論者", nickname: "挑戦者", match: "INFJ, INTJ", desc: "知的な議論を楽しみ、新しいアイデアを探求することを好みます。" },
+            INFJ: { name: "提唱者", nickname: "理想主義者", match: "ENFP, ENTP", desc: "深い洞察力を持ち、他人を助けることに喜びを感じます。" },
+            INFP: { name: "仲介者", nickname: "夢想家", match: "ENFJ, ENTJ", desc: "理想主義的で、価値観と原則を大切にします。" },
+            ENFJ: { name: "主人公", nickname: "指導者", match: "INFP, ISFP", desc: "カリスマ的で、他人を鼓舞し導くことができます。" },
+            ENFP: { name: "運動家", nickname: "自由な魂", match: "INFJ, INTJ", desc: "情熱的で創造的、社交的です。新しい可能性を探求することを楽しみます。" },
+            ISTJ: { name: "管理者", nickname: "実務家", match: "ESFP, ESTP", desc: "責任感が強く、実用的で組織的です。" },
+            ISFJ: { name: "擁護者", nickname: "保護者", match: "ESFP, ESTP", desc: "献身的で、他人の世話をすることに喜びを感じます。" },
+            ESTJ: { name: "幹部", nickname: "管理者", match: "ISTP, INTP", desc: "組織的で実用的、伝統を重んじます。" },
+            ESFJ: { name: "領事", nickname: "支援者", match: "ISFP, ISTP", desc: "社交的で協力的、調和を大切にします。" },
+            ISTP: { name: "巨匠", nickname: "職人", match: "ESTJ, ENTJ", desc: "実用的で、問題解決能力に優れています。" },
+            ISFP: { name: "冒険家", nickname: "芸術家", match: "ENFJ, ESFJ", desc: "柔軟で、美と調和を追求します。" },
+            ESTP: { name: "起業家", nickname: "挑戦者", match: "ISFJ, ISTJ", desc: "行動的で、今を楽しむことを大切にします。" },
+            ESFP: { name: "エンターテイナー", nickname: "パフォーマー", match: "ISFJ, ISTJ", desc: "社交的で活発、周りの人を楽しませることが好きです。" }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function startTest() {
+            document.getElementById('introSection').style.display = 'none';
+            document.getElementById('questionSection').classList.add('active');
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            const q = questions[index];
+            if (!q) return;
+
+            const container = document.getElementById('questionContainer');
+
+            let optionsHtml = q.options.map((opt, i) => `
+                <div class="option ${answers[index] === opt.value ? 'selected' : ''}" onclick="selectOption(${i}, '${opt.value}')">
+                    ${opt.text}
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="question-number">質問 ${index + 1}</div>
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+            `;
+
+            updateProgress();
+            updateButtons();
+        }
+
+        function selectOption(optionIndex, value) {
+            answers[currentQuestion] = value;
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.classList.toggle('selected', i === optionIndex);
+            });
+            updateButtons();
+        }
+
+        function updateProgress() {
+            const percent = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = `${currentQuestion + 1} / ${questions.length}`;
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').style.visibility = currentQuestion > 0 ? 'visible' : 'hidden';
+            document.getElementById('nextBtn').disabled = !answers[currentQuestion];
+
+            const isLast = currentQuestion === questions.length - 1;
+            document.getElementById('nextBtn').textContent = isLast ? '結果を見る' : '次へ';
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function nextQuestion() {
+            if (!answers[currentQuestion]) return;
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                showResult();
+            }
+        }
+
+        function calculateMBTI() {
+            let E = 0, I = 0, S = 0, N = 0, T = 0, F = 0, J = 0, P = 0;
+            answers.forEach(answer => {
+                if (answer === 'E') E++; if (answer === 'I') I++;
+                if (answer === 'S') S++; if (answer === 'N') N++;
+                if (answer === 'T') T++; if (answer === 'F') F++;
+                if (answer === 'J') J++; if (answer === 'P') P++;
+            });
+            return {
+                type: (E >= I ? 'E' : 'I') + (S >= N ? 'S' : 'N') + (T >= F ? 'T' : 'F') + (J >= P ? 'J' : 'P'),
+                scores: { E, I, S, N, T, F, J, P }
+            };
+        }
+
+        function showResult() {
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('resultSection').classList.add('active');
+
+            const result = calculateMBTI();
+            const data = mbtiTypes[result.type] || { name: result.type, nickname: '', match: '', desc: '' };
+
+            document.getElementById('resultType').textContent = result.type;
+            document.getElementById('resultName').textContent = data.name;
+            document.getElementById('resultNickname').textContent = data.nickname;
+            document.getElementById('descriptionText').textContent = data.desc;
+            document.getElementById('compatibilityText').textContent = data.match;
+
+            const scores = result.scores;
+            const traitNames = {
+                E: '外向型', I: '内向型',
+                S: '感覚型', N: '直観型',
+                T: '思考型', F: '感情型',
+                J: '判断型', P: '認識型'
+            };
+
+            document.getElementById('traitsContainer').innerHTML = `
+                <div class="trait"><div class="trait-value">${scores.E > scores.I ? 'E' : 'I'}</div><div class="trait-name">${scores.E > scores.I ? traitNames.E : traitNames.I}</div></div>
+                <div class="trait"><div class="trait-value">${scores.S > scores.N ? 'S' : 'N'}</div><div class="trait-name">${scores.S > scores.N ? traitNames.S : traitNames.N}</div></div>
+                <div class="trait"><div class="trait-value">${scores.T > scores.F ? 'T' : 'F'}</div><div class="trait-name">${scores.T > scores.F ? traitNames.T : traitNames.F}</div></div>
+                <div class="trait"><div class="trait-value">${scores.J > scores.P ? 'J' : 'P'}</div><div class="trait-name">${scores.J > scores.P ? traitNames.J : traitNames.P}</div></div>
+            `;
+        }
+
+        function shareResult() {
+            const result = calculateMBTI();
+            const data = mbtiTypes[result.type] || { name: result.type, nickname: '' };
+            const text = `私のMBTI: ${result.type} - ${data.name}`;
+            if (navigator.share) {
+                navigator.share({ title: 'MBTIテスト結果', text: text });
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('コピーされました: ' + text);
+            }
+        }
+
+        function retakeTest() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('resultSection').classList.remove('active');
+            document.getElementById('introSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON을 TypeScript로 변환 - 무료 온라인 도구</title>
-    <meta name="description" content="JSON을 TypeScript 인터페이스로 즉시 변환하세요. 개발자를 위한 무료 온라인 도구. 가입 불필요.">
-    <meta name="keywords" content="json typescript 변환, json 변환기, typescript 인터페이스 생성기, typescript 타입, 개발자 도구">
+    <title>JSON to TypeScript Converter - Free Online Tool</title>
+    <meta name="description" content="Convert JSON to TypeScript interfaces instantly. Free online tool for developers. No signup required.">
+    <meta name="keywords" content="json typescript converter, json converter, typescript interface generator, typescript types, developer tools">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="JSON을 TypeScript로 변환 - 무료 온라인 도구">
-    <meta property="og:description" content="JSON을 TypeScript 인터페이스로 즉시 변환하세요. 개발자를 위한 무료 온라인 도구.">
+    <meta property="og:title" content="JSON to TypeScript Converter - Free Online Tool">
+    <meta property="og:description" content="Convert JSON to TypeScript interfaces instantly. Free online tool for developers.">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +36,7 @@
         }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -377,32 +377,32 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-ko.html">Korean</a>
             </div>
-            <h1>JSON → TypeScript 변환기</h1>
-            <p class="subtitle">JSON 객체를 TypeScript 인터페이스로 즉시 변환하세요. 무료, 빠름, 가입 불필요.</p>
+            <h1>JSON → TypeScript Converter</h1>
+            <p class="subtitle">Convert JSON objects to TypeScript interfaces instantly. Free, fast, no signup required.</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="options-section">
-            <div class="options-title">⚙️ 옵션</div>
+            <div class="options-title">⚙️ Options</div>
             <div class="options-grid">
                 <div class="option-item">
-                    <input type="text" id="rootName" value="RootObject" placeholder="인터페이스 이름">
-                    <label for="rootName">루트 인터페이스 이름</label>
+                    <input type="text" id="rootName" value="RootObject" placeholder="Interface name">
+                    <label for="rootName">Root interface name</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="exportTypes" checked>
-                    <label for="exportTypes">export 키워드 추가</label>
+                    <label for="exportTypes">Add export keyword</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="optionalProps">
-                    <label for="optionalProps">모든 속성을 선택적으로</label>
+                    <label for="optionalProps">All properties optional</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="readonlyProps">
-                    <label for="readonlyProps">모든 속성을 readonly로</label>
+                    <label for="readonlyProps">All properties readonly</label>
                 </div>
             </div>
         </div>
@@ -410,111 +410,111 @@
         <div class="tool-container">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">📥 JSON 입력</span>
+                    <span class="panel-title">📥 JSON Input</span>
                     <div class="panel-actions">
-                        <button class="btn btn-secondary" onclick="formatJson()">정리</button>
-                        <button class="btn btn-secondary" onclick="clearInput()">지우기</button>
-                        <button class="btn btn-secondary" onclick="loadSample()">샘플</button>
+                        <button class="btn btn-secondary" onclick="formatJson()">Format</button>
+                        <button class="btn btn-secondary" onclick="clearInput()">Clear</button>
+                        <button class="btn btn-secondary" onclick="loadSample()">Sample</button>
                     </div>
                 </div>
-                <textarea id="jsonInput" placeholder='여기에 JSON을 붙여넣으세요...
+                <textarea id="jsonInput" placeholder='Paste your JSON here...
 
-예시:
+Example:
 {
   "id": 1,
-  "name": "홍길동",
-  "email": "hong@example.com",
+  "name": "John Doe",
+  "email": "john@example.com",
   "isActive": true,
   "roles": ["admin", "user"],
   "profile": {
     "age": 30,
-    "city": "서울"
+    "city": "New York"
   }
 }'></textarea>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">📤 TypeScript 출력</span>
+                    <span class="panel-title">📤 TypeScript Output</span>
                     <div class="panel-actions">
-                        <button class="btn btn-success" onclick="copyOutput()">📋 복사</button>
-                        <button class="btn btn-secondary" onclick="downloadOutput()">💾 다운로드</button>
+                        <button class="btn btn-success" onclick="copyOutput()">📋 Copy</button>
+                        <button class="btn btn-secondary" onclick="downloadOutput()">💾 Download</button>
                     </div>
                 </div>
-                <textarea id="tsOutput" readonly placeholder="TypeScript 인터페이스가 여기에 표시됩니다..."></textarea>
+                <textarea id="tsOutput" readonly placeholder="TypeScript interfaces will appear here..."></textarea>
             </div>
         </div>
 
         <div class="convert-section">
-            <button class="btn btn-primary btn-convert" onclick="convert()">🚀 TypeScript로 변환</button>
+            <button class="btn btn-primary btn-convert" onclick="convert()">🚀 Convert to TypeScript</button>
         </div>
 
         <div class="status" id="status"></div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="features">
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
-                <div class="feature-title">즉시 변환</div>
-                <div class="feature-desc">밀리초 단위로 JSON을 TypeScript 인터페이스로 변환합니다. 서버 불필요 - 모든 것이 브라우저에서 실행됩니다.</div>
+                <div class="feature-title">Instant Conversion</div>
+                <div class="feature-desc">Convert JSON to TypeScript interfaces in milliseconds. No server needed - everything runs in your browser.</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
-                <div class="feature-title">100% 비공개</div>
-                <div class="feature-desc">데이터가 브라우저를 벗어나지 않습니다. JSON을 저장, 기록 또는 전송하지 않습니다.</div>
+                <div class="feature-title">100% Private</div>
+                <div class="feature-desc">Your data never leaves your browser. We don't store, log, or transmit your JSON.</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🎯</div>
-                <div class="feature-title">스마트 타입 감지</div>
-                <div class="feature-desc">문자열, 숫자, 불리언, 배열 및 중첩 객체를 자동으로 감지하고 적절한 타입을 지정합니다.</div>
+                <div class="feature-title">Smart Type Detection</div>
+                <div class="feature-desc">Automatically detects strings, numbers, booleans, arrays, and nested objects with appropriate types.</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📦</div>
-                <div class="feature-title">중첩 객체 지원</div>
-                <div class="feature-desc">깊게 중첩된 JSON 구조를 처리하고 각 레벨에 대해 별도의 인터페이스를 생성합니다.</div>
+                <div class="feature-title">Nested Object Support</div>
+                <div class="feature-desc">Handles deeply nested JSON structures and generates separate interfaces for each level.</div>
             </div>
         </div>
 
         <div class="seo-content">
-            <h2>JSON to TypeScript 변환기 사용 방법</h2>
-            <p>JSON을 TypeScript 인터페이스로 변환하는 것은 타입 안전한 개발에 필수적입니다. 이 무료 온라인 도구는 모든 JSON 데이터에서 즉시 TypeScript 타입을 생성하는 데 도움이 됩니다.</p>
+            <h2>How to Use the JSON to TypeScript Converter</h2>
+            <p>Converting JSON to TypeScript interfaces is essential for type-safe development. This free online tool helps you instantly generate TypeScript types from any JSON data.</p>
 
-            <h3>JSON을 TypeScript로 변환하는 단계</h3>
+            <h3>Steps to Convert JSON to TypeScript</h3>
             <ul>
-                <li><strong>JSON 붙여넣기:</strong> 왼쪽 입력 필드에 JSON 데이터를 복사합니다</li>
-                <li><strong>옵션 구성:</strong> 원하는 인터페이스 이름과 옵션을 설정합니다</li>
-                <li><strong>변환 클릭:</strong> 변환 버튼을 눌러 TypeScript 인터페이스를 생성합니다</li>
-                <li><strong>복사 또는 다운로드:</strong> 생성된 TypeScript를 프로젝트에서 사용합니다</li>
+                <li><strong>Paste JSON:</strong> Copy your JSON data into the left input field</li>
+                <li><strong>Configure Options:</strong> Set your desired interface name and options</li>
+                <li><strong>Click Convert:</strong> Press the convert button to generate TypeScript interfaces</li>
+                <li><strong>Copy or Download:</strong> Use the generated TypeScript in your project</li>
             </ul>
 
-            <h3>TypeScript 인터페이스를 사용해야 하는 이유</h3>
-            <p>TypeScript 인터페이스는 컴파일 타임 타입 검사, 자동 완성을 통한 더 나은 IDE 지원, 그리고 더 유지보수하기 쉬운 코드를 제공합니다. API 응답이나 설정 파일 작업 시 JSON을 TypeScript 인터페이스로 변환하면 애플리케이션 전체에서 타입 안전성을 보장합니다.</p>
+            <h3>Why Use TypeScript Interfaces</h3>
+            <p>TypeScript interfaces provide compile-time type checking, better IDE support with autocomplete, and more maintainable code. When working with API responses or configuration files, converting JSON to TypeScript interfaces ensures type safety throughout your application.</p>
 
-            <h3>이 변환기의 기능</h3>
+            <h3>Features of This Converter</h3>
             <ul>
-                <li>기본 타입(문자열, 숫자, 불리언) 자동 타입 추론</li>
-                <li>적절한 제네릭 구문을 사용한 배열 타입 감지</li>
-                <li>별도 인터페이스 생성을 통한 중첩 객체 지원</li>
-                <li>선택적 및 readonly 속성 수정자</li>
-                <li>모듈 호환성을 위한 export 키워드</li>
-                <li>오프라인 작동 - 서버로 데이터가 전송되지 않음</li>
+                <li>Automatic type inference for primitive types (string, number, boolean)</li>
+                <li>Array type detection with proper generic syntax</li>
+                <li>Nested object support with separate interface generation</li>
+                <li>Optional and readonly property modifiers</li>
+                <li>Export keyword for module compatibility</li>
+                <li>Works offline - no data sent to server</li>
             </ul>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>개발자를 위해 만들었습니다</p>
+            <p>Built for developers</p>
             <p style="margin-top: 10px;">
-                <a href="#privacy">개인정보처리방침</a> ·
-                <a href="#terms">이용약관</a> ·
-                <a href="mailto:contact@example.com">문의</a>
+                <a href="#privacy">Privacy Policy</a> ·
+                <a href="#terms">Terms of Service</a> ·
+                <a href="mailto:contact@example.com">Contact</a>
             </p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">클립보드에 복사되었습니다!</div>
+    <div class="toast" id="toast">Copied to clipboard!</div>
 
     <script>
         function convert() {
@@ -523,7 +523,7 @@
             const output = document.getElementById('tsOutput');
 
             if (!jsonInput) {
-                showStatus('JSON을 입력해주세요', 'error');
+                showStatus('Please enter JSON', 'error');
                 return;
             }
 
@@ -538,9 +538,9 @@
 
                 const result = jsonToTypeScript(json, options);
                 output.value = result;
-                showStatus('✅ 변환 성공!', 'success');
+                showStatus('✅ Conversion successful!', 'success');
             } catch (e) {
-                showStatus('❌ 잘못된 JSON: ' + e.message, 'error');
+                showStatus('❌ Invalid JSON: ' + e.message, 'error');
             }
         }
 
@@ -636,9 +636,9 @@
             try {
                 const json = JSON.parse(input.value);
                 input.value = JSON.stringify(json, null, 2);
-                showStatus('✅ JSON 정리 완료!', 'success');
+                showStatus('✅ JSON formatted!', 'success');
             } catch (e) {
-                showStatus('❌ 잘못된 JSON: ' + e.message, 'error');
+                showStatus('❌ Invalid JSON: ' + e.message, 'error');
             }
         }
 
@@ -651,43 +651,43 @@
         function loadSample() {
             const sample = {
                 "id": 1,
-                "name": "홍길동",
-                "email": "hong@example.com",
+                "name": "John Doe",
+                "email": "john@example.com",
                 "isActive": true,
                 "roles": ["admin", "user"],
                 "profile": {
                     "age": 30,
-                    "city": "서울",
+                    "city": "New York",
                     "skills": ["TypeScript", "React", "Node.js"]
                 },
                 "posts": [
                     {
                         "id": 101,
-                        "title": "안녕하세요",
+                        "title": "Hello World",
                         "published": true
                     }
                 ]
             };
             document.getElementById('jsonInput').value = JSON.stringify(sample, null, 2);
-            showStatus('✅ 샘플 로드됨!', 'success');
+            showStatus('✅ Sample loaded!', 'success');
         }
 
         function copyOutput() {
             const output = document.getElementById('tsOutput');
             if (!output.value) {
-                showStatus('복사할 내용이 없습니다', 'error');
+                showStatus('Nothing to copy', 'error');
                 return;
             }
 
             navigator.clipboard.writeText(output.value).then(() => {
-                showToast('클립보드에 복사되었습니다!');
+                showToast('Copied to clipboard!');
             });
         }
 
         function downloadOutput() {
             const output = document.getElementById('tsOutput').value;
             if (!output) {
-                showStatus('다운로드할 내용이 없습니다', 'error');
+                showStatus('Nothing to download', 'error');
                 return;
             }
 
@@ -698,7 +698,7 @@
             a.download = 'types.ts';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('types.ts 다운로드됨');
+            showToast('Downloaded types.ts');
         }
 
         function showToast(message) {

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>슬러그 생성기 - 무료 URL 슬러그 생성 도구</title>
-    <meta name="description" content="무료 온라인 슬러그 생성기. 제목과 텍스트를 SEO 친화적인 URL 슬러그로 즉시 변환하세요. 깔끔하고 읽기 쉬운 URL을 만들어드립니다.">
-    <meta name="keywords" content="슬러그 생성기, URL 슬러그, SEO URL, 퍼머링크 생성기, 슬러그 변환">
+    <title>スラッグジェネレーター - 無料URLスラッグ生成ツール</title>
+    <meta name="description" content="無料オンラインスラッグジェネレーター。タイトルとテキストをSEOフレンドリーなURLスラッグに即座に変換します。クリーンで読みやすいURLを作成します。">
+    <meta name="keywords" content="スラッグ生成, URLスラッグ, SEO URL, パーマリンク生成, スラッグ変換">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="슬러그 생성기 - 무료 URL 슬러그 생성 도구">
-    <meta property="og:description" content="텍스트를 SEO 친화적인 URL 슬러그로 즉시 변환하세요.">
+    <meta property="og:title" content="スラッグジェネレーター - 無料URLスラッグ生成ツール">
+    <meta property="og:description" content="テキストをSEOフレンドリーなURLスラッグに即座に変換します。">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -333,78 +333,78 @@
     <div class="container">
         <header>
             <div class="lang-switch">
-                <a href="index.html">English</a>
+                <a href="index-en.html">English</a>
             </div>
-            <h1>슬러그 생성기</h1>
-            <p class="subtitle">텍스트를 SEO 친화적인 URL 슬러그로 변환</p>
+            <h1>スラッグジェネレーター</h1>
+            <p class="subtitle">テキストをSEOフレンドリーなURLスラッグに変換</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="card">
             <div class="input-group">
-                <label class="input-label">텍스트 입력</label>
-                <textarea id="inputText" placeholder="슬러그로 변환할 제목이나 텍스트를 입력하세요..." oninput="generateSlug()">블로그 포스트를 위한 SEO 친화적 URL 만드는 방법</textarea>
+                <label class="input-label">テキスト入力</label>
+                <textarea id="inputText" placeholder="スラッグに変換するタイトルやテキストを入力してください..." oninput="generateSlug()">ブログ投稿のためのSEOフレンドリーなURLを作成する方法</textarea>
             </div>
 
             <div class="options-grid">
                 <div class="option-item">
-                    <label>구분자:</label>
+                    <label>区切り文字:</label>
                     <select id="separator" onchange="generateSlug()">
-                        <option value="-" selected>하이픈 (-)</option>
-                        <option value="_">언더스코어 (_)</option>
-                        <option value="">없음</option>
+                        <option value="-" selected>ハイフン (-)</option>
+                        <option value="_">アンダースコア (_)</option>
+                        <option value="">なし</option>
                     </select>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="lowercase" checked onchange="generateSlug()">
-                    <label for="lowercase">소문자 변환</label>
+                    <label for="lowercase">小文字に変換</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="removeNumbers" onchange="generateSlug()">
-                    <label for="removeNumbers">숫자 제거</label>
+                    <label for="removeNumbers">数字を削除</label>
                 </div>
                 <div class="option-item">
                     <input type="checkbox" id="removeStopwords" checked onchange="generateSlug()">
-                    <label for="removeStopwords">불용어 제거</label>
+                    <label for="removeStopwords">ストップワードを削除</label>
                 </div>
             </div>
 
             <div class="output-container">
-                <div class="output-label">생성된 슬러그</div>
+                <div class="output-label">生成されたスラッグ</div>
                 <div class="output-box">
-                    <div class="slug-output" id="slugOutput">블로그-포스트-seo-친화적-url-만드는-방법</div>
-                    <button class="copy-btn" onclick="copySlug()">복사</button>
+                    <div class="slug-output" id="slugOutput">ブログ-投稿-seoフレンドリー-url-作成-方法</div>
+                    <button class="copy-btn" onclick="copySlug()">コピー</button>
                 </div>
             </div>
 
             <div class="preview-url">
-                https://yourwebsite.com/blog/<span id="slugPreview">블로그-포스트-seo-친화적-url-만드는-방법</span>
+                https://yourwebsite.com/blog/<span id="slugPreview">ブログ-投稿-seoフレンドリー-url-作成-方法</span>
             </div>
         </div>
 
         <div class="card examples">
-            <h3>변환 예시</h3>
+            <h3>変換例</h3>
             <div class="example-grid">
                 <div class="example-item">
-                    <span class="example-input">안녕하세요 세계! 2024</span>
+                    <span class="example-input">こんにちは世界! 2024</span>
                     <span class="example-arrow">→</span>
-                    <span class="example-output">안녕하세요-세계-2024</span>
+                    <span class="example-output">こんにちは世界-2024</span>
                 </div>
                 <div class="example-item">
-                    <span class="example-input">더 나은 SEO를 위한 10가지 팁</span>
+                    <span class="example-input">より良いSEOのための10のヒント</span>
                     <span class="example-arrow">→</span>
-                    <span class="example-output">나은-seo-10가지-팁</span>
+                    <span class="example-output">良-seo-10-ヒント</span>
                 </div>
                 <div class="example-item">
-                    <span class="example-input">JavaScript의 새로운 기능은?</span>
+                    <span class="example-input">JavaScriptの新機能は?</span>
                     <span class="example-arrow">→</span>
-                    <span class="example-output">javascript-새로운-기능</span>
+                    <span class="example-output">javascript-新機能</span>
                 </div>
                 <div class="example-item">
-                    <span class="example-input">카페 & 레스토랑 가이드</span>
+                    <span class="example-input">カフェ & レストランガイド</span>
                     <span class="example-arrow">→</span>
-                    <span class="example-output">카페-레스토랑-가이드</span>
+                    <span class="example-output">カフェ-レストランガイド</span>
                 </div>
             </div>
         </div>
@@ -412,37 +412,37 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#128279;</div>
-                <h3>SEO 친화적</h3>
-                <p>검색 엔진이 좋아하는 깔끔한 URL 생성</p>
+                <h3>SEOフレンドリー</h3>
+                <p>検索エンジンが好むクリーンなURLを生成</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128295;</div>
-                <h3>커스터마이즈</h3>
-                <p>구분자, 불용어 제거 등 다양한 옵션</p>
+                <h3>カスタマイズ可能</h3>
+                <p>区切り文字、ストップワード削除など様々なオプション</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#9889;</div>
-                <h3>실시간 변환</h3>
-                <p>입력하는 즉시 결과 확인</p>
+                <h3>リアルタイム変換</h3>
+                <p>入力と同時に結果を確認</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#127760;</div>
-                <h3>유니코드 지원</h3>
-                <p>특수문자와 한글도 완벽 지원</p>
+                <h3>Unicode対応</h3>
+                <p>特殊文字と日本語も完璧にサポート</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>무료 슬러그 생성 도구 | SEO 친화적 URL 만들기</p>
+            <p>無料スラッグ生成ツール | SEOフレンドリーなURL作成</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사되었습니다!</div>
+    <div class="toast" id="toast">コピーしました!</div>
 
     <script>
-        // 한국어 불용어 (조사, 접속사 등)
+        // Korean stopwords
         const koreanStopWords = new Set([
             '은', '는', '이', '가', '을', '를', '의', '에', '에서', '와', '과', '로', '으로',
             '에게', '한테', '께', '도', '만', '까지', '부터', '뿐', '조차', '마저',
@@ -450,7 +450,7 @@
             '더', '위한', '위해', '대한', '관한'
         ]);
 
-        // 영어 불용어
+        // English stopwords
         const englishStopWords = new Set([
             'a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
             'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'been',
@@ -494,8 +494,8 @@
             // Remove apostrophes before splitting
             text = text.replace(/['']/g, '');
 
-            // Keep Korean characters, replace others with space
-            text = text.replace(/[^\uAC00-\uD7A3a-zA-Z0-9\s]/g, ' ');
+            // Keep Korean, Japanese characters, replace others with space
+            text = text.replace(/[^\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uAC00-\uD7A3a-zA-Z0-9\s]/g, ' ');
 
             // Split into words
             let words = text.split(/\s+/).filter(word => word.length > 0);
@@ -524,7 +524,7 @@
         function copySlug() {
             const slug = document.getElementById('slugOutput').textContent;
             navigator.clipboard.writeText(slug).then(() => {
-                showToast('클립보드에 복사되었습니다!');
+                showToast('クリップボードにコピーしました!');
             });
         }
 

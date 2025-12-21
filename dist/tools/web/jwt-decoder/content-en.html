@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JWT 디코더 - 무료 온라인 JWT 토큰 파서</title>
-    <meta name="description" content="JWT 토큰을 즉시 디코딩하고 검사하세요. 무료 온라인 JWT 디코더로 헤더, 페이로드를 확인하고 토큰 구조를 검증하세요.">
-    <meta name="keywords" content="JWT 디코더, JWT 파서, JSON 웹 토큰, JWT 디버거, 토큰 디코더">
+    <title>JWT Decoder - Free Online JWT Token Parser</title>
+    <meta name="description" content="Decode and inspect JWT tokens instantly. Free online JWT decoder to check headers, payloads, and validate token structure.">
+    <meta name="keywords" content="JWT decoder, JWT parser, JSON web token, JWT debugger, token decoder">
 
-    <meta property="og:title" content="JWT 디코더 - 무료 온라인 JWT 토큰 파서">
-    <meta property="og:description" content="JWT 토큰을 즉시 디코딩하고 검사하세요.">
+    <meta property="og:title" content="JWT Decoder - Free Online JWT Token Parser">
+    <meta property="og:description" content="Decode and inspect JWT tokens instantly.">
     <meta property="og:type" content="website">
 
     <link rel="alternate" hreflang="en" href="index.html">
@@ -328,34 +328,34 @@
 <body>
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="index-ko.html">한국어</a>
         </div>
 
         <header>
-            <h1>JWT 디코더</h1>
-            <p class="subtitle">JSON 웹 토큰을 디코딩하고 검사하세요</p>
+            <h1>JWT Decoder</h1>
+            <p class="subtitle">Decode and inspect JSON Web Tokens</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="main-card">
             <div class="input-section">
-                <label class="input-label">아래에 JWT 토큰을 붙여넣으세요:</label>
+                <label class="input-label">Paste your JWT token below:</label>
                 <textarea id="jwtInput" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"></textarea>
             </div>
 
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-color header"></div>
-                    <span>헤더</span>
+                    <span>Header</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color payload"></div>
-                    <span>페이로드</span>
+                    <span>Payload</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color signature"></div>
-                    <span>서명</span>
+                    <span>Signature</span>
                 </div>
             </div>
 
@@ -363,7 +363,7 @@
                 <span class="token-header" id="previewHeader"></span><span class="token-dot">.</span><span class="token-payload" id="previewPayload"></span><span class="token-dot">.</span><span class="token-signature" id="previewSignature"></span>
             </div>
 
-            <button class="decode-btn" onclick="decodeJWT()">토큰 디코딩</button>
+            <button class="decode-btn" onclick="decodeJWT()">Decode Token</button>
         </div>
 
         <div id="resultsSection" class="hidden">
@@ -372,8 +372,8 @@
             <div class="results">
                 <div class="result-card">
                     <div class="result-header header-type">
-                        <span>헤더</span>
-                        <button class="btn-copy" onclick="copySection('header')">복사</button>
+                        <span>Header</span>
+                        <button class="btn-copy" onclick="copySection('header')">Copy</button>
                     </div>
                     <div class="result-content">
                         <pre id="headerContent"></pre>
@@ -382,8 +382,8 @@
 
                 <div class="result-card">
                     <div class="result-header payload-type">
-                        <span>페이로드</span>
-                        <button class="btn-copy" onclick="copySection('payload')">복사</button>
+                        <span>Payload</span>
+                        <button class="btn-copy" onclick="copySection('payload')">Copy</button>
                     </div>
                     <div class="result-content">
                         <pre id="payloadContent"></pre>
@@ -392,44 +392,44 @@
             </div>
 
             <div class="signature-section">
-                <div class="signature-header">서명</div>
+                <div class="signature-header">Signature</div>
                 <div class="signature-info">
-                    <p>알고리즘: <span class="signature-algo" id="algoDisplay">-</span></p>
-                    <p style="margin-top: 10px;">서명은 JWT 발신자의 신원을 확인하고 메시지가 변경되지 않았음을 보장하는 데 사용됩니다.</p>
-                    <p style="margin-top: 10px; color: var(--warning);">참고: 이 도구는 토큰을 디코딩만 합니다. 서명을 검증하려면 비밀 키 또는 공개 키가 필요합니다.</p>
+                    <p>Algorithm: <span class="signature-algo" id="algoDisplay">-</span></p>
+                    <p style="margin-top: 10px;">The signature is used to verify the sender's identity and ensure the message hasn't been altered.</p>
+                    <p style="margin-top: 10px; color: var(--warning);">Note: This tool only decodes tokens. To verify the signature, you need the secret key or public key.</p>
                 </div>
             </div>
 
             <div id="claimsSection" class="info-section">
-                <h3>표준 클레임</h3>
+                <h3>Standard Claims</h3>
                 <table class="claims-table" id="claimsTable"></table>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="info-section">
-            <h3>JWT란 무엇인가요?</h3>
-            <p>JSON 웹 토큰(JWT)은 당사자 간에 정보를 JSON 객체로 안전하게 전송하기 위한 개방형 표준(RFC 7519)입니다. JWT는 웹 애플리케이션에서 인증 및 권한 부여에 일반적으로 사용됩니다.</p>
-            <p>JWT는 점으로 구분된 세 부분으로 구성됩니다:</p>
-            <p>• <strong style="color: var(--header-color);">헤더</strong> - 토큰 유형과 서명 알고리즘을 포함</p>
-            <p>• <strong style="color: var(--payload-color);">페이로드</strong> - 클레임(사용자 데이터 및 메타데이터)을 포함</p>
-            <p>• <strong style="color: var(--signature-color);">서명</strong> - 토큰의 무결성을 검증</p>
+            <h3>What is JWT?</h3>
+            <p>JSON Web Token (JWT) is an open standard (RFC 7519) for securely transmitting information between parties as a JSON object. JWTs are commonly used for authentication and authorization in web applications.</p>
+            <p>A JWT consists of three parts separated by dots:</p>
+            <p>• <strong style="color: var(--header-color);">Header</strong> - Contains token type and signing algorithm</p>
+            <p>• <strong style="color: var(--payload-color);">Payload</strong> - Contains claims (user data and metadata)</p>
+            <p>• <strong style="color: var(--signature-color);">Signature</strong> - Verifies token integrity</p>
         </div>
 
         <div class="info-section">
-            <h3>일반적인 JWT 클레임</h3>
-            <p><code>iss</code> - 토큰 발급자</p>
-            <p><code>sub</code> - 주제 (일반적으로 사용자 ID)</p>
-            <p><code>aud</code> - 대상 (의도된 수신자)</p>
-            <p><code>exp</code> - 만료 시간</p>
-            <p><code>nbf</code> - 활성화 시간</p>
-            <p><code>iat</code> - 발급 시간</p>
-            <p><code>jti</code> - JWT ID (고유 식별자)</p>
+            <h3>Common JWT Claims</h3>
+            <p><code>iss</code> - Issuer of the token</p>
+            <p><code>sub</code> - Subject (usually user ID)</p>
+            <p><code>aud</code> - Audience (intended recipient)</p>
+            <p><code>exp</code> - Expiration time</p>
+            <p><code>nbf</code> - Not before time</p>
+            <p><code>iat</code> - Issued at time</p>
+            <p><code>jti</code> - JWT ID (unique identifier)</p>
         </div>
 
         <footer>
-            <p>개발자를 위해 정성껏 만들었습니다</p>
+            <p>Built with care for developers</p>
         </footer>
     </div>
 
@@ -440,12 +440,12 @@
         let decodedPayload = null;
 
         const standardClaims = {
-            'iss': '발급자',
-            'sub': '주제',
-            'aud': '대상',
-            'exp': '만료 시간',
-            'nbf': '활성화 시간',
-            'iat': '발급 시간',
+            'iss': 'Issuer',
+            'sub': 'Subject',
+            'aud': 'Audience',
+            'exp': 'Expiration Time',
+            'nbf': 'Not Before',
+            'iat': 'Issued At',
             'jti': 'JWT ID'
         };
 
@@ -465,7 +465,7 @@
 
         function formatTimestamp(ts) {
             const date = new Date(ts * 1000);
-            return date.toLocaleString('ko-KR') + ' (' + getRelativeTime(date) + ')';
+            return date.toLocaleString('en-US') + ' (' + getRelativeTime(date) + ')';
         }
 
         function getRelativeTime(date) {
@@ -473,10 +473,10 @@
             const diff = date - now;
             const absDiff = Math.abs(diff);
 
-            if (absDiff < 60000) return diff > 0 ? '1분 이내' : '1분 전';
-            if (absDiff < 3600000) return diff > 0 ? `${Math.round(absDiff/60000)}분 후` : `${Math.round(absDiff/60000)}분 전`;
-            if (absDiff < 86400000) return diff > 0 ? `${Math.round(absDiff/3600000)}시간 후` : `${Math.round(absDiff/3600000)}시간 전`;
-            return diff > 0 ? `${Math.round(absDiff/86400000)}일 후` : `${Math.round(absDiff/86400000)}일 전`;
+            if (absDiff < 60000) return diff > 0 ? 'in less than a minute' : 'a minute ago';
+            if (absDiff < 3600000) return diff > 0 ? `in ${Math.round(absDiff/60000)} minutes` : `${Math.round(absDiff/60000)} minutes ago`;
+            if (absDiff < 86400000) return diff > 0 ? `in ${Math.round(absDiff/3600000)} hours` : `${Math.round(absDiff/3600000)} hours ago`;
+            return diff > 0 ? `in ${Math.round(absDiff/86400000)} days` : `${Math.round(absDiff/86400000)} days ago`;
         }
 
         function updatePreview() {
@@ -499,7 +499,7 @@
             const parts = jwt.split('.');
 
             if (parts.length !== 3) {
-                showToast('잘못된 JWT 형식입니다');
+                showToast('Invalid JWT format');
                 return;
             }
 
@@ -509,15 +509,15 @@
 
                 document.getElementById('headerContent').textContent = formatJSON(decodedHeader);
                 document.getElementById('payloadContent').textContent = formatJSON(decodedPayload);
-                document.getElementById('algoDisplay').textContent = decodedHeader.alg || '알 수 없음';
+                document.getElementById('algoDisplay').textContent = decodedHeader.alg || 'Unknown';
 
                 buildClaimsTable();
                 checkTokenStatus();
 
                 document.getElementById('resultsSection').classList.remove('hidden');
-                showToast('토큰 디코딩 완료!');
+                showToast('Token decoded successfully!');
             } catch (e) {
-                showToast('토큰 디코딩 실패');
+                showToast('Failed to decode token');
                 console.error(e);
             }
         }
@@ -550,12 +550,12 @@
                 const now = new Date();
 
                 if (expDate < now) {
-                    container.innerHTML = '<span class="status-badge status-expired">토큰 만료됨</span>';
+                    container.innerHTML = '<span class="status-badge status-expired">Token Expired</span>';
                 } else {
-                    container.innerHTML = '<span class="status-badge status-valid">토큰 유효함 (만료되지 않음)</span>';
+                    container.innerHTML = '<span class="status-badge status-valid">Token Valid (Not Expired)</span>';
                 }
             } else {
-                container.innerHTML = '<span class="status-badge status-warning">만료 시간 미설정</span>';
+                container.innerHTML = '<span class="status-badge status-warning">No Expiration Time Set</span>';
             }
         }
 
@@ -567,7 +567,7 @@
                 text = formatJSON(decodedPayload);
             }
             navigator.clipboard.writeText(text);
-            showToast('복사됨!');
+            showToast('Copied!');
         }
 
         function showToast(msg) {

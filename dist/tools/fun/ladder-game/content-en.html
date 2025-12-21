@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사다리 타기 - 공정한 사다리 게임</title>
-    <meta name="description" content="사다리 타기로 순서를 정하거나 당첨자를 뽑으세요. 팀 나누기, 역할 배정에 유용합니다.">
-    <meta name="keywords" content="사다리 타기, 사다리 게임, 제비뽑기, 순서 정하기, 팀 나누기">
-    <meta property="og:title" content="사다리 타기 - 공정한 사다리 게임">
-    <meta property="og:description" content="사다리 타기로 공정하게 결과를 정하세요.">
+    <title>Ladder Game - Fair Lottery Game</title>
+    <meta name="description" content="Play ladder game to decide order or pick winners. Useful for team division and role assignment.">
+    <meta name="keywords" content="ladder game, lottery, order decision, team division">
+    <meta property="og:title" content="Ladder Game - Fair Lottery Game">
+    <meta property="og:description" content="Decide results fairly with ladder game.">
     <meta property="og:type" content="website">
-    <link rel="alternate" hreflang="ko" href="index.html">
+    <link rel="alternate" hreflang="en" href="index-en.html">
     <style>
         * {
             margin: 0;
@@ -310,28 +310,28 @@
         <div class="ad-banner">Advertisement</div>
 
         <header>
-            <h1>🪜 사다리 타기</h1>
-            <p class="subtitle">이름을 클릭해서 사다리를 타세요!</p>
+            <h1>🪜 Ladder Game</h1>
+            <p class="subtitle">Click a name to climb the ladder!</p>
         </header>
 
         <div class="setup-section" id="setupSection">
             <div class="input-row">
                 <div class="input-group">
-                    <label>참가자 (줄바꿈으로 구분)</label>
-                    <textarea id="participants" placeholder="홍길동
-김철수
-이영희
-박민수"></textarea>
+                    <label>Participants (separate by line)</label>
+                    <textarea id="participants" placeholder="John
+Mike
+Sarah
+Emily"></textarea>
                 </div>
                 <div class="input-group">
-                    <label>결과 (줄바꿈으로 구분)</label>
-                    <textarea id="results" placeholder="당첨
-꽝
-커피 쏘기
-면제"></textarea>
+                    <label>Results (separate by line)</label>
+                    <textarea id="results" placeholder="Winner
+Loser
+Coffee treat
+Exempt"></textarea>
                 </div>
             </div>
-            <button class="create-btn" onclick="createLadder()">🎮 사다리 만들기</button>
+            <button class="create-btn" onclick="createLadder()">🎮 Create Ladder</button>
         </div>
 
         <div class="game-section" id="gameSection">
@@ -343,22 +343,22 @@
 
             <div class="results" id="resultsDisplay"></div>
 
-            <p class="game-message" id="gameMessage">참가자 이름을 클릭하세요!</p>
+            <p class="game-message" id="gameMessage">Click a participant's name!</p>
 
             <div class="final-result" id="finalResult" style="display: none;">
-                <h3>🎯 최종 결과</h3>
+                <h3>🎯 Final Results</h3>
                 <div class="match-list" id="matchList"></div>
             </div>
 
             <div class="btn-group">
                 <button class="reveal-all-btn" onclick="revealAll()">
-                    <span>👀</span> 전체 공개
+                    <span>👀</span> Reveal All
                 </button>
                 <button class="reset-btn" onclick="resetGame()">
-                    <span>🔄</span> 다시하기
+                    <span>🔄</span> Reset
                 </button>
                 <button class="share-btn" onclick="shareResult()">
-                    <span>📤</span> 공유
+                    <span>📤</span> Share
                 </button>
             </div>
         </div>
@@ -366,7 +366,7 @@
         <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
 
         <footer>
-            <p>© 2024 사다리 타기</p>
+            <p>© 2024 Ladder Game</p>
         </footer>
     </div>
 
@@ -386,16 +386,16 @@
             resultsList = resultsInput.split('\n').map(r => r.trim()).filter(r => r);
 
             if (participantsList.length < 2) {
-                alert('참가자를 2명 이상 입력해주세요.');
+                alert('Please enter at least 2 participants.');
                 return;
             }
 
             if (resultsList.length !== participantsList.length) {
-                alert(`참가자 수(${participantsList.length})와 결과 수(${resultsList.length})가 같아야 합니다.`);
+                alert(`Number of participants (${participantsList.length}) and results (${resultsList.length}) must match.`);
                 return;
             }
 
-            // 결과 셔플
+            // Shuffle results
             const shuffledResults = [...resultsList];
             for (let i = shuffledResults.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -403,10 +403,10 @@
             }
             resultsList = shuffledResults;
 
-            // 사다리 가로줄 생성
+            // Generate ladder
             generateLadder();
 
-            // UI 표시
+            // Display UI
             document.getElementById('setupSection').style.display = 'none';
             document.getElementById('gameSection').classList.add('show');
             document.getElementById('finalResult').style.display = 'none';
@@ -427,7 +427,7 @@
             for (let row = 0; row < rows; row++) {
                 const rowData = [];
                 for (let col = 0; col < n - 1; col++) {
-                    // 가로줄 생성 (랜덤, 연속되지 않게)
+                    // Generate horizontal lines (random, non-consecutive)
                     if (col > 0 && rowData[col - 1]) {
                         rowData.push(false);
                     } else {
@@ -472,7 +472,7 @@
             ctx.strokeStyle = 'rgba(255,255,255,0.6)';
             ctx.lineWidth = 3;
 
-            // 세로줄
+            // Vertical lines
             for (let i = 0; i < n; i++) {
                 const x = padding + i * colWidth;
                 ctx.beginPath();
@@ -481,7 +481,7 @@
                 ctx.stroke();
             }
 
-            // 가로줄
+            // Horizontal lines
             for (let row = 0; row < ladderData.length; row++) {
                 const y = (row + 1) * rowHeight;
                 for (let col = 0; col < ladderData[row].length; col++) {
@@ -499,11 +499,11 @@
 
         function climbLadder(startIdx) {
             if (revealed[startIdx]) {
-                document.getElementById('gameMessage').textContent = '이미 결과를 확인했습니다!';
+                document.getElementById('gameMessage').textContent = 'Already revealed!';
                 return;
             }
 
-            // 선택 표시
+            // Mark selection
             document.querySelectorAll('.participant').forEach(p => p.classList.remove('selected'));
             document.getElementById(`participant-${startIdx}`).classList.add('selected');
 
@@ -515,17 +515,17 @@
             let currentCol = startIdx;
             const path = [{x: padding + currentCol * colWidth, y: 0}];
 
-            // 사다리 타기 로직
+            // Ladder climbing logic
             for (let row = 0; row < ladderData.length; row++) {
                 const y = (row + 1) * rowHeight;
 
-                // 왼쪽 가로줄 체크
+                // Check left
                 if (currentCol > 0 && ladderData[row][currentCol - 1]) {
                     path.push({x: padding + currentCol * colWidth, y: y});
                     currentCol--;
                     path.push({x: padding + currentCol * colWidth, y: y});
                 }
-                // 오른쪽 가로줄 체크
+                // Check right
                 else if (currentCol < n - 1 && ladderData[row][currentCol]) {
                     path.push({x: padding + currentCol * colWidth, y: y});
                     currentCol++;
@@ -535,7 +535,7 @@
 
             path.push({x: padding + currentCol * colWidth, y: canvas.height});
 
-            // 경로 애니메이션
+            // Animate path
             animatePath(path, startIdx, currentCol);
         }
 
@@ -554,7 +554,7 @@
                     i++;
                     setTimeout(animate, 50);
                 } else {
-                    // 결과 공개
+                    // Reveal result
                     revealed[startIdx] = true;
                     matches[participantsList[startIdx]] = resultsList[endIdx];
 
@@ -608,7 +608,7 @@
 
         function shareResult() {
             if (Object.keys(matches).length === 0) {
-                alert('먼저 사다리를 타주세요!');
+                alert('Play the ladder first!');
                 return;
             }
 
@@ -616,22 +616,22 @@
                 .map(([name, result]) => `${name} → ${result}`)
                 .join('\n');
 
-            const text = `🪜 사다리 타기 결과\n\n${matchText}\n\n사다리 타기로 공정하게 정했습니다!`;
+            const text = `🪜 Ladder Game Results\n\n${matchText}\n\nDecided fairly with ladder game!`;
 
             if (navigator.share) {
                 navigator.share({
-                    title: '사다리 타기 결과',
+                    title: 'Ladder Game Results',
                     text: text,
                     url: window.location.href
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
+                    alert('Results copied to clipboard!');
                 });
             }
         }
 
-        // 윈도우 리사이즈 시 사다리 다시 그리기
+        // Redraw ladder on window resize
         window.addEventListener('resize', () => {
             if (document.getElementById('gameSection').classList.contains('show')) {
                 drawLadder();

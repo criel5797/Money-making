@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Encoder/Decoder - Free Online URL Encoding Tool</title>
+    <meta name="description" content="Encode and decode URLs instantly. Free online URL encoder and decoder for web development and SEO.">
+    <meta name="keywords" content="url encoder, url decoder, percent encoding, uri encoder, url escape, online url encoding">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --border: #475569;
+            --success: #22c55e;
+            --encode-color: #22c55e;
+            --decode-color: #f59e0b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 30px 20px; position: relative; }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .lang-switch a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        .main-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 25px;
+        }
+        .mode-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mode-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+        .mode-btn:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        .input-section { margin-bottom: 20px; }
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .input-label { color: var(--text-secondary); font-size: 0.9rem; }
+        .char-count { color: var(--text-secondary); font-size: 0.85rem; }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        textarea::placeholder { color: var(--text-secondary); }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+        .checkbox-item label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-encode {
+            background: linear-gradient(135deg, var(--encode-color), #10b981);
+        }
+        .btn-encode:hover { box-shadow: 0 5px 20px rgba(34, 197, 94, 0.3); }
+        .btn-decode {
+            background: linear-gradient(135deg, var(--decode-color), #f97316);
+        }
+        .btn-decode:hover { box-shadow: 0 5px 20px rgba(245, 158, 11, 0.3); }
+
+        .output-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .output-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .output-actions { display: flex; gap: 10px; }
+        .btn-sm {
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-sm:hover { background: var(--border); }
+
+        .output-area {
+            color: var(--success);
+        }
+
+        .swap-btn {
+            display: block;
+            margin: 15px auto;
+            padding: 10px 20px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .swap-btn:hover { background: var(--border); }
+
+        .examples {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .examples h3 { color: var(--accent); margin-bottom: 15px; }
+        .example-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .example-item {
+            background: var(--bg-primary);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .example-item:hover { transform: translateX(5px); }
+        .example-label { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 5px; }
+        .example-original { color: var(--text-primary); font-family: monospace; margin-bottom: 5px; }
+        .example-encoded { color: var(--success); font-family: monospace; font-size: 0.9rem; word-break: break-all; }
+
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .info-section h3 { margin-bottom: 15px; color: var(--accent); }
+        .info-section p { color: var(--text-secondary); margin-bottom: 10px; line-height: 1.7; }
+
+        .char-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .char-table th, .char-table td {
+            padding: 10px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        .char-table th { background: var(--bg-tertiary); }
+        .char-table code {
+            background: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .lang-switch { position: static; margin-bottom: 20px; }
+            header { padding-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lang-switch">
+                <a href="index-ko.html">한국어</a>
+            </div>
+            <h1>URL Encoder / Decoder</h1>
+            <p class="subtitle">URL Encoding and Decoding for Web Development</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="main-card">
+            <div class="mode-toggle">
+                <button class="mode-btn active" onclick="setMode('encode')" id="encodeTab">Encode</button>
+                <button class="mode-btn" onclick="setMode('decode')" id="decodeTab">Decode</button>
+            </div>
+
+            <div class="input-section">
+                <div class="input-header">
+                    <span class="input-label" id="inputLabel">Text to encode</span>
+                    <span class="char-count"><span id="inputCount">0</span> chars</span>
+                </div>
+                <textarea id="inputText" placeholder="Enter text or URL to encode..."></textarea>
+            </div>
+
+            <div class="options">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="encodeAll">
+                    <label for="encodeAll">Encode all characters (including safe chars)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="encodePlus">
+                    <label for="encodePlus">Encode spaces as + instead of %20</label>
+                </div>
+            </div>
+
+            <button class="action-btn btn-encode" id="actionBtn" onclick="process()">Encode URL</button>
+
+            <button class="swap-btn" onclick="swapContent()">↕️ Swap Input/Output</button>
+
+            <div class="output-section">
+                <div class="output-header">
+                    <span class="output-label" id="outputLabel">Encoded result</span>
+                    <div class="output-actions">
+                        <button class="btn-sm" onclick="copyOutput()">Copy</button>
+                        <button class="btn-sm" onclick="clearAll()">Clear</button>
+                    </div>
+                </div>
+                <textarea id="outputText" class="output-area" readonly placeholder="Result will appear here..."></textarea>
+            </div>
+        </div>
+
+        <div class="examples">
+            <h3>Common Examples</h3>
+            <div class="example-grid">
+                <div class="example-item" onclick="useExample('Hello World!')">
+                    <div class="example-label">Text Encoding</div>
+                    <div class="example-original">Hello World!</div>
+                    <div class="example-encoded">Hello%20World%21</div>
+                </div>
+                <div class="example-item" onclick="useExample('https://example.com/search?q=search term&lang=en')">
+                    <div class="example-label">URL with Query Parameters</div>
+                    <div class="example-original">https://example.com/search?q=search term&lang=en</div>
+                    <div class="example-encoded">https%3A%2F%2Fexample.com%2Fsearch%3Fq%3Dsearch%20term%26lang%3Den</div>
+                </div>
+                <div class="example-item" onclick="useExample('email@example.com')">
+                    <div class="example-label">Email Address</div>
+                    <div class="example-original">email@example.com</div>
+                    <div class="example-encoded">email%40example.com</div>
+                </div>
+                <div class="example-item" onclick="useExample('price=$100&discount=20%')">
+                    <div class="example-label">Special Characters</div>
+                    <div class="example-original">price=$100&discount=20%</div>
+                    <div class="example-encoded">price%3D%24100%26discount%3D20%25</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="info-section">
+            <h3>What is URL Encoding?</h3>
+            <p>URL encoding (also known as percent encoding) converts characters into a format that can be transmitted over the Internet. URLs can only contain a limited set of characters from the ASCII character set.</p>
+            <p>Characters outside this set must be encoded using a percent sign (%) followed by two hexadecimal digits representing the character's ASCII code.</p>
+        </div>
+
+        <div class="info-section">
+            <h3>Commonly Encoded Characters</h3>
+            <table class="char-table">
+                <tr>
+                    <th>Character</th>
+                    <th>Encoding</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>(space)</td>
+                    <td><code>%20</code> or <code>+</code></td>
+                    <td>Space character</td>
+                </tr>
+                <tr>
+                    <td>!</td>
+                    <td><code>%21</code></td>
+                    <td>Exclamation mark</td>
+                </tr>
+                <tr>
+                    <td>#</td>
+                    <td><code>%23</code></td>
+                    <td>Hash/pound sign</td>
+                </tr>
+                <tr>
+                    <td>$</td>
+                    <td><code>%24</code></td>
+                    <td>Dollar sign</td>
+                </tr>
+                <tr>
+                    <td>&</td>
+                    <td><code>%26</code></td>
+                    <td>Ampersand</td>
+                </tr>
+                <tr>
+                    <td>=</td>
+                    <td><code>%3D</code></td>
+                    <td>Equals sign</td>
+                </tr>
+                <tr>
+                    <td>@</td>
+                    <td><code>%40</code></td>
+                    <td>At sign</td>
+                </tr>
+            </table>
+        </div>
+
+        <footer>
+            <p>Made for web developers</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentMode = 'encode';
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('encodeTab').classList.toggle('active', mode === 'encode');
+            document.getElementById('decodeTab').classList.toggle('active', mode === 'decode');
+
+            const actionBtn = document.getElementById('actionBtn');
+            const inputLabel = document.getElementById('inputLabel');
+            const outputLabel = document.getElementById('outputLabel');
+
+            if (mode === 'encode') {
+                actionBtn.textContent = 'Encode URL';
+                actionBtn.className = 'action-btn btn-encode';
+                inputLabel.textContent = 'Text to encode';
+                outputLabel.textContent = 'Encoded result';
+                document.getElementById('inputText').placeholder = 'Enter text or URL to encode...';
+            } else {
+                actionBtn.textContent = 'Decode URL';
+                actionBtn.className = 'action-btn btn-decode';
+                inputLabel.textContent = 'Text to decode';
+                outputLabel.textContent = 'Decoded result';
+                document.getElementById('inputText').placeholder = 'Enter encoded URL to decode...';
+            }
+        }
+
+        function process() {
+            const input = document.getElementById('inputText').value;
+            const encodeAll = document.getElementById('encodeAll').checked;
+            const encodePlus = document.getElementById('encodePlus').checked;
+
+            if (!input) {
+                showToast('Please enter text');
+                return;
+            }
+
+            let result;
+            try {
+                if (currentMode === 'encode') {
+                    if (encodeAll) {
+                        result = Array.from(input).map(char => {
+                            if (/[a-zA-Z0-9]/.test(char)) {
+                                return char;
+                            }
+                            if (char === ' ' && encodePlus) {
+                                return '+';
+                            }
+                            // Handle multi-byte characters (like Korean)
+                            const encoded = encodeURIComponent(char);
+                            return encoded;
+                        }).join('');
+                    } else {
+                        result = encodeURIComponent(input);
+                        if (encodePlus) {
+                            result = result.replace(/%20/g, '+');
+                        }
+                    }
+                } else {
+                    // Decode mode
+                    let decoded = input;
+                    if (encodePlus) {
+                        decoded = decoded.replace(/\+/g, ' ');
+                    }
+                    result = decodeURIComponent(decoded);
+                }
+
+                document.getElementById('outputText').value = result;
+                showToast(currentMode === 'encode' ? 'Encoded!' : 'Decoded!');
+            } catch (e) {
+                showToast('Error: Invalid input');
+            }
+        }
+
+        function swapContent() {
+            const input = document.getElementById('inputText');
+            const output = document.getElementById('outputText');
+            const temp = input.value;
+            input.value = output.value;
+            output.value = temp;
+            updateCount();
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (output) {
+                navigator.clipboard.writeText(output);
+                showToast('Copied!');
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+            updateCount();
+        }
+
+        function useExample(text) {
+            document.getElementById('inputText').value = text;
+            updateCount();
+            setMode('encode');
+            process();
+        }
+
+        function updateCount() {
+            document.getElementById('inputCount').textContent = document.getElementById('inputText').value.length;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Event listeners
+        document.getElementById('inputText').addEventListener('input', updateCount);
+        document.getElementById('inputText').addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                process();
+            }
+        });
+    </script>
+</body>
+</html>

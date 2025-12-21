@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 New Year Message - Fortune & Keywords | 2025 Prediction</title>
+    <meta name="description" content="Your special message for 2025! Check your New Year fortune message and 2025 keywords. Lucky colors, numbers, and advice included!">
+    <meta name="keywords" content="2025 fortune, new year fortune, 2025 prediction, new year message, 2025 keywords">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="2025 New Year Message">
+    <meta property="og:description" content="A special message for the new year!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/0a0a1a/ffd700?text=2025+New+Year+Message">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            overflow-x: hidden;
+        }
+
+        .fireworks {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .spark {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: sparkle 3s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .year-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ffd700, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #a0a0c0; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #a0a0c0;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ffd700;
+        }
+
+        .birth-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .hope-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .hope-option {
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .hope-option:hover { border-color: rgba(255, 215, 0, 0.5); }
+        .hope-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .hope-option .icon { font-size: 24px; margin-bottom: 5px; }
+        .hope-option .label { color: #e4e4e4; font-size: 13px; }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-icon {
+            font-size: 80px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .loading p { color: #a0a0c0; margin-top: 20px; }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-header p { color: #a0a0c0; font-size: 14px; }
+        .result-name { color: #ffd700; font-size: 1.5rem; margin: 10px 0; }
+
+        .message-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 107, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .message-quote {
+            font-size: 1.6rem;
+            color: #fff;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .message-emoji {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .keyword-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .keyword-label { color: #a0a0c0; font-size: 14px; margin-bottom: 15px; }
+
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .keyword-tag {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #c0c0d0;
+            line-height: 1.8;
+        }
+
+        .lucky-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .lucky-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .lucky-item .label { color: #a0a0c0; font-size: 12px; margin-bottom: 5px; }
+        .lucky-item .value { color: #ffd700; font-size: 18px; font-weight: 700; }
+
+        .month-fortune {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .month-item {
+            background: rgba(255,255,255,0.05);
+            padding: 10px 5px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .month-item .month { color: #a0a0c0; font-size: 11px; }
+        .month-item .luck { font-size: 16px; margin-top: 3px; }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #0a0a1a;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.7rem; }
+            .message-quote { font-size: 1.3rem; }
+            .hope-options { grid-template-columns: 1fr; }
+            .lucky-grid { grid-template-columns: 1fr; }
+            .month-fortune { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="fireworks" id="fireworks"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <div class="year-badge">2025</div>
+            <h1>Your New Year Message</h1>
+            <p class="subtitle">A special message for you this new year</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            Just for fun New Year fortune!
+        </div>
+
+        <div class="card">
+            <div class="input-section" id="inputSection">
+                <h2>Tell us about yourself</h2>
+
+                <div class="input-group">
+                    <label>Name</label>
+                    <input type="text" id="userName" placeholder="Enter your name">
+                </div>
+
+                <div class="input-group">
+                    <label>Birth Date</label>
+                    <div class="birth-row">
+                        <select id="birthYear"><option value="">Year</option></select>
+                        <select id="birthMonth"><option value="">Month</option></select>
+                        <select id="birthDay"><option value="">Day</option></select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>What do you wish for most in 2025?</label>
+                    <div class="hope-options">
+                        <div class="hope-option" onclick="selectHope(this, 'love')">
+                            <div class="icon">❤️</div>
+                            <div class="label">Love/Romance</div>
+                        </div>
+                        <div class="hope-option" onclick="selectHope(this, 'money')">
+                            <div class="icon">💰</div>
+                            <div class="label">Wealth/Success</div>
+                        </div>
+                        <div class="hope-option" onclick="selectHope(this, 'health')">
+                            <div class="icon">💪</div>
+                            <div class="label">Health/Vitality</div>
+                        </div>
+                        <div class="hope-option" onclick="selectHope(this, 'growth')">
+                            <div class="icon">🌱</div>
+                            <div class="label">Growth/Change</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="getMyMessage()">Get My Message</button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-icon">🎊</div>
+                <p>Preparing your 2025 message...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <p>2025</p>
+                    <div class="result-name" id="resultName">John Doe</div>
+                    <p>Your message for the year</p>
+                </div>
+
+                <div class="message-box">
+                    <div class="message-emoji" id="messageEmoji">✨</div>
+                    <div class="message-quote" id="messageQuote">"Your shining year begins"</div>
+                </div>
+
+                <div class="keyword-section">
+                    <div class="keyword-label">2025 Keywords</div>
+                    <div class="keyword-tags" id="keywordTags"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>🌟 2025 Fortune</h3>
+                    <p id="yearFortune"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>🍀 Lucky Elements</h3>
+                    <div class="lucky-grid" id="luckyGrid"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📅 Monthly Fortune</h3>
+                    <div class="month-fortune" id="monthFortune"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 Special Advice</h3>
+                    <p id="specialAdvice"></p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">Share Result</button>
+                    <button class="share-btn secondary" onclick="resetTest()">Try Again</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>Happy New Year! 🎊</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data
+        const messages = {
+            love: [
+                { emoji: '💕', quote: 'Love will bloom in your heart this year', keywords: ['Romance', 'Connection', 'Warmth'] },
+                { emoji: '💑', quote: 'A meaningful relationship awaits you', keywords: ['Meeting', 'Destiny', 'Heart'] },
+                { emoji: '🌹', quote: 'Your sincerity will touch someone\'s heart', keywords: ['Honesty', 'Love', 'Passion'] },
+                { emoji: '💖', quote: 'A precious connection will blossom', keywords: ['Bond', 'Together', 'Joy'] }
+            ],
+            money: [
+                { emoji: '💰', quote: 'Opportunities for success will knock on your door', keywords: ['Success', 'Achievement', 'Prosperity'] },
+                { emoji: '🎯', quote: 'Your efforts will bear fruit', keywords: ['Goal', 'Growth', 'Results'] },
+                { emoji: '🏆', quote: 'The stage for your success is set', keywords: ['Victory', 'Glory', 'Triumph'] },
+                { emoji: '📈', quote: 'A year of growth and development ahead', keywords: ['Progress', 'Advancement', 'Opportunity'] }
+            ],
+            health: [
+                { emoji: '💪', quote: 'Full of energy and vitality this year', keywords: ['Health', 'Energy', 'Vitality'] },
+                { emoji: '🌟', quote: 'Both body and mind will be balanced', keywords: ['Balance', 'Wellness', 'Harmony'] },
+                { emoji: '🧘', quote: 'Find peace in your daily life', keywords: ['Peace', 'Comfort', 'Stability'] },
+                { emoji: '⚡', quote: 'Overflowing with positive energy', keywords: ['Vitality', 'Passion', 'Dynamism'] }
+            ],
+            growth: [
+                { emoji: '🌱', quote: 'A year of new beginnings', keywords: ['Start', 'Challenge', 'Growth'] },
+                { emoji: '🦋', quote: 'Time for transformation and change', keywords: ['Change', 'Development', 'Evolution'] },
+                { emoji: '🎨', quote: 'Your creativity will shine', keywords: ['Creativity', 'Expression', 'Inspiration'] },
+                { emoji: '🚀', quote: 'Soar toward your dreams', keywords: ['Dreams', 'Adventure', 'Courage'] }
+            ]
+        };
+
+        const fortunes = [
+            'This year will be a time for you to grow even more. New challenges will become opportunities.',
+            'Positive energy will surround you. Your efforts will surely bear fruit.',
+            'A year of meeting precious people. Cherish the connections you make.',
+            'Your dreams will become reality. Believe in yourself and move forward.',
+            'A year full of new possibilities. Don\'t be afraid to try new things.',
+            'Both your body and mind will be healthy. Find balance in your daily life.',
+            'A year of achieving your goals. Your passion will lead the way.',
+            'Good opportunities will come your way. Don\'t miss your chance.'
+        ];
+
+        const advices = [
+            'The most important thing is self-care. Start each day with a positive mindset.',
+            'Small habits create big changes. Focus on what you can do today.',
+            'Enjoy your time with loved ones. Precious memories are true wealth.',
+            'Don\'t be afraid of new challenges. You have the strength to overcome them.',
+            'Maintain a grateful heart. Happiness comes from small things.',
+            'Work and rest in balance. Taking care of yourself is not selfish.',
+            'Listen to your inner voice. You know the right path.',
+            'Share smiles with those around you. Your positivity will spread.'
+        ];
+
+        const colors = ['Gold', 'Sky Blue', 'Pink', 'Emerald Green', 'Purple', 'Coral', 'Silver', 'Navy'];
+        const directions = ['East', 'West', 'South', 'North', 'Southeast', 'Northeast', 'Southwest', 'Northwest'];
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        const numbers = [3, 5, 7, 8, 9, 11, 12, 15, 21, 25];
+
+        let selectedHope = null;
+        let resultData = {};
+
+        // Fireworks effect
+        function createFireworks() {
+            const container = document.getElementById('fireworks');
+            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#ff69b4', '#00ff88'];
+
+            for (let i = 0; i < 50; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                spark.style.left = Math.random() * 100 + '%';
+                spark.style.top = Math.random() * 100 + '%';
+                spark.style.background = colors[Math.floor(Math.random() * colors.length)];
+                spark.style.animationDelay = Math.random() * 3 + 's';
+                spark.style.animationDuration = (2 + Math.random() * 2) + 's';
+                container.appendChild(spark);
+            }
+        }
+        createFireworks();
+
+        // Initialize date selects
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+            const yearSelect = document.getElementById('birthYear');
+            for (let y = currentYear; y >= 1940; y--) {
+                yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
+            }
+            const monthSelect = document.getElementById('birthMonth');
+            for (let m = 1; m <= 12; m++) {
+                monthSelect.innerHTML += `<option value="${m}">${m}</option>`;
+            }
+            const daySelect = document.getElementById('birthDay');
+            for (let d = 1; d <= 31; d++) {
+                daySelect.innerHTML += `<option value="${d}">${d}</option>`;
+            }
+        }
+        initDateSelects();
+
+        function selectHope(element, hope) {
+            selectedHope = hope;
+            document.querySelectorAll('.hope-option').forEach(o => o.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function getMyMessage() {
+            const name = document.getElementById('userName').value.trim();
+            const year = document.getElementById('birthYear').value;
+            const month = document.getElementById('birthMonth').value;
+            const day = document.getElementById('birthDay').value;
+
+            if (!name) {
+                showToast('⚠️ Please enter your name!');
+                return;
+            }
+
+            if (!selectedHope) {
+                showToast('⚠️ Please select what you wish for in 2025!');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name, year, month, day);
+            }, 2000);
+        }
+
+        function calculateResult(name, year, month, day) {
+            // Generate seed
+            let seed = 0;
+            for (let i = 0; i < name.length; i++) {
+                seed += name.charCodeAt(i);
+            }
+            if (year) seed += parseInt(year);
+            if (month) seed += parseInt(month) * 10;
+            if (day) seed += parseInt(day);
+
+            // Select message
+            const hopeMessages = messages[selectedHope];
+            const messageIndex = seed % hopeMessages.length;
+            const selectedMessage = hopeMessages[messageIndex];
+
+            // Select fortune and advice
+            const fortuneIndex = seed % fortunes.length;
+            const adviceIndex = (seed + 1) % advices.length;
+
+            // Lucky elements
+            const luckyColor = colors[seed % colors.length];
+            const luckyDirection = directions[seed % directions.length];
+            const luckyNumber = numbers[seed % numbers.length];
+            const luckyDay = days[seed % days.length];
+
+            // Monthly fortune
+            const monthLuck = [];
+            const luckIcons = ['🌟', '⭐', '✨', '💫', '🌙'];
+            for (let m = 1; m <= 12; m++) {
+                const luck = luckIcons[(seed + m) % luckIcons.length];
+                monthLuck.push({ month: m, luck: luck });
+            }
+
+            resultData = {
+                name: name,
+                message: selectedMessage,
+                fortune: fortunes[fortuneIndex],
+                advice: advices[adviceIndex],
+                lucky: { color: luckyColor, direction: luckyDirection, number: luckyNumber, day: luckyDay },
+                monthLuck: monthLuck
+            };
+
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('resultName').textContent = resultData.name;
+            document.getElementById('messageEmoji').textContent = resultData.message.emoji;
+            document.getElementById('messageQuote').textContent = '"' + resultData.message.quote + '"';
+
+            document.getElementById('keywordTags').innerHTML = resultData.message.keywords.map(k =>
+                `<span class="keyword-tag">#${k}</span>`
+            ).join('');
+
+            document.getElementById('yearFortune').textContent = resultData.fortune;
+            document.getElementById('specialAdvice').textContent = resultData.advice;
+
+            document.getElementById('luckyGrid').innerHTML = `
+                <div class="lucky-item">
+                    <div class="label">Lucky Color</div>
+                    <div class="value">🎨 ${resultData.lucky.color}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="label">Lucky Direction</div>
+                    <div class="value">🧭 ${resultData.lucky.direction}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="label">Lucky Number</div>
+                    <div class="value">🔢 ${resultData.lucky.number}</div>
+                </div>
+                <div class="lucky-item">
+                    <div class="label">Lucky Day</div>
+                    <div class="value">📅 ${resultData.lucky.day}</div>
+                </div>
+            `;
+
+            document.getElementById('monthFortune').innerHTML = resultData.monthLuck.map(m => `
+                <div class="month-item">
+                    <div class="month">${m.month}</div>
+                    <div class="luck">${m.luck}</div>
+                </div>
+            `).join('');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `🎊 2025 New Year Message\n\n${resultData.name}'s message:\n\n${resultData.message.emoji} "${resultData.message.quote}"\n\n🏷️ #${resultData.message.keywords.join(' #')}\n\n🍀 Lucky Color: ${resultData.lucky.color}\n🔢 Lucky Number: ${resultData.lucky.number}\n\nGet yours 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: '2025 New Year Message', text: text })
+                    .catch(() => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 Result copied!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 Result copied!');
+                });
+            }
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('userName').value = '';
+            document.getElementById('birthYear').selectedIndex = 0;
+            document.getElementById('birthMonth').selectedIndex = 0;
+            document.getElementById('birthDay').selectedIndex = 0;
+            selectedHope = null;
+            document.querySelectorAll('.hope-option').forEach(o => o.classList.remove('selected'));
+        }
+    </script>
+</body>
+</html>

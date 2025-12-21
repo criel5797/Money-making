@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Life Connection Test - What Were We in a Past Life? | Couple Past Life Test</title>
+    <meta name="description" content="What were we in a past life? Discover the past life connection between two people with our couple past life test. Free past life compatibility test!">
+    <meta name="keywords" content="past life connection, couple test, past life compatibility, past life relationship, reincarnation, connection test">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Past Life Connection Test - What Were We in a Past Life?">
+    <meta property="og:description" content="Discover your couple's past life connection!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/4a1c6b/ffd700?text=Past+Life+Connection">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #4a1c6b 50%, #1a0a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .mystical-particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: particleFloat 8s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { transform: translateY(-100px) translateX(50px); opacity: 0.8; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ffd700, #ff69b4, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #c8a8e8; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .couple-inputs {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .person-input {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .person-input.person1 { border-color: rgba(255, 105, 180, 0.3); }
+        .person-input.person2 { border-color: rgba(100, 149, 237, 0.3); }
+
+        .person-label {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .heart-divider {
+            font-size: 30px;
+            color: #ff69b4;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #c8a8e8;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ffd700;
+        }
+
+        .birth-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        .birth-row select { flex: 1; padding: 10px 5px; font-size: 12px; }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(196, 77, 255, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-animation {
+            font-size: 60px;
+            animation: heartPulse 1.5s infinite;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .loading p { color: #c8a8e8; margin-top: 20px; }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .names-display {
+            font-size: 1.3rem;
+            color: #e4e4e4;
+            margin-bottom: 15px;
+        }
+
+        .names-display .name1 { color: #ff69b4; }
+        .names-display .name2 { color: #6495ed; }
+
+        .era-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #c44dff);
+            color: #1a0a2e;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .relation-title {
+            font-size: 2rem;
+            color: #ffd700;
+            margin: 15px 0;
+        }
+
+        .relation-emoji {
+            font-size: 70px;
+            display: block;
+            margin: 15px 0;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #d8c8e8;
+            line-height: 1.8;
+        }
+
+        .karma-meter {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .karma-item {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            padding: 15px 10px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .karma-item .label { color: #c8a8e8; font-size: 12px; margin-bottom: 5px; }
+        .karma-item .value {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.7rem; }
+            .couple-inputs { grid-template-columns: 1fr; }
+            .heart-divider { padding: 10px 0; }
+            .relation-title { font-size: 1.5rem; }
+            .karma-meter { flex-wrap: wrap; }
+            .karma-item { flex: 1 1 45%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mystical-particles" id="particles"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>Past Life Connection Test</h1>
+            <p class="subtitle">What were we in a past life?</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            This is a fun past life connection test for entertainment!
+        </div>
+
+        <div class="card">
+            <div class="input-section" id="inputSection">
+                <h2>Enter information for both people</h2>
+
+                <div class="couple-inputs">
+                    <div class="person-input person1">
+                        <div class="person-label">💗 First Person</div>
+                        <div class="input-group">
+                            <label>Name</label>
+                            <input type="text" id="name1" placeholder="Name">
+                        </div>
+                        <div class="input-group">
+                            <label>Date of Birth</label>
+                            <div class="birth-row">
+                                <select id="year1"></select>
+                                <select id="month1"></select>
+                                <select id="day1"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="heart-divider">💕</div>
+
+                    <div class="person-input person2">
+                        <div class="person-label">💙 Second Person</div>
+                        <div class="input-group">
+                            <label>Name</label>
+                            <input type="text" id="name2" placeholder="Name">
+                        </div>
+                        <div class="input-group">
+                            <label>Date of Birth</label>
+                            <div class="birth-row">
+                                <select id="year2"></select>
+                                <select id="month2"></select>
+                                <select id="day2"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="startTest()">Discover Past Life Connection</button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-animation">💫</div>
+                <p>Traveling back in time to find your past life...</p>
+                <p style="font-size: 13px; color: #888; margin-top: 10px;">Tracing the connection between two souls...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="names-display">
+                        <span class="name1" id="displayName1">John</span>
+                        &
+                        <span class="name2" id="displayName2">Jane</span>
+                    </div>
+                    <div class="era-badge" id="resultEra">Ancient Egypt</div>
+                    <span class="relation-emoji" id="resultEmoji">👑💕👸</span>
+                    <div class="relation-title" id="resultRelation">Destined Lovers</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📜 Past Life Story</h3>
+                    <p id="resultStory"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>🔮 Meaning of Connection</h3>
+                    <p id="resultMeaning"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 Advice for This Life</h3>
+                    <p id="resultAdvice"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>✨ Karma Analysis</h3>
+                    <div class="karma-meter" id="karmaMeter"></div>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">Share Results</button>
+                    <button class="share-btn secondary" onclick="resetTest()">Try Again</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>This test is for entertainment purposes.<br>Not related to actual past lives.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Initialize date selects
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+            ['year1', 'year2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">Year</option>';
+                for (let y = currentYear; y >= 1950; y--) {
+                    select.innerHTML += `<option value="${y}">${y}</option>`;
+                }
+            });
+            ['month1', 'month2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">Month</option>';
+                for (let m = 1; m <= 12; m++) {
+                    select.innerHTML += `<option value="${m}">${m}</option>`;
+                }
+            });
+            ['day1', 'day2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">Day</option>';
+                for (let d = 1; d <= 31; d++) {
+                    select.innerHTML += `<option value="${d}">${d}</option>`;
+                }
+            });
+        }
+        initDateSelects();
+
+        const relations = [
+            {
+                era: "Ancient Egypt",
+                relation: "Pharaoh and High Priest",
+                emoji: "👑✨🔮",
+                story: "You were a Pharaoh and the high priest who served them in ancient Egypt. Together you designed pyramids, read the stars, and led the kingdom to prosperity. You were connected by deep trust and intellectual communion.",
+                meaning: "This connection is a relationship of mutual respect and admiration. Just as you accomplished great things together in your past life, you can create amazing synergy in this life too.",
+                advice: "Respect each other's wisdom. When you set goals together and work to achieve them, you can create amazing results.",
+                karma: { trust: 95, passion: 70, destiny: 88, harmony: 82 }
+            },
+            {
+                era: "Joseon Dynasty",
+                relation: "Destined Lovers",
+                emoji: "👨‍🎓💕👩‍🎓",
+                story: "You were children of noble families in the Joseon Dynasty. Though from different houses, you met like destiny. You loved each other beyond class barriers, and that love continued into this life.",
+                meaning: "This connection is a powerful attraction that can overcome any obstacle. You may have met again in this life to complete the love you couldn't fulfill in your past life.",
+                advice: "Don't lose faith in each other. If you're together, you can overcome any difficulty.",
+                karma: { trust: 85, passion: 98, destiny: 95, harmony: 75 }
+            },
+            {
+                era: "Medieval Europe",
+                relation: "Knight and Princess",
+                emoji: "⚔️❤️👸",
+                story: "One was a brave knight, the other a kingdom's princess. The knight risked their life to protect the princess, and that devotion became an eternal connection.",
+                meaning: "This connection is about protection and dedication. One has an instinct to protect the other, and both feel a deep sense of responsibility toward each other.",
+                advice: "While the desire to protect is good, sometimes let your partner grow on their own. Walk together as equal partners.",
+                karma: { trust: 90, passion: 85, destiny: 80, harmony: 78 }
+            },
+            {
+                era: "Tang Dynasty",
+                relation: "Poet and Muse",
+                emoji: "📜💫🎭",
+                story: "One was a famous poet in the Tang Dynasty, the other was their muse. Countless poems were written for the muse, and those works are still recited a thousand years later.",
+                meaning: "This connection is artistic and inspiring. When together, creativity flows, and you become each other's inspiration.",
+                advice: "Encourage each other's talents. When you engage in creative activities together, you'll feel a deeper bond.",
+                karma: { trust: 75, passion: 88, destiny: 82, harmony: 92 }
+            },
+            {
+                era: "Renaissance",
+                relation: "Companion Friends",
+                emoji: "🎨🤝📚",
+                story: "You were colleagues exploring art and learning together in Renaissance Florence. You stayed up all night discussing and critiquing each other's work while growing together.",
+                meaning: "This connection is based on deep friendship and intellectual communion. You are best friends and companions before being lovers.",
+                advice: "Cherish your friendship. Deep conversation and empathy will make the relationship stronger.",
+                karma: { trust: 92, passion: 65, destiny: 78, harmony: 95 }
+            },
+            {
+                era: "Edo Period Japan",
+                relation: "Fated Rivals",
+                emoji: "⚔️🔥⚔️",
+                story: "You were famous swordsmen in the Edo period. You competed as rivals, but there was deep respect within. You could become stronger because of each other.",
+                meaning: "This connection is about mutual growth. There may be competition, but it actually helps you both develop.",
+                advice: "Healthy competition is good, but think of growing together rather than trying to beat each other.",
+                karma: { trust: 70, passion: 90, destiny: 75, harmony: 68 }
+            },
+            {
+                era: "Ancient Greece",
+                relation: "Soulmate",
+                emoji: "⚡💕☀️",
+                story: "Like Plato's 'other half of the soul,' you were originally one soul split in two. After thousands of years apart, you've finally reunited in this life.",
+                meaning: "This is the most powerful soul connection. That feeling of knowing each other for a long time upon first meeting - that's the memory of your past life.",
+                advice: "Believe you are already connected. Now that you've found each other, enjoy the journey of becoming complete together.",
+                karma: { trust: 95, passion: 95, destiny: 99, harmony: 90 }
+            },
+            {
+                era: "Victorian Era",
+                relation: "Teacher and Student",
+                emoji: "📖💡🎓",
+                story: "One was a scholar in the Victorian era, the other was their most brilliant student. You shared knowledge and left deep impressions on each other.",
+                meaning: "This connection is about teaching and learning. You have things to learn from each other and grow together.",
+                advice: "Sometimes teach, sometimes learn. Don't fix roles but exchange flexibly.",
+                karma: { trust: 85, passion: 60, destiny: 72, harmony: 88 }
+            }
+        ];
+
+        let resultData = {};
+
+        function startTest() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+
+            if (!name1 || !name2) {
+                showToast('⚠️ Please enter both names!');
+                return;
+            }
+
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                calculateResult(name1, name2);
+            }, 2500);
+        }
+
+        function calculateResult(name1, name2) {
+            // Generate seed based on names
+            let seed = 0;
+            for (let i = 0; i < name1.length; i++) {
+                seed += name1.charCodeAt(i) * (i + 1);
+            }
+            for (let i = 0; i < name2.length; i++) {
+                seed += name2.charCodeAt(i) * (i + 2);
+            }
+
+            // Select relation
+            const relationIndex = seed % relations.length;
+            const selectedRelation = relations[relationIndex];
+
+            resultData = {
+                name1,
+                name2,
+                ...selectedRelation
+            };
+
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('displayName1').textContent = resultData.name1;
+            document.getElementById('displayName2').textContent = resultData.name2;
+            document.getElementById('resultEra').textContent = resultData.era;
+            document.getElementById('resultEmoji').textContent = resultData.emoji;
+            document.getElementById('resultRelation').textContent = resultData.relation;
+            document.getElementById('resultStory').textContent = resultData.story;
+            document.getElementById('resultMeaning').textContent = resultData.meaning;
+            document.getElementById('resultAdvice').textContent = resultData.advice;
+
+            const karmaLabels = {
+                trust: 'Trust',
+                passion: 'Passion',
+                destiny: 'Destiny',
+                harmony: 'Harmony'
+            };
+
+            document.getElementById('karmaMeter').innerHTML = Object.entries(resultData.karma).map(([key, value]) => `
+                <div class="karma-item">
+                    <div class="label">${karmaLabels[key]}</div>
+                    <div class="value">${value}%</div>
+                </div>
+            `).join('');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `💫 Past Life Connection Test Results\n\n` +
+                        `${resultData.name1} 💕 ${resultData.name2}\n\n` +
+                        `【${resultData.era}】\n` +
+                        `${resultData.emoji}\n` +
+                        `"${resultData.relation}"\n\n` +
+                        `✨ Trust ${resultData.karma.trust}% | Passion ${resultData.karma.passion}%\n` +
+                        `🌟 Destiny ${resultData.karma.destiny}% | Harmony ${resultData.karma.harmony}%\n\n` +
+                        `Discover your past life connection 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'Past Life Connection Test', text: text })
+                    .catch(err => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 Results copied!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 Results copied!');
+                });
+            }
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('name1').value = '';
+            document.getElementById('name2').value = '';
+            ['year1', 'month1', 'day1', 'year2', 'month2', 'day2'].forEach(id => {
+                document.getElementById(id).selectedIndex = 0;
+            });
+        }
+    </script>
+</body>
+</html>

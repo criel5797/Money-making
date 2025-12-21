@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 사주 풀이 - 무료 사주팔자 운세 | 생년월일 운세</title>
-    <meta name="description" content="무료 AI 사주 풀이! 생년월일시로 알아보는 당신의 사주팔자. 성격, 재물운, 연애운, 직업운까지 상세한 사주 분석을 제공합니다.">
-    <meta name="keywords" content="사주, 사주풀이, 사주팔자, 무료사주, 생년월일운세, 오늘의운세, 사주보기">
+    <title>AI四柱推命 - 無料四柱八字運勢 | 生年月日運勢</title>
+    <meta name="description" content="無料AI四柱推命！生年月日時で調べるあなたの四柱八字。性格、財運、恋愛運、職業運まで詳しい四柱分析を提供します。">
+    <meta name="keywords" content="四柱推命,四柱八字,無料四柱推命,生年月日運勢,今日の運勢,四柱推命占い">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="AI 사주 풀이 - 무료 사주팔자 운세">
-    <meta property="og:description" content="생년월일로 알아보는 나의 사주팔자!">
+    <meta property="og:title" content="AI四柱推命 - 無料四柱八字運勢">
+    <meta property="og:description" content="生年月日で調べる私の四柱八字！">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=AI+사주+풀이">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a1a2e/ffd700?text=AI+四柱推命">
 
     <style>
         .toast {
@@ -40,7 +40,7 @@
         }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
             min-height: 100vh;
             color: #e4e4e4;
@@ -444,83 +444,83 @@
 
     <div class="container">
         <header>
-            <h1>AI 사주 풀이</h1>
-            <p class="subtitle">생년월일시로 알아보는 당신의 운명</p>
+            <h1>AI四柱推命</h1>
+            <p class="subtitle">生年月日時で調べるあなたの運命</p>
         </header>
 
         <div class="ad-banner">Advertisement</div>
 
         <div class="disclaimer">
-            재미로 즐기는 사주 풀이입니다. 중요한 결정의 근거로 삼지 마세요.
+            お遊びで楽しむ四柱推命です。重要な決定の根拠にしないでください。
         </div>
 
         <div class="card" id="inputSection">
             <div class="input-section">
-                <h2>생년월일시를 입력하세요</h2>
+                <h2>生年月日時を入力してください</h2>
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>성별</label>
+                        <label>性別</label>
                         <div class="gender-options">
                             <div class="gender-option selected" onclick="selectGender('male', this)">
                                 <span>&#9794;</span>
-                                남자
+                                男性
                             </div>
                             <div class="gender-option" onclick="selectGender('female', this)">
                                 <span>&#9792;</span>
-                                여자
+                                女性
                             </div>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>양력/음력</label>
+                            <label>暦</label>
                             <select id="calendarType">
-                                <option value="solar">양력</option>
-                                <option value="lunar">음력</option>
+                                <option value="solar">太陽暦</option>
+                                <option value="lunar">太陰暦</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>출생년도</label>
+                            <label>生まれ年</label>
                             <select id="year"></select>
                         </div>
                         <div class="form-group">
-                            <label>월</label>
+                            <label>月</label>
                             <select id="month"></select>
                         </div>
                         <div class="form-group">
-                            <label>일</label>
+                            <label>日</label>
                             <select id="day"></select>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>태어난 시간</label>
+                            <label>生まれた時間</label>
                             <select id="hour">
-                                <option value="-1">모름</option>
-                                <option value="0">자시 (23:30-01:30)</option>
-                                <option value="1">축시 (01:30-03:30)</option>
-                                <option value="2">인시 (03:30-05:30)</option>
-                                <option value="3">묘시 (05:30-07:30)</option>
-                                <option value="4">진시 (07:30-09:30)</option>
-                                <option value="5">사시 (09:30-11:30)</option>
-                                <option value="6">오시 (11:30-13:30)</option>
-                                <option value="7">미시 (13:30-15:30)</option>
-                                <option value="8">신시 (15:30-17:30)</option>
-                                <option value="9">유시 (17:30-19:30)</option>
-                                <option value="10">술시 (19:30-21:30)</option>
-                                <option value="11">해시 (21:30-23:30)</option>
+                                <option value="-1">不明</option>
+                                <option value="0">子時 (23:30-01:30)</option>
+                                <option value="1">丑時 (01:30-03:30)</option>
+                                <option value="2">寅時 (03:30-05:30)</option>
+                                <option value="3">卯時 (05:30-07:30)</option>
+                                <option value="4">辰時 (07:30-09:30)</option>
+                                <option value="5">巳時 (09:30-11:30)</option>
+                                <option value="6">午時 (11:30-13:30)</option>
+                                <option value="7">未時 (13:30-15:30)</option>
+                                <option value="8">申時 (15:30-17:30)</option>
+                                <option value="9">酉時 (17:30-19:30)</option>
+                                <option value="10">戌時 (19:30-21:30)</option>
+                                <option value="11">亥時 (21:30-23:30)</option>
                             </select>
                         </div>
                     </div>
 
                     <button class="submit-btn" onclick="analyzeSaju()">
-                        사주 풀이 보기
+                        四柱推命を見る
                     </button>
                 </div>
             </div>
@@ -528,12 +528,12 @@
 
         <div class="loading" id="loading">
             <div class="bagua">☯</div>
-            <p style="color:#ffd700;">사주팔자를 분석하고 있습니다...</p>
+            <p style="color:#ffd700;">四柱八字を分析しています...</p>
         </div>
 
         <div class="result-section" id="resultSection">
             <div class="card">
-                <h2 style="color:#ffd700; text-align:center; margin-bottom:25px;">당신의 사주팔자</h2>
+                <h2 style="color:#ffd700; text-align:center; margin-bottom:25px;">あなたの四柱八字</h2>
 
                 <div class="saju-chart" id="sajuChart"></div>
 
@@ -549,50 +549,50 @@
             </div>
 
             <div class="share-buttons">
-                <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
-                <button class="share-btn secondary" onclick="retryAnalysis()">다시 하기</button>
+                <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                <button class="share-btn secondary" onclick="retryAnalysis()">やり直す</button>
             </div>
         </div>
 
         <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>이 사주 풀이는 재미를 위한 것입니다.<br>중요한 결정은 전문가와 상담하세요.</p>
+            <p>この四柱推命はお遊びです。<br>重要な決定は専門家とご相談ください。</p>
         </footer>
     </div>
 
     <script>
-        // 천간
-        const heavenlyStems = ['갑', '을', '병', '정', '무', '기', '경', '신', '임', '계'];
-        const stemElements = ['목', '목', '화', '화', '토', '토', '금', '금', '수', '수'];
+        // 天干
+        const heavenlyStems = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+        const stemElements = ['木', '木', '火', '火', '土', '土', '金', '金', '水', '水'];
 
-        // 지지
-        const earthlyBranches = ['자', '축', '인', '묘', '진', '사', '오', '미', '신', '유', '술', '해'];
-        const branchElements = ['수', '토', '목', '목', '토', '화', '화', '토', '금', '금', '토', '수'];
+        // 地支
+        const earthlyBranches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+        const branchElements = ['水', '土', '木', '木', '土', '火', '火', '土', '金', '金', '土', '水'];
 
-        // 오행
-        const elements = { '목': 'wood', '화': 'fire', '토': 'earth', '금': 'metal', '수': 'water' };
-        const elementNames = { 'wood': '목(木)', 'fire': '화(火)', 'earth': '토(土)', 'metal': '금(金)', 'water': '수(水)' };
+        // 五行
+        const elements = { '木': 'wood', '火': 'fire', '土': 'earth', '金': 'metal', '水': 'water' };
+        const elementNames = { 'wood': '木', 'fire': '火', 'earth': '土', 'metal': '金', 'water': '水' };
 
         let selectedGender = 'male';
         let resultData = {};
 
-        // 초기화
+        // 初期化
         function init() {
             const yearSelect = document.getElementById('year');
             const currentYear = new Date().getFullYear();
             for (let y = currentYear; y >= 1940; y--) {
-                yearSelect.innerHTML += `<option value="${y}">${y}년</option>`;
+                yearSelect.innerHTML += `<option value="${y}">${y}年</option>`;
             }
 
             const monthSelect = document.getElementById('month');
             for (let m = 1; m <= 12; m++) {
-                monthSelect.innerHTML += `<option value="${m}">${m}월</option>`;
+                monthSelect.innerHTML += `<option value="${m}">${m}月</option>`;
             }
 
             const daySelect = document.getElementById('day');
             for (let d = 1; d <= 31; d++) {
-                daySelect.innerHTML += `<option value="${d}">${d}일</option>`;
+                daySelect.innerHTML += `<option value="${d}">${d}日</option>`;
             }
         }
         init();
@@ -604,20 +604,20 @@
         }
 
         function calculateSaju(year, month, day, hour) {
-            // 년주 계산
+            // 年柱計算
             const yearStemIdx = (year - 4) % 10;
             const yearBranchIdx = (year - 4) % 12;
 
-            // 월주 계산 (간략화)
+            // 月柱計算（簡略化）
             const monthStemIdx = ((year - 4) % 5 * 2 + month + 1) % 10;
             const monthBranchIdx = (month + 1) % 12;
 
-            // 일주 계산 (간략화 - 실제로는 만세력 필요)
+            // 日柱計算（簡略化 - 実際には万年暦が必要）
             const dayOffset = Math.floor((year - 1900) * 365.25 + (month - 1) * 30.44 + day);
             const dayStemIdx = dayOffset % 10;
             const dayBranchIdx = dayOffset % 12;
 
-            // 시주 계산
+            // 時柱計算
             let hourStemIdx = 0;
             let hourBranchIdx = 0;
             if (hour >= 0) {
@@ -640,7 +640,7 @@
             const hour = parseInt(document.getElementById('hour').value);
 
             if (!year || !month || !day) {
-                showToast('⚠️ 생년월일을 입력해주세요.');
+                showToast('⚠️ 生年月日を入力してください。');
                 return;
             }
 
@@ -655,8 +655,8 @@
         }
 
         function generateAnalysis(saju, gender) {
-            // 오행 분포 계산
-            const elementCount = { '목': 0, '화': 0, '토': 0, '금': 0, '수': 0 };
+            // 五行分布計算
+            const elementCount = { '木': 0, '火': 0, '土': 0, '金': 0, '水': 0 };
 
             const pillars = ['year', 'month', 'day'];
             if (saju.hour) pillars.push('hour');
@@ -666,10 +666,10 @@
                 elementCount[branchElements[saju[pillar].branch]]++;
             });
 
-            // 일간(일주 천간) 기준 분석
+            // 日干（日柱天干）基準分析
             const dayMaster = stemElements[saju.day.stem];
 
-            // 운세 점수 생성
+            // 運勢スコア生成
             const fortunes = {
                 overall: 60 + Math.floor(Math.random() * 35),
                 love: 50 + Math.floor(Math.random() * 45),
@@ -685,62 +685,62 @@
             document.getElementById('loading').classList.remove('show');
             document.getElementById('resultSection').classList.add('show');
 
-            // 사주 차트
+            // 四柱チャート
             const chartHtml = `
                 <div class="saju-pillar">
-                    <div class="pillar-title">년주</div>
+                    <div class="pillar-title">年柱</div>
                     <div class="pillar-char chun">${heavenlyStems[saju.year.stem]}</div>
                     <div class="pillar-char ji">${earthlyBranches[saju.year.branch]}</div>
                     <div class="pillar-element">${stemElements[saju.year.stem]} / ${branchElements[saju.year.branch]}</div>
                 </div>
                 <div class="saju-pillar">
-                    <div class="pillar-title">월주</div>
+                    <div class="pillar-title">月柱</div>
                     <div class="pillar-char chun">${heavenlyStems[saju.month.stem]}</div>
                     <div class="pillar-char ji">${earthlyBranches[saju.month.branch]}</div>
                     <div class="pillar-element">${stemElements[saju.month.stem]} / ${branchElements[saju.month.branch]}</div>
                 </div>
                 <div class="saju-pillar">
-                    <div class="pillar-title">일주</div>
+                    <div class="pillar-title">日柱</div>
                     <div class="pillar-char chun">${heavenlyStems[saju.day.stem]}</div>
                     <div class="pillar-char ji">${earthlyBranches[saju.day.branch]}</div>
                     <div class="pillar-element">${stemElements[saju.day.stem]} / ${branchElements[saju.day.branch]}</div>
                 </div>
                 ${saju.hour ? `
                 <div class="saju-pillar">
-                    <div class="pillar-title">시주</div>
+                    <div class="pillar-title">時柱</div>
                     <div class="pillar-char chun">${heavenlyStems[saju.hour.stem]}</div>
                     <div class="pillar-char ji">${earthlyBranches[saju.hour.branch]}</div>
                     <div class="pillar-element">${stemElements[saju.hour.stem]} / ${branchElements[saju.hour.branch]}</div>
                 </div>
                 ` : `
                 <div class="saju-pillar" style="opacity:0.5">
-                    <div class="pillar-title">시주</div>
+                    <div class="pillar-title">時柱</div>
                     <div class="pillar-char">?</div>
                     <div class="pillar-char">?</div>
-                    <div class="pillar-element">시간 미입력</div>
+                    <div class="pillar-element">時間未入力</div>
                 </div>
                 `}
             `;
             document.getElementById('sajuChart').innerHTML = chartHtml;
 
-            // 오행 분포
+            // 五行分布
             let elementHtml = '';
             for (const [elem, cls] of Object.entries(elements)) {
                 elementHtml += `
                     <div class="element-item ${cls}">
                         <div class="element-name">${elem}</div>
-                        <div class="element-count">${resultData.elementCount[elem]}개</div>
+                        <div class="element-count">${resultData.elementCount[elem]}個</div>
                     </div>
                 `;
             }
             document.getElementById('elementSection').innerHTML = elementHtml;
 
-            // 운세 그리드
+            // 運勢グリッド
             const fortuneIcons = {
                 overall: '⭐', love: '💕', wealth: '💰', career: '💼', health: '❤️'
             };
             const fortuneNames = {
-                overall: '종합운', love: '연애운', wealth: '재물운', career: '직업운', health: '건강운'
+                overall: '総合運', love: '恋愛運', wealth: '財運', career: '職業運', health: '健康運'
             };
 
             let fortuneHtml = '';
@@ -749,7 +749,7 @@
                     <div class="fortune-item">
                         <div class="fortune-icon">${fortuneIcons[key]}</div>
                         <div class="fortune-name">${fortuneNames[key]}</div>
-                        <div class="fortune-score">${score}점</div>
+                        <div class="fortune-score">${score}点</div>
                         <div class="fortune-bar">
                             <div class="fortune-fill" style="width:${score}%"></div>
                         </div>
@@ -758,55 +758,55 @@
             }
             document.getElementById('fortuneGrid').innerHTML = fortuneHtml;
 
-            // 상세 분석
+            // 詳細分析
             document.getElementById('analysisContent').innerHTML = generateDetailedAnalysis();
         }
 
         function generateDetailedAnalysis() {
             const analyses = {
                 personality: {
-                    title: '성격 분석',
+                    title: '性格分析',
                     icon: '👤',
                     texts: [
-                        '당신은 깊은 내면의 세계를 가진 사람입니다. 겉으로는 차분해 보이지만, 내면에는 뜨거운 열정을 품고 있습니다. 타인의 감정을 잘 이해하며, 공감 능력이 뛰어납니다.',
-                        '리더십과 추진력이 강한 편입니다. 목표를 정하면 끝까지 해내는 집념이 있으며, 어려운 상황에서도 포기하지 않는 강인함을 가지고 있습니다.',
-                        '창의적이고 독창적인 사고방식을 가지고 있습니다. 남들과 다른 시각으로 세상을 바라보며, 새로운 아이디어를 떠올리는 것을 좋아합니다.'
+                        'あなたは深い内面の世界を持つ人です。表面は落ち着いて見えますが、内面には熱い情熱を秘めています。他人の感情をよく理解し、共感能力に優れています。',
+                        'リーダーシップと推進力が強い方です。目標を定めると最後までやり遂げる執念があり、困難な状況でも諦めない強さを持っています。',
+                        '創造的で独創的な思考方式を持っています。他人とは違う視点で世界を見て、新しいアイデアを思いつくことが好きです。'
                     ]
                 },
                 love: {
-                    title: '연애운',
+                    title: '恋愛運',
                     icon: '💕',
                     texts: [
-                        '사랑에 있어서 진지하고 헌신적인 타입입니다. 한 번 마음을 주면 쉽게 변하지 않으며, 상대방을 위해 많은 것을 희생할 준비가 되어 있습니다.',
-                        '연애 초반에는 조심스럽지만, 관계가 깊어질수록 깊은 애정을 표현합니다. 안정적이고 신뢰할 수 있는 파트너가 될 수 있습니다.',
-                        '감정 표현이 서툴 수 있지만, 행동으로 사랑을 보여주는 타입입니다. 상대방의 작은 것까지 세심하게 챙기는 다정함이 있습니다.'
+                        '愛において真剣で献身的なタイプです。一度心を与えると簡単に変わらず、相手のために多くのことを犠牲にする準備ができています。',
+                        '恋愛初期は慎重ですが、関係が深まるほど深い愛情を表現します。安定的で信頼できるパートナーになれます。',
+                        '感情表現が苦手かもしれませんが、行動で愛を示すタイプです。相手の細かいところまで気を配る優しさがあります。'
                     ]
                 },
                 career: {
-                    title: '직업운',
+                    title: '職業運',
                     icon: '💼',
                     texts: [
-                        '전문성을 살릴 수 있는 분야에서 두각을 나타낼 수 있습니다. 꾸준한 노력으로 분야의 전문가가 될 가능성이 높습니다.',
-                        '조직 내에서 중요한 역할을 맡게 될 운입니다. 신뢰를 바탕으로 점점 더 큰 책임을 맡게 될 것입니다.',
-                        '창업이나 자영업에도 적성이 있습니다. 독립적으로 일할 때 더 큰 성과를 낼 수 있는 기운이 있습니다.'
+                        '専門性を活かせる分野で頭角を現すことができます。着実な努力で分野の専門家になる可能性が高いです。',
+                        '組織内で重要な役割を担うことになる運です。信頼を基盤にますます大きな責任を任されることになります。',
+                        '起業や自営業にも適性があります。独立して働く時、より大きな成果を出せる気があります。'
                     ]
                 },
                 wealth: {
-                    title: '재물운',
+                    title: '財運',
                     icon: '💰',
                     texts: [
-                        '안정적인 재물 축적이 가능한 사주입니다. 큰 행운보다는 꾸준한 노력으로 재산을 모으는 타입입니다.',
-                        '투자에 있어서는 신중한 접근이 필요합니다. 안전한 투자 방식이 당신에게 더 맞을 수 있습니다.',
-                        '중년 이후로 재물운이 상승하는 흐름입니다. 젊을 때 쌓은 경험과 인맥이 나중에 큰 도움이 됩니다.'
+                        '安定的な財産蓄積が可能な四柱です。大きな幸運よりは着実な努力で財産を貯めるタイプです。',
+                        '投資においては慎重なアプローチが必要です。安全な投資方式があなたにもっと合うかもしれません。',
+                        '中年以降に財運が上昇する流れです。若い時に積んだ経験と人脈が後で大きな助けになります。'
                     ]
                 },
                 advice: {
-                    title: '조언',
+                    title: 'アドバイス',
                     icon: '💡',
                     texts: [
-                        '때로는 남의 의견도 귀 기울여 들을 필요가 있습니다. 고집을 버리고 유연하게 대처하면 더 좋은 결과를 얻을 수 있습니다.',
-                        '건강 관리에 신경 쓰세요. 특히 스트레스 관리가 중요합니다. 규칙적인 운동과 충분한 휴식을 권장합니다.',
-                        '인간관계를 소홀히 하지 마세요. 좋은 인연이 당신의 운을 크게 바꿀 수 있습니다.'
+                        '時には他人の意見にも耳を傾ける必要があります。頑固さを捨てて柔軟に対応すればより良い結果を得られます。',
+                        '健康管理に気をつけてください。特にストレス管理が重要です。規則的な運動と十分な休息をお勧めします。',
+                        '人間関係をおろそかにしないでください。良いご縁があなたの運を大きく変えることができます。'
                     ]
                 }
             };
@@ -828,19 +828,19 @@
         }
 
         function shareResult() {
-            const text = `나의 사주 풀이 결과\n` +
-                        `종합운: ${resultData.fortunes.overall}점\n` +
-                        `연애운: ${resultData.fortunes.love}점\n` +
-                        `재물운: ${resultData.fortunes.wealth}점\n\n` +
-                        `나도 사주 보기 👉`;
+            const text = `私の四柱推命結果\n` +
+                        `総合運: ${resultData.fortunes.overall}点\n` +
+                        `恋愛運: ${resultData.fortunes.love}点\n` +
+                        `財運: ${resultData.fortunes.wealth}点\n\n` +
+                        `私も四柱推命を見る 👉`;
 
             if (navigator.share) {
-                navigator.share({ title: 'AI 사주 풀이', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
+                navigator.share({ title: 'AI四柱推命', text: text }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
                 });
             } else {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
+                    showToast('📋 結果がコピーされました！');
                 });
             }
         }

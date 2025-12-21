@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>글자수 세기 - 무료 온라인 단어/문자 카운터</title>
-    <meta name="description" content="단어, 글자, 문장, 문단 수를 즉시 세어보세요. 읽기 시간 예측 기능이 포함된 무료 온라인 글자수 세기 도구.">
-    <meta name="keywords" content="글자수 세기, 단어수 세기, 문자 카운터, 텍스트 분석, 읽기 시간">
-    <meta property="og:title" content="글자수 세기 - 무료 온라인 단어/문자 카운터">
-    <meta property="og:description" content="단어, 글자, 문장, 문단 수를 즉시 세어보세요.">
+    <title>文字数カウンター - 無料オンライン単語・文字カウンター</title>
+    <meta name="description" content="単語、文字、文、段落の数を即座にカウントします。読み取り時間推定機能付きの無料オンライン文字数カウンターツール。">
+    <meta name="keywords" content="文字数カウント, 単語数カウント, 文字カウンター, テキスト分析, 読み取り時間">
+    <meta property="og:title" content="文字数カウンター - 無料オンライン単語・文字カウンター">
+    <meta property="og:description" content="単語、文字、文、段落の数を即座にカウントします。">
     <meta property="og:type" content="website">
 
     <style>
@@ -203,104 +203,104 @@
 
     <div class="container">
         <header>
-            <h1>글자수 세기</h1>
-            <p class="subtitle">단어, 글자 수 등을 한눈에</p>
+            <h1>文字数カウンター</h1>
+            <p class="subtitle">単語、文字数などを一目で確認</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告スペース</div>
 
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value" id="wordCount">0</div>
-                <div class="stat-label">단어</div>
+                <div class="stat-label">単語</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="charCount">0</div>
-                <div class="stat-label">글자 (공백 포함)</div>
+                <div class="stat-label">文字（スペース含む）</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="charNoSpace">0</div>
-                <div class="stat-label">글자 (공백 제외)</div>
+                <div class="stat-label">文字（スペース除外）</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="sentenceCount">0</div>
-                <div class="stat-label">문장</div>
+                <div class="stat-label">文</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="paragraphCount">0</div>
-                <div class="stat-label">문단</div>
+                <div class="stat-label">段落</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="readingTime">0</div>
-                <div class="stat-label">읽기 시간 (분)</div>
+                <div class="stat-label">読み取り時間（分）</div>
             </div>
         </div>
 
         <div class="main-card">
             <div class="toolbar">
                 <div class="toolbar-left">
-                    <button class="btn-sm" onclick="clearText()">지우기</button>
-                    <button class="btn-sm" onclick="copyText()">복사</button>
-                    <button class="btn-sm" onclick="loadSample()">샘플</button>
+                    <button class="btn-sm" onclick="clearText()">クリア</button>
+                    <button class="btn-sm" onclick="copyText()">コピー</button>
+                    <button class="btn-sm" onclick="loadSample()">サンプル</button>
                 </div>
                 <div class="toolbar-right">
-                    <button class="btn-sm" onclick="convertCase('upper')">대문자</button>
-                    <button class="btn-sm" onclick="convertCase('lower')">소문자</button>
+                    <button class="btn-sm" onclick="convertCase('upper')">大文字</button>
+                    <button class="btn-sm" onclick="convertCase('lower')">小文字</button>
                 </div>
             </div>
-            <textarea id="textInput" placeholder="여기에 텍스트를 입력하거나 붙여넣어 단어, 글자 수 등을 확인하세요..."></textarea>
+            <textarea id="textInput" placeholder="ここにテキストを入力または貼り付けて、単語、文字数などを確認してください..."></textarea>
         </div>
 
         <div class="details-section">
-            <div class="details-title">상세 통계</div>
+            <div class="details-title">詳細統計</div>
             <div class="details-grid">
                 <div class="detail-item">
-                    <div class="detail-label">평균 단어 길이</div>
+                    <div class="detail-label">平均単語長</div>
                     <div class="detail-value" id="avgWordLength">0</div>
                 </div>
                 <div class="detail-item">
-                    <div class="detail-label">평균 문장 길이</div>
-                    <div class="detail-value" id="avgSentenceLength">0 단어</div>
+                    <div class="detail-label">平均文長</div>
+                    <div class="detail-value" id="avgSentenceLength">0 単語</div>
                 </div>
                 <div class="detail-item">
-                    <div class="detail-label">말하기 시간 (150 wpm)</div>
-                    <div class="detail-value" id="speakingTime">0분</div>
+                    <div class="detail-label">話す時間（150 wpm）</div>
+                    <div class="detail-value" id="speakingTime">0分</div>
                 </div>
                 <div class="detail-item">
-                    <div class="detail-label">가장 긴 단어</div>
+                    <div class="detail-label">最長の単語</div>
                     <div class="detail-value" id="longestWord">-</div>
                 </div>
             </div>
         </div>
 
         <div class="keyword-section">
-            <div class="keyword-title">자주 사용된 단어</div>
+            <div class="keyword-title">頻出単語</div>
             <div class="keyword-list" id="keywordList">
-                <span style="color: var(--text-secondary);">입력을 시작하면 자주 사용된 단어가 표시됩니다...</span>
+                <span style="color: var(--text-secondary);">入力を開始すると頻出単語が表示されます...</span>
             </div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">広告スペース</div>
 
         <div class="info-section">
-            <h3>이 도구 소개</h3>
-            <p>이 글자수 세기 도구는 단어 수, 글자 수, 문장 수, 예상 읽기 시간 등 텍스트에 대한 즉각적인 통계를 제공합니다.</p>
-            <p>에세이, 기사, 소셜 미디어 게시물 또는 기타 글쓰기 프로젝트의 텍스트 길이를 추적해야 하는 작가, 학생, 블로거 및 모든 사람에게 완벽합니다.</p>
+            <h3>このツールについて</h3>
+            <p>この文字数カウンターツールは、単語数、文字数、文の数、推定読み取り時間など、テキストに関する即時統計を提供します。</p>
+            <p>エッセイ、記事、ソーシャルメディア投稿、またはその他の執筆プロジェクトのテキストの長さを追跡する必要がある作家、学生、ブロガー、すべての人に最適です。</p>
         </div>
 
         <div class="info-section">
-            <h3>일반적인 글자 제한</h3>
-            <p>• <strong>트위터/X:</strong> 280자</p>
-            <p>• <strong>인스타그램 프로필:</strong> 150자</p>
-            <p>• <strong>메타 설명:</strong> 155-160자</p>
-            <p>• <strong>링크드인 요약:</strong> 2,000자</p>
-            <p>• <strong>유튜브 설명:</strong> 5,000자</p>
-            <p>• <strong>네이버 블로그 제목:</strong> 50자</p>
+            <h3>一般的な文字制限</h3>
+            <p>• <strong>Twitter/X:</strong> 280文字</p>
+            <p>• <strong>Instagramプロフィール:</strong> 150文字</p>
+            <p>• <strong>メタディスクリプション:</strong> 155-160文字</p>
+            <p>• <strong>LinkedIn要約:</strong> 2,000文字</p>
+            <p>• <strong>YouTube説明:</strong> 5,000文字</p>
+            <p>• <strong>Facebook投稿:</strong> 63,206文字</p>
         </div>
 
         <footer>
-            <p>작가를 위해 정성껏 만들었습니다</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>ライターのために丁寧に作成</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
         </footer>
     </div>
 
@@ -315,7 +315,6 @@
             const charCount = text.length;
             const charNoSpace = text.replace(/\s/g, '').length;
 
-            // 한글과 영어 모두 지원하는 단어 카운트
             const words = text.trim().split(/\s+/).filter(w => w.length > 0);
             const wordCount = text.trim() === '' ? 0 : words.length;
 
@@ -324,7 +323,7 @@
             const paragraphs = text.split(/\n\n+/).filter(p => p.trim().length > 0);
             const paragraphCount = text.trim() === '' ? 0 : paragraphs.length;
 
-            // 읽기 시간 (분당 500자 기준 - 한글)
+            // 読み取り時間（日本語は分あたり500文字基準）
             const readingTime = Math.ceil(charNoSpace / 500);
             const speakingTime = Math.ceil(charNoSpace / 300);
 
@@ -339,20 +338,19 @@
             document.getElementById('paragraphCount').textContent = paragraphCount.toLocaleString();
             document.getElementById('readingTime').textContent = readingTime;
             document.getElementById('avgWordLength').textContent = avgWordLength;
-            document.getElementById('avgSentenceLength').textContent = avgSentenceLength + ' 단어';
-            document.getElementById('speakingTime').textContent = speakingTime + '분';
+            document.getElementById('avgSentenceLength').textContent = avgSentenceLength + ' 単語';
+            document.getElementById('speakingTime').textContent = speakingTime + '分';
             document.getElementById('longestWord').textContent = longestWord.length > 20 ? longestWord.substring(0, 20) + '...' : longestWord;
 
             analyzeKeywords(words);
         }
 
         function analyzeKeywords(words) {
-            // 한글 조사 등도 제외
-            const stopWords = new Set(['의', '가', '이', '은', '는', '을', '를', '에', '와', '과', '도', '로', '으로', '에서', '까지', '부터', '만', '뿐', '께서', '한', '그', '저', '이런', '그런', '저런', 'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'is', 'it', 'that', 'this', 'as', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'i', 'you', 'he', 'she', 'we', 'they', 'my', 'your', 'his', 'her', 'its', 'our', 'their']);
+            const stopWords = new Set(['の', 'が', 'を', 'に', 'は', 'と', 'で', 'た', 'も', 'な', 'い', 'し', 'て', 'れ', 'か', 'ら', 'や', 'り', 'だ', 'こ', 'そ', 'あ', 'ど', 'その', 'この', 'それ', 'これ', 'あれ', 'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'is', 'it', 'that', 'this', 'as', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'i', 'you', 'he', 'she', 'we', 'they', 'my', 'your', 'his', 'her', 'its', 'our', 'their']);
 
             const wordFreq = {};
             words.forEach(word => {
-                const w = word.toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+                const w = word.toLowerCase().replace(/[^a-z0-9가-힣ぁ-んァ-ヶー一-龠]/g, '');
                 if (w.length > 1 && !stopWords.has(w)) {
                     wordFreq[w] = (wordFreq[w] || 0) + 1;
                 }
@@ -364,7 +362,7 @@
 
             const keywordList = document.getElementById('keywordList');
             if (sorted.length === 0) {
-                keywordList.innerHTML = '<span style="color: var(--text-secondary);">입력을 시작하면 자주 사용된 단어가 표시됩니다...</span>';
+                keywordList.innerHTML = '<span style="color: var(--text-secondary);">入力を開始すると頻出単語が表示されます...</span>';
             } else {
                 keywordList.innerHTML = sorted.map(([word, count]) =>
                     `<span class="keyword-tag">${word}<span class="keyword-count">${count}</span></span>`
@@ -380,20 +378,20 @@
         function copyText() {
             if (textInput.value) {
                 navigator.clipboard.writeText(textInput.value);
-                showToast('복사됨!');
+                showToast('コピーしました!');
             }
         }
 
         function loadSample() {
-            textInput.value = `안녕하세요. 이것은 글자수 세기 도구의 샘플 텍스트입니다.
+            textInput.value = `こんにちは。これは文字数カウンターツールのサンプルテキストです。
 
-글쓰기는 소통을 위한 강력한 도구입니다. 이메일을 작성하든, 블로그 게시물을 쓰든, 또는 다음 소설 작업을 하든, 단어 수와 텍스트 통계를 이해하면 더 효과적으로 글을 쓸 수 있습니다.
+文章を書くことは、コミュニケーションのための強力なツールです。メールを作成する場合でも、ブログ投稿を書く場合でも、次の小説に取り組む場合でも、単語数とテキスト統計を理解することで、より効果的に書くことができます。
 
-예를 들어, 평균적인 성인은 분당 약 500-600자 정도를 읽습니다. 이는 1,000자 기사를 읽는 데 약 2분이 걸린다는 것을 의미합니다. 소셜 미디어 플랫폼마다 고유한 글자 제한이 있습니다: 트위터는 280자를 허용하고, 인스타그램 캡션은 최대 2,200자까지 가능합니다.
+たとえば、平均的な成人は分あたり約500-600文字を読みます。これは、1,000文字の記事を読むのに約2分かかることを意味します。ソーシャルメディアプラットフォームにはそれぞれ独自の文字制限があります：Twitterは280文字を許可し、Instagramのキャプションは最大2,200文字まで可能です。
 
-전문 작가들은 종종 특정 단어 수를 목표로 합니다. 블로그 게시물은 일반적으로 500에서 2,000단어 범위이며, 긴 형식의 콘텐츠는 3,000단어를 초과할 수 있습니다. 이러한 지표를 이해하면 콘텐츠 전략을 계획하고 독자의 기대에 부응하는 데 도움이 됩니다.`;
+プロの作家は、特定の単語数を目標にすることがよくあります。ブログ投稿は通常500から2,000単語の範囲であり、長文コンテンツは3,000単語を超えることがあります。これらの指標を理解することで、コンテンツ戦略を計画し、読者の期待に応えることができます。`;
             analyze();
-            showToast('샘플 로드됨!');
+            showToast('サンプルを読み込みました!');
         }
 
         function convertCase(type) {
@@ -407,7 +405,7 @@
                     break;
             }
             analyze();
-            showToast('변환됨!');
+            showToast('変換しました!');
         }
 
         function showToast(msg) {

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 꿈 해몽 - 무료 꿈 해석, 꿈풀이</title>
-    <meta name="description" content="꿈을 입력하면 AI가 해몽해드립니다. 무료 꿈 해석, 꿈풀이, 길몽 흉몽 판단. 돼지꿈, 뱀꿈, 물꿈 등 모든 꿈 해몽.">
-    <meta name="keywords" content="꿈해몽, 꿈풀이, 꿈해석, 길몽, 흉몽, 돼지꿈, 뱀꿈, 물꿈, 치아꿈, AI해몽">
+    <title>AI Dream Interpreter - Free Dream Interpretation & Analysis</title>
+    <meta name="description" content="Enter your dream and AI will interpret it. Free dream interpretation, dream analysis, determine good or bad dreams. All dream meanings.">
+    <meta name="keywords" content="dream interpretation, dream analysis, dream meaning, good dream, bad dream, AI interpretation">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -363,123 +363,123 @@
     <div class="container">
         <header>
             <div class="logo">🔮</div>
-            <h1>AI 꿈 해몽</h1>
-            <p class="subtitle">당신의 꿈이 전하는 메시지를 해석해드려요</p>
+            <h1>AI Dream Interpreter</h1>
+            <p class="subtitle">Discover the message your dream is sending you</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="main-card">
             <div class="input-section">
-                <label class="input-label">✨ 어젯밤 어떤 꿈을 꾸셨나요?</label>
-                <textarea id="dreamInput" placeholder="꿈의 내용을 자세히 적어주세요.&#10;&#10;예: 하늘을 나는 꿈을 꿨어요. 구름 위를 자유롭게 날아다녔는데 기분이 너무 좋았어요..."></textarea>
+                <label class="input-label">✨ What did you dream about last night?</label>
+                <textarea id="dreamInput" placeholder="Describe your dream in detail.&#10;&#10;Example: I had a dream about flying. I was freely flying above the clouds and felt amazing..."></textarea>
             </div>
 
             <div class="quick-dreams">
-                <button class="quick-btn" onclick="setQuickDream('돼지가 나오는 꿈')">🐷 돼지꿈</button>
-                <button class="quick-btn" onclick="setQuickDream('뱀이 나오는 꿈')">🐍 뱀꿈</button>
-                <button class="quick-btn" onclick="setQuickDream('이빨이 빠지는 꿈')">🦷 이빨꿈</button>
-                <button class="quick-btn" onclick="setQuickDream('물에 빠지는 꿈')">🌊 물꿈</button>
-                <button class="quick-btn" onclick="setQuickDream('하늘을 나는 꿈')">🦅 비행꿈</button>
-                <button class="quick-btn" onclick="setQuickDream('죽은 사람이 나오는 꿈')">👻 고인꿈</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about pigs')">🐷 Pig dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about snakes')">🐍 Snake dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about losing teeth')">🦷 Teeth dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about water')">🌊 Water dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about flying')">🦅 Flying dream</button>
+                <button class="quick-btn" onclick="setQuickDream('Dream about deceased person')">👻 Deceased dream</button>
             </div>
 
             <button class="interpret-btn" id="interpretBtn" onclick="interpretDream()">
-                🔮 꿈 해몽하기
+                🔮 Interpret Dream
             </button>
 
             <div class="result-section" id="resultSection">
                 <div class="result-header">
-                    <div class="fortune-type" id="fortuneType">길몽</div>
-                    <div class="fortune-percent" id="fortunePercent">행운 지수: 85%</div>
+                    <div class="fortune-type" id="fortuneType">Good Dream</div>
+                    <div class="fortune-percent" id="fortunePercent">Fortune Index: 85%</div>
                 </div>
 
                 <div class="result-card">
-                    <div class="result-title">📖 꿈의 해석</div>
+                    <div class="result-title">📖 Dream Interpretation</div>
                     <div class="result-text" id="interpretation"></div>
                 </div>
 
                 <div class="result-card">
-                    <div class="result-title">🎯 상징과 의미</div>
+                    <div class="result-title">🎯 Symbols and Meanings</div>
                     <div class="symbols-grid" id="symbolsGrid"></div>
                 </div>
 
                 <div class="result-card">
-                    <div class="result-title">💫 오늘의 행운</div>
+                    <div class="result-title">💫 Today's Fortune</div>
                     <div class="lucky-section">
                         <div class="lucky-item">
-                            <div class="lucky-label">행운의 숫자</div>
+                            <div class="lucky-label">Lucky Numbers</div>
                             <div class="lucky-value" id="luckyNumber">7, 14, 28</div>
                         </div>
                         <div class="lucky-item">
-                            <div class="lucky-label">행운의 색</div>
-                            <div class="lucky-value" id="luckyColor">금색</div>
+                            <div class="lucky-label">Lucky Color</div>
+                            <div class="lucky-value" id="luckyColor">Gold</div>
                         </div>
                         <div class="lucky-item">
-                            <div class="lucky-label">행운의 방향</div>
-                            <div class="lucky-value" id="luckyDirection">동쪽</div>
+                            <div class="lucky-label">Lucky Direction</div>
+                            <div class="lucky-value" id="luckyDirection">East</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="result-card">
-                    <div class="result-title">💡 조언</div>
+                    <div class="result-title">💡 Advice</div>
                     <div class="result-text" id="advice"></div>
                 </div>
 
                 <div class="share-section">
-                    <button class="share-btn" onclick="copyResult()">📋 결과 복사</button>
-                    <button class="share-btn" onclick="shareResult()">📤 공유하기</button>
-                    <button class="share-btn" onclick="newDream()">🔄 새로운 꿈</button>
+                    <button class="share-btn" onclick="copyResult()">📋 Copy Result</button>
+                    <button class="share-btn" onclick="shareResult()">📤 Share</button>
+                    <button class="share-btn" onclick="newDream()">🔄 New Dream</button>
                 </div>
             </div>
         </div>
 
         <div class="popular-dreams">
-            <div class="popular-title">🌟 자주 찾는 꿈 해몽</div>
+            <div class="popular-title">🌟 Popular Dream Interpretations</div>
             <div class="popular-grid">
-                <div class="popular-item" onclick="setQuickDream('황금 돼지가 집에 들어오는 꿈')">
+                <div class="popular-item" onclick="setQuickDream('Dream about golden pig entering house')">
                     <div class="popular-icon">🐷</div>
-                    <div class="popular-name">황금돼지 꿈</div>
+                    <div class="popular-name">Golden Pig Dream</div>
                 </div>
-                <div class="popular-item" onclick="setQuickDream('뱀이 몸을 감는 꿈')">
+                <div class="popular-item" onclick="setQuickDream('Dream about snake wrapping around body')">
                     <div class="popular-icon">🐍</div>
-                    <div class="popular-name">뱀에 감기는 꿈</div>
+                    <div class="popular-name">Snake Wrapping Dream</div>
                 </div>
-                <div class="popular-item" onclick="setQuickDream('시험에 떨어지는 꿈')">
+                <div class="popular-item" onclick="setQuickDream('Dream about failing exam')">
                     <div class="popular-icon">📝</div>
-                    <div class="popular-name">시험 꿈</div>
+                    <div class="popular-name">Exam Dream</div>
                 </div>
-                <div class="popular-item" onclick="setQuickDream('쫓기는 꿈')">
+                <div class="popular-item" onclick="setQuickDream('Dream about being chased')">
                     <div class="popular-icon">🏃</div>
-                    <div class="popular-name">쫓기는 꿈</div>
+                    <div class="popular-name">Chasing Dream</div>
                 </div>
-                <div class="popular-item" onclick="setQuickDream('돈을 줍는 꿈')">
+                <div class="popular-item" onclick="setQuickDream('Dream about finding money')">
                     <div class="popular-icon">💰</div>
-                    <div class="popular-name">돈 줍는 꿈</div>
+                    <div class="popular-name">Money Dream</div>
                 </div>
-                <div class="popular-item" onclick="setQuickDream('결혼하는 꿈')">
+                <div class="popular-item" onclick="setQuickDream('Dream about getting married')">
                     <div class="popular-icon">💒</div>
-                    <div class="popular-name">결혼 꿈</div>
+                    <div class="popular-name">Marriage Dream</div>
                 </div>
-                <div class="popular-item" onclick="setQuickDream('아기를 낳는 꿈')">
+                <div class="popular-item" onclick="setQuickDream('Dream about giving birth')">
                     <div class="popular-icon">👶</div>
-                    <div class="popular-name">출산 꿈</div>
+                    <div class="popular-name">Birth Dream</div>
                 </div>
-                <div class="popular-item" onclick="setQuickDream('집이 무너지는 꿈')">
+                <div class="popular-item" onclick="setQuickDream('Dream about house collapsing')">
                     <div class="popular-icon">🏚️</div>
-                    <div class="popular-name">집 무너지는 꿈</div>
+                    <div class="popular-name">House Collapse Dream</div>
                 </div>
             </div>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>꿈은 무의식이 보내는 메시지입니다 🌙</p>
-            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+            <p>Dreams are messages from the subconscious 🌙</p>
+            <p style="margin-top: 10px;"><a href="/">Home</a> · <a href="#privacy">Privacy Policy</a></p>
             <p style="margin-top: 15px; font-size: 0.85rem; color: #666;">
-                ※ 본 서비스는 재미를 위한 것으로, 실제 운세나 미래를 예측하지 않습니다.
+                ※ This service is for entertainment purposes and does not predict actual fortune or future.
             </p>
         </footer>
     </div>
@@ -499,127 +499,127 @@
         }
 
         const dreamInterpretations = {
-            '돼지': {
+            'pig': {
                 icon: '🐷',
-                meaning: '재물과 풍요',
+                meaning: 'Wealth and abundance',
                 good: true,
-                interpretation: '돼지는 전통적으로 재물과 복을 상징합니다. 특히 황금빛 돼지나 살찐 돼지는 큰 재물운을 암시합니다.',
-                advice: '금전적인 기회가 찾아올 수 있으니 주변을 잘 살펴보세요. 투자나 사업에 좋은 시기일 수 있습니다.'
+                interpretation: 'Pigs traditionally symbolize wealth and blessings. Golden or fat pigs especially suggest great fortune.',
+                advice: 'Financial opportunities may come your way. Pay attention to investment or business opportunities.'
             },
-            '뱀': {
+            'snake': {
                 icon: '🐍',
-                meaning: '변화와 지혜',
+                meaning: 'Change and wisdom',
                 good: true,
-                interpretation: '뱀은 변화, 치유, 지혜를 상징합니다. 뱀이 허물을 벗듯 당신도 새로운 시작을 앞두고 있을 수 있습니다.',
-                advice: '변화를 두려워하지 마세요. 새로운 기회가 될 수 있습니다.'
+                interpretation: 'Snakes symbolize change, healing, and wisdom. Like a snake shedding its skin, you may be facing a new beginning.',
+                advice: 'Don\'t fear change. It can be a new opportunity.'
             },
-            '이빨': {
+            'teeth': {
                 icon: '🦷',
-                meaning: '불안과 변화',
+                meaning: 'Anxiety and change',
                 good: false,
-                interpretation: '이빨이 빠지는 꿈은 자신감 상실이나 변화에 대한 두려움을 나타낼 수 있습니다.',
-                advice: '최근 스트레스나 불안감이 있다면 충분한 휴식을 취하세요.'
+                interpretation: 'Dreams about losing teeth can indicate loss of confidence or fear of change.',
+                advice: 'If you\'re experiencing stress or anxiety, get enough rest.'
             },
-            '물': {
+            'water': {
                 icon: '🌊',
-                meaning: '감정과 무의식',
+                meaning: 'Emotions and unconscious',
                 good: null,
-                interpretation: '물은 감정의 상태를 반영합니다. 맑은 물은 평온함을, 탁한 물은 혼란스러운 감정을 의미할 수 있습니다.',
-                advice: '자신의 감정 상태를 돌아보고 정리하는 시간을 가져보세요.'
+                interpretation: 'Water reflects emotional states. Clear water suggests peace, murky water can mean confused emotions.',
+                advice: 'Take time to reflect on and organize your emotional state.'
             },
-            '나는': {
+            'fly': {
                 icon: '🦅',
-                meaning: '자유와 성취',
+                meaning: 'Freedom and achievement',
                 good: true,
-                interpretation: '하늘을 나는 꿈은 자유에 대한 갈망이나 목표 달성에 대한 자신감을 나타냅니다.',
-                advice: '당신의 능력을 믿고 도전하세요. 좋은 결과가 있을 것입니다.'
+                interpretation: 'Flying dreams represent desire for freedom or confidence in achieving goals.',
+                advice: 'Believe in your abilities and take on challenges. Good results await.'
             },
-            '죽은': {
+            'deceased': {
                 icon: '👻',
-                meaning: '그리움과 메시지',
+                meaning: 'Longing and message',
                 good: null,
-                interpretation: '돌아가신 분이 나오는 꿈은 그리움의 표현이거나 무의식에서 보내는 메시지일 수 있습니다.',
-                advice: '고인을 추모하는 시간을 갖거나, 삶에서 중요한 것이 무엇인지 되돌아보세요.'
+                interpretation: 'Dreams of deceased loved ones express longing or may be messages from your subconscious.',
+                advice: 'Take time to remember them, or reflect on what\'s important in life.'
             },
-            '쫓기': {
+            'chase': {
                 icon: '🏃',
-                meaning: '회피와 두려움',
+                meaning: 'Avoidance and fear',
                 good: false,
-                interpretation: '쫓기는 꿈은 현실에서 피하고 싶은 문제나 두려움을 상징합니다.',
-                advice: '회피하고 있는 문제가 있다면 용기를 내어 마주해보세요.'
+                interpretation: 'Being chased symbolizes problems or fears you want to avoid in real life.',
+                advice: 'If there are problems you\'re avoiding, gather courage to face them.'
             },
-            '돈': {
+            'money': {
                 icon: '💰',
-                meaning: '가치와 기회',
+                meaning: 'Value and opportunity',
                 good: true,
-                interpretation: '돈과 관련된 꿈은 자기 가치에 대한 인식이나 기회를 상징합니다.',
-                advice: '자신의 가치를 믿고, 다가오는 기회를 놓치지 마세요.'
+                interpretation: 'Money dreams symbolize recognition of self-worth or opportunities.',
+                advice: 'Believe in your value and don\'t miss upcoming opportunities.'
             },
-            '결혼': {
+            'marr': {
                 icon: '💒',
-                meaning: '결합과 새로운 시작',
+                meaning: 'Union and new beginning',
                 good: true,
-                interpretation: '결혼 꿈은 새로운 시작, 파트너십, 또는 자아의 통합을 의미할 수 있습니다.',
-                advice: '인간관계에서 좋은 일이 있을 수 있으니 주변 사람들을 소중히 하세요.'
+                interpretation: 'Marriage dreams can mean new beginnings, partnerships, or integration of self.',
+                advice: 'Good things may happen in relationships, so cherish those around you.'
             },
-            '아기': {
+            'baby': {
                 icon: '👶',
-                meaning: '새로운 시작',
+                meaning: 'New beginning',
                 good: true,
-                interpretation: '아기는 새로운 시작, 창의성, 가능성을 상징합니다.',
-                advice: '새로운 프로젝트나 아이디어를 시작하기 좋은 때입니다.'
+                interpretation: 'Babies symbolize new beginnings, creativity, and possibilities.',
+                advice: 'It\'s a good time to start new projects or ideas.'
             },
-            '집': {
+            'house': {
                 icon: '🏠',
-                meaning: '자아와 안정',
+                meaning: 'Self and stability',
                 good: null,
-                interpretation: '집은 자아와 내면을 상징합니다. 집의 상태가 현재 심리 상태를 반영할 수 있습니다.',
-                advice: '내면의 안정을 찾는 시간을 가져보세요.'
+                interpretation: 'Houses symbolize self and inner world. The house\'s condition can reflect your psychological state.',
+                advice: 'Take time to find inner stability.'
             },
-            '시험': {
+            'exam': {
                 icon: '📝',
-                meaning: '평가와 준비',
+                meaning: 'Evaluation and preparation',
                 good: false,
-                interpretation: '시험 꿈은 자신에 대한 평가나 준비 부족에 대한 불안을 나타냅니다.',
-                advice: '현실에서 중요한 일이 있다면 미리 준비하세요. 준비가 불안을 줄여줍니다.'
+                interpretation: 'Exam dreams represent anxiety about self-evaluation or lack of preparation.',
+                advice: 'If you have important tasks ahead, prepare in advance. Preparation reduces anxiety.'
             }
         };
 
-        const colors = ['금색', '붉은색', '파란색', '녹색', '보라색', '흰색', '노란색'];
-        const directions = ['동쪽', '서쪽', '남쪽', '북쪽', '동남쪽', '북서쪽'];
+        const colors = ['Gold', 'Red', 'Blue', 'Green', 'Purple', 'White', 'Yellow'];
+        const directions = ['East', 'West', 'South', 'North', 'Southeast', 'Northwest'];
 
         function setQuickDream(dream) {
-            document.getElementById('dreamInput').value = dream + '을 꾸었어요.';
+            document.getElementById('dreamInput').value = 'I had a ' + dream.toLowerCase() + '.';
         }
 
         function interpretDream() {
             const dream = document.getElementById('dreamInput').value.trim();
 
             if (!dream) {
-                showToast('꿈 내용을 입력해주세요');
+                showToast('Please enter your dream');
                 return;
             }
 
             const btn = document.getElementById('interpretBtn');
             btn.disabled = true;
-            btn.innerHTML = '<span class="loading-animation"></span> 해몽 중...';
+            btn.innerHTML = '<span class="loading-animation"></span> Interpreting...';
 
             setTimeout(() => {
                 generateInterpretation(dream);
                 btn.disabled = false;
-                btn.innerHTML = '🔮 꿈 해몽하기';
+                btn.innerHTML = '🔮 Interpret Dream';
             }, 2000);
         }
 
         function generateInterpretation(dream) {
-            // Find matching symbols
+            const dreamLower = dream.toLowerCase();
             const foundSymbols = [];
             let isGood = null;
             let mainInterpretation = '';
             let mainAdvice = '';
 
             for (const [keyword, data] of Object.entries(dreamInterpretations)) {
-                if (dream.includes(keyword)) {
+                if (dreamLower.includes(keyword)) {
                     foundSymbols.push(data);
                     if (isGood === null) isGood = data.good;
                     if (!mainInterpretation) {
@@ -629,34 +629,30 @@
                 }
             }
 
-            // Default interpretation if no keywords found
             if (foundSymbols.length === 0) {
                 foundSymbols.push({
                     icon: '🌙',
-                    meaning: '무의식의 메시지',
+                    meaning: 'Subconscious message',
                     good: null
                 });
-                mainInterpretation = '이 꿈은 당신의 무의식이 보내는 개인적인 메시지입니다. 꿈에서 느꼈던 감정이 현재 당신의 심리 상태를 반영할 수 있습니다. 기분 좋은 꿈이었다면 긍정적인 에너지가 함께하고 있는 것이고, 불안한 꿈이었다면 해소되지 않은 감정이 있을 수 있습니다.';
-                mainAdvice = '꿈에서 느꼈던 감정을 되돌아보고, 현실에서 비슷한 감정을 느끼는 상황이 있는지 생각해보세요.';
+                mainInterpretation = 'This dream is a personal message from your subconscious. The emotions you felt in the dream can reflect your current psychological state. If it was a pleasant dream, positive energy is with you. If anxious, there may be unresolved emotions.';
+                mainAdvice = 'Reflect on the emotions you felt in the dream and see if there are similar situations in real life.';
                 isGood = Math.random() > 0.5;
             }
 
-            // Calculate fortune
             const fortuneScore = isGood === true ? Math.floor(Math.random() * 20) + 75 :
                                  isGood === false ? Math.floor(Math.random() * 30) + 30 :
                                  Math.floor(Math.random() * 30) + 50;
 
-            const fortuneType = fortuneScore >= 70 ? '길몽' : fortuneScore >= 50 ? '평몽' : '주의가 필요한 꿈';
+            const fortuneType = fortuneScore >= 70 ? 'Good Dream' : fortuneScore >= 50 ? 'Neutral Dream' : 'Warning Dream';
             const fortuneClass = fortuneScore >= 70 ? 'fortune-good' : fortuneScore >= 50 ? 'fortune-neutral' : 'fortune-bad';
 
-            // Update UI
             document.getElementById('fortuneType').textContent = fortuneType;
             document.getElementById('fortuneType').className = `fortune-type ${fortuneClass}`;
-            document.getElementById('fortunePercent').textContent = `행운 지수: ${fortuneScore}%`;
+            document.getElementById('fortunePercent').textContent = `Fortune Index: ${fortuneScore}%`;
             document.getElementById('interpretation').textContent = mainInterpretation;
             document.getElementById('advice').textContent = mainAdvice;
 
-            // Generate symbols
             const symbolsGrid = document.getElementById('symbolsGrid');
             symbolsGrid.innerHTML = foundSymbols.slice(0, 4).map(s => `
                 <div class="symbol-item">
@@ -665,7 +661,6 @@
                 </div>
             `).join('');
 
-            // Generate lucky info
             const luckyNums = [];
             while (luckyNums.length < 3) {
                 const n = Math.floor(Math.random() * 45) + 1;
@@ -676,7 +671,7 @@
             document.getElementById('luckyDirection').textContent = directions[Math.floor(Math.random() * directions.length)];
 
             document.getElementById('resultSection').classList.add('show');
-            showToast('해몽이 완료되었습니다!');
+            showToast('Interpretation complete!');
         }
 
         function copyResult() {
@@ -685,26 +680,26 @@
             const interpretation = document.getElementById('interpretation').textContent;
             const advice = document.getElementById('advice').textContent;
 
-            const text = `🔮 AI 꿈 해몽 결과\n\n` +
+            const text = `🔮 AI Dream Interpretation\n\n` +
                         `[${fortune}] ${score}\n\n` +
-                        `📖 해석:\n${interpretation}\n\n` +
-                        `💡 조언:\n${advice}\n\n` +
-                        `꿈 해몽 더 보기 👉 [사이트주소]`;
+                        `📖 Interpretation:\n${interpretation}\n\n` +
+                        `💡 Advice:\n${advice}\n\n` +
+                        `More dream interpretations 👉 [website]`;
 
             navigator.clipboard.writeText(text);
-            showToast('결과가 복사되었습니다!');
+            showToast('Result copied!');
         }
 
         function shareResult() {
             if (navigator.share) {
                 navigator.share({
-                    title: 'AI 꿈 해몽 결과',
+                    title: 'AI Dream Interpretation Result',
                     text: document.getElementById('interpretation').textContent,
                     url: window.location.href
                 });
             } else {
                 copyResult();
-                showToast('복사되었습니다! 공유해보세요!');
+                showToast('Copied! Share it!');
             }
         }
 

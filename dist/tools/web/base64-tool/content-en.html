@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base64 인코더 & 디코더 - 무료 온라인 변환 도구</title>
-    <meta name="description" content="Base64 문자열을 즉시 인코딩하고 디코딩하세요. 텍스트, URL, 파일을 위한 무료 온라인 Base64 변환기.">
-    <meta name="keywords" content="base64 인코더, base64 디코더, base64 변환기, 인코딩, 디코딩">
-    <meta property="og:title" content="Base64 인코더 & 디코더 - 무료 온라인 변환 도구">
-    <meta property="og:description" content="Base64 문자열을 즉시 인코딩하고 디코딩하세요.">
+    <title>Base64 Encoder & Decoder - Free Online Tool</title>
+    <meta name="description" content="Encode and decode Base64 strings instantly. Free online Base64 converter for text, URLs, and files.">
+    <meta name="keywords" content="base64 encoder, base64 decoder, base64 converter, encoding, decoding">
+    <meta property="og:title" content="Base64 Encoder & Decoder - Free Online Tool">
+    <meta property="og:description" content="Encode and decode Base64 strings instantly.">
     <meta property="og:type" content="website">
 
     <style>
@@ -23,7 +23,7 @@
             --border: #475569;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -197,110 +197,92 @@
         }
         .status.success { color: var(--accent); }
         .status.error { color: #ef4444; }
-        .lang-switch {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-        .lang-switch a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 5px 10px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 0.85rem;
-        }
-        .lang-switch a:hover { background: var(--bg-tertiary); }
     </style>
 <script>window.currentLang="en";window.toolI18n={"meta":{"title":{"ko":"Base64 변환기","en":"Base64 Tool","ja":"Base64ツール"},"desc":{"ko":"Base64 인코딩/디코딩","en":"Base64 Encode/Decode","ja":"Base64エンコード/デコード"}},"header":{"title":{"ko":"Base64 변환기","en":"Base64 Converter","ja":"Base64変換器"},"subtitle":{"ko":"텍스트 ↔ Base64","en":"Text ↔ Base64","ja":"テキスト ↔ Base64"}},"mode":{"encode":{"ko":"인코딩","en":"Encode","ja":"エンコード"},"decode":{"ko":"디코딩","en":"Decode","ja":"デコード"}},"input":{"labelEnc":{"ko":"평문","en":"Plain Text","ja":"平文"},"labelDec":{"ko":"Base64","en":"Base64","ja":"Base64"},"clear":{"ko":"지우기","en":"Clear","ja":"クリア"},"placeholderEnc":{"ko":"텍스트 입력...","en":"Enter text...","ja":"テキスト入力..."},"placeholderDec":{"ko":"Base64 입력...","en":"Enter Base64...","ja":"Base64入力..."}},"output":{"labelEnc":{"ko":"Base64 결과","en":"Base64 Result","ja":"Base64結果"},"labelDec":{"ko":"평문 결과","en":"Text Result","ja":"平文結果"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"},"placeholder":{"ko":"결과...","en":"Result...","ja":"結果..."}},"btn":{"convert":{"ko":"변환하기","en":"Convert","ja":"変換"}},"features":{"t1":{"ko":"즉시 변환","en":"Instant","ja":"即時"},"d1":{"ko":"빠름","en":"Fast","ja":"高速"},"t2":{"ko":"보안","en":"Secure","ja":"安全"},"d2":{"ko":"로컬 처리","en":"Local","ja":"ローカル"}},"info":{"title":{"ko":"Base64란?","en":"About Base64","ja":"Base64とは？"}}};</script></head>
 <body>
-    <div class="lang-switch">
-        <a href="index.html">English</a>
-    </div>
-
     <div class="container">
         <header>
-            <h1>Base64 인코더 & 디코더</h1>
-            <p class="subtitle">텍스트를 Base64로 즉시 변환하세요</p>
+            <h1>Base64 Encoder & Decoder</h1>
+            <p class="subtitle">Convert text to Base64 and back instantly</p>
         </header>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="mode-toggle">
-            <button class="mode-btn active" id="encodeMode" onclick="setMode('encode')">인코딩</button>
-            <button class="mode-btn" id="decodeMode" onclick="setMode('decode')">디코딩</button>
+            <button class="mode-btn active" id="encodeMode" onclick="setMode('encode')">Encode</button>
+            <button class="mode-btn" id="decodeMode" onclick="setMode('decode')">Decode</button>
         </div>
 
         <div class="tool-container">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title" id="inputLabel">📥 일반 텍스트</span>
-                    <button class="btn btn-secondary" onclick="clearInput()">지우기</button>
+                    <span class="panel-title" id="inputLabel">📥 Plain Text</span>
+                    <button class="btn btn-secondary" onclick="clearInput()">Clear</button>
                 </div>
-                <textarea id="inputText" placeholder="인코딩할 텍스트를 입력하세요..."></textarea>
+                <textarea id="inputText" placeholder="Enter text to encode..."></textarea>
             </div>
 
             <div class="arrow">
                 <div class="arrow-icon" id="arrowIcon">→</div>
-                <button class="btn btn-primary" onclick="convert()">변환</button>
+                <button class="btn btn-primary" onclick="convert()">Convert</button>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
                     <span class="panel-title" id="outputLabel">📤 Base64</span>
-                    <button class="btn btn-secondary" onclick="copyOutput()">📋 복사</button>
+                    <button class="btn btn-secondary" onclick="copyOutput()">📋 Copy</button>
                 </div>
-                <textarea id="outputText" readonly placeholder="결과가 여기에 표시됩니다..."></textarea>
+                <textarea id="outputText" readonly placeholder="Result will appear here..."></textarea>
             </div>
         </div>
 
         <div class="status" id="status"></div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">⚡</div>
-                <div class="feature-title">즉시 변환</div>
-                <div class="feature-desc">밀리초 안에 Base64 인코딩/디코딩</div>
+                <div class="feature-title">Instant Conversion</div>
+                <div class="feature-desc">Encode/decode Base64 in milliseconds</div>
             </div>
             <div class="feature">
                 <div class="feature-icon">🔒</div>
-                <div class="feature-title">100% 안전</div>
-                <div class="feature-desc">모든 작업이 브라우저에서 실행</div>
+                <div class="feature-title">100% Secure</div>
+                <div class="feature-desc">All processing happens in your browser</div>
             </div>
             <div class="feature">
                 <div class="feature-icon">🌐</div>
-                <div class="feature-title">UTF-8 지원</div>
-                <div class="feature-desc">한글 등 모든 유니코드 문자 처리</div>
+                <div class="feature-title">UTF-8 Support</div>
+                <div class="feature-desc">Handles all Unicode characters</div>
             </div>
             <div class="feature">
                 <div class="feature-icon">📱</div>
-                <div class="feature-title">모바일 친화적</div>
-                <div class="feature-desc">어떤 기기에서도 작동</div>
+                <div class="feature-title">Mobile Friendly</div>
+                <div class="feature-desc">Works on any device</div>
             </div>
         </div>
 
         <div class="info-section">
-            <h3>Base64란?</h3>
-            <p>Base64는 바이너리 데이터를 ASCII 문자열 형식으로 표현하는 바이너리-텍스트 인코딩 방식입니다. 텍스트를 처리하도록 설계된 미디어를 통해 저장하거나 전송해야 하는 데이터를 인코딩하는 데 일반적으로 사용됩니다.</p>
-            <p><strong>일반적인 용도:</strong> 이메일 첨부파일, HTML/CSS에 이미지 삽입, JSON에 복잡한 데이터 저장, API 인증 토큰.</p>
+            <h3>What is Base64?</h3>
+            <p>Base64 is a binary-to-text encoding scheme that represents binary data in ASCII string format. It's commonly used to encode data that needs to be stored or transferred over media designed to handle text.</p>
+            <p><strong>Common uses:</strong> Email attachments, embedding images in HTML/CSS, storing complex data in JSON, API authentication tokens.</p>
         </div>
 
         <div class="info-section">
-            <h3>사용 방법</h3>
-            <p>1. 일반 텍스트를 Base64로 변환하려면 "인코딩"을, Base64를 다시 텍스트로 변환하려면 "디코딩"을 선택하세요</p>
-            <p>2. 입력 필드에 텍스트를 입력하세요</p>
-            <p>3. "변환" 버튼을 클릭하거나 입력하면 자동 변환됩니다</p>
-            <p>4. 한 번의 클릭으로 결과를 복사하세요</p>
+            <h3>How to Use</h3>
+            <p>1. Select "Encode" to convert plain text to Base64, or "Decode" to convert Base64 back to text</p>
+            <p>2. Enter your text in the input field</p>
+            <p>3. Click "Convert" button or conversion happens automatically as you type</p>
+            <p>4. Copy the result with one click</p>
         </div>
 
-        <div class="ad-banner">광고 영역</div>
+        <div class="ad-banner">Advertisement</div>
 
         <footer>
-            <p>개발자를 위해 ❤️ 만들었습니다</p>
+            <p>Made with ❤️ for developers</p>
             <p style="margin-top: 10px;">
-                <a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a> · <a href="#terms">이용약관</a>
+                <a href="/">Home</a> · <a href="#privacy">Privacy Policy</a> · <a href="#terms">Terms of Service</a>
             </p>
         </footer>
     </div>
@@ -314,9 +296,9 @@
             mode = newMode;
             document.getElementById('encodeMode').classList.toggle('active', mode === 'encode');
             document.getElementById('decodeMode').classList.toggle('active', mode === 'decode');
-            document.getElementById('inputLabel').textContent = mode === 'encode' ? '📥 일반 텍스트' : '📥 Base64';
-            document.getElementById('outputLabel').textContent = mode === 'encode' ? '📤 Base64' : '📤 일반 텍스트';
-            document.getElementById('inputText').placeholder = mode === 'encode' ? '인코딩할 텍스트를 입력하세요...' : '디코딩할 Base64를 입력하세요...';
+            document.getElementById('inputLabel').textContent = mode === 'encode' ? '📥 Plain Text' : '📥 Base64';
+            document.getElementById('outputLabel').textContent = mode === 'encode' ? '📤 Base64' : '📤 Plain Text';
+            document.getElementById('inputText').placeholder = mode === 'encode' ? 'Enter text to encode...' : 'Enter Base64 to decode...';
             convert();
         }
 
@@ -334,16 +316,16 @@
             try {
                 if (mode === 'encode') {
                     output.value = btoa(unescape(encodeURIComponent(input)));
-                    status.textContent = `✓ ${input.length}자를 ${output.value.length}개의 Base64 문자로 인코딩`;
+                    status.textContent = `✓ Encoded ${input.length} characters to ${output.value.length} Base64 characters`;
                     status.className = 'status success';
                 } else {
                     output.value = decodeURIComponent(escape(atob(input)));
-                    status.textContent = `✓ ${input.length}개의 Base64 문자를 ${output.value.length}자로 디코딩`;
+                    status.textContent = `✓ Decoded ${input.length} Base64 characters to ${output.value.length} characters`;
                     status.className = 'status success';
                 }
             } catch (e) {
                 output.value = '';
-                status.textContent = '✗ 잘못된 입력: ' + e.message;
+                status.textContent = '✗ Invalid input: ' + e.message;
                 status.className = 'status error';
             }
         }
@@ -357,11 +339,11 @@
         function copyOutput() {
             const output = document.getElementById('outputText').value;
             if (!output) {
-                showToast('복사할 내용이 없습니다');
+                showToast('Nothing to copy');
                 return;
             }
             navigator.clipboard.writeText(output);
-            showToast('클립보드에 복사되었습니다!');
+            showToast('Copied to clipboard!');
         }
 
         function showToast(message) {

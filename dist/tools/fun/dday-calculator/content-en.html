@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,25 +13,25 @@
         <div class="ad-banner">Advertisement</div>
 
         <header>
-            <h1 data-i18n="header.title">📅 D-day 계산기</h1>
-            <p class="subtitle" data-i18n="header.subtitle">특별한 날까지 남은 시간을 확인하세요</p>
+            <h1>📅 D-day Calculator</h1>
+            <p class="subtitle">Count down to your special day</p>
         </header>
 
         <div class="input-section">
             <div class="input-group">
-                <label for="eventName" data-i18n="input.name">이벤트 이름</label>
+                <label for="eventName">Event Name</label>
                 <input type="text" id="eventName" placeholder="Event Name">
             </div>
             <div class="input-group">
-                <label for="targetDate" data-i18n="input.date">날짜 선택</label>
+                <label for="targetDate">Select Date</label>
                 <input type="date" id="targetDate">
                 <div class="quick-dates">
-                    <span class="quick-date" onclick="setQuickDate('suneung')" data-i18n="quick.suneung">2025 수능</span>
-                    <span class="quick-date" onclick="setQuickDate('newyear')" data-i18n="quick.newyear">2026 새해</span>
-                    <span class="quick-date" onclick="setQuickDate('christmas')" data-i18n="quick.xmas">크리스마스</span>
+                    <span class="quick-date" onclick="setQuickDate('suneung')">2025 SAT</span>
+                    <span class="quick-date" onclick="setQuickDate('newyear')">2026 New Year</span>
+                    <span class="quick-date" onclick="setQuickDate('christmas')">Christmas</span>
                 </div>
             </div>
-            <button class="calculate-btn" onclick="calculateDday()" data-i18n="input.btn">D-day 계산하기</button>
+            <button class="calculate-btn" onclick="calculateDday()">Calculate D-day</button>
         </div>
 
         <div class="result-section" id="result">
@@ -43,34 +43,34 @@
                 <div class="detail-grid">
                     <div class="detail-item">
                         <div class="detail-value" id="weeksLeft">0</div>
-                        <div class="detail-label" data-i18n="detail.weeks">주</div>
+                        <div class="detail-label">Weeks</div>
                     </div>
                     <div class="detail-item">
                         <div class="detail-value" id="hoursLeft">0</div>
-                        <div class="detail-label" data-i18n="detail.hours">시간</div>
+                        <div class="detail-label">Hours</div>
                     </div>
                     <div class="detail-item">
                         <div class="detail-value" id="minutesLeft">0</div>
-                        <div class="detail-label" data-i18n="detail.mins">분</div>
+                        <div class="detail-label">Minutes</div>
                     </div>
                 </div>
             </div>
             <div class="btn-group">
                 <button class="save-btn" onclick="saveDday()">
-                    <span>💾</span> <span data-i18n="btns.save">저장하기</span>
+                    <span>💾</span> <span>Save</span>
                 </button>
                 <button class="share-btn" onclick="shareDday()">
-                    <span>📤</span> <span data-i18n="btns.share">공유하기</span>
+                    <span>📤</span> <span>Share</span>
                 </button>
             </div>
         </div>
 
         <div class="saved-section">
-            <div class="saved-title" data-i18n="saved.title">
-                <span>📌</span> 저장된 D-day
+            <div class="saved-title">
+                <span>📌</span> Saved D-days
             </div>
             <div class="saved-list" id="savedList">
-                <div class="empty-state" data-i18n="saved.empty">저장된 D-day가 없습니다</div>
+                <div class="empty-state">No saved D-days</div>
             </div>
         </div>
 
@@ -90,17 +90,14 @@
             const now = new Date();
             let date;
             let name;
-            
-            const i18n = window.toolI18n?.quick || {};
-            const lang = window.currentLang || 'en';
 
             switch(type) {
-                case 'suneung': date = '2025-11-13'; name = i18n.suneung?.[lang] || 'SAT'; break;
-                case 'newyear': date = '2026-01-01'; name = i18n.newyear?.[lang] || 'New Year'; break;
+                case 'suneung': date = '2025-11-13'; name = 'SAT 2025'; break;
+                case 'newyear': date = '2026-01-01'; name = 'New Year 2026'; break;
                 case 'christmas':
                     const year = now.getMonth() === 11 && now.getDate() > 25 ? now.getFullYear() + 1 : now.getFullYear();
                     date = `${year}-12-25`;
-                    name = i18n.xmas?.[lang] || 'Christmas';
+                    name = 'Christmas';
                     break;
             }
             document.getElementById('targetDate').value = date;
@@ -110,7 +107,7 @@
         function calculateDday() {
             const targetDateInput = document.getElementById('targetDate').value;
             const eventName = document.getElementById('eventName').value || 'D-day';
-            if (!targetDateInput) { alert('Select date'); return; }
+            if (!targetDateInput) { alert('Please select a date'); return; }
 
             const target = new Date(targetDateInput + 'T00:00:00');
             const today = new Date();
@@ -118,26 +115,23 @@
             const diffTime = target - today;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-            const lang = window.currentLang || 'en';
-            const resText = window.toolI18n?.result || {};
-
             let ddayText, labelText;
             if (diffDays > 0) {
                 ddayText = `D-${diffDays}`;
-                labelText = `${diffDays} ` + (resText.left?.[lang] || 'days left');
+                labelText = `${diffDays} days left`;
             } else if (diffDays === 0) {
                 ddayText = 'D-Day';
-                labelText = resText.today?.[lang] || 'Today!';
+                labelText = 'Today!';
             } else {
                 ddayText = `D+${Math.abs(diffDays)}`;
-                labelText = `${Math.abs(diffDays)} ` + (resText.passed?.[lang] || 'days passed');
+                labelText = `${Math.abs(diffDays)} days passed`;
             }
 
             const weeks = Math.floor(Math.abs(diffDays) / 7);
             const totalHours = Math.abs(Math.floor(diffTime / (1000 * 60 * 60)));
-            const hours = totalHours % 24; // Hours within the current day
+            const hours = totalHours % 24;
             const totalMinutes = Math.abs(Math.floor(diffTime / (1000 * 60)));
-            const minutes = totalMinutes % 60; // Minutes within the current hour
+            const minutes = totalMinutes % 60;
             const formattedDate = target.toLocaleDateString();
 
             document.getElementById('resultEventName').textContent = eventName;
@@ -174,7 +168,7 @@
             const today = new Date(); today.setHours(0,0,0,0);
 
             if (saved.length === 0) {
-                container.innerHTML = `<div class="empty-state" data-i18n="saved.empty">${window.toolI18n?.saved?.empty?.[window.currentLang] || 'Empty'}</div>`;
+                container.innerHTML = `<div class="empty-state">No saved D-days</div>`;
                 return;
             }
 

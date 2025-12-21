@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Counter - Free Online Character & Byte Counter</title>
+    <meta name="description" content="Free character counter tool. Check character count with/without spaces, byte count, word count, and sentence count all at once. Perfect for essays, resumes, and SNS posts.">
+    <meta name="keywords" content="character counter, character count, byte count, text counter, word counter, letter counter">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="Character Counter - Free Online Character Counter">
+    <meta property="og:description" content="Check character count with/without spaces and byte count all at once">
+    <meta property="og:type" content="website">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #f8f9ff, #fff);
+            border: 1px solid #eef2ff;
+            padding: 20px 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-box.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+        }
+
+        .stat-box.primary .stat-value,
+        .stat-box.primary .stat-label {
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .limit-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .limit-container label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .limit-input {
+            width: 100px;
+            padding: 10px 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .limit-input:focus {
+            border-color: #667eea;
+        }
+
+        .limit-indicator {
+            flex: 1;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            min-width: 200px;
+        }
+
+        .limit-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        .limit-fill.warning {
+            background: linear-gradient(135deg, #ffa500, #ff6b6b);
+        }
+
+        .limit-fill.danger {
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+        }
+
+        .limit-text {
+            font-size: 14px;
+            color: #888;
+            white-space: nowrap;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 20px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 16px;
+            line-height: 1.8;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            border-color: #667eea;
+        }
+
+        textarea::placeholder {
+            color: #bbb;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #eee;
+        }
+
+        .presets {
+            margin-top: 30px;
+        }
+
+        .presets h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .preset-item {
+            background: #f8f9ff;
+            border: 1px solid #eef2ff;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .preset-item:hover {
+            background: #eef2ff;
+            transform: translateY(-2px);
+        }
+
+        .preset-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .preset-limit {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .detail-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+        }
+
+        .detail-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        .detail-item .label {
+            color: #666;
+        }
+
+        .detail-item .value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .card { padding: 20px; }
+            .stat-value { font-size: 24px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Character Counter</h1>
+            <p class="subtitle">Count characters with/without spaces and bytes all at once!</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="card">
+            <div class="stats-grid">
+                <div class="stat-box primary">
+                    <span class="stat-value" id="charWithSpace">0</span>
+                    <span class="stat-label">With Spaces</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="charWithoutSpace">0</span>
+                    <span class="stat-label">Without Spaces</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="wordCount">0</span>
+                    <span class="stat-label">Words</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="sentenceCount">0</span>
+                    <span class="stat-label">Sentences</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="byteCount">0</span>
+                    <span class="stat-label">Bytes</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="lineCount">0</span>
+                    <span class="stat-label">Lines</span>
+                </div>
+            </div>
+
+            <div class="limit-container">
+                <label>Character Limit:</label>
+                <input type="number" class="limit-input" id="limitInput" value="500" min="0">
+                <div class="limit-indicator">
+                    <div class="limit-fill" id="limitFill"></div>
+                </div>
+                <span class="limit-text" id="limitText">0 / 500</span>
+            </div>
+
+            <textarea id="textInput" placeholder="Enter your text here..."></textarea>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="copyText()">Copy</button>
+                <button class="btn btn-secondary" onclick="clearText()">Clear</button>
+                <button class="btn btn-secondary" onclick="removeSpaces()">Remove Spaces</button>
+                <button class="btn btn-secondary" onclick="removeLineBreaks()">Remove Line Breaks</button>
+            </div>
+
+            <div class="presets">
+                <h3>Common Character Limits</h3>
+                <div class="preset-grid">
+                    <div class="preset-item" onclick="setLimit(500)">
+                        <div class="preset-name">Essay (General)</div>
+                        <div class="preset-limit">500 characters</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(1000)">
+                        <div class="preset-name">Essay (Detailed)</div>
+                        <div class="preset-limit">1,000 characters</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(280)">
+                        <div class="preset-name">Twitter (X)</div>
+                        <div class="preset-limit">280 characters</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(2200)">
+                        <div class="preset-name">Instagram</div>
+                        <div class="preset-limit">2,200 characters</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(150)">
+                        <div class="preset-name">Meta Description</div>
+                        <div class="preset-limit">150 characters</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(60)">
+                        <div class="preset-name">SEO Title</div>
+                        <div class="preset-limit">60 characters</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h3>Detailed Analysis</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">Korean</span>
+                        <span class="value" id="koreanCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">English</span>
+                        <span class="value" id="englishCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Numbers</span>
+                        <span class="value" id="numberCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Special Characters</span>
+                        <span class="value" id="specialCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">UTF-8 Bytes</span>
+                        <span class="value" id="utf8Bytes">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">EUC-KR Bytes</span>
+                        <span class="value" id="euckrBytes">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>Free Character Counter Tool | All data is processed in your browser</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script>
+        const textInput = document.getElementById('textInput');
+        const limitInput = document.getElementById('limitInput');
+
+        textInput.addEventListener('input', updateStats);
+        limitInput.addEventListener('input', updateStats);
+
+        function updateStats() {
+            const text = textInput.value;
+            const limit = parseInt(limitInput.value) || 0;
+
+            // Basic statistics
+            const charWithSpace = text.length;
+            const charWithoutSpace = text.replace(/\s/g, '').length;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const sentences = text.split(/[.!?。！？]+/).filter(s => s.trim()).length;
+            const lines = text ? text.split('\n').length : 0;
+            const bytes = new Blob([text]).size;
+
+            document.getElementById('charWithSpace').textContent = charWithSpace.toLocaleString();
+            document.getElementById('charWithoutSpace').textContent = charWithoutSpace.toLocaleString();
+            document.getElementById('wordCount').textContent = words.toLocaleString();
+            document.getElementById('sentenceCount').textContent = sentences.toLocaleString();
+            document.getElementById('lineCount').textContent = lines.toLocaleString();
+            document.getElementById('byteCount').textContent = bytes.toLocaleString();
+
+            // Character limit display
+            const percent = limit > 0 ? Math.min((charWithSpace / limit) * 100, 100) : 0;
+            const limitFill = document.getElementById('limitFill');
+            limitFill.style.width = percent + '%';
+            limitFill.className = 'limit-fill';
+            if (percent >= 100) {
+                limitFill.classList.add('danger');
+            } else if (percent >= 80) {
+                limitFill.classList.add('warning');
+            }
+            document.getElementById('limitText').textContent = `${charWithSpace.toLocaleString()} / ${limit.toLocaleString()}`;
+
+            // Detailed analysis
+            const korean = (text.match(/[가-힣]/g) || []).length;
+            const english = (text.match(/[a-zA-Z]/g) || []).length;
+            const numbers = (text.match(/[0-9]/g) || []).length;
+            const special = (text.match(/[^\w\s가-힣]/g) || []).length;
+
+            document.getElementById('koreanCount').textContent = korean.toLocaleString();
+            document.getElementById('englishCount').textContent = english.toLocaleString();
+            document.getElementById('numberCount').textContent = numbers.toLocaleString();
+            document.getElementById('specialCount').textContent = special.toLocaleString();
+
+            // Byte calculation
+            document.getElementById('utf8Bytes').textContent = bytes.toLocaleString();
+            // EUC-KR: Korean 2 bytes, English 1 byte
+            const euckrBytes = korean * 2 + (charWithoutSpace - korean);
+            document.getElementById('euckrBytes').textContent = euckrBytes.toLocaleString();
+        }
+
+        function setLimit(value) {
+            limitInput.value = value;
+            updateStats();
+            showToast(`Character limit: ${value}`);
+        }
+
+        function copyText() {
+            if (!textInput.value) {
+                showToast('No text to copy');
+                return;
+            }
+            navigator.clipboard.writeText(textInput.value).then(() => {
+                showToast('Copied!');
+            });
+        }
+
+        function clearText() {
+            textInput.value = '';
+            updateStats();
+            textInput.focus();
+        }
+
+        function removeSpaces() {
+            textInput.value = textInput.value.replace(/\s/g, '');
+            updateStats();
+            showToast('Spaces removed');
+        }
+
+        function removeLineBreaks() {
+            textInput.value = textInput.value.replace(/\n/g, ' ').replace(/\s+/g, ' ');
+            updateStats();
+            showToast('Line breaks removed');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Initialize
+        updateStats();
+    </script>
+</body>
+</html>

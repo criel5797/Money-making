@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQL 포매터 - 무료 온라인 SQL 정리 도구</title>
-    <meta name="description" content="무료 온라인 SQL 포매터 및 정리 도구. SQL 쿼리를 즉시 정리하고 보기 좋게 만드세요. MySQL, PostgreSQL, Oracle, SQL Server 지원.">
-    <meta name="keywords" content="SQL 포매터, SQL 정리, SQL 포맷, SQL 예쁘게, SQL 온라인 도구, 쿼리 정리">
+    <title>SQLフォーマッター - 無料オンラインSQL整形ツール</title>
+    <meta name="description" content="無料オンラインSQLフォーマッター・整形ツール。SQLクエリを即座に整形し、見やすくします。MySQL、PostgreSQL、Oracle、SQL Serverをサポート。">
+    <meta name="keywords" content="SQLフォーマッター, SQL整形, SQLフォーマット, SQL beautify, SQLオンラインツール, クエリ整形">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="SQL 포매터 - 무료 온라인 SQL 정리 도구">
-    <meta property="og:description" content="SQL 쿼리를 즉시 정리하고 보기 좋게 만드세요. 무료 온라인 도구.">
+    <meta property="og:title" content="SQLフォーマッター - 無料オンラインSQL整形ツール">
+    <meta property="og:description" content="SQLクエリを即座に整形し、見やすくします。無料オンラインツール。">
     <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -346,33 +346,33 @@
             <div class="lang-switch">
                 <a href="index.html">English</a>
             </div>
-            <h1>SQL 포매터</h1>
-            <p class="subtitle">SQL 쿼리를 즉시 정리하고 보기 좋게 만드세요</p>
+            <h1>SQLフォーマッター</h1>
+            <p class="subtitle">SQLクエリを即座に整形し、見やすくします</p>
         </header>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <div class="options-bar">
             <div class="option-group">
-                <label>들여쓰기:</label>
+                <label>インデント:</label>
                 <select id="indent">
-                    <option value="2">공백 2칸</option>
-                    <option value="4" selected>공백 4칸</option>
-                    <option value="tab">탭</option>
+                    <option value="2">スペース2個</option>
+                    <option value="4" selected>スペース4個</option>
+                    <option value="tab">タブ</option>
                 </select>
             </div>
             <div class="option-group">
-                <label>키워드:</label>
+                <label>キーワード:</label>
                 <select id="keywordCase">
-                    <option value="upper" selected>대문자</option>
-                    <option value="lower">소문자</option>
-                    <option value="capitalize">첫글자만 대문자</option>
+                    <option value="upper" selected>大文字</option>
+                    <option value="lower">小文字</option>
+                    <option value="capitalize">先頭のみ大文字</option>
                 </select>
             </div>
             <div class="option-group">
-                <label>SQL 종류:</label>
+                <label>SQL種類:</label>
                 <select id="dialect">
-                    <option value="standard">표준 SQL</option>
+                    <option value="standard">標準SQL</option>
                     <option value="mysql">MySQL</option>
                     <option value="postgresql">PostgreSQL</option>
                     <option value="oracle">Oracle</option>
@@ -381,31 +381,31 @@
         </div>
 
         <div class="controls">
-            <button class="btn btn-primary" onclick="formatSQL()">SQL 정리</button>
-            <button class="btn btn-secondary" onclick="minifySQL()">압축</button>
-            <button class="btn btn-secondary" onclick="clearAll()">지우기</button>
+            <button class="btn btn-primary" onclick="formatSQL()">SQL整形</button>
+            <button class="btn btn-secondary" onclick="minifySQL()">圧縮</button>
+            <button class="btn btn-secondary" onclick="clearAll()">クリア</button>
         </div>
 
         <div class="main-content">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">입력 SQL</span>
+                    <span class="panel-title">入力SQL</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()">붙여넣기</button>
+                        <button class="btn btn-small btn-secondary" onclick="pasteFromClipboard()">貼り付け</button>
                     </div>
                 </div>
-                <textarea id="input" placeholder="SQL 쿼리를 여기에 붙여넣으세요..."></textarea>
+                <textarea id="input" placeholder="SQLクエリをここに貼り付けてください..."></textarea>
                 <div class="status-bar">
-                    <span id="inputStatus">준비됨</span>
+                    <span id="inputStatus">準備完了</span>
                 </div>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">정리된 결과</span>
+                    <span class="panel-title">整形された結果</span>
                     <div class="panel-actions">
-                        <button class="btn btn-small btn-secondary" onclick="copyOutput()">복사</button>
-                        <button class="btn btn-small btn-secondary" onclick="downloadSQL()">다운로드</button>
+                        <button class="btn btn-small btn-secondary" onclick="copyOutput()">コピー</button>
+                        <button class="btn btn-small btn-secondary" onclick="downloadSQL()">ダウンロード</button>
                     </div>
                 </div>
                 <div class="output-area">
@@ -418,11 +418,11 @@
         </div>
 
         <div class="samples">
-            <h3>샘플 쿼리 사용해보기</h3>
+            <h3>サンプルクエリを試す</h3>
             <div class="sample-buttons">
                 <button class="sample-btn" onclick="loadSample('select')">SELECT</button>
                 <button class="sample-btn" onclick="loadSample('join')">JOIN</button>
-                <button class="sample-btn" onclick="loadSample('subquery')">서브쿼리</button>
+                <button class="sample-btn" onclick="loadSample('subquery')">サブクエリ</button>
                 <button class="sample-btn" onclick="loadSample('insert')">INSERT</button>
                 <button class="sample-btn" onclick="loadSample('update')">UPDATE</button>
                 <button class="sample-btn" onclick="loadSample('create')">CREATE TABLE</button>
@@ -432,34 +432,34 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">&#128295;</div>
-                <h3>스마트 정리</h3>
-                <p>가독성 좋은 SQL을 위한 지능적인 들여쓰기와 줄바꿈</p>
+                <h3>スマート整形</h3>
+                <p>読みやすいSQLのためのインテリジェントなインデントと改行</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#127912;</div>
-                <h3>구문 강조</h3>
-                <p>키워드, 문자열, 함수를 색상으로 구분</p>
+                <h3>構文強調表示</h3>
+                <p>キーワード、文字列、関数を色分け</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#9881;</div>
-                <h3>커스터마이즈</h3>
-                <p>들여쓰기 스타일, 키워드 대소문자, SQL 종류 선택</p>
+                <h3>カスタマイズ可能</h3>
+                <p>インデントスタイル、キーワード大文字小文字、SQL種類を選択</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">&#128274;</div>
-                <h3>안전하고 비공개</h3>
-                <p>모든 처리가 브라우저에서 진행됨</p>
+                <h3>安全でプライベート</h3>
+                <p>すべての処理がブラウザで行われます</p>
             </div>
         </div>
 
-        <div class="ad-banner">광고</div>
+        <div class="ad-banner">広告</div>
 
         <footer>
-            <p>무료 SQL 포매터 도구 | 서버로 데이터가 전송되지 않습니다</p>
+            <p>無料SQLフォーマッターツール | サーバーにデータが送信されません</p>
         </footer>
     </div>
 
-    <div class="toast" id="toast">복사되었습니다!</div>
+    <div class="toast" id="toast">コピーしました!</div>
 
     <script>
         const input = document.getElementById('input');
@@ -505,7 +505,7 @@
         function formatSQL() {
             let sql = input.value.trim();
             if (!sql) {
-                showToast('SQL을 입력해주세요');
+                showToast('SQLを入力してください');
                 return;
             }
 
@@ -583,8 +583,8 @@
 
             // Highlight syntax
             output.innerHTML = highlightSQL(formatted);
-            document.getElementById('outputStatus').textContent = '정리 완료';
-            showToast('SQL 정리 완료!');
+            document.getElementById('outputStatus').textContent = '整形完了';
+            showToast('SQL整形が完了しました!');
         }
 
         function highlightSQL(sql) {
@@ -624,7 +624,7 @@
         function minifySQL() {
             let sql = input.value.trim();
             if (!sql) {
-                showToast('SQL을 입력해주세요');
+                showToast('SQLを入力してください');
                 return;
             }
 
@@ -636,14 +636,14 @@
             sql = sql.replace(/\s+/g, ' ').trim();
 
             output.textContent = sql;
-            document.getElementById('outputStatus').textContent = '압축 완료';
-            showToast('SQL 압축 완료!');
+            document.getElementById('outputStatus').textContent = '圧縮完了';
+            showToast('SQL圧縮が完了しました!');
         }
 
         function clearAll() {
             input.value = '';
             output.innerHTML = '';
-            document.getElementById('inputStatus').textContent = '준비됨';
+            document.getElementById('inputStatus').textContent = '準備完了';
             document.getElementById('outputStatus').textContent = '-';
         }
 
@@ -654,7 +654,7 @@
 
             subquery: `select * from employees where department_id in (select id from departments where budget > (select avg(budget) from departments)) and salary > (select avg(salary) from employees)`,
 
-            insert: `insert into users (first_name, last_name, email, password, status, created_at) values ('홍', '길동', 'hong@example.com', 'hashed_password', 'active', now())`,
+            insert: `insert into users (first_name, last_name, email, password, status, created_at) values ('太郎', '山田', 'taro@example.com', 'hashed_password', 'active', now())`,
 
             update: `update products set price = price * 1.10, updated_at = now() where category_id = 5 and stock_quantity > 0 and last_sale_date < '2024-01-01'`,
 
@@ -663,35 +663,35 @@
 
         function loadSample(type) {
             input.value = samples[type];
-            document.getElementById('inputStatus').textContent = '샘플 로드됨';
-            showToast('샘플이 로드되었습니다!');
+            document.getElementById('inputStatus').textContent = 'サンプル読み込み完了';
+            showToast('サンプルが読み込まれました!');
         }
 
         async function pasteFromClipboard() {
             try {
                 const text = await navigator.clipboard.readText();
                 input.value = text;
-                showToast('붙여넣기 완료!');
+                showToast('貼り付けました!');
             } catch (e) {
-                showToast('붙여넣기 실패');
+                showToast('貼り付けに失敗しました');
             }
         }
 
         function copyOutput() {
             const text = output.textContent;
             if (!text) {
-                showToast('복사할 내용이 없습니다');
+                showToast('コピーする内容がありません');
                 return;
             }
             navigator.clipboard.writeText(text).then(() => {
-                showToast('복사되었습니다!');
+                showToast('コピーしました!');
             });
         }
 
         function downloadSQL() {
             const text = output.textContent;
             if (!text) {
-                showToast('다운로드할 내용이 없습니다');
+                showToast('ダウンロードする内容がありません');
                 return;
             }
             const blob = new Blob([text], { type: 'text/sql' });
@@ -701,7 +701,7 @@
             a.download = 'formatted.sql';
             a.click();
             URL.revokeObjectURL(url);
-            showToast('다운로드 완료!');
+            showToast('ダウンロードしました!');
         }
 
         function showToast(message) {

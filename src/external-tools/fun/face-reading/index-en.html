@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Face Reading - Free Physiognomy Analysis | Face Fortune Telling</title>
+    <meta name="description" content="Free AI face reading! Discover your personality, love fortune, and wealth luck through facial features. Analyze your forehead, eyes, nose, and mouth!">
+    <meta name="keywords" content="face reading, physiognomy, free face reading, facial analysis, fortune telling, face fortune">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="AI Face Reading - Free Physiognomy Analysis">
+    <meta property="og:description" content="Discover your fortune through facial features!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/2c1810/ffd700?text=AI+Face+Reading">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c2a 50%, #1a0a0a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            background: linear-gradient(135deg, #ffd700, #ffb347, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #c9a86c; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .step-dot.active { background: #ffd700; width: 30px; border-radius: 5px; }
+        .step-dot.done { background: #90EE90; }
+
+        .feature-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .feature-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title .emoji { font-size: 50px; display: block; margin-bottom: 10px; }
+        .section-title h2 { color: #ffd700; font-size: 1.3rem; }
+        .section-title p { color: #c9a86c; font-size: 14px; margin-top: 5px; }
+
+        .feature-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .feature-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .feature-option:hover {
+            border-color: rgba(255, 215, 0, 0.5);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .feature-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .feature-option .icon { font-size: 28px; margin-bottom: 8px; display: block; }
+        .feature-option .label { color: #e4e4e4; font-size: 14px; font-weight: 500; }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .nav-btn.prev {
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+        }
+
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .nav-btn:hover:not(:disabled) { transform: translateY(-2px); }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-face {
+            font-size: 80px;
+            animation: analyzing 2s infinite;
+        }
+
+        @keyframes analyzing {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(-5deg); }
+            50% { transform: scale(1) rotate(0deg); }
+            75% { transform: scale(1.05) rotate(5deg); }
+        }
+
+        .loading p { color: #c9a86c; margin-top: 20px; }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-face { font-size: 70px; margin-bottom: 15px; }
+
+        .fortune-grade {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #d4c4a8;
+            line-height: 1.8;
+        }
+
+        .fortune-meters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .fortune-meter {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .fortune-meter .label { color: #c9a86c; font-size: 13px; margin-bottom: 8px; }
+        .fortune-meter .score {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .fortune-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .fortune-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        .feature-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .feature-tag {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 6px 14px;
+            border-radius: 15px;
+            color: #ffd700;
+            font-size: 13px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .feature-options { grid-template-columns: 1fr; }
+            .fortune-meters { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="toast" id="toast"></div>
+    <div class="container">
+        <header>
+            <h1>AI Face Reading</h1>
+            <p class="subtitle">Discover Your Destiny Through Facial Features</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            This face reading is for entertainment purposes only. Results should be taken lightly!
+        </div>
+
+        <div class="card">
+            <div class="step-indicator" id="stepIndicator">
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+            </div>
+
+            <!-- Forehead Selection -->
+            <div class="feature-section active" id="step0">
+                <div class="section-title">
+                    <span class="emoji">👤</span>
+                    <h2>Select Your Forehead Shape</h2>
+                    <p>Look in a mirror and choose the closest match</p>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="wide" onclick="selectFeature(0, this)">
+                        <span class="icon">▭</span>
+                        <span class="label">Wide & Flat</span>
+                    </div>
+                    <div class="feature-option" data-value="narrow" onclick="selectFeature(0, this)">
+                        <span class="icon">▯</span>
+                        <span class="label">Narrow</span>
+                    </div>
+                    <div class="feature-option" data-value="round" onclick="selectFeature(0, this)">
+                        <span class="icon">◠</span>
+                        <span class="label">Round & Curved</span>
+                    </div>
+                    <div class="feature-option" data-value="high" onclick="selectFeature(0, this)">
+                        <span class="icon">△</span>
+                        <span class="label">High & Wide</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" disabled>Previous</button>
+                    <button class="nav-btn next" id="next0" onclick="nextStep(0)" disabled>Next</button>
+                </div>
+            </div>
+
+            <!-- Eyes Selection -->
+            <div class="feature-section" id="step1">
+                <div class="section-title">
+                    <span class="emoji">👁️</span>
+                    <h2>Select Your Eye Shape</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="big" onclick="selectFeature(1, this)">
+                        <span class="icon">◉</span>
+                        <span class="label">Big & Round</span>
+                    </div>
+                    <div class="feature-option" data-value="long" onclick="selectFeature(1, this)">
+                        <span class="icon">━</span>
+                        <span class="label">Long & Sharp</span>
+                    </div>
+                    <div class="feature-option" data-value="single" onclick="selectFeature(1, this)">
+                        <span class="icon">─</span>
+                        <span class="label">Monolid</span>
+                    </div>
+                    <div class="feature-option" data-value="double" onclick="selectFeature(1, this)">
+                        <span class="icon">☰</span>
+                        <span class="label">Double Eyelid</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(1)">Previous</button>
+                    <button class="nav-btn next" id="next1" onclick="nextStep(1)" disabled>Next</button>
+                </div>
+            </div>
+
+            <!-- Nose Selection -->
+            <div class="feature-section" id="step2">
+                <div class="section-title">
+                    <span class="emoji">👃</span>
+                    <h2>Select Your Nose Shape</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="high" onclick="selectFeature(2, this)">
+                        <span class="icon">🔺</span>
+                        <span class="label">High & Prominent</span>
+                    </div>
+                    <div class="feature-option" data-value="flat" onclick="selectFeature(2, this)">
+                        <span class="icon">▬</span>
+                        <span class="label">Low & Wide</span>
+                    </div>
+                    <div class="feature-option" data-value="straight" onclick="selectFeature(2, this)">
+                        <span class="icon">│</span>
+                        <span class="label">Straight & Neat</span>
+                    </div>
+                    <div class="feature-option" data-value="round" onclick="selectFeature(2, this)">
+                        <span class="icon">◯</span>
+                        <span class="label">Round & Cute</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(2)">Previous</button>
+                    <button class="nav-btn next" id="next2" onclick="nextStep(2)" disabled>Next</button>
+                </div>
+            </div>
+
+            <!-- Mouth Selection -->
+            <div class="feature-section" id="step3">
+                <div class="section-title">
+                    <span class="emoji">👄</span>
+                    <h2>Select Your Mouth Shape</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="big" onclick="selectFeature(3, this)">
+                        <span class="icon">━━</span>
+                        <span class="label">Big & Wide</span>
+                    </div>
+                    <div class="feature-option" data-value="small" onclick="selectFeature(3, this)">
+                        <span class="icon">─</span>
+                        <span class="label">Small & Cute</span>
+                    </div>
+                    <div class="feature-option" data-value="thick" onclick="selectFeature(3, this)">
+                        <span class="icon">▄▄</span>
+                        <span class="label">Thick Lips</span>
+                    </div>
+                    <div class="feature-option" data-value="thin" onclick="selectFeature(3, this)">
+                        <span class="icon">──</span>
+                        <span class="label">Thin Lips</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(3)">Previous</button>
+                    <button class="nav-btn next" id="next3" onclick="nextStep(3)" disabled>Next</button>
+                </div>
+            </div>
+
+            <!-- Face Shape Selection -->
+            <div class="feature-section" id="step4">
+                <div class="section-title">
+                    <span class="emoji">🥚</span>
+                    <h2>Select Your Face Shape</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="oval" onclick="selectFeature(4, this)">
+                        <span class="icon">⬭</span>
+                        <span class="label">Oval</span>
+                    </div>
+                    <div class="feature-option" data-value="round" onclick="selectFeature(4, this)">
+                        <span class="icon">⬤</span>
+                        <span class="label">Round</span>
+                    </div>
+                    <div class="feature-option" data-value="square" onclick="selectFeature(4, this)">
+                        <span class="icon">▣</span>
+                        <span class="label">Square</span>
+                    </div>
+                    <div class="feature-option" data-value="long" onclick="selectFeature(4, this)">
+                        <span class="icon">▯</span>
+                        <span class="label">Long</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(4)">Previous</button>
+                    <button class="nav-btn next" id="next4" onclick="analyzeResult()" disabled>Analyze</button>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div class="loading" id="loading">
+                <div class="loading-face">🔮</div>
+                <p>Analyzing your face...</p>
+                <p style="font-size: 13px; color: #888; margin-top: 10px;">Reading your facial energy...</p>
+            </div>
+
+            <!-- Result -->
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="result-face">🧑</div>
+                    <div class="fortune-grade" id="fortuneGrade">Auspicious Face</div>
+                </div>
+
+                <div class="fortune-meters" id="fortuneMeters"></div>
+
+                <div class="result-card">
+                    <h3>👤 Overall Analysis</h3>
+                    <p id="overallReading"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 Personality</h3>
+                    <p id="personalityReading"></p>
+                    <div class="feature-summary" id="featureSummary"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💰 Wealth Fortune</h3>
+                    <p id="wealthReading"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>❤️ Love Fortune</h3>
+                    <p id="loveReading"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💼 Career Fortune</h3>
+                    <p id="careerReading"></p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">Share Result</button>
+                    <button class="share-btn secondary" onclick="resetTest()">Try Again</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>This face reading is for entertainment purposes.<br>Results may differ from actual physiognomy.</p>
+        </footer>
+    </div>
+
+    <script>
+        const selections = [null, null, null, null, null];
+        let currentStep = 0;
+
+        const meanings = {
+            forehead: {
+                wide: { trait: "Wide Forehead", meaning: "Wise and rational", fortune: "Academic success" },
+                narrow: { trait: "Narrow Forehead", meaning: "Strong focus", fortune: "Expert in specialized field" },
+                round: { trait: "Round Forehead", meaning: "Gentle and kind", fortune: "Good relationships" },
+                high: { trait: "High Forehead", meaning: "Ambitious and leadership", fortune: "Social success" }
+            },
+            eyes: {
+                big: { trait: "Big Eyes", meaning: "Pure and honest", fortune: "Popular" },
+                long: { trait: "Long Eyes", meaning: "Sharp and insightful", fortune: "Business success" },
+                single: { trait: "Monolid Eyes", meaning: "Introverted but persistent", fortune: "Late bloomer" },
+                double: { trait: "Double Eyelid", meaning: "Expressive", fortune: "Artistic talent" }
+            },
+            nose: {
+                high: { trait: "High Nose", meaning: "Strong pride", fortune: "Honor and prestige" },
+                flat: { trait: "Flat Nose", meaning: "Humble and friendly", fortune: "Good teamwork" },
+                straight: { trait: "Straight Nose", meaning: "Honest and principled", fortune: "Trustworthy" },
+                round: { trait: "Round Nose", meaning: "Lucky and blessed", fortune: "Wealth luck" }
+            },
+            mouth: {
+                big: { trait: "Big Mouth", meaning: "Active and social", fortune: "Food and wealth fortune" },
+                small: { trait: "Small Mouth", meaning: "Careful and detailed", fortune: "Supportive partner" },
+                thick: { trait: "Thick Lips", meaning: "Passionate and emotional", fortune: "Love luck" },
+                thin: { trait: "Thin Lips", meaning: "Rational and cool", fortune: "Decisive" }
+            },
+            face: {
+                oval: { trait: "Oval Face", meaning: "Balanced personality", fortune: "Overall good luck" },
+                round: { trait: "Round Face", meaning: "Optimistic and blessed", fortune: "Wealth fortune" },
+                square: { trait: "Square Face", meaning: "Strong-willed and stubborn", fortune: "Self-made success" },
+                long: { trait: "Long Face", meaning: "Artistic sensibility", fortune: "Creative success" }
+            }
+        };
+
+        function selectFeature(step, element) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.feature-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            selections[step] = element.dataset.value;
+            document.getElementById(`next${step}`).disabled = false;
+        }
+
+        function nextStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step + 1}`).classList.add('active');
+            currentStep = step + 1;
+            updateStepIndicator();
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step - 1}`).classList.add('active');
+            currentStep = step - 1;
+            updateStepIndicator();
+        }
+
+        function updateStepIndicator() {
+            document.querySelectorAll('.step-dot').forEach((dot, i) => {
+                dot.classList.remove('active', 'done');
+                if (i < currentStep) dot.classList.add('done');
+                else if (i === currentStep) dot.classList.add('active');
+            });
+        }
+
+        function analyzeResult() {
+            document.getElementById(`step4`).classList.remove('active');
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                document.getElementById('loading').classList.remove('show');
+                generateResult();
+            }, 2500);
+        }
+
+        let resultData = {};
+
+        function generateResult() {
+            const features = [
+                meanings.forehead[selections[0]],
+                meanings.eyes[selections[1]],
+                meanings.nose[selections[2]],
+                meanings.mouth[selections[3]],
+                meanings.face[selections[4]]
+            ];
+
+            // Calculate scores
+            const baseScore = 65;
+            const scores = {
+                love: baseScore + Math.floor(Math.random() * 25),
+                wealth: baseScore + Math.floor(Math.random() * 25),
+                career: baseScore + Math.floor(Math.random() * 25),
+                health: baseScore + Math.floor(Math.random() * 25)
+            };
+
+            // Bonus for specific combinations
+            if (selections[2] === 'round') scores.wealth += 10;
+            if (selections[3] === 'thick') scores.love += 10;
+            if (selections[0] === 'high') scores.career += 10;
+
+            // Cap at 100
+            Object.keys(scores).forEach(k => scores[k] = Math.min(100, scores[k]));
+
+            const avgScore = Math.round((scores.love + scores.wealth + scores.career + scores.health) / 4);
+
+            let grade = 'Average Face';
+            if (avgScore >= 85) grade = 'Very Auspicious';
+            else if (avgScore >= 75) grade = 'Auspicious';
+            else if (avgScore >= 65) grade = 'Favorable';
+
+            resultData = {
+                grade,
+                scores,
+                features,
+                traits: features.map(f => f.trait)
+            };
+
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('resultSection').classList.add('show');
+            document.getElementById('fortuneGrade').textContent = resultData.grade;
+
+            // Fortune meters
+            const labels = { love: '❤️ Love', wealth: '💰 Wealth', career: '💼 Career', health: '💪 Health' };
+            let metersHtml = '';
+            Object.entries(resultData.scores).forEach(([key, value]) => {
+                metersHtml += `
+                    <div class="fortune-meter">
+                        <div class="label">${labels[key]}</div>
+                        <div class="score">${value}</div>
+                        <div class="fortune-bar">
+                            <div class="fortune-bar-fill" style="width: ${value}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('fortuneMeters').innerHTML = metersHtml;
+
+            // Feature tags
+            document.getElementById('featureSummary').innerHTML = resultData.traits.map(t =>
+                `<span class="feature-tag">${t}</span>`
+            ).join('');
+
+            // Analysis text
+            document.getElementById('overallReading').textContent =
+                `Your face reading shows ${resultData.grade}. Overall, you have a ${resultData.features[4].meaning} energy with ` +
+                `${resultData.features[0].fortune} fortune. Your life is well-balanced and you can live a stable life without major difficulties.`;
+
+            document.getElementById('personalityReading').textContent =
+                `Your ${resultData.features[0].trait} shows ${resultData.features[0].meaning} personality, and ` +
+                `your ${resultData.features[1].trait} indicates ${resultData.features[1].meaning}. ` +
+                `Your ${resultData.features[3].trait} reveals ${resultData.features[3].meaning} characteristics.`;
+
+            document.getElementById('wealthReading').textContent =
+                `Your ${resultData.features[2].trait} shows ${resultData.features[2].fortune} energy. ` +
+                (resultData.scores.wealth >= 80 ?
+                    'Your wealth fortune is excellent, promising financial prosperity.' :
+                    'With consistent effort, you can maintain stable finances.');
+
+            document.getElementById('loveReading').textContent =
+                `Your ${resultData.features[1].trait} and ${resultData.features[3].trait} indicate your love fortune. ` +
+                (resultData.scores.love >= 80 ?
+                    'You have great charm and will be popular with potential partners.' :
+                    'With sincerity, you can meet good connections.');
+
+            document.getElementById('careerReading').textContent =
+                `The combination of ${resultData.features[0].fortune} energy and ${resultData.features[4].meaning} nature ` +
+                (resultData.scores.career >= 80 ?
+                    'suggests high potential for social recognition and success.' :
+                    'means you can be recognized at work by leveraging your strengths.');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const avgScore = Math.round((resultData.scores.love + resultData.scores.wealth + resultData.scores.career + resultData.scores.health) / 4);
+            const text = `🔮 AI Face Reading Result\n\n` +
+                        `【${resultData.grade}】\n` +
+                        `📊 Overall: ${avgScore}\n\n` +
+                        `❤️ Love: ${resultData.scores.love}\n` +
+                        `💰 Wealth: ${resultData.scores.wealth}\n` +
+                        `💼 Career: ${resultData.scores.career}\n` +
+                        `💪 Health: ${resultData.scores.health}\n\n` +
+                        `Try face reading 👉`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'AI Face Reading', text: text })
+                    .catch(err => {
+                        navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!'));
+                    });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 Copied to clipboard!');
+                });
+            }
+        }
+
+        function resetTest() {
+            selections.fill(null);
+            currentStep = 0;
+            document.getElementById('resultSection').classList.remove('show');
+            document.querySelectorAll('.feature-section').forEach((s, i) => {
+                s.classList.toggle('active', i === 0);
+            });
+            document.querySelectorAll('.feature-option').forEach(o => o.classList.remove('selected'));
+            document.querySelectorAll('.nav-btn.next').forEach(b => b.disabled = true);
+            updateStepIndicator();
+        }
+    </script>
+</body>
+</html>

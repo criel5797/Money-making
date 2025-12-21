@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tarot Cards - Free Online Tarot Reading | Today's Fortune</title>
+    <meta name="description" content="Get your free AI tarot reading. Check your love fortune, wealth, and career with tarot cards. Daily new tarot readings.">
+    <meta name="keywords" content="tarot, tarot cards, free tarot, today's fortune, love fortune, wealth, AI tarot">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="AI Tarot Cards - Free Online Tarot Reading">
+    <meta property="og:description" content="Check today's fortune with free AI tarot">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a0a2e/ffd700?text=AI+Tarot+Cards">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #c44dff);
+            color: #1a0a2e;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #1a0a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #ffd700, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(196, 77, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #b8a9c9;
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: #666;
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 30px;
+        }
+
+        .spread-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .spread-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(196, 77, 255, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .spread-option:hover, .spread-option.active {
+            background: rgba(196, 77, 255, 0.2);
+            border-color: #c44dff;
+            transform: translateY(-3px);
+        }
+
+        .spread-option h3 {
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
+
+        .spread-option p {
+            color: #b8a9c9;
+            font-size: 13px;
+        }
+
+        .question-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .question-section h2 {
+            color: #c44dff;
+            margin-bottom: 15px;
+        }
+
+        .question-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            border: 2px solid rgba(196, 77, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .question-input:focus {
+            border-color: #c44dff;
+        }
+
+        .question-input::placeholder {
+            color: #666;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            min-height: 280px;
+        }
+
+        .card {
+            width: 150px;
+            height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #2d1b4e, #4a2c7a);
+            border: 3px solid #ffd700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(196, 77, 255, 0.3);
+        }
+
+        .card-back::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 8px;
+        }
+
+        .card-back-symbol {
+            font-size: 3rem;
+            color: #ffd700;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #1a0a2e, #2d1b4e);
+            border: 3px solid #c44dff;
+            transform: rotateY(180deg);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 30px rgba(196, 77, 255, 0.5);
+        }
+
+        .card-symbol {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .card-name {
+            font-size: 12px;
+            color: #ffd700;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .card-number {
+            font-size: 11px;
+            color: #b8a9c9;
+            margin-top: 5px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #c44dff, #ff6b9d);
+            color: white;
+            box-shadow: 0 5px 20px rgba(196, 77, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(196, 77, 255, 0.6);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .reading-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .reading-section.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reading-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(196, 77, 255, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .reading-card h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reading-card p {
+            color: #e4e4e4;
+            line-height: 1.8;
+        }
+
+        .card-meaning {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .meaning-item {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .meaning-item h4 {
+            color: #c44dff;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .meaning-item p {
+            font-size: 14px;
+            color: #b8a9c9;
+        }
+
+        .overall-reading {
+            background: linear-gradient(135deg, rgba(196, 77, 255, 0.1), rgba(255, 107, 157, 0.1));
+            border: 2px solid rgba(196, 77, 255, 0.3);
+        }
+
+        .share-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .share-btn {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+            padding: 12px 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .share-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(196, 77, 255, 0.3);
+            border-top-color: #c44dff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .card { width: 100px; height: 170px; }
+            .card-symbol { font-size: 2rem; }
+            .card-name { font-size: 10px; }
+            .card-meaning { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>AI Tarot Cards</h1>
+            <p class="subtitle">Discover today's fortune with mystical tarot cards</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            This tarot reading is for entertainment purposes. Make important decisions carefully.
+        </div>
+
+        <div id="selectionPhase">
+            <h2 style="text-align:center; color:#c44dff; margin-bottom:20px;">Choose Your Spread</h2>
+
+            <div class="spread-selection">
+                <div class="spread-option active" data-spread="1" onclick="selectSpread(1)">
+                    <h3>One Card</h3>
+                    <p>Today's message<br>Quick question</p>
+                </div>
+                <div class="spread-option" data-spread="3" onclick="selectSpread(3)">
+                    <h3>Three Cards</h3>
+                    <p>Past-Present-Future<br>Situation analysis</p>
+                </div>
+                <div class="spread-option" data-spread="5" onclick="selectSpread(5)">
+                    <h3>Love Reading</h3>
+                    <p>You-Partner-Relationship-Advice-Outcome<br>Love questions</p>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <h2>Enter Your Question (Optional)</h2>
+                <input type="text" class="question-input" id="question" placeholder="e.g., What does this month hold for my love life?">
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" onclick="startReading()">
+                    Draw Cards
+                </button>
+            </div>
+        </div>
+
+        <div id="cardPhase" style="display:none;">
+            <h2 style="text-align:center; color:#c44dff; margin-bottom:10px;">Click cards to flip them</h2>
+            <p style="text-align:center; color:#b8a9c9; margin-bottom:20px;" id="flipInstruction">Click each card</p>
+
+            <div class="cards-container" id="cardsContainer"></div>
+
+            <div class="controls">
+                <button class="btn btn-primary" id="revealBtn" onclick="revealReading()" disabled>
+                    See Reading
+                </button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p style="color:#b8a9c9;">Interpreting the tarot cards...</p>
+        </div>
+
+        <div class="reading-section" id="readingSection">
+            <div id="readingContent"></div>
+
+            <div class="share-section">
+                <button class="share-btn" onclick="shareResult()">
+                    Share Results
+                </button>
+                <button class="share-btn" onclick="resetReading()" style="margin-left:10px;">
+                    Draw Again
+                </button>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>This tarot reading is for fun and inspiration.<br>Consult professionals for important decisions.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Tarot cards data (Major Arcana)
+        const tarotCards = [
+            { id: 0, name: "The Fool", symbol: "🃏", meaning: { upright: "New beginnings, innocence, free spirit, adventure", reversed: "Recklessness, carelessness, risk-taking" }},
+            { id: 1, name: "The Magician", symbol: "🔮", meaning: { upright: "Creativity, willpower, skill, manifestation", reversed: "Trickery, misuse of power, inexperience" }},
+            { id: 2, name: "The High Priestess", symbol: "🌙", meaning: { upright: "Intuition, mystery, inner wisdom, subconscious", reversed: "Hidden motives, ignored intuition, secrets" }},
+            { id: 3, name: "The Empress", symbol: "👑", meaning: { upright: "Abundance, motherhood, beauty, nature", reversed: "Dependency, lack of creativity, overprotection" }},
+            { id: 4, name: "The Emperor", symbol: "🏛️", meaning: { upright: "Authority, stability, leadership, structure", reversed: "Tyranny, rigidity, excessive control" }},
+            { id: 5, name: "The Hierophant", symbol: "⛪", meaning: { upright: "Tradition, belief, teaching, spiritual guidance", reversed: "Breaking conventions, new approach, rebellion" }},
+            { id: 6, name: "The Lovers", symbol: "💕", meaning: { upright: "Love, harmony, choice, relationships", reversed: "Imbalance, conflict, wrong choice" }},
+            { id: 7, name: "The Chariot", symbol: "🏆", meaning: { upright: "Victory, willpower, determination, action", reversed: "Obstacles, loss of direction, aggression" }},
+            { id: 8, name: "Strength", symbol: "🦁", meaning: { upright: "Courage, patience, inner strength, self-control", reversed: "Self-doubt, weakness, insecurity" }},
+            { id: 9, name: "The Hermit", symbol: "🏔️", meaning: { upright: "Soul searching, meditation, wisdom seeking, solitude", reversed: "Isolation, loneliness, excessive withdrawal" }},
+            { id: 10, name: "Wheel of Fortune", symbol: "☸️", meaning: { upright: "Change, cycles, luck, turning point", reversed: "Resistance, bad luck, resisting change" }},
+            { id: 11, name: "Justice", symbol: "⚖️", meaning: { upright: "Fairness, truth, balance, karma", reversed: "Unfairness, dishonesty, avoiding responsibility" }},
+            { id: 12, name: "The Hanged Man", symbol: "🙃", meaning: { upright: "Sacrifice, new perspective, patience, enlightenment", reversed: "Delay, resistance, pointless sacrifice" }},
+            { id: 13, name: "Death", symbol: "🦋", meaning: { upright: "Endings and beginnings, change, transformation, rebirth", reversed: "Resisting change, stagnation, fear" }},
+            { id: 14, name: "Temperance", symbol: "🌈", meaning: { upright: "Balance, harmony, patience, moderation", reversed: "Imbalance, extremes, excess" }},
+            { id: 15, name: "The Devil", symbol: "⛓️", meaning: { upright: "Bondage, temptation, materialism, shadow self", reversed: "Liberation, overcoming fear, freedom" }},
+            { id: 16, name: "The Tower", symbol: "🗼", meaning: { upright: "Sudden change, chaos, awakening, liberation", reversed: "Avoiding change, disaster prevention, fear" }},
+            { id: 17, name: "The Star", symbol: "⭐", meaning: { upright: "Hope, inspiration, peace, healing", reversed: "Despair, loss of hope, distrust" }},
+            { id: 18, name: "The Moon", symbol: "🌕", meaning: { upright: "Intuition, dreams, unconscious, illusion", reversed: "Confusion, fear, deception" }},
+            { id: 19, name: "The Sun", symbol: "☀️", meaning: { upright: "Joy, success, vitality, positivity", reversed: "Temporary sadness, conceit, delayed success" }},
+            { id: 20, name: "Judgement", symbol: "📯", meaning: { upright: "Resurrection, awakening, evaluation, rebirth", reversed: "Self-doubt, avoiding judgment, regret" }},
+            { id: 21, name: "The World", symbol: "🌍", meaning: { upright: "Completion, integration, achievement, travel", reversed: "Incompletion, delay, lack of goals" }}
+        ];
+
+        let selectedSpread = 1;
+        let selectedCards = [];
+        let flippedCount = 0;
+
+        // Create stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+
+        function selectSpread(num) {
+            selectedSpread = num;
+            document.querySelectorAll('.spread-option').forEach(opt => {
+                opt.classList.remove('active');
+                if (parseInt(opt.dataset.spread) === num) {
+                    opt.classList.add('active');
+                }
+            });
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function startReading() {
+            const shuffled = shuffleArray(tarotCards);
+            selectedCards = shuffled.slice(0, selectedSpread).map(card => ({
+                ...card,
+                reversed: Math.random() > 0.7
+            }));
+            flippedCount = 0;
+
+            document.getElementById('selectionPhase').style.display = 'none';
+            document.getElementById('cardPhase').style.display = 'block';
+            document.getElementById('readingSection').classList.remove('show');
+
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+
+            selectedCards.forEach((card, index) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card';
+                cardEl.id = `card-${index}`;
+                cardEl.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-back">
+                            <div class="card-back-symbol">✦</div>
+                        </div>
+                        <div class="card-front" style="${card.reversed ? 'transform: rotateY(180deg) rotateZ(180deg);' : ''}">
+                            <div class="card-symbol">${card.symbol}</div>
+                            <div class="card-name">${card.name}</div>
+                            <div class="card-number">${card.reversed ? '(Reversed)' : ''}</div>
+                        </div>
+                    </div>
+                `;
+                cardEl.onclick = () => flipCard(index);
+                container.appendChild(cardEl);
+            });
+
+            updateFlipInstruction();
+        }
+
+        function flipCard(index) {
+            const card = document.getElementById(`card-${index}`);
+            if (!card.classList.contains('flipped')) {
+                card.classList.add('flipped');
+                flippedCount++;
+                updateFlipInstruction();
+
+                if (flippedCount === selectedSpread) {
+                    document.getElementById('revealBtn').disabled = false;
+                }
+            }
+        }
+
+        function updateFlipInstruction() {
+            const remaining = selectedSpread - flippedCount;
+            if (remaining > 0) {
+                document.getElementById('flipInstruction').textContent = `Remaining cards: ${remaining}`;
+            } else {
+                document.getElementById('flipInstruction').textContent = 'All cards flipped!';
+            }
+        }
+
+        function revealReading() {
+            document.getElementById('cardPhase').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                document.getElementById('loading').classList.remove('show');
+                generateReading();
+            }, 2000);
+        }
+
+        function generateReading() {
+            const question = document.getElementById('question').value || 'Today\'s Fortune';
+            const readingContent = document.getElementById('readingContent');
+
+            let html = `
+                <div class="reading-card">
+                    <h3>🔮 Your Question</h3>
+                    <p style="color:#ffd700; font-size:18px;">"${question}"</p>
+                </div>
+            `;
+
+            const positions = {
+                1: ['Today\'s Message'],
+                3: ['Past', 'Present', 'Future'],
+                5: ['Your State', 'Their Heart', 'Current Relationship', 'Advice', 'Future Outcome']
+            };
+
+            selectedCards.forEach((card, index) => {
+                const position = positions[selectedSpread][index];
+                const meaning = card.reversed ? card.meaning.reversed : card.meaning.upright;
+                const direction = card.reversed ? '(Reversed)' : '(Upright)';
+
+                html += `
+                    <div class="reading-card">
+                        <h3>${card.symbol} ${position}: ${card.name} ${direction}</h3>
+                        <p>${generateInterpretation(card, position, question)}</p>
+                        <div class="card-meaning">
+                            <div class="meaning-item">
+                                <h4>Upright Meaning</h4>
+                                <p>${card.meaning.upright}</p>
+                            </div>
+                            <div class="meaning-item">
+                                <h4>Reversed Meaning</h4>
+                                <p>${card.meaning.reversed}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="reading-card overall-reading">
+                    <h3>✨ Overall Reading</h3>
+                    <p>${generateOverallReading()}</p>
+                </div>
+            `;
+
+            readingContent.innerHTML = html;
+            document.getElementById('readingSection').classList.add('show');
+        }
+
+        function generateInterpretation(card, position, question) {
+            const templates = [
+                `The ${card.name} appears in the ${position} position. This represents ${card.reversed ? card.meaning.reversed : card.meaning.upright}. What you need now is to recognize and accept this energy.`,
+                `${card.name} appears in ${position}. ${card.reversed ? 'As it appears reversed, be mindful of ' + card.meaning.reversed + '.' : 'In upright position, ' + card.meaning.upright + ' is with you.'}`,
+                `The ${card.name} in this position ${card.reversed ? 'suggests challenges and growth opportunities. ' + card.meaning.reversed : 'shows positive flow. ' + card.meaning.upright}. Take this message to heart.`
+            ];
+            return templates[Math.floor(Math.random() * templates.length)];
+        }
+
+        function generateOverallReading() {
+            const cardNames = selectedCards.map(c => c.name).join(', ');
+            const hasReversed = selectedCards.some(c => c.reversed);
+
+            const templates = [
+                `Today's cards (${cardNames}) reveal your current situation and potential. ${hasReversed ? 'With reversed cards present, some challenges are expected, but these are opportunities for growth.' : 'Overall, positive energy flows.'} Trust your intuition and move forward step by step.`,
+                `This reading brings ${cardNames}. This combination suggests a time of change and growth. ${hasReversed ? 'It\'s time to face and overcome inner fears.' : 'The universe is on your side, so be confident.'} Focus on the present.`,
+                `${cardNames} - The message these cards convey is clear. ${hasReversed ? 'Current difficulties are temporary. Overcome them with patience and wisdom.' : 'Good flow continues, so maintain gratitude.'} Follow your inner light today.`
+            ];
+            return templates[Math.floor(Math.random() * templates.length)];
+        }
+
+        function shareResult() {
+            const cardNames = selectedCards.map(c => c.name + (c.reversed ? ' (Reversed)' : '')).join(', ');
+            const text = `🔮 Today's Tarot: ${cardNames}\nTry it yourself 👉`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI Tarot Cards Result',
+                    text: text
+                }).catch(err => {
+                    navigator.clipboard.writeText(text).then(() => showToast('📋 Result copied!'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 Result copied!');
+                });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function resetReading() {
+            document.getElementById('selectionPhase').style.display = 'block';
+            document.getElementById('cardPhase').style.display = 'none';
+            document.getElementById('readingSection').classList.remove('show');
+            document.getElementById('question').value = '';
+            document.getElementById('revealBtn').disabled = true;
+            selectedCards = [];
+            flippedCount = 0;
+        }
+    </script>
+</body>
+</html>
