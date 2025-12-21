@@ -466,9 +466,129 @@ module.exports = {
     disclaimer: { ko: '재미로 즐기는 테스트입니다.', en: 'This is for entertainment.', ja: '娯楽用のテストです。' }
   },
   'new-year-2025': {
-    meta: { title: { ko: '2025 신년 운세', en: '2025 New Year Fortune', ja: '2025年新年運勢' }, desc: { ko: '2025년 나의 한마디', en: 'My 2025 message', ja: '2025年私へのメッセージ' } },
-    header: { title: { ko: '2025 신년 운세', en: '2025 Fortune', ja: '2025年運勢' }, subtitle: { ko: '새해 당신에게 전하는 메시지', en: 'New Year message for you', ja: '新年あなたへのメッセージ' } },
-    buttons: { check: { ko: '운세 확인', en: 'Check Fortune', ja: '運勢確認' }, share: { ko: '공유하기', en: 'Share', ja: '共有' }, retry: { ko: '다시 하기', en: 'Try Again', ja: 'もう一度' } }
+    meta: {
+      title: { ko: '2025 나에게 주는 한마디', en: '2025 New Year Message', ja: '2025年新年メッセージ' },
+      desc: { ko: '새해 운세 메시지', en: 'New Year Fortune Message', ja: '新年運勢メッセージ' }
+    },
+    header: {
+      title: { ko: '나에게 주는 한마디', en: 'A Message for Me', ja: '私へのメッセージ' },
+      subtitle: { ko: '새해, 당신에게 전하는 특별한 메시지', en: 'A special message for the new year', ja: '新年、あなたへの特別なメッセージ' },
+      yearBadge: { ko: '2025', en: '2025', ja: '2025' }
+    },
+    disclaimer: { ko: '재미로 즐기는 새해 운세입니다!', en: 'For entertainment only!', ja: '楽しみ程度にご覧ください！' },
+    inputSection: {
+      heading: { ko: '당신의 정보를 알려주세요', en: 'Tell us about yourself', ja: 'あなたの情報を教えてください' },
+      name: {
+        label: { ko: '이름', en: 'Name', ja: '名前' },
+        placeholder: { ko: '이름을 입력하세요', en: 'Enter your name', ja: '名前を入力してください' }
+      },
+      birthDate: {
+        label: { ko: '생년월일', en: 'Birth Date', ja: '生年月日' },
+        year: { ko: '년도', en: 'Year', ja: '年' },
+        month: { ko: '월', en: 'Month', ja: '月' },
+        day: { ko: '일', en: 'Day', ja: '日' },
+        yearSuffix: { ko: '년', en: '', ja: '年' },
+        monthSuffix: { ko: '월', en: '', ja: '月' },
+        daySuffix: { ko: '일', en: '', ja: '日' }
+      },
+      hope: {
+        label: { ko: '2025년 가장 바라는 것은?', en: 'What do you wish for in 2025?', ja: '2025年最も望むことは？' },
+        love: { ko: '사랑/인연', en: 'Love/Relationship', ja: '愛/縁' },
+        money: { ko: '재물/성공', en: 'Wealth/Success', ja: '財運/成功' },
+        health: { ko: '건강/활력', en: 'Health/Vitality', ja: '健康/活力' },
+        growth: { ko: '성장/변화', en: 'Growth/Change', ja: '成長/変化' }
+      }
+    },
+    buttons: {
+      start: { ko: '나의 한마디 받기', en: 'Get My Message', ja: '私のメッセージを受け取る' },
+      share: { ko: '결과 공유하기', en: 'Share Result', ja: '結果を共有' },
+      retry: { ko: '다시 하기', en: 'Try Again', ja: 'もう一度' }
+    },
+    loading: {
+      text: { ko: '2025년 메시지를 준비하고 있어요...', en: 'Preparing your 2025 message...', ja: '2025年のメッセージを準備中...' }
+    },
+    resultSection: {
+      header: {
+        year: { ko: '2025년', en: '2025', ja: '2025年' },
+        suffix: { ko: '님에게 전하는 한마디', en: "'s Message", ja: 'さんへのメッセージ' }
+      },
+      keywordLabel: { ko: '2025년 키워드', en: '2025 Keywords', ja: '2025年キーワード' },
+      sections: {
+        yearFortune: { ko: '🌟 2025년 운세', en: '🌟 2025 Fortune', ja: '🌟 2025年運勢' },
+        luckyElements: { ko: '🍀 행운의 요소', en: '🍀 Lucky Elements', ja: '🍀 幸運の要素' },
+        monthlyFortune: { ko: '📅 월별 운세', en: '📅 Monthly Fortune', ja: '📅 月別運勢' },
+        specialAdvice: { ko: '💝 특별한 조언', en: '💝 Special Advice', ja: '💝 特別なアドバイス' }
+      },
+      luckyItems: {
+        color: { ko: '행운의 색', en: 'Lucky Color', ja: '幸運の色' },
+        direction: { ko: '행운의 방향', en: 'Lucky Direction', ja: '幸運の方向' },
+        number: { ko: '행운의 숫자', en: 'Lucky Number', ja: '幸運の数字' },
+        day: { ko: '행운의 요일', en: 'Lucky Day', ja: '幸運の曜日' }
+      }
+    },
+    messages: {
+      love: [
+        { emoji: '💕', quote: { ko: '진심은 반드시 통합니다. 당신의 사랑이 꽃피는 해가 될 거예요.', en: 'Sincerity always prevails. This will be the year your love blossoms.', ja: '誠意は必ず通じます。あなたの愛が花開く年になります。' }, keywords: { ko: ['인연', '설렘', '진심'], en: ['Connection', 'Excitement', 'Sincerity'], ja: ['縁', 'ときめき', '誠意'] } },
+        { emoji: '❤️', quote: { ko: '마음을 열면 사랑이 찾아옵니다. 올해는 특별한 만남이 있어요.', en: 'Open your heart and love will find you. A special encounter awaits this year.', ja: '心を開けば愛が訪れます。今年は特別な出会いがあります。' }, keywords: { ko: ['만남', '운명', '따뜻함'], en: ['Meeting', 'Destiny', 'Warmth'], ja: ['出会い', '運命', '温かさ'] } },
+        { emoji: '💗', quote: { ko: '사랑받을 자격이 있는 당신, 올해 그 사랑을 만나세요.', en: 'You deserve to be loved. Meet that love this year.', ja: '愛される資格のあるあなた、今年その愛に出会ってください。' }, keywords: { ko: ['자격', '행복', '사랑'], en: ['Worth', 'Happiness', 'Love'], ja: ['資格', '幸せ', '愛'] } }
+      ],
+      money: [
+        { emoji: '💰', quote: { ko: '노력은 배신하지 않아요. 당신의 성공이 눈앞에 있습니다.', en: 'Hard work never betrays. Your success is right in front of you.', ja: '努力は裏切りません。あなたの成功は目の前にあります。' }, keywords: { ko: ['성공', '풍요', '성취'], en: ['Success', 'Abundance', 'Achievement'], ja: ['成功', '豊かさ', '達成'] } },
+        { emoji: '🌟', quote: { ko: '기회는 준비된 자에게 옵니다. 올해가 바로 그 해예요.', en: 'Opportunity comes to those prepared. This is your year.', ja: '機会は準備された者に訪れます。今年がまさにその年です。' }, keywords: { ko: ['기회', '도약', '번영'], en: ['Opportunity', 'Leap', 'Prosperity'], ja: ['機会', '飛躍', '繁栄'] } },
+        { emoji: '✨', quote: { ko: '당신의 가치는 빛날 것입니다. 큰 성과가 기다리고 있어요.', en: 'Your value will shine. Great achievements await.', ja: 'あなたの価値は輝きます。大きな成果が待っています。' }, keywords: { ko: ['가치', '보상', '인정'], en: ['Value', 'Reward', 'Recognition'], ja: ['価値', '報酬', '認定'] } }
+      ],
+      health: [
+        { emoji: '💪', quote: { ko: '건강이 최고의 재산이에요. 올해는 활력 넘치는 한 해가 됩니다.', en: 'Health is the greatest wealth. This year will be full of vitality.', ja: '健康が最高の財産です。今年は活力溢れる一年になります。' }, keywords: { ko: ['활력', '건강', '에너지'], en: ['Vitality', 'Health', 'Energy'], ja: ['活力', '健康', 'エネルギー'] } },
+        { emoji: '🌈', quote: { ko: '몸도 마음도 건강해지는 해. 좋은 기운이 함께해요.', en: 'A year of physical and mental wellness. Good energy is with you.', ja: '体も心も健康になる年。良い気運が共にあります。' }, keywords: { ko: ['회복', '균형', '치유'], en: ['Recovery', 'Balance', 'Healing'], ja: ['回復', 'バランス', '癒し'] } },
+        { emoji: '☀️', quote: { ko: '밝은 에너지로 가득한 당신, 올해도 건강하게!', en: "You're full of bright energy. Stay healthy this year!", ja: '明るいエネルギーに満ちたあなた、今年も健康に！' }, keywords: { ko: ['활기', '생기', '건강미'], en: ['Vigor', 'Liveliness', 'Wellness'], ja: ['活気', '生気', '健康美'] } }
+      ],
+      growth: [
+        { emoji: '🌱', quote: { ko: '성장은 멈추지 않아요. 올해 당신은 한층 더 성장합니다.', en: "Growth never stops. You'll grow even more this year.", ja: '成長は止まりません。今年あなたは一層成長します。' }, keywords: { ko: ['성장', '발전', '진화'], en: ['Growth', 'Progress', 'Evolution'], ja: ['成長', '発展', '進化'] } },
+        { emoji: '🦋', quote: { ko: '변화를 두려워하지 마세요. 새로운 당신을 만나게 될 거예요.', en: "Don't fear change. You'll meet a new you.", ja: '変化を恐れないで。新しいあなたに出会います。' }, keywords: { ko: ['변화', '변신', '도전'], en: ['Change', 'Transformation', 'Challenge'], ja: ['変化', '変身', '挑戦'] } },
+        { emoji: '🚀', quote: { ko: '한계는 없습니다. 당신이 가는 곳이 곧 새로운 길이에요.', en: 'There are no limits. Wherever you go becomes a new path.', ja: '限界はありません。あなたが行く所がすぐに新しい道です。' }, keywords: { ko: ['도전', '비상', '무한'], en: ['Challenge', 'Soar', 'Infinite'], ja: ['挑戦', '飛翔', '無限'] } }
+      ]
+    },
+    fortunes: [
+      { ko: '2025년은 당신에게 특별한 한 해가 될 것입니다. 상반기에는 새로운 시작의 에너지가, 하반기에는 결실의 기쁨이 함께할 거예요. 특히 봄에 시작하는 일은 좋은 결과로 이어질 가능성이 높습니다.', en: '2025 will be a special year for you. The first half brings energy for new beginnings, the second half brings joy of fruition. Especially things started in spring have high potential for good results.', ja: '2025年はあなたにとって特別な一年になります。上半期は新しい始まりのエネルギーが、下半期は実りの喜びが共にあります。特に春に始めることは良い結果につながる可能性が高いです。' },
+      { ko: '올해는 인내와 끈기가 빛을 발하는 해입니다. 당장 결과가 보이지 않더라도 꾸준히 나아가세요. 하반기에 큰 보상이 찾아올 것입니다.', en: "This year is when patience and perseverance shine. Even if results aren't immediate, keep moving forward. Great rewards will come in the second half.", ja: '今年は忍耐と粘り強さが輝く年です。すぐに結果が見えなくても着実に進んでください。下半期に大きな報酬が訪れます。' },
+      { ko: '2025년은 관계의 해입니다. 새로운 인연을 만나고, 기존 관계가 더욱 돈독해질 거예요. 사람들과의 만남에서 행운이 찾아옵니다.', en: "2025 is the year of relationships. You'll meet new connections and strengthen existing ones. Fortune comes from meeting people.", ja: '2025年は関係の年です。新しい縁に出会い、既存の関係がより深まります。人々との出会いから幸運が訪れます。' },
+      { ko: '변화의 바람이 불어옵니다. 두려워하지 말고 받아들이세요. 그 변화 속에서 당신의 진정한 모습을 발견하게 될 것입니다.', en: "Winds of change are coming. Don't fear them, embrace them. Within that change, you'll discover your true self.", ja: '変化の風が吹いてきます。恐れずに受け入れてください。その変化の中であなたの真の姿を発見するでしょう。' }
+    ],
+    advices: [
+      { ko: "올해는 '시작'이 핵심이에요. 미루지 말고 지금 바로 시작하세요. 작은 첫 걸음이 큰 변화를 만들어냅니다.", en: "This year, 'starting' is key. Don't postpone, start now. Small first steps create big changes.", ja: '今年は「始まり」がキーです。先延ばしにせず今すぐ始めてください。小さな最初の一歩が大きな変化を生み出します。' },
+      { ko: '균형을 잃지 마세요. 일도 중요하지만 휴식도 중요합니다. 건강한 균형이 성공의 비결이에요.', en: "Don't lose balance. Work is important, but so is rest. Healthy balance is the secret to success.", ja: 'バランスを失わないで。仕事も大切ですが休息も大切です。健康的なバランスが成功の秘訣です。' },
+      { ko: '주변 사람들에게 감사를 표현하세요. 그 따뜻함이 당신에게 더 큰 행운으로 돌아올 거예요.', en: 'Express gratitude to those around you. That warmth will return to you as greater fortune.', ja: '周りの人々に感謝を表現してください。その温かさがあなたにより大きな幸運として返ってきます。' },
+      { ko: '직감을 믿으세요. 올해 당신의 직감은 매우 정확할 것입니다. 마음이 가는 대로 따라가세요.', en: 'Trust your intuition. This year, your instincts will be very accurate. Follow your heart.', ja: '直感を信じてください。今年あなたの直感は非常に正確です。心の向くままに従ってください。' }
+    ],
+    colors: {
+      ko: ['빨간색', '주황색', '노란색', '초록색', '파란색', '보라색', '분홍색', '금색'],
+      en: ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Gold'],
+      ja: ['赤', 'オレンジ', '黄色', '緑', '青', '紫', 'ピンク', '金色']
+    },
+    directions: {
+      ko: ['동쪽', '서쪽', '남쪽', '북쪽'],
+      en: ['East', 'West', 'South', 'North'],
+      ja: ['東', '西', '南', '北']
+    },
+    days: {
+      ko: ['월요일', '화요일', '수요일', '목요일', '금요일'],
+      en: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      ja: ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日']
+    },
+    monthSuffix: { ko: '월', en: '', ja: '月' },
+    toastMessages: {
+      nameRequired: { ko: '이름을 입력해주세요!', en: 'Please enter your name!', ja: '名前を入力してください！' },
+      hopeRequired: { ko: '2025년 가장 바라는 것을 선택해주세요!', en: 'Please select what you wish for in 2025!', ja: '2025年最も望むことを選択してください！' },
+      copied: { ko: '결과가 복사되었어요!', en: 'Result copied!', ja: '結果がコピーされました！' }
+    },
+    shareText: {
+      title: { ko: '2025 나에게 주는 한마디', en: '2025 New Year Message', ja: '2025年新年メッセージ' },
+      messageFor: { ko: '님에게 전하는 메시지:', en: "'s Message:", ja: 'さんへのメッセージ:' },
+      luckyColor: { ko: '행운의 색:', en: 'Lucky Color:', ja: '幸運の色:' },
+      luckyNumber: { ko: '행운의 숫자:', en: 'Lucky Number:', ja: '幸運の数字:' },
+      tryIt: { ko: '나도 받아보기', en: 'Get yours too', ja: '私も受け取る' }
+    },
+    footer: { ko: '새해 복 많이 받으세요! 🎊', en: 'Happy New Year! 🎊', ja: '新年おめでとうございます！ 🎊' }
   },
   'lotto-fortune': {
     meta: { title: { ko: '로또 번호 생성기', en: 'Lotto Number Generator', ja: 'ロト番号生成' }, desc: { ko: '행운의 로또 번호', en: 'Lucky lotto numbers', ja: 'ラッキーロト番号' } },
