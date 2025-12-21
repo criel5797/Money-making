@@ -188,14 +188,8 @@
 
         function shareDday() {
             if (!currentResult) return;
-            const text = `${currentResult.name}\n${currentResult.dday}`;
-            if (navigator.share) {
-                navigator.share({ title: 'D-day', text: text }).catch(() => {
-                    navigator.clipboard.writeText(text).then(() => showToast('클립보드에 복사되었습니다!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => showToast('클립보드에 복사되었습니다!'));
-            }
+            const text = `📅 ${currentResult.name}\n${currentResult.dday}`;
+            window.shareWithModal('D-day', text);
         }
 
         function showToast(message) {

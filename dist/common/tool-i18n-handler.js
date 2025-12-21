@@ -186,4 +186,22 @@
   } else {
     applyI18n();
   }
+
+  // Global helper to create share modal compatible shareResult
+  // Tools can call: window.shareWithModal(title, text)
+  window.shareWithModal = function(title, text) {
+    if (window.openShareModal) {
+      window.openShareModal({
+        title: title || document.title,
+        text: text || '',
+        url: window.location.href
+      });
+    } else {
+      // Fallback if share-modal.js not loaded
+      var shareText = text + '\n\n' + window.location.href;
+      navigator.clipboard.writeText(shareText).then(function() {
+        alert('클립보드에 복사되었습니다!');
+      });
+    }
+  };
 })();

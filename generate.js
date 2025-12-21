@@ -345,7 +345,8 @@ function processToolDirectory(srcPath, destPath, toolId, toolData) {
   if (i18nData) {
     // New Logic: Generate content files using language-specific source files
     var handlerPath = href('/common/tool-i18n-handler.js');
-    var handlerScript = '<script src="' + handlerPath + '"></script>';
+    var shareModalPath = href('/common/share-modal.js');
+    var handlerScript = '<script src="' + shareModalPath + '"></script><script src="' + handlerPath + '"></script>';
     var availableLanguages = { ko: false, en: false, ja: false };
 
     // Generate for each language using its dedicated source file
@@ -489,15 +490,16 @@ function build(){
   // Process Web Tools with language switching
   var webToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'web');
   
-  // Copy tool-i18n-handler.js
+  // Copy common JS files (tool-i18n-handler.js, share-modal.js)
   var commonDest = path.join(OUT, 'common');
   ensureDir(commonDest);
-  if (fs.existsSync(path.join(process.cwd(), 'src', 'common', 'tool-i18n-handler.js'))) {
-    fs.copyFileSync(
-      path.join(process.cwd(), 'src', 'common', 'tool-i18n-handler.js'),
-      path.join(commonDest, 'tool-i18n-handler.js')
-    );
-  }
+  var commonFiles = ['tool-i18n-handler.js', 'share-modal.js'];
+  commonFiles.forEach(function(file) {
+    var srcFile = path.join(process.cwd(), 'src', 'common', file);
+    if (fs.existsSync(srcFile)) {
+      fs.copyFileSync(srcFile, path.join(commonDest, file));
+    }
+  });
 
   if (fs.existsSync(webToolsSrc)) {
     for (var i = 0; i < webTools.length; i++) {

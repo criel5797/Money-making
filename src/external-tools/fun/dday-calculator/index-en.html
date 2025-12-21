@@ -182,14 +182,8 @@
 
         function shareDday() {
             if (!currentResult) return;
-            const text = `${currentResult.name}\n${currentResult.dday}`;
-            if (navigator.share) {
-                navigator.share({ title: 'D-day', text: text }).catch(() => {
-                    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
-            }
+            const text = `📅 ${currentResult.name}\n${currentResult.dday}`;
+            window.shareWithModal('D-day', text);
         }
 
         function showToast(message) {

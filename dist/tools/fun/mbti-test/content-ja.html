@@ -228,12 +228,7 @@
             const result = calculateMBTI();
             const data = mbtiTypes[result.type] || { name: result.type, nickname: '' };
             const text = `私のMBTI: ${result.type} - ${data.name}`;
-            if (navigator.share) {
-                navigator.share({ title: 'MBTIテスト結果', text: text });
-            } else {
-                navigator.clipboard.writeText(text);
-                alert('コピーされました: ' + text);
-            }
+            window.shareWithModal('MBTIテスト結果', text);
         }
 
         function retakeTest() {
@@ -243,5 +238,5 @@
             document.getElementById('introSection').style.display = 'block';
         }
     </script>
-<script src="/common/tool-i18n-handler.js"></script></body>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
 </html>

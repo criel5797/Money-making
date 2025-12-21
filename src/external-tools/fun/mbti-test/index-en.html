@@ -700,17 +700,8 @@
         function shareResult() {
             const result = calculateMBTI();
             const data = mbtiData[result.type];
-            const text = `My MBTI is ${result.type} (${data.name})!\n${data.nickname}\n\nTake the test:`;
-
-            if (navigator.share) {
-                navigator.share({ title: 'MBTI Personality Test Result', text: text, url: window.location.href }).catch(err => {
-                    navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => showToast('Result copied!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
-                    showToast('Result copied!');
-                });
-            }
+            const text = `My MBTI is ${result.type} (${data.name})!\n${data.nickname}`;
+            window.shareWithModal('MBTI Personality Test Result', text);
         }
 
         function showToast(message) {

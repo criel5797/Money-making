@@ -231,12 +231,7 @@
             const result = calculateMBTI();
             const data = getMbtiData(result.type);
             const text = `My MBTI: ${result.type} - ${data.name}`;
-            if (navigator.share) {
-                navigator.share({ title: 'MBTI Test Result', text: text });
-            } else {
-                navigator.clipboard.writeText(text);
-                alert('Copied: ' + text);
-            }
+            window.shareWithModal('MBTI Test Result', text);
         }
 
         function retakeTest() {
