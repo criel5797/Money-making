@@ -151,8 +151,13 @@
         function shareResult() {
             const bmi = document.getElementById('bmiValue').textContent;
             const text = `BMI: ${bmi}`;
-            if (navigator.share) navigator.share({ title: 'BMI Result', text: text });
-            else alert("Copied: " + text);
+            if (navigator.share) {
+                navigator.share({ title: 'BMI Result', text: text }).catch(() => {
+                    navigator.clipboard.writeText(text).then(() => alert('클립보드에 복사되었습니다!'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => alert('클립보드에 복사되었습니다!'));
+            }
         }
 
         document.querySelectorAll('input').forEach(input => {

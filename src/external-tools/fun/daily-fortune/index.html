@@ -328,7 +328,14 @@
             navigator.clipboard.writeText(document.getElementById("mainFortune").textContent).then(()=>alert("Copied!"))
         });
         document.getElementById("shareBtn").addEventListener("click",()=>{
-            navigator.share?navigator.share({title:"Fortune",text:document.getElementById("mainFortune").textContent}):alert("Share not supported")
+            const text = document.getElementById("mainFortune").textContent;
+            if (navigator.share) {
+                navigator.share({title:"Fortune",text:text}).catch(() => {
+                    navigator.clipboard.writeText(text).then(() => alert("클립보드에 복사되었습니다!"));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => alert("클립보드에 복사되었습니다!"));
+            }
         });
         document.getElementById("retryBtn").addEventListener("click",()=>{
             document.getElementById("resultSection").classList.remove("show"),

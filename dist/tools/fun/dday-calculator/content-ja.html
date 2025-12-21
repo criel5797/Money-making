@@ -183,8 +183,13 @@
         function shareDday() {
             if (!currentResult) return;
             const text = `${currentResult.name}\n${currentResult.dday}`;
-            if (navigator.share) navigator.share({ title: 'D-day', text: text });
-            else alert("コピーしました: " + text);
+            if (navigator.share) {
+                navigator.share({ title: 'D-day', text: text }).catch(() => {
+                    navigator.clipboard.writeText(text).then(() => showToast('クリップボードにコピーしました！'));
+                });
+            } else {
+                navigator.clipboard.writeText(text).then(() => showToast('クリップボードにコピーしました！'));
+            }
         }
 
         function showToast(message) {
