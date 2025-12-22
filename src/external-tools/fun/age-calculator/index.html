@@ -430,20 +430,19 @@
             const koreanAge = document.getElementById('koreanAge').textContent;
             const zodiac = document.getElementById('zodiac').textContent;
             const constellation = document.getElementById('constellation').textContent;
+            const nextBirthday = document.getElementById('nextBirthday').textContent.split(' ')[0];
 
-            const text = `🎂 내 나이 계산 결과\n\n만 나이: ${internationalAge}\n한국 나이: ${koreanAge}\n띠: ${zodiac}\n별자리: ${constellation}\n\n나이 계산기로 확인해보세요!`;
+            const text = `🎂 나이 계산 결과
 
-            if (navigator.share) {
-                navigator.share({
-                    title: '나이 계산 결과',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
-                });
-            }
+만 나이: ${internationalAge}
+한국 나이: ${koreanAge}
+띠: ${zodiac}
+별자리: ${constellation}
+다음 생일까지: ${nextBirthday}일
+
+✨ 나도 내 나이 계산해보기!`;
+
+            window.shareWithModal('나이 계산 결과', text);
         }
     </script>
 </body>

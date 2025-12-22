@@ -802,24 +802,19 @@
         }
 
         function shareResult() {
-            const text = `💕 Love Style Test Result\n\n` +
-                        `${resultData.emoji} ${resultData.name}\n` +
-                        `${resultData.title}\n\n` +
-                        `🏷️ ${resultData.keywords.map(k => '#'+k).join(' ')}\n\n` +
-                        `💚 Best Match: ${resultData.goodMatch}\n` +
-                        `💔 Challenging: ${resultData.badMatch}\n\n` +
-                        `Take the test too 👉`;
+            const text = `💗 Love Style Test Result
 
-            if (navigator.share) {
-                navigator.share({ title: 'Love Style Test', text: text, url: window.location.href })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => showToast('Result copied!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
-                    showToast('Result copied!');
-                });
-            }
+My Love Type: ${resultData.emoji} ${resultData.name}
+${resultData.title}
+
+${resultData.description}
+
+💚 Best Match: ${resultData.goodMatch}
+💔 Challenging Match: ${resultData.badMatch}
+
+💘 Want to discover your love style too?`;
+
+            window.shareWithModal('Love Style Test Result', text);
         }
 
         function resetTest() {

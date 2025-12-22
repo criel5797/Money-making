@@ -432,20 +432,19 @@
             const koreanAge = document.getElementById('koreanAge').textContent;
             const zodiac = document.getElementById('zodiac').textContent;
             const constellation = document.getElementById('constellation').textContent;
+            const nextBirthday = document.getElementById('nextBirthday').textContent.split(' ')[0];
 
-            const text = `🎂 My Age Calculation Result\n\nInternational Age: ${internationalAge}\nKorean Age: ${koreanAge}\nZodiac: ${zodiac}\nSign: ${constellation}\n\nCheck your age with our calculator!`;
+            const text = `🎂 My Age Calculator Results
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Age Calculation Result',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('Result copied to clipboard!');
-                });
-            }
+International Age: ${internationalAge}
+Korean Age: ${koreanAge}
+Chinese Zodiac: ${zodiac}
+Zodiac Sign: ${constellation}
+Days Until Birthday: ${nextBirthday}
+
+✨ Calculate your age too!`;
+
+            window.shareWithModal('Age Calculator Results', text);
         }
     </script>
 <script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>

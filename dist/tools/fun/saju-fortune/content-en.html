@@ -828,21 +828,18 @@
         }
 
         function shareResult() {
-            const text = `My Saju Fortune Reading Results\n` +
-                        `Overall: ${resultData.fortunes.overall} pts\n` +
-                        `Love: ${resultData.fortunes.love} pts\n` +
-                        `Wealth: ${resultData.fortunes.wealth} pts\n\n` +
-                        `Get your Saju reading too 👉`;
+            const text = `🔮 AI Saju Fortune Reading
 
-            if (navigator.share) {
-                navigator.share({ title: 'AI Saju Reading', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 Results copied!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 Results copied!');
-                });
-            }
+Overall: ${resultData.fortunes.overall} pts ⭐
+Love: ${resultData.fortunes.love} pts 💕
+Wealth: ${resultData.fortunes.wealth} pts 💰
+Career: ${resultData.fortunes.career} pts 💼
+Health: ${resultData.fortunes.health} pts ❤️
+
+My destiny revealed through Four Pillars!
+✨ Discover your fortune too!`;
+
+            window.shareWithModal('AI Saju Fortune', text);
         }
 
         function showToast(message) {

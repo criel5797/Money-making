@@ -584,22 +584,27 @@
 
         function shareResult() {
             const gpa = document.getElementById('gpaValue').textContent;
-            const totalCredits = document.getElementById('totalCredits').textContent;
-            const percentile = document.getElementById('percentile').textContent;
+            const percentile = parseFloat(document.getElementById('percentile').textContent);
 
-            const text = `📚 My GPA Results\n\nGPA: ${gpa} / ${scale}\nTotal Credits: ${totalCredits}\nPercentage: ${percentile}\n\nCheck with GPA Calculator!`;
-
-            if (navigator.share) {
-                navigator.share({
-                    title: 'GPA Results',
-                    text: text,
-                    url: window.location.href
-                });
+            let gradeLevel = '';
+            if (percentile >= 90) {
+                gradeLevel = 'Excellent performance!';
+            } else if (percentile >= 80) {
+                gradeLevel = 'Great job!';
+            } else if (percentile >= 70) {
+                gradeLevel = 'Good work!';
             } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('Results copied to clipboard!');
-                });
+                gradeLevel = 'Keep it up!';
             }
+
+            const text = `📚 My GPA Results
+
+My Average GPA: ${gpa} / ${scale}
+${gradeLevel}
+
+📖 Want to calculate yours too?`;
+
+            window.shareWithModal('My GPA Results', text);
         }
 
         // Initialize with 3 courses

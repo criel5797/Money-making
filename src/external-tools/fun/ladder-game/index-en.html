@@ -613,22 +613,16 @@ Exempt"></textarea>
             }
 
             const matchText = Object.entries(matches)
-                .map(([name, result]) => `${name} → ${result}`)
-                .join('\n');
+                .map(([name, result]) => `${name}'s destiny is...\n🎯 ${result}!`)
+                .join('\n\n');
 
-            const text = `🪜 Ladder Game Results\n\n${matchText}\n\nDecided fairly with ladder game!`;
+            const text = `🪜 Ladder Game Results
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Ladder Game Results',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('Results copied to clipboard!');
-                });
-            }
+${matchText}
+
+🎲 Want to try the ladder?`;
+
+            window.shareWithModal('Ladder Game Results', text);
         }
 
         // Redraw ladder on window resize

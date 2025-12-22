@@ -755,23 +755,16 @@
         }
 
         function shareResult() {
-            const text = `🔮 私の前世診断テスト結果\n\n` +
-                        `${resultData.name}さんの前世は...\n` +
-                        `【${resultData.era}】\n` +
-                        `${resultData.emoji} ${resultData.title}\n\n` +
-                        `✨ "${resultData.story.substring(0, 50)}..."\n\n` +
-                        `前世を診断する 👉`;
+            const text = `🌌 前世診断テスト結果
 
-            if (navigator.share) {
-                navigator.share({ title: '前世診断テスト結果', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 結果がコピーされました！');
-                });
-            }
+私の前世: ${resultData.emoji} ${resultData.title}
+【${resultData.era}】
+
+${resultData.story.substring(0, 80)}...
+
+🔮 あなたの前世も診断してみませんか？`;
+
+            window.shareWithModal('前世診断テスト結果', text);
         }
 
         function resetTest() {

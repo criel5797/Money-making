@@ -150,14 +150,14 @@
 
         function shareResult() {
             const bmi = document.getElementById('bmiValue').textContent;
-            const text = `BMI: ${bmi}`;
-            if (navigator.share) {
-                navigator.share({ title: 'BMI Result', text: text }).catch(() => {
-                    navigator.clipboard.writeText(text).then(() => alert('클립보드에 복사되었습니다!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => alert('클립보드에 복사되었습니다!'));
-            }
+            const status = document.getElementById('bmiCategory').textContent;
+            const text = `⚖️ BMI 측정 결과
+
+나의 BMI: ${bmi}
+${status} 범위에 해당해요!
+
+💪 당신의 BMI도 측정해보세요!`;
+            window.shareWithModal('BMI 계산기', text);
         }
 
         document.querySelectorAll('input').forEach(input => {

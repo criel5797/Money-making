@@ -736,22 +736,18 @@
         }
 
         function shareResult() {
-            const text = `🌿 私を動物で表現すると？\n\n` +
-                        `${resultData.emoji} ${resultData.name}\n` +
-                        `${resultData.title}\n\n` +
-                        `✨ ${resultData.traits.slice(0, 3).join(' · ')}\n\n` +
-                        `私もテストする 👉`;
+            const text = `🦊 動物性格テスト結果
 
-            if (navigator.share) {
-                navigator.share({ title: '動物性格テスト', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 結果がコピーされました！');
-                });
-            }
+私の動物タイプ: ${resultData.emoji} ${resultData.name}
+${resultData.title}
+
+${resultData.description}
+
+✨ 私の特徴: ${resultData.traits.slice(0, 3).join(' · ')}
+
+🐾 あなたはどんな動物？`;
+
+            window.shareWithModal('動物性格テスト', text);
         }
 
         function resetTest() {

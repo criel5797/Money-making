@@ -828,21 +828,18 @@
         }
 
         function shareResult() {
-            const text = `나의 사주 풀이 결과\n` +
-                        `종합운: ${resultData.fortunes.overall}점\n` +
-                        `연애운: ${resultData.fortunes.love}점\n` +
-                        `재물운: ${resultData.fortunes.wealth}점\n\n` +
-                        `나도 사주 보기 👉`;
+            const text = `🔮 AI 사주 풀이 결과
 
-            if (navigator.share) {
-                navigator.share({ title: 'AI 사주 풀이', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
-                });
-            }
+종합운: ${resultData.fortunes.overall}점 ⭐
+연애운: ${resultData.fortunes.love}점 💕
+재물운: ${resultData.fortunes.wealth}점 💰
+직업운: ${resultData.fortunes.career}점 💼
+건강운: ${resultData.fortunes.health}점 ❤️
+
+사주팔자로 본 나의 운명!
+✨ 너도 사주 풀이 받아볼래?`;
+
+            window.shareWithModal('AI 사주 풀이', text);
         }
 
         function showToast(message) {

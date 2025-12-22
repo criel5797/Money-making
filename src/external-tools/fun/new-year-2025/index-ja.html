@@ -729,18 +729,9 @@
         }
 
         function shareResult() {
-            const text = `🎊 2025 あなたへのメッセージ\n\n${resultData.name}さんへのメッセージ:\n\n${resultData.message.emoji} "${resultData.message.quote}"\n\n🏷️ #${resultData.message.keywords.join(' #')}\n\n🍀 ラッキーカラー: ${resultData.lucky.color}\n🔢 ラッキーナンバー: ${resultData.lucky.number}\n\nあなたも受け取る 👉`;
+            const text = `🎊 2025年 新年運勢\n\n${resultData.name}さんへのメッセージ:\n\n${resultData.message.emoji} "${resultData.message.quote}"\n\n🏷️ #${resultData.message.keywords.join(' #')}\n\n🍀 ラッキーカラー: ${resultData.lucky.color}\n🔢 ラッキーナンバー: ${resultData.lucky.number}\n\nあけましておめでとうございます! 🐍\n✨ あなたも新年運勢をチェックしてみませんか?`;
 
-            if (navigator.share) {
-                navigator.share({ title: '2025 あなたへのメッセージ', text: text })
-                    .catch(() => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果をコピーしました!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 結果をコピーしました!');
-                });
-            }
+            window.shareWithModal('🎊 2025 新年運勢', text);
         }
 
         function resetTest() {

@@ -152,10 +152,14 @@
 
         function shareResult() {
             const bmi = document.getElementById('bmiValue').textContent;
-            const category = document.getElementById('bmiCategory').textContent;
-            const text = `⚖️ 私のBMI: ${bmi} (${category})`;
-            if (navigator.share) navigator.share({ title: 'BMI結果', text: text });
-            else { navigator.clipboard.writeText(text); alert("コピーしました: " + text); }
+            const status = document.getElementById('bmiCategory').textContent;
+            const text = `⚖️ BMI測定結果
+
+私のBMI: ${bmi}
+${status}の範囲です！
+
+💪 あなたのBMIも測定してみましょう！`;
+            window.shareWithModal('BMI計算機', text);
         }
 
         document.querySelectorAll('input').forEach(input => {

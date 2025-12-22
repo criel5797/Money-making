@@ -755,23 +755,16 @@
         }
 
         function shareResult() {
-            const text = `🔮 나의 전생 테스트 결과\n\n` +
-                        `${resultData.name}님은 전생에...\n` +
-                        `【${resultData.era}】\n` +
-                        `${resultData.emoji} ${resultData.title}\n\n` +
-                        `✨ "${resultData.story.substring(0, 50)}..."\n\n` +
-                        `나도 전생 알아보기 👉`;
+            const text = `🌌 전생 테스트 결과
 
-            if (navigator.share) {
-                navigator.share({ title: '전생 테스트 결과', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
-                });
-            }
+나의 전생: ${resultData.emoji} ${resultData.title}
+【${resultData.era}】
+
+${resultData.story.substring(0, 80)}...
+
+🔮 너의 전생도 알아볼래?`;
+
+            window.shareWithModal('전생 테스트 결과', text);
         }
 
         function resetTest() {

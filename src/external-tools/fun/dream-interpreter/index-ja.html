@@ -696,16 +696,19 @@
         }
 
         function shareResult() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI夢占い結果',
-                    text: document.getElementById('interpretation').textContent,
-                    url: window.location.href
-                });
-            } else {
-                copyResult();
-                showToast('コピーされました！シェアしてみましょう！');
-            }
+            const dreamInput = document.getElementById('dreamInput').value.trim();
+            const interpretation = document.getElementById('interpretation').textContent;
+
+            const text = `🌙 夢占い結果
+
+私の夢: ${dreamInput.substring(0, 50)}${dreamInput.length > 50 ? '...' : ''}
+
+✨ 占い結果:
+${interpretation}
+
+💫 あなたも夢占いしてみませんか？`;
+
+            window.shareWithModal('AI夢占い', text);
         }
 
         function newDream() {

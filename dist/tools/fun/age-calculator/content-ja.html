@@ -432,20 +432,19 @@
             const koreanAge = document.getElementById('koreanAge').textContent;
             const zodiac = document.getElementById('zodiac').textContent;
             const constellation = document.getElementById('constellation').textContent;
+            const nextBirthday = document.getElementById('nextBirthday').textContent.split(' ')[0];
 
-            const text = `🎂 私の年齢計算結果\n\n満年齢: ${internationalAge}\n韓国年齢: ${koreanAge}\n干支: ${zodiac}\n星座: ${constellation}\n\n年齢計算機で確認してみてください！`;
+            const text = `🎂 年齢計算結果
 
-            if (navigator.share) {
-                navigator.share({
-                    title: '年齢計算結果',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('結果がクリップボードにコピーされました！');
-                });
-            }
+満年齢: ${internationalAge}
+韓国年齢: ${koreanAge}
+干支: ${zodiac}
+星座: ${constellation}
+次の誕生日まで: ${nextBirthday}日
+
+✨ あなたも年齢を計算してみよう！`;
+
+            window.shareWithModal('年齢計算結果', text);
         }
     </script>
 <script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>

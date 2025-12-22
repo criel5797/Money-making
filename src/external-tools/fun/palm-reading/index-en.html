@@ -683,18 +683,25 @@
         }
 
         function shareResult() {
-            const text = 'Check out my AI palm reading results!';
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI Palm Reading Results',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
-                    showToast('Link copied!');
-                });
-            }
+            const summary = document.getElementById('resultSummary').textContent;
+            const avgScore = Math.round((
+                lineData.life.interpretations[selectedLines.life].score +
+                lineData.head.interpretations[selectedLines.head].score +
+                lineData.heart.interpretations[selectedLines.heart].score +
+                lineData.fate.interpretations[selectedLines.fate].score
+            ) / 4);
+
+            const text = `🖐️ AI Palm Reading Results
+
+${summary}
+
+📊 My Fortune Score: ${avgScore}/100
+${avgScore >= 85 ? '✨ Exceptional palm lines!' : avgScore >= 75 ? '💪 Well-balanced palm!' : avgScore >= 65 ? '🌱 Growing potential!' : '🌿 Free-spirited palm!'}
+
+Discover your destiny through palmistry!
+✨ Want to get your palm read too?`;
+
+            window.shareWithModal('AI Palm Reading', text);
         }
 
         function retry() {

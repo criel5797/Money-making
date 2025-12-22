@@ -590,22 +590,18 @@
         }
 
         function shareResult() {
-            const text = `🌿 What's Your Spirit Animal?\n\n` +
-                        `${resultData.emoji} ${resultData.name}\n` +
-                        `${resultData.title}\n\n` +
-                        `✨ ${resultData.traits.slice(0, 3).join(' · ')}\n\n` +
-                        `Take the test! 👉`;
+            const text = `🦊 Spirit Animal Test Result
 
-            if (navigator.share) {
-                navigator.share({ title: 'Spirit Animal Test', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 Copied to clipboard!');
-                });
-            }
+My Spirit Animal: ${resultData.emoji} ${resultData.name}
+${resultData.title}
+
+${resultData.description}
+
+✨ My Traits: ${resultData.traits.slice(0, 3).join(' · ')}
+
+🐾 What's your spirit animal?`;
+
+            window.shareWithModal('Spirit Animal Test', text);
         }
 
         function resetTest() {

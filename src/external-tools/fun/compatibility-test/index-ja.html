@@ -825,20 +825,16 @@
         }
 
         function shareResult() {
-            const text = `💕 ${resultData.name1} ❤️ ${resultData.name2} 相性診断結果\n\n` +
-                        `相性スコア: ${resultData.score}%\n` +
-                        `${getResultMessage(resultData.score)}\n\n` +
-                        `私も相性を確認する 👉`;
+            const text = `💕 AI相性診断結果
 
-            if (navigator.share) {
-                navigator.share({ title: 'AI相性診断結果', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 結果がコピーされました！');
-                });
-            }
+${resultData.name1} ❤️ ${resultData.name2}
+相性スコア: ${resultData.score}点！
+
+私たちの相性は ${getResultMessage(resultData.score)}
+
+💑 あなたのカップル相性も診断してみる？`;
+
+            window.shareWithModal('AI相性診断', text);
         }
 
         function showToast(message) {

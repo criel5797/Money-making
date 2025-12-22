@@ -683,18 +683,25 @@
         }
 
         function shareResult() {
-            const text = '私のAI手相診断結果を確認してみてください!';
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI手相占い結果',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
-                    showToast('リンクをコピーしました!');
-                });
-            }
+            const summary = document.getElementById('resultSummary').textContent;
+            const avgScore = Math.round((
+                lineData.life.interpretations[selectedLines.life].score +
+                lineData.head.interpretations[selectedLines.head].score +
+                lineData.heart.interpretations[selectedLines.heart].score +
+                lineData.fate.interpretations[selectedLines.fate].score
+            ) / 4);
+
+            const text = `🖐️ AI手相診断結果
+
+${summary}
+
+📊 私の運勢スコア: ${avgScore}点
+${avgScore >= 85 ? '✨ とても良い手相!' : avgScore >= 75 ? '💪 バランスの取れた手相!' : avgScore >= 65 ? '🌱 成長の可能性がある手相!' : '🌿 自由な魂の手相!'}
+
+手相で分かる私の運命!
+✨ あなたも手相診断を受けてみませんか?`;
+
+            window.shareWithModal('AI手相占い', text);
         }
 
         function retry() {

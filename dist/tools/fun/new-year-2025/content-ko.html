@@ -778,36 +778,16 @@
         }
 
         function shareResult() {
-            var i18n = getI18n();
-            var lang = getLang();
-            var shareText = i18n.shareText || {};
-
-            var title = (shareText.title && shareText.title[lang]) || '2025 나에게 주는 한마디';
-            var messageFor = (shareText.messageFor && shareText.messageFor[lang]) || '님에게 전하는 메시지:';
-            var luckyColorLabel = (shareText.luckyColor && shareText.luckyColor[lang]) || '행운의 색:';
-            var luckyNumberLabel = (shareText.luckyNumber && shareText.luckyNumber[lang]) || '행운의 숫자:';
-            var tryIt = (shareText.tryIt && shareText.tryIt[lang]) || '나도 받아보기';
-
-            var text = '🎊 ' + title + '\n\n' +
-                        resultData.name + messageFor + '\n\n' +
+            var text = '🎊 2025년 신년 운세\n\n' +
+                        resultData.name + '님에게 전하는 메시지:\n\n' +
                         resultData.message.emoji + ' "' + resultData.message.quote + '"\n\n' +
                         '🏷️ #' + resultData.message.keywords.join(' #') + '\n\n' +
-                        '🍀 ' + luckyColorLabel + ' ' + resultData.lucky.color + '\n' +
-                        '🔢 ' + luckyNumberLabel + ' ' + resultData.lucky.number + '\n\n' +
-                        tryIt + ' 👉';
+                        '🍀 행운의 색: ' + resultData.lucky.color + '\n' +
+                        '🔢 행운의 숫자: ' + resultData.lucky.number + '\n\n' +
+                        '새해 복 많이 받으세요! 🐍\n' +
+                        '✨ 너도 신년 운세 확인해볼래?';
 
-            var copiedMsg = '📋 ' + t('toastMessages.copied', '결과가 복사되었어요!');
-
-            if (navigator.share) {
-                navigator.share({ title: title, text: text })
-                    .catch(function(err) {
-                        navigator.clipboard.writeText(text).then(function() { showToast(copiedMsg); });
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(function() {
-                    showToast(copiedMsg);
-                });
-            }
+            window.shareWithModal('🎊 2025 신년 운세', text);
         }
 
         function resetTest() {

@@ -765,20 +765,19 @@
         }
 
         function shareResult() {
-            const score = document.getElementById('overallScore').textContent;
-            const text = `Today's biorhythm overall score: ${score} points! Check your biorhythm.`;
+            const rhythmCards = document.querySelectorAll('.rhythm-card');
+            const physical = rhythmCards[0].querySelector('.rhythm-value').textContent;
+            const emotional = rhythmCards[1].querySelector('.rhythm-value').textContent;
+            const intellectual = rhythmCards[2].querySelector('.rhythm-value').textContent;
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI Biorhythm Results',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
-                    showToast('Link copied!');
-                });
-            }
+            const text = `🌊 Today's Biorhythm
+
+Physical: ${physical} | Emotional: ${emotional} | Intellectual: ${intellectual}
+
+Just checked my condition today!
+✨ Want to check your biorhythm too?`;
+
+            window.shareWithModal('AI Biorhythm', text);
         }
 
         function showToast(message) {

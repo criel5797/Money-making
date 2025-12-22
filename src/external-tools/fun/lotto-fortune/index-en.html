@@ -821,19 +821,14 @@
 
         function shareResult() {
             const numbers = [...document.querySelectorAll('.lotto-ball')].map(b => b.textContent).join(', ');
-            const text = `My lucky numbers: ${numbers}\nTry the AI Lottery Number Generator!`;
+            const text = `🎰 Lucky Lottery Numbers
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI Lottery Numbers',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
-                    showToast('Copied!');
-                });
-            }
+This week's recommended numbers: ${numbers}
+
+Good luck! 🍀
+✨ Want to try your lucky numbers too?`;
+
+            window.shareWithModal('AI Lottery Number Generator', text);
         }
 
         function showToast(message) {

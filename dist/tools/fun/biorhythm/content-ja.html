@@ -764,20 +764,19 @@
         }
 
         function shareResult() {
-            const score = document.getElementById('overallScore').textContent;
-            const text = `今日のバイオリズム総合スコア：${score}点！私のバイオリズムをチェックしてみてください。`;
+            const rhythmCards = document.querySelectorAll('.rhythm-card');
+            const physical = rhythmCards[0].querySelector('.rhythm-value').textContent;
+            const emotional = rhythmCards[1].querySelector('.rhythm-value').textContent;
+            const intellectual = rhythmCards[2].querySelector('.rhythm-value').textContent;
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI バイオリズム結果',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
-                    showToast('リンクがコピーされました！');
-                });
-            }
+            const text = `🌊 今日のバイオリズム
+
+身体: ${physical} | 感情: ${emotional} | 知性: ${intellectual}
+
+今日のコンディションをチェックしました！
+✨ あなたのバイオリズムも確認してみませんか？`;
+
+            window.shareWithModal('AI バイオリズム', text);
         }
 
         function showToast(message) {

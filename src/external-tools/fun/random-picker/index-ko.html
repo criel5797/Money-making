@@ -523,23 +523,23 @@
 
             let text;
             if (currentWinners.length === 1) {
-                text = `🎉 랜덤 추첨 결과!\n\n당첨: ${currentWinners[0]}\n\n랜덤 뽑기로 공정하게 추첨했습니다!`;
+                text = `🎲 랜덤 뽑기 결과
+
+당첨: ${currentWinners[0]}! 🎉
+
+운명이 선택했어요!
+✨ 너도 랜덤으로 뽑아볼래?`;
             } else {
                 const winnerList = currentWinners.map((w, i) => `${i + 1}. ${w}`).join('\n');
-                text = `🎉 랜덤 추첨 결과!\n\n${winnerList}\n\n랜덤 뽑기로 공정하게 추첨했습니다!`;
+                text = `🎲 랜덤 뽑기 결과
+
+${winnerList}
+
+모두 축하해요! 🎊
+✨ 너도 랜덤으로 뽑아볼래?`;
             }
 
-            if (navigator.share) {
-                navigator.share({
-                    title: '랜덤 추첨 결과',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
-                });
-            }
+            window.shareWithModal('랜덤 뽑기 결과', text);
         }
     </script>
 </body>

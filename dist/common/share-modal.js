@@ -10,29 +10,26 @@
   var i18nTexts = {
     ko: {
       title: '공유하기',
-      kakao: '카카오톡',
       twitter: 'X (트위터)',
       facebook: '페이스북',
       copyLink: '링크 복사',
-      copied: '클립보드에 복사되었습니다!',
+      copied: '복사 완료! 친구에게 공유해보세요 🎉',
       close: '닫기'
     },
     en: {
       title: 'Share',
-      kakao: 'KakaoTalk',
       twitter: 'X (Twitter)',
       facebook: 'Facebook',
       copyLink: 'Copy Link',
-      copied: 'Copied to clipboard!',
+      copied: 'Copied! Share with friends 🎉',
       close: 'Close'
     },
     ja: {
       title: '共有',
-      kakao: 'カカオトーク',
       twitter: 'X (Twitter)',
       facebook: 'Facebook',
       copyLink: 'リンクをコピー',
-      copied: 'クリップボードにコピーしました！',
+      copied: 'コピー完了！友達にシェアしよう 🎉',
       close: '閉じる'
     }
   };
@@ -56,10 +53,6 @@
           </div>
           <div class="share-modal-body">
             <div class="share-modal-buttons">
-              <button class="share-btn-item share-btn-kakao" onclick="window._shareVia('kakao')">
-                <span class="share-btn-icon">💬</span>
-                <span class="share-btn-label">${t('kakao')}</span>
-              </button>
               <button class="share-btn-item share-btn-twitter" onclick="window._shareVia('twitter')">
                 <span class="share-btn-icon">𝕏</span>
                 <span class="share-btn-label">${t('twitter')}</span>
@@ -133,7 +126,7 @@
         }
         .share-modal-buttons {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 12px;
         }
         .share-btn-item {
@@ -158,13 +151,6 @@
         .share-btn-label {
           font-size: 0.85rem;
           font-weight: 500;
-        }
-        .share-btn-kakao {
-          background: #FEE500;
-          color: #000;
-        }
-        .share-btn-kakao:hover {
-          background: #F5DC00;
         }
         .share-btn-twitter {
           background: #000;
@@ -262,7 +248,7 @@
     // Update labels for current language
     overlay.querySelector('.share-modal-title').textContent = t('title');
     overlay.querySelectorAll('.share-btn-label').forEach(function(el, i) {
-      var keys = ['kakao', 'twitter', 'facebook', 'copyLink'];
+      var keys = ['twitter', 'facebook', 'copyLink'];
       el.textContent = t(keys[i]);
     });
 
@@ -294,25 +280,18 @@
 
   window._shareVia = function(platform) {
     var data = currentShareData;
-    var shareText = data.text + '\n\n' + data.url;
-    var encodedText = encodeURIComponent(data.text);
+    var shareText = data.text + '\n\n👉 ' + data.url;
+    var encodedText = encodeURIComponent(data.text + '\n\n👉');
     var encodedUrl = encodeURIComponent(data.url);
-    var encodedTitle = encodeURIComponent(data.title);
 
     switch(platform) {
-      case 'kakao':
-        // Kakao Talk share via URL scheme (mobile) or web share
-        var kakaoUrl = 'https://story.kakao.com/share?url=' + encodedUrl;
-        window.open(kakaoUrl, '_blank', 'width=600,height=400');
-        break;
-
       case 'twitter':
         var twitterUrl = 'https://twitter.com/intent/tweet?text=' + encodedText + '&url=' + encodedUrl;
         window.open(twitterUrl, '_blank', 'width=600,height=400');
         break;
 
       case 'facebook':
-        var fbUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl + '&quote=' + encodedText;
+        var fbUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl + '&quote=' + encodeURIComponent(data.text);
         window.open(fbUrl, '_blank', 'width=600,height=400');
         break;
 

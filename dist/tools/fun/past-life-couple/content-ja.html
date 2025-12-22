@@ -672,25 +672,18 @@
         }
 
         function shareResult() {
-            const text = `💫 前世の縁診断テスト結果\n\n` +
-                        `${resultData.name1} 💕 ${resultData.name2}\n\n` +
-                        `【${resultData.era}】\n` +
-                        `${resultData.emoji}\n` +
-                        `"${resultData.relation}"\n\n` +
-                        `✨ 信頼 ${resultData.karma.trust}% | 情熱 ${resultData.karma.passion}%\n` +
-                        `🌟 運命 ${resultData.karma.destiny}% | 調和 ${resultData.karma.harmony}%\n\n` +
-                        `私たちも前世の縁を診断する 👉`;
+            const text = `💫 前世の縁診断テスト
 
-            if (navigator.share) {
-                navigator.share({ title: '前世の縁診断テスト', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 結果がコピーされました！');
-                });
-            }
+${resultData.name1} & ${resultData.name2}の前世の縁
+${resultData.emoji} ${resultData.relation}
+【${resultData.era}】
+
+✨ 信頼 ${resultData.karma.trust}% | 情熱 ${resultData.karma.passion}%
+🌟 運命 ${resultData.karma.destiny}% | 調和 ${resultData.karma.harmony}%
+
+🌙 あなたたちも前世の縁を確認してみませんか？`;
+
+            window.shareWithModal('前世の縁診断テスト', text);
         }
 
         function resetTest() {

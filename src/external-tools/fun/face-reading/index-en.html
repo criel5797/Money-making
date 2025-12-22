@@ -770,25 +770,20 @@
 
         function shareResult() {
             const avgScore = Math.round((resultData.scores.love + resultData.scores.wealth + resultData.scores.career + resultData.scores.health) / 4);
-            const text = `🔮 AI Face Reading Result\n\n` +
-                        `【${resultData.grade}】\n` +
-                        `📊 Overall: ${avgScore}\n\n` +
-                        `❤️ Love: ${resultData.scores.love}\n` +
-                        `💰 Wealth: ${resultData.scores.wealth}\n` +
-                        `💼 Career: ${resultData.scores.career}\n` +
-                        `💪 Health: ${resultData.scores.health}\n\n` +
-                        `Try face reading 👉`;
+            const text = `👁️ AI Face Reading Results
 
-            if (navigator.share) {
-                navigator.share({ title: 'AI Face Reading', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 Copied to clipboard!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 Copied to clipboard!');
-                });
-            }
+【${resultData.grade}】
+📊 Overall: ${avgScore}
+
+❤️ Love: ${resultData.scores.love}
+💰 Wealth: ${resultData.scores.wealth}
+💼 Career: ${resultData.scores.career}
+💪 Health: ${resultData.scores.health}
+
+Your personality & fortune revealed by face reading!
+✨ Want to discover yours too?`;
+
+            window.shareWithModal('AI Face Reading', text);
         }
 
         function resetTest() {

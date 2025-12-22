@@ -825,20 +825,16 @@
         }
 
         function shareResult() {
-            const text = `💕 ${resultData.name1} ❤️ ${resultData.name2} 궁합 결과\n\n` +
-                        `궁합 점수: ${resultData.score}%\n` +
-                        `${getResultMessage(resultData.score)}\n\n` +
-                        `나도 궁합 확인하기 👉`;
+            const text = `💕 AI 궁합 테스트 결과
 
-            if (navigator.share) {
-                navigator.share({ title: 'AI 궁합 테스트 결과', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
-                });
-            }
+${resultData.name1} ❤️ ${resultData.name2}
+궁합 점수: ${resultData.score}점!
+
+우리의 궁합은 ${getResultMessage(resultData.score)}
+
+💑 너희 커플 궁합도 테스트해볼래?`;
+
+            window.shareWithModal('AI 궁합 테스트', text);
         }
 
         function showToast(message) {

@@ -729,18 +729,9 @@
         }
 
         function shareResult() {
-            const text = `🎊 2025 New Year Message\n\n${resultData.name}'s message:\n\n${resultData.message.emoji} "${resultData.message.quote}"\n\n🏷️ #${resultData.message.keywords.join(' #')}\n\n🍀 Lucky Color: ${resultData.lucky.color}\n🔢 Lucky Number: ${resultData.lucky.number}\n\nGet yours 👉`;
+            const text = `🎊 2025 New Year Fortune\n\n${resultData.name}'s message:\n\n${resultData.message.emoji} "${resultData.message.quote}"\n\n🏷️ #${resultData.message.keywords.join(' #')}\n\n🍀 Lucky Color: ${resultData.lucky.color}\n🔢 Lucky Number: ${resultData.lucky.number}\n\nHappy New Year! 🐍\n✨ Check out your New Year fortune too!`;
 
-            if (navigator.share) {
-                navigator.share({ title: '2025 New Year Message', text: text })
-                    .catch(() => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 Result copied!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 Result copied!');
-                });
-            }
+            window.shareWithModal('🎊 2025 New Year Fortune', text);
         }
 
         function resetTest() {

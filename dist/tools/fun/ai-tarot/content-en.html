@@ -721,20 +721,14 @@
 
         function shareResult() {
             const cardNames = selectedCards.map(c => c.name + (c.reversed ? ' (Reversed)' : '')).join(', ');
-            const text = `🔮 Today's Tarot: ${cardNames}\nTry it yourself 👉`;
+            const text = `🔮 Today's Tarot Reading
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI Tarot Cards Result',
-                    text: text
-                }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 Result copied!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 Result copied!');
-                });
-            }
+Cards drawn: ${cardNames}
+
+The mystical cards revealed my destiny!
+✨ Want to try your fortune?`;
+
+            window.shareWithModal('AI Tarot Cards', text);
         }
 
         function showToast(message) {

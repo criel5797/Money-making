@@ -798,24 +798,19 @@
         }
 
         function shareResult() {
-            const text = `💕 연애 성향 테스트 결과\n\n` +
-                        `${resultData.emoji} ${resultData.name}\n` +
-                        `${resultData.title}\n\n` +
-                        `🏷️ ${resultData.keywords.map(k => '#'+k).join(' ')}\n\n` +
-                        `💚 잘 맞는 유형: ${resultData.goodMatch}\n` +
-                        `💔 주의할 유형: ${resultData.badMatch}\n\n` +
-                        `나도 테스트하기 👉`;
+            const text = `💗 연애 성향 테스트 결과
 
-            if (navigator.share) {
-                navigator.share({ title: '연애 성향 테스트', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
-                });
-            }
+나의 연애 유형: ${resultData.emoji} ${resultData.name}
+${resultData.title}
+
+${resultData.description}
+
+💚 잘 맞는 유형: ${resultData.goodMatch}
+💔 주의할 유형: ${resultData.badMatch}
+
+💘 너의 연애 스타일도 알아볼래?`;
+
+            window.shareWithModal('연애 성향 테스트 결과', text);
         }
 
         function resetTest() {

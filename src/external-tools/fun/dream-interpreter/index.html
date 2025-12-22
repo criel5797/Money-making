@@ -696,16 +696,19 @@
         }
 
         function shareResult() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI 꿈 해몽 결과',
-                    text: document.getElementById('interpretation').textContent,
-                    url: window.location.href
-                });
-            } else {
-                copyResult();
-                showToast('복사되었습니다! 공유해보세요!');
-            }
+            const dreamInput = document.getElementById('dreamInput').value.trim();
+            const interpretation = document.getElementById('interpretation').textContent;
+
+            const text = `🌙 꿈 해몽 결과
+
+나의 꿈: ${dreamInput.substring(0, 50)}${dreamInput.length > 50 ? '...' : ''}
+
+✨ 해몽:
+${interpretation}
+
+💫 너도 꿈 해몽 받아볼래?`;
+
+            window.shareWithModal('AI 꿈 해몽', text);
         }
 
         function newDream() {

@@ -584,22 +584,27 @@
 
         function shareResult() {
             const gpa = document.getElementById('gpaValue').textContent;
-            const totalCredits = document.getElementById('totalCredits').textContent;
-            const percentile = document.getElementById('percentile').textContent;
+            const percentile = parseFloat(document.getElementById('percentile').textContent);
 
-            const text = `📚 내 학점 계산 결과\n\n평점: ${gpa} / ${scale}\n총 학점: ${totalCredits}\n백분율: ${percentile}\n\n학점 계산기로 확인해보세요!`;
-
-            if (navigator.share) {
-                navigator.share({
-                    title: '학점 계산 결과',
-                    text: text,
-                    url: window.location.href
-                });
+            let gradeLevel = '';
+            if (percentile >= 90) {
+                gradeLevel = '우수한 성적이에요!';
+            } else if (percentile >= 80) {
+                gradeLevel = '좋은 성적이에요!';
+            } else if (percentile >= 70) {
+                gradeLevel = '양호한 성적이에요!';
             } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
-                });
+                gradeLevel = '파이팅!';
             }
+
+            const text = `📚 학점 계산 결과
+
+나의 평균 학점: ${gpa} / ${scale}
+${gradeLevel}
+
+📖 너의 학점도 계산해볼래?`;
+
+            window.shareWithModal('학점 계산 결과', text);
         }
 
         // 초기 과목 3개 추가

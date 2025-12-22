@@ -821,19 +821,14 @@
 
         function shareResult() {
             const numbers = [...document.querySelectorAll('.lotto-ball')].map(b => b.textContent).join(', ');
-            const text = `나의 행운 번호: ${numbers}\nAI 로또 번호 생성기에서 만들어보세요!`;
+            const text = `🎰 로또 행운 번호
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI 로또 번호',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
-                    showToast('복사되었습니다!');
-                });
-            }
+이번 주 추천 번호: ${numbers}
+
+행운을 빌어요! 🍀
+✨ 너도 행운 번호 뽑아볼래?`;
+
+            window.shareWithModal('AI 로또 번호 생성기', text);
         }
 
         function showToast(message) {

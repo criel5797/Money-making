@@ -683,18 +683,25 @@
         }
 
         function shareResult() {
-            const text = '나의 AI 손금 분석 결과를 확인해보세요!';
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI 손금 보기 결과',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
-                    showToast('링크가 복사되었습니다!');
-                });
-            }
+            const summary = document.getElementById('resultSummary').textContent;
+            const avgScore = Math.round((
+                lineData.life.interpretations[selectedLines.life].score +
+                lineData.head.interpretations[selectedLines.head].score +
+                lineData.heart.interpretations[selectedLines.heart].score +
+                lineData.fate.interpretations[selectedLines.fate].score
+            ) / 4);
+
+            const text = `🖐️ AI 손금 분석 결과
+
+${summary}
+
+📊 나의 운세 점수: ${avgScore}점
+${avgScore >= 85 ? '✨ 매우 좋은 손금!' : avgScore >= 75 ? '💪 균형잡힌 손금!' : avgScore >= 65 ? '🌱 성장 가능성 있는 손금!' : '🌿 자유로운 영혼의 손금!'}
+
+손금으로 본 나의 운명!
+✨ 너도 손금 분석 받아볼래?`;
+
+            window.shareWithModal('AI 손금 보기', text);
         }
 
         function retry() {

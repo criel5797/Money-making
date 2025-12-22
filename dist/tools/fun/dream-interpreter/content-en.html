@@ -691,16 +691,19 @@
         }
 
         function shareResult() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AI Dream Interpretation Result',
-                    text: document.getElementById('interpretation').textContent,
-                    url: window.location.href
-                });
-            } else {
-                copyResult();
-                showToast('Copied! Share it!');
-            }
+            const dreamInput = document.getElementById('dreamInput').value.trim();
+            const interpretation = document.getElementById('interpretation').textContent;
+
+            const text = `🌙 Dream Interpretation Result
+
+My Dream: ${dreamInput.substring(0, 50)}${dreamInput.length > 50 ? '...' : ''}
+
+✨ Interpretation:
+${interpretation}
+
+💫 Want to get your dream interpreted too?`;
+
+            window.shareWithModal('AI Dream Interpreter', text);
         }
 
         function newDream() {

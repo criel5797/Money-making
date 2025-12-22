@@ -724,20 +724,14 @@
 
         function shareResult() {
             const cardNames = selectedCards.map(c => _t(c.name) + (c.reversed ? _t('(역방향)') : '')).join(', ');
-            const text = `🔮 ${_t('오늘의 타로:')}: ${cardNames}\n${_t('나도 뽑아보기')} 👉`;
+            const text = `🔮 오늘의 타로 운세
 
-            if (navigator.share) {
-                navigator.share({
-                    title: _t('AI 타로 카드') + ' ' + _t('결과'),
-                    text: text
-                }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 ' + _t('결과가 복사되었어요!')));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 ' + _t('결과가 복사되었어요!'));
-                });
-            }
+뽑은 카드: ${cardNames}
+
+신비로운 카드가 나의 운명을 알려줬어요!
+✨ 너도 타로 뽑아볼래?`;
+
+            window.shareWithModal('AI 타로 카드', text);
         }
 
         function showToast(message) {

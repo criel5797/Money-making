@@ -672,25 +672,18 @@
         }
 
         function shareResult() {
-            const text = `💫 Past Life Connection Test Results\n\n` +
-                        `${resultData.name1} 💕 ${resultData.name2}\n\n` +
-                        `【${resultData.era}】\n` +
-                        `${resultData.emoji}\n` +
-                        `"${resultData.relation}"\n\n` +
-                        `✨ Trust ${resultData.karma.trust}% | Passion ${resultData.karma.passion}%\n` +
-                        `🌟 Destiny ${resultData.karma.destiny}% | Harmony ${resultData.karma.harmony}%\n\n` +
-                        `Discover your past life connection 👉`;
+            const text = `💫 Past Life Connection Test
 
-            if (navigator.share) {
-                navigator.share({ title: 'Past Life Connection Test', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 Results copied!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 Results copied!');
-                });
-            }
+${resultData.name1} & ${resultData.name2}'s Past Life
+${resultData.emoji} ${resultData.relation}
+【${resultData.era}】
+
+✨ Trust ${resultData.karma.trust}% | Passion ${resultData.karma.passion}%
+🌟 Destiny ${resultData.karma.destiny}% | Harmony ${resultData.karma.harmony}%
+
+🌙 Want to discover your past life connection?`;
+
+            window.shareWithModal('Past Life Connection Test', text);
         }
 
         function resetTest() {

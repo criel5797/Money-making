@@ -521,23 +521,23 @@
 
             let text;
             if (currentWinners.length === 1) {
-                text = `🎉 ランダム抽選結果！\n\n当選: ${currentWinners[0]}\n\nランダム抽選で公平に選出しました！`;
+                text = `🎲 ランダム抽選結果
+
+当選: ${currentWinners[0]}! 🎉
+
+運命が選びました！
+✨ あなたも試してみませんか？`;
             } else {
                 const winnerList = currentWinners.map((w, i) => `${i + 1}. ${w}`).join('\n');
-                text = `🎉 ランダム抽選結果！\n\n${winnerList}\n\nランダム抽選で公平に選出しました！`;
+                text = `🎲 ランダム抽選結果
+
+${winnerList}
+
+皆さんおめでとうございます！ 🎊
+✨ あなたも試してみませんか？`;
             }
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'ランダム抽選結果',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('結果がクリップボードにコピーされました！');
-                });
-            }
+            window.shareWithModal('ランダム抽選結果', text);
         }
     </script>
 </body>

@@ -672,25 +672,18 @@
         }
 
         function shareResult() {
-            const text = `💫 전생의 인연 테스트 결과\n\n` +
-                        `${resultData.name1} 💕 ${resultData.name2}\n\n` +
-                        `【${resultData.era}】\n` +
-                        `${resultData.emoji}\n` +
-                        `"${resultData.relation}"\n\n` +
-                        `✨ 신뢰 ${resultData.karma.trust}% | 열정 ${resultData.karma.passion}%\n` +
-                        `🌟 운명 ${resultData.karma.destiny}% | 조화 ${resultData.karma.harmony}%\n\n` +
-                        `우리도 전생 인연 알아보기 👉`;
+            const text = `💫 전생의 인연 테스트
 
-            if (navigator.share) {
-                navigator.share({ title: '전생의 인연 테스트', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
-                });
-            }
+${resultData.name1} & ${resultData.name2}의 전생 인연
+${resultData.emoji} ${resultData.relation}
+【${resultData.era}】
+
+✨ 신뢰 ${resultData.karma.trust}% | 열정 ${resultData.karma.passion}%
+🌟 운명 ${resultData.karma.destiny}% | 조화 ${resultData.karma.harmony}%
+
+🌙 너희도 전생의 인연을 확인해볼래?`;
+
+            window.shareWithModal('전생의 인연 테스트', text);
         }
 
         function resetTest() {

@@ -613,22 +613,16 @@
             }
 
             const matchText = Object.entries(matches)
-                .map(([name, result]) => `${name} → ${result}`)
-                .join('\n');
+                .map(([name, result]) => `${name}さんの運命は...\n🎯 ${result}!`)
+                .join('\n\n');
 
-            const text = `🪜 はしごゲーム結果\n\n${matchText}\n\nはしごゲームで公正に決めました!`;
+            const text = `🪜 はしごゲーム結果
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'はしごゲーム結果',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('結果がクリップボードにコピーされました!');
-                });
-            }
+${matchText}
+
+🎲 あなたもやってみる?`;
+
+            window.shareWithModal('はしごゲーム結果', text);
         }
 
         // Redraw ladder on window resize

@@ -759,23 +759,16 @@
         }
 
         function shareResult() {
-            const text = `🔮 My Past Life Test Result\n\n` +
-                        `${resultData.name} was...\n` +
-                        `【${resultData.era}】\n` +
-                        `${resultData.emoji} ${resultData.title}\n\n` +
-                        `✨ "${resultData.story.substring(0, 80)}..."\n\n` +
-                        `Discover your past life too 👉`;
+            const text = `🌌 Past Life Test Result
 
-            if (navigator.share) {
-                navigator.share({ title: 'Past Life Test Result', text: text, url: window.location.href })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => showToast('Result copied!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
-                    showToast('Result copied!');
-                });
-            }
+My Past Life: ${resultData.emoji} ${resultData.title}
+【${resultData.era}】
+
+${resultData.story.substring(0, 90)}...
+
+🔮 Want to discover your past life too?`;
+
+            window.shareWithModal('Past Life Test Result', text);
         }
 
         function resetTest() {

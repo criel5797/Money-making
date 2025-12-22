@@ -770,25 +770,20 @@
 
         function shareResult() {
             const avgScore = Math.round((resultData.scores.love + resultData.scores.wealth + resultData.scores.career + resultData.scores.health) / 4);
-            const text = `🔮 AI人相診断結果\n\n` +
-                        `【${resultData.grade}】\n` +
-                        `📊 総合 ${avgScore}点\n\n` +
-                        `❤️ 恋愛運: ${resultData.scores.love}点\n` +
-                        `💰 財運: ${resultData.scores.wealth}点\n` +
-                        `💼 仕事運: ${resultData.scores.career}点\n` +
-                        `💪 健康運: ${resultData.scores.health}点\n\n` +
-                        `人相を占う 👉`;
+            const text = `👁️ AI人相診断結果
 
-            if (navigator.share) {
-                navigator.share({ title: 'AI人相診断', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果をコピーしました!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 結果をコピーしました!');
-                });
-            }
+【${resultData.grade}】
+📊 総合 ${avgScore}点
+
+❤️ 恋愛運: ${resultData.scores.love}点
+💰 財運: ${resultData.scores.wealth}点
+💼 仕事運: ${resultData.scores.career}点
+💪 健康運: ${resultData.scores.health}点
+
+人相で見るあなたの性格と運勢!
+✨ あなたも人相診断を受けてみませんか?`;
+
+            window.shareWithModal('AI人相診断', text);
         }
 
         function resetTest() {

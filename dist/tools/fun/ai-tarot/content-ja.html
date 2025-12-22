@@ -721,20 +721,14 @@
 
         function shareResult() {
             const cardNames = selectedCards.map(c => c.name + (c.reversed ? '(逆位置)' : '')).join('、');
-            const text = `🔮 今日のタロット: ${cardNames}\n私も引いてみる 👉`;
+            const text = `🔮 今日のタロット占い
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'AIタロットカード 結果',
-                    text: text
-                }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 結果がコピーされました!');
-                });
-            }
+引いたカード: ${cardNames}
+
+神秘的なカードが私の運命を教えてくれました!
+✨ あなたも占ってみませんか?`;
+
+            window.shareWithModal('AIタロットカード', text);
         }
 
         function showToast(message) {

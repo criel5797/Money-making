@@ -736,22 +736,18 @@
         }
 
         function shareResult() {
-            const text = `🌿 나를 동물로 표현하면?\n\n` +
-                        `${resultData.emoji} ${resultData.name}\n` +
-                        `${resultData.title}\n\n` +
-                        `✨ ${resultData.traits.slice(0, 3).join(' · ')}\n\n` +
-                        `나도 테스트하기 👉`;
+            const text = `🦊 동물 성격 테스트 결과
 
-            if (navigator.share) {
-                navigator.share({ title: '동물 성격 테스트', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 결과가 복사되었어요!'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 결과가 복사되었어요!');
-                });
-            }
+나의 동물 유형: ${resultData.emoji} ${resultData.name}
+${resultData.title}
+
+${resultData.description}
+
+✨ 나의 특징: ${resultData.traits.slice(0, 3).join(' · ')}
+
+🐾 너는 어떤 동물일까?`;
+
+            window.shareWithModal('동물 성격 테스트', text);
         }
 
         function resetTest() {

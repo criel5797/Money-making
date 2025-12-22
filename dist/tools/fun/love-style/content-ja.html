@@ -798,24 +798,19 @@
         }
 
         function shareResult() {
-            const text = `💕 恋愛性向テスト結果\n\n` +
-                        `${resultData.emoji} ${resultData.name}\n` +
-                        `${resultData.title}\n\n` +
-                        `🏷️ ${resultData.keywords.map(k => '#'+k).join(' ')}\n\n` +
-                        `💚 相性の良いタイプ: ${resultData.goodMatch}\n` +
-                        `💔 注意するタイプ: ${resultData.badMatch}\n\n` +
-                        `私もテストする 👉`;
+            const text = `💗 恋愛性向テスト結果
 
-            if (navigator.share) {
-                navigator.share({ title: '恋愛性向テスト', text: text })
-                    .catch(err => {
-                        navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
-                    });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 結果がコピーされました！');
-                });
-            }
+私の恋愛タイプ: ${resultData.emoji} ${resultData.name}
+${resultData.title}
+
+${resultData.description}
+
+💚 相性の良いタイプ: ${resultData.goodMatch}
+💔 注意するタイプ: ${resultData.badMatch}
+
+💘 あなたの恋愛スタイルも調べてみませんか？`;
+
+            window.shareWithModal('恋愛性向テスト結果', text);
         }
 
         function resetTest() {

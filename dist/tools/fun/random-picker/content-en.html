@@ -525,23 +525,23 @@ Charlie Brown"></textarea>
 
             let text;
             if (currentWinners.length === 1) {
-                text = `🎉 Random Draw Result!\n\nWinner: ${currentWinners[0]}\n\nFairly selected with Random Picker!`;
+                text = `🎲 Random Pick Result
+
+Winner: ${currentWinners[0]}! 🎉
+
+Destiny has chosen!
+✨ Want to try your luck too?`;
             } else {
                 const winnerList = currentWinners.map((w, i) => `${i + 1}. ${w}`).join('\n');
-                text = `🎉 Random Draw Result!\n\n${winnerList}\n\nFairly selected with Random Picker!`;
+                text = `🎲 Random Pick Result
+
+${winnerList}
+
+Congratulations to all! 🎊
+✨ Want to try your luck too?`;
             }
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Random Draw Result',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('Result copied to clipboard!');
-                });
-            }
+            window.shareWithModal('Random Pick Result', text);
         }
     </script>
 <script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>

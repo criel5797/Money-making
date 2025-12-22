@@ -828,21 +828,18 @@
         }
 
         function shareResult() {
-            const text = `私の四柱推命結果\n` +
-                        `総合運: ${resultData.fortunes.overall}点\n` +
-                        `恋愛運: ${resultData.fortunes.love}点\n` +
-                        `財運: ${resultData.fortunes.wealth}点\n\n` +
-                        `私も四柱推命を見る 👉`;
+            const text = `🔮 AI四柱推命結果
 
-            if (navigator.share) {
-                navigator.share({ title: 'AI四柱推命', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 結果がコピーされました！'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 結果がコピーされました！');
-                });
-            }
+総合運: ${resultData.fortunes.overall}点 ⭐
+恋愛運: ${resultData.fortunes.love}点 💕
+財運: ${resultData.fortunes.wealth}点 💰
+職業運: ${resultData.fortunes.career}点 💼
+健康運: ${resultData.fortunes.health}点 ❤️
+
+四柱八字で見た私の運命!
+✨ あなたも四柱推命を受けてみませんか?`;
+
+            window.shareWithModal('AI四柱推命', text);
         }
 
         function showToast(message) {

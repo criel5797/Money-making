@@ -152,10 +152,14 @@
 
         function shareResult() {
             const bmi = document.getElementById('bmiValue').textContent;
-            const category = document.getElementById('bmiCategory').textContent;
-            const text = `⚖️ My BMI: ${bmi} (${category})`;
-            if (navigator.share) navigator.share({ title: 'BMI Result', text: text });
-            else { navigator.clipboard.writeText(text); alert("Copied: " + text); }
+            const status = document.getElementById('bmiCategory').textContent;
+            const text = `⚖️ BMI Measurement Result
+
+My BMI: ${bmi}
+You're in the ${status} range!
+
+💪 Calculate your BMI too!`;
+            window.shareWithModal('BMI Calculator', text);
         }
 
         document.querySelectorAll('input').forEach(input => {

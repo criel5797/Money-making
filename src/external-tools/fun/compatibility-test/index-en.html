@@ -825,20 +825,16 @@
         }
 
         function shareResult() {
-            const text = `💕 ${resultData.name1} ❤️ ${resultData.name2} Compatibility Results\n\n` +
-                        `Compatibility Score: ${resultData.score}%\n` +
-                        `${getResultMessage(resultData.score)}\n\n` +
-                        `Check your compatibility too 👉`;
+            const text = `💕 AI Compatibility Test Results
 
-            if (navigator.share) {
-                navigator.share({ title: 'AI Compatibility Test Results', text: text }).catch(err => {
-                    navigator.clipboard.writeText(text).then(() => showToast('📋 Results copied!'));
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 Results copied!');
-                });
-            }
+${resultData.name1} ❤️ ${resultData.name2}
+Compatibility Score: ${resultData.score}%!
+
+Our compatibility is ${getResultMessage(resultData.score)}
+
+💑 Want to test your couple compatibility?`;
+
+            window.shareWithModal('AI Compatibility Test', text);
         }
 
         function showToast(message) {

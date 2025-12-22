@@ -613,22 +613,16 @@
             }
 
             const matchText = Object.entries(matches)
-                .map(([name, result]) => `${name} → ${result}`)
-                .join('\n');
+                .map(([name, result]) => `${name}님의 운명은...\n🎯 ${result}!`)
+                .join('\n\n');
 
-            const text = `🪜 사다리 타기 결과\n\n${matchText}\n\n사다리 타기로 공정하게 정했습니다!`;
+            const text = `🪜 사다리 게임 결과
 
-            if (navigator.share) {
-                navigator.share({
-                    title: '사다리 타기 결과',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('결과가 클립보드에 복사되었습니다!');
-                });
-            }
+${matchText}
+
+🎲 너도 사다리 타볼래?`;
+
+            window.shareWithModal('사다리 게임 결과', text);
         }
 
         // 윈도우 리사이즈 시 사다리 다시 그리기
