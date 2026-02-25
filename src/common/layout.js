@@ -183,8 +183,8 @@ function createLayout(options) {
   var ogImage = options.ogImage || baseUrl + '/og-image.png';
 
   var adsScript = '';
-  if (includeAdScript && monetagSiteId) {
-    adsScript = '<script>(function(d,z,s){s.src="https://"+d+"/400/"+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})(\'glorianetwork.com\',' + monetagSiteId + ',document.createElement("script"))</script>';
+  if (includeAdScript) {
+    adsScript = '<script src="https://quge5.com/88/tag.min.js" data-zone="214320" async data-cfasync="false"></script>';
   }
 
   var canonical = baseUrl + pathname;
