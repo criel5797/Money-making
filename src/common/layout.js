@@ -9,7 +9,7 @@ var styles = `
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;margin:0;padding:0;min-height:100vh;background:linear-gradient(-45deg,#667eea,#764ba2,#f093fb,#4facfe);background-size:400% 400%;animation:gradient 15s ease infinite;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
-.container{max-width:1200px;margin:0 auto;padding:24px;animation:fadeIn 0.8s ease-out}
+.container{max-width:1200px;margin:0 auto;padding:24px;animationh:fadeIn 0.8s ease-out}
 h1{font-size:clamp(28px,5vw,56px);margin:32px 0 16px;text-align:center;color:#fff;font-weight:900;text-shadow:0 4px 12px rgba(0,0,0,0.2);letter-spacing:-1px;animation:fadeIn 1s ease-out}
 h2{font-size:28px;margin:24px 0;color:#fff;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,0.15)}
 h3{font-size:22px;margin:16px 0;color:#fff;font-weight:600}
@@ -176,26 +176,21 @@ function createLayout(options) {
   var pathname = options.pathname;
   var body = options.body;
   var includeAdScript = options.includeAdScript || false;
-  var adsClient = options.adsClient || '';
+  var monetagSiteId = options.monetagSiteId || '';
   var basePath = options.basePath || '';
   var baseUrl = options.baseUrl || 'https://instaidea.org';
   var i18nData = options.i18nData;
   var ogImage = options.ogImage || baseUrl + '/og-image.png';
 
   var adsScript = '';
-  if (includeAdScript && adsClient) {
-    adsScript = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + adsClient + '" crossorigin="anonymous"></script>';
+  if (includeAdScript && monetagSiteId) {
+    adsScript = '<script>(function(d,z,s){s.src="https://"+d+"/400/"+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})(\'glorianetwork.com\',' + monetagSiteId + ',document.createElement("script"))</script>';
   }
 
   var canonical = baseUrl + pathname;
   var href = function(p) { return basePath + p; };
 
-  var adsPlaceholder = adsClient
-    ? (
-      '<ins class="adsbygoogle" style="display:block;margin:24px 0" data-ad-format="auto" data-full-width-responsive="true"></ins>' +
-      '<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>'
-    )
-    : '<div class="placeholder" data-i18n="adPlaceholder">AdSense 승인 후 광고가 표시됩니다</div>';
+var adsPlaceholder = '';
 
   var html =
     '<!doctype html><html lang="ko"><head>' +
