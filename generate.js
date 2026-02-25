@@ -612,14 +612,14 @@ function build(){
     write(path.join(OUT, 'ads.txt'), 'google.com, ' + PUB_ID + ', DIRECT, f08c47fec0942fa0');
   }
 
-  // Monetag service worker
+  // Monetag service worker (verification only, no Multitag)
   write(path.join(OUT, 'sw.js'), [
     'self.options = {',
     '    "domain": "3nbf4.com",',
     '    "zoneId": 10652551',
     '}',
     'self.lary = ""',
-    "importScripts('https://3nbf4.com/act/files/service-worker.min.js?r=sw')"
+    '// importScripts disabled to prevent Vignette overlay ads'
   ].join('\n'));
 
   // CNAME 파일 생성 (커스텀 도메인용)
