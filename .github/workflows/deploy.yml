@@ -28,7 +28,7 @@ jobs:
       - name: Build static site
         env:
           BASE_URL: ${{ vars.BASE_URL }}
-          ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }} # 없으면 빈값으로 처리되어도 OK
+          MONETAG_SITE_ID: ${{ secrets.MONETAG_SITE_ID }} # 없으면 빈값으로 처리되어도 OK
         run: |
           npm ci --ignore-scripts --prefer-offline || true
           npm run build
