@@ -184,7 +184,10 @@ function createLayout(options) {
 
   var adsScript = '';
   if (includeAdScript) {
-    adsScript = '<script src="https://quge5.com/88/tag.min.js" data-zone="214320" async data-cfasync="false"></script>';
+    adsScript =
+      '<script>(function(s){s.dataset.zone="10653191",s.src="https://al5sm.com/tag.min.js"})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement("script")))</script>' +
+      '<script src="https://5gvci.com/act/files/tag.min.js?z=10653193" data-cfasync="false" async></script>' +
+      '<script>(function(s){s.dataset.zone="10653196",s.src="https://nap5k.com/tag.min.js"})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement("script")))</script>';
   }
 
   var canonical = baseUrl + pathname;
