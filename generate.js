@@ -36,7 +36,7 @@ var BASE_PATH = BASE_URL
   ? (new URL(BASE_URL).pathname.replace(/\/$/, '') || '')
   : (process.env.BASE_PATH || autoBasePath);
 
-var ADS_CLIENT = process.env.ADSENSE_CLIENT || '';
+var ADS_CLIENT = process.env.MONETAG_SITE_ID || '';
 var PUB_ID = ADS_CLIENT.replace('ca-pub-', '');
 
 function ensureDir(p){ fs.mkdirSync(p, { recursive: true }); }
@@ -67,7 +67,7 @@ function layout(title, pathname, body, includeAdScript, description) {
     pathname: pathname,
     body: body,
     includeAdScript: includeAdScript,
-    adsClient: ADS_CLIENT,
+    monetagSiteId: ADS_CLIENT,
     basePath: BASE_PATH,
     baseUrl: BASE_URL,
     i18nData: i18n
