@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지출 기록기</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1e3c72, #2a5298); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .month-display { font-size: 1rem; opacity: .8; }
+        .expense-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .summary-card { background: rgba(0,0,0,.3); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .summary-label { font-size: .9rem; opacity: .7; margin-bottom: 5px; }
+        .summary-value { font-size: 2rem; font-weight: 700; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input, .form-row select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; }
+        .expense-list { max-height: 300px; overflow-y: auto; }
+        .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 10px; }
+        .expense-info { flex: 1; }
+        .expense-category { font-size: .8rem; opacity: .7; }
+        .expense-amount { font-weight: 600; color: #ff6b6b; }
+        .del-btn { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 1.2rem; }
+        .category-summary { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+        .cat-chip { padding: 8px 15px; background: rgba(255,255,255,.1); border-radius: 20px; font-size: .85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>💸 지출 기록기</h1>
+            <div class="month-display" id="monthDisplay"></div>
+        </header>
+        <div class="expense-section">
+            <div class="summary-card">
+                <div class="summary-label">이번 달 총 지출</div>
+                <div class="summary-value" id="totalExpense">0원</div>
+            </div>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="expenseName" placeholder="내용">
+                    <input type="number" id="expenseAmount" placeholder="금액">
+                </div>
+                <div class="form-row">
+                    <select id="expenseCategory">
+                        <option value="food">식비</option>
+                        <option value="transport">교통비</option>
+                        <option value="shopping">쇼핑</option>
+                        <option value="entertainment">여가</option>
+                        <option value="bills">공과금</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                <button class="add-btn" onclick="addExpense()">지출 추가</button>
+            </div>
+            <div class="expense-list" id="expenseList"></div>
+            <div class="category-summary" id="categorySummary"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var catNames = { food: '식비', transport: '교통비', shopping: '쇼핑', entertainment: '여가', bills: '공과금', other: '기타' };
+        var month = new Date().getMonth() + 1;
+        var year = new Date().getFullYear();
+        var key = 'expenses_' + year + '_' + month;
+        var expenses = JSON.parse(localStorage.getItem(key) || '[]');
+        document.getElementById('monthDisplay').textContent = year + '년 ' + month + '월';
+        function save() { localStorage.setItem(key, JSON.stringify(expenses)); }
+        function addExpense() {
+            var name = document.getElementById('expenseName').value.trim();
+            var amount = parseInt(document.getElementById('expenseAmount').value) || 0;
+            var category = document.getElementById('expenseCategory').value;
+            if (!name || !amount) return;
+            expenses.push({ name: name, amount: amount, category: category, date: new Date().toISOString() });
+            save();
+            document.getElementById('expenseName').value = '';
+            document.getElementById('expenseAmount').value = '';
+            render();
+        }
+        function delExpense(i) { expenses.splice(i, 1); save(); render(); }
+        function render() {
+            var total = expenses.reduce(function(s, e) { return s + e.amount; }, 0);
+            document.getElementById('totalExpense').textContent = total.toLocaleString() + '원';
+            var list = document.getElementById('expenseList');
+            list.innerHTML = '';
+            expenses.slice().reverse().forEach(function(e, i) {
+                var div = document.createElement('div');
+                div.className = 'expense-item';
+                div.innerHTML = '<div class="expense-info"><div>' + e.name + '</div><div class="expense-category">' + catNames[e.category] + '</div></div><span class="expense-amount">-' + e.amount.toLocaleString() + '원</span><button class="del-btn" onclick="delExpense(' + (expenses.length - 1 - i) + ')">×</button>';
+                list.appendChild(div);
+            });
+            var catTotals = {};
+            expenses.forEach(function(e) { catTotals[e.category] = (catTotals[e.category] || 0) + e.amount; });
+            var summary = document.getElementById('categorySummary');
+            summary.innerHTML = '';
+            Object.keys(catTotals).forEach(function(c) {
+                var chip = document.createElement('span');
+                chip.className = 'cat-chip';
+                chip.textContent = catNames[c] + ' ' + catTotals[c].toLocaleString() + '원';
+                summary.appendChild(chip);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

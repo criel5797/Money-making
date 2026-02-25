@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Music</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #141E30, #243B55); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .music-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .now-playing { text-align: center; padding: 30px; background: rgba(0,0,0,.2); border-radius: 12px; margin-bottom: 20px; }
+        .sound-icon { font-size: 4rem; margin-bottom: 15px; }
+        .sound-name { font-size: 1.3rem; font-weight: 600; margin-bottom: 10px; }
+        .sound-desc { font-size: .9rem; opacity: .7; }
+        .volume-control { margin: 20px 0; }
+        .volume-label { font-size: .8rem; opacity: .7; margin-bottom: 5px; }
+        .volume-slider { width: 100%; height: 8px; -webkit-appearance: none; background: rgba(255,255,255,.2); border-radius: 4px; outline: none; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: #fff; border-radius: 50%; cursor: pointer; }
+        .sound-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .sound-btn { padding: 20px 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; cursor: pointer; text-align: center; transition: all .2s; }
+        .sound-btn.active { background: rgba(255,255,255,.25); box-shadow: 0 0 15px rgba(255,255,255,.2); }
+        .sound-btn:hover { background: rgba(255,255,255,.2); }
+        .btn-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+        .btn-name { font-size: .9rem; }
+        .timer-section { margin-top: 20px; padding: 15px; background: rgba(0,0,0,.2); border-radius: 10px; }
+        .timer-row { display: flex; gap: 10px; align-items: center; }
+        .timer-select { flex: 1; padding: 10px; border: none; border-radius: 8px; background: rgba(255,255,255,.9); color: #333; }
+        .timer-btn { padding: 10px 20px; border: none; border-radius: 8px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; cursor: pointer; }
+        .timer-display { text-align: center; margin-top: 10px; font-size: 1.2rem; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🎵 Focus Music</h1>
+        </header>
+        <div class="music-section">
+            <div class="now-playing">
+                <div class="sound-icon" id="soundIcon">🔇</div>
+                <div class="sound-name" id="soundName">Select a sound</div>
+                <div class="sound-desc" id="soundDesc">Choose a sound from below</div>
+            </div>
+            <div class="volume-control">
+                <div class="volume-label">Volume</div>
+                <input type="range" class="volume-slider" id="volume" min="0" max="100" value="50">
+            </div>
+            <div class="sound-grid">
+                <button class="sound-btn" onclick="playSound('rain')"><span class="btn-icon">🌧️</span><span class="btn-name">Rain</span></button>
+                <button class="sound-btn" onclick="playSound('forest')"><span class="btn-icon">🌲</span><span class="btn-name">Forest</span></button>
+                <button class="sound-btn" onclick="playSound('ocean')"><span class="btn-icon">🌊</span><span class="btn-name">Ocean</span></button>
+                <button class="sound-btn" onclick="playSound('fire')"><span class="btn-icon">🔥</span><span class="btn-name">Fireplace</span></button>
+                <button class="sound-btn" onclick="playSound('cafe')"><span class="btn-icon">☕</span><span class="btn-name">Cafe</span></button>
+                <button class="sound-btn" onclick="playSound('wind')"><span class="btn-icon">💨</span><span class="btn-name">Wind</span></button>
+                <button class="sound-btn" onclick="playSound('thunder')"><span class="btn-icon">⛈️</span><span class="btn-name">Thunder</span></button>
+                <button class="sound-btn" onclick="playSound('bird')"><span class="btn-icon">🐦</span><span class="btn-name">Birds</span></button>
+            </div>
+            <div class="timer-section">
+                <div class="timer-row">
+                    <select class="timer-select" id="timerSelect">
+                        <option value="0">No timer</option>
+                        <option value="15">15 min</option>
+                        <option value="30">30 min</option>
+                        <option value="45">45 min</option>
+                        <option value="60">1 hour</option>
+                        <option value="90">1.5 hours</option>
+                        <option value="120">2 hours</option>
+                    </select>
+                    <button class="timer-btn" onclick="startTimer()">Set</button>
+                </div>
+                <div class="timer-display" id="timerDisplay"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var sounds = {
+            rain: { icon: '🌧️', name: 'Rain', desc: 'Calming rain sounds for focus' },
+            forest: { icon: '🌲', name: 'Forest', desc: 'Natural sounds of birds and insects' },
+            ocean: { icon: '🌊', name: 'Ocean', desc: 'Gentle waves rolling in' },
+            fire: { icon: '🔥', name: 'Fireplace', desc: 'Warm crackling fire sounds' },
+            cafe: { icon: '☕', name: 'Cafe', desc: 'Relaxing cafe atmosphere' },
+            wind: { icon: '💨', name: 'Wind', desc: 'Soft blowing wind' },
+            thunder: { icon: '⛈️', name: 'Thunder', desc: 'Dramatic thunder with rain' },
+            bird: { icon: '🐦', name: 'Birds', desc: 'Clear birdsong chirping' }
+        };
+        var currentSound = null;
+        var audioCtx = null;
+        var oscillator = null;
+        var gainNode = null;
+        var noiseNode = null;
+        var timerInterval = null;
+        var timerRemaining = 0;
+        function createNoise(type) {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (noiseNode) { noiseNode.disconnect(); noiseNode = null; }
+            if (oscillator) { oscillator.stop(); oscillator = null; }
+            if (gainNode) gainNode.disconnect();
+            gainNode = audioCtx.createGain();
+            gainNode.gain.value = document.getElementById('volume').value / 100 * 0.3;
+            var bufferSize = 2 * audioCtx.sampleRate;
+            var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            var output = buffer.getChannelData(0);
+            for (var i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+            noiseNode = audioCtx.createBufferSource();
+            noiseNode.buffer = buffer;
+            noiseNode.loop = true;
+            var filter = audioCtx.createBiquadFilter();
+            if (type === 'rain' || type === 'ocean') { filter.type = 'lowpass'; filter.frequency.value = 800; }
+            else if (type === 'wind') { filter.type = 'bandpass'; filter.frequency.value = 400; }
+            else if (type === 'thunder') { filter.type = 'lowpass'; filter.frequency.value = 200; }
+            else { filter.type = 'lowpass'; filter.frequency.value = 1200; }
+            noiseNode.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            noiseNode.start();
+        }
+        function playSound(type) {
+            document.querySelectorAll('.sound-btn').forEach(function(b) { b.classList.remove('active'); });
+            if (currentSound === type) {
+                stopSound();
+                return;
+            }
+            currentSound = type;
+            event.target.closest('.sound-btn').classList.add('active');
+            document.getElementById('soundIcon').textContent = sounds[type].icon;
+            document.getElementById('soundName').textContent = sounds[type].name;
+            document.getElementById('soundDesc').textContent = sounds[type].desc;
+            createNoise(type);
+        }
+        function stopSound() {
+            currentSound = null;
+            if (noiseNode) { noiseNode.stop(); noiseNode = null; }
+            document.getElementById('soundIcon').textContent = '🔇';
+            document.getElementById('soundName').textContent = 'Select a sound';
+            document.getElementById('soundDesc').textContent = 'Choose a sound from below';
+        }
+        document.getElementById('volume').addEventListener('input', function() {
+            if (gainNode) gainNode.gain.value = this.value / 100 * 0.3;
+        });
+        function startTimer() {
+            var mins = parseInt(document.getElementById('timerSelect').value);
+            if (mins === 0) { clearInterval(timerInterval); document.getElementById('timerDisplay').textContent = ''; return; }
+            timerRemaining = mins * 60;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(function() {
+                timerRemaining--;
+                var m = Math.floor(timerRemaining / 60);
+                var s = timerRemaining % 60;
+                document.getElementById('timerDisplay').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+                if (timerRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    stopSound();
+                    document.querySelectorAll('.sound-btn').forEach(function(b) { b.classList.remove('active'); });
+                    document.getElementById('timerDisplay').textContent = 'Done!';
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

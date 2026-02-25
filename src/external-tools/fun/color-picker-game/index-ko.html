@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컬러 맞추기</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #232526, #414345); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .target-color { height: 120px; border-radius: 16px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 600; }
+        .rgb-display { background: rgba(0,0,0,.3); padding: 10px 20px; border-radius: 10px; font-family: monospace; }
+        .difficulty { display: flex; gap: 10px; margin-bottom: 20px; }
+        .diff-btn { flex: 1; padding: 10px; border: none; border-radius: 10px; background: rgba(255,255,255,.15); color: #fff; cursor: pointer; font-size: .85rem; }
+        .diff-btn.active { background: rgba(255,255,255,.35); font-weight: 600; }
+        .color-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
+        .color-option { height: 80px; border: 4px solid transparent; border-radius: 12px; cursor: pointer; transition: transform .2s, border-color .2s; }
+        .color-option:hover { transform: scale(1.05); }
+        .color-option.correct { border-color: #4ade80; animation: pulse 0.5s; }
+        .color-option.wrong { border-color: #ef4444; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .result { text-align: center; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 1.1rem; display: none; }
+        .result.correct { display: block; background: rgba(46,204,113,.3); }
+        .result.wrong { display: block; background: rgba(231,76,60,.3); }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.3rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+        .next-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; cursor: pointer; font-weight: 600; display: none; }
+        .score-bar { display: flex; gap: 5px; margin-bottom: 15px; }
+        .score-dot { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,.2); }
+        .score-dot.correct { background: #4ade80; }
+        .score-dot.wrong { background: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🎨 컬러 맞추기</h1>
+        </header>
+        <div class="game-section">
+            <div class="difficulty">
+                <button class="diff-btn active" onclick="setDifficulty('easy')">쉬움</button>
+                <button class="diff-btn" onclick="setDifficulty('normal')">보통</button>
+                <button class="diff-btn" onclick="setDifficulty('hard')">어려움</button>
+            </div>
+            <div class="target-color" id="targetColor">
+                <span class="rgb-display" id="rgbDisplay">RGB(255, 255, 255)</span>
+            </div>
+            <div class="score-bar" id="scoreBar"></div>
+            <div class="color-options" id="colorOptions"></div>
+            <div class="result" id="result"></div>
+            <button class="next-btn" id="nextBtn" onclick="newRound()">다음 라운드 ▶</button>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">점수</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="streak">0</div>
+                    <div class="stat-label">연속</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="highScore">0</div>
+                    <div class="stat-label">최고점</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var difficulty = 'easy';
+        var targetColor;
+        var score = 0;
+        var streak = 0;
+        var round = 0;
+        var maxRounds = 10;
+        var roundResults = [];
+        var highScore = parseInt(localStorage.getItem('colorpick_ko') || '0');
+
+        document.getElementById('highScore').textContent = highScore;
+
+        function setDifficulty(diff) {
+            difficulty = diff;
+            document.querySelectorAll('.diff-btn').forEach(function(btn, i) {
+                btn.classList.toggle('active', (i === 0 && diff === 'easy') || (i === 1 && diff === 'normal') || (i === 2 && diff === 'hard'));
+            });
+            resetGame();
+        }
+
+        function randomColor() {
+            return {
+                r: Math.floor(Math.random() * 256),
+                g: Math.floor(Math.random() * 256),
+                b: Math.floor(Math.random() * 256)
+            };
+        }
+
+        function colorToRgb(c) {
+            return 'rgb(' + c.r + ', ' + c.g + ', ' + c.b + ')';
+        }
+
+        function getSimilarColor(base, variance) {
+            return {
+                r: Math.max(0, Math.min(255, base.r + (Math.random() * 2 - 1) * variance)),
+                g: Math.max(0, Math.min(255, base.g + (Math.random() * 2 - 1) * variance)),
+                b: Math.max(0, Math.min(255, base.b + (Math.random() * 2 - 1) * variance))
+            };
+        }
+
+        function generateColors() {
+            targetColor = randomColor();
+            var variance = difficulty === 'easy' ? 100 : difficulty === 'normal' ? 60 : 30;
+            var numOptions = difficulty === 'hard' ? 6 : difficulty === 'normal' ? 6 : 3;
+
+            var colors = [targetColor];
+            for (var i = 1; i < numOptions; i++) {
+                colors.push(getSimilarColor(targetColor, variance));
+            }
+
+            return colors.sort(function() { return Math.random() - 0.5; });
+        }
+
+        function newRound() {
+            if (round >= maxRounds) {
+                endGame();
+                return;
+            }
+
+            var colors = generateColors();
+            document.getElementById('targetColor').style.background = colorToRgb(targetColor);
+            document.getElementById('rgbDisplay').textContent = 'RGB(' + targetColor.r + ', ' + targetColor.g + ', ' + targetColor.b + ')';
+
+            var options = document.getElementById('colorOptions');
+            options.innerHTML = '';
+            colors.forEach(function(c) {
+                var btn = document.createElement('div');
+                btn.className = 'color-option';
+                btn.style.background = colorToRgb(c);
+                btn.onclick = function() { checkAnswer(c, btn); };
+                options.appendChild(btn);
+            });
+
+            document.getElementById('result').className = 'result';
+            document.getElementById('nextBtn').style.display = 'none';
+            updateScoreBar();
+        }
+
+        function checkAnswer(color, btn) {
+            round++;
+            var isCorrect = color.r === targetColor.r && color.g === targetColor.g && color.b === targetColor.b;
+            var result = document.getElementById('result');
+
+            document.querySelectorAll('.color-option').forEach(function(opt) {
+                opt.onclick = null;
+            });
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                result.className = 'result correct';
+                result.textContent = '🎉 정답! +' + (streak + 1) + '점';
+                streak++;
+                score += streak;
+                roundResults.push(true);
+            } else {
+                btn.classList.add('wrong');
+                document.querySelectorAll('.color-option').forEach(function(opt) {
+                    var bgColor = opt.style.background;
+                    if (bgColor === colorToRgb(targetColor)) {
+                        opt.classList.add('correct');
+                    }
+                });
+                result.className = 'result wrong';
+                result.textContent = '❌ 틀렸어요!';
+                streak = 0;
+                roundResults.push(false);
+            }
+
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak;
+            document.getElementById('nextBtn').style.display = 'block';
+            updateScoreBar();
+
+            if (round >= maxRounds) {
+                document.getElementById('nextBtn').textContent = '결과 보기 🏆';
+            }
+        }
+
+        function updateScoreBar() {
+            var bar = document.getElementById('scoreBar');
+            bar.innerHTML = '';
+            for (var i = 0; i < maxRounds; i++) {
+                var dot = document.createElement('div');
+                dot.className = 'score-dot';
+                if (i < roundResults.length) {
+                    dot.classList.add(roundResults[i] ? 'correct' : 'wrong');
+                }
+                bar.appendChild(dot);
+            }
+        }
+
+        function endGame() {
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('colorpick_ko', highScore.toString());
+                document.getElementById('highScore').textContent = highScore;
+            }
+
+            var result = document.getElementById('result');
+            var correct = roundResults.filter(function(r) { return r; }).length;
+            result.className = 'result correct';
+            result.textContent = '게임 종료! ' + correct + '/' + maxRounds + ' 정답, 점수: ' + score;
+
+            document.getElementById('nextBtn').textContent = '다시 시작 🔄';
+            document.getElementById('nextBtn').onclick = resetGame;
+        }
+
+        function resetGame() {
+            score = 0;
+            streak = 0;
+            round = 0;
+            roundResults = [];
+            document.getElementById('score').textContent = 0;
+            document.getElementById('streak').textContent = 0;
+            document.getElementById('nextBtn').textContent = '다음 라운드 ▶';
+            document.getElementById('nextBtn').onclick = newRound;
+            newRound();
+        }
+
+        newRound();
+    </script>
+</body>
+</html>

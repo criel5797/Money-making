@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貯金目標計算機</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #56ab2f, #a8e063); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .calc-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .input-group { margin-bottom: 18px; }
+        .input-label { font-size: .9rem; margin-bottom: 8px; opacity: .8; }
+        input[type=number] { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; font-size: 1rem; }
+        .calc-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: rgba(0,0,0,.3); color: #fff; font-size: 1.1rem; cursor: pointer; margin: 20px 0; }
+        .result-card { background: rgba(0,0,0,.3); border-radius: 12px; padding: 25px; }
+        .result-main { text-align: center; margin-bottom: 20px; }
+        .result-label { font-size: .9rem; opacity: .8; margin-bottom: 5px; }
+        .result-value { font-size: 2rem; font-weight: 700; }
+        .result-unit { font-size: .9rem; opacity: .8; }
+        .detail-row { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid rgba(255,255,255,.1); }
+        .progress-section { margin-top: 20px; }
+        .progress-bar { height: 12px; background: rgba(0,0,0,.2); border-radius: 6px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #fff; transition: width .3s; }
+        .progress-text { text-align: center; margin-top: 8px; font-size: .85rem; opacity: .8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header><h1>💰 貯金目標計算機</h1></header>
+        <div class="calc-section">
+            <div class="input-group">
+                <div class="input-label">目標金額 (円)</div>
+                <input type="number" id="goalAmount" placeholder="1000000" value="1000000">
+            </div>
+            <div class="input-group">
+                <div class="input-label">現在の貯金額 (円)</div>
+                <input type="number" id="currentAmount" placeholder="0" value="0">
+            </div>
+            <div class="input-group">
+                <div class="input-label">目標期間 (ヶ月)</div>
+                <input type="number" id="months" placeholder="12" value="12">
+            </div>
+            <div class="input-group">
+                <div class="input-label">年利率 (%)</div>
+                <input type="number" id="interestRate" placeholder="3" value="3" step="0.1">
+            </div>
+            <button class="calc-btn" onclick="calculate()">計算する</button>
+            <div class="result-card">
+                <div class="result-main">
+                    <div class="result-label">月々の必要貯金額</div>
+                    <div class="result-value" id="monthlyAmount">0</div>
+                    <div class="result-unit">円/月</div>
+                </div>
+                <div class="detail-row"><span>残り金額</span><span id="remainingAmount">0円</span></div>
+                <div class="detail-row"><span>予想利息</span><span id="interestAmount">0円</span></div>
+                <div class="detail-row"><span>総貯金額</span><span id="totalSaved">0円</span></div>
+                <div class="progress-section">
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                    <div class="progress-text" id="progressText">0% 達成</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        function calculate() {
+            var goal = parseFloat(document.getElementById('goalAmount').value) || 0;
+            var current = parseFloat(document.getElementById('currentAmount').value) || 0;
+            var months = parseInt(document.getElementById('months').value) || 12;
+            var rate = parseFloat(document.getElementById('interestRate').value) || 0;
+            var remaining = goal - current;
+            var monthlyRate = rate / 100 / 12;
+            var monthly = 0;
+            var interest = 0;
+            if (monthlyRate > 0 && months > 0) {
+                var factor = Math.pow(1 + monthlyRate, months);
+                monthly = remaining * (monthlyRate * factor) / (factor - 1);
+                var totalPaid = monthly * months;
+                interest = totalPaid - remaining;
+            } else if (months > 0) {
+                monthly = remaining / months;
+            }
+            var pct = goal > 0 ? (current / goal) * 100 : 0;
+            document.getElementById('monthlyAmount').textContent = Math.round(monthly).toLocaleString();
+            document.getElementById('remainingAmount').textContent = Math.round(remaining).toLocaleString() + '円';
+            document.getElementById('interestAmount').textContent = Math.round(interest).toLocaleString() + '円';
+            document.getElementById('totalSaved').textContent = Math.round(current + monthly * months).toLocaleString() + '円';
+            document.getElementById('progressFill').style.width = Math.min(100, pct) + '%';
+            document.getElementById('progressText').textContent = pct.toFixed(1) + '% 達成';
+        }
+        calculate();
+    </script>
+</body>
+</html>

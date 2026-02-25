@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>連想ゲーム</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #06b6d4, #0891b2); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .95rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .timer-section { text-align: center; margin-bottom: 20px; }
+        .timer { font-size: 3rem; font-weight: 700; }
+        .timer.warning { color: #fbbf24; animation: pulse 0.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .word-display { background: linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.15)); border-radius: 20px; padding: 40px 25px; text-align: center; margin-bottom: 20px; }
+        .current-word { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .word-hint { font-size: .9rem; opacity: .7; }
+        .chain { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; min-height: 40px; }
+        .chain-word { background: rgba(255,255,255,.2); padding: 8px 16px; border-radius: 20px; font-size: .9rem; }
+        .controls { display: flex; gap: 12px; margin-bottom: 20px; }
+        .control-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all .3s; }
+        .pass-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .next-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .timer-setting { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .timer-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .timer-display { font-size: 1.5rem; font-weight: 700; min-width: 60px; text-align: center; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+        .game-over { display: none; text-align: center; }
+        .score-display { font-size: 5rem; font-weight: 700; margin-bottom: 10px; }
+        .score-label { font-size: 1.2rem; opacity: .8; margin-bottom: 20px; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🔗 連想ゲーム</h1>
+            <p class="subtitle">単語を見て連想される言葉を言おう！</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="timer-setting">
+                    <button class="timer-btn" onclick="changeTime(-5)">-</button>
+                    <div class="timer-display" id="timerSetting">5秒</div>
+                    <button class="timer-btn" onclick="changeTime(5)">+</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 ゲーム開始！</button>
+            </div>
+            <div class="play-section hidden" id="playSection">
+                <div class="timer-section">
+                    <div class="timer" id="timer">5</div>
+                </div>
+                <div class="word-display">
+                    <div class="current-word" id="currentWord">スタート！</div>
+                    <div class="word-hint" id="wordHint">この単語から連想される言葉を言ってね</div>
+                </div>
+                <div class="chain" id="chain"></div>
+                <div class="controls">
+                    <button class="control-btn pass-btn" onclick="failWord()">❌ 失敗</button>
+                    <button class="control-btn next-btn" onclick="nextWord()">✅ 成功</button>
+                </div>
+                <div class="stats">
+                    <div class="stats-row"><span>つながった単語</span><span id="chainCount">0</span></div>
+                </div>
+            </div>
+            <div class="game-over hidden" id="gameOver">
+                <div class="score-display" id="finalScore">0</div>
+                <div class="score-label">つながった単語</div>
+                <div class="chain" id="finalChain" style="margin-bottom:25px"></div>
+                <button class="start-btn" onclick="resetGame()">🔄 もう一度</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var startWords = [
+            "愛", "旅行", "食べ物", "学校", "家族", "友達", "動物", "海", "空", "夢",
+            "お金", "時間", "幸せ", "音楽", "映画", "本", "ゲーム", "スポーツ", "夏", "冬",
+            "春", "秋", "仕事", "休み", "コーヒー", "お茶", "水", "火", "土", "風",
+            "太陽", "月", "星", "雨", "雪", "風", "花", "木", "山", "川",
+            "都市", "田舎", "家", "会社", "病院", "公園", "スーパー", "レストラン", "カフェ", "海辺"
+        ];
+
+        var gameDuration = 5;
+        var timeLeft = 5;
+        var timer = null;
+        var chainWords = [];
+        var currentWord = "";
+
+        function changeTime(delta) {
+            gameDuration = Math.max(3, Math.min(15, gameDuration + delta));
+            document.getElementById('timerSetting').textContent = gameDuration + '秒';
+        }
+
+        function startGame() {
+            chainWords = [];
+            document.getElementById('setupSection').classList.add('hidden');
+            document.getElementById('playSection').classList.remove('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+            pickStartWord();
+            updateChainDisplay();
+        }
+
+        function pickStartWord() {
+            currentWord = startWords[Math.floor(Math.random() * startWords.length)];
+            document.getElementById('currentWord').textContent = currentWord;
+            chainWords.push(currentWord);
+            updateChainDisplay();
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = gameDuration;
+            updateTimerDisplay();
+            timer = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    failWord();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            var timerEl = document.getElementById('timer');
+            timerEl.textContent = timeLeft;
+            timerEl.classList.toggle('warning', timeLeft <= 2);
+        }
+
+        function nextWord() {
+            resetTimer();
+            document.getElementById('wordHint').textContent = '次の人が連想される言葉を言ってね';
+        }
+
+        function failWord() {
+            clearInterval(timer);
+            endGame();
+        }
+
+        function updateChainDisplay() {
+            var chainHtml = '';
+            for (var i = 0; i < chainWords.length; i++) {
+                chainHtml += '<span class="chain-word">' + chainWords[i] + '</span>';
+            }
+            document.getElementById('chain').innerHTML = chainHtml;
+            document.getElementById('chainCount').textContent = chainWords.length;
+        }
+
+        function endGame() {
+            document.getElementById('playSection').classList.add('hidden');
+            document.getElementById('gameOver').classList.remove('hidden');
+            document.getElementById('finalScore').textContent = chainWords.length;
+
+            var finalChainHtml = '';
+            for (var i = 0; i < Math.min(chainWords.length, 20); i++) {
+                finalChainHtml += '<span class="chain-word">' + chainWords[i] + '</span>';
+            }
+            if (chainWords.length > 20) {
+                finalChainHtml += '<span class="chain-word">...</span>';
+            }
+            document.getElementById('finalChain').innerHTML = finalChainHtml;
+
+            var stats = JSON.parse(localStorage.getItem('wordassoc_ja') || '{"played":0,"best":0}');
+            stats.played++;
+            if (chainWords.length > stats.best) stats.best = chainWords.length;
+            localStorage.setItem('wordassoc_ja', JSON.stringify(stats));
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').classList.remove('hidden');
+            document.getElementById('playSection').classList.add('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

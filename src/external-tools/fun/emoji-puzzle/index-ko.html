@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이모지 퍼즐</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #f093fb, #f5576c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .score-bar { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 12px 16px; background: rgba(255,255,255,.1); border-radius: 10px; }
+        .score-item { text-align: center; }
+        .score-label { font-size: .75rem; opacity: .7; }
+        .score-value { font-size: 1.3rem; font-weight: 700; }
+        .puzzle-card { background: rgba(255,255,255,.15); border-radius: 16px; padding: 25px; margin-bottom: 20px; text-align: center; }
+        .puzzle-emoji { font-size: 3rem; margin-bottom: 15px; letter-spacing: 10px; }
+        .puzzle-hint { font-size: .9rem; opacity: .8; margin-bottom: 15px; }
+        .puzzle-category { font-size: .8rem; background: rgba(255,255,255,.2); display: inline-block; padding: 5px 12px; border-radius: 20px; margin-bottom: 15px; }
+        .answer-input { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.2); color: #fff; font-size: 1.1rem; text-align: center; margin-bottom: 15px; }
+        .answer-input::placeholder { color: rgba(255,255,255,.5); }
+        .options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
+        .option-btn { padding: 12px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: .95rem; cursor: pointer; transition: all .2s; }
+        .option-btn:hover { background: rgba(255,255,255,.2); transform: scale(1.02); }
+        .option-btn.correct { background: #22c55e; border-color: #22c55e; }
+        .option-btn.wrong { background: #ef4444; border-color: #ef4444; }
+        .option-btn.disabled { pointer-events: none; opacity: .6; }
+        .action-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; font-weight: 700; cursor: pointer; }
+        .action-btn:hover { transform: scale(1.02); }
+        .result-area { display: none; text-align: center; }
+        .result-area.show { display: block; animation: fadeIn .5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .result-icon { font-size: 4rem; margin-bottom: 15px; }
+        .result-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
+        .result-score { font-size: 3rem; font-weight: 700; color: #fbbf24; margin-bottom: 15px; }
+        .stats { margin-top: 15px; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🧩 이모지 퍼즐</h1>
+        </header>
+        <div class="game-section">
+            <div class="score-bar">
+                <div class="score-item">
+                    <div class="score-label">문제</div>
+                    <div class="score-value" id="questionNum">1/10</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">정답</div>
+                    <div class="score-value" id="correctCount">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">점수</div>
+                    <div class="score-value" id="score">0</div>
+                </div>
+            </div>
+            <div class="puzzle-card" id="puzzleCard">
+                <div class="puzzle-category" id="category">카테고리</div>
+                <div class="puzzle-emoji" id="emojiDisplay">🎬🎭</div>
+                <div class="puzzle-hint" id="hint">이모지가 나타내는 것은?</div>
+                <div class="options" id="options"></div>
+            </div>
+            <button class="action-btn" id="startBtn" onclick="startGame()">🎮 게임 시작</button>
+            <div class="result-area" id="resultArea">
+                <div class="result-icon" id="resultIcon">🏆</div>
+                <div class="result-title" id="resultTitle">게임 완료!</div>
+                <div class="result-score" id="resultScore">0점</div>
+                <button class="action-btn" onclick="startGame()">🔄 다시 하기</button>
+            </div>
+            <div class="stats">
+                <div class="stats-title">📊 내 기록</div>
+                <div class="stats-row"><span>총 게임</span><span id="totalGames">0</span></div>
+                <div class="stats-row"><span>최고 점수</span><span id="bestScore">0</span></div>
+                <div class="stats-row"><span>평균 정답률</span><span id="avgRate">0%</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var puzzles = [
+            { emoji: '🎬🦁👑', answer: '라이온 킹', category: '영화', options: ['라이온 킹', '정글북', '알라딘', '겨울왕국'] },
+            { emoji: '🧙‍♂️⚡👓', answer: '해리포터', category: '영화', options: ['해리포터', '반지의 제왕', '나니아 연대기', '헝거게임'] },
+            { emoji: '🚢❄️💔', answer: '타이타닉', category: '영화', options: ['타이타닉', '포세이돈', '딥 블루 씨', '캐스트 어웨이'] },
+            { emoji: '🕷️🦸‍♂️🏙️', answer: '스파이더맨', category: '영화', options: ['스파이더맨', '배트맨', '아이언맨', '슈퍼맨'] },
+            { emoji: '🐭🏰✨', answer: '디즈니', category: '브랜드', options: ['디즈니', '픽사', '드림웍스', '유니버셜'] },
+            { emoji: '☕📱', answer: '스타벅스', category: '브랜드', options: ['스타벅스', '투썸플레이스', '이디야', '할리스'] },
+            { emoji: '🍔🤡', answer: '맥도날드', category: '브랜드', options: ['맥도날드', '버거킹', '롯데리아', 'KFC'] },
+            { emoji: '🍕🇮🇹', answer: '피자', category: '음식', options: ['피자', '파스타', '리조또', '라자냐'] },
+            { emoji: '🍣🇯🇵', answer: '스시', category: '음식', options: ['스시', '라멘', '우동', '돈부리'] },
+            { emoji: '🌙⭐💤', answer: '잠', category: '일상', options: ['잠', '꿈', '밤', '휴식'] },
+            { emoji: '📚✏️🎓', answer: '공부', category: '일상', options: ['공부', '학교', '시험', '숙제'] },
+            { emoji: '🎸🎤🎶', answer: '콘서트', category: '일상', options: ['콘서트', '노래방', '음악', '밴드'] },
+            { emoji: '✈️🌴🏖️', answer: '여행', category: '일상', options: ['여행', '휴가', '바캉스', '출장'] },
+            { emoji: '💍👰🤵', answer: '결혼', category: '일상', options: ['결혼', '약혼', '연애', '데이트'] },
+            { emoji: '🎂🎁🎉', answer: '생일', category: '일상', options: ['생일', '파티', '축하', '기념일'] },
+            { emoji: '🏀⛹️', answer: '농구', category: '스포츠', options: ['농구', '배구', '핸드볼', '야구'] },
+            { emoji: '⚽🥅', answer: '축구', category: '스포츠', options: ['축구', '풋살', '럭비', '하키'] },
+            { emoji: '🎾🏸', answer: '테니스', category: '스포츠', options: ['테니스', '배드민턴', '탁구', '스쿼시'] },
+            { emoji: '🏊‍♂️🌊', answer: '수영', category: '스포츠', options: ['수영', '서핑', '다이빙', '수상스키'] },
+            { emoji: '🎹🎵', answer: '피아노', category: '악기', options: ['피아노', '기타', '바이올린', '첼로'] }
+        ];
+
+        var currentPuzzles = [];
+        var currentIndex = 0;
+        var score = 0;
+        var correctCount = 0;
+        var stats = JSON.parse(localStorage.getItem('emoji_puzzle_ko') || '{"games":0,"best":0,"total":0,"correct":0}');
+
+        function shuffle(arr) {
+            for (var i = arr.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
+            }
+            return arr;
+        }
+
+        function startGame() {
+            currentPuzzles = shuffle(puzzles.slice()).slice(0, 10);
+            currentIndex = 0;
+            score = 0;
+            correctCount = 0;
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('resultArea').classList.remove('show');
+            document.getElementById('puzzleCard').style.display = 'block';
+            updateUI();
+            showPuzzle();
+        }
+
+        function showPuzzle() {
+            var p = currentPuzzles[currentIndex];
+            document.getElementById('category').textContent = p.category;
+            document.getElementById('emojiDisplay').textContent = p.emoji;
+            document.getElementById('hint').textContent = '이모지가 나타내는 것은?';
+            var optionsEl = document.getElementById('options');
+            optionsEl.innerHTML = '';
+            var shuffledOptions = shuffle(p.options.slice());
+            shuffledOptions.forEach(function(opt) {
+                var btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = function() { selectAnswer(opt); };
+                optionsEl.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selected) {
+            var p = currentPuzzles[currentIndex];
+            var btns = document.querySelectorAll('.option-btn');
+            btns.forEach(function(btn) {
+                btn.classList.add('disabled');
+                if (btn.textContent === p.answer) btn.classList.add('correct');
+                if (btn.textContent === selected && selected !== p.answer) btn.classList.add('wrong');
+            });
+            if (selected === p.answer) {
+                correctCount++;
+                score += 10;
+            }
+            updateUI();
+            setTimeout(function() {
+                currentIndex++;
+                if (currentIndex < currentPuzzles.length) {
+                    showPuzzle();
+                } else {
+                    showResult();
+                }
+            }, 1000);
+        }
+
+        function updateUI() {
+            document.getElementById('questionNum').textContent = (currentIndex + 1) + '/' + currentPuzzles.length;
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('score').textContent = score;
+        }
+
+        function showResult() {
+            document.getElementById('puzzleCard').style.display = 'none';
+            document.getElementById('resultArea').classList.add('show');
+            var rate = Math.round(correctCount / currentPuzzles.length * 100);
+            document.getElementById('resultScore').textContent = score + '점';
+            if (rate >= 80) {
+                document.getElementById('resultIcon').textContent = '🏆';
+                document.getElementById('resultTitle').textContent = '이모지 마스터!';
+            } else if (rate >= 50) {
+                document.getElementById('resultIcon').textContent = '👍';
+                document.getElementById('resultTitle').textContent = '잘했어요!';
+            } else {
+                document.getElementById('resultIcon').textContent = '💪';
+                document.getElementById('resultTitle').textContent = '다시 도전!';
+            }
+            stats.games++;
+            stats.total += currentPuzzles.length;
+            stats.correct += correctCount;
+            if (score > stats.best) stats.best = score;
+            localStorage.setItem('emoji_puzzle_ko', JSON.stringify(stats));
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalGames').textContent = stats.games;
+            document.getElementById('bestScore').textContent = stats.best;
+            document.getElementById('avgRate').textContent = stats.total > 0 ? Math.round(stats.correct / stats.total * 100) + '%' : '0%';
+        }
+
+        updateStats();
+    </script>
+</body>
+</html>

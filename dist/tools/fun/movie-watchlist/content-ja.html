@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>映画リスト</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #141e30, #243b55); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .movie-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,.3); border-radius: 12px; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .7; }
+        .filter-tabs { display: flex; gap: 8px; margin-bottom: 15px; }
+        .filter-tab { flex: 1; padding: 10px; border: 1px solid rgba(255,255,255,.3); border-radius: 10px; background: transparent; color: #fff; cursor: pointer; font-size: .85rem; }
+        .filter-tab.active { background: rgba(255,255,255,.2); border-color: #fff; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input, .form-row select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #e91e63, #9c27b0); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .movies { max-height: 300px; overflow-y: auto; }
+        .movie-item { display: flex; align-items: center; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 10px; }
+        .movie-item.watched { opacity: .6; }
+        .movie-poster { width: 50px; height: 70px; background: rgba(255,255,255,.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 1.5rem; }
+        .movie-info { flex: 1; }
+        .movie-title { font-weight: 600; }
+        .movie-item.watched .movie-title { text-decoration: line-through; }
+        .movie-meta { font-size: .8rem; opacity: .7; margin-top: 3px; }
+        .movie-rating { color: #ffd93d; margin-top: 5px; }
+        .watch-btn { padding: 6px 12px; border: none; border-radius: 6px; background: #4caf50; color: #fff; cursor: pointer; margin-right: 8px; font-size: .8rem; }
+        .del-btn { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎬 映画リスト</h1>
+        </header>
+        <div class="movie-section">
+            <div class="stats">
+                <div class="stat"><div class="stat-value" id="totalMovies">0</div><div class="stat-label">全体</div></div>
+                <div class="stat"><div class="stat-value" id="watchedMovies">0</div><div class="stat-label">視聴済</div></div>
+                <div class="stat"><div class="stat-value" id="toWatch">0</div><div class="stat-label">未視聴</div></div>
+            </div>
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="setFilter('all')">全体</button>
+                <button class="filter-tab" onclick="setFilter('towatch')">未視聴</button>
+                <button class="filter-tab" onclick="setFilter('watched')">視聴済</button>
+            </div>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="movieTitle" placeholder="映画タイトル">
+                </div>
+                <div class="form-row">
+                    <select id="movieGenre">
+                        <option value="action">アクション</option>
+                        <option value="comedy">コメディ</option>
+                        <option value="drama">ドラマ</option>
+                        <option value="horror">ホラー</option>
+                        <option value="scifi">SF</option>
+                        <option value="romance">ロマンス</option>
+                        <option value="animation">アニメ</option>
+                    </select>
+                    <input type="number" id="movieYear" placeholder="公開年" min="1900" max="2030">
+                </div>
+                <button class="add-btn" onclick="addMovie()">映画を追加</button>
+            </div>
+            <div class="movies" id="movies"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var movies = JSON.parse(localStorage.getItem('movie_watchlist') || '[]');
+        var currentFilter = 'all';
+        var genreNames = { action: 'アクション', comedy: 'コメディ', drama: 'ドラマ', horror: 'ホラー', scifi: 'SF', romance: 'ロマンス', animation: 'アニメ' };
+        var genreIcons = { action: '💥', comedy: '😂', drama: '🎭', horror: '👻', scifi: '🚀', romance: '❤️', animation: '🎨' };
+        function save() { localStorage.setItem('movie_watchlist', JSON.stringify(movies)); }
+        function addMovie() {
+            var title = document.getElementById('movieTitle').value.trim();
+            var genre = document.getElementById('movieGenre').value;
+            var year = document.getElementById('movieYear').value;
+            if (!title) return;
+            movies.push({ id: Date.now().toString(), title: title, genre: genre, year: year, watched: false, rating: 0 });
+            save();
+            document.getElementById('movieTitle').value = '';
+            document.getElementById('movieYear').value = '';
+            render();
+        }
+        function toggleWatched(id) {
+            var movie = movies.find(function(m) { return m.id === id; });
+            if (movie) { movie.watched = !movie.watched; save(); render(); }
+        }
+        function rateMovie(id, rating) {
+            var movie = movies.find(function(m) { return m.id === id; });
+            if (movie) { movie.rating = rating; movie.watched = true; save(); render(); }
+        }
+        function deleteMovie(id) {
+            movies = movies.filter(function(m) { return m.id !== id; });
+            save();
+            render();
+        }
+        function setFilter(f) {
+            currentFilter = f;
+            document.querySelectorAll('.filter-tab').forEach(function(btn, i) {
+                btn.classList.toggle('active', ['all', 'towatch', 'watched'][i] === f);
+            });
+            render();
+        }
+        function render() {
+            var watched = movies.filter(function(m) { return m.watched; }).length;
+            document.getElementById('totalMovies').textContent = movies.length;
+            document.getElementById('watchedMovies').textContent = watched;
+            document.getElementById('toWatch').textContent = movies.length - watched;
+            var filtered = movies.filter(function(m) {
+                if (currentFilter === 'towatch') return !m.watched;
+                if (currentFilter === 'watched') return m.watched;
+                return true;
+            });
+            var list = document.getElementById('movies');
+            list.innerHTML = '';
+            filtered.forEach(function(movie) {
+                var stars = '';
+                for (var i = 1; i <= 5; i++) {
+                    stars += '<span style="cursor:pointer" onclick="rateMovie(\'' + movie.id + '\',' + i + ')">' + (i <= movie.rating ? '★' : '☆') + '</span>';
+                }
+                var div = document.createElement('div');
+                div.className = 'movie-item' + (movie.watched ? ' watched' : '');
+                div.innerHTML = '<div class="movie-poster">' + (genreIcons[movie.genre] || '🎬') + '</div><div class="movie-info"><div class="movie-title">' + movie.title + '</div><div class="movie-meta">' + genreNames[movie.genre] + (movie.year ? ' · ' + movie.year : '') + '</div><div class="movie-rating">' + stars + '</div></div><button class="watch-btn" onclick="toggleWatched(\'' + movie.id + '\')">' + (movie.watched ? '↩️' : '✓') + '</button><button class="del-btn" onclick="deleteMovie(\'' + movie.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

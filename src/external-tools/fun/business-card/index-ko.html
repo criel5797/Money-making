@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>디지털 명함</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .card-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .card-preview { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 16px; padding: 25px; margin-bottom: 20px; min-height: 180px; }
+        .card-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; }
+        .card-title { font-size: .9rem; opacity: .9; margin-bottom: 15px; }
+        .card-info { font-size: .85rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .card-info span { opacity: .9; }
+        .form-row { margin-bottom: 12px; }
+        .form-row input { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .form-label { font-size: .8rem; margin-bottom: 5px; display: block; opacity: .7; }
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        .save-btn { flex: 1; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .share-btn { flex: 1; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>💼 디지털 명함</h1>
+        </header>
+        <div class="card-section">
+            <div class="card-preview" id="cardPreview">
+                <div class="card-name" id="previewName">홍길동</div>
+                <div class="card-title" id="previewTitle">소프트웨어 엔지니어</div>
+                <div class="card-info"><span>📱</span><span id="previewPhone">010-1234-5678</span></div>
+                <div class="card-info"><span>📧</span><span id="previewEmail">hong@example.com</span></div>
+                <div class="card-info"><span>🏢</span><span id="previewCompany">ABC 주식회사</span></div>
+            </div>
+            <div class="form-row">
+                <label class="form-label">이름</label>
+                <input type="text" id="nameInput" placeholder="이름" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">직함</label>
+                <input type="text" id="titleInput" placeholder="직함/직위" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">전화번호</label>
+                <input type="tel" id="phoneInput" placeholder="전화번호" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">이메일</label>
+                <input type="email" id="emailInput" placeholder="이메일" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">회사/소속</label>
+                <input type="text" id="companyInput" placeholder="회사/소속" oninput="updatePreview()">
+            </div>
+            <div class="btn-group">
+                <button class="save-btn" onclick="saveCard()">저장</button>
+                <button class="share-btn" onclick="shareCard()">공유</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var cardData = JSON.parse(localStorage.getItem('business_card') || '{}');
+        function loadCard() {
+            if (cardData.name) document.getElementById('nameInput').value = cardData.name;
+            if (cardData.title) document.getElementById('titleInput').value = cardData.title;
+            if (cardData.phone) document.getElementById('phoneInput').value = cardData.phone;
+            if (cardData.email) document.getElementById('emailInput').value = cardData.email;
+            if (cardData.company) document.getElementById('companyInput').value = cardData.company;
+            updatePreview();
+        }
+        function updatePreview() {
+            document.getElementById('previewName').textContent = document.getElementById('nameInput').value || '이름';
+            document.getElementById('previewTitle').textContent = document.getElementById('titleInput').value || '직함';
+            document.getElementById('previewPhone').textContent = document.getElementById('phoneInput').value || '전화번호';
+            document.getElementById('previewEmail').textContent = document.getElementById('emailInput').value || '이메일';
+            document.getElementById('previewCompany').textContent = document.getElementById('companyInput').value || '회사';
+        }
+        function saveCard() {
+            cardData = {
+                name: document.getElementById('nameInput').value,
+                title: document.getElementById('titleInput').value,
+                phone: document.getElementById('phoneInput').value,
+                email: document.getElementById('emailInput').value,
+                company: document.getElementById('companyInput').value
+            };
+            localStorage.setItem('business_card', JSON.stringify(cardData));
+            alert('명함이 저장되었습니다!');
+        }
+        function shareCard() {
+            var text = document.getElementById('nameInput').value + '\n' + document.getElementById('titleInput').value + '\n' + document.getElementById('companyInput').value + '\n📱 ' + document.getElementById('phoneInput').value + '\n📧 ' + document.getElementById('emailInput').value;
+            if (navigator.share) {
+                navigator.share({ title: '명함', text: text });
+            } else {
+                navigator.clipboard.writeText(text).then(function() { alert('명함 정보가 복사되었습니다!'); });
+            }
+        }
+        loadCard();
+    </script>
+</body>
+</html>

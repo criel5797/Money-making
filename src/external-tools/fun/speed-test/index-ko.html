@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인터넷 속도 테스트</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .speed-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .speedometer { position: relative; width: 250px; height: 125px; margin: 0 auto 30px; overflow: hidden; }
+        .speedometer-bg { position: absolute; width: 250px; height: 250px; border-radius: 50%; background: conic-gradient(from 180deg, #ff416c 0deg, #ff4b2b 60deg, #f7b733 120deg, #38ef7d 180deg); clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); }
+        .speedometer-inner { position: absolute; top: 20px; left: 20px; width: 210px; height: 210px; border-radius: 50%; background: linear-gradient(135deg, #0f0c29, #302b63); clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); }
+        .needle { position: absolute; bottom: 0; left: 50%; width: 4px; height: 100px; background: linear-gradient(to top, #fff, transparent); transform-origin: bottom center; transform: translateX(-50%) rotate(-90deg); transition: transform 1s ease-out; border-radius: 2px; }
+        .speed-value { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); text-align: center; }
+        .speed-number { font-size: 2.5rem; font-weight: 700; }
+        .speed-unit { font-size: .9rem; opacity: .7; }
+        .results { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .result-card { background: rgba(255,255,255,.1); border-radius: 12px; padding: 15px; text-align: center; }
+        .result-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .result-label { font-size: .8rem; opacity: .7; margin-bottom: 5px; }
+        .result-value { font-size: 1.2rem; font-weight: 600; }
+        .test-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; cursor: pointer; font-weight: 600; margin-bottom: 15px; }
+        .test-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .progress-bar { height: 6px; background: rgba(255,255,255,.2); border-radius: 3px; overflow: hidden; margin-bottom: 15px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width .3s; }
+        .status { text-align: center; font-size: .9rem; opacity: .8; }
+        .history { margin-top: 20px; }
+        .history-title { font-size: .9rem; opacity: .8; margin-bottom: 10px; }
+        .history-list { max-height: 150px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,.05); border-radius: 8px; margin-bottom: 5px; font-size: .85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🚀 인터넷 속도 테스트</h1>
+        </header>
+        <div class="speed-section">
+            <div class="speedometer">
+                <div class="speedometer-bg"></div>
+                <div class="speedometer-inner"></div>
+                <div class="needle" id="needle"></div>
+                <div class="speed-value">
+                    <div class="speed-number" id="speedNumber">0</div>
+                    <div class="speed-unit">Mbps</div>
+                </div>
+            </div>
+            <div class="results">
+                <div class="result-card">
+                    <div class="result-icon">⬇️</div>
+                    <div class="result-label">다운로드</div>
+                    <div class="result-value" id="downloadSpeed">- Mbps</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">⬆️</div>
+                    <div class="result-label">업로드</div>
+                    <div class="result-value" id="uploadSpeed">- Mbps</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">📶</div>
+                    <div class="result-label">핑</div>
+                    <div class="result-value" id="pingValue">- ms</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">📊</div>
+                    <div class="result-label">지터</div>
+                    <div class="result-value" id="jitterValue">- ms</div>
+                </div>
+            </div>
+            <button class="test-btn" id="testBtn" onclick="startTest()">테스트 시작</button>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="status" id="status">시작 버튼을 눌러 속도를 측정하세요</div>
+            <div class="history">
+                <div class="history-title">최근 기록</div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var history = JSON.parse(localStorage.getItem('speed_test_ko') || '[]');
+        var isTesting = false;
+        function renderHistory() {
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            history.slice(0, 10).forEach(function(h) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<span>' + h.date + '</span><span>⬇️' + h.download + ' ⬆️' + h.upload + '</span>';
+                list.appendChild(div);
+            });
+        }
+        function setNeedle(speed) {
+            var maxSpeed = 100;
+            var angle = Math.min(speed / maxSpeed, 1) * 180 - 90;
+            document.getElementById('needle').style.transform = 'translateX(-50%) rotate(' + angle + 'deg)';
+            document.getElementById('speedNumber').textContent = Math.round(speed);
+        }
+        function setProgress(percent) {
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+        function simulateSpeed(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+        function startTest() {
+            if (isTesting) return;
+            isTesting = true;
+            var btn = document.getElementById('testBtn');
+            btn.disabled = true;
+            btn.textContent = '측정 중...';
+            document.getElementById('status').textContent = '핑 테스트 중...';
+            setProgress(0);
+            setNeedle(0);
+            var ping = simulateSpeed(5, 50);
+            var jitter = simulateSpeed(1, 10);
+            setTimeout(function() {
+                document.getElementById('pingValue').textContent = Math.round(ping) + ' ms';
+                document.getElementById('jitterValue').textContent = Math.round(jitter) + ' ms';
+                setProgress(20);
+                document.getElementById('status').textContent = '다운로드 속도 측정 중...';
+                var downloadProgress = 0;
+                var downloadSpeed = simulateSpeed(30, 100);
+                var downloadInterval = setInterval(function() {
+                    downloadProgress += 5;
+                    var current = (downloadProgress / 100) * downloadSpeed;
+                    setNeedle(current);
+                    setProgress(20 + downloadProgress * 0.4);
+                    if (downloadProgress >= 100) {
+                        clearInterval(downloadInterval);
+                        document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(1) + ' Mbps';
+                        document.getElementById('status').textContent = '업로드 속도 측정 중...';
+                        var uploadProgress = 0;
+                        var uploadSpeed = simulateSpeed(10, 50);
+                        var uploadInterval = setInterval(function() {
+                            uploadProgress += 5;
+                            var current = (uploadProgress / 100) * uploadSpeed;
+                            setNeedle(current);
+                            setProgress(60 + uploadProgress * 0.4);
+                            if (uploadProgress >= 100) {
+                                clearInterval(uploadInterval);
+                                document.getElementById('uploadSpeed').textContent = uploadSpeed.toFixed(1) + ' Mbps';
+                                document.getElementById('status').textContent = '테스트 완료!';
+                                setNeedle(downloadSpeed);
+                                setProgress(100);
+                                history.unshift({
+                                    date: new Date().toLocaleString('ko-KR'),
+                                    download: downloadSpeed.toFixed(1),
+                                    upload: uploadSpeed.toFixed(1)
+                                });
+                                localStorage.setItem('speed_test_ko', JSON.stringify(history.slice(0, 20)));
+                                renderHistory();
+                                btn.disabled = false;
+                                btn.textContent = '다시 테스트';
+                                isTesting = false;
+                            }
+                        }, 100);
+                    }
+                }, 100);
+            }, 1000);
+        }
+        renderHistory();
+    </script>
+</body>
+</html>

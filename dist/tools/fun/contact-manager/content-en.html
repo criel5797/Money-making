@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Manager</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #43cea2, #185a9d); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .contact-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .search-box { width: 100%; padding: 12px 15px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; margin-bottom: 15px; font-size: 1rem; }
+        .stats { text-align: center; margin-bottom: 15px; font-size: .9rem; opacity: .8; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input, .form-row select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .contacts { max-height: 300px; overflow-y: auto; }
+        .contact-item { display: flex; align-items: center; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 10px; }
+        .contact-avatar { width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; margin-right: 15px; }
+        .contact-info { flex: 1; }
+        .contact-name { font-weight: 600; font-size: 1.1rem; }
+        .contact-details { font-size: .8rem; opacity: .8; margin-top: 3px; }
+        .contact-group { font-size: .7rem; padding: 2px 8px; border-radius: 10px; background: rgba(255,255,255,.2); display: inline-block; margin-top: 3px; }
+        .del-btn { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>📇 Contact Manager</h1>
+        </header>
+        <div class="contact-section">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search by name or phone..." oninput="render()">
+            <div class="stats" id="stats">Total: 0</div>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="contactName" placeholder="Name">
+                    <input type="tel" id="contactPhone" placeholder="Phone">
+                </div>
+                <div class="form-row">
+                    <input type="email" id="contactEmail" placeholder="Email">
+                    <select id="contactGroup">
+                        <option value="family">Family</option>
+                        <option value="friend">Friend</option>
+                        <option value="work">Work</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button class="add-btn" onclick="addContact()">Add Contact</button>
+            </div>
+            <div class="contacts" id="contacts"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+        var groupNames = { family: 'Family', friend: 'Friend', work: 'Work', other: 'Other' };
+        function save() { localStorage.setItem('contacts', JSON.stringify(contacts)); }
+        function addContact() {
+            var name = document.getElementById('contactName').value.trim();
+            var phone = document.getElementById('contactPhone').value.trim();
+            var email = document.getElementById('contactEmail').value.trim();
+            var group = document.getElementById('contactGroup').value;
+            if (!name) return;
+            contacts.push({ id: Date.now().toString(), name: name, phone: phone, email: email, group: group });
+            save();
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactPhone').value = '';
+            document.getElementById('contactEmail').value = '';
+            render();
+        }
+        function deleteContact(id) {
+            contacts = contacts.filter(function(c) { return c.id !== id; });
+            save();
+            render();
+        }
+        function render() {
+            var search = document.getElementById('searchBox').value.toLowerCase();
+            var filtered = contacts.filter(function(c) {
+                return !search || c.name.toLowerCase().includes(search) || c.phone.includes(search);
+            });
+            document.getElementById('stats').textContent = 'Total: ' + contacts.length;
+            var list = document.getElementById('contacts');
+            list.innerHTML = '';
+            filtered.sort(function(a, b) { return a.name.localeCompare(b.name); }).forEach(function(contact) {
+                var initials = contact.name.charAt(0).toUpperCase();
+                var div = document.createElement('div');
+                div.className = 'contact-item';
+                div.innerHTML = '<div class="contact-avatar">' + initials + '</div><div class="contact-info"><div class="contact-name">' + contact.name + '</div><div class="contact-details">' + (contact.phone || '-') + (contact.email ? ' · ' + contact.email : '') + '</div><span class="contact-group">' + groupNames[contact.group] + '</span></div><button class="del-btn" onclick="deleteContact(\'' + contact.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

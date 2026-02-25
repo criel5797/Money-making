@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>헤드업 게임</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #dc2626, #b91c1c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .category-btn { padding: 20px 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; text-align: center; transition: all .3s; }
+        .category-btn.active { background: rgba(255,255,255,.3); border-color: #fff; }
+        .category-emoji { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        .timer-setting { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .timer-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .timer-value { font-size: 1.5rem; font-weight: 700; min-width: 80px; text-align: center; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .play-section { display: none; }
+        .instruction { text-align: center; font-size: 1.1rem; margin-bottom: 20px; opacity: .9; }
+        .word-display { background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,255,255,.9)); border-radius: 20px; padding: 60px 30px; text-align: center; margin-bottom: 20px; }
+        .word-text { font-size: 2.5rem; font-weight: 700; color: #1e293b; word-break: keep-all; }
+        .timer-display { text-align: center; margin-bottom: 20px; }
+        .timer-big { font-size: 4rem; font-weight: 700; }
+        .timer-big.warning { color: #fbbf24; animation: pulse 0.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .controls { display: flex; gap: 12px; }
+        .control-btn { flex: 1; padding: 20px; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 600; cursor: pointer; }
+        .pass-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .correct-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .result-section { display: none; text-align: center; }
+        .result-icon { font-size: 5rem; margin-bottom: 20px; }
+        .result-score { font-size: 4rem; font-weight: 700; margin-bottom: 10px; }
+        .result-label { font-size: 1.2rem; opacity: .8; margin-bottom: 25px; }
+        .word-list { background: rgba(255,255,255,.1); border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: left; max-height: 200px; overflow-y: auto; }
+        .word-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.1); display: flex; justify-content: space-between; }
+        .word-item:last-child { border-bottom: none; }
+        .word-correct { color: #22c55e; }
+        .word-passed { color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🙆 헤드업 게임</h1>
+            <p class="subtitle">이마에 폰을 대고 단어를 맞춰요!</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="category-grid" id="categoryGrid">
+                    <button class="category-btn active" onclick="selectCategory(0)"><span class="category-emoji">🎬</span>영화/드라마</button>
+                    <button class="category-btn" onclick="selectCategory(1)"><span class="category-emoji">🐾</span>동물</button>
+                    <button class="category-btn" onclick="selectCategory(2)"><span class="category-emoji">🍔</span>음식</button>
+                    <button class="category-btn" onclick="selectCategory(3)"><span class="category-emoji">👨‍🎤</span>유명인</button>
+                    <button class="category-btn" onclick="selectCategory(4)"><span class="category-emoji">🏃</span>행동</button>
+                    <button class="category-btn" onclick="selectCategory(5)"><span class="category-emoji">🎮</span>게임/만화</button>
+                </div>
+                <div class="timer-setting">
+                    <button class="timer-btn" onclick="changeTime(-10)">-</button>
+                    <div class="timer-value" id="timerSetting">60초</div>
+                    <button class="timer-btn" onclick="changeTime(10)">+</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 게임 시작!</button>
+            </div>
+            <div class="play-section" id="playSection">
+                <div class="instruction">폰을 이마에 대세요!</div>
+                <div class="timer-display">
+                    <div class="timer-big" id="timer">60</div>
+                </div>
+                <div class="word-display">
+                    <div class="word-text" id="wordText">단어</div>
+                </div>
+                <div class="controls">
+                    <button class="control-btn pass-btn" onclick="passWord()">⏭️ 패스</button>
+                    <button class="control-btn correct-btn" onclick="correctWord()">✅ 정답</button>
+                </div>
+            </div>
+            <div class="result-section" id="resultSection">
+                <div class="result-icon">🎉</div>
+                <div class="result-score" id="resultScore">0</div>
+                <div class="result-label">정답 개수</div>
+                <div class="word-list" id="wordList"></div>
+                <button class="start-btn" onclick="resetGame()">🔄 다시 하기</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var categories = {
+            0: ['아바타', '기생충', '타이타닉', '해리포터', '어벤져스', '겨울왕국', '미션임파서블', '라이온킹', '토이스토리', '스파이더맨', '배트맨', '아이언맨', '오징어게임', '더글로리', '이태원클라쓰', '슬기로운의사생활', '응답하라1988', '스카이캐슬'],
+            1: ['강아지', '고양이', '사자', '호랑이', '코끼리', '기린', '펭귄', '돌고래', '상어', '독수리', '올빼미', '토끼', '다람쥐', '판다', '캥거루', '원숭이', '고릴라', '뱀', '거북이', '악어'],
+            2: ['피자', '햄버거', '치킨', '떡볶이', '김밥', '비빔밥', '불고기', '삼겹살', '라면', '초밥', '짜장면', '탕수육', '족발', '곱창', '순대', '김치찌개', '된장찌개', '갈비탕', '냉면', '파스타'],
+            3: ['BTS', '블랙핑크', '손흥민', '유재석', '아이유', '박서준', '전지현', '송중기', '김수현', '이민호', '싸이', '뉴진스', '임영웅', '박보검', '마동석', '공유', '현빈', '손예진'],
+            4: ['춤추기', '노래하기', '요리하기', '수영하기', '달리기', '점프하기', '잠자기', '먹기', '웃기', '울기', '박수치기', '운전하기', '청소하기', '빨래하기', '공부하기', '셀카찍기', '하품하기', '재채기하기'],
+            5: ['마리오', '포켓몬', '마인크래프트', '배틀그라운드', '리그오브레전드', '오버워치', '젤다', '소닉', '원피스', '나루토', '드래곤볼', '귀멸의칼날', '짱구', '도라에몽', '뽀로로', '카트라이더', '메이플스토리', '로블록스']
+        };
+
+        var selectedCategory = 0;
+        var gameDuration = 60;
+        var timeLeft = 60;
+        var timer = null;
+        var currentWords = [];
+        var wordIndex = 0;
+        var correctCount = 0;
+        var results = [];
+
+        function selectCategory(index) {
+            selectedCategory = index;
+            var btns = document.querySelectorAll('.category-btn');
+            btns.forEach(function(btn, i) {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function changeTime(delta) {
+            gameDuration = Math.max(30, Math.min(120, gameDuration + delta));
+            document.getElementById('timerSetting').textContent = gameDuration + '초';
+        }
+
+        function shuffleArray(array) {
+            var arr = array.slice();
+            for (var i = arr.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            return arr;
+        }
+
+        function startGame() {
+            currentWords = shuffleArray(categories[selectedCategory]);
+            wordIndex = 0;
+            correctCount = 0;
+            results = [];
+            timeLeft = gameDuration;
+
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('playSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+
+            showWord();
+            startTimer();
+        }
+
+        function showWord() {
+            if (wordIndex < currentWords.length) {
+                document.getElementById('wordText').textContent = currentWords[wordIndex];
+            } else {
+                currentWords = shuffleArray(categories[selectedCategory]);
+                wordIndex = 0;
+                document.getElementById('wordText').textContent = currentWords[wordIndex];
+            }
+        }
+
+        function startTimer() {
+            updateTimerDisplay();
+            timer = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            var timerEl = document.getElementById('timer');
+            timerEl.textContent = timeLeft;
+            timerEl.classList.toggle('warning', timeLeft <= 10);
+        }
+
+        function correctWord() {
+            results.push({ word: currentWords[wordIndex], correct: true });
+            correctCount++;
+            wordIndex++;
+            showWord();
+        }
+
+        function passWord() {
+            results.push({ word: currentWords[wordIndex], correct: false });
+            wordIndex++;
+            showWord();
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultScore').textContent = correctCount;
+
+            var listHtml = '';
+            results.forEach(function(r) {
+                var className = r.correct ? 'word-correct' : 'word-passed';
+                var icon = r.correct ? '✅' : '⏭️';
+                listHtml += '<div class="word-item"><span>' + r.word + '</span><span class="' + className + '">' + icon + '</span></div>';
+            });
+            document.getElementById('wordList').innerHTML = listHtml;
+
+            var stats = JSON.parse(localStorage.getItem('headsup_ko') || '{"best":0}');
+            if (correctCount > stats.best) stats.best = correctCount;
+            localStorage.setItem('headsup_ko', JSON.stringify(stats));
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

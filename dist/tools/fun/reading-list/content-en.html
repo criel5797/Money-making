@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading List</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #8B4513, #D2691E); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .reading-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .7; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input, .form-row select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; }
+        .tabs { display: flex; margin-bottom: 15px; }
+        .tab { flex: 1; padding: 10px; text-align: center; background: rgba(0,0,0,.2); cursor: pointer; border: none; color: #fff; }
+        .tab:first-child { border-radius: 10px 0 0 10px; }
+        .tab:last-child { border-radius: 0 10px 10px 0; }
+        .tab.active { background: rgba(255,255,255,.2); }
+        .book-list { max-height: 350px; overflow-y: auto; }
+        .book-item { display: flex; align-items: center; padding: 12px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 10px; }
+        .book-info { flex: 1; }
+        .book-title { font-weight: 600; margin-bottom: 3px; }
+        .book-author { font-size: .8rem; opacity: .7; }
+        .book-actions { display: flex; gap: 5px; }
+        .action-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 1rem; opacity: .7; padding: 5px; }
+        .action-btn:hover { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>📚 Reading List</h1>
+        </header>
+        <div class="reading-section">
+            <div class="stats">
+                <div class="stat"><div class="stat-value" id="totalBooks">0</div><div class="stat-label">Total</div></div>
+                <div class="stat"><div class="stat-value" id="readingBooks">0</div><div class="stat-label">Reading</div></div>
+                <div class="stat"><div class="stat-value" id="completedBooks">0</div><div class="stat-label">Completed</div></div>
+            </div>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="bookTitle" placeholder="Book title">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="bookAuthor" placeholder="Author">
+                    <select id="bookStatus">
+                        <option value="toread">To Read</option>
+                        <option value="reading">Reading</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <button class="add-btn" onclick="addBook()">Add Book</button>
+            </div>
+            <div class="tabs">
+                <button class="tab active" onclick="setTab('all')">All</button>
+                <button class="tab" onclick="setTab('toread')">To Read</button>
+                <button class="tab" onclick="setTab('reading')">Reading</button>
+                <button class="tab" onclick="setTab('completed')">Done</button>
+            </div>
+            <div class="book-list" id="bookList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var books = JSON.parse(localStorage.getItem('reading_list') || '[]');
+        var currentTab = 'all';
+        var statusNames = { toread: 'To Read', reading: 'Reading', completed: 'Completed' };
+        function save() { localStorage.setItem('reading_list', JSON.stringify(books)); }
+        function addBook() {
+            var title = document.getElementById('bookTitle').value.trim();
+            var author = document.getElementById('bookAuthor').value.trim();
+            var status = document.getElementById('bookStatus').value;
+            if (!title) return;
+            books.push({ title: title, author: author || 'Unknown', status: status, date: new Date().toISOString() });
+            save();
+            document.getElementById('bookTitle').value = '';
+            document.getElementById('bookAuthor').value = '';
+            render();
+        }
+        function setTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            event.target.classList.add('active');
+            render();
+        }
+        function changeStatus(i, status) {
+            books[i].status = status;
+            save();
+            render();
+        }
+        function deleteBook(i) {
+            books.splice(i, 1);
+            save();
+            render();
+        }
+        function render() {
+            var filtered = currentTab === 'all' ? books : books.filter(function(b) { return b.status === currentTab; });
+            document.getElementById('totalBooks').textContent = books.length;
+            document.getElementById('readingBooks').textContent = books.filter(function(b) { return b.status === 'reading'; }).length;
+            document.getElementById('completedBooks').textContent = books.filter(function(b) { return b.status === 'completed'; }).length;
+            var list = document.getElementById('bookList');
+            list.innerHTML = '';
+            filtered.forEach(function(b, idx) {
+                var realIdx = books.indexOf(b);
+                var div = document.createElement('div');
+                div.className = 'book-item';
+                var statusBtns = '<button class="action-btn" onclick="changeStatus(' + realIdx + ',\'reading\')" title="Reading">📖</button><button class="action-btn" onclick="changeStatus(' + realIdx + ',\'completed\')" title="Completed">✅</button>';
+                div.innerHTML = '<div class="book-info"><div class="book-title">' + b.title + '</div><div class="book-author">' + b.author + ' · ' + statusNames[b.status] + '</div></div><div class="book-actions">' + statusBtns + '<button class="action-btn" onclick="deleteBook(' + realIdx + ')">🗑️</button></div>';
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

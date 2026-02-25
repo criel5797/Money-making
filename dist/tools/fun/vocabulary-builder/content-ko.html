@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>단어장</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #6B73FF, #000DFF); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .vocab-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .7; }
+        .tabs { display: flex; margin-bottom: 15px; }
+        .tab { flex: 1; padding: 10px; text-align: center; background: rgba(0,0,0,.2); cursor: pointer; border: none; color: #fff; font-size: .9rem; }
+        .tab:first-child { border-radius: 10px 0 0 10px; }
+        .tab:last-child { border-radius: 0 10px 10px 0; }
+        .tab.active { background: rgba(255,255,255,.2); }
+        .add-form { margin-bottom: 20px; display: none; }
+        .add-form.active { display: block; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; }
+        .word-list { max-height: 300px; overflow-y: auto; display: none; }
+        .word-list.active { display: block; }
+        .word-item { display: flex; align-items: center; padding: 12px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 10px; }
+        .word-info { flex: 1; cursor: pointer; }
+        .word-text { font-weight: 600; margin-bottom: 3px; }
+        .word-meaning { font-size: .85rem; opacity: .7; }
+        .word-actions button { background: none; border: none; color: #fff; cursor: pointer; font-size: 1rem; opacity: .7; padding: 5px; }
+        .quiz-area { display: none; text-align: center; }
+        .quiz-area.active { display: block; }
+        .quiz-word { font-size: 2rem; font-weight: 700; margin: 30px 0; padding: 20px; background: rgba(0,0,0,.2); border-radius: 12px; }
+        .quiz-input { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 1.1rem; text-align: center; margin-bottom: 15px; }
+        .quiz-btn { padding: 14px 30px; border: none; border-radius: 10px; background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; font-size: 1rem; cursor: pointer; }
+        .quiz-result { margin-top: 15px; padding: 15px; border-radius: 10px; font-weight: 600; }
+        .correct { background: rgba(56,239,125,.3); }
+        .wrong { background: rgba(255,107,107,.3); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>📝 단어장</h1>
+        </header>
+        <div class="vocab-section">
+            <div class="stats">
+                <div class="stat"><div class="stat-value" id="totalWords">0</div><div class="stat-label">전체 단어</div></div>
+                <div class="stat"><div class="stat-value" id="masteredWords">0</div><div class="stat-label">암기 완료</div></div>
+                <div class="stat"><div class="stat-value" id="quizScore">0%</div><div class="stat-label">정답률</div></div>
+            </div>
+            <div class="tabs">
+                <button class="tab active" onclick="setTab('add')">단어 추가</button>
+                <button class="tab" onclick="setTab('list')">단어 목록</button>
+                <button class="tab" onclick="setTab('quiz')">퀴즈</button>
+            </div>
+            <div class="add-form active" id="addForm">
+                <div class="form-row">
+                    <input type="text" id="wordInput" placeholder="단어">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="meaningInput" placeholder="뜻">
+                </div>
+                <button class="add-btn" onclick="addWord()">단어 추가</button>
+            </div>
+            <div class="word-list" id="wordList"></div>
+            <div class="quiz-area" id="quizArea">
+                <div class="quiz-word" id="quizWord">단어가 없습니다</div>
+                <input type="text" class="quiz-input" id="quizInput" placeholder="뜻을 입력하세요">
+                <button class="quiz-btn" onclick="checkQuiz()">확인</button>
+                <div class="quiz-result" id="quizResult" style="display:none"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var words = JSON.parse(localStorage.getItem('vocabulary') || '[]');
+        var currentTab = 'add';
+        var quizWord = null;
+        var quizStats = JSON.parse(localStorage.getItem('quiz_stats') || '{"correct":0,"total":0}');
+        function save() { localStorage.setItem('vocabulary', JSON.stringify(words)); }
+        function saveStats() { localStorage.setItem('quiz_stats', JSON.stringify(quizStats)); }
+        function setTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(function(t, i) { t.classList.toggle('active', ['add','list','quiz'][i] === tab); });
+            document.getElementById('addForm').classList.toggle('active', tab === 'add');
+            document.getElementById('wordList').classList.toggle('active', tab === 'list');
+            document.getElementById('quizArea').classList.toggle('active', tab === 'quiz');
+            if (tab === 'list') renderList();
+            if (tab === 'quiz') startQuiz();
+        }
+        function addWord() {
+            var word = document.getElementById('wordInput').value.trim();
+            var meaning = document.getElementById('meaningInput').value.trim();
+            if (!word || !meaning) return;
+            words.push({ word: word, meaning: meaning, mastered: false });
+            save();
+            document.getElementById('wordInput').value = '';
+            document.getElementById('meaningInput').value = '';
+            renderStats();
+        }
+        function toggleMastered(i) {
+            words[i].mastered = !words[i].mastered;
+            save();
+            renderList();
+            renderStats();
+        }
+        function deleteWord(i) {
+            words.splice(i, 1);
+            save();
+            renderList();
+            renderStats();
+        }
+        function renderList() {
+            var list = document.getElementById('wordList');
+            list.innerHTML = '';
+            words.forEach(function(w, i) {
+                var div = document.createElement('div');
+                div.className = 'word-item';
+                div.innerHTML = '<div class="word-info" onclick="toggleMastered(' + i + ')"><div class="word-text">' + (w.mastered ? '✅ ' : '') + w.word + '</div><div class="word-meaning">' + w.meaning + '</div></div><div class="word-actions"><button onclick="deleteWord(' + i + ')">🗑️</button></div>';
+                list.appendChild(div);
+            });
+        }
+        function startQuiz() {
+            document.getElementById('quizResult').style.display = 'none';
+            document.getElementById('quizInput').value = '';
+            var unmastered = words.filter(function(w) { return !w.mastered; });
+            var pool = unmastered.length > 0 ? unmastered : words;
+            if (pool.length === 0) {
+                document.getElementById('quizWord').textContent = '단어를 추가하세요';
+                quizWord = null;
+                return;
+            }
+            quizWord = pool[Math.floor(Math.random() * pool.length)];
+            document.getElementById('quizWord').textContent = quizWord.word;
+        }
+        function checkQuiz() {
+            if (!quizWord) return;
+            var input = document.getElementById('quizInput').value.trim();
+            var result = document.getElementById('quizResult');
+            result.style.display = 'block';
+            quizStats.total++;
+            if (input === quizWord.meaning) {
+                result.textContent = '정답!';
+                result.className = 'quiz-result correct';
+                quizStats.correct++;
+            } else {
+                result.textContent = '오답! 정답: ' + quizWord.meaning;
+                result.className = 'quiz-result wrong';
+            }
+            saveStats();
+            renderStats();
+            setTimeout(startQuiz, 1500);
+        }
+        function renderStats() {
+            document.getElementById('totalWords').textContent = words.length;
+            document.getElementById('masteredWords').textContent = words.filter(function(w) { return w.mastered; }).length;
+            var rate = quizStats.total > 0 ? Math.round((quizStats.correct / quizStats.total) * 100) : 0;
+            document.getElementById('quizScore').textContent = rate + '%';
+        }
+        document.getElementById('quizInput').addEventListener('keypress', function(e) { if (e.key === 'Enter') checkQuiz(); });
+        renderStats();
+    </script>
+</body>
+</html>

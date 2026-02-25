@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #a18cd1, #fbc2eb); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .date-display { font-size: 1rem; opacity: .8; }
+        .mood-section { background: rgba(255,255,255,.15); border-radius: 16px; padding: 25px; }
+        .mood-question { text-align: center; font-size: 1.1rem; margin-bottom: 25px; }
+        .mood-options { display: flex; justify-content: space-around; margin-bottom: 25px; }
+        .mood-btn { font-size: 2.5rem; background: none; border: none; cursor: pointer; padding: 15px; border-radius: 50%; transition: transform .2s, background .2s; }
+        .mood-btn:hover { transform: scale(1.2); }
+        .mood-btn.selected { background: rgba(255,255,255,.3); transform: scale(1.2); }
+        .note-input { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1rem; margin-bottom: 15px; resize: none; }
+        .save-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; cursor: pointer; }
+        .history { margin-top: 25px; }
+        .history-title { font-size: 1rem; margin-bottom: 15px; }
+        .history-item { display: flex; align-items: center; gap: 15px; padding: 12px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 10px; }
+        .history-mood { font-size: 1.5rem; }
+        .history-date { flex: 1; font-size: .85rem; opacity: .8; }
+        .history-note { font-size: .85rem; opacity: .9; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .chart { margin-top: 20px; height: 100px; display: flex; align-items: flex-end; gap: 8px; padding: 10px; background: rgba(0,0,0,.1); border-radius: 10px; }
+        .chart-bar { flex: 1; background: rgba(255,255,255,.5); border-radius: 5px; min-height: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>😊 Mood Tracker</h1>
+            <div class="date-display" id="dateDisplay"></div>
+        </header>
+        <div class="mood-section">
+            <div class="mood-question">How are you feeling today?</div>
+            <div class="mood-options">
+                <button class="mood-btn" onclick="selectMood(5)">😄</button>
+                <button class="mood-btn" onclick="selectMood(4)">🙂</button>
+                <button class="mood-btn" onclick="selectMood(3)">😐</button>
+                <button class="mood-btn" onclick="selectMood(2)">😔</button>
+                <button class="mood-btn" onclick="selectMood(1)">😢</button>
+            </div>
+            <textarea class="note-input" id="noteInput" placeholder="Add a note (optional)" rows="3"></textarea>
+            <button class="save-btn" onclick="saveMood()">Save</button>
+            <div class="chart" id="chart"></div>
+            <div class="history">
+                <div class="history-title">Recent Entries</div>
+                <div id="historyList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var moods = JSON.parse(localStorage.getItem('moodTracker') || '[]');
+        var selectedMood = 0;
+        var moodEmojis = { 5: '😄', 4: '🙂', 3: '😐', 2: '😔', 1: '😢' };
+        document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+        function selectMood(level) {
+            selectedMood = level;
+            document.querySelectorAll('.mood-btn').forEach(function(btn, i) {
+                btn.classList.toggle('selected', 5 - i === level);
+            });
+        }
+        function saveMood() {
+            if (!selectedMood) { alert('Please select a mood'); return; }
+            var entry = {
+                date: new Date().toISOString(),
+                mood: selectedMood,
+                note: document.getElementById('noteInput').value.trim()
+            };
+            moods.unshift(entry);
+            moods = moods.slice(0, 30);
+            localStorage.setItem('moodTracker', JSON.stringify(moods));
+            document.getElementById('noteInput').value = '';
+            selectedMood = 0;
+            document.querySelectorAll('.mood-btn').forEach(function(btn) { btn.classList.remove('selected'); });
+            render();
+        }
+        function render() {
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            moods.slice(0, 7).forEach(function(m) {
+                var d = new Date(m.date);
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<span class="history-mood">' + moodEmojis[m.mood] + '</span>' +
+                    '<span class="history-date">' + d.toLocaleDateString('en-US') + '</span>' +
+                    '<span class="history-note">' + (m.note || '-') + '</span>';
+                list.appendChild(div);
+            });
+            var chart = document.getElementById('chart');
+            chart.innerHTML = '';
+            moods.slice(0, 7).reverse().forEach(function(m) {
+                var bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = (m.mood * 20) + '%';
+                bar.title = moodEmojis[m.mood];
+                chart.appendChild(bar);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환율 계산기</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #11998e, #38ef7d); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .currency-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .converter-box { background: rgba(0,0,0,.3); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        .input-label { font-size: .85rem; margin-bottom: 5px; display: block; opacity: .8; }
+        .currency-row { display: flex; gap: 10px; }
+        .currency-row input { flex: 1; padding: 15px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; font-size: 1.2rem; }
+        .currency-row select { width: 100px; padding: 15px 10px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .swap-btn { display: block; margin: 15px auto; background: rgba(255,255,255,.2); border: none; color: #fff; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-size: 1.2rem; }
+        .result-box { background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+        .result-value { font-size: 1.8rem; font-weight: 700; }
+        .result-rate { font-size: .85rem; opacity: .8; margin-top: 5px; }
+        .quick-rates { font-size: .85rem; }
+        .rate-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+        .rate-item:last-child { border-bottom: none; }
+        .note { text-align: center; font-size: .75rem; opacity: .6; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>💱 환율 계산기</h1>
+        </header>
+        <div class="currency-section">
+            <div class="converter-box">
+                <div class="input-group">
+                    <label class="input-label">변환할 금액</label>
+                    <div class="currency-row">
+                        <input type="number" id="fromAmount" value="1000" oninput="convert()">
+                        <select id="fromCurrency" onchange="convert()">
+                            <option value="KRW" selected>KRW</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="JPY">JPY</option>
+                            <option value="CNY">CNY</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="swap-btn" onclick="swapCurrency()">⇅</button>
+                <div class="input-group">
+                    <label class="input-label">변환 결과</label>
+                    <div class="currency-row">
+                        <input type="text" id="toAmount" readonly>
+                        <select id="toCurrency" onchange="convert()">
+                            <option value="KRW">KRW</option>
+                            <option value="USD" selected>USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="JPY">JPY</option>
+                            <option value="CNY">CNY</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="result-box">
+                <div class="result-value" id="rateDisplay">1 USD = 1,350 KRW</div>
+                <div class="result-rate">예시 환율 (실제 환율과 다를 수 있음)</div>
+            </div>
+            <div class="quick-rates">
+                <div class="rate-item"><span>🇺🇸 USD</span><span>1,350 KRW</span></div>
+                <div class="rate-item"><span>🇪🇺 EUR</span><span>1,450 KRW</span></div>
+                <div class="rate-item"><span>🇯🇵 JPY (100)</span><span>900 KRW</span></div>
+                <div class="rate-item"><span>🇨🇳 CNY</span><span>185 KRW</span></div>
+                <div class="rate-item"><span>🇬🇧 GBP</span><span>1,700 KRW</span></div>
+            </div>
+            <div class="note">※ 참고용 예시 환율입니다. 실제 거래 시 은행 환율을 확인하세요.</div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var rates = {
+            KRW: 1,
+            USD: 1350,
+            EUR: 1450,
+            JPY: 9,
+            CNY: 185,
+            GBP: 1700
+        };
+        function convert() {
+            var fromAmount = parseFloat(document.getElementById('fromAmount').value) || 0;
+            var fromCurrency = document.getElementById('fromCurrency').value;
+            var toCurrency = document.getElementById('toCurrency').value;
+            var inKRW = fromAmount * rates[fromCurrency];
+            var result = inKRW / rates[toCurrency];
+            document.getElementById('toAmount').value = result.toFixed(2);
+            document.getElementById('rateDisplay').textContent = '1 ' + fromCurrency + ' = ' + (rates[fromCurrency] / rates[toCurrency]).toFixed(4) + ' ' + toCurrency;
+        }
+        function swapCurrency() {
+            var from = document.getElementById('fromCurrency');
+            var to = document.getElementById('toCurrency');
+            var temp = from.value;
+            from.value = to.value;
+            to.value = temp;
+            convert();
+        }
+        convert();
+    </script>
+</body>
+</html>

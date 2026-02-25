@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packing List</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #00b4db, #0083b0); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .packing-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .progress-bar { background: rgba(0,0,0,.2); border-radius: 10px; height: 20px; margin-bottom: 20px; overflow: hidden; }
+        .progress-fill { background: linear-gradient(90deg, #11998e, #38ef7d); height: 100%; transition: width .3s; }
+        .progress-text { text-align: center; margin-bottom: 15px; font-size: .9rem; }
+        .add-form { display: flex; gap: 10px; margin-bottom: 20px; }
+        .add-form input, .add-form select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { padding: 12px 20px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; cursor: pointer; font-weight: 600; }
+        .category-section { margin-bottom: 15px; }
+        .category-header { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(0,0,0,.2); border-radius: 10px; cursor: pointer; }
+        .category-name { font-weight: 600; }
+        .category-count { font-size: .8rem; opacity: .7; }
+        .category-items { padding: 10px 0; }
+        .packing-item { display: flex; align-items: center; padding: 10px 15px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 8px; }
+        .packing-item.packed { opacity: .6; }
+        .item-checkbox { width: 22px; height: 22px; border: 2px solid #fff; border-radius: 5px; margin-right: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .packing-item.packed .item-checkbox { background: #38ef7d; border-color: #38ef7d; }
+        .item-name { flex: 1; }
+        .packing-item.packed .item-name { text-decoration: line-through; }
+        .del-btn { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 1rem; }
+        .templates { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .template-btn { padding: 8px 15px; border: 1px solid rgba(255,255,255,.3); border-radius: 20px; background: transparent; color: #fff; cursor: pointer; font-size: .85rem; }
+        .template-btn:hover { background: rgba(255,255,255,.1); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🧳 Packing List</h1>
+        </header>
+        <div class="packing-section">
+            <div class="progress-text" id="progressText">0 / 0 packed</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+            <div class="templates">
+                <button class="template-btn" onclick="loadTemplate('travel')">Travel Basics</button>
+                <button class="template-btn" onclick="loadTemplate('beach')">Beach Vacation</button>
+                <button class="template-btn" onclick="loadTemplate('business')">Business Trip</button>
+            </div>
+            <div class="add-form">
+                <input type="text" id="itemName" placeholder="Add item">
+                <select id="itemCategory">
+                    <option value="clothes">Clothes</option>
+                    <option value="toiletries">Toiletries</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="documents">Documents</option>
+                    <option value="other">Other</option>
+                </select>
+                <button class="add-btn" onclick="addItem()">Add</button>
+            </div>
+            <div id="itemsList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var items = JSON.parse(localStorage.getItem('packing_list') || '[]');
+        var categoryNames = { clothes: 'Clothes', toiletries: 'Toiletries', electronics: 'Electronics', documents: 'Documents', other: 'Other' };
+        var templates = {
+            travel: [
+                { name: 'Passport', category: 'documents' },
+                { name: 'Wallet', category: 'other' },
+                { name: 'Underwear', category: 'clothes' },
+                { name: 'Socks', category: 'clothes' },
+                { name: 'Charger', category: 'electronics' },
+                { name: 'Toothbrush', category: 'toiletries' },
+                { name: 'Toothpaste', category: 'toiletries' },
+                { name: 'Toiletry bag', category: 'toiletries' }
+            ],
+            beach: [
+                { name: 'Swimsuit', category: 'clothes' },
+                { name: 'Beach towel', category: 'other' },
+                { name: 'Sunscreen', category: 'toiletries' },
+                { name: 'Sunglasses', category: 'other' },
+                { name: 'Sandals', category: 'clothes' }
+            ],
+            business: [
+                { name: 'Suit', category: 'clothes' },
+                { name: 'Tie', category: 'clothes' },
+                { name: 'Laptop', category: 'electronics' },
+                { name: 'Business cards', category: 'documents' },
+                { name: 'Dress shoes', category: 'clothes' }
+            ]
+        };
+        function save() { localStorage.setItem('packing_list', JSON.stringify(items)); }
+        function loadTemplate(type) {
+            templates[type].forEach(function(t) {
+                if (!items.find(function(i) { return i.name === t.name; })) {
+                    items.push({ id: Date.now() + Math.random().toString(), name: t.name, category: t.category, packed: false });
+                }
+            });
+            save();
+            render();
+        }
+        function addItem() {
+            var name = document.getElementById('itemName').value.trim();
+            var category = document.getElementById('itemCategory').value;
+            if (!name) return;
+            items.push({ id: Date.now().toString(), name: name, category: category, packed: false });
+            save();
+            document.getElementById('itemName').value = '';
+            render();
+        }
+        function togglePacked(id) {
+            var item = items.find(function(i) { return i.id === id; });
+            if (item) { item.packed = !item.packed; save(); render(); }
+        }
+        function deleteItem(id) {
+            items = items.filter(function(i) { return i.id !== id; });
+            save();
+            render();
+        }
+        function render() {
+            var packed = items.filter(function(i) { return i.packed; }).length;
+            var percent = items.length > 0 ? Math.round((packed / items.length) * 100) : 0;
+            document.getElementById('progressText').textContent = packed + ' / ' + items.length + ' packed';
+            document.getElementById('progressFill').style.width = percent + '%';
+            var byCategory = {};
+            items.forEach(function(i) {
+                if (!byCategory[i.category]) byCategory[i.category] = [];
+                byCategory[i.category].push(i);
+            });
+            var list = document.getElementById('itemsList');
+            list.innerHTML = '';
+            Object.keys(byCategory).forEach(function(cat) {
+                var catItems = byCategory[cat];
+                var catPacked = catItems.filter(function(i) { return i.packed; }).length;
+                var section = document.createElement('div');
+                section.className = 'category-section';
+                section.innerHTML = '<div class="category-header"><span class="category-name">' + categoryNames[cat] + '</span><span class="category-count">' + catPacked + '/' + catItems.length + '</span></div>';
+                var itemsDiv = document.createElement('div');
+                itemsDiv.className = 'category-items';
+                catItems.forEach(function(item) {
+                    var div = document.createElement('div');
+                    div.className = 'packing-item' + (item.packed ? ' packed' : '');
+                    div.innerHTML = '<div class="item-checkbox" onclick="togglePacked(\'' + item.id + '\')">' + (item.packed ? '✓' : '') + '</div><span class="item-name">' + item.name + '</span><button class="del-btn" onclick="deleteItem(\'' + item.id + '\')">×</button>';
+                    itemsDiv.appendChild(div);
+                });
+                section.appendChild(itemsDiv);
+                list.appendChild(section);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

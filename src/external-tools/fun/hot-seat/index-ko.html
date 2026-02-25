@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>핫시트</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #dc2626, #b91c1c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .95rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .intensity-section { margin-bottom: 20px; }
+        .intensity-title { font-size: .9rem; opacity: .7; margin-bottom: 12px; }
+        .intensity-btns { display: flex; gap: 8px; }
+        .intensity-btn { flex: 1; padding: 12px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: .9rem; cursor: pointer; transition: all .3s; }
+        .intensity-btn.active { background: #fff; color: #dc2626; border-color: #fff; }
+        .question-card { background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); border-radius: 20px; padding: 40px 25px; text-align: center; margin-bottom: 20px; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .question-emoji { font-size: 3rem; margin-bottom: 15px; }
+        .question-text { font-size: 1.3rem; font-weight: 600; line-height: 1.6; }
+        .actions { display: flex; gap: 12px; margin-bottom: 20px; }
+        .action-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all .3s; }
+        .next-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .skip-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+        .fire-effect { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: -1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🔥 핫시트</h1>
+            <p class="subtitle">뜨거운 질문에 답하라!</p>
+        </header>
+        <div class="game-section">
+            <div class="intensity-section">
+                <div class="intensity-title">강도 선택</div>
+                <div class="intensity-btns">
+                    <button class="intensity-btn active" onclick="setIntensity('mild')">🌶️</button>
+                    <button class="intensity-btn" onclick="setIntensity('medium')">🌶️🌶️</button>
+                    <button class="intensity-btn" onclick="setIntensity('spicy')">🌶️🌶️🌶️</button>
+                </div>
+            </div>
+            <div class="question-card" id="questionCard">
+                <div class="question-emoji" id="questionEmoji">🔥</div>
+                <div class="question-text" id="questionText">버튼을 눌러 질문을 받아보세요!</div>
+            </div>
+            <div class="actions">
+                <button class="action-btn skip-btn" onclick="skipQuestion()">⏭️ 패스</button>
+                <button class="action-btn next-btn" onclick="nextQuestion()">🔥 다음 질문</button>
+            </div>
+            <div class="stats">
+                <div class="stats-title">📊 통계</div>
+                <div class="stats-row"><span>답변한 질문</span><span id="answeredCount">0</span></div>
+                <div class="stats-row"><span>패스한 질문</span><span id="skippedCount">0</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var questions = {
+            mild: [
+                { emoji: "😅", text: "가장 창피했던 순간은?" },
+                { emoji: "💭", text: "최근에 가장 많이 생각하는 것은?" },
+                { emoji: "🎵", text: "샤워할 때 부르는 노래가 있다면?" },
+                { emoji: "📱", text: "핸드폰에서 가장 많이 쓰는 앱은?" },
+                { emoji: "🍔", text: "무인도에 하나만 가져갈 수 있다면?" },
+                { emoji: "😴", text: "가장 이상한 꿈은?" },
+                { emoji: "🎬", text: "10번 넘게 본 영화가 있다면?" },
+                { emoji: "🗣️", text: "말버릇이 있다면?" },
+                { emoji: "🏠", text: "집에서 혼자 할 때 뭘 하나요?" },
+                { emoji: "🎁", text: "받은 선물 중 최악은?" },
+                { emoji: "🤔", text: "가장 자주 하는 거짓말은?" },
+                { emoji: "😤", text: "가장 화났던 순간은?" },
+                { emoji: "🎯", text: "이루고 싶은 버킷리스트 하나는?" },
+                { emoji: "👻", text: "가장 무서웠던 경험은?" },
+                { emoji: "🍕", text: "먹다가 울었던 음식이 있다면?" }
+            ],
+            medium: [
+                { emoji: "💔", text: "가장 큰 실연 경험은?" },
+                { emoji: "🤫", text: "아무에게도 말 못 한 비밀이 있다면?" },
+                { emoji: "😳", text: "누군가를 스토킹해본 적 있나요?" },
+                { emoji: "💸", text: "가장 아까웠던 돈 쓴 경험은?" },
+                { emoji: "🎭", text: "연기한 적 있는 아픈 척은?" },
+                { emoji: "📞", text: "받고 싶지 않은 전화가 있다면?" },
+                { emoji: "😈", text: "가장 나쁜 짓은?" },
+                { emoji: "💑", text: "이상형의 첫 번째 조건은?" },
+                { emoji: "🙈", text: "SNS에서 삭제한 흑역사는?" },
+                { emoji: "💪", text: "자신의 최고 장점과 최악의 단점은?" },
+                { emoji: "🔮", text: "미래에 대한 가장 큰 걱정은?" },
+                { emoji: "👀", text: "몰래 본 남의 것은?" },
+                { emoji: "😢", text: "최근에 운 이유는?" },
+                { emoji: "🚫", text: "절대 용서 못 할 것은?" },
+                { emoji: "💋", text: "첫 키스 경험담을 말해보세요" }
+            ],
+            spicy: [
+                { emoji: "🔥", text: "가장 야한 경험은?" },
+                { emoji: "💣", text: "터트리면 인생 망할 비밀이 있다면?" },
+                { emoji: "😏", text: "가장 대담했던 행동은?" },
+                { emoji: "🍷", text: "술 마시고 한 가장 미친 짓은?" },
+                { emoji: "💔", text: "바람 피운 적 있나요?" },
+                { emoji: "🤯", text: "충격받은 성인 콘텐츠는?" },
+                { emoji: "😈", text: "누군가에게 복수한 적 있나요?" },
+                { emoji: "💰", text: "돈을 위해 할 수 있는 최악의 것은?" },
+                { emoji: "🔞", text: "부모님이 알면 충격받을 비밀은?" },
+                { emoji: "👀", text: "몰래 보고 싶은 누군가의 비밀은?" },
+                { emoji: "💕", text: "금지된 사랑을 해본 적 있나요?" },
+                { emoji: "🎰", text: "가장 큰 도박을 해본 적은?" },
+                { emoji: "😱", text: "거짓말로 만든 가장 큰 사건은?" },
+                { emoji: "🌙", text: "원나잇 경험담을 말해보세요" },
+                { emoji: "🔥", text: "인생에서 가장 후회하는 성적 경험은?" }
+            ]
+        };
+
+        var currentIntensity = 'mild';
+        var deck = [];
+        var answeredCount = 0;
+        var skippedCount = 0;
+
+        function setIntensity(level) {
+            currentIntensity = level;
+            document.querySelectorAll('.intensity-btn').forEach(function(btn, i) {
+                var levels = ['mild', 'medium', 'spicy'];
+                btn.classList.toggle('active', levels[i] === level);
+            });
+            resetDeck();
+        }
+
+        function resetDeck() {
+            deck = questions[currentIntensity].slice();
+            shuffleDeck();
+        }
+
+        function shuffleDeck() {
+            for (var i = deck.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = deck[i];
+                deck[i] = deck[j];
+                deck[j] = temp;
+            }
+        }
+
+        function nextQuestion() {
+            if (deck.length === 0) {
+                resetDeck();
+            }
+            var q = deck.pop();
+            document.getElementById('questionEmoji').textContent = q.emoji;
+            document.getElementById('questionText').textContent = q.text;
+            answeredCount++;
+            updateStats();
+            animateCard();
+        }
+
+        function skipQuestion() {
+            if (deck.length === 0) {
+                resetDeck();
+            }
+            var q = deck.pop();
+            document.getElementById('questionEmoji').textContent = q.emoji;
+            document.getElementById('questionText').textContent = q.text;
+            skippedCount++;
+            updateStats();
+            animateCard();
+        }
+
+        function animateCard() {
+            var card = document.getElementById('questionCard');
+            card.style.transform = 'scale(0.95)';
+            setTimeout(function() {
+                card.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        function updateStats() {
+            document.getElementById('answeredCount').textContent = answeredCount;
+            document.getElementById('skippedCount').textContent = skippedCount;
+            saveStats();
+        }
+
+        function saveStats() {
+            var stats = JSON.parse(localStorage.getItem('hotseat_ko') || '{"total":0}');
+            stats.total = answeredCount + skippedCount;
+            localStorage.setItem('hotseat_ko', JSON.stringify(stats));
+        }
+
+        resetDeck();
+    </script>
+</body>
+</html>

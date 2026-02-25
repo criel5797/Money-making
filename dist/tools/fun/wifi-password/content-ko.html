@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiFi 비밀번호</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #00b09b, #96c93d); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .wifi-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { margin-bottom: 12px; }
+        .form-row input { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .wifi-list { max-height: 350px; overflow-y: auto; }
+        .wifi-item { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 10px; }
+        .wifi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .wifi-name { font-weight: 700; font-size: 1.1rem; }
+        .delete-btn { background: #ff6b6b; border: none; color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+        .wifi-password { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .password-text { flex: 1; background: rgba(0,0,0,.3); padding: 10px; border-radius: 8px; font-family: monospace; word-break: break-all; }
+        .copy-btn { background: #38ef7d; border: none; color: #000; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .wifi-location { font-size: .85rem; opacity: .8; }
+        .hidden-pass { letter-spacing: 3px; }
+        .show-btn { background: rgba(255,255,255,.2); border: none; color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer; margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>📶 WiFi 비밀번호</h1>
+        </header>
+        <div class="wifi-section">
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="nameInput" placeholder="WiFi 이름 (SSID)">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="passwordInput" placeholder="비밀번호">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="locationInput" placeholder="위치 (선택: 집, 사무실 등)">
+                </div>
+                <button class="add-btn" onclick="addWifi()">WiFi 저장</button>
+            </div>
+            <div class="wifi-list" id="wifiList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var wifiList = JSON.parse(localStorage.getItem('wifi_passwords') || '[]');
+        var visiblePasswords = {};
+        function save() { localStorage.setItem('wifi_passwords', JSON.stringify(wifiList)); }
+        function addWifi() {
+            var name = document.getElementById('nameInput').value.trim();
+            var password = document.getElementById('passwordInput').value;
+            var location = document.getElementById('locationInput').value.trim();
+            if (name && password) {
+                wifiList.push({ id: Date.now().toString(), name: name, password: password, location: location });
+                save();
+                render();
+                document.getElementById('nameInput').value = '';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('locationInput').value = '';
+            }
+        }
+        function deleteWifi(id) {
+            wifiList = wifiList.filter(function(w) { return w.id !== id; });
+            save();
+            render();
+        }
+        function togglePassword(id) {
+            visiblePasswords[id] = !visiblePasswords[id];
+            render();
+        }
+        function copyPassword(password) {
+            navigator.clipboard.writeText(password).then(function() {
+                alert('비밀번호가 복사되었습니다!');
+            });
+        }
+        function render() {
+            var list = document.getElementById('wifiList');
+            list.innerHTML = '';
+            wifiList.forEach(function(w) {
+                var div = document.createElement('div');
+                div.className = 'wifi-item';
+                var isVisible = visiblePasswords[w.id];
+                var displayPassword = isVisible ? w.password : '••••••••';
+                div.innerHTML = '<div class="wifi-header"><span class="wifi-name">📶 ' + w.name + '</span><button class="delete-btn" onclick="deleteWifi(\'' + w.id + '\')">삭제</button></div><div class="wifi-password"><span class="password-text' + (isVisible ? '' : ' hidden-pass') + '">' + displayPassword + '</span><button class="show-btn" onclick="togglePassword(\'' + w.id + '\')">' + (isVisible ? '숨기기' : '보기') + '</button><button class="copy-btn" onclick="copyPassword(\'' + w.password.replace(/'/g, "\\'") + '\')">복사</button></div>' + (w.location ? '<div class="wifi-location">📍 ' + w.location + '</div>' : '');
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

@@ -23,6 +23,14 @@ var generateClickSpeedGame = require('./src/templates/click-speed.js');
 var generateAimTrainerGame = require('./src/templates/aim-trainer.js');
 var generateSequenceMemoryGame = require('./src/templates/sequence-memory.js');
 var generateWordPuzzleGame = require('./src/templates/word-puzzle.js');
+var generateVisualMemoryGame = require('./src/templates/visual-memory.js');
+var generateStroopTestGame = require('./src/templates/stroop-test.js');
+var generateVerbalMemoryGame = require('./src/templates/verbal-memory.js');
+var generateChimpTestGame = require('./src/templates/chimp-test.js');
+var generateHearingTestGame = require('./src/templates/hearing-test.js');
+var generateColorBlindTestGame = require('./src/templates/color-blind-test.js');
+var generateNumberSpeedGame = require('./src/templates/number-speed.js');
+var generateTargetTrackerGame = require('./src/templates/target-tracker.js');
 
 var OUT = path.join(process.cwd(), 'dist');
 
@@ -138,6 +146,54 @@ function wrapWordPuzzleGame() {
   var gameHTML = generateWordPuzzleGame(templateOptions);
   return layout('단어 만들기', '/games/word-puzzle/', gameHTML, true,
     '무료 단어 만들기 게임. 주어진 글자들로 단어를 만들어 어휘력과 창의력을 테스트하세요!');
+}
+
+function wrapVisualMemoryGame() {
+  var gameHTML = generateVisualMemoryGame(templateOptions);
+  return layout('시각 기억력', '/games/visual-memory/', gameHTML, true,
+    '무료 시각 기억력 테스트. 깜빡이는 타일의 위치를 기억하고 클릭하여 시각적 기억력을 향상시키세요!');
+}
+
+function wrapStroopTestGame() {
+  var gameHTML = generateStroopTestGame(templateOptions);
+  return layout('스트룹 테스트', '/games/stroop-test/', gameHTML, true,
+    '무료 스트룹 테스트. 글자의 색깔을 빠르게 판단하여 인지 유연성과 집중력을 테스트하세요!');
+}
+
+function wrapVerbalMemoryGame() {
+  var gameHTML = generateVerbalMemoryGame(templateOptions);
+  return layout('언어 기억력', '/games/verbal-memory/', gameHTML, true,
+    '무료 언어 기억력 테스트. 본 단어와 새 단어를 구분하여 언어 기억력을 테스트하세요!');
+}
+
+function wrapChimpTestGame() {
+  var gameHTML = generateChimpTestGame(templateOptions);
+  return layout('침팬지 테스트', '/games/chimp-test/', gameHTML, true,
+    '무료 침팬지 테스트. 숫자를 순서대로 기억하고 클릭하여 단기 기억력을 테스트하세요! 침팬지보다 잘할 수 있나요?');
+}
+
+function wrapHearingTestGame() {
+  var gameHTML = generateHearingTestGame(templateOptions);
+  return layout('청력 테스트', '/games/hearing-test/', gameHTML, true,
+    '무료 청력 테스트. 들을 수 있는 최고 주파수를 측정하여 청력 상태를 확인하세요! 헤드폰 착용 권장.');
+}
+
+function wrapColorBlindTestGame() {
+  var gameHTML = generateColorBlindTestGame(templateOptions);
+  return layout('색맹 테스트', '/games/color-blind-test/', gameHTML, true,
+    '무료 색맹 테스트. 다른 색깔의 타일을 찾아 클릭하여 색각 인지 능력을 테스트하세요!');
+}
+
+function wrapNumberSpeedGame() {
+  var gameHTML = generateNumberSpeedGame(templateOptions);
+  return layout('숫자 비교 속도', '/games/number-speed/', gameHTML, true,
+    '무료 숫자 비교 속도 테스트. 두 숫자 중 더 큰 숫자를 빠르게 선택하여 판단력을 테스트하세요!');
+}
+
+function wrapTargetTrackerGame() {
+  var gameHTML = generateTargetTrackerGame(templateOptions);
+  return layout('목표 추적', '/games/target-tracker/', gameHTML, true,
+    '무료 목표 추적 게임. 움직이는 목표물을 따라가며 클릭하여 시각 추적 능력을 테스트하세요!');
 }
 
 // Main page generation
@@ -486,6 +542,14 @@ function build(){
   write(path.join(OUT, 'games', 'aim-trainer', 'index.html'), wrapAimTrainerGame());
   write(path.join(OUT, 'games', 'sequence-memory', 'index.html'), wrapSequenceMemoryGame());
   write(path.join(OUT, 'games', 'word-puzzle', 'index.html'), wrapWordPuzzleGame());
+  write(path.join(OUT, 'games', 'visual-memory', 'index.html'), wrapVisualMemoryGame());
+  write(path.join(OUT, 'games', 'stroop-test', 'index.html'), wrapStroopTestGame());
+  write(path.join(OUT, 'games', 'verbal-memory', 'index.html'), wrapVerbalMemoryGame());
+  write(path.join(OUT, 'games', 'chimp-test', 'index.html'), wrapChimpTestGame());
+  write(path.join(OUT, 'games', 'hearing-test', 'index.html'), wrapHearingTestGame());
+  write(path.join(OUT, 'games', 'color-blind-test', 'index.html'), wrapColorBlindTestGame());
+  write(path.join(OUT, 'games', 'number-speed', 'index.html'), wrapNumberSpeedGame());
+  write(path.join(OUT, 'games', 'target-tracker', 'index.html'), wrapTargetTrackerGame());
 
   // Process Web Tools with language switching
   var webToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'web');
@@ -547,6 +611,16 @@ function build(){
   if(PUB_ID){
     write(path.join(OUT, 'ads.txt'), 'google.com, ' + PUB_ID + ', DIRECT, f08c47fec0942fa0');
   }
+
+  // Monetag service worker
+  write(path.join(OUT, 'sw.js'), [
+    'self.options = {',
+    '    "domain": "3nbf4.com",',
+    '    "zoneId": 10652551',
+    '}',
+    'self.lary = ""',
+    "importScripts('https://3nbf4.com/act/files/service-worker.min.js?r=sw')"
+  ].join('\n'));
 
   // CNAME 파일 생성 (커스텀 도메인용)
   write(path.join(OUT, 'CNAME'), 'instaidea.org');

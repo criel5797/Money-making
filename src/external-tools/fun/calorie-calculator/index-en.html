@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Calculator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #e74c3c, #c0392b); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .calc-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .input-group { margin-bottom: 18px; }
+        .input-label { font-size: .9rem; margin-bottom: 8px; opacity: .8; }
+        input[type=number], select { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; font-size: 1rem; }
+        .radio-group { display: flex; gap: 15px; }
+        .radio-label { flex: 1; padding: 12px; border: 1px solid rgba(255,255,255,.3); border-radius: 10px; text-align: center; cursor: pointer; }
+        .radio-label.active { background: rgba(255,255,255,.2); border-color: #fff; }
+        .calc-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: rgba(0,0,0,.3); color: #fff; font-size: 1.1rem; cursor: pointer; margin: 20px 0; }
+        .result-card { background: rgba(0,0,0,.3); border-radius: 12px; padding: 25px; }
+        .result-main { text-align: center; margin-bottom: 20px; }
+        .result-label { font-size: .9rem; opacity: .8; margin-bottom: 5px; }
+        .result-value { font-size: 2.5rem; font-weight: 700; }
+        .result-unit { font-size: 1rem; opacity: .8; }
+        .goal-section { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .goal-row { display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid rgba(255,255,255,.1); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header><h1>🔥 Calorie Calculator</h1></header>
+        <div class="calc-section">
+            <div class="input-group">
+                <div class="input-label">Gender</div>
+                <div class="radio-group">
+                    <div class="radio-label active" onclick="setGender('male')">Male</div>
+                    <div class="radio-label" onclick="setGender('female')">Female</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-label">Age</div>
+                <input type="number" id="age" placeholder="25" value="25">
+            </div>
+            <div class="input-group">
+                <div class="input-label">Height (cm)</div>
+                <input type="number" id="height" placeholder="170" value="170">
+            </div>
+            <div class="input-group">
+                <div class="input-label">Weight (kg)</div>
+                <input type="number" id="weight" placeholder="70" value="70">
+            </div>
+            <div class="input-group">
+                <div class="input-label">Activity Level</div>
+                <select id="activity">
+                    <option value="1.2">Sedentary (little exercise)</option>
+                    <option value="1.375">Light (1-3 days/week)</option>
+                    <option value="1.55" selected>Moderate (3-5 days/week)</option>
+                    <option value="1.725">Active (6-7 days/week)</option>
+                    <option value="1.9">Very Active (2x/day)</option>
+                </select>
+            </div>
+            <button class="calc-btn" onclick="calculate()">Calculate</button>
+            <div class="result-card">
+                <div class="result-main">
+                    <div class="result-label">Daily Calorie Needs</div>
+                    <div class="result-value" id="tdee">0</div>
+                    <div class="result-unit">kcal/day</div>
+                </div>
+                <div class="goal-section">
+                    <div class="goal-row"><span>Maintain Weight</span><span id="maintain">0 kcal</span></div>
+                    <div class="goal-row"><span>Lose Weight (-0.5kg/week)</span><span id="lose">0 kcal</span></div>
+                    <div class="goal-row"><span>Gain Weight (+0.5kg/week)</span><span id="gain">0 kcal</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var gender = 'male';
+        function setGender(g) {
+            gender = g;
+            document.querySelectorAll('.radio-label').forEach(function(el, i) {
+                el.classList.toggle('active', (g === 'male' && i === 0) || (g === 'female' && i === 1));
+            });
+        }
+        function calculate() {
+            var age = parseInt(document.getElementById('age').value) || 25;
+            var height = parseFloat(document.getElementById('height').value) || 170;
+            var weight = parseFloat(document.getElementById('weight').value) || 70;
+            var activity = parseFloat(document.getElementById('activity').value);
+            var bmr;
+            if (gender === 'male') {
+                bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+            } else {
+                bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+            }
+            var tdee = Math.round(bmr * activity);
+            document.getElementById('tdee').textContent = tdee.toLocaleString();
+            document.getElementById('maintain').textContent = tdee.toLocaleString() + ' kcal';
+            document.getElementById('lose').textContent = Math.round(tdee - 500).toLocaleString() + ' kcal';
+            document.getElementById('gain').textContent = Math.round(tdee + 500).toLocaleString() + ' kcal';
+        }
+        calculate();
+    </script>
+</body>
+</html>

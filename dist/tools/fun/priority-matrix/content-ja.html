@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>優先順位マトリックス</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #3498db, #2980b9); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.6rem; margin-bottom: 10px; }
+        .add-task { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .add-task input { flex: 1; min-width: 150px; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-task select { padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-task button { padding: 12px 20px; border: none; border-radius: 10px; background: rgba(0,0,0,.3); color: #fff; cursor: pointer; }
+        .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .quadrant { background: rgba(255,255,255,.1); border-radius: 12px; padding: 15px; min-height: 150px; }
+        .quadrant-title { font-size: .85rem; font-weight: 600; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.2); }
+        .q1 .quadrant-title { color: #e74c3c; }
+        .q2 .quadrant-title { color: #f39c12; }
+        .q3 .quadrant-title { color: #27ae60; }
+        .q4 .quadrant-title { color: #95a5a6; }
+        .task-item { background: rgba(255,255,255,.15); padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: .85rem; cursor: move; }
+        .task-item:hover { background: rgba(255,255,255,.25); }
+        .del-btn { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; }
+        .legend { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: .75rem; opacity: .8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header><h1>📊 優先順位マトリックス</h1></header>
+        <div class="add-task">
+            <input type="text" id="taskInput" placeholder="タスクを入力" onkeypress="if(event.key==='Enter')addTask()">
+            <select id="quadrantSelect">
+                <option value="1">緊急+重要</option>
+                <option value="2">重要</option>
+                <option value="3">緊急</option>
+                <option value="4">後で</option>
+            </select>
+            <button onclick="addTask()">追加</button>
+        </div>
+        <div class="matrix">
+            <div class="quadrant q1" id="q1" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="quadrant-title">🔴 緊急 + 重要</div>
+            </div>
+            <div class="quadrant q2" id="q2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="quadrant-title">🟠 重要（予定を立てる）</div>
+            </div>
+            <div class="quadrant q3" id="q3" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="quadrant-title">🟢 緊急（委任する）</div>
+            </div>
+            <div class="quadrant q4" id="q4" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="quadrant-title">⚪ 後で</div>
+            </div>
+        </div>
+        <div class="legend">
+            <span>緊急+重要: 今すぐ実行</span>
+            <span>重要: スケジュールを立てる</span>
+            <span>緊急: 他の人に委任</span>
+            <span>後で: 後でやるか省略</span>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var tasks = JSON.parse(localStorage.getItem('priorityTasks') || '{"1":[],"2":[],"3":[],"4":[]}');
+        function save() { localStorage.setItem('priorityTasks', JSON.stringify(tasks)); }
+        function render() {
+            for (var i = 1; i <= 4; i++) {
+                var q = document.getElementById('q' + i);
+                var title = q.querySelector('.quadrant-title').outerHTML;
+                q.innerHTML = title;
+                tasks[i].forEach(function(t, idx) {
+                    var div = document.createElement('div');
+                    div.className = 'task-item';
+                    div.draggable = true;
+                    div.dataset.q = i;
+                    div.dataset.idx = idx;
+                    div.ondragstart = drag;
+                    div.innerHTML = '<span>' + t + '</span><button class="del-btn" onclick="delTask(' + i + ',' + idx + ')">×</button>';
+                    q.appendChild(div);
+                });
+            }
+        }
+        function addTask() {
+            var text = document.getElementById('taskInput').value.trim();
+            var q = document.getElementById('quadrantSelect').value;
+            if (!text) return;
+            tasks[q].push(text);
+            save();
+            render();
+            document.getElementById('taskInput').value = '';
+        }
+        function delTask(q, idx) {
+            tasks[q].splice(idx, 1);
+            save();
+            render();
+        }
+        function allowDrop(e) { e.preventDefault(); }
+        function drag(e) {
+            e.dataTransfer.setData('q', e.target.dataset.q);
+            e.dataTransfer.setData('idx', e.target.dataset.idx);
+        }
+        function drop(e) {
+            e.preventDefault();
+            var fromQ = e.dataTransfer.getData('q');
+            var fromIdx = e.dataTransfer.getData('idx');
+            var toQ = e.currentTarget.id.replace('q', '');
+            var task = tasks[fromQ][fromIdx];
+            tasks[fromQ].splice(fromIdx, 1);
+            tasks[toQ].push(task);
+            save();
+            render();
+        }
+        render();
+    </script>
+</body>
+</html>

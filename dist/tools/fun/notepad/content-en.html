@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Notepad - Quick Text Notes</title>
+    <meta name="description" content="Free online notepad. Take notes right in your browser with auto-save.">
+    <meta name="keywords" content="notepad, online notes, text editor, memo">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 700px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .notepad-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .tool-btn {
+            padding: 10px 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tool-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .tool-btn.active {
+            background: rgba(116, 185, 255, 0.5);
+            border-color: #74b9ff;
+        }
+        .textarea-wrapper {
+            position: relative;
+        }
+        #notepad {
+            width: 100%;
+            height: 400px;
+            padding: 20px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        #notepad:focus {
+            outline: 3px solid rgba(116, 185, 255, 0.5);
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        .saved-notes {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .saved-notes h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .note-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .note-item:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .note-title {
+            font-weight: 600;
+            flex: 1;
+        }
+        .note-date {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-left: 10px;
+        }
+        .delete-btn {
+            background: rgba(255,107,107,0.3);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+        }
+        .new-btn {
+            background: linear-gradient(135deg, #fdcb6e, #f39c12);
+            color: white;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+        }
+        .action-btn:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Ad Area</div>
+        <header>
+            <h1>📝 Online Notepad</h1>
+            <p class="subtitle">Take notes and save them right in your browser</p>
+        </header>
+        <div class="notepad-section">
+            <div class="toolbar">
+                <button class="tool-btn" onclick="setFontSize(14)">Small</button>
+                <button class="tool-btn active" onclick="setFontSize(16)">Normal</button>
+                <button class="tool-btn" onclick="setFontSize(20)">Large</button>
+                <button class="tool-btn" onclick="toggleFont()">Change Font</button>
+            </div>
+            <div class="textarea-wrapper">
+                <textarea id="notepad" placeholder="Type your notes here..." oninput="updateStatus()"></textarea>
+            </div>
+            <div class="status-bar">
+                <span id="charCount">0 characters</span>
+                <span id="wordCount">0 words</span>
+                <span id="lastSaved">Auto-saved</span>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn save-btn" onclick="saveNote()">💾 Save</button>
+                <button class="action-btn new-btn" onclick="newNote()">📄 New Note</button>
+                <button class="action-btn download-btn" onclick="downloadNote()">⬇️ Download</button>
+            </div>
+            <div class="saved-notes">
+                <h3>📚 Saved Notes</h3>
+                <div class="notes-list" id="notesList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Ad Area</div>
+    </div>
+    <script>
+        var notepad = document.getElementById('notepad');
+        var currentNoteId = null;
+        var fonts = ['sans-serif', 'serif', 'monospace', 'cursive'];
+        var currentFontIndex = 0;
+        var autoSaveTimer = null;
+
+        function loadNotes() {
+            return JSON.parse(localStorage.getItem('notes') || '[]');
+        }
+
+        function saveNotes(notes) {
+            localStorage.setItem('notes', JSON.stringify(notes));
+        }
+
+        function updateStatus() {
+            var text = notepad.value;
+            document.getElementById('charCount').textContent = text.length + ' characters';
+            var words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            document.getElementById('wordCount').textContent = words + ' words';
+
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(function() {
+                autoSave();
+            }, 2000);
+        }
+
+        function autoSave() {
+            if (notepad.value.trim() && currentNoteId) {
+                var notes = loadNotes();
+                var index = notes.findIndex(function(n) { return n.id === currentNoteId; });
+                if (index > -1) {
+                    notes[index].content = notepad.value;
+                    notes[index].date = new Date().toISOString();
+                    saveNotes(notes);
+                    document.getElementById('lastSaved').textContent = 'Auto-saved';
+                }
+            }
+        }
+
+        function saveNote() {
+            var text = notepad.value.trim();
+            if (!text) {
+                alert('Please enter some content');
+                return;
+            }
+
+            var notes = loadNotes();
+            var title = text.substring(0, 30) + (text.length > 30 ? '...' : '');
+
+            if (currentNoteId) {
+                var index = notes.findIndex(function(n) { return n.id === currentNoteId; });
+                if (index > -1) {
+                    notes[index].content = text;
+                    notes[index].title = title;
+                    notes[index].date = new Date().toISOString();
+                }
+            } else {
+                var note = {
+                    id: Date.now(),
+                    title: title,
+                    content: text,
+                    date: new Date().toISOString()
+                };
+                notes.unshift(note);
+                currentNoteId = note.id;
+            }
+
+            saveNotes(notes);
+            renderNotes();
+            document.getElementById('lastSaved').textContent = 'Saved!';
+        }
+
+        function newNote() {
+            notepad.value = '';
+            currentNoteId = null;
+            updateStatus();
+            notepad.focus();
+        }
+
+        function loadNote(id) {
+            var notes = loadNotes();
+            var note = notes.find(function(n) { return n.id === id; });
+            if (note) {
+                notepad.value = note.content;
+                currentNoteId = id;
+                updateStatus();
+            }
+        }
+
+        function deleteNote(id) {
+            if (!confirm('Delete this note?')) return;
+            var notes = loadNotes();
+            notes = notes.filter(function(n) { return n.id !== id; });
+            saveNotes(notes);
+            if (currentNoteId === id) {
+                newNote();
+            }
+            renderNotes();
+        }
+
+        function renderNotes() {
+            var notes = loadNotes();
+            var list = document.getElementById('notesList');
+            list.innerHTML = '';
+
+            if (notes.length === 0) {
+                list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px">No saved notes</div>';
+                return;
+            }
+
+            notes.forEach(function(note) {
+                var div = document.createElement('div');
+                div.className = 'note-item';
+                div.innerHTML = '<span class="note-title">' + note.title + '</span>' +
+                    '<span class="note-date">' + new Date(note.date).toLocaleDateString() + '</span>' +
+                    '<button class="delete-btn" onclick="event.stopPropagation();deleteNote(' + note.id + ')">Delete</button>';
+                div.onclick = function() { loadNote(note.id); };
+                list.appendChild(div);
+            });
+        }
+
+        function setFontSize(size) {
+            notepad.style.fontSize = size + 'px';
+            document.querySelectorAll('.tool-btn').forEach(function(btn, i) {
+                if (i < 3) btn.classList.remove('active');
+            });
+            var sizes = [14, 16, 20];
+            var index = sizes.indexOf(size);
+            if (index > -1) document.querySelectorAll('.tool-btn')[index].classList.add('active');
+        }
+
+        function toggleFont() {
+            currentFontIndex = (currentFontIndex + 1) % fonts.length;
+            notepad.style.fontFamily = fonts[currentFontIndex];
+        }
+
+        function downloadNote() {
+            var text = notepad.value;
+            if (!text.trim()) {
+                alert('Nothing to download');
+                return;
+            }
+            var blob = new Blob([text], {type: 'text/plain'});
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'memo_' + new Date().toISOString().split('T')[0] + '.txt';
+            a.click();
+        }
+
+        // Load last note
+        var lastNote = loadNotes()[0];
+        if (lastNote) {
+            notepad.value = lastNote.content;
+            currentNoteId = lastNote.id;
+            updateStatus();
+        }
+        renderNotes();
+    </script>
+</body>
+</html>

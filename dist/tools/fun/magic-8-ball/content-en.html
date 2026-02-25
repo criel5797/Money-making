@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic 8 Ball</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .ball-container { display: flex; justify-content: center; margin-bottom: 20px; }
+        .ball { width: 250px; height: 250px; background: radial-gradient(circle at 30% 30%, #333, #000); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 50px rgba(0,0,0,.5), inset 0 -10px 30px rgba(0,0,0,.5); position: relative; cursor: pointer; transition: transform .3s; }
+        .ball:hover { transform: scale(1.02); }
+        .ball.shaking { animation: shake 0.5s ease-in-out; }
+        @keyframes shake { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+        .window { width: 100px; height: 100px; background: radial-gradient(circle at 50% 50%, #1a237e, #000); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+        .triangle { width: 0; height: 0; border-left: 40px solid transparent; border-right: 40px solid transparent; border-bottom: 70px solid #1a237e; position: absolute; display: flex; align-items: center; justify-content: center; }
+        .answer { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-size: .75rem; font-weight: 700; color: #fff; max-width: 70px; line-height: 1.2; opacity: 0; transition: opacity .5s; }
+        .answer.visible { opacity: 1; }
+        .question-input { width: 100%; padding: 15px; border: none; border-radius: 10px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; margin-bottom: 15px; text-align: center; }
+        .question-input::placeholder { color: rgba(255,255,255,.5); }
+        .ask-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #7c3aed, #5b21b6); color: #fff; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: transform .2s; }
+        .ask-btn:hover { transform: scale(1.02); }
+        .ask-btn:active { transform: scale(0.98); }
+        .history { margin-top: 15px; }
+        .history-label { font-size: .8rem; opacity: .7; margin-bottom: 10px; }
+        .history-items { max-height: 200px; overflow-y: auto; }
+        .history-item { padding: 10px; background: rgba(255,255,255,.1); border-radius: 8px; margin-bottom: 8px; font-size: .85rem; }
+        .history-q { opacity: .7; margin-bottom: 5px; }
+        .history-a { color: #a78bfa; font-weight: 600; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🎱 Magic 8 Ball</h1>
+        </header>
+        <div class="game-section">
+            <div class="ball-container">
+                <div class="ball" id="ball" onclick="askQuestion()">
+                    <div class="window">
+                        <div class="triangle"></div>
+                        <div class="answer" id="answer">8</div>
+                    </div>
+                </div>
+            </div>
+            <input type="text" class="question-input" id="question" placeholder="Enter your question..." maxlength="100">
+            <button class="ask-btn" onclick="askQuestion()">🎱 Ask</button>
+            <div class="history">
+                <div class="history-label">Question History</div>
+                <div class="history-items" id="history"></div>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="questions">0</div>
+                    <div class="stat-label">Total Questions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="positive">0</div>
+                    <div class="stat-label">Positive Answers</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var answers = [
+            { text: 'It is certain', type: 'positive' },
+            { text: 'It is decidedly so', type: 'positive' },
+            { text: 'Without a doubt', type: 'positive' },
+            { text: 'Yes definitely', type: 'positive' },
+            { text: 'You may rely on it', type: 'positive' },
+            { text: 'Most likely', type: 'positive' },
+            { text: 'Outlook good', type: 'positive' },
+            { text: 'Signs point to yes', type: 'positive' },
+            { text: 'Reply hazy try again', type: 'neutral' },
+            { text: 'Ask again later', type: 'neutral' },
+            { text: 'Cannot predict now', type: 'neutral' },
+            { text: 'Concentrate and ask again', type: 'neutral' },
+            { text: 'Don\'t count on it', type: 'negative' },
+            { text: 'My reply is no', type: 'negative' },
+            { text: 'My sources say no', type: 'negative' },
+            { text: 'Outlook not so good', type: 'negative' },
+            { text: 'Very doubtful', type: 'negative' },
+            { text: 'Better not tell you now', type: 'negative' }
+        ];
+
+        var stats = JSON.parse(localStorage.getItem('magic8_en') || '{"questions":0,"positive":0,"history":[]}');
+        var isAsking = false;
+
+        function askQuestion() {
+            if (isAsking) return;
+
+            var questionEl = document.getElementById('question');
+            var question = questionEl.value.trim();
+            if (!question) {
+                question = 'Oh fate, give me an answer!';
+            }
+
+            isAsking = true;
+            var ball = document.getElementById('ball');
+            var answerEl = document.getElementById('answer');
+
+            ball.classList.add('shaking');
+            answerEl.classList.remove('visible');
+            answerEl.textContent = '...';
+
+            setTimeout(function() {
+                ball.classList.remove('shaking');
+                var answer = answers[Math.floor(Math.random() * answers.length)];
+                answerEl.textContent = answer.text;
+                answerEl.classList.add('visible');
+
+                stats.questions++;
+                if (answer.type === 'positive') stats.positive++;
+                stats.history.unshift({ q: question, a: answer.text });
+                if (stats.history.length > 20) stats.history.pop();
+
+                localStorage.setItem('magic8_en', JSON.stringify(stats));
+                updateDisplay();
+                questionEl.value = '';
+                isAsking = false;
+            }, 1000);
+        }
+
+        function updateDisplay() {
+            document.getElementById('questions').textContent = stats.questions;
+            document.getElementById('positive').textContent = stats.positive;
+
+            var historyEl = document.getElementById('history');
+            historyEl.innerHTML = '';
+            stats.history.slice(0, 5).forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<div class="history-q">' + item.q + '</div><div class="history-a">' + item.a + '</div>';
+                historyEl.appendChild(div);
+            });
+        }
+
+        document.getElementById('question').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                askQuestion();
+            }
+        });
+
+        updateDisplay();
+    </script>
+</body>
+</html>

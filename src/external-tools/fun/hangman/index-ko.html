@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>행맨 게임</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #2c3e50, #3498db); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .hangman-display { background: rgba(0,0,0,.2); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .hangman-figure { font-size: 1rem; line-height: 1.2; font-family: monospace; white-space: pre; margin-bottom: 15px; }
+        .lives { font-size: .9rem; opacity: .8; }
+        .word-display { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
+        .letter-box { width: 35px; height: 45px; border-bottom: 3px solid #fff; display: flex; align-items: flex-end; justify-content: center; font-size: 1.5rem; font-weight: 700; }
+        .category { text-align: center; font-size: .9rem; opacity: .7; margin-bottom: 15px; }
+        .keyboard { margin-bottom: 20px; }
+        .keyboard-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; }
+        .key-btn { width: 32px; height: 40px; border: none; border-radius: 8px; background: rgba(255,255,255,.2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .key-btn:hover:not(:disabled) { background: rgba(255,255,255,.35); }
+        .key-btn:disabled { opacity: .3; cursor: not-allowed; }
+        .key-btn.correct { background: #27ae60; }
+        .key-btn.wrong { background: #c0392b; }
+        .result { text-align: center; padding: 20px; border-radius: 12px; margin-bottom: 20px; font-size: 1.2rem; font-weight: 600; display: none; }
+        .result.win { display: block; background: rgba(46,204,113,.3); }
+        .result.lose { display: block; background: rgba(231,76,60,.3); }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+        .new-game-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🎯 행맨 게임</h1>
+        </header>
+        <div class="game-section">
+            <div class="hangman-display">
+                <div class="hangman-figure" id="hangman"></div>
+                <div class="lives">남은 기회: <span id="livesCount">6</span></div>
+            </div>
+            <div class="category" id="category">카테고리: 동물</div>
+            <div class="word-display" id="wordDisplay"></div>
+            <div class="result" id="result"></div>
+            <div class="keyboard" id="keyboard"></div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="gamesPlayed">0</div>
+                    <div class="stat-label">게임 수</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="gamesWon">0</div>
+                    <div class="stat-label">승리</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="streak">0</div>
+                    <div class="stat-label">연승</div>
+                </div>
+            </div>
+            <button class="new-game-btn" onclick="newGame()">🎮 새 게임</button>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var words = {
+            '동물': ['고양이', '강아지', '코끼리', '기린', '판다', '호랑이', '사자', '토끼', '여우', '늑대'],
+            '과일': ['사과', '바나나', '포도', '딸기', '수박', '참외', '복숭아', '자두', '망고', '키위'],
+            '나라': ['대한민국', '미국', '일본', '중국', '프랑스', '독일', '영국', '호주', '캐나다', '브라질'],
+            '음식': ['김밥', '라면', '비빔밥', '불고기', '삼겹살', '치킨', '피자', '햄버거', '떡볶이', '순두부']
+        };
+        var categories = Object.keys(words);
+        var hangmanStages = [
+            '  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n========='
+        ];
+        var currentWord;
+        var currentCategory;
+        var guessedLetters;
+        var wrongGuesses;
+        var gameOver;
+        var stats = JSON.parse(localStorage.getItem('hangman_ko') || '{"played":0,"won":0,"streak":0}');
+
+        function getRandomWord() {
+            currentCategory = categories[Math.floor(Math.random() * categories.length)];
+            var categoryWords = words[currentCategory];
+            return categoryWords[Math.floor(Math.random() * categoryWords.length)];
+        }
+
+        function newGame() {
+            currentWord = getRandomWord();
+            guessedLetters = [];
+            wrongGuesses = 0;
+            gameOver = false;
+            document.getElementById('category').textContent = '카테고리: ' + currentCategory;
+            document.getElementById('result').className = 'result';
+            updateDisplay();
+            createKeyboard();
+            updateStats();
+        }
+
+        function updateDisplay() {
+            document.getElementById('hangman').textContent = hangmanStages[wrongGuesses];
+            document.getElementById('livesCount').textContent = 6 - wrongGuesses;
+
+            var wordDisplay = document.getElementById('wordDisplay');
+            wordDisplay.innerHTML = '';
+            for (var i = 0; i < currentWord.length; i++) {
+                var box = document.createElement('div');
+                box.className = 'letter-box';
+                box.textContent = guessedLetters.indexOf(currentWord[i]) !== -1 ? currentWord[i] : '';
+                wordDisplay.appendChild(box);
+            }
+        }
+
+        function createKeyboard() {
+            var keyboard = document.getElementById('keyboard');
+            keyboard.innerHTML = '';
+            var keys = 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣㅐㅔㅒㅖ';
+            var rows = [keys.slice(0, 7), keys.slice(7, 14), keys.slice(14, 24), keys.slice(24)];
+
+            rows.forEach(function(row) {
+                var rowDiv = document.createElement('div');
+                rowDiv.className = 'keyboard-row';
+                for (var i = 0; i < row.length; i++) {
+                    var btn = document.createElement('button');
+                    btn.className = 'key-btn';
+                    btn.textContent = row[i];
+                    btn.onclick = (function(letter) {
+                        return function() { guessLetter(letter); };
+                    })(row[i]);
+                    rowDiv.appendChild(btn);
+                }
+                keyboard.appendChild(rowDiv);
+            });
+        }
+
+        function guessLetter(letter) {
+            if (gameOver || guessedLetters.indexOf(letter) !== -1) return;
+            guessedLetters.push(letter);
+
+            var btn = Array.from(document.querySelectorAll('.key-btn')).find(function(b) { return b.textContent === letter; });
+
+            var found = false;
+            for (var i = 0; i < currentWord.length; i++) {
+                if (currentWord[i] === letter) found = true;
+            }
+
+            if (found) {
+                btn.classList.add('correct');
+            } else {
+                btn.classList.add('wrong');
+                wrongGuesses++;
+            }
+            btn.disabled = true;
+
+            updateDisplay();
+            checkWinLose();
+        }
+
+        function checkWinLose() {
+            var won = true;
+            for (var i = 0; i < currentWord.length; i++) {
+                if (guessedLetters.indexOf(currentWord[i]) === -1) {
+                    won = false;
+                    break;
+                }
+            }
+
+            if (won) {
+                gameOver = true;
+                document.getElementById('result').className = 'result win';
+                document.getElementById('result').textContent = '🎉 정답! "' + currentWord + '"';
+                stats.played++;
+                stats.won++;
+                stats.streak++;
+                localStorage.setItem('hangman_ko', JSON.stringify(stats));
+                disableAllKeys();
+            } else if (wrongGuesses >= 6) {
+                gameOver = true;
+                document.getElementById('result').className = 'result lose';
+                document.getElementById('result').textContent = '😢 게임 오버! 정답: ' + currentWord;
+                stats.played++;
+                stats.streak = 0;
+                localStorage.setItem('hangman_ko', JSON.stringify(stats));
+                disableAllKeys();
+            }
+            updateStats();
+        }
+
+        function disableAllKeys() {
+            document.querySelectorAll('.key-btn').forEach(function(btn) { btn.disabled = true; });
+        }
+
+        function updateStats() {
+            document.getElementById('gamesPlayed').textContent = stats.played;
+            document.getElementById('gamesWon').textContent = stats.won;
+            document.getElementById('streak').textContent = stats.streak;
+        }
+
+        newGame();
+    </script>
+</body>
+</html>

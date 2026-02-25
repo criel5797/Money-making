@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Manager</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .sub-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .summary { background: rgba(0,0,0,.3); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .total-cost { font-size: 1.8rem; font-weight: 700; margin-bottom: 5px; }
+        .total-label { font-size: .85rem; opacity: .8; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .form-row input, .form-row select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .sub-list { max-height: 300px; overflow-y: auto; }
+        .sub-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 10px; }
+        .sub-info { flex: 1; }
+        .sub-name { font-weight: 600; font-size: 1rem; margin-bottom: 3px; }
+        .sub-detail { font-size: .8rem; opacity: .8; }
+        .sub-cost { font-weight: 700; color: #38ef7d; margin-right: 10px; }
+        .delete-btn { background: #ff6b6b; border: none; color: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+        .cycle-badge { display: inline-block; background: rgba(255,255,255,.2); padding: 2px 8px; border-radius: 10px; font-size: .7rem; margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>💳 Subscription Manager</h1>
+        </header>
+        <div class="sub-section">
+            <div class="summary">
+                <div class="total-cost" id="totalCost">$0.00</div>
+                <div class="total-label">Monthly Total</div>
+            </div>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="nameInput" placeholder="Service name (e.g. Netflix)">
+                </div>
+                <div class="form-row">
+                    <input type="number" id="costInput" placeholder="Amount" step="0.01">
+                    <select id="cycleInput">
+                        <option value="monthly">Monthly</option>
+                        <option value="yearly">Yearly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <input type="date" id="nextDateInput">
+                </div>
+                <button class="add-btn" onclick="addSub()">Add Subscription</button>
+            </div>
+            <div class="sub-list" id="subList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var subs = JSON.parse(localStorage.getItem('subscriptions') || '[]');
+        function save() { localStorage.setItem('subscriptions', JSON.stringify(subs)); }
+        function getCycleLabel(c) {
+            if (c === 'monthly') return '/mo';
+            if (c === 'yearly') return '/yr';
+            return '/wk';
+        }
+        function toMonthly(cost, cycle) {
+            if (cycle === 'monthly') return cost;
+            if (cycle === 'yearly') return cost / 12;
+            return cost * 4.33;
+        }
+        function addSub() {
+            var name = document.getElementById('nameInput').value.trim();
+            var cost = parseFloat(document.getElementById('costInput').value) || 0;
+            var cycle = document.getElementById('cycleInput').value;
+            var nextDate = document.getElementById('nextDateInput').value;
+            if (name && cost > 0) {
+                subs.push({ id: Date.now().toString(), name: name, cost: cost, cycle: cycle, nextDate: nextDate });
+                save();
+                render();
+                document.getElementById('nameInput').value = '';
+                document.getElementById('costInput').value = '';
+            }
+        }
+        function deleteSub(id) {
+            subs = subs.filter(function(s) { return s.id !== id; });
+            save();
+            render();
+        }
+        function render() {
+            var total = 0;
+            subs.forEach(function(s) { total += toMonthly(s.cost, s.cycle); });
+            document.getElementById('totalCost').textContent = '$' + total.toFixed(2);
+            var list = document.getElementById('subList');
+            list.innerHTML = '';
+            subs.forEach(function(s) {
+                var div = document.createElement('div');
+                div.className = 'sub-item';
+                var detail = s.nextDate ? 'Next billing: ' + s.nextDate : '';
+                div.innerHTML = '<div class="sub-info"><div class="sub-name">' + s.name + '<span class="cycle-badge">' + getCycleLabel(s.cycle) + '</span></div><div class="sub-detail">' + detail + '</div></div><span class="sub-cost">$' + s.cost.toFixed(2) + '</span><button class="delete-btn" onclick="deleteSub(\'' + s.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+        }
+        document.getElementById('nextDateInput').valueAsDate = new Date();
+        render();
+    </script>
+</body>
+</html>

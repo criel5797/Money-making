@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048ゲーム</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #fad0c4, #ffd1ff); min-height: 100vh; color: #333; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(0,0,0,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; color: #666; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.9); border-radius: 16px; padding: 20px; }
+        .score-bar { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .score-box { background: #bbada0; border-radius: 8px; padding: 10px 20px; text-align: center; }
+        .score-label { font-size: .7rem; color: #eee4da; text-transform: uppercase; }
+        .score-value { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .game-board { background: #bbada0; border-radius: 8px; padding: 8px; margin-bottom: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .tile { aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.5rem; background: rgba(238,228,218,.35); color: #776e65; transition: all .1s; }
+        .tile-2 { background: #eee4da; }
+        .tile-4 { background: #ede0c8; }
+        .tile-8 { background: #f2b179; color: #f9f6f2; }
+        .tile-16 { background: #f59563; color: #f9f6f2; }
+        .tile-32 { background: #f67c5f; color: #f9f6f2; }
+        .tile-64 { background: #f65e3b; color: #f9f6f2; }
+        .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 1.3rem; }
+        .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 1.3rem; }
+        .tile-512 { background: #edc850; color: #f9f6f2; font-size: 1.3rem; }
+        .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 1.1rem; }
+        .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 1.1rem; }
+        .tile-super { background: #3c3a32; color: #f9f6f2; font-size: 1rem; }
+        .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 180px; margin: 0 auto 15px; }
+        .ctrl-btn { padding: 12px; border: none; border-radius: 8px; background: #8f7a66; color: #fff; font-size: 1.2rem; cursor: pointer; }
+        .ctrl-btn:active { background: #776e65; }
+        .ctrl-empty { visibility: hidden; }
+        .action-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: #8f7a66; color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .game-over { text-align: center; padding: 20px; background: rgba(238,228,218,.73); border-radius: 12px; margin-bottom: 15px; display: none; }
+        .game-over h2 { font-size: 1.5rem; margin-bottom: 10px; color: #776e65; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-card { background: #bbada0; border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; color: #fff; }
+        .stat-label { font-size: .7rem; color: #eee4da; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎮 2048</h1>
+        </header>
+        <div class="game-section">
+            <div class="score-bar">
+                <div class="score-box">
+                    <div class="score-label">スコア</div>
+                    <div class="score-value" id="score">0</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">ベスト</div>
+                    <div class="score-value" id="bestScore">0</div>
+                </div>
+            </div>
+            <div class="game-board">
+                <div class="grid" id="grid"></div>
+            </div>
+            <div id="gameOver" class="game-over">
+                <h2 id="endMessage">ゲームオーバー！</h2>
+                <p>最終スコア: <span id="finalScore">0</span></p>
+            </div>
+            <div class="controls">
+                <div class="ctrl-empty"></div>
+                <button class="ctrl-btn" onclick="move('up')">⬆️</button>
+                <div class="ctrl-empty"></div>
+                <button class="ctrl-btn" onclick="move('left')">⬅️</button>
+                <button class="ctrl-btn" onclick="move('down')">⬇️</button>
+                <button class="ctrl-btn" onclick="move('right')">➡️</button>
+            </div>
+            <button class="action-btn" onclick="newGame()">🔄 ニューゲーム</button>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalGames">0</div>
+                    <div class="stat-label">ゲーム数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="maxTile">0</div>
+                    <div class="stat-label">最大タイル</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var grid = [];
+        var score = 0;
+        var isGameOver = false;
+        var stats = JSON.parse(localStorage.getItem('2048_ja') || '{"games":0,"best":0,"maxTile":0}');
+
+        function initGrid() {
+            grid = [];
+            for (var i = 0; i < 4; i++) {
+                grid.push([0, 0, 0, 0]);
+            }
+        }
+
+        function addTile() {
+            var empty = [];
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    if (grid[i][j] === 0) empty.push({r: i, c: j});
+                }
+            }
+            if (empty.length > 0) {
+                var cell = empty[Math.floor(Math.random() * empty.length)];
+                grid[cell.r][cell.c] = Math.random() < 0.9 ? 2 : 4;
+            }
+        }
+
+        function renderGrid() {
+            var container = document.getElementById('grid');
+            container.innerHTML = '';
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    var tile = document.createElement('div');
+                    var val = grid[i][j];
+                    tile.className = 'tile' + (val > 0 ? ' tile-' + (val > 2048 ? 'super' : val) : '');
+                    tile.textContent = val > 0 ? val : '';
+                    container.appendChild(tile);
+                }
+            }
+            document.getElementById('score').textContent = score;
+        }
+
+        function slide(row) {
+            var arr = row.filter(function(v) { return v !== 0; });
+            for (var i = 0; i < arr.length - 1; i++) {
+                if (arr[i] === arr[i + 1]) {
+                    arr[i] *= 2;
+                    score += arr[i];
+                    arr.splice(i + 1, 1);
+                }
+            }
+            while (arr.length < 4) arr.push(0);
+            return arr;
+        }
+
+        function move(dir) {
+            if (isGameOver) return;
+            var moved = false;
+            var oldGrid = JSON.stringify(grid);
+
+            if (dir === 'left') {
+                for (var i = 0; i < 4; i++) grid[i] = slide(grid[i]);
+            } else if (dir === 'right') {
+                for (var i = 0; i < 4; i++) grid[i] = slide(grid[i].reverse()).reverse();
+            } else if (dir === 'up') {
+                for (var j = 0; j < 4; j++) {
+                    var col = [grid[0][j], grid[1][j], grid[2][j], grid[3][j]];
+                    col = slide(col);
+                    for (var i = 0; i < 4; i++) grid[i][j] = col[i];
+                }
+            } else if (dir === 'down') {
+                for (var j = 0; j < 4; j++) {
+                    var col = [grid[3][j], grid[2][j], grid[1][j], grid[0][j]];
+                    col = slide(col);
+                    for (var i = 0; i < 4; i++) grid[3 - i][j] = col[i];
+                }
+            }
+
+            if (JSON.stringify(grid) !== oldGrid) {
+                addTile();
+                renderGrid();
+                checkGameOver();
+            }
+        }
+
+        function checkGameOver() {
+            var maxTile = 0;
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    if (grid[i][j] > maxTile) maxTile = grid[i][j];
+                    if (grid[i][j] === 0) return;
+                    if (j < 3 && grid[i][j] === grid[i][j + 1]) return;
+                    if (i < 3 && grid[i][j] === grid[i + 1][j]) return;
+                }
+            }
+            isGameOver = true;
+            document.getElementById('gameOver').style.display = 'block';
+            document.getElementById('endMessage').textContent = maxTile >= 2048 ? 'おめでとう！🎉' : 'ゲームオーバー！';
+            document.getElementById('finalScore').textContent = score;
+
+            stats.games++;
+            if (score > stats.best) stats.best = score;
+            if (maxTile > stats.maxTile) stats.maxTile = maxTile;
+            localStorage.setItem('2048_ja', JSON.stringify(stats));
+            updateStats();
+        }
+
+        function newGame() {
+            score = 0;
+            isGameOver = false;
+            document.getElementById('gameOver').style.display = 'none';
+            initGrid();
+            addTile();
+            addTile();
+            renderGrid();
+        }
+
+        function updateStats() {
+            document.getElementById('bestScore').textContent = stats.best;
+            document.getElementById('totalGames').textContent = stats.games;
+            document.getElementById('maxTile').textContent = stats.maxTile;
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowUp') { e.preventDefault(); move('up'); }
+            else if (e.key === 'ArrowDown') { e.preventDefault(); move('down'); }
+            else if (e.key === 'ArrowLeft') { e.preventDefault(); move('left'); }
+            else if (e.key === 'ArrowRight') { e.preventDefault(); move('right'); }
+        });
+
+        var touchStartX, touchStartY;
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+        document.addEventListener('touchend', function(e) {
+            if (!touchStartX || !touchStartY) return;
+            var dx = e.changedTouches[0].clientX - touchStartX;
+            var dy = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(dx) > Math.abs(dy)) {
+                move(dx > 0 ? 'right' : 'left');
+            } else {
+                move(dy > 0 ? 'down' : 'up');
+            }
+            touchStartX = null;
+            touchStartY = null;
+        });
+
+        updateStats();
+        newGame();
+    </script>
+</body>
+</html>

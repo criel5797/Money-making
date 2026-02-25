@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타자 연습</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 550px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .typing-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .7; margin-top: 5px; }
+        .text-display { background: rgba(0,0,0,.3); border-radius: 12px; padding: 20px; margin-bottom: 15px; font-size: 1.2rem; line-height: 1.8; min-height: 120px; }
+        .char { transition: color .1s; }
+        .char.correct { color: #38ef7d; }
+        .char.incorrect { color: #ff6b6b; background: rgba(255,107,107,.2); }
+        .char.current { background: rgba(255,255,255,.3); border-radius: 2px; }
+        .input-area { margin-bottom: 20px; }
+        .input-area textarea { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1.1rem; resize: none; height: 80px; }
+        .input-area textarea:focus { outline: 2px solid #667eea; }
+        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+        .ctrl-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .ctrl-btn.secondary { background: rgba(255,255,255,.2); }
+        .difficulty { display: flex; gap: 8px; margin-bottom: 20px; }
+        .diff-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; background: rgba(255,255,255,.15); color: #fff; cursor: pointer; font-size: .9rem; }
+        .diff-btn.active { background: rgba(255,255,255,.35); }
+        .progress-bar { height: 8px; background: rgba(255,255,255,.2); border-radius: 4px; overflow: hidden; margin-bottom: 15px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #38ef7d, #11998e); width: 0%; transition: width .2s; }
+        .history { margin-top: 20px; }
+        .history-title { font-size: .9rem; opacity: .8; margin-bottom: 10px; }
+        .history-list { max-height: 150px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,.1); border-radius: 8px; margin-bottom: 5px; font-size: .85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>⌨️ 타자 연습</h1>
+        </header>
+        <div class="typing-section">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="wpm">0</div>
+                    <div class="stat-label">WPM</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="accuracy">100%</div>
+                    <div class="stat-label">정확도</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="time">0s</div>
+                    <div class="stat-label">시간</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="text-display" id="textDisplay"></div>
+            <div class="input-area">
+                <textarea id="inputArea" placeholder="여기에 타이핑하세요..." disabled></textarea>
+            </div>
+            <div class="difficulty">
+                <button class="diff-btn active" onclick="setDifficulty('easy')">쉬움</button>
+                <button class="diff-btn" onclick="setDifficulty('medium')">보통</button>
+                <button class="diff-btn" onclick="setDifficulty('hard')">어려움</button>
+            </div>
+            <div class="controls">
+                <button class="ctrl-btn" id="startBtn" onclick="startTest()">시작</button>
+                <button class="ctrl-btn secondary" onclick="resetTest()">↻ 초기화</button>
+            </div>
+            <div class="history">
+                <div class="history-title">최근 기록</div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var history = JSON.parse(localStorage.getItem('typing_practice_ko') || '[]');
+        var texts = {
+            easy: [
+                '안녕하세요. 오늘 날씨가 좋습니다.',
+                '커피 한 잔 마시며 쉬어가세요.',
+                '좋은 하루 되세요.',
+                '열심히 노력하면 꿈은 이루어집니다.',
+                '작은 것부터 시작하세요.'
+            ],
+            medium: [
+                '프로그래밍은 문제를 해결하는 창의적인 방법입니다.',
+                '매일 조금씩 연습하면 실력이 향상됩니다.',
+                '타자 속도를 높이려면 꾸준한 연습이 필요합니다.',
+                '집중력을 유지하면서 정확하게 타이핑하세요.',
+                '손가락 위치를 올바르게 유지하는 것이 중요합니다.'
+            ],
+            hard: [
+                '인공지능과 머신러닝은 현대 기술의 핵심입니다. 데이터 분석을 통해 패턴을 찾아냅니다.',
+                '효율적인 알고리즘 설계는 프로그램의 성능을 크게 향상시킬 수 있습니다.',
+                '객체 지향 프로그래밍의 핵심 개념에는 캡슐화, 상속, 다형성이 있습니다.',
+                '클라우드 컴퓨팅은 인터넷을 통해 컴퓨팅 자원을 제공하는 서비스입니다.',
+                '웹 개발에는 프론트엔드와 백엔드 기술이 모두 필요합니다.'
+            ]
+        };
+        var currentText = '';
+        var currentIndex = 0;
+        var startTime = null;
+        var timer = null;
+        var difficulty = 'easy';
+        var correctChars = 0;
+        var totalTyped = 0;
+        var isRunning = false;
+        function setDifficulty(diff) {
+            difficulty = diff;
+            document.querySelectorAll('.diff-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.textContent.includes(diff === 'easy' ? '쉬움' : diff === 'medium' ? '보통' : '어려움'));
+            });
+            if (!isRunning) selectNewText();
+        }
+        function selectNewText() {
+            var pool = texts[difficulty];
+            currentText = pool[Math.floor(Math.random() * pool.length)];
+            currentIndex = 0;
+            renderText();
+        }
+        function renderText() {
+            var html = '';
+            for (var i = 0; i < currentText.length; i++) {
+                var cls = 'char';
+                if (i < currentIndex) {
+                    cls += correctChars > i || document.getElementById('inputArea').value[i] === currentText[i] ? ' correct' : ' incorrect';
+                } else if (i === currentIndex) {
+                    cls += ' current';
+                }
+                html += '<span class="' + cls + '">' + currentText[i] + '</span>';
+            }
+            document.getElementById('textDisplay').innerHTML = html;
+            document.getElementById('progressFill').style.width = (currentIndex / currentText.length * 100) + '%';
+        }
+        function startTest() {
+            selectNewText();
+            isRunning = true;
+            startTime = Date.now();
+            correctChars = 0;
+            totalTyped = 0;
+            document.getElementById('inputArea').disabled = false;
+            document.getElementById('inputArea').value = '';
+            document.getElementById('inputArea').focus();
+            document.getElementById('startBtn').textContent = '진행 중...';
+            document.getElementById('startBtn').disabled = true;
+            timer = setInterval(updateStats, 100);
+        }
+        function updateStats() {
+            var elapsed = (Date.now() - startTime) / 1000;
+            document.getElementById('time').textContent = Math.floor(elapsed) + 's';
+            var minutes = elapsed / 60;
+            var words = correctChars / 5;
+            var wpm = minutes > 0 ? Math.round(words / minutes) : 0;
+            document.getElementById('wpm').textContent = wpm;
+            var acc = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+            document.getElementById('accuracy').textContent = acc + '%';
+        }
+        function endTest() {
+            isRunning = false;
+            clearInterval(timer);
+            document.getElementById('inputArea').disabled = true;
+            document.getElementById('startBtn').textContent = '다시 시작';
+            document.getElementById('startBtn').disabled = false;
+            var elapsed = (Date.now() - startTime) / 1000;
+            var minutes = elapsed / 60;
+            var words = correctChars / 5;
+            var wpm = minutes > 0 ? Math.round(words / minutes) : 0;
+            var acc = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+            history.unshift({
+                date: new Date().toLocaleString('ko-KR'),
+                wpm: wpm,
+                accuracy: acc,
+                difficulty: difficulty
+            });
+            localStorage.setItem('typing_practice_ko', JSON.stringify(history.slice(0, 20)));
+            renderHistory();
+        }
+        function resetTest() {
+            isRunning = false;
+            clearInterval(timer);
+            document.getElementById('inputArea').disabled = true;
+            document.getElementById('inputArea').value = '';
+            document.getElementById('startBtn').textContent = '시작';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('wpm').textContent = '0';
+            document.getElementById('accuracy').textContent = '100%';
+            document.getElementById('time').textContent = '0s';
+            document.getElementById('progressFill').style.width = '0%';
+            selectNewText();
+        }
+        function renderHistory() {
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            history.slice(0, 10).forEach(function(h) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<span>' + h.date + '</span><span>' + h.wpm + ' WPM / ' + h.accuracy + '%</span>';
+                list.appendChild(div);
+            });
+        }
+        document.getElementById('inputArea').addEventListener('input', function(e) {
+            if (!isRunning) return;
+            var input = e.target.value;
+            totalTyped = input.length;
+            correctChars = 0;
+            for (var i = 0; i < input.length && i < currentText.length; i++) {
+                if (input[i] === currentText[i]) correctChars++;
+            }
+            currentIndex = input.length;
+            renderText();
+            if (input.length >= currentText.length) {
+                endTest();
+            }
+        });
+        selectNewText();
+        renderHistory();
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>割り勘計算機</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #11998e, #38ef7d); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .split-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .input-group { margin-bottom: 20px; }
+        .input-label { font-size: .9rem; margin-bottom: 10px; opacity: .8; }
+        input[type=number] { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1.1rem; }
+        .people-control { display: flex; align-items: center; gap: 15px; justify-content: center; margin-bottom: 20px; }
+        .people-btn { width: 50px; height: 50px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .people-count { font-size: 2.5rem; font-weight: 700; min-width: 60px; text-align: center; }
+        .result-card { background: rgba(0,0,0,.3); border-radius: 12px; padding: 25px; }
+        .result-main { text-align: center; margin-bottom: 20px; }
+        .result-label { font-size: .9rem; opacity: .8; margin-bottom: 5px; }
+        .result-value { font-size: 2.5rem; font-weight: 700; }
+        .result-detail { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid rgba(255,255,255,.1); font-size: .9rem; }
+        .result-detail:first-child { border: none; }
+        .tip-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.2); }
+        .tip-row { display: flex; align-items: center; gap: 10px; }
+        .tip-row input { width: 80px; padding: 10px; border: none; border-radius: 8px; background: rgba(255,255,255,.9); color: #333; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header><h1>🧮 割り勘計算機</h1></header>
+        <div class="split-section">
+            <div class="input-group">
+                <div class="input-label">合計金額</div>
+                <input type="number" id="totalAmount" placeholder="0" oninput="calculate()">
+            </div>
+            <div class="input-label" style="text-align:center">人数</div>
+            <div class="people-control">
+                <button class="people-btn" onclick="changePeople(-1)">-</button>
+                <div class="people-count" id="peopleCount">2</div>
+                <button class="people-btn" onclick="changePeople(1)">+</button>
+            </div>
+            <div class="tip-section">
+                <div class="tip-row">
+                    <span>チップ追加:</span>
+                    <input type="number" id="tipPercent" value="0" oninput="calculate()">
+                    <span>%</span>
+                </div>
+            </div>
+            <div class="result-card" style="margin-top:20px">
+                <div class="result-main">
+                    <div class="result-label">1人あたり</div>
+                    <div class="result-value" id="perPerson">0円</div>
+                </div>
+                <div class="result-detail"><span>元の金額</span><span id="originalAmount">0円</span></div>
+                <div class="result-detail"><span>チップ金額</span><span id="tipAmount">0円</span></div>
+                <div class="result-detail"><span>合計</span><span id="grandTotal">0円</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var people = 2;
+        function changePeople(d) {
+            people = Math.max(1, people + d);
+            document.getElementById('peopleCount').textContent = people;
+            calculate();
+        }
+        function calculate() {
+            var total = parseFloat(document.getElementById('totalAmount').value) || 0;
+            var tipPct = parseFloat(document.getElementById('tipPercent').value) || 0;
+            var tip = total * (tipPct / 100);
+            var grand = total + tip;
+            var perPerson = grand / people;
+            document.getElementById('originalAmount').textContent = Math.round(total).toLocaleString() + '円';
+            document.getElementById('tipAmount').textContent = Math.round(tip).toLocaleString() + '円';
+            document.getElementById('grandTotal').textContent = Math.round(grand).toLocaleString() + '円';
+            document.getElementById('perPerson').textContent = Math.round(perPerson).toLocaleString() + '円';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나는 ~한 적 없다</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #ec4899, #8b5cf6); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-section { margin-bottom: 20px; }
+        .category-title { font-size: .9rem; opacity: .7; margin-bottom: 12px; }
+        .categories { display: flex; flex-wrap: wrap; gap: 8px; }
+        .category-btn { padding: 10px 16px; border: 2px solid rgba(255,255,255,.3); border-radius: 20px; background: rgba(255,255,255,.1); color: #fff; font-size: .9rem; cursor: pointer; transition: all .3s; }
+        .category-btn.active { background: #fff; color: #8b5cf6; border-color: #fff; }
+        .card-area { min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .card { width: 100%; background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); border-radius: 20px; padding: 40px 30px; text-align: center; transform-style: preserve-3d; transition: transform .6s; }
+        .card.flip { animation: flipCard .6s ease; }
+        @keyframes flipCard { 0% { transform: rotateY(0); } 50% { transform: rotateY(90deg); } 100% { transform: rotateY(0); } }
+        .card-label { font-size: 1rem; opacity: .8; margin-bottom: 15px; }
+        .card-text { font-size: 1.4rem; font-weight: 700; line-height: 1.6; }
+        .actions { display: flex; gap: 12px; margin-bottom: 20px; }
+        .action-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all .3s; }
+        .next-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .next-btn:hover { transform: scale(1.02); }
+        .shuffle-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+        .intensity-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,.2); }
+        .intensity-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .intensity-btns { display: flex; gap: 8px; }
+        .intensity-btn { flex: 1; padding: 10px; border: 2px solid rgba(255,255,255,.3); border-radius: 10px; background: rgba(255,255,255,.1); color: #fff; font-size: .85rem; cursor: pointer; }
+        .intensity-btn.active { background: #fff; color: #8b5cf6; border-color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🙈 나는 ~한 적 없다</h1>
+        </header>
+        <div class="game-section">
+            <div class="category-section">
+                <div class="category-title">카테고리</div>
+                <div class="categories" id="categories"></div>
+            </div>
+            <div class="intensity-section">
+                <div class="intensity-title">강도</div>
+                <div class="intensity-btns">
+                    <button class="intensity-btn active" onclick="setIntensity('mild')">순한맛</button>
+                    <button class="intensity-btn" onclick="setIntensity('medium')">보통</button>
+                    <button class="intensity-btn" onclick="setIntensity('spicy')">매운맛</button>
+                </div>
+            </div>
+            <div class="card-area">
+                <div class="card" id="card">
+                    <div class="card-label">나는...</div>
+                    <div class="card-text" id="cardText">버튼을 눌러 시작하세요!</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="action-btn shuffle-btn" onclick="shuffle()">🔀 섞기</button>
+                <button class="action-btn next-btn" onclick="nextCard()">👉 다음</button>
+            </div>
+            <div class="stats">
+                <div class="stats-title">📊 통계</div>
+                <div class="stats-row"><span>본 카드</span><span id="seenCount">0</span></div>
+                <div class="stats-row"><span>남은 카드</span><span id="remainCount">0</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var prompts = {
+            general: {
+                mild: ["학교에서 잠든 적", "거짓말로 약속을 취소한 적", "노래방에서 혼자 노래한 적", "비 오는 날 우산 없이 걸어본 적", "좋아하는 사람 앞에서 넘어진 적", "몰래 울어본 적", "하루 종일 잠만 잔 적", "셀카를 100번 넘게 찍어본 적", "좋아하는 음식 혼자 다 먹어본 적", "친구 선물 까먹고 안 산 적"],
+                medium: ["친구 뒷담화한 적", "시험에서 컨닝한 적", "부모님께 거짓말한 적", "몰래 야식 먹은 적", "수업 빠지고 놀러 간 적", "친구 비밀 다른 사람에게 말한 적", "싸우고 먼저 연락 안 한 적", "질투해서 미친 척한 적", "관심 없으면서 있는 척한 적", "SNS 스토리 몰래 본 적"],
+                spicy: ["좋아하는 사람 SNS 다 뒤져본 적", "전 애인 소식 몰래 확인한 적", "취해서 기억 못 하는 적", "친구 애인한테 관심 가져본 적", "몰래 다른 사람 핸드폰 본 적", "거짓 고백 받아본 적", "좋아하는 사람 있으면서 다른 사람 만난 적", "술 마시고 후회할 연락한 적", "질투심에 미친 행동한 적", "몰래 눈물 흘린 적"]
+            },
+            travel: {
+                mild: ["비행기 타본 적", "해외여행 간 적", "혼자 여행 간 적", "캠핑해본 적", "길을 잃어본 적", "여행 중 비를 맞은 적", "펜션에서 밤새 놀아본 적", "드라이브하며 노래 부른 적", "일출 보러 간 적", "여행지에서 친구 사귄 적"],
+                medium: ["여행 가서 돈 다 쓴 적", "계획 없이 떠난 적", "비행기 놓친 적", "여행 중 아픈 적", "숙소에서 문제 생긴 적", "여행지에서 사기당한 적", "길거리에서 잠자본 적", "여행 가서 싸운 적", "돈 없어서 굶은 적", "여권 잃어버린 적"],
+                spicy: ["여행지에서 로맨스 있었던 적", "몰래 혼자 여행 간 적", "여행 중 위험한 일 있었던 적", "불법적인 걸 해본 적", "여행 가서 완전히 취해본 적", "낯선 사람 집에서 잔 적", "여행 예산 10배 쓴 적", "부모님 몰래 여행 간 적", "여행 중 입원한 적", "해외에서 경찰 만난 적"]
+            },
+            food: {
+                mild: ["혼밥해본 적", "라면으로 끼니 해결한 적", "매운 음식에 울어본 적", "먹다가 흘린 적", "음식 태워본 적", "배달 시켜 혼자 다 먹은 적", "새벽에 라면 먹은 적", "맛없는 음식 맛있다고 한 적", "냉장고 털어먹은 적", "굶다가 폭식한 적"],
+                medium: ["먹고 토한 적", "다이어트 중 폭식한 적", "음식값 먹튀한 적", "유통기한 지난 거 먹은 적", "음식 때문에 싸운 적", "먹으면서 울어본 적", "돈 없어서 굶은 적", "남의 음식 몰래 먹은 적", "과식하고 응급실 간 적", "먹방 찍어본 적"],
+                spicy: ["술 마시고 먹고 다 토한 적", "데이트에서 음식 때문에 망친 적", "음식점에서 난리 친 적", "먹고 화장실 못 참은 적", "취해서 이상한 거 먹은 적", "음식값 낼 돈 없어서 도망친 적", "먹고 3일 넘게 화장실 못 간 적", "음식 알레르기로 응급실 간 적", "누구보다 많이 먹어서 놀란 적", "먹고 바로 또 먹은 적"]
+            }
+        };
+
+        var categories = ['general', 'travel', 'food'];
+        var categoryNames = { general: '일반', travel: '여행', food: '음식' };
+        var currentCategory = 'general';
+        var currentIntensity = 'mild';
+        var deck = [];
+        var usedCards = [];
+
+        function initCategories() {
+            var html = '';
+            for (var i = 0; i < categories.length; i++) {
+                var cat = categories[i];
+                var active = cat === currentCategory ? 'active' : '';
+                html += '<button class="category-btn ' + active + '" onclick="setCategory(\'' + cat + '\')">' + categoryNames[cat] + '</button>';
+            }
+            document.getElementById('categories').innerHTML = html;
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            initCategories();
+            resetDeck();
+        }
+
+        function setIntensity(level) {
+            currentIntensity = level;
+            document.querySelectorAll('.intensity-btn').forEach(function(btn, i) {
+                var levels = ['mild', 'medium', 'spicy'];
+                btn.classList.toggle('active', levels[i] === level);
+            });
+            resetDeck();
+        }
+
+        function resetDeck() {
+            deck = prompts[currentCategory][currentIntensity].slice();
+            shuffle();
+            usedCards = [];
+            updateStats();
+        }
+
+        function shuffle() {
+            for (var i = deck.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = deck[i];
+                deck[i] = deck[j];
+                deck[j] = temp;
+            }
+        }
+
+        function nextCard() {
+            if (deck.length === 0) {
+                deck = usedCards.slice();
+                usedCards = [];
+                shuffle();
+            }
+
+            var card = deck.pop();
+            usedCards.push(card);
+
+            var cardEl = document.getElementById('card');
+            cardEl.classList.add('flip');
+
+            setTimeout(function() {
+                document.getElementById('cardText').textContent = card + ' 없다';
+                cardEl.classList.remove('flip');
+            }, 300);
+
+            updateStats();
+            saveStats();
+        }
+
+        function updateStats() {
+            document.getElementById('seenCount').textContent = usedCards.length;
+            document.getElementById('remainCount').textContent = deck.length;
+        }
+
+        function saveStats() {
+            var stats = JSON.parse(localStorage.getItem('nhie_ko') || '{"played":0}');
+            stats.played++;
+            localStorage.setItem('nhie_ko', JSON.stringify(stats));
+        }
+
+        initCategories();
+        resetDeck();
+    </script>
+</body>
+</html>

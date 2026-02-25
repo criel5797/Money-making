@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>색맹 테스트</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .intro { text-align: center; margin-bottom: 25px; }
+        .intro p { opacity: .9; line-height: 1.6; }
+        .start-btn, .restart-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .start-btn:hover, .restart-btn:hover { transform: scale(1.02); }
+        .test-section { display: none; }
+        .progress { background: rgba(255,255,255,.2); border-radius: 10px; height: 10px; margin-bottom: 20px; overflow: hidden; }
+        .progress-bar { background: linear-gradient(90deg, #22c55e, #16a34a); height: 100%; transition: width .3s; }
+        .test-num { font-size: .9rem; opacity: .7; margin-bottom: 15px; text-align: center; }
+        .plate-container { display: flex; justify-content: center; margin-bottom: 25px; }
+        .plate { width: 250px; height: 250px; border-radius: 50%; position: relative; overflow: hidden; }
+        .dot { position: absolute; border-radius: 50%; }
+        .question { text-align: center; font-size: 1.1rem; margin-bottom: 20px; }
+        .options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .option-btn { padding: 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all .3s; }
+        .option-btn:hover { background: rgba(255,255,255,.2); }
+        .result-section { display: none; text-align: center; }
+        .result-icon { font-size: 5rem; margin-bottom: 20px; }
+        .result-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; }
+        .result-score { font-size: 3rem; font-weight: 700; margin-bottom: 15px; background: linear-gradient(135deg, #22c55e, #16a34a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .result-desc { font-size: 1rem; line-height: 1.7; opacity: .9; margin-bottom: 25px; }
+        .disclaimer { font-size: .8rem; opacity: .6; margin-top: 20px; padding: 15px; background: rgba(255,255,255,.05); border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>👁️ 색맹 테스트</h1>
+        </header>
+        <div class="game-section">
+            <div class="intro-section" id="introSection">
+                <div class="intro">
+                    <p>이시하라 색각 검사를 기반으로 한<br>간단한 색맹 테스트입니다.</p>
+                    <p style="margin-top:10px;font-size:.9rem;opacity:.7">원 안의 숫자를 맞춰보세요!</p>
+                </div>
+                <button class="start-btn" onclick="startTest()">테스트 시작</button>
+            </div>
+            <div class="test-section" id="testSection">
+                <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+                <div class="test-num" id="testNum"></div>
+                <div class="plate-container">
+                    <canvas id="plate" class="plate" width="250" height="250"></canvas>
+                </div>
+                <div class="question">원 안에 보이는 숫자는?</div>
+                <div class="options" id="options"></div>
+            </div>
+            <div class="result-section" id="resultSection">
+                <div class="result-icon" id="resultIcon"></div>
+                <div class="result-title" id="resultTitle"></div>
+                <div class="result-score" id="resultScore"></div>
+                <div class="result-desc" id="resultDesc"></div>
+                <button class="restart-btn" onclick="restartTest()">다시 테스트하기</button>
+                <div class="disclaimer">⚠️ 이 테스트는 재미를 위한 것이며, 실제 의학적 진단을 대체할 수 없습니다. 정확한 색각 검사는 안과 전문의를 방문하세요.</div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var plates = [
+            { number: "12", answer: "12", bgColors: ["#8BC34A", "#9CCC65", "#7CB342"], numColors: ["#E57373", "#EF5350", "#F44336"] },
+            { number: "8", answer: "8", bgColors: ["#E57373", "#EF5350", "#F44336"], numColors: ["#66BB6A", "#4CAF50", "#43A047"] },
+            { number: "6", answer: "6", bgColors: ["#BA68C8", "#AB47BC", "#9C27B0"], numColors: ["#FFB74D", "#FFA726", "#FF9800"] },
+            { number: "29", answer: "29", bgColors: ["#64B5F6", "#42A5F5", "#2196F3"], numColors: ["#FFD54F", "#FFCA28", "#FFC107"] },
+            { number: "57", answer: "57", bgColors: ["#FFB74D", "#FFA726", "#FF9800"], numColors: ["#7986CB", "#5C6BC0", "#3F51B5"] },
+            { number: "5", answer: "5", bgColors: ["#4DB6AC", "#26A69A", "#009688"], numColors: ["#F06292", "#EC407A", "#E91E63"] },
+            { number: "3", answer: "3", bgColors: ["#A1887F", "#8D6E63", "#795548"], numColors: ["#81C784", "#66BB6A", "#4CAF50"] },
+            { number: "15", answer: "15", bgColors: ["#90A4AE", "#78909C", "#607D8B"], numColors: ["#E57373", "#EF5350", "#F44336"] },
+            { number: "74", answer: "74", bgColors: ["#CE93D8", "#BA68C8", "#AB47BC"], numColors: ["#A5D6A7", "#81C784", "#66BB6A"] },
+            { number: "2", answer: "2", bgColors: ["#FFCC80", "#FFB74D", "#FFA726"], numColors: ["#90CAF9", "#64B5F6", "#42A5F5"] }
+        ];
+
+        var currentPlate = 0;
+        var score = 0;
+        var ctx;
+
+        function startTest() {
+            currentPlate = 0;
+            score = 0;
+            document.getElementById('introSection').style.display = 'none';
+            document.getElementById('testSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+            ctx = document.getElementById('plate').getContext('2d');
+            showPlate();
+        }
+
+        function drawIshihara(plate) {
+            ctx.clearRect(0, 0, 250, 250);
+            var dots = [];
+            var numPath = getNumberPath(plate.number);
+
+            for (var i = 0; i < 800; i++) {
+                var x = Math.random() * 250;
+                var y = Math.random() * 250;
+                var distFromCenter = Math.sqrt(Math.pow(x - 125, 2) + Math.pow(y - 125, 2));
+
+                if (distFromCenter < 120) {
+                    var radius = 4 + Math.random() * 8;
+                    var isInNumber = isPointInNumber(x, y, numPath);
+                    var colors = isInNumber ? plate.numColors : plate.bgColors;
+                    var color = colors[Math.floor(Math.random() * colors.length)];
+
+                    var overlap = false;
+                    for (var j = 0; j < dots.length; j++) {
+                        var dx = dots[j].x - x;
+                        var dy = dots[j].y - y;
+                        if (Math.sqrt(dx*dx + dy*dy) < dots[j].r + radius + 2) {
+                            overlap = true;
+                            break;
+                        }
+                    }
+
+                    if (!overlap) {
+                        dots.push({ x: x, y: y, r: radius });
+                        ctx.beginPath();
+                        ctx.arc(x, y, radius, 0, Math.PI * 2);
+                        ctx.fillStyle = color;
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+
+        function getNumberPath(num) {
+            var paths = {
+                "2": [{ x: 80, y: 80, w: 90, h: 25 }, { x: 145, y: 80, w: 25, h: 50 }, { x: 80, y: 105, w: 90, h: 25 }, { x: 80, y: 105, w: 25, h: 50 }, { x: 80, y: 145, w: 90, h: 25 }],
+                "3": [{ x: 80, y: 80, w: 90, h: 25 }, { x: 145, y: 80, w: 25, h: 90 }, { x: 80, y: 110, w: 90, h: 25 }, { x: 80, y: 145, w: 90, h: 25 }],
+                "5": [{ x: 80, y: 80, w: 90, h: 25 }, { x: 80, y: 80, w: 25, h: 50 }, { x: 80, y: 105, w: 90, h: 25 }, { x: 145, y: 105, w: 25, h: 50 }, { x: 80, y: 145, w: 90, h: 25 }],
+                "6": [{ x: 80, y: 80, w: 90, h: 25 }, { x: 80, y: 80, w: 25, h: 90 }, { x: 80, y: 110, w: 90, h: 25 }, { x: 145, y: 110, w: 25, h: 55 }, { x: 80, y: 145, w: 90, h: 25 }],
+                "8": [{ x: 80, y: 80, w: 90, h: 25 }, { x: 80, y: 80, w: 25, h: 90 }, { x: 145, y: 80, w: 25, h: 90 }, { x: 80, y: 110, w: 90, h: 25 }, { x: 80, y: 145, w: 90, h: 25 }],
+                "12": [{ x: 60, y: 80, w: 20, h: 90 }, { x: 100, y: 80, w: 70, h: 20 }, { x: 150, y: 80, w: 20, h: 40 }, { x: 100, y: 105, w: 70, h: 20 }, { x: 100, y: 105, w: 20, h: 40 }, { x: 100, y: 145, w: 70, h: 20 }],
+                "15": [{ x: 60, y: 80, w: 20, h: 90 }, { x: 100, y: 80, w: 70, h: 20 }, { x: 100, y: 80, w: 20, h: 40 }, { x: 100, y: 105, w: 70, h: 20 }, { x: 150, y: 105, w: 20, h: 55 }, { x: 100, y: 145, w: 70, h: 20 }],
+                "29": [{ x: 50, y: 80, w: 60, h: 20 }, { x: 90, y: 80, w: 20, h: 40 }, { x: 50, y: 105, w: 60, h: 20 }, { x: 50, y: 105, w: 20, h: 55 }, { x: 50, y: 145, w: 60, h: 20 }, { x: 130, y: 80, w: 60, h: 20 }, { x: 130, y: 80, w: 20, h: 90 }, { x: 170, y: 80, w: 20, h: 90 }, { x: 130, y: 145, w: 60, h: 20 }],
+                "57": [{ x: 50, y: 80, w: 60, h: 20 }, { x: 50, y: 80, w: 20, h: 40 }, { x: 50, y: 105, w: 60, h: 20 }, { x: 90, y: 105, w: 20, h: 55 }, { x: 50, y: 145, w: 60, h: 20 }, { x: 130, y: 80, w: 60, h: 20 }, { x: 170, y: 80, w: 20, h: 35 }, { x: 150, y: 110, w: 20, h: 55 }],
+                "74": [{ x: 50, y: 80, w: 60, h: 20 }, { x: 90, y: 80, w: 20, h: 90 }, { x: 130, y: 80, w: 20, h: 50 }, { x: 170, y: 80, w: 20, h: 90 }, { x: 130, y: 115, w: 60, h: 20 }]
+            };
+            return paths[num] || [];
+        }
+
+        function isPointInNumber(x, y, paths) {
+            for (var i = 0; i < paths.length; i++) {
+                var p = paths[i];
+                if (x >= p.x && x <= p.x + p.w && y >= p.y && y <= p.y + p.h) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function showPlate() {
+            var plate = plates[currentPlate];
+            document.getElementById('progressBar').style.width = ((currentPlate / plates.length) * 100) + '%';
+            document.getElementById('testNum').textContent = '테스트 ' + (currentPlate + 1) + ' / ' + plates.length;
+
+            drawIshihara(plate);
+
+            var options = [plate.answer];
+            while (options.length < 4) {
+                var fake = Math.floor(Math.random() * 99) + 1;
+                var fakeStr = fake.toString();
+                if (options.indexOf(fakeStr) === -1) {
+                    options.push(fakeStr);
+                }
+            }
+            options.sort(function() { return Math.random() - 0.5; });
+
+            var optionsHtml = '';
+            for (var i = 0; i < options.length; i++) {
+                optionsHtml += '<button class="option-btn" onclick="selectAnswer(\'' + options[i] + '\')">' + options[i] + '</button>';
+            }
+            document.getElementById('options').innerHTML = optionsHtml;
+        }
+
+        function selectAnswer(answer) {
+            if (answer === plates[currentPlate].answer) {
+                score++;
+            }
+            currentPlate++;
+            if (currentPlate < plates.length) {
+                showPlate();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('testSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+
+            var percentage = Math.round((score / plates.length) * 100);
+            document.getElementById('resultScore').textContent = score + '/' + plates.length + ' (' + percentage + '%)';
+
+            var icon, title, desc;
+            if (percentage >= 90) {
+                icon = '🌈';
+                title = '완벽한 색각!';
+                desc = '축하합니다! 당신의 색각은 매우 정상적입니다. 모든 색상을 잘 구별하고 있습니다.';
+            } else if (percentage >= 70) {
+                icon = '👍';
+                title = '양호한 색각';
+                desc = '대부분의 색상을 잘 구별하고 있습니다. 일부 미묘한 차이를 놓칠 수 있지만 일상생활에는 문제가 없습니다.';
+            } else if (percentage >= 50) {
+                icon = '🔍';
+                title = '주의 필요';
+                desc = '일부 색상 구별에 어려움이 있을 수 있습니다. 정확한 진단을 위해 안과 전문의 상담을 권장합니다.';
+            } else {
+                icon = '👁️';
+                title = '검사 권장';
+                desc = '색상 구별에 어려움이 있는 것으로 보입니다. 전문적인 색각 검사를 받아보시기를 권장합니다.';
+            }
+
+            document.getElementById('resultIcon').textContent = icon;
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultDesc').textContent = desc;
+
+            var history = JSON.parse(localStorage.getItem('colorblind_ko') || '[]');
+            history.unshift({ score: score, total: plates.length, date: new Date().toLocaleDateString() });
+            if (history.length > 10) history.pop();
+            localStorage.setItem('colorblind_ko', JSON.stringify(history));
+        }
+
+        function restartTest() {
+            document.getElementById('introSection').style.display = 'block';
+            document.getElementById('testSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

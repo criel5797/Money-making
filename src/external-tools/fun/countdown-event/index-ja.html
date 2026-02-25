@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベントカウントダウン</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #11998e, #38ef7d); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .countdown-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .input-group { margin-bottom: 20px; }
+        .input-label { font-size: .9rem; margin-bottom: 10px; opacity: .8; }
+        input[type=text], input[type=datetime-local] { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1rem; }
+        .set-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-bottom: 25px; }
+        .countdown-display { text-align: center; padding: 30px; background: rgba(0,0,0,.2); border-radius: 16px; margin-bottom: 20px; }
+        .event-name { font-size: 1.2rem; margin-bottom: 20px; opacity: .9; }
+        .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .time-box { background: rgba(255,255,255,.1); padding: 15px 10px; border-radius: 12px; }
+        .time-value { font-size: 2.5rem; font-weight: 700; }
+        .time-label { font-size: .75rem; opacity: .7; margin-top: 5px; }
+        .saved-events { margin-top: 20px; }
+        .saved-events h3 { font-size: 1rem; margin-bottom: 15px; }
+        .event-item { background: rgba(255,255,255,.1); padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .event-item:hover { background: rgba(255,255,255,.2); }
+        .del-btn { background: rgba(231,76,60,.5); border: none; color: #fff; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header><h1>⏳ イベントカウントダウン</h1></header>
+        <div class="countdown-section">
+            <div class="input-group">
+                <div class="input-label">イベント名</div>
+                <input type="text" id="eventName" placeholder="例: 新年、誕生日、試験">
+            </div>
+            <div class="input-group">
+                <div class="input-label">目標日時</div>
+                <input type="datetime-local" id="eventDate">
+            </div>
+            <button class="set-btn" onclick="setEvent()">カウントダウン開始</button>
+            <div class="countdown-display">
+                <div class="event-name" id="displayName">イベントを設定してください</div>
+                <div class="time-grid">
+                    <div class="time-box"><div class="time-value" id="days">0</div><div class="time-label">日</div></div>
+                    <div class="time-box"><div class="time-value" id="hours">0</div><div class="time-label">時間</div></div>
+                    <div class="time-box"><div class="time-value" id="mins">0</div><div class="time-label">分</div></div>
+                    <div class="time-box"><div class="time-value" id="secs">0</div><div class="time-label">秒</div></div>
+                </div>
+            </div>
+            <div class="saved-events">
+                <h3>📋 保存されたイベント</h3>
+                <div id="eventList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var currentEvent = null;
+        var events = JSON.parse(localStorage.getItem('cdEvents') || '[]');
+        function setEvent() {
+            var n = document.getElementById('eventName').value;
+            var d = document.getElementById('eventDate').value;
+            if (!n || !d) { alert('名前と日付を入力してください'); return; }
+            currentEvent = { name: n, date: new Date(d).getTime() };
+            events.push(currentEvent);
+            localStorage.setItem('cdEvents', JSON.stringify(events));
+            renderEvents();
+            update();
+        }
+        function loadEvent(e) { currentEvent = e; update(); }
+        function delEvent(i) {
+            events.splice(i, 1);
+            localStorage.setItem('cdEvents', JSON.stringify(events));
+            renderEvents();
+        }
+        function renderEvents() {
+            var list = document.getElementById('eventList');
+            list.innerHTML = '';
+            events.forEach(function(e, i) {
+                var div = document.createElement('div');
+                div.className = 'event-item';
+                div.innerHTML = '<span onclick="loadEvent(events[' + i + '])">' + e.name + '</span><button class="del-btn" onclick="event.stopPropagation();delEvent(' + i + ')">削除</button>';
+                list.appendChild(div);
+            });
+        }
+        function update() {
+            if (!currentEvent) return;
+            document.getElementById('displayName').textContent = currentEvent.name;
+            var now = Date.now();
+            var diff = currentEvent.date - now;
+            if (diff < 0) { diff = 0; }
+            var d = Math.floor(diff / 86400000);
+            var h = Math.floor((diff % 86400000) / 3600000);
+            var m = Math.floor((diff % 3600000) / 60000);
+            var s = Math.floor((diff % 60000) / 1000);
+            document.getElementById('days').textContent = d;
+            document.getElementById('hours').textContent = h;
+            document.getElementById('mins').textContent = m;
+            document.getElementById('secs').textContent = s;
+        }
+        renderEvents();
+        if (events.length > 0) { currentEvent = events[0]; update(); }
+        setInterval(update, 1000);
+    </script>
+</body>
+</html>

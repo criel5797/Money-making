@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinning Wheel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .wheel-container { position: relative; width: 280px; height: 280px; margin: 0 auto 20px; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); box-shadow: 0 0 20px rgba(0,0,0,.5); }
+        .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid #ffd700; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,.5)); }
+        .result { text-align: center; font-size: 1.5rem; font-weight: 700; min-height: 50px; margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .spin-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: transform .2s; margin-bottom: 15px; }
+        .spin-btn:hover { transform: scale(1.02); }
+        .spin-btn:active { transform: scale(0.98); }
+        .spin-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .options-section { margin-top: 15px; }
+        .options-label { font-size: .8rem; opacity: .7; margin-bottom: 10px; }
+        .options-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+        .option-tag { padding: 8px 12px; background: rgba(255,255,255,.2); border-radius: 20px; font-size: .85rem; display: flex; align-items: center; gap: 5px; }
+        .option-remove { cursor: pointer; opacity: .7; }
+        .option-remove:hover { opacity: 1; }
+        .add-option { display: flex; gap: 8px; }
+        .add-option input { flex: 1; padding: 12px; border: none; border-radius: 8px; background: rgba(255,255,255,.1); color: #fff; font-size: .9rem; }
+        .add-option input::placeholder { color: rgba(255,255,255,.5); }
+        .add-option button { padding: 12px 20px; border: none; border-radius: 8px; background: #10b981; color: #fff; font-weight: 600; cursor: pointer; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🎡 Spinning Wheel</h1>
+        </header>
+        <div class="game-section">
+            <div class="wheel-container">
+                <div class="pointer"></div>
+                <canvas class="wheel" id="wheel" width="280" height="280"></canvas>
+            </div>
+            <div class="result" id="result">Spin the wheel!</div>
+            <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎡 Spin</button>
+            <div class="options-section">
+                <div class="options-label">Options</div>
+                <div class="options-list" id="optionsList"></div>
+                <div class="add-option">
+                    <input type="text" id="newOption" placeholder="Add new option..." maxlength="20">
+                    <button onclick="addOption()">Add</button>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="spins">0</div>
+                    <div class="stat-label">Total Spins</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="options">0</div>
+                    <div class="stat-label">Options</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899'];
+        var defaultOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6'];
+        var data = JSON.parse(localStorage.getItem('wheel_en') || JSON.stringify({ options: defaultOptions, spins: 0 }));
+        var isSpinning = false;
+        var currentRotation = 0;
+
+        function drawWheel() {
+            var canvas = document.getElementById('wheel');
+            var ctx = canvas.getContext('2d');
+            var centerX = canvas.width / 2;
+            var centerY = canvas.height / 2;
+            var radius = Math.min(centerX, centerY) - 5;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (data.options.length === 0) {
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+                ctx.fillStyle = '#333';
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.font = '16px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Add options', centerX, centerY);
+                return;
+            }
+
+            var sliceAngle = (2 * Math.PI) / data.options.length;
+
+            data.options.forEach(function(option, i) {
+                var startAngle = i * sliceAngle;
+                var endAngle = startAngle + sliceAngle;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.fillText(option.length > 8 ? option.substring(0, 8) + '...' : option, radius - 10, 5);
+                ctx.restore();
+            });
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 15, 0, 2 * Math.PI);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+        }
+
+        function spinWheel() {
+            if (isSpinning || data.options.length < 2) return;
+            isSpinning = true;
+
+            var wheel = document.getElementById('wheel');
+            var btn = document.getElementById('spinBtn');
+            var resultEl = document.getElementById('result');
+
+            btn.disabled = true;
+            resultEl.textContent = 'Spinning...';
+
+            var spins = 5 + Math.random() * 5;
+            var extraDegrees = Math.random() * 360;
+            var totalDegrees = spins * 360 + extraDegrees;
+            currentRotation += totalDegrees;
+
+            wheel.style.transform = 'rotate(' + currentRotation + 'deg)';
+
+            setTimeout(function() {
+                var normalizedRotation = currentRotation % 360;
+                var sliceAngle = 360 / data.options.length;
+                var winningIndex = Math.floor((360 - normalizedRotation + sliceAngle / 2) % 360 / sliceAngle);
+                winningIndex = (data.options.length - winningIndex) % data.options.length;
+
+                var winner = data.options[winningIndex];
+                resultEl.textContent = 'Result: ' + winner;
+
+                data.spins++;
+                localStorage.setItem('wheel_en', JSON.stringify(data));
+                updateDisplay();
+
+                btn.disabled = false;
+                isSpinning = false;
+            }, 4000);
+        }
+
+        function addOption() {
+            var input = document.getElementById('newOption');
+            var value = input.value.trim();
+            if (value && data.options.length < 12) {
+                data.options.push(value);
+                localStorage.setItem('wheel_en', JSON.stringify(data));
+                input.value = '';
+                drawWheel();
+                updateDisplay();
+            }
+        }
+
+        function removeOption(index) {
+            data.options.splice(index, 1);
+            localStorage.setItem('wheel_en', JSON.stringify(data));
+            drawWheel();
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('spins').textContent = data.spins;
+            document.getElementById('options').textContent = data.options.length;
+
+            var listEl = document.getElementById('optionsList');
+            listEl.innerHTML = '';
+            data.options.forEach(function(option, i) {
+                var tag = document.createElement('div');
+                tag.className = 'option-tag';
+                tag.innerHTML = option + ' <span class="option-remove" onclick="removeOption(' + i + ')">×</span>';
+                listEl.appendChild(tag);
+            });
+        }
+
+        document.getElementById('newOption').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addOption();
+            }
+        });
+
+        drawWheel();
+        updateDisplay();
+    </script>
+</body>
+</html>

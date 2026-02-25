@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Game</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #7c3aed, #6d28d9); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .timer-section { text-align: center; margin-bottom: 20px; }
+        .timer { font-size: 4rem; font-weight: 700; }
+        .timer.warning { color: #fbbf24; animation: pulse 0.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .card-display { background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); border-radius: 20px; padding: 30px; text-align: center; margin-bottom: 20px; }
+        .category-label { font-size: .9rem; opacity: .7; margin-bottom: 10px; }
+        .category-text { font-size: 2rem; font-weight: 700; margin-bottom: 15px; }
+        .letter-display { font-size: 4rem; font-weight: 700; background: linear-gradient(135deg, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .letter-label { font-size: .85rem; opacity: .7; margin-top: 10px; }
+        .controls { display: flex; gap: 12px; margin-bottom: 20px; }
+        .control-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        .fail-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .success-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .timer-setting { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .timer-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .timer-display { font-size: 1.5rem; font-weight: 700; min-width: 80px; text-align: center; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-top: 20px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+        .hidden { display: none !important; }
+        .game-over { text-align: center; }
+        .score-display { font-size: 5rem; font-weight: 700; margin-bottom: 10px; }
+        .score-label { font-size: 1.2rem; opacity: .8; margin-bottom: 25px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>📋 Category Game</h1>
+            <p class="subtitle">Say a word starting with the given letter!</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="timer-setting">
+                    <button class="timer-btn" onclick="changeTime(-5)">-</button>
+                    <div class="timer-display" id="timerSetting">10 sec</div>
+                    <button class="timer-btn" onclick="changeTime(5)">+</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 Start Game!</button>
+            </div>
+            <div class="play-section hidden" id="playSection">
+                <div class="timer-section">
+                    <div class="timer" id="timer">10</div>
+                </div>
+                <div class="card-display">
+                    <div class="category-label">Category</div>
+                    <div class="category-text" id="categoryText">Food</div>
+                    <div class="letter-display" id="letterDisplay">A</div>
+                    <div class="letter-label">Say a word starting with this letter!</div>
+                </div>
+                <div class="controls">
+                    <button class="control-btn fail-btn" onclick="failRound()">❌ Fail</button>
+                    <button class="control-btn success-btn" onclick="successRound()">✅ Success</button>
+                </div>
+                <div class="stats">
+                    <div class="stats-row"><span>Success</span><span id="successCount">0</span></div>
+                    <div class="stats-row"><span>Fail</span><span id="failCount">0</span></div>
+                </div>
+            </div>
+            <div class="game-over hidden" id="gameOver">
+                <div class="score-display" id="finalScore">0</div>
+                <div class="score-label">Successful Rounds</div>
+                <button class="start-btn" onclick="resetGame()">🔄 Play Again</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var categories = ["Food", "Animals", "Countries", "Cities", "Movies", "Music", "Sports", "Jobs", "Fruits", "Vegetables", "Brands", "Games", "Celebrities", "School Subjects", "Electronics"];
+        var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "W"];
+
+        var gameDuration = 10;
+        var timeLeft = 10;
+        var timer = null;
+        var successCount = 0;
+        var failCount = 0;
+
+        function changeTime(delta) {
+            gameDuration = Math.max(5, Math.min(30, gameDuration + delta));
+            document.getElementById('timerSetting').textContent = gameDuration + ' sec';
+        }
+
+        function startGame() {
+            successCount = 0;
+            failCount = 0;
+            document.getElementById('setupSection').classList.add('hidden');
+            document.getElementById('playSection').classList.remove('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+            updateStats();
+            nextRound();
+        }
+
+        function nextRound() {
+            var category = categories[Math.floor(Math.random() * categories.length)];
+            var letter = letters[Math.floor(Math.random() * letters.length)];
+            document.getElementById('categoryText').textContent = category;
+            document.getElementById('letterDisplay').textContent = letter;
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = gameDuration;
+            updateTimerDisplay();
+            timer = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    failRound();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            var timerEl = document.getElementById('timer');
+            timerEl.textContent = timeLeft;
+            timerEl.classList.toggle('warning', timeLeft <= 3);
+        }
+
+        function successRound() {
+            successCount++;
+            updateStats();
+            nextRound();
+        }
+
+        function failRound() {
+            failCount++;
+            updateStats();
+            if (failCount >= 3) {
+                endGame();
+            } else {
+                nextRound();
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('successCount').textContent = successCount;
+            document.getElementById('failCount').textContent = failCount;
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            document.getElementById('playSection').classList.add('hidden');
+            document.getElementById('gameOver').classList.remove('hidden');
+            document.getElementById('finalScore').textContent = successCount;
+
+            var stats = JSON.parse(localStorage.getItem('categorygame_en') || '{"best":0}');
+            if (successCount > stats.best) stats.best = successCount;
+            localStorage.setItem('categorygame_en', JSON.stringify(stats));
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').classList.remove('hidden');
+            document.getElementById('playSection').classList.add('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

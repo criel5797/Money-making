@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Planner</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #6a11cb, #2575fc); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .event-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input, .form-row select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .events { max-height: 350px; overflow-y: auto; }
+        .event-card { background: rgba(255,255,255,.15); border-radius: 12px; padding: 15px; margin-bottom: 12px; }
+        .event-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .event-title { font-weight: 700; font-size: 1.1rem; }
+        .event-date { font-size: .8rem; padding: 3px 10px; border-radius: 10px; background: rgba(255,255,255,.2); }
+        .event-location { font-size: .9rem; opacity: .8; margin-bottom: 10px; }
+        .event-tasks { background: rgba(0,0,0,.2); border-radius: 8px; padding: 10px; }
+        .task-item { display: flex; align-items: center; padding: 5px 0; }
+        .task-check { width: 18px; height: 18px; border: 2px solid #fff; border-radius: 4px; margin-right: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: .7rem; }
+        .task-item.done .task-check { background: #38ef7d; border-color: #38ef7d; }
+        .task-name { flex: 1; font-size: .85rem; }
+        .task-item.done .task-name { text-decoration: line-through; opacity: .6; }
+        .add-task { display: flex; gap: 5px; margin-top: 8px; }
+        .add-task input { flex: 1; padding: 6px 10px; border: none; border-radius: 6px; background: rgba(255,255,255,.8); color: #333; font-size: .85rem; }
+        .add-task button { padding: 6px 12px; border: none; border-radius: 6px; background: #38ef7d; color: #000; cursor: pointer; }
+        .del-btn { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>📅 Event Planner</h1>
+        </header>
+        <div class="event-section">
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="eventTitle" placeholder="Event title">
+                </div>
+                <div class="form-row">
+                    <input type="date" id="eventDate">
+                    <input type="text" id="eventLocation" placeholder="Location">
+                </div>
+                <button class="add-btn" onclick="addEvent()">Add Event</button>
+            </div>
+            <div class="events" id="events"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var events = JSON.parse(localStorage.getItem('events') || '[]');
+        function save() { localStorage.setItem('events', JSON.stringify(events)); }
+        function addEvent() {
+            var title = document.getElementById('eventTitle').value.trim();
+            var date = document.getElementById('eventDate').value;
+            var location = document.getElementById('eventLocation').value.trim();
+            if (!title) return;
+            events.push({ id: Date.now().toString(), title: title, date: date, location: location, tasks: [] });
+            save();
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventLocation').value = '';
+            render();
+        }
+        function deleteEvent(id) {
+            events = events.filter(function(e) { return e.id !== id; });
+            save();
+            render();
+        }
+        function addTask(eventId) {
+            var input = document.getElementById('task_' + eventId);
+            var task = input.value.trim();
+            if (!task) return;
+            var event = events.find(function(e) { return e.id === eventId; });
+            if (event) {
+                event.tasks.push({ id: Date.now().toString(), name: task, done: false });
+                save();
+                input.value = '';
+                render();
+            }
+        }
+        function toggleTask(eventId, taskId) {
+            var event = events.find(function(e) { return e.id === eventId; });
+            if (event) {
+                var task = event.tasks.find(function(t) { return t.id === taskId; });
+                if (task) { task.done = !task.done; save(); render(); }
+            }
+        }
+        function render() {
+            var sorted = events.slice().sort(function(a, b) {
+                return new Date(a.date || '9999-12-31') - new Date(b.date || '9999-12-31');
+            });
+            var list = document.getElementById('events');
+            list.innerHTML = '';
+            sorted.forEach(function(event) {
+                var tasksHtml = '';
+                event.tasks.forEach(function(task) {
+                    tasksHtml += '<div class="task-item' + (task.done ? ' done' : '') + '"><div class="task-check" onclick="toggleTask(\'' + event.id + '\',\'' + task.id + '\')">' + (task.done ? '✓' : '') + '</div><span class="task-name">' + task.name + '</span></div>';
+                });
+                var div = document.createElement('div');
+                div.className = 'event-card';
+                div.innerHTML = '<div class="event-header"><div><div class="event-title">' + event.title + '</div></div><span class="event-date">' + (event.date || 'TBD') + '</span><button class="del-btn" onclick="deleteEvent(\'' + event.id + '\')">×</button></div>' + (event.location ? '<div class="event-location">📍 ' + event.location + '</div>' : '') + '<div class="event-tasks">' + (tasksHtml || '<div style="opacity:.6;font-size:.85rem">No tasks yet</div>') + '<div class="add-task"><input type="text" id="task_' + event.id + '" placeholder="Add task" onkeypress="if(event.key===\'Enter\')addTask(\'' + event.id + '\')"><button onclick="addTask(\'' + event.id + '\')">+</button></div></div>';
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ワードボム</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #ea580c, #c2410c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .setup-section { text-align: center; }
+        .setting-group { margin-bottom: 20px; }
+        .setting-label { font-size: .9rem; opacity: .7; margin-bottom: 10px; display: block; }
+        .counter { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .counter-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .counter-value { font-size: 2rem; font-weight: 700; min-width: 60px; text-align: center; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .play-section { display: none; }
+        .player-info { text-align: center; margin-bottom: 15px; }
+        .current-player { font-size: 1.5rem; font-weight: 700; }
+        .bomb-container { text-align: center; margin-bottom: 20px; position: relative; }
+        .bomb-icon { font-size: 6rem; animation: shake 0.1s infinite; }
+        .bomb-icon.exploded { animation: explode 0.5s forwards; }
+        @keyframes shake { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+        @keyframes explode { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+        .timer-bar { height: 10px; background: rgba(255,255,255,.2); border-radius: 5px; overflow: hidden; margin-bottom: 10px; }
+        .timer-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #fbbf24, #ef4444); transition: width 0.1s linear; }
+        .syllable-display { background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); border-radius: 16px; padding: 25px; text-align: center; margin-bottom: 20px; }
+        .syllable-label { font-size: .9rem; opacity: .7; margin-bottom: 10px; }
+        .syllable-text { font-size: 3rem; font-weight: 700; }
+        .input-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .word-input { flex: 1; padding: 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1.2rem; text-align: center; }
+        .word-input::placeholder { color: rgba(255,255,255,.5); }
+        .submit-btn { padding: 15px 25px; border: none; border-radius: 12px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; font-size: 1.2rem; font-weight: 600; cursor: pointer; }
+        .players-status { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .player-tag { padding: 8px 15px; border-radius: 20px; font-size: .9rem; background: rgba(255,255,255,.2); }
+        .player-tag.active { background: #22c55e; }
+        .player-tag.out { background: #ef4444; text-decoration: line-through; opacity: .6; }
+        .result-section { display: none; text-align: center; }
+        .winner-icon { font-size: 5rem; margin-bottom: 20px; }
+        .winner-text { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+        .winner-name { font-size: 1.5rem; color: #fbbf24; margin-bottom: 25px; }
+        .explosion-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,0,0,.8); z-index: 100; justify-content: center; align-items: center; }
+        .explosion-text { font-size: 4rem; font-weight: 700; animation: flash 0.2s infinite; }
+        @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>💣 ワードボム</h1>
+            <p class="subtitle">爆弾が爆発する前に言葉を言おう！</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="setting-group">
+                    <span class="setting-label">プレイヤー数</span>
+                    <div class="counter">
+                        <button class="counter-btn" onclick="changePlayer(-1)">-</button>
+                        <div class="counter-value" id="playerCount">4</div>
+                        <button class="counter-btn" onclick="changePlayer(1)">+</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <span class="setting-label">制限時間（最大）</span>
+                    <div class="counter">
+                        <button class="counter-btn" onclick="changeTime(-1)">-</button>
+                        <div class="counter-value" id="timeLimit">5</div>
+                        <span style="font-size:1.2rem">秒</span>
+                        <button class="counter-btn" onclick="changeTime(1)">+</button>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="startGame()">💣 ゲーム開始！</button>
+            </div>
+            <div class="play-section" id="playSection">
+                <div class="player-info">
+                    <div class="current-player" id="currentPlayer">プレイヤー 1</div>
+                </div>
+                <div class="bomb-container">
+                    <div class="bomb-icon" id="bombIcon">💣</div>
+                </div>
+                <div class="timer-bar">
+                    <div class="timer-fill" id="timerFill" style="width:100%"></div>
+                </div>
+                <div class="syllable-display">
+                    <div class="syllable-label">この文字を含む言葉！</div>
+                    <div class="syllable-text" id="syllableText">あ</div>
+                </div>
+                <div class="input-row">
+                    <input type="text" class="word-input" id="wordInput" placeholder="言葉を入力" onkeypress="handleKeyPress(event)">
+                    <button class="submit-btn" onclick="submitWord()">✓</button>
+                </div>
+                <div class="players-status" id="playersStatus"></div>
+            </div>
+            <div class="result-section" id="resultSection">
+                <div class="winner-icon">🏆</div>
+                <div class="winner-text">勝者！</div>
+                <div class="winner-name" id="winnerName">プレイヤー 1</div>
+                <button class="start-btn" onclick="resetGame()">🔄 もう一度</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <div class="explosion-overlay" id="explosionOverlay">
+        <div class="explosion-text">💥 ドカン！</div>
+    </div>
+    <script>
+        var syllables = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', 'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', 'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'り', 'る', 'れ', 'ろ', 'わ'];
+
+        var playerCount = 4;
+        var timeLimit = 5;
+        var players = [];
+        var currentPlayerIndex = 0;
+        var currentSyllable = '';
+        var timer = null;
+        var timeLeft = 0;
+        var usedWords = [];
+
+        function changePlayer(delta) {
+            playerCount = Math.max(2, Math.min(8, playerCount + delta));
+            document.getElementById('playerCount').textContent = playerCount;
+        }
+
+        function changeTime(delta) {
+            timeLimit = Math.max(3, Math.min(10, timeLimit + delta));
+            document.getElementById('timeLimit').textContent = timeLimit;
+        }
+
+        function startGame() {
+            players = [];
+            for (var i = 0; i < playerCount; i++) {
+                players.push({ name: 'プレイヤー ' + (i + 1), alive: true });
+            }
+            currentPlayerIndex = 0;
+            usedWords = [];
+
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('playSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+
+            updatePlayersStatus();
+            nextTurn();
+        }
+
+        function nextTurn() {
+            while (!players[currentPlayerIndex].alive) {
+                currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            }
+
+            currentSyllable = syllables[Math.floor(Math.random() * syllables.length)];
+            document.getElementById('syllableText').textContent = currentSyllable;
+            document.getElementById('currentPlayer').textContent = players[currentPlayerIndex].name;
+            document.getElementById('wordInput').value = '';
+            document.getElementById('wordInput').focus();
+            document.getElementById('bombIcon').className = 'bomb-icon';
+
+            var randomTime = Math.floor(Math.random() * (timeLimit * 1000 - 2000)) + 2000;
+            timeLeft = randomTime;
+            var startTime = randomTime;
+
+            clearInterval(timer);
+            timer = setInterval(function() {
+                timeLeft -= 100;
+                var percent = (timeLeft / startTime) * 100;
+                document.getElementById('timerFill').style.width = percent + '%';
+
+                if (timeLeft <= 0) {
+                    explode();
+                }
+            }, 100);
+
+            updatePlayersStatus();
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') submitWord();
+        }
+
+        function submitWord() {
+            var word = document.getElementById('wordInput').value.trim();
+
+            if (!word) return;
+
+            if (!word.includes(currentSyllable)) {
+                alert('「' + currentSyllable + '」を含む言葉を入力してください！');
+                return;
+            }
+
+            if (usedWords.includes(word)) {
+                alert('この言葉は既に使われています！');
+                return;
+            }
+
+            usedWords.push(word);
+            clearInterval(timer);
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            nextTurn();
+        }
+
+        function explode() {
+            clearInterval(timer);
+
+            document.getElementById('bombIcon').className = 'bomb-icon exploded';
+            document.getElementById('explosionOverlay').style.display = 'flex';
+
+            setTimeout(function() {
+                document.getElementById('explosionOverlay').style.display = 'none';
+                players[currentPlayerIndex].alive = false;
+                updatePlayersStatus();
+
+                var alivePlayers = players.filter(function(p) { return p.alive; });
+                if (alivePlayers.length === 1) {
+                    endGame(alivePlayers[0].name);
+                } else {
+                    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+                    nextTurn();
+                }
+            }, 1000);
+        }
+
+        function updatePlayersStatus() {
+            var html = '';
+            players.forEach(function(player, index) {
+                var className = 'player-tag';
+                if (!player.alive) className += ' out';
+                else if (index === currentPlayerIndex) className += ' active';
+                html += '<span class="' + className + '">' + player.name + '</span>';
+            });
+            document.getElementById('playersStatus').innerHTML = html;
+        }
+
+        function endGame(winner) {
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('winnerName').textContent = winner;
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나만의 타이머</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #232526, #414345); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .timer-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .timer-display { background: rgba(0,0,0,.4); border-radius: 16px; padding: 40px; margin-bottom: 20px; text-align: center; }
+        .timer-time { font-size: 4rem; font-weight: 700; font-family: monospace; }
+        .timer-label { font-size: .9rem; opacity: .7; margin-top: 10px; }
+        .presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .preset-btn { padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.15); color: #fff; cursor: pointer; font-weight: 600; }
+        .preset-btn:hover { background: rgba(255,255,255,.25); }
+        .custom-time { display: flex; gap: 10px; margin-bottom: 20px; }
+        .custom-time input { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; text-align: center; }
+        .controls { display: flex; gap: 10px; }
+        .start-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1.1rem; cursor: pointer; font-weight: 600; }
+        .pause-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; font-size: 1.1rem; cursor: pointer; font-weight: 600; }
+        .reset-btn { padding: 16px 24px; border: none; border-radius: 12px; background: rgba(255,255,255,.2); color: #fff; font-size: 1.1rem; cursor: pointer; }
+        .saved-timers { margin-top: 20px; }
+        .saved-title { font-size: .9rem; margin-bottom: 10px; opacity: .8; }
+        .saved-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .saved-item { padding: 8px 15px; background: rgba(255,255,255,.15); border-radius: 20px; font-size: .85rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>⏱️ 나만의 타이머</h1>
+        </header>
+        <div class="timer-section">
+            <div class="timer-display">
+                <div class="timer-time" id="timerDisplay">00:00</div>
+                <div class="timer-label" id="timerLabel">시간을 설정하세요</div>
+            </div>
+            <div class="presets">
+                <button class="preset-btn" onclick="setTime(1)">1분</button>
+                <button class="preset-btn" onclick="setTime(3)">3분</button>
+                <button class="preset-btn" onclick="setTime(5)">5분</button>
+                <button class="preset-btn" onclick="setTime(10)">10분</button>
+                <button class="preset-btn" onclick="setTime(15)">15분</button>
+                <button class="preset-btn" onclick="setTime(20)">20분</button>
+                <button class="preset-btn" onclick="setTime(30)">30분</button>
+                <button class="preset-btn" onclick="setTime(60)">1시간</button>
+            </div>
+            <div class="custom-time">
+                <input type="number" id="customMin" placeholder="분" min="0" max="999">
+                <input type="number" id="customSec" placeholder="초" min="0" max="59">
+                <button class="preset-btn" onclick="setCustomTime()">설정</button>
+            </div>
+            <div class="controls">
+                <button class="start-btn" id="startBtn" onclick="toggleTimer()">시작</button>
+                <button class="reset-btn" onclick="resetTimer()">↻</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var totalSeconds = 0;
+        var remainingSeconds = 0;
+        var isRunning = false;
+        var interval = null;
+        function formatTime(seconds) {
+            var m = Math.floor(seconds / 60);
+            var s = seconds % 60;
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
+        function setTime(minutes) {
+            totalSeconds = minutes * 60;
+            remainingSeconds = totalSeconds;
+            updateDisplay();
+        }
+        function setCustomTime() {
+            var min = parseInt(document.getElementById('customMin').value) || 0;
+            var sec = parseInt(document.getElementById('customSec').value) || 0;
+            totalSeconds = min * 60 + sec;
+            remainingSeconds = totalSeconds;
+            updateDisplay();
+        }
+        function updateDisplay() {
+            document.getElementById('timerDisplay').textContent = formatTime(remainingSeconds);
+            var label = document.getElementById('timerLabel');
+            if (remainingSeconds === 0 && totalSeconds > 0) {
+                label.textContent = '완료!';
+            } else if (isRunning) {
+                label.textContent = '진행 중...';
+            } else if (totalSeconds > 0) {
+                label.textContent = formatTime(totalSeconds) + ' 설정됨';
+            } else {
+                label.textContent = '시간을 설정하세요';
+            }
+        }
+        function toggleTimer() {
+            if (isRunning) {
+                clearInterval(interval);
+                isRunning = false;
+                document.getElementById('startBtn').textContent = '계속';
+            } else {
+                if (remainingSeconds <= 0) remainingSeconds = totalSeconds;
+                if (remainingSeconds <= 0) return;
+                isRunning = true;
+                document.getElementById('startBtn').textContent = '일시정지';
+                interval = setInterval(tick, 1000);
+            }
+            updateDisplay();
+        }
+        function tick() {
+            remainingSeconds--;
+            updateDisplay();
+            if (remainingSeconds <= 0) {
+                clearInterval(interval);
+                isRunning = false;
+                document.getElementById('startBtn').textContent = '시작';
+                alert('타이머 완료!');
+            }
+        }
+        function resetTimer() {
+            clearInterval(interval);
+            isRunning = false;
+            remainingSeconds = totalSeconds;
+            document.getElementById('startBtn').textContent = '시작';
+            updateDisplay();
+        }
+        updateDisplay();
+    </script>
+</body>
+</html>

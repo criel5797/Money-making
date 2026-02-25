@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サイコロ</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .dice-area { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; min-height: 100px; padding: 20px; }
+        .dice { width: 70px; height: 70px; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: #1a1a2e; box-shadow: 0 5px 15px rgba(0,0,0,.3); transition: transform .3s; }
+        .dice.rolling { animation: roll 0.5s ease-in-out; }
+        @keyframes roll { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(90deg); } 50% { transform: rotate(180deg); } 75% { transform: rotate(270deg); } }
+        .total { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .controls { margin-bottom: 20px; }
+        .control-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .control-label { flex: 1; display: flex; align-items: center; font-size: .9rem; }
+        .control-input { flex: 2; display: flex; gap: 5px; }
+        .control-btn { padding: 10px 15px; border: none; border-radius: 8px; background: rgba(255,255,255,.2); color: #fff; font-size: 1rem; cursor: pointer; }
+        .control-btn:hover { background: rgba(255,255,255,.3); }
+        .control-btn.active { background: #667eea; }
+        .roll-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: transform .2s; }
+        .roll-btn:hover { transform: scale(1.02); }
+        .roll-btn:active { transform: scale(0.98); }
+        .history { margin-top: 15px; }
+        .history-label { font-size: .8rem; opacity: .7; margin-bottom: 10px; }
+        .history-items { display: flex; gap: 8px; flex-wrap: wrap; }
+        .history-item { padding: 8px 12px; background: rgba(255,255,255,.1); border-radius: 8px; font-size: .85rem; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎲 サイコロ</h1>
+        </header>
+        <div class="game-section">
+            <div class="dice-area" id="diceArea"></div>
+            <div class="total">合計: <span id="total">0</span></div>
+            <div class="controls">
+                <div class="control-row">
+                    <div class="control-label">サイコロの数:</div>
+                    <div class="control-input">
+                        <button class="control-btn" onclick="setCount(1)">1</button>
+                        <button class="control-btn active" onclick="setCount(2)">2</button>
+                        <button class="control-btn" onclick="setCount(3)">3</button>
+                        <button class="control-btn" onclick="setCount(4)">4</button>
+                        <button class="control-btn" onclick="setCount(5)">5</button>
+                    </div>
+                </div>
+                <div class="control-row">
+                    <div class="control-label">サイコロの種類:</div>
+                    <div class="control-input">
+                        <button class="control-btn active" onclick="setType(6)">D6</button>
+                        <button class="control-btn" onclick="setType(10)">D10</button>
+                        <button class="control-btn" onclick="setType(20)">D20</button>
+                    </div>
+                </div>
+            </div>
+            <button class="roll-btn" onclick="rollDice()">🎲 振る</button>
+            <div class="history">
+                <div class="history-label">履歴</div>
+                <div class="history-items" id="history"></div>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="rolls">0</div>
+                    <div class="stat-label">総回数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="maxRoll">0</div>
+                    <div class="stat-label">最高合計</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var diceCount = 2;
+        var diceType = 6;
+        var stats = JSON.parse(localStorage.getItem('dice_ja') || '{"rolls":0,"maxRoll":0,"history":[]}');
+
+        function setCount(count) {
+            diceCount = count;
+            document.querySelectorAll('.control-row:nth-child(1) .control-btn').forEach(function(btn, i) {
+                btn.classList.toggle('active', i + 1 === count);
+            });
+        }
+
+        function setType(type) {
+            diceType = type;
+            document.querySelectorAll('.control-row:nth-child(2) .control-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.textContent === 'D' + type);
+            });
+        }
+
+        function rollDice() {
+            var diceArea = document.getElementById('diceArea');
+            diceArea.innerHTML = '';
+
+            var results = [];
+            for (var i = 0; i < diceCount; i++) {
+                var value = Math.floor(Math.random() * diceType) + 1;
+                results.push(value);
+
+                var dice = document.createElement('div');
+                dice.className = 'dice rolling';
+                dice.textContent = value;
+                diceArea.appendChild(dice);
+
+                setTimeout(function(d) {
+                    d.classList.remove('rolling');
+                }, 500, dice);
+            }
+
+            var total = results.reduce(function(a, b) { return a + b; }, 0);
+            document.getElementById('total').textContent = total;
+
+            stats.rolls++;
+            if (total > stats.maxRoll) stats.maxRoll = total;
+            stats.history.unshift(diceCount + 'D' + diceType + ': ' + total);
+            if (stats.history.length > 10) stats.history.pop();
+
+            localStorage.setItem('dice_ja', JSON.stringify(stats));
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('rolls').textContent = stats.rolls;
+            document.getElementById('maxRoll').textContent = stats.maxRoll;
+
+            var historyEl = document.getElementById('history');
+            historyEl.innerHTML = '';
+            stats.history.slice(0, 5).forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.textContent = item;
+                historyEl.appendChild(div);
+            });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                rollDice();
+            }
+        });
+
+        updateDisplay();
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クリックカウンター</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #ff6b6b, #feca57); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .counter-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .counter-display { background: rgba(0,0,0,.3); border-radius: 20px; padding: 40px; margin-bottom: 25px; text-align: center; }
+        .counter-value { font-size: 6rem; font-weight: 700; line-height: 1; }
+        .counter-label { font-size: 1rem; opacity: .7; margin-top: 10px; }
+        .click-btn { width: 100%; padding: 30px; border: none; border-radius: 16px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.5rem; cursor: pointer; font-weight: 600; margin-bottom: 20px; transition: transform .1s; }
+        .click-btn:active { transform: scale(0.95); }
+        .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .ctrl-btn { padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.2); color: #fff; font-size: 1.2rem; cursor: pointer; }
+        .ctrl-btn:hover { background: rgba(255,255,255,.3); }
+        .presets { display: flex; gap: 10px; margin-bottom: 20px; }
+        .preset-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.15); color: #fff; cursor: pointer; font-size: .9rem; }
+        .preset-btn:hover { background: rgba(255,255,255,.25); }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 12px; padding: 15px; text-align: center; }
+        .stat-value { font-size: 1.3rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .7; }
+        .history { margin-top: 20px; }
+        .history-title { font-size: .9rem; opacity: .8; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .clear-btn { background: none; border: none; color: #fff; opacity: .6; cursor: pointer; font-size: .85rem; }
+        .save-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: rgba(255,255,255,.2); color: #fff; font-size: 1rem; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>👆 クリックカウンター</h1>
+        </header>
+        <div class="counter-section">
+            <div class="counter-display">
+                <div class="counter-value" id="counter">0</div>
+                <div class="counter-label" id="label">カウンター</div>
+            </div>
+            <button class="click-btn" onclick="increment()">👆 クリック！</button>
+            <div class="controls">
+                <button class="ctrl-btn" onclick="decrement()">−</button>
+                <button class="ctrl-btn" onclick="reset()">↻</button>
+                <button class="ctrl-btn" onclick="increment()">+</button>
+            </div>
+            <div class="presets">
+                <button class="preset-btn" onclick="setStep(1)">+1</button>
+                <button class="preset-btn" onclick="setStep(5)">+5</button>
+                <button class="preset-btn" onclick="setStep(10)">+10</button>
+                <button class="preset-btn" onclick="setStep(100)">+100</button>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalClicks">0</div>
+                    <div class="stat-label">総クリック</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="maxValue">0</div>
+                    <div class="stat-label">最高記録</div>
+                </div>
+            </div>
+            <button class="save-btn" onclick="saveRecord()">💾 記録保存</button>
+            <div class="history">
+                <div class="history-title">
+                    <span>保存した記録</span>
+                    <button class="clear-btn" onclick="clearHistory()">クリア</button>
+                </div>
+                <div id="historyList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var count = 0;
+        var step = 1;
+        var totalClicks = 0;
+        var maxValue = 0;
+        var history = JSON.parse(localStorage.getItem('click_counter_ja') || '[]');
+        function updateDisplay() {
+            document.getElementById('counter').textContent = count;
+            document.getElementById('totalClicks').textContent = totalClicks;
+            if (count > maxValue) {
+                maxValue = count;
+                document.getElementById('maxValue').textContent = maxValue;
+            }
+        }
+        function increment() {
+            count += step;
+            totalClicks++;
+            updateDisplay();
+        }
+        function decrement() {
+            count = Math.max(0, count - step);
+            updateDisplay();
+        }
+        function reset() {
+            count = 0;
+            updateDisplay();
+        }
+        function setStep(s) {
+            step = s;
+            document.getElementById('label').textContent = 'ステップ: +' + step;
+        }
+        function saveRecord() {
+            history.unshift({
+                date: new Date().toLocaleString('ja-JP'),
+                value: count,
+                clicks: totalClicks
+            });
+            localStorage.setItem('click_counter_ja', JSON.stringify(history.slice(0, 20)));
+            renderHistory();
+            alert('記録が保存されました！');
+        }
+        function renderHistory() {
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            history.slice(0, 5).forEach(function(h) {
+                var div = document.createElement('div');
+                div.style.cssText = 'padding:10px;background:rgba(255,255,255,.1);border-radius:8px;margin-bottom:5px;font-size:.85rem;display:flex;justify-content:space-between';
+                div.innerHTML = '<span>' + h.date + '</span><span>' + h.value + ' (クリック: ' + h.clicks + ')</span>';
+                list.appendChild(div);
+            });
+        }
+        function clearHistory() {
+            history = [];
+            localStorage.removeItem('click_counter_ja');
+            renderHistory();
+        }
+        renderHistory();
+    </script>
+</body>
+</html>

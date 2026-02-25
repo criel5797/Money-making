@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예산 계획</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .budget-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .summary-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .card { background: rgba(0,0,0,.3); padding: 15px; border-radius: 12px; text-align: center; }
+        .card-value { font-size: 1.5rem; font-weight: 700; }
+        .card-label { font-size: .75rem; opacity: .7; margin-top: 5px; }
+        .income { color: #38ef7d; }
+        .expense { color: #ff6b6b; }
+        .balance { color: #ffd93d; }
+        .remaining { color: #6bcfff; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input, .form-row select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .btn-row { display: flex; gap: 10px; }
+        .add-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; color: #fff; cursor: pointer; font-weight: 600; }
+        .income-btn { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .expense-btn { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .budget-list { max-height: 250px; overflow-y: auto; }
+        .budget-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 8px; }
+        .item-info { flex: 1; }
+        .item-name { font-weight: 500; }
+        .item-category { font-size: .75rem; opacity: .7; }
+        .item-amount { font-weight: 600; }
+        .item-amount.income { color: #38ef7d; }
+        .item-amount.expense { color: #ff6b6b; }
+        .del-btn { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 1rem; margin-left: 10px; }
+        .month-nav { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .month-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; opacity: .7; }
+        .month-display { font-size: 1.1rem; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>💰 예산 계획</h1>
+        </header>
+        <div class="budget-section">
+            <div class="month-nav">
+                <button class="month-btn" onclick="changeMonth(-1)">←</button>
+                <div class="month-display" id="monthDisplay"></div>
+                <button class="month-btn" onclick="changeMonth(1)">→</button>
+            </div>
+            <div class="summary-cards">
+                <div class="card"><div class="card-value income" id="totalIncome">0원</div><div class="card-label">수입</div></div>
+                <div class="card"><div class="card-value expense" id="totalExpense">0원</div><div class="card-label">지출</div></div>
+                <div class="card"><div class="card-value balance" id="balance">0원</div><div class="card-label">잔액</div></div>
+                <div class="card"><div class="card-value remaining" id="budgetGoal">목표 설정</div><div class="card-label">예산 목표</div></div>
+            </div>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="itemName" placeholder="항목명">
+                    <input type="number" id="itemAmount" placeholder="금액">
+                </div>
+                <div class="form-row">
+                    <select id="itemCategory">
+                        <option value="salary">급여</option>
+                        <option value="bonus">보너스</option>
+                        <option value="food">식비</option>
+                        <option value="transport">교통비</option>
+                        <option value="housing">주거비</option>
+                        <option value="utilities">공과금</option>
+                        <option value="entertainment">여가</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                <div class="btn-row">
+                    <button class="add-btn income-btn" onclick="addItem('income')">수입 추가</button>
+                    <button class="add-btn expense-btn" onclick="addItem('expense')">지출 추가</button>
+                </div>
+            </div>
+            <div class="budget-list" id="budgetList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var currentMonth = new Date().getMonth();
+        var currentYear = new Date().getFullYear();
+        var categoryNames = { salary: '급여', bonus: '보너스', food: '식비', transport: '교통비', housing: '주거비', utilities: '공과금', entertainment: '여가', other: '기타' };
+        function getKey() { return 'budget_' + currentYear + '_' + currentMonth; }
+        function getData() { return JSON.parse(localStorage.getItem(getKey()) || '[]'); }
+        function save(data) { localStorage.setItem(getKey(), JSON.stringify(data)); }
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            render();
+        }
+        function addItem(type) {
+            var name = document.getElementById('itemName').value.trim();
+            var amount = parseInt(document.getElementById('itemAmount').value) || 0;
+            var category = document.getElementById('itemCategory').value;
+            if (!name || !amount) return;
+            var data = getData();
+            data.push({ id: Date.now().toString(), name: name, amount: amount, category: category, type: type });
+            save(data);
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemAmount').value = '';
+            render();
+        }
+        function deleteItem(id) {
+            var data = getData().filter(function(item) { return item.id !== id; });
+            save(data);
+            render();
+        }
+        function render() {
+            document.getElementById('monthDisplay').textContent = currentYear + '년 ' + (currentMonth + 1) + '월';
+            var data = getData();
+            var income = data.filter(function(i) { return i.type === 'income'; }).reduce(function(s, i) { return s + i.amount; }, 0);
+            var expense = data.filter(function(i) { return i.type === 'expense'; }).reduce(function(s, i) { return s + i.amount; }, 0);
+            document.getElementById('totalIncome').textContent = income.toLocaleString() + '원';
+            document.getElementById('totalExpense').textContent = expense.toLocaleString() + '원';
+            document.getElementById('balance').textContent = (income - expense).toLocaleString() + '원';
+            var list = document.getElementById('budgetList');
+            list.innerHTML = '';
+            data.slice().reverse().forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'budget-item';
+                div.innerHTML = '<div class="item-info"><div class="item-name">' + item.name + '</div><div class="item-category">' + categoryNames[item.category] + '</div></div><span class="item-amount ' + item.type + '">' + (item.type === 'income' ? '+' : '-') + item.amount.toLocaleString() + '원</span><button class="del-btn" onclick="deleteItem(\'' + item.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

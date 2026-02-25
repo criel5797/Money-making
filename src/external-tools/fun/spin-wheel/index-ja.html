@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ルーレット</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #ff9a9e, #fecfef); min-height: 100vh; color: #333; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(0,0,0,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; color: #666; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; color: #333; }
+        .wheel-section { background: rgba(255,255,255,.9); border-radius: 16px; padding: 25px; }
+        .wheel-container { position: relative; margin-bottom: 20px; }
+        .wheel-wrapper { position: relative; width: 280px; height: 280px; margin: 0 auto; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); transform: rotate(0deg); box-shadow: 0 5px 20px rgba(0,0,0,.2); }
+        .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid #333; z-index: 10; }
+        .result { text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; margin-bottom: 20px; color: #fff; }
+        .result-label { font-size: .9rem; opacity: .8; }
+        .result-value { font-size: 1.5rem; font-weight: 700; margin-top: 5px; }
+        .spin-btn { width: 100%; padding: 18px; border: none; border-radius: 14px; background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: #fff; font-size: 1.2rem; cursor: pointer; font-weight: 700; margin-bottom: 20px; }
+        .spin-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .options-section { margin-bottom: 20px; }
+        .options-label { font-size: .9rem; margin-bottom: 10px; color: #666; }
+        .options-input { width: 100%; padding: 12px; border: 2px solid rgba(0,0,0,.1); border-radius: 10px; font-size: .95rem; margin-bottom: 10px; }
+        .add-btn { padding: 12px 20px; border: none; border-radius: 10px; background: #667eea; color: #fff; font-size: .95rem; cursor: pointer; margin-right: 10px; }
+        .reset-btn { padding: 12px 20px; border: none; border-radius: 10px; background: rgba(0,0,0,.1); color: #333; font-size: .95rem; cursor: pointer; }
+        .items-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+        .item-tag { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(102,126,234,.1); border-radius: 20px; font-size: .85rem; }
+        .item-remove { background: none; border: none; color: #999; cursor: pointer; font-size: 1rem; }
+        .presets { margin-top: 20px; }
+        .presets-title { font-size: .85rem; color: #666; margin-bottom: 10px; }
+        .preset-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+        .preset-btn { padding: 8px 14px; border: none; border-radius: 8px; background: rgba(0,0,0,.05); color: #666; font-size: .8rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎡 ルーレット</h1>
+        </header>
+        <div class="wheel-section">
+            <div class="wheel-container">
+                <div class="wheel-wrapper">
+                    <div class="pointer"></div>
+                    <canvas id="wheel" width="280" height="280"></canvas>
+                </div>
+            </div>
+            <div class="result">
+                <div class="result-label">結果</div>
+                <div class="result-value" id="resultValue">🎯 回してみよう！</div>
+            </div>
+            <button class="spin-btn" id="spinBtn" onclick="spin()">🎰 回す！</button>
+            <div class="options-section">
+                <div class="options-label">項目を追加</div>
+                <div style="display:flex;gap:10px">
+                    <input type="text" class="options-input" id="itemInput" placeholder="項目を入力" style="flex:1;margin:0" onkeypress="if(event.key==='Enter')addItem()">
+                    <button class="add-btn" onclick="addItem()">追加</button>
+                </div>
+                <div class="items-list" id="itemsList"></div>
+            </div>
+            <button class="reset-btn" onclick="resetItems()" style="width:100%">↻ リセット</button>
+            <div class="presets">
+                <div class="presets-title">プリセット</div>
+                <div class="preset-btns">
+                    <button class="preset-btn" onclick="loadPreset('lunch')">🍽️ ランチ</button>
+                    <button class="preset-btn" onclick="loadPreset('yn')">⭕ はい/いいえ</button>
+                    <button class="preset-btn" onclick="loadPreset('num')">🔢 1-10</button>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var items = ['ピザ', 'ラーメン', '寿司', 'カレー', 'うどん'];
+        var colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
+        var isSpinning = false;
+        var currentRotation = 0;
+
+        var presets = {
+            lunch: ['ピザ', 'ラーメン', '寿司', 'カレー', 'うどん', '焼肉', 'パスタ', '定食'],
+            yn: ['はい', 'いいえ'],
+            num: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        };
+
+        function drawWheel() {
+            var canvas = document.getElementById('wheel');
+            var ctx = canvas.getContext('2d');
+            var centerX = canvas.width / 2;
+            var centerY = canvas.height / 2;
+            var radius = canvas.width / 2 - 5;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (items.length === 0) {
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+                ctx.fillStyle = '#ddd';
+                ctx.fill();
+                ctx.fillStyle = '#666';
+                ctx.font = '16px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('項目を追加してね', centerX, centerY);
+                return;
+            }
+
+            var arc = 2 * Math.PI / items.length;
+            items.forEach(function(item, i) {
+                var startAngle = i * arc - Math.PI / 2;
+                var endAngle = startAngle + arc;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + arc / 2);
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 14px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                var text = item.length > 6 ? item.substring(0, 5) + '..' : item;
+                ctx.fillText(text, radius * 0.6, 0);
+                ctx.restore();
+            });
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 20, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+        }
+
+        function spin() {
+            if (isSpinning || items.length === 0) return;
+            isSpinning = true;
+            document.getElementById('spinBtn').disabled = true;
+            document.getElementById('resultValue').textContent = '🎰 回転中...';
+
+            var spins = 5 + Math.random() * 5;
+            var extraAngle = Math.random() * 360;
+            var totalRotation = currentRotation + spins * 360 + extraAngle;
+
+            var wheel = document.getElementById('wheel');
+            wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+            wheel.style.transform = 'rotate(' + totalRotation + 'deg)';
+
+            currentRotation = totalRotation;
+
+            setTimeout(function() {
+                var normalizedAngle = (360 - (totalRotation % 360) + 90) % 360;
+                var arc = 360 / items.length;
+                var index = Math.floor(normalizedAngle / arc);
+                var result = items[index];
+
+                document.getElementById('resultValue').textContent = '🎉 ' + result;
+                isSpinning = false;
+                document.getElementById('spinBtn').disabled = false;
+            }, 4000);
+        }
+
+        function addItem() {
+            var input = document.getElementById('itemInput');
+            var text = input.value.trim();
+            if (text && items.length < 12) {
+                items.push(text);
+                input.value = '';
+                updateItemsList();
+                drawWheel();
+            }
+        }
+
+        function removeItem(index) {
+            items.splice(index, 1);
+            updateItemsList();
+            drawWheel();
+        }
+
+        function updateItemsList() {
+            var list = document.getElementById('itemsList');
+            list.innerHTML = '';
+            items.forEach(function(item, i) {
+                var tag = document.createElement('span');
+                tag.className = 'item-tag';
+                tag.innerHTML = item + '<button class="item-remove" onclick="removeItem(' + i + ')">×</button>';
+                list.appendChild(tag);
+            });
+        }
+
+        function resetItems() {
+            items = [];
+            updateItemsList();
+            drawWheel();
+            document.getElementById('resultValue').textContent = '🎯 回してみよう！';
+        }
+
+        function loadPreset(name) {
+            items = presets[name].slice();
+            updateItemsList();
+            drawWheel();
+        }
+
+        updateItemsList();
+        drawWheel();
+    </script>
+</body>
+</html>
