@@ -59,6 +59,15 @@ nav a:hover{background:rgba(255,255,255,0.2)}
 @media(max-width:768px){.grid{grid-template-columns:1fr;gap:16px}h1{font-size:28px}.game-emoji{font-size:48px}nav{flex-direction:column;gap:12px}.stat-box{padding:16px}.stat-value{font-size:32px}.game-card{padding:20px}}
 @media(max-width:480px){.container{padding:12px}h1{font-size:24px}.game-title{font-size:22px}.play-btn{padding:12px 32px;font-size:16px;width:100%}.btn{padding:12px 20px;font-size:14px}.lang-btn{padding:6px 12px;font-size:12px}.stat-box{padding:12px}.stat-value{font-size:28px}.stat-label{font-size:12px}}
 @media(hover:none){.game-card:hover{transform:none}.play-btn:hover{transform:none}.btn:hover{transform:none}}
+.related-section{margin:48px 0 0;padding:32px 0}
+.related-section h2{font-size:1.5rem;text-align:center;margin-bottom:24px}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.related-card{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:16px;padding:20px;text-align:center;transition:all 0.3s;border:1px solid rgba(255,255,255,0.3);text-decoration:none;display:block}
+.related-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.12);opacity:1}
+.related-card .related-emoji{font-size:36px;margin-bottom:8px}
+.related-card .related-title{font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.related-card .related-desc{font-size:12px;color:#666;line-height:1.4}
+@media(max-width:480px){.related-grid{grid-template-columns:repeat(2,1fr);gap:10px}.related-card{padding:14px}.related-card .related-emoji{font-size:28px}}
 `;
 
 // 게임 기록 저장/불러오기 유틸리티 스크립트
@@ -180,7 +189,9 @@ function createLayout(options) {
   var basePath = options.basePath || '';
   var baseUrl = options.baseUrl || 'https://instaidea.org';
   var i18nData = options.i18nData;
-  var ogImage = options.ogImage || baseUrl + '/og-image.png';
+  var ogImage = options.ogImage || baseUrl + '/og-image.svg';
+  var jsonLd = options.jsonLd || null;
+  var relatedContent = options.relatedContent || '';
 
   var adsScript = '';
   if (includeAdScript) {
@@ -225,9 +236,13 @@ var adsPlaceholder = '';
     '<meta name="apple-mobile-web-app-capable" content="yes">' +
     '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">' +
 
-    // Favicon
+    // Favicon & PWA
     '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">' +
     '<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">' +
+    '<link rel="manifest" href="' + basePath + '/manifest.json">' +
+
+    // JSON-LD 구조화 데이터
+    (jsonLd ? '<script type="application/ld+json">' + JSON.stringify(jsonLd) + '</script>' : '') +
 
     adsScript +
     '<style>' + styles + '</style>' +
@@ -246,6 +261,7 @@ var adsPlaceholder = '';
     body +
     '</main>' +
     '<div class="ad" role="complementary" aria-label="Advertisement">' + adsPlaceholder + '</div>' +
+    relatedContent +
     '<footer role="contentinfo">' +
     '<p>© ' + (new Date().getFullYear()) + ' Fun Mini Games</p>' +
     '<nav aria-label="Footer navigation">' +

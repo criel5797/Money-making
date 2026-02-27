@@ -34,7 +34,7 @@ var generateTargetTrackerGame = require('./src/templates/target-tracker.js');
 
 var OUT = path.join(process.cwd(), 'dist');
 
-var RAW_BASE_URL = (process.env.BASE_URL || '').replace(/\/+$/, '');
+var RAW_BASE_URL = (process.env.BASE_URL || 'https://instaidea.org').replace(/\/+$/, '');
 var BASE_URL = RAW_BASE_URL;
 
 var repoEnv = (process.env.GITHUB_REPOSITORY || '');
@@ -50,6 +50,216 @@ var PUB_ID = ADS_CLIENT.replace('ca-pub-', '');
 function ensureDir(p){ fs.mkdirSync(p, { recursive: true }); }
 function write(p, c){ ensureDir(path.dirname(p)); fs.writeFileSync(p, c); }
 function href(p){ return BASE_PATH + p; }
+function absUrl(p){ return BASE_URL + p; }
+
+// ===== JSON-LD Structured Data Generators =====
+
+function buildWebSiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'name': 'InstaIdea - Mini Games & Tools',
+    'alternateName': ['미니게임 & 도구 모음집', 'ミニゲーム＆ツールコレクション'],
+    'url': BASE_URL + '/',
+    'description': 'Free brain training games, developer tools, and fun utilities',
+    'inLanguage': ['ko', 'en', 'ja'],
+    'potentialAction': {
+      '@type': 'SearchAction',
+      'target': BASE_URL + '/?q={search_term_string}',
+      'query-input': 'required name=search_term_string'
+    }
+  };
+}
+
+function buildItemListSchema(items, listName) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    'name': listName,
+    'numberOfItems': items.length,
+    'itemListElement': items.map(function(item, idx) {
+      return {
+        '@type': 'ListItem',
+        'position': idx + 1,
+        'name': item.name,
+        'url': item.url
+      };
+    })
+  };
+}
+
+function buildBreadcrumbSchema(crumbs) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': crumbs.map(function(c, idx) {
+      return {
+        '@type': 'ListItem',
+        'position': idx + 1,
+        'name': c.name,
+        'item': c.url
+      };
+    })
+  };
+}
+
+function buildGameSchema(game, pathname) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': game.title.en || game.title.ko,
+    'alternateName': [game.title.ko, game.title.ja].filter(Boolean),
+    'url': absUrl(pathname),
+    'applicationCategory': 'Game',
+    'operatingSystem': 'Any',
+    'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' },
+    'inLanguage': ['ko', 'en', 'ja'],
+    'browserRequirements': 'Requires JavaScript',
+    'description': game.description.en || game.description.ko
+  };
+}
+
+function buildToolSchema(tool, pathname) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': tool.title.en || tool.title.ko,
+    'alternateName': [tool.title.ko, tool.title.ja].filter(Boolean),
+    'url': absUrl(pathname),
+    'applicationCategory': 'Utility',
+    'operatingSystem': 'Any',
+    'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' },
+    'inLanguage': ['ko', 'en', 'ja'],
+    'browserRequirements': 'Requires JavaScript',
+    'description': tool.desc.en || tool.desc.ko
+  };
+}
+
+function buildFAQSchema(faqs) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map(function(faq) {
+      return {
+        '@type': 'Question',
+        'name': faq.q,
+        'acceptedAnswer': {
+          '@type': 'Answer',
+          'text': faq.a
+        }
+      };
+    })
+  };
+}
+
+// ===== Related Content Builder =====
+
+function buildRelatedSection(currentId, allItems, type, count) {
+  count = count || 4;
+  // Pick items excluding current, shuffle-like with deterministic pick
+  var others = allItems.filter(function(item) { return item.id !== currentId; });
+  // Deterministic but varied: use currentId hash-ish approach
+  var hash = 0;
+  for (var i = 0; i < currentId.length; i++) hash = ((hash << 5) - hash) + currentId.charCodeAt(i);
+  hash = Math.abs(hash);
+  var picked = [];
+  for (var i = 0; i < count && others.length > 0; i++) {
+    var idx = (hash + i * 7) % others.length;
+    picked.push(others.splice(idx, 1)[0]);
+  }
+
+  var basePaths = { game: '/games/', webTool: '/tools/web/', funTool: '/tools/fun/' };
+  var bp = basePaths[type] || '/games/';
+
+  var cards = '';
+  for (var i = 0; i < picked.length; i++) {
+    var item = picked[i];
+    var itemTitle = item.title || {};
+    var itemDesc = item.description || item.desc || {};
+    var relData = JSON.stringify({ title: itemTitle, desc: itemDesc });
+    cards +=
+      '<a href="' + href(bp + item.id + '/') + '" class="related-card" data-related=\'' + relData + '\'>' +
+      '<div class="related-emoji">' + item.emoji + '</div>' +
+      '<div class="related-title" data-i18n-related-title>' + (itemTitle.ko || '') + '</div>' +
+      '<div class="related-desc" data-i18n-related-desc>' + (itemDesc.ko || '') + '</div>' +
+      '</a>';
+  }
+
+  var sectionTitle = type === 'game' ? '관련 게임' : '관련 도구';
+
+  return '<section class="related-section">' +
+    '<h2 data-i18n-related-heading>' + sectionTitle + '</h2>' +
+    '<div class="related-grid">' + cards + '</div>' +
+    '<script>' +
+    '(function(){' +
+    'var origSet=setLanguage;' +
+    'setLanguage=function(lang){' +
+    'origSet(lang);' +
+    'document.querySelectorAll("[data-related]").forEach(function(card){' +
+    'var d=JSON.parse(card.getAttribute("data-related"));' +
+    'var t=card.querySelector("[data-i18n-related-title]");' +
+    'var desc=card.querySelector("[data-i18n-related-desc]");' +
+    'if(t&&d.title&&d.title[lang])t.textContent=d.title[lang];' +
+    'if(desc&&d.desc&&d.desc[lang])desc.textContent=d.desc[lang];' +
+    '});' +
+    'var h=document.querySelector("[data-i18n-related-heading]");' +
+    'if(h){' +
+    'var headings={ko:"' + sectionTitle + '",en:"' + (type === 'game' ? 'Related Games' : 'Related Tools') + '",ja:"' + (type === 'game' ? '関連ゲーム' : '関連ツール') + '"};' +
+    'h.textContent=headings[lang]||headings.ko;' +
+    '}' +
+    '};' +
+    'setLanguage(currentLang);' +
+    '})();' +
+    '</script>' +
+    '</section>';
+}
+
+// ===== FAQ Data for Games =====
+
+var gameFAQs = {
+  'reaction-time': [
+    { q: 'How do I test my reaction time?', a: 'Click the start button, wait for the screen to turn green, then click as fast as you can. Your reaction time in milliseconds will be displayed.' },
+    { q: 'What is a good reaction time?', a: 'Average human reaction time is around 200-250ms. Under 200ms is considered fast, and under 150ms is exceptional.' },
+    { q: 'Is this test free?', a: 'Yes, this reaction time test is completely free to use with no registration required.' }
+  ],
+  'memory-number': [
+    { q: 'How does the number memory test work?', a: 'A sequence of numbers is displayed briefly. You need to remember and type them in the correct order. The sequence gets longer each round.' },
+    { q: 'How can I improve my number memory?', a: 'Practice chunking numbers into groups, create associations, and practice regularly. Most people can remember 7±2 digits.' },
+    { q: 'Is this test free?', a: 'Yes, this number memory test is completely free with no signup needed.' }
+  ],
+  'typing-speed': [
+    { q: 'How is typing speed measured?', a: 'Typing speed is measured in WPM (Words Per Minute). A word is defined as 5 characters. Your accuracy percentage is also tracked.' },
+    { q: 'What is a good typing speed?', a: 'Average typing speed is 40 WPM. 60-80 WPM is good, and over 100 WPM is considered fast.' },
+    { q: 'Can I practice in different languages?', a: 'Yes, this test supports Korean, English, and Japanese typing practice.' }
+  ],
+  'color-match': [
+    { q: 'What is the color match game?', a: 'You see a color word displayed in a different color. You must quickly decide if the text meaning matches the display color.' },
+    { q: 'What does this test measure?', a: 'This is based on the Stroop Effect and measures your cognitive processing speed and ability to handle conflicting information.' },
+    { q: 'Is it free to play?', a: 'Yes, completely free with no registration required.' }
+  ],
+  'math-quiz': [
+    { q: 'What types of math problems are included?', a: 'The quiz includes addition, subtraction, multiplication, and division with increasing difficulty levels.' },
+    { q: 'How does the difficulty increase?', a: 'Problems start simple and progressively use larger numbers and more complex operations as you advance.' },
+    { q: 'Is this suitable for children?', a: 'Yes, the starting level is simple enough for children and gradually increases in difficulty.' }
+  ],
+  'click-speed': [
+    { q: 'How is CPS calculated?', a: 'CPS (Clicks Per Second) is calculated by dividing total clicks by the time duration (10 seconds).' },
+    { q: 'What is a good CPS score?', a: 'Average CPS is 6-7. A CPS of 10+ is considered fast, and 14+ is exceptional.' },
+    { q: 'Can I use this on mobile?', a: 'Yes, this test works on both desktop and mobile devices with touch support.' }
+  ],
+  'aim-trainer': [
+    { q: 'How does the aim trainer work?', a: 'Targets appear at random positions on screen. Click them as quickly as possible. Your average reaction time and accuracy are tracked.' },
+    { q: 'Will this improve my gaming aim?', a: 'Regular practice can improve hand-eye coordination and mouse accuracy, which translates to better gaming performance.' },
+    { q: 'Is this free to use?', a: 'Yes, this aim trainer is completely free with no downloads required.' }
+  ]
+};
+
+// Default FAQ for games without specific FAQs
+var defaultGameFAQ = [
+  { q: 'Is this brain training game free?', a: 'Yes, all our brain training games are completely free to play with no registration or download required.' },
+  { q: 'Does this game work on mobile?', a: 'Yes, all games are optimized for both desktop and mobile devices with responsive design.' },
+  { q: 'Can I track my progress?', a: 'Yes, your best scores are automatically saved in your browser so you can track improvement over time.' }
+];
 
 // Game helper functions
 function getGameTitle(gameId) {
@@ -68,7 +278,7 @@ function getGameTitleScript(gameId, emoji) {
 }
 
 // Layout wrapper using the createLayout function from layout.js
-function layout(title, pathname, body, includeAdScript, description) {
+function layout(title, pathname, body, includeAdScript, description, jsonLd, relatedContent) {
   return createLayout({
     title: title,
     description: description || title + ' - 무료 두뇌 훈련 미니게임. 반응속도, 기억력, 집중력을 테스트하세요!',
@@ -78,7 +288,9 @@ function layout(title, pathname, body, includeAdScript, description) {
     monetagSiteId: ADS_CLIENT,
     basePath: BASE_PATH,
     baseUrl: BASE_URL,
-    i18nData: i18n
+    i18nData: i18n,
+    jsonLd: jsonLd,
+    relatedContent: relatedContent || ''
   });
 }
 
@@ -88,111 +300,118 @@ var templateOptions = {
   getGameTitleScript: getGameTitleScript
 };
 
+// Generic game wrapper with JSON-LD, FAQ, and related content
+function wrapGame(gameId, generateFn, koTitle, description) {
+  var gameHTML = generateFn(templateOptions);
+  var game = games.find(function(g) { return g.id === gameId; });
+  var pathname = '/games/' + gameId + '/';
+
+  // Build JSON-LD array: BreadcrumbList + WebApplication + FAQPage
+  var breadcrumb = buildBreadcrumbSchema([
+    { name: 'Home', url: absUrl('/') },
+    { name: 'Games', url: absUrl('/') + '#games' },
+    { name: game ? (game.title.en || game.title.ko) : koTitle, url: absUrl(pathname) }
+  ]);
+  var appSchema = game ? buildGameSchema(game, pathname) : null;
+  var faqs = gameFAQs[gameId] || defaultGameFAQ;
+  var faqSchema = buildFAQSchema(faqs);
+
+  var jsonLdArr = [breadcrumb];
+  if (appSchema) jsonLdArr.push(appSchema);
+  jsonLdArr.push(faqSchema);
+
+  var related = buildRelatedSection(gameId, games, 'game', 4);
+
+  return layout(koTitle, pathname, gameHTML, true, description, jsonLdArr, related);
+}
+
 function wrapReactionGame() {
-  var gameHTML = generateReactionGame(templateOptions);
-  return layout('순발력 테스트', '/games/reaction-time/', gameHTML, true,
+  return wrapGame('reaction-time', generateReactionGame, '순발력 테스트',
     '무료 반응속도 테스트 게임. 초록색이 되면 최대한 빠르게 클릭하여 당신의 반응속도를 측정하세요!');
 }
 
 function wrapMemoryNumberGame() {
-  var gameHTML = generateMemoryNumberGame(templateOptions);
-  return layout('숫자 기억력', '/games/memory-number/', gameHTML, true,
+  return wrapGame('memory-number', generateMemoryNumberGame, '숫자 기억력',
     '무료 숫자 기억력 테스트. 점점 길어지는 숫자를 기억하고 입력하여 기억력을 향상시키세요!');
 }
 
 function wrapTypingSpeedGame() {
-  var gameHTML = generateTypingSpeedGame(templateOptions);
-  return layout('타이핑 속도', '/games/typing-speed/', gameHTML, true,
+  return wrapGame('typing-speed', generateTypingSpeedGame, '타이핑 속도',
     '무료 타이핑 속도 테스트. 문장을 빠르고 정확하게 타이핑하여 WPM을 측정하세요!');
 }
 
 function wrapColorMatchGame() {
-  var gameHTML = generateColorMatchGame(templateOptions);
-  return layout('색깔 맞추기', '/games/color-match/', gameHTML, true,
+  return wrapGame('color-match', generateColorMatchGame, '색깔 맞추기',
     '무료 색깔 맞추기 게임. 글자의 색깔과 의미가 일치하는지 빠르게 판단하여 집중력을 테스트하세요!');
 }
 
 function wrapMathQuizGame() {
-  var gameHTML = generateMathQuizGame(templateOptions);
-  return layout('암산 게임', '/games/math-quiz/', gameHTML, true,
+  return wrapGame('math-quiz', generateMathQuizGame, '암산 게임',
     '무료 암산 게임. 수학 문제를 빠르게 풀어 두뇌를 훈련하고 계산 능력을 향상시키세요!');
 }
 
 function wrapPatternMemoryGame() {
-  var gameHTML = generatePatternMemoryGame(templateOptions);
-  return layout('패턴 기억', '/games/pattern-memory/', gameHTML, true,
+  return wrapGame('pattern-memory', generatePatternMemoryGame, '패턴 기억',
     '무료 패턴 기억 게임. 깜빡이는 패턴을 기억하고 순서대로 클릭하여 시각적 기억력을 훈련하세요!');
 }
 
 function wrapClickSpeedGame() {
-  var gameHTML = generateClickSpeedGame(templateOptions);
-  return layout('클릭 속도', '/games/click-speed/', gameHTML, true,
+  return wrapGame('click-speed', generateClickSpeedGame, '클릭 속도',
     '무료 클릭 속도 테스트. 10초 동안 최대한 많이 클릭하여 CPS(초당 클릭 수)를 측정하세요!');
 }
 
 function wrapAimTrainerGame() {
-  var gameHTML = generateAimTrainerGame(templateOptions);
-  return layout('목표물 클릭', '/games/aim-trainer/', gameHTML, true,
+  return wrapGame('aim-trainer', generateAimTrainerGame, '목표물 클릭',
     '무료 에임 트레이너 게임. 나타나는 원을 빠르게 클릭하여 마우스 정확도와 반응속도를 훈련하세요!');
 }
 
 function wrapSequenceMemoryGame() {
-  var gameHTML = generateSequenceMemoryGame(templateOptions);
-  return layout('순서 기억', '/games/sequence-memory/', gameHTML, true,
+  return wrapGame('sequence-memory', generateSequenceMemoryGame, '순서 기억',
     '무료 순서 기억 게임. 숫자가 나타나는 순서를 기억하고 클릭하여 순차적 기억력을 테스트하세요!');
 }
 
 function wrapWordPuzzleGame() {
-  var gameHTML = generateWordPuzzleGame(templateOptions);
-  return layout('단어 만들기', '/games/word-puzzle/', gameHTML, true,
+  return wrapGame('word-puzzle', generateWordPuzzleGame, '단어 만들기',
     '무료 단어 만들기 게임. 주어진 글자들로 단어를 만들어 어휘력과 창의력을 테스트하세요!');
 }
 
 function wrapVisualMemoryGame() {
-  var gameHTML = generateVisualMemoryGame(templateOptions);
-  return layout('시각 기억력', '/games/visual-memory/', gameHTML, true,
+  return wrapGame('visual-memory', generateVisualMemoryGame, '시각 기억력',
     '무료 시각 기억력 테스트. 깜빡이는 타일의 위치를 기억하고 클릭하여 시각적 기억력을 향상시키세요!');
 }
 
 function wrapStroopTestGame() {
-  var gameHTML = generateStroopTestGame(templateOptions);
-  return layout('스트룹 테스트', '/games/stroop-test/', gameHTML, true,
+  return wrapGame('stroop-test', generateStroopTestGame, '스트룹 테스트',
     '무료 스트룹 테스트. 글자의 색깔을 빠르게 판단하여 인지 유연성과 집중력을 테스트하세요!');
 }
 
 function wrapVerbalMemoryGame() {
-  var gameHTML = generateVerbalMemoryGame(templateOptions);
-  return layout('언어 기억력', '/games/verbal-memory/', gameHTML, true,
+  return wrapGame('verbal-memory', generateVerbalMemoryGame, '언어 기억력',
     '무료 언어 기억력 테스트. 본 단어와 새 단어를 구분하여 언어 기억력을 테스트하세요!');
 }
 
 function wrapChimpTestGame() {
-  var gameHTML = generateChimpTestGame(templateOptions);
-  return layout('침팬지 테스트', '/games/chimp-test/', gameHTML, true,
+  return wrapGame('chimp-test', generateChimpTestGame, '침팬지 테스트',
     '무료 침팬지 테스트. 숫자를 순서대로 기억하고 클릭하여 단기 기억력을 테스트하세요! 침팬지보다 잘할 수 있나요?');
 }
 
 function wrapHearingTestGame() {
-  var gameHTML = generateHearingTestGame(templateOptions);
-  return layout('청력 테스트', '/games/hearing-test/', gameHTML, true,
+  return wrapGame('hearing-test', generateHearingTestGame, '청력 테스트',
     '무료 청력 테스트. 들을 수 있는 최고 주파수를 측정하여 청력 상태를 확인하세요! 헤드폰 착용 권장.');
 }
 
 function wrapColorBlindTestGame() {
-  var gameHTML = generateColorBlindTestGame(templateOptions);
-  return layout('색맹 테스트', '/games/color-blind-test/', gameHTML, true,
+  return wrapGame('color-blind-test', generateColorBlindTestGame, '색맹 테스트',
     '무료 색맹 테스트. 다른 색깔의 타일을 찾아 클릭하여 색각 인지 능력을 테스트하세요!');
 }
 
 function wrapNumberSpeedGame() {
-  var gameHTML = generateNumberSpeedGame(templateOptions);
-  return layout('숫자 비교 속도', '/games/number-speed/', gameHTML, true,
+  return wrapGame('number-speed', generateNumberSpeedGame, '숫자 비교 속도',
     '무료 숫자 비교 속도 테스트. 두 숫자 중 더 큰 숫자를 빠르게 선택하여 판단력을 테스트하세요!');
 }
 
 function wrapTargetTrackerGame() {
-  var gameHTML = generateTargetTrackerGame(templateOptions);
-  return layout('목표 추적', '/games/target-tracker/', gameHTML, true,
+  return wrapGame('target-tracker', generateTargetTrackerGame, '목표 추적',
     '무료 목표 추적 게임. 움직이는 목표물을 따라가며 클릭하여 시각 추적 능력을 테스트하세요!');
 }
 
@@ -304,8 +523,19 @@ function renderIndex(){
     '});' +
     '</script>';
 
+  // Build homepage JSON-LD
+  var websiteSchema = buildWebSiteSchema();
+  var gameItems = games.map(function(g) { return { name: g.title.en || g.title.ko, url: absUrl('/games/' + g.id + '/') }; });
+  var webToolItems = webTools.map(function(t) { return { name: t.title.en || t.title.ko, url: absUrl('/tools/web/' + t.id + '/') }; });
+  var funToolItems = consumerTools.map(function(t) { return { name: t.title.en || t.title.ko, url: absUrl('/tools/fun/' + t.id + '/') }; });
+  var gameListSchema = buildItemListSchema(gameItems, 'Brain Training Games');
+  var webToolListSchema = buildItemListSchema(webToolItems, 'Developer Tools');
+  var funToolListSchema = buildItemListSchema(funToolItems, 'Fun & Utility Tools');
+  var homeJsonLd = [websiteSchema, gameListSchema, webToolListSchema, funToolListSchema];
+
   write(path.join(OUT, 'index.html'), layout('미니게임 & 도구 모음집 - 두뇌 훈련, 개발자 도구, 유틸리티', '/', body, true,
-    '무료 미니게임, 개발자 도구, 재미있는 유틸리티 모음집 - 70개 이상의 게임과 도구로 일상을 더 풍요롭게 만드세요!'));
+    '무료 미니게임, 개발자 도구, 재미있는 유틸리티 모음집 - ' + totalCount + '개 이상의 게임과 도구로 일상을 더 풍요롭게 만드세요!',
+    homeJsonLd));
 }
 
 // Privacy Policy 페이지 생성
@@ -589,24 +819,37 @@ function build(){
     }
   }
 
-  // sitemap / robots
-  var urls = ['/', '/privacy/'];
+  // ===== Enhanced Sitemap with lastmod & priority =====
+  var today = new Date().toISOString().split('T')[0];
+  var sitemapEntries = [
+    { url: '/', priority: '1.0', changefreq: 'weekly' },
+    { url: '/privacy/', priority: '0.3', changefreq: 'yearly' }
+  ];
   for (var i = 0; i < games.length; i++) {
-    urls.push('/games/' + games[i].id + '/');
+    sitemapEntries.push({ url: '/games/' + games[i].id + '/', priority: '0.8', changefreq: 'monthly' });
   }
   for (var i = 0; i < webTools.length; i++) {
-    urls.push('/tools/web/' + webTools[i].id + '/');
+    sitemapEntries.push({ url: '/tools/web/' + webTools[i].id + '/', priority: '0.7', changefreq: 'monthly' });
   }
   for (var i = 0; i < consumerTools.length; i++) {
-    urls.push('/tools/fun/' + consumerTools[i].id + '/');
+    sitemapEntries.push({ url: '/tools/fun/' + consumerTools[i].id + '/', priority: '0.6', changefreq: 'monthly' });
   }
 
-  var abs = function(p){ return BASE_URL ? (BASE_URL + p) : (BASE_PATH + p); };
   var sm = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
-  for(var i = 0; i < urls.length; i++) sm.push('<url><loc>' + abs(urls[i]) + '</loc></url>');
+  for (var i = 0; i < sitemapEntries.length; i++) {
+    var entry = sitemapEntries[i];
+    sm.push(
+      '<url>' +
+      '<loc>' + absUrl(entry.url) + '</loc>' +
+      '<lastmod>' + today + '</lastmod>' +
+      '<changefreq>' + entry.changefreq + '</changefreq>' +
+      '<priority>' + entry.priority + '</priority>' +
+      '</url>'
+    );
+  }
   sm.push('</urlset>');
   write(path.join(OUT, 'sitemap.xml'), sm.join('\n'));
-  write(path.join(OUT, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: ' + abs('/sitemap.xml'));
+  write(path.join(OUT, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: ' + absUrl('/sitemap.xml'));
 
   if(PUB_ID){
     write(path.join(OUT, 'ads.txt'), 'google.com, ' + PUB_ID + ', DIRECT, f08c47fec0942fa0');
@@ -625,7 +868,41 @@ function build(){
   // CNAME 파일 생성 (커스텀 도메인용)
   write(path.join(OUT, 'CNAME'), 'instaidea.org');
 
+  // ===== PWA Manifest =====
+  var manifest = {
+    name: 'InstaIdea - Mini Games & Tools',
+    short_name: 'InstaIdea',
+    description: 'Free brain training games, developer tools, and fun utilities',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#667eea',
+    theme_color: '#667eea',
+    lang: 'ko',
+    categories: ['games', 'utilities', 'entertainment'],
+    icons: [
+      { src: '/og-image.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }
+    ]
+  };
+  write(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2));
+
+  // ===== OG Image (SVG) =====
+  var ogSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">' +
+    '<defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">' +
+    '<stop offset="0%" style="stop-color:#667eea"/>' +
+    '<stop offset="50%" style="stop-color:#764ba2"/>' +
+    '<stop offset="100%" style="stop-color:#f093fb"/>' +
+    '</linearGradient></defs>' +
+    '<rect width="1200" height="630" fill="url(#bg)"/>' +
+    '<text x="600" y="200" text-anchor="middle" fill="white" font-size="120" font-family="Arial,sans-serif">🎮</text>' +
+    '<text x="600" y="320" text-anchor="middle" fill="white" font-size="64" font-weight="bold" font-family="Arial,sans-serif">InstaIdea</text>' +
+    '<text x="600" y="400" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="32" font-family="Arial,sans-serif">Mini Games &amp; Tools Collection</text>' +
+    '<text x="600" y="460" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="24" font-family="Arial,sans-serif">' + (games.length + webTools.length + consumerTools.length) + '+ Free Games &amp; Tools</text>' +
+    '<text x="600" y="560" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="20" font-family="Arial,sans-serif">instaidea.org</text>' +
+    '</svg>';
+  write(path.join(OUT, 'og-image.svg'), ogSvg);
+
   console.log('Generated ' + games.length + ' game(s), ' + webTools.length + ' web tool(s), ' + consumerTools.length + ' consumer tool(s), and main page');
+  console.log('SEO enhancements: JSON-LD, enhanced sitemap, manifest.json, OG image, related content sections');
 }
 
 build();
