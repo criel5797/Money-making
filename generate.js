@@ -868,6 +868,12 @@ function build(){
   // CNAME 파일 생성 (커스텀 도메인용)
   write(path.join(OUT, 'CNAME'), 'instaidea.org');
 
+  // Google Search Console 인증 파일
+  var googleVerifyFile = path.join(process.cwd(), 'google8c26ce59e7acdd58.html');
+  if (fs.existsSync(googleVerifyFile)) {
+    fs.copyFileSync(googleVerifyFile, path.join(OUT, 'google8c26ce59e7acdd58.html'));
+  }
+
   // ===== PWA Manifest =====
   var manifest = {
     name: 'InstaIdea - Mini Games & Tools',
