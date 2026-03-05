@@ -9,7 +9,7 @@ var styles = `
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;margin:0;padding:0;min-height:100vh;background:linear-gradient(-45deg,#667eea,#764ba2,#f093fb,#4facfe);background-size:400% 400%;animation:gradient 15s ease infinite;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
-.container{max-width:1200px;margin:0 auto;padding:24px;animationh:fadeIn 0.8s ease-out}
+.container{max-width:1200px;margin:0 auto;padding:24px;animation:fadeIn 0.8s ease-out}
 h1{font-size:clamp(28px,5vw,56px);margin:32px 0 16px;text-align:center;color:#fff;font-weight:900;text-shadow:0 4px 12px rgba(0,0,0,0.2);letter-spacing:-1px;animation:fadeIn 1s ease-out}
 h2{font-size:28px;margin:24px 0;color:#fff;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,0.15)}
 h3{font-size:22px;margin:16px 0;color:#fff;font-weight:600}
@@ -252,11 +252,10 @@ var adsPlaceholder = '';
     '<div class="container">' +
     '<nav role="navigation" aria-label="Main navigation">' +
     '<a href="' + href('/') + '" data-i18n="home" aria-label="Go to home page">🏠 홈</a>' +
-    '<a href="' + href('/tools/') + '" aria-label="Browse all tools">Tools</a>' +
-    '<a href="' + href('/games/') + '" aria-label="Browse brain games">Games</a>' +
-    '<a href="' + href('/dev-tools/') + '" aria-label="Browse developer tools">Dev Tools</a>' +
-    '<a href="' + href('/utilities/') + '" aria-label="Browse utilities">Utilities</a>' +
-    '<a href="' + href('/all-pages/') + '" aria-label="Browse full site directory">Directory</a>' +
+    '<a href="' + href('/#games') + '" aria-label="Browse brain games">Games</a>' +
+    '<a href="' + href('/#web-tools') + '" aria-label="Browse developer tools">Dev Tools</a>' +
+    '<a href="' + href('/#fun-tools') + '" aria-label="Browse utilities">Utilities</a>' +
+    '<a href="' + href('/privacy/') + '" aria-label="Privacy Policy">Privacy</a>' +
     '<div class="lang-switcher" role="group" aria-label="Language selection">' +
     '<button class="lang-btn" data-lang="ko" aria-label="한국어로 변경">한국어</button>' +
     '<button class="lang-btn" data-lang="en" aria-label="Change to English">English</button>' +
