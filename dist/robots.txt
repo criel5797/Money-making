@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://instaidea.org/sitemap.xml
+Sitemap: https://instaidea.org/sitemap-index.xml

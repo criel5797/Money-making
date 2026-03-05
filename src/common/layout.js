@@ -68,6 +68,14 @@ nav a:hover{background:rgba(255,255,255,0.2)}
 .related-card .related-title{font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
 .related-card .related-desc{font-size:12px;color:#666;line-height:1.4}
 @media(max-width:480px){.related-grid{grid-template-columns:repeat(2,1fr);gap:10px}.related-card{padding:14px}.related-card .related-emoji{font-size:28px}}
+.seo-content{background:#fff;border-radius:18px;padding:28px;margin:28px 0;box-shadow:0 8px 28px rgba(0,0,0,0.08);border:1px solid rgba(17,24,39,0.06)}
+.seo-content h2,.seo-content h3{color:#111827;text-shadow:none}
+.seo-content p,.seo-content li{color:#374151;text-shadow:none;font-size:16px;line-height:1.8}
+.seo-content ul,.seo-content ol{margin:10px 0 18px 20px}
+.seo-content code{background:#f3f4f6;padding:2px 6px;border-radius:6px;color:#111827}
+.seo-content pre{background:#111827;color:#e5e7eb;padding:16px;border-radius:12px;overflow:auto}
+.seo-content a{color:#2563eb}
+.seo-content a:hover{text-decoration:underline}
 `;
 
 // 게임 기록 저장/불러오기 유틸리티 스크립트
@@ -134,13 +142,6 @@ function setLanguage(lang){
   document.querySelectorAll("[data-i18n]").forEach(function(el){
     var key=el.getAttribute("data-i18n");
     if(i18nData[lang][key])el.textContent=i18nData[lang][key];
-  });
-  document.querySelectorAll("[data-i18n-key]").forEach(function(el){
-    var key=el.getAttribute("data-i18n-key");
-    if(i18nData[lang][key]){
-      el.textContent=i18nData[lang][key];
-      document.title=i18nData[lang][key];
-    }
   });
   document.querySelectorAll("[data-i18n-game]").forEach(function(el){
     var key=el.getAttribute("data-i18n-game");
@@ -209,7 +210,7 @@ var adsPlaceholder = '';
     '<!doctype html><html lang="ko"><head>' +
     '<meta charset="utf-8">' +
     '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
-    '<title data-i18n-key="siteTitle">' + title + '</title>' +
+    '<title>' + title + '</title>' +
     '<meta name="description" content="' + description + '">' +
 
     // Open Graph 메타태그
@@ -251,6 +252,11 @@ var adsPlaceholder = '';
     '<div class="container">' +
     '<nav role="navigation" aria-label="Main navigation">' +
     '<a href="' + href('/') + '" data-i18n="home" aria-label="Go to home page">🏠 홈</a>' +
+    '<a href="' + href('/tools/') + '" aria-label="Browse all tools">Tools</a>' +
+    '<a href="' + href('/games/') + '" aria-label="Browse brain games">Games</a>' +
+    '<a href="' + href('/dev-tools/') + '" aria-label="Browse developer tools">Dev Tools</a>' +
+    '<a href="' + href('/utilities/') + '" aria-label="Browse utilities">Utilities</a>' +
+    '<a href="' + href('/all-pages/') + '" aria-label="Browse full site directory">Directory</a>' +
     '<div class="lang-switcher" role="group" aria-label="Language selection">' +
     '<button class="lang-btn" data-lang="ko" aria-label="한국어로 변경">한국어</button>' +
     '<button class="lang-btn" data-lang="en" aria-label="Change to English">English</button>' +
@@ -266,6 +272,13 @@ var adsPlaceholder = '';
     '<p>© ' + (new Date().getFullYear()) + ' Fun Mini Games</p>' +
     '<nav aria-label="Footer navigation">' +
     '<a href="' + href('/') + '" data-i18n="footer">전체 게임 보기</a>' +
+    '<a href="' + href('/tools/') + '">Tools</a>' +
+    '<a href="' + href('/games/') + '">Games</a>' +
+    '<a href="' + href('/dev-tools/') + '">Dev Tools</a>' +
+    '<a href="' + href('/utilities/') + '">Utilities</a>' +
+    '<a href="' + href('/tools/web/') + '">Web Tools</a>' +
+    '<a href="' + href('/tools/fun/') + '">Utility Directory</a>' +
+    '<a href="' + href('/all-pages/') + '">Site Directory</a>' +
     '<a href="' + href('/privacy/') + '">Privacy Policy</a>' +
     '</nav>' +
     '</footer>' +

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><meta name="robots" content="noindex,follow"><meta name="googlebot" content="noindex"><link rel="canonical" href="https://instaidea.org/tools/fun/lucky-draw/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucky Draw</title>
@@ -47,14 +47,14 @@
     <div class="container">
         <div class="ad-banner">Advertisement</div>
         <header>
-            <h1>< Lucky Draw</h1>
+            <h1><ï¿½ Lucky Draw</h1>
         </header>
         <div class="game-section">
             <div class="boxes-container" id="boxes"></div>
             <div class="result" id="result">
                 <div class="result-text">Pick a box!</div>
             </div>
-            <button class="reset-btn" onclick="resetGame()">< Try Again</button>
+            <button class="reset-btn" onclick="resetGame()"><ï¿½ Try Again</button>
             <div class="stats">
                 <div class="stat-card">
                     <div class="stat-value" id="plays">0</div>
@@ -78,13 +78,13 @@
     </div>
     <script>
         var prizes = [
-            { emoji: '=Ž', text: 'Diamond', win: true },
-            { emoji: '<Æ', text: 'Trophy', win: true },
+            { emoji: '=ï¿½', text: 'Diamond', win: true },
+            { emoji: '<ï¿½', text: 'Trophy', win: true },
             { emoji: 'P', text: 'Star', win: true },
-            { emoji: '<‰', text: 'Party', win: true },
-            { emoji: '=°', text: 'Money', win: true },
+            { emoji: '<ï¿½', text: 'Party', win: true },
+            { emoji: '=ï¿½', text: 'Money', win: true },
             { emoji: '="', text: 'Nothing', win: false },
-            { emoji: '=¨', text: 'Wind', win: false },
+            { emoji: '=ï¿½', text: 'Wind', win: false },
             { emoji: '<'', text: 'Rain', win: false },
             { emoji: '={', text: 'Ghost', win: false }
         ];
@@ -103,7 +103,7 @@
                 box.className = 'box';
                 box.dataset.index = i;
                 box.dataset.prize = JSON.stringify(shuffled[i]);
-                box.innerHTML = '<span class="box-icon"><</span>' +
+                box.innerHTML = '<span class="box-icon"><ï¿½</span>' +
                     '<div class="box-content">' +
                     '<span class="prize-emoji">' + shuffled[i].emoji + '</span>' +
                     '<span class="prize-text">' + shuffled[i].text + '</span>' +

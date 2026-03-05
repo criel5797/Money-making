@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+<head><meta name="robots" content="noindex,follow"><meta name="googlebot" content="noindex"><link rel="canonical" href="https://instaidea.org/tools/web/meta-tag-generator/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>メタタグジェネレーター - SEOメタタグを作成</title>
     <meta name="description" content="無料のSEOメタタグジェネレーター。HTMLメタタグ、Open Graphタグ、Twitter Cardを生成します。ウェブサイトの検索可視性を向上させます。">
     <meta name="keywords" content="メタタグジェネレーター, SEOタグ, オープングラフ, ツイッターカード, HTMLメタ, SEOツール">
-    <meta name="robots" content="index, follow">
+    
 
     <meta property="og:title" content="メタタグジェネレーター - SEOメタタグを作成">
     <meta property="og:description" content="より良いSEOとソーシャル共有のためのHTMLメタタグを生成">
@@ -644,11 +644,11 @@
             const robotsValues = [];
             robotsValues.push(robotsIndex ? 'index' : 'noindex');
             robotsValues.push(robotsFollow ? 'follow' : 'nofollow');
-            tags.push(`<meta name="robots" content="${robotsValues.join(', ')}">`);
+            tags.push(``);
 
             // Canonical
             if (canonical && url) {
-                tags.push(`<link rel="canonical" href="${escapeHtml(url)}">`);
+                tags.push(``);
             }
 
             // Open Graph

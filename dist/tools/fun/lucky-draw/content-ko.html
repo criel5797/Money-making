@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+<head><meta name="robots" content="noindex,follow"><meta name="googlebot" content="noindex"><link rel="canonical" href="https://instaidea.org/tools/fun/lucky-draw/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>â¥ Q0</title>
+    <title>ÔøΩÔøΩ Q0</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
@@ -45,46 +45,46 @@
 </head>
 <body>
     <div class="container">
-        <div class="ad-banner">‡</div>
+        <div class="ad-banner">ÔøΩ</div>
         <header>
-            <h1><Å â¥ Q0</h1>
+            <h1><ÔøΩ ÔøΩÔøΩ Q0</h1>
         </header>
         <div class="game-section">
             <div class="boxes-container" id="boxes"></div>
             <div class="result" id="result">
-                <div class="result-text">¡ê|  ›X8î!</div>
+                <div class="result-text">ÔøΩÔøΩ|  ÔøΩX8ÔøΩ!</div>
             </div>
-            <button class="reset-btn" onclick="resetGame()"><Å ‰‹ Q0</button>
+            <button class="reset-btn" onclick="resetGame()"><ÔøΩ ÔøΩÔøΩ Q0</button>
             <div class="stats">
                 <div class="stat-card">
                     <div class="stat-value" id="plays">0</div>
-                    <div class="stat-label"> åÑ</div>
+                    <div class="stat-label"> ÔøΩÔøΩ</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="wins">0</div>
-                    <div class="stat-label">˘®</div>
+                    <div class="stat-label">ÔøΩÔøΩ</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="winRate">0%</div>
-                    <div class="stat-label">˘®`</div>
+                    <div class="stat-label">ÔøΩÔøΩ`</div>
                 </div>
             </div>
             <div class="history">
-                <div class="history-label">à§†¨</div>
+                <div class="history-label">ÔøΩÔøΩÔøΩÔøΩ</div>
                 <div class="history-items" id="history"></div>
             </div>
         </div>
-        <div class="ad-banner" style="margin-top:20px">‡</div>
+        <div class="ad-banner" style="margin-top:20px">ÔøΩ</div>
     </div>
     <script>
         var prizes = [
-            { emoji: '=é', text: '‰tD¨‹', win: true },
-            { emoji: '<∆', text: '∏\<', win: true },
-            { emoji: 'P', text: 'ƒ', win: true },
-            { emoji: '<â', text: '', win: true },
-            { emoji: '=∞', text: '»', win: true },
+            { emoji: '=ÔøΩ', text: 'ÔøΩtDÔøΩÔøΩ', win: true },
+            { emoji: '<ÔøΩ', text: 'ÔøΩ\<', win: true },
+            { emoji: 'P', text: 'ÔøΩ', win: true },
+            { emoji: '<ÔøΩ', text: 'ÔøΩ', win: true },
+            { emoji: '=ÔøΩ', text: 'ÔøΩ', win: true },
             { emoji: '="', text: ']', win: false },
-            { emoji: '=®', text: 'å', win: false },
+            { emoji: '=ÔøΩ', text: 'ÔøΩ', win: false },
             { emoji: '<'', text: 'D', win: false },
             { emoji: '={', text: ' 9', win: false }
         ];
@@ -103,7 +103,7 @@
                 box.className = 'box';
                 box.dataset.index = i;
                 box.dataset.prize = JSON.stringify(shuffled[i]);
-                box.innerHTML = '<span class="box-icon"><Å</span>' +
+                box.innerHTML = '<span class="box-icon"><ÔøΩ</span>' +
                     '<div class="box-content">' +
                     '<span class="prize-emoji">' + shuffled[i].emoji + '</span>' +
                     '<span class="prize-text">' + shuffled[i].text + '</span>' +
@@ -121,7 +121,7 @@
 
             var resultEl = document.getElementById('result');
             resultEl.innerHTML = '<div class="result-emoji">' + prize.emoji + '</div>' +
-                '<div class="result-text">' + (prize.win ? 'ïXi»‰! ' + prize.text + '!' : 'D}$î... ' + prize.text) + '</div>';
+                '<div class="result-text">' + (prize.win ? 'ÔøΩXiÔøΩÔøΩ! ' + prize.text + '!' : 'D}$ÔøΩ... ' + prize.text) + '</div>';
 
             if (prize.win) {
                 resultEl.classList.add('win');
@@ -148,7 +148,7 @@
 
         function resetGame() {
             gameEnded = false;
-            document.getElementById('result').innerHTML = '<div class="result-text">¡ê|  ›X8î!</div>';
+            document.getElementById('result').innerHTML = '<div class="result-text">ÔøΩÔøΩ|  ÔøΩX8ÔøΩ!</div>';
             document.getElementById('result').classList.remove('win');
             createBoxes();
         }
@@ -162,7 +162,7 @@
             historyEl.innerHTML = '';
             stats.history.slice(0, 5).forEach(function(item) {
                 var div = document.createElement('div');
-                div.className = 'history-item' + (item.indexOf(']') < 0 && item.indexOf('å') < 0 && item.indexOf('D') < 0 && item.indexOf(' 9') < 0 ? ' win' : '');
+                div.className = 'history-item' + (item.indexOf(']') < 0 && item.indexOf('ÔøΩ') < 0 && item.indexOf('D') < 0 && item.indexOf(' 9') < 0 ? ' win' : '');
                 div.textContent = item;
                 historyEl.appendChild(div);
             });

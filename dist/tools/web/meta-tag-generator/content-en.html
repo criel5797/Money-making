@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><meta name="robots" content="noindex,follow"><meta name="googlebot" content="noindex"><link rel="canonical" href="https://instaidea.org/tools/web/meta-tag-generator/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meta Tag Generator - Create SEO Meta Tags</title>
     <meta name="description" content="Free SEO Meta Tag Generator. Create HTML meta tags, Open Graph tags, and Twitter Cards. Improve your website's search visibility.">
     <meta name="keywords" content="meta tag generator, SEO tags, open graph, twitter cards, HTML meta, SEO tools">
-    <meta name="robots" content="index, follow">
+    
 
     <meta property="og:title" content="Meta Tag Generator - Create SEO Meta Tags">
     <meta property="og:description" content="Generate HTML meta tags for better SEO and social sharing.">
@@ -644,11 +644,11 @@
             const robotsValues = [];
             robotsValues.push(robotsIndex ? 'index' : 'noindex');
             robotsValues.push(robotsFollow ? 'follow' : 'nofollow');
-            tags.push(`<meta name="robots" content="${robotsValues.join(', ')}">`);
+            tags.push(``);
 
             // Canonical
             if (canonical && url) {
-                tags.push(`<link rel="canonical" href="${escapeHtml(url)}">`);
+                tags.push(``);
             }
 
             // Open Graph
