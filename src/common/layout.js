@@ -252,10 +252,11 @@ var adsPlaceholder = '';
     '<div class="container">' +
     '<nav role="navigation" aria-label="Main navigation">' +
     '<a href="' + href('/') + '" data-i18n="home" aria-label="Go to home page">🏠 홈</a>' +
-    '<a href="' + href('/#games') + '" aria-label="Browse brain games">Games</a>' +
-    '<a href="' + href('/#web-tools') + '" aria-label="Browse developer tools">Dev Tools</a>' +
-    '<a href="' + href('/#fun-tools') + '" aria-label="Browse utilities">Utilities</a>' +
-    '<a href="' + href('/privacy/') + '" aria-label="Privacy Policy">Privacy</a>' +
+    '<a href="' + href('/tools/') + '" aria-label="Browse all tools">Tools</a>' +
+    '<a href="' + href('/games/') + '" aria-label="Browse brain games">Games</a>' +
+    '<a href="' + href('/dev-tools/') + '" aria-label="Browse developer tools">Dev Tools</a>' +
+    '<a href="' + href('/utilities/') + '" aria-label="Browse utilities">Utilities</a>' +
+    '<a href="' + href('/all-pages/') + '" aria-label="Browse full site directory">Directory</a>' +
     '<div class="lang-switcher" role="group" aria-label="Language selection">' +
     '<button class="lang-btn" data-lang="ko" aria-label="한국어로 변경">한국어</button>' +
     '<button class="lang-btn" data-lang="en" aria-label="Change to English">English</button>' +
