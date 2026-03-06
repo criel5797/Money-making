@@ -496,7 +496,7 @@ function getGameTitleScript(gameId, emoji) {
 function layout(title, pathname, body, includeAdScript, description, jsonLd, relatedContent) {
   return createLayout({
     title: title,
-    description: description || title + ' - 臾대즺 ?먮뇤 ?덈젴 誘몃땲寃뚯엫. 諛섏쓳?띾룄, 湲곗뼲?? 吏묒쨷?μ쓣 ?뚯뒪?명븯?몄슂!',
+    description: description || title + ' - 무료 미니게임 모음집. 뇌훈련, 개발자 도구, 유틸리티를 즐겨보세요!',
     pathname: pathname,
     body: body,
     includeAdScript: includeAdScript,
@@ -732,7 +732,7 @@ function renderIndex(){
       '<span class="game-category" data-i18n-category="' + g.category + '">' + i18n.ko.categories[g.category] + '</span>' +
       '<div class="game-title" data-i18n-game-title>' + g.title.ko + '</div>' +
       '<div class="game-description" data-i18n-game-desc>' + g.description.ko + '</div>' +
-      '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn" data-i18n="playBtn">?뚮젅?댄븯湲???/a>' +
+      '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn" data-i18n="playBtn">플레이하기 →</a>' +
       '</div>';
   }
 
@@ -749,7 +749,7 @@ function renderIndex(){
       '<div class="game-emoji">' + t.emoji + '</div>' +
       '<div class="game-title" data-i18n-tool-title>' + t.title.ko + '</div>' +
       '<div class="game-description" data-i18n-tool-desc>' + t.desc.ko + '</div>' +
-      '<a href="' + href('/tools/web/' + t.id + '/') + '" class="play-btn" data-i18n="useBtn">?ъ슜?섍린 ??/a>' +
+      '<a href="' + href('/tools/web/' + t.id + '/') + '" class="play-btn" data-i18n="useBtn">사용하기 →</a>' +
       '</div>';
   }
 
@@ -766,7 +766,7 @@ function renderIndex(){
       '<div class="game-emoji">' + t.emoji + '</div>' +
       '<div class="game-title" data-i18n-tool-title>' + t.title.ko + '</div>' +
       '<div class="game-description" data-i18n-tool-desc>' + t.desc.ko + '</div>' +
-      '<a href="' + href('/tools/fun/' + t.id + '/') + '" class="play-btn" data-i18n="useBtn">?ъ슜?섍린 ??/a>' +
+      '<a href="' + href('/tools/fun/' + t.id + '/') + '" class="play-btn" data-i18n="useBtn">사용하기 →</a>' +
       '</div>';
   }
 
@@ -774,7 +774,7 @@ function renderIndex(){
 
   var body =
     '<div class="header-section">' +
-    '<h1 data-i18n="mainTitle">?렜 誘몃땲寃뚯엫 & ?꾧뎄 紐⑥쓬吏?/h1>' +
+    '<h1 data-i18n="mainTitle">🎮 미니게임 & 도구 모음집</h1>' +
     '<p style="text-align:center;font-size:20px;margin:16px 0;font-weight:500" data-i18n="mainDesc">재미있는 게임과 유용한 도구로 일상을 더 풍요롭게 만드세요!</p>' +
     '<p id="total-count" style="text-align:center;font-size:16px;margin:8px 0;opacity:0.9" data-count="' + totalCount + '">총 ' + totalCount + '개의 재미있는 도구가 준비되어 있습니다</p>' +
     '</div>' +
@@ -798,7 +798,7 @@ function renderIndex(){
     // Web Tools Section
     '<div style="margin:60px 0 20px">' +
     '<h2 style="font-size:2rem;text-align:center;margin-bottom:10px" data-i18n="webToolsSection">🛠️ 개발자 도구</h2>' +
-    '<p style="text-align:center;color:#94a3b8;margin-bottom:30px" data-i18n="webToolsSectionDesc">媛쒕컻怨??붿옄?몄뿉 ?좎슜???꾧뎄??/p>' +
+    '<p style="text-align:center;color:#94a3b8;margin-bottom:30px" data-i18n="webToolsSectionDesc">개발과 디자인에 유용한 도구들</p>' +
     '</div>' +
     '<div class="grid">' + webToolsList + '</div>' +
 
@@ -852,12 +852,12 @@ function renderIndex(){
   ], 'Site Hub Pages');
   var homeJsonLd = [websiteSchema, coreHubSchema, gameListSchema, webToolListSchema, funToolListSchema];
 
-  write(path.join(OUT, 'index.html'), layout('誘몃땲寃뚯엫 & ?꾧뎄 紐⑥쓬吏?- ?먮뇤 ?덈젴, 媛쒕컻???꾧뎄, ?좏떥由ы떚', '/', body, true,
-    '臾대즺 誘몃땲寃뚯엫, 媛쒕컻???꾧뎄, ?щ??덈뒗 ?좏떥由ы떚 紐⑥쓬吏?- ' + totalCount + '媛??댁긽??寃뚯엫怨??꾧뎄濡??쇱긽?????띿슂濡?쾶 留뚮뱶?몄슂!',
+  write(path.join(OUT, 'index.html'), layout('미니게임 & 도구 모음집 - 무료 게임, 개발자 도구, 유틸리티', '/', body, true,
+    '무료 미니게임, 개발자 도구, 유용한 유틸리티 모음집 - ' + totalCount + '개 이상의 게임과 도구를 즐겨보세요!',
     homeJsonLd));
 }
 
-// Privacy Policy ?섏씠吏 ?앹꽦
+// Privacy Policy 페이지 생성
 
 function renderSectionHubs() {
   var gameItems = games.map(function(g) {
