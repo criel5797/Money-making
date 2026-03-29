@@ -26,8 +26,8 @@
                 <label for="targetDate">Select Date</label>
                 <input type="date" id="targetDate">
                 <div class="quick-dates">
-                    <span class="quick-date" onclick="setQuickDate('suneung')">2025 SAT</span>
-                    <span class="quick-date" onclick="setQuickDate('newyear')">2026 New Year</span>
+                    <span class="quick-date" onclick="setQuickDate('suneung')">2026 SAT</span>
+                    <span class="quick-date" onclick="setQuickDate('newyear')">2027 New Year</span>
                     <span class="quick-date" onclick="setQuickDate('christmas')">Christmas</span>
                 </div>
             </div>
@@ -92,8 +92,8 @@
             let name;
 
             switch(type) {
-                case 'suneung': date = '2025-11-13'; name = 'SAT 2025'; break;
-                case 'newyear': date = '2026-01-01'; name = 'New Year 2026'; break;
+                case 'suneung': date = '2026-11-19'; name = 'SAT 2026'; break;
+                case 'newyear': date = '2027-01-01'; name = 'New Year 2027'; break;
                 case 'christmas':
                     const year = now.getMonth() === 11 && now.getDate() > 25 ? now.getFullYear() + 1 : now.getFullYear();
                     date = `${year}-12-25`;

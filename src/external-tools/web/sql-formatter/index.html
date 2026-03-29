@@ -248,7 +248,7 @@
                 highlighted = highlighted.replace(regex, '<span class="sql-keyword">$1</span>');
             });
             highlighted = highlighted.replace(/(--.*$)/gm, '<span class="sql-comment">$1</span>');
-            highlighted = highlighted.replace(/(\/\*[ -￿]*?\*\/)/g, '<span class="sql-comment">$1</span>');
+            highlighted = highlighted.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="sql-comment">$1</span>');
             return highlighted;
         }
 

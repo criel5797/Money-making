@@ -54,14 +54,14 @@
     <div class="container">
         <div class="ad-banner">광고</div>
         <header>
-            <h1>?? 빙고 번호 추첨기</h1>
+            <h1>빙고 번호 추첨기</h1>
         </header>
         <div class="game-section">
             <div class="current-call">
                 <div class="call-letter" id="callLetter">-</div>
                 <div class="call-display" id="callNumber">?</div>
             </div>
-            <button class="call-btn" id="callBtn" onclick="callNumber()">?? 번호 붓기</button>
+            <button class="call-btn" id="callBtn" onclick="callNumber()">번호 뽑기</button>
             <button class="reset-btn" onclick="resetGame()">새 게임</button>
             <div class="board">
                 <div class="board-header">
@@ -76,11 +76,11 @@
             <div class="stats">
                 <div class="stat-card">
                     <div class="stat-value" id="called">0</div>
-                    <div class="stat-label">호출됨</div>
+                    <div class="stat-label">뽑은 수</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="remaining">75</div>
-                    <div class="stat-label">남음</div>
+                    <div class="stat-label">남은 수</div>
                 </div>
             </div>
             <div class="history">
@@ -119,7 +119,7 @@
 
         function callNumber() {
             if (calledNumbers.length >= 75) {
-                alert('모든 번호를 이미 붓았습니다!');
+                alert('모든 번호를 이미 뽑았습니다!');
                 return;
             }
 

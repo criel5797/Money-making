@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -115,12 +115,12 @@
 <body>
   <div class="tool-header">
     <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>Home</span></a>
+      <a href="/" class="home-link">🏠 <span>홈</span></a>
       <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
       <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
     </div>
     <div class="lang-switcher">
-      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
     </div>
   </div>
 
@@ -133,7 +133,7 @@
       <p>Use Love Calculator online for free. Love compatibility test. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
     </section>
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-en.html" title="Love Calculator"></iframe>
+    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Love Calculator"></iframe>
 
     <article class="seo-block">
       <h2>What is Love Calculator?</h2>
@@ -175,8 +175,8 @@
   </main>
 
   <script>
-    var currentLang = 'en';
-    var availableLangs = {"ko":false,"en":true,"ja":false};
+    var currentLang = 'ko';
+    var availableLangs = {"ko":true,"en":true,"ja":true};
 
     function switchToolLanguage(lang) {
       if (!availableLangs[lang]) {

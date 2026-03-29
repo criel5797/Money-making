@@ -26,8 +26,8 @@
                 <label for="targetDate">日付を選択</label>
                 <input type="date" id="targetDate">
                 <div class="quick-dates">
-                    <span class="quick-date" onclick="setQuickDate('suneung')">2025 大学入試</span>
-                    <span class="quick-date" onclick="setQuickDate('newyear')">2026 新年</span>
+                    <span class="quick-date" onclick="setQuickDate('suneung')">2026 大学入試</span>
+                    <span class="quick-date" onclick="setQuickDate('newyear')">2027 新年</span>
                     <span class="quick-date" onclick="setQuickDate('christmas')">クリスマス</span>
                 </div>
             </div>
@@ -92,8 +92,8 @@
             let name;
 
             switch(type) {
-                case 'suneung': date = '2025-11-13'; name = '2025年 大学入試'; break;
-                case 'newyear': date = '2026-01-01'; name = '2026年 新年'; break;
+                case 'suneung': date = '2026-11-19'; name = '2026年 大学入試'; break;
+                case 'newyear': date = '2027-01-01'; name = '2027年 新年'; break;
                 case 'christmas':
                     const year = now.getMonth() === 11 && now.getDate() > 25 ? now.getFullYear() + 1 : now.getFullYear();
                     date = `${year}-12-25`;

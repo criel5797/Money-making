@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ko">
 <head><meta name="robots" content="noindex,follow"><meta name="googlebot" content="noindex"><link rel="canonical" href="https://instaidea.org/tools/fun/bingo-caller/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ビンゴコーラー</title>
+    <title>빙고 번호 추첨기</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
@@ -52,17 +52,17 @@
 </head>
 <body>
     <div class="container">
-        <div class="ad-banner">広告</div>
+        <div class="ad-banner">광고</div>
         <header>
-            <h1>ビンゴコーラー</h1>
+            <h1>빙고 번호 추첨기</h1>
         </header>
         <div class="game-section">
             <div class="current-call">
                 <div class="call-letter" id="callLetter">-</div>
                 <div class="call-display" id="callNumber">?</div>
             </div>
-            <button class="call-btn" id="callBtn" onclick="callNumber()">番号を引く</button>
-            <button class="reset-btn" onclick="resetGame()">新しいゲーム</button>
+            <button class="call-btn" id="callBtn" onclick="callNumber()">번호 뽑기</button>
+            <button class="reset-btn" onclick="resetGame()">새 게임</button>
             <div class="board">
                 <div class="board-header">
                     <div class="board-letter b">B</div>
@@ -76,19 +76,19 @@
             <div class="stats">
                 <div class="stat-card">
                     <div class="stat-value" id="called">0</div>
-                    <div class="stat-label">引いた数</div>
+                    <div class="stat-label">뽑은 수</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="remaining">75</div>
-                    <div class="stat-label">残り</div>
+                    <div class="stat-label">남은 수</div>
                 </div>
             </div>
             <div class="history">
-                <div class="history-label">履歴</div>
+                <div class="history-label">기록</div>
                 <div class="history-items" id="history"></div>
             </div>
         </div>
-        <div class="ad-banner" style="margin-top:20px">広告</div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
     </div>
     <script>
         var calledNumbers = [];
@@ -119,7 +119,7 @@
 
         function callNumber() {
             if (calledNumbers.length >= 75) {
-                alert('すべての番号を引きました！');
+                alert('모든 번호를 이미 뽑았습니다!');
                 return;
             }
 

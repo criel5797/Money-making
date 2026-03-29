@@ -26,8 +26,8 @@
                 <label for="targetDate" data-i18n="input.date">날짜 선택</label>
                 <input type="date" id="targetDate">
                 <div class="quick-dates">
-                    <span class="quick-date" onclick="setQuickDate('suneung')" data-i18n="quick.suneung">2025 수능</span>
-                    <span class="quick-date" onclick="setQuickDate('newyear')" data-i18n="quick.newyear">2026 새해</span>
+                    <span class="quick-date" onclick="setQuickDate('suneung')" data-i18n="quick.suneung">2026 수능</span>
+                    <span class="quick-date" onclick="setQuickDate('newyear')" data-i18n="quick.newyear">2027 새해</span>
                     <span class="quick-date" onclick="setQuickDate('christmas')" data-i18n="quick.xmas">크리스마스</span>
                 </div>
             </div>
@@ -95,8 +95,8 @@
             const lang = window.currentLang || 'en';
 
             switch(type) {
-                case 'suneung': date = '2025-11-13'; name = i18n.suneung?.[lang] || 'SAT'; break;
-                case 'newyear': date = '2026-01-01'; name = i18n.newyear?.[lang] || 'New Year'; break;
+                case 'suneung': date = '2026-11-19'; name = i18n.suneung?.[lang] || 'SAT'; break;
+                case 'newyear': date = '2027-01-01'; name = i18n.newyear?.[lang] || 'New Year'; break;
                 case 'christmas':
                     const year = now.getMonth() === 11 && now.getDate() > 25 ? now.getFullYear() + 1 : now.getFullYear();
                     date = `${year}-12-25`;
