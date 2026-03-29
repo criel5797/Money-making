@@ -12,8 +12,8 @@
     <meta property="og:description" content="2進数、16進数、8進数、10進数を即座に変換します。">
     <meta property="og:type" content="website">
 
-    <link rel="alternate" hreflang="en" href="index.html">
-    <link rel="alternate" hreflang="ko" href="index-ko.html">
+    <link rel="alternate" hreflang="en" href="content-en.html">
+    <link rel="alternate" hreflang="ko" href="content-ko.html">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -373,7 +373,7 @@
 <body>
     <div class="container">
         <div class="lang-switch">
-            <a href="index.html">English</a>
+            <a href="content-en.html">English</a>
         </div>
 
         <header>
@@ -610,6 +610,15 @@
                 byte.toString(16).toUpperCase().padStart(2, '0')
             ).join(' ');
             document.getElementById('textOutput').value = hex;
+        }
+
+        function convertText() {
+            const value = document.getElementById('textInput').value;
+            if (!value) {
+                document.getElementById('textOutput').value = '';
+                return;
+            }
+            textToBinary();
         }
 
         function binaryToText() {

@@ -249,7 +249,7 @@
         function beautifyHTML() {
             const html = input.value;
             if (!html.trim()) { showToast('Please enter HTML code'); return; }
-            let beautified = html.replace(/>/</g, '>\n<');
+            let beautified = html.replace(/>\s*</g, '>\n<');
             output.value = beautified; 
             showToast('HTML beautified!');
         }

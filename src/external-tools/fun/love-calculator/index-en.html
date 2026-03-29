@@ -42,21 +42,21 @@
     <div class="container">
         <div class="ad-banner">Advertisement</div>
         <header>
-            <h1>=• Love Calculator</h1>
+            <h1>Love Calculator</h1>
         </header>
         <div class="game-section">
             <div class="input-group">
                 <label class="input-label">First Name</label>
                 <input type="text" class="name-input" id="name1" placeholder="Enter name">
             </div>
-            <div class="heart-divider">=˜</div>
+            <div class="heart-divider">&#9829;</div>
             <div class="input-group">
                 <label class="input-label">Second Name</label>
                 <input type="text" class="name-input" id="name2" placeholder="Enter name">
             </div>
             <div class="result-area" id="resultArea">
                 <div class="result-card">
-                    <div class="result-hearts" id="resultHearts">=•</div>
+                    <div class="result-hearts" id="resultHearts">&#9829;</div>
                     <div class="result-score" id="resultScore">0%</div>
                     <div class="result-text" id="resultText">Calculate your compatibility!</div>
                     <div class="result-bar">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <button class="calc-btn" onclick="calculate()">=• Calculate Love</button>
+            <button class="calc-btn" onclick="calculate()">Calculate Love</button>
             <button class="reset-btn" onclick="reset()">Try Again</button>
             <div class="history">
                 <div class="history-label">History</div>
@@ -75,12 +75,12 @@
     </div>
     <script>
         var messages = [
-            { min: 0, max: 20, text: 'Needs some work...', hearts: '=”' },
-            { min: 21, max: 40, text: 'Start as friends!', hearts: '=™' },
-            { min: 41, max: 60, text: 'There is potential!', hearts: '=›' },
-            { min: 61, max: 80, text: 'Great compatibility!', hearts: '=•' },
-            { min: 81, max: 95, text: 'Perfect match!', hearts: '=—=—' },
-            { min: 96, max: 100, text: 'Soulmates!', hearts: '=–=–=–' }
+            { min: 0, max: 20, text: 'Needs some work...', hearts: '\u2665' },
+            { min: 21, max: 40, text: 'Start as friends!', hearts: '\u2665' },
+            { min: 41, max: 60, text: 'There is potential!', hearts: '\u2665' },
+            { min: 61, max: 80, text: 'Great compatibility!', hearts: '\u2665' },
+            { min: 81, max: 95, text: 'Perfect match!', hearts: '\u2665 \u2665' },
+            { min: 96, max: 100, text: 'Soulmates!', hearts: '\u2665 \u2665 \u2665' }
         ];
 
         var stats = JSON.parse(localStorage.getItem('love_en') || '{"history":[]}');

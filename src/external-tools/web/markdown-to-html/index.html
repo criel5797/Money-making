@@ -400,10 +400,10 @@
             html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
 
             // Links
-            html = html.replace(/[](.*?)[]\((.*?)\)/g, '<a href="$2">$1</a>');
+            html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
 
             // Blockquotes
-            html = html.replace(/^&gt; (.*$)/gm, '<blockquote>$1</blockquote>');
+            html = html.replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>');
 
             // Horizontal rule
             html = html.replace(/^---$/gm, '<hr>');
@@ -494,39 +494,41 @@ ${html}
         }
 
         function loadSample() {
-            markdownInput.value = `# Welcome to Markdown
-
-This is a **bold** text and this is *italic*.
-
-## Features
-
-- Easy to write
-- Clean syntax
-- Wide support
-
-### Code Example
-
-```javascript
-function hello() {
-    console.log("Hello, World!");
-}
-```
-
-You can also use `inline code` like this.
-
-> This is a blockquote. Great for highlighting important information.
-
-### Links and Images
-
-Check out [Google](https://google.com) for more info.
-
----
-
-1. First item
-2. Second item
-3. Third item
-
-That's all for now!`;
+            markdownInput.value = [
+                '# Welcome to Markdown',
+                '',
+                'This is a **bold** text and this is *italic*.',
+                '',
+                '## Features',
+                '',
+                '- Easy to write',
+                '- Clean syntax',
+                '- Wide support',
+                '',
+                '### Code Example',
+                '',
+                '```javascript',
+                'function hello() {',
+                '    console.log("Hello, World!");',
+                '}',
+                '```',
+                '',
+                'You can also use `inline code` like this.',
+                '',
+                '> This is a blockquote. Great for highlighting important information.',
+                '',
+                '### Links and Images',
+                '',
+                'Check out [Google](https://google.com) for more info.',
+                '',
+                '---',
+                '',
+                '1. First item',
+                '2. Second item',
+                '3. Third item',
+                '',
+                "That's all for now!"
+            ].join('\\n');
             convert();
             showToast('Sample loaded!');
         }

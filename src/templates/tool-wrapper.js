@@ -22,6 +22,7 @@ function createToolWrapper(toolId, toolName, category, availableLanguages, seoOp
   var canonicalPath = seoOptions.canonicalPath || '/';
   var keywords = seoOptions.keywords || '';
   var baseUrl = seoOptions.baseUrl || 'https://instaidea.org';
+  var basePath = seoOptions.basePath || '';
   var sectionLabel = seoOptions.sectionLabel || 'Tools';
   var sectionPath = seoOptions.sectionPath || '/tools/';
   var sectionDirectoryPath = seoOptions.sectionDirectoryPath || '/tools/';
@@ -36,6 +37,7 @@ function createToolWrapper(toolId, toolName, category, availableLanguages, seoOp
   var relatedLinks = Array.isArray(seoOptions.relatedLinks) ? seoOptions.relatedLinks : [];
   var hubs = Array.isArray(seoOptions.hubLinks) ? seoOptions.hubLinks : [];
   var exampleCode = seoOptions.exampleCode || '';
+  var navHref = function(p) { return basePath + p; };
 
   var schemaData = [
     {
@@ -208,9 +210,9 @@ function createToolWrapper(toolId, toolName, category, availableLanguages, seoOp
 <body>
   <div class="tool-header">
     <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>${defaultHomeText}</span></a>
-      <a href="${escapeHtml(sectionDirectoryPath)}" class="home-link">📚 <span>${escapeHtml(sectionLabel)}</span></a>
-      <a href="${escapeHtml(allPagesPath)}" class="home-link">🗂 <span>Directory</span></a>
+      <a href="${escapeHtml(navHref('/'))}" class="home-link">🏠 <span>${defaultHomeText}</span></a>
+      <a href="${escapeHtml(navHref(sectionDirectoryPath))}" class="home-link">📚 <span>${escapeHtml(sectionLabel)}</span></a>
+      <a href="${escapeHtml(navHref(allPagesPath))}" class="home-link">🗂 <span>Directory</span></a>
     </div>
     <div class="lang-switcher">
       ${langButtons}
@@ -220,7 +222,7 @@ function createToolWrapper(toolId, toolName, category, availableLanguages, seoOp
   <main class="wrapper">
     <section class="hero">
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="${escapeHtml(sectionPath)}">${escapeHtml(sectionLabel)}</a> / <span>${escapeHtml(toolName)}</span>
+        <a href="${escapeHtml(navHref('/'))}">Home</a> / <a href="${escapeHtml(navHref(sectionPath))}">${escapeHtml(sectionLabel)}</a> / <span>${escapeHtml(toolName)}</span>
       </nav>
       <h1>${escapeHtml(toolName)}</h1>
       <p>${escapeHtml(seoDescription)}</p>

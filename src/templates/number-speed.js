@@ -32,7 +32,7 @@ module.exports = function(options) {
       var nsLeft=document.getElementById('ns-left'),nsRight=document.getElementById('ns-right'),nsStart=document.getElementById('ns-start');
       var nsResult=document.getElementById('ns-result'),nsTimerEl=document.getElementById('ns-timer');
       var nsCorrectEl=document.getElementById('ns-correct'),nsAvgEl=document.getElementById('ns-avg'),nsBestEl=document.getElementById('ns-best');
-      var correct=0,bestScore=0,playing=false,timer=null,timeLeft=30,leftNum=0,rightNum=0,roundStart=0,times=[];
+      var correct=0,bestScore=0,playing=false,timer=null,nextRoundTimeout=null,timeLeft=30,leftNum=0,rightNum=0,roundStart=0,times=[];
       var historyBtn=document.getElementById('history-btn'),historyPanel=document.getElementById('history-panel'),historyList=document.getElementById('history-list'),historyVisible=false;
 
       function loadSavedBest(){if(!window.GameRecord)return;var saved=window.GameRecord.getBest('number-speed','score');if(saved!==null){bestScore=saved;nsBestEl.textContent=saved;}}
@@ -41,6 +41,7 @@ module.exports = function(options) {
       window.addEventListener('load',loadSavedBest);
 
       function generateNumbers(){
+        if(!playing)return;
         var max=10+correct*5;
         leftNum=Math.floor(Math.random()*max)+1;
         do{rightNum=Math.floor(Math.random()*max)+1;}while(rightNum===leftNum);
@@ -68,14 +69,16 @@ module.exports = function(options) {
           correctBtn.style.background='#27ae60';wrongBtn.style.background='#e74c3c';
           nsResult.textContent=txt.wrong;nsResult.style.color='#e74c3c';
         }
-        setTimeout(generateNumbers,500);
+        if(nextRoundTimeout)clearTimeout(nextRoundTimeout);
+        nextRoundTimeout=setTimeout(function(){nextRoundTimeout=null;generateNumbers();},500);
       }
 
       nsLeft.addEventListener('click',function(){handleChoice(true);});
       nsRight.addEventListener('click',function(){handleChoice(false);});
 
       function endGame(){
-        playing=false;clearInterval(timer);
+        playing=false;clearInterval(timer);timer=null;
+        if(nextRoundTimeout){clearTimeout(nextRoundTimeout);nextRoundTimeout=null;}
         var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.numberSpeed;
         nsResult.textContent=txt.timeUp+' '+txt.finalScore+correct;nsResult.style.color='#667eea';
         if(correct>bestScore){bestScore=correct;nsBestEl.textContent=bestScore;}
@@ -85,6 +88,8 @@ module.exports = function(options) {
       }
 
       function startGame(){
+        if(timer)clearInterval(timer);
+        if(nextRoundTimeout){clearTimeout(nextRoundTimeout);nextRoundTimeout=null;}
         correct=0;timeLeft=30;times=[];playing=true;
         nsCorrectEl.textContent='0';nsAvgEl.textContent='--';nsTimerEl.textContent='30s';
         nsStart.style.display='none';nsResult.textContent='';

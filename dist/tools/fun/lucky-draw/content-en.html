@@ -47,14 +47,14 @@
     <div class="container">
         <div class="ad-banner">Advertisement</div>
         <header>
-            <h1><� Lucky Draw</h1>
+            <h1>Lucky Draw</h1>
         </header>
         <div class="game-section">
             <div class="boxes-container" id="boxes"></div>
             <div class="result" id="result">
                 <div class="result-text">Pick a box!</div>
             </div>
-            <button class="reset-btn" onclick="resetGame()"><� Try Again</button>
+            <button class="reset-btn" onclick="resetGame()">Try Again</button>
             <div class="stats">
                 <div class="stat-card">
                     <div class="stat-value" id="plays">0</div>
@@ -78,15 +78,15 @@
     </div>
     <script>
         var prizes = [
-            { emoji: '=�', text: 'Diamond', win: true },
-            { emoji: '<�', text: 'Trophy', win: true },
-            { emoji: 'P', text: 'Star', win: true },
-            { emoji: '<�', text: 'Party', win: true },
-            { emoji: '=�', text: 'Money', win: true },
-            { emoji: '="', text: 'Nothing', win: false },
-            { emoji: '=�', text: 'Wind', win: false },
-            { emoji: '<'', text: 'Rain', win: false },
-            { emoji: '={', text: 'Ghost', win: false }
+            { emoji: '\uD83D\uDC8E', text: 'Diamond', win: true },
+            { emoji: '\uD83C\uDFC6', text: 'Trophy', win: true },
+            { emoji: '\u2B50', text: 'Star', win: true },
+            { emoji: '\uD83C\uDF89', text: 'Party', win: true },
+            { emoji: '\uD83D\uDCB0', text: 'Money', win: true },
+            { emoji: '\uD83D\uDE10', text: 'Nothing', win: false },
+            { emoji: '\uD83C\uDF2C', text: 'Wind', win: false },
+            { emoji: '\uD83C\uDF27', text: 'Rain', win: false },
+            { emoji: '\uD83D\uDC7B', text: 'Ghost', win: false }
         ];
 
         var gameEnded = false;
@@ -103,7 +103,7 @@
                 box.className = 'box';
                 box.dataset.index = i;
                 box.dataset.prize = JSON.stringify(shuffled[i]);
-                box.innerHTML = '<span class="box-icon"><�</span>' +
+                box.innerHTML = '<span class="box-icon">&#127873;</span>' +
                     '<div class="box-content">' +
                     '<span class="prize-emoji">' + shuffled[i].emoji + '</span>' +
                     '<span class="prize-text">' + shuffled[i].text + '</span>' +

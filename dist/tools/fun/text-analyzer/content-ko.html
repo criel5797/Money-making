@@ -54,14 +54,11 @@
         function analyze() {
             var text = document.getElementById('textInput').value;
             var chars = text.length;
-            var charsNoSpace = text.replace(/s/g, '').length;
-            var words = text.trim() ? text.trim().split(/s+/) : [];
+            var charsNoSpace = text.replace(/\s/g, '').length;
+            var words = text.trim() ? text.trim().split(/\s+/) : [];
             var sentences = text.split(/[.!?]+/).filter(function(s) { return s.trim().length > 0; });
-            var lines = text.split('
-').length;
-            var paras = text.split(/
-
-+/).filter(function(p) { return p.trim().length > 0; }).length;
+            var lines = text.split('\n').length;
+            var paras = text.split(/\n\n+/).filter(function(p) { return p.trim().length > 0; }).length;
             var avgWordLen = words.length > 0 ? (words.join('').length / words.length).toFixed(1) : 0;
             var readTime = Math.max(1, Math.ceil(words.length / 200));
             document.getElementById('charCount').textContent = chars;

@@ -3,6 +3,7 @@
   "short_name": "InstaIdea",
   "description": "Free brain training games, developer tools, and fun utilities",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#667eea",
   "theme_color": "#667eea",

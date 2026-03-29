@@ -62,6 +62,8 @@ module.exports = function(options) {
         }
       }
 
+      function getCompletedLevel(){return Math.max(level-1,0);}
+
       function handleTileClick(e){
         if(!playing||showingPattern)return;
         var idx=parseInt(e.target.dataset.index);
@@ -75,18 +77,21 @@ module.exports = function(options) {
           e.target.style.background='#f1c40f';
           correctClicks++;
           if(correctClicks===pattern.length){
+            var completedLevel=level;
+            playing=false;
             level++;vmLevelEl.textContent=level;
-            if(level>bestLevel){bestLevel=level;vmBestEl.textContent=bestLevel;window.GameRecord.save('visual-memory','level',bestLevel);}
+            if(completedLevel>bestLevel){bestLevel=completedLevel;vmBestEl.textContent=bestLevel;window.GameRecord.save('visual-memory','level',bestLevel);}
             vmResult.textContent=txt.correct;vmResult.style.color='#27ae60';
             setTimeout(startRound,1000);
           }
         }else{
           e.target.style.background='#e74c3c';
+          playing=false;
           lives--;updateLives();
           if(lives<=0){
-            playing=false;
-            vmResult.textContent=txt.gameOver+' '+txt.finalLevel+level;vmResult.style.color='#e74c3c';
-            window.GameRecord.save('visual-memory','level',level);if(historyVisible)renderHistory();
+            var finalLevel=getCompletedLevel();
+            vmResult.textContent=txt.gameOver+' '+txt.finalLevel+finalLevel;vmResult.style.color='#e74c3c';
+            window.GameRecord.save('visual-memory','level',finalLevel);if(historyVisible)renderHistory();
             vmStart.style.display='inline-block';
           }else{
             vmResult.textContent=txt.wrong;vmResult.style.color='#e74c3c';
@@ -115,7 +120,7 @@ module.exports = function(options) {
 
       vmStart.addEventListener('click',function(){
         vmStart.style.display='none';level=1;lives=3;
-        vmLevelEl.textContent=level;updateLives();playing=true;startRound();
+        vmLevelEl.textContent=level;updateLives();showingPattern=false;playing=true;startRound();
       });
     </script>
   `;

@@ -236,6 +236,15 @@
             document.getElementById('textOutput').value = hex;
         }
 
+        function convertText() {
+            const value = document.getElementById('textInput').value;
+            if (!value) {
+                document.getElementById('textOutput').value = '';
+                return;
+            }
+            textToBinary();
+        }
+
         function binaryToText() {
             const input = document.getElementById('textInput').value.replace(/\s/g, '');
             if (!/^[01]+$/.test(input) || input.length % 8 !== 0) {

@@ -47,13 +47,13 @@
     <div class="container">
         <div class="ad-banner">Advertisement</div>
         <header>
-            <h1>P Daily Horoscope</h1>
+            <h1>Daily Horoscope</h1>
         </header>
         <div class="game-section">
             <div class="zodiac-grid" id="zodiacGrid"></div>
             <div class="fortune-card" id="fortuneCard">
                 <div class="fortune-header">
-                    <div class="fortune-sign" id="fortuneSign">H</div>
+                    <div class="fortune-sign" id="fortuneSign">&#9800;</div>
                     <div class="fortune-info">
                         <h2 id="fortuneName">Aries</h2>
                         <div class="fortune-date" id="fortuneDate">Mar 21 - Apr 19</div>
@@ -62,15 +62,15 @@
                 <div class="fortune-score">
                     <div class="score-item">
                         <div class="score-label">Overall</div>
-                        <div class="score-stars" id="overallStars"></div>
+                        <div class="score-stars" id="overallStars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
                     </div>
                     <div class="score-item">
                         <div class="score-label">Love</div>
-                        <div class="score-stars" id="loveStars"></div>
+                        <div class="score-stars" id="loveStars">&#9733;&#9733;&#9733;&#9734;&#9734;</div>
                     </div>
                     <div class="score-item">
                         <div class="score-label">Money</div>
-                        <div class="score-stars" id="moneyStars"></div>
+                        <div class="score-stars" id="moneyStars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     </div>
                 </div>
                 <div class="fortune-text" id="fortuneText">Your fortune will be displayed here.</div>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <button class="check-btn" id="checkBtn" onclick="checkFortune()">P Check Fortune</button>
+            <button class="check-btn" id="checkBtn" onclick="checkFortune()">Check Fortune</button>
             <div class="history">
                 <div class="history-label">Recent Checks</div>
                 <div class="history-items" id="history"></div>
@@ -92,18 +92,18 @@
     </div>
     <script>
         var zodiacSigns = [
-            { id: 'aries', name: 'Aries', symbol: 'H', emoji: '=', date: 'Mar 21 - Apr 19' },
-            { id: 'taurus', name: 'Taurus', symbol: 'I', emoji: '=', date: 'Apr 20 - May 20' },
-            { id: 'gemini', name: 'Gemini', symbol: 'J', emoji: '=o', date: 'May 21 - Jun 21' },
-            { id: 'cancer', name: 'Cancer', symbol: 'K', emoji: '>�', date: 'Jun 22 - Jul 22' },
-            { id: 'leo', name: 'Leo', symbol: 'L', emoji: '>�', date: 'Jul 23 - Aug 22' },
-            { id: 'virgo', name: 'Virgo', symbol: 'M', emoji: '=g', date: 'Aug 23 - Sep 22' },
-            { id: 'libra', name: 'Libra', symbol: 'N', emoji: '�', date: 'Sep 23 - Oct 22' },
-            { id: 'scorpio', name: 'Scorpio', symbol: 'O', emoji: '>�', date: 'Oct 23 - Nov 21' },
-            { id: 'sagittarius', name: 'Sagittarius', symbol: 'P', emoji: '<�', date: 'Nov 22 - Dec 21' },
-            { id: 'capricorn', name: 'Capricorn', symbol: 'Q', emoji: '=', date: 'Dec 22 - Jan 19' },
-            { id: 'aquarius', name: 'Aquarius', symbol: 'R', emoji: '<�', date: 'Jan 20 - Feb 18' },
-            { id: 'pisces', name: 'Pisces', symbol: 'S', emoji: '=', date: 'Feb 19 - Mar 20' }
+            { id: 'aries', name: 'Aries', symbol: 'H', emoji: '\u2648', date: 'Mar 21 - Apr 19' },
+            { id: 'taurus', name: 'Taurus', symbol: 'I', emoji: '\u2649', date: 'Apr 20 - May 20' },
+            { id: 'gemini', name: 'Gemini', symbol: 'J', emoji: '\u264A', date: 'May 21 - Jun 21' },
+            { id: 'cancer', name: 'Cancer', symbol: 'K', emoji: '\u264B', date: 'Jun 22 - Jul 22' },
+            { id: 'leo', name: 'Leo', symbol: 'L', emoji: '\u264C', date: 'Jul 23 - Aug 22' },
+            { id: 'virgo', name: 'Virgo', symbol: 'M', emoji: '\u264D', date: 'Aug 23 - Sep 22' },
+            { id: 'libra', name: 'Libra', symbol: 'N', emoji: '\u264E', date: 'Sep 23 - Oct 22' },
+            { id: 'scorpio', name: 'Scorpio', symbol: 'O', emoji: '\u264F', date: 'Oct 23 - Nov 21' },
+            { id: 'sagittarius', name: 'Sagittarius', symbol: 'P', emoji: '\u2650', date: 'Nov 22 - Dec 21' },
+            { id: 'capricorn', name: 'Capricorn', symbol: 'Q', emoji: '\u2651', date: 'Dec 22 - Jan 19' },
+            { id: 'aquarius', name: 'Aquarius', symbol: 'R', emoji: '\u2652', date: 'Jan 20 - Feb 18' },
+            { id: 'pisces', name: 'Pisces', symbol: 'S', emoji: '\u2653', date: 'Feb 19 - Mar 20' }
         ];
 
         var fortunes = [
@@ -182,7 +182,7 @@
         function getStars(count) {
             var stars = '';
             for (var i = 0; i < 5; i++) {
-                stars += i < count ? '' : '';
+                stars += i < count ? '\u2605' : '\u2606';
             }
             return stars;
         }

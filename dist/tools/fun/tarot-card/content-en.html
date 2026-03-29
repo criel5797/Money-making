@@ -46,7 +46,7 @@
     <div class="container">
         <div class="ad-banner">Advertisement</div>
         <header>
-            <h1>=. Tarot Card</h1>
+            <h1>Tarot Card</h1>
         </header>
         <div class="game-section">
             <div class="spread-options">
@@ -57,7 +57,7 @@
                 <div class="card" id="tarotCard" onclick="flipCard()">
                     <div class="card-face card-back"></div>
                     <div class="card-face card-front">
-                        <div class="card-symbol" id="cardSymbol"><</div>
+                        <div class="card-symbol" id="cardSymbol">0</div>
                         <div class="card-name" id="cardName">Card Name</div>
                         <div class="card-number" id="cardNumber">No. 0</div>
                     </div>
@@ -67,7 +67,7 @@
                 <div class="reading-title">Draw a Card</div>
                 <div class="reading-text">Click on the card or press the button below to reveal your fortune.</div>
             </div>
-            <button class="draw-btn" onclick="drawCard()">=. Draw Card</button>
+            <button class="draw-btn" onclick="drawCard()">Draw Card</button>
             <div class="stats">
                 <div class="stat-card">
                     <div class="stat-value" id="draws">0</div>
@@ -87,28 +87,28 @@
     </div>
     <script>
         var majorArcana = [
-            { num: 0, name: 'The Fool', symbol: '<�', reading: 'New beginnings, innocence, and adventure await. Move forward without fear.' },
-            { num: 1, name: 'The Magician', symbol: '>�', reading: 'Your willpower and creativity are strong. Believe in your abilities.' },
-            { num: 2, name: 'High Priestess', symbol: '<', reading: 'Trust your intuition and inner wisdom. Hidden truths will be revealed.' },
-            { num: 3, name: 'The Empress', symbol: '=Q', reading: 'A time of abundance and love. Express your creativity.' },
-            { num: 4, name: 'The Emperor', symbol: '>�', reading: 'Authority and stability are present. It is time to lead.' },
-            { num: 5, name: 'The Hierophant', symbol: '=�', reading: 'Follow tradition and teachings. A good time to seek advice.' },
-            { num: 6, name: 'The Lovers', symbol: '=�', reading: 'A time of love and choices. Listen to your heart.' },
-            { num: 7, name: 'The Chariot', symbol: '<�', reading: 'Victory and determination. Charge forward toward your goals.' },
-            { num: 8, name: 'Strength', symbol: '>�', reading: 'Discover your inner strength and courage. Be patient.' },
-            { num: 9, name: 'The Hermit', symbol: '<�', reading: 'Time for introspection. You need some time alone.' },
-            { num: 10, name: 'Wheel of Fortune', symbol: '<�', reading: 'Change is coming. Accept the flow of destiny.' },
-            { num: 11, name: 'Justice', symbol: '�', reading: 'A time of fairness and truth. Make the right decision.' },
-            { num: 12, name: 'The Hanged Man', symbol: '=C', reading: 'A new perspective is needed. Pause and reflect.' },
-            { num: 13, name: 'Death', symbol: '>�', reading: 'Transformation and rebirth. Every ending is a new beginning.' },
-            { num: 14, name: 'Temperance', symbol: '�', reading: 'Balance and harmony are needed. Be patient.' },
-            { num: 15, name: 'The Devil', symbol: '=', reading: 'Break free from attachments. It is time to find freedom.' },
-            { num: 16, name: 'The Tower', symbol: '=�', reading: 'Sudden change may occur. But this is an opportunity for rebuilding.' },
-            { num: 17, name: 'The Star', symbol: 'P', reading: 'A time of hope and inspiration. Follow your dreams.' },
-            { num: 18, name: 'The Moon', symbol: '<', reading: 'Trust your intuition. Anxiety will soon pass.' },
-            { num: 19, name: 'The Sun', symbol: ' ', reading: 'Success and joy are coming. A bright future awaits.' },
-            { num: 20, name: 'Judgement', symbol: '=�', reading: 'A time of awakening and renewal. Reflect on the past and start anew.' },
-            { num: 21, name: 'The World', symbol: '<', reading: 'Completion and achievement. Congratulations, you have reached your goal.' }
+            { num: 0, name: 'The Fool', symbol: '0', reading: 'New beginnings, innocence, and adventure await. Move forward without fear.' },
+            { num: 1, name: 'The Magician', symbol: 'I', reading: 'Your willpower and creativity are strong. Believe in your abilities.' },
+            { num: 2, name: 'High Priestess', symbol: 'II', reading: 'Trust your intuition and inner wisdom. Hidden truths will be revealed.' },
+            { num: 3, name: 'The Empress', symbol: 'III', reading: 'A time of abundance and love. Express your creativity.' },
+            { num: 4, name: 'The Emperor', symbol: 'IV', reading: 'Authority and stability are present. It is time to lead.' },
+            { num: 5, name: 'The Hierophant', symbol: 'V', reading: 'Follow tradition and teachings. A good time to seek advice.' },
+            { num: 6, name: 'The Lovers', symbol: 'VI', reading: 'A time of love and choices. Listen to your heart.' },
+            { num: 7, name: 'The Chariot', symbol: 'VII', reading: 'Victory and determination. Charge forward toward your goals.' },
+            { num: 8, name: 'Strength', symbol: 'VIII', reading: 'Discover your inner strength and courage. Be patient.' },
+            { num: 9, name: 'The Hermit', symbol: 'IX', reading: 'Time for introspection. You need some time alone.' },
+            { num: 10, name: 'Wheel of Fortune', symbol: 'X', reading: 'Change is coming. Accept the flow of destiny.' },
+            { num: 11, name: 'Justice', symbol: 'XI', reading: 'A time of fairness and truth. Make the right decision.' },
+            { num: 12, name: 'The Hanged Man', symbol: 'XII', reading: 'A new perspective is needed. Pause and reflect.' },
+            { num: 13, name: 'Death', symbol: 'XIII', reading: 'Transformation and rebirth. Every ending is a new beginning.' },
+            { num: 14, name: 'Temperance', symbol: 'XIV', reading: 'Balance and harmony are needed. Be patient.' },
+            { num: 15, name: 'The Devil', symbol: 'XV', reading: 'Break free from attachments. It is time to find freedom.' },
+            { num: 16, name: 'The Tower', symbol: 'XVI', reading: 'Sudden change may occur. But this is an opportunity for rebuilding.' },
+            { num: 17, name: 'The Star', symbol: 'XVII', reading: 'A time of hope and inspiration. Follow your dreams.' },
+            { num: 18, name: 'The Moon', symbol: 'XVIII', reading: 'Trust your intuition. Anxiety will soon pass.' },
+            { num: 19, name: 'The Sun', symbol: 'XIX', reading: 'Success and joy are coming. A bright future awaits.' },
+            { num: 20, name: 'Judgement', symbol: 'XX', reading: 'A time of awakening and renewal. Reflect on the past and start anew.' },
+            { num: 21, name: 'The World', symbol: 'XXI', reading: 'Completion and achievement. Congratulations, you have reached your goal.' }
         ];
 
         var spreadCount = 1;

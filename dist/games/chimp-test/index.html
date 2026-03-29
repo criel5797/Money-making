@@ -86,7 +86,7 @@ nav a:hover{background:rgba(255,255,255,0.2)}
       <div id="chimp-strikes" style="margin:12px 0;font-size:20px"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
         <div class="stat-box"><div class="stat-label" data-i18n-game="chimp.numbers">숫자 개수</div><div id="chimp-level" class="stat-value">4</div></div>
-        <div class="stat-box"><div class="stat-label" data-i18n-game="chimp.bestLevel">최고 기록</div><div id="chimp-best" class="stat-value">4</div></div>
+        <div class="stat-box"><div class="stat-label" data-i18n-game="chimp.bestLevel">최고 기록</div><div id="chimp-best" class="stat-value">0</div></div>
       </div>
       <button id="history-btn" class="btn btn-primary" style="margin-top:24px;font-size:14px;padding:10px 20px" data-i18n-game="history.showHistory">기록 보기</button>
       <div id="history-panel" style="display:none;margin-top:16px;padding:16px;background:#f8f9fa;border-radius:12px;text-align:left">
@@ -97,7 +97,7 @@ nav a:hover{background:rgba(255,255,255,0.2)}
     <script>
       var chimpGrid=document.getElementById('chimp-grid'),chimpStart=document.getElementById('chimp-start'),chimpResult=document.getElementById('chimp-result');
       var chimpLevelEl=document.getElementById('chimp-level'),chimpBestEl=document.getElementById('chimp-best'),chimpStrikesEl=document.getElementById('chimp-strikes');
-      var level=4,bestLevel=4,strikes=0,maxStrikes=3,currentNum=1,numbers=[],tiles=[],playing=false,numbersHidden=false;
+      var level=4,bestLevel=0,strikes=0,maxStrikes=3,currentNum=1,numbers=[],tiles=[],playing=false,numbersHidden=false;
       var historyBtn=document.getElementById('history-btn'),historyPanel=document.getElementById('history-panel'),historyList=document.getElementById('history-list'),historyVisible=false;
 
       function loadSavedBest(){if(!window.GameRecord)return;var saved=window.GameRecord.getBest('chimp-test','level');if(saved!==null){bestLevel=saved;chimpBestEl.textContent=saved;}}
@@ -129,6 +129,8 @@ nav a:hover{background:rgba(255,255,255,0.2)}
         }
       }
 
+      function getCompletedLevel(){return Math.max(level-1,0);}
+
       function handleTileClick(e){
         if(!playing)return;
         var tile=e.target;
@@ -146,18 +148,21 @@ nav a:hover{background:rgba(255,255,255,0.2)}
           tile.style.background='#27ae60';tile.style.pointerEvents='none';
           currentNum++;
           if(currentNum>level){
+            var completedLevel=level;
+            playing=false;
             level++;chimpLevelEl.textContent=level;
-            if(level>bestLevel){bestLevel=level;chimpBestEl.textContent=bestLevel;window.GameRecord.save('chimp-test','level',bestLevel);}
+            if(completedLevel>bestLevel){bestLevel=completedLevel;chimpBestEl.textContent=bestLevel;window.GameRecord.save('chimp-test','level',bestLevel);}
             chimpResult.textContent=txt.correct;chimpResult.style.color='#27ae60';
             setTimeout(startRound,1000);
           }
         }else{
           tile.style.background='#e74c3c';
+          playing=false;
           strikes++;updateStrikes();
           if(strikes>=maxStrikes){
-            playing=false;
-            chimpResult.textContent=txt.gameOver+' '+txt.finalLevel+level;chimpResult.style.color='#e74c3c';
-            window.GameRecord.save('chimp-test','level',level);if(historyVisible)renderHistory();
+            var finalLevel=getCompletedLevel();
+            chimpResult.textContent=txt.gameOver+' '+txt.finalLevel+finalLevel;chimpResult.style.color='#e74c3c';
+            window.GameRecord.save('chimp-test','level',finalLevel);if(historyVisible)renderHistory();
             chimpStart.style.display='inline-block';
           }else{
             chimpResult.textContent=txt.wrong+' ('+strikes+'/'+maxStrikes+')';chimpResult.style.color='#e74c3c';

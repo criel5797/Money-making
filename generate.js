@@ -35,17 +35,45 @@ var generateTargetTrackerGame = require('./src/templates/target-tracker.js');
 var OUT = path.join(process.cwd(), 'dist');
 
 var RAW_BASE_URL = (process.env.BASE_URL || 'https://instaidea.org').replace(/\/+$/, '');
-var BASE_URL = RAW_BASE_URL;
+var parsedBaseUrl = new URL(RAW_BASE_URL);
+var BASE_ORIGIN = parsedBaseUrl.origin;
 
 var repoEnv = (process.env.GITHUB_REPOSITORY || '');
 var repoName = repoEnv.split('/')[1] || '';
 var autoBasePath = repoName ? '/' + repoName : '';
-var BASE_PATH = BASE_URL
-  ? (new URL(BASE_URL).pathname.replace(/\/$/, '') || '')
-  : (process.env.BASE_PATH || autoBasePath);
+var BASE_PATH = process.env.BASE_PATH || parsedBaseUrl.pathname.replace(/\/$/, '') || autoBasePath || '';
+if (BASE_PATH === '/') BASE_PATH = '';
+if (BASE_PATH && BASE_PATH.charAt(0) !== '/') BASE_PATH = '/' + BASE_PATH;
+BASE_PATH = BASE_PATH.replace(/\/+$/, '');
+var BASE_URL = BASE_ORIGIN + BASE_PATH;
 
 var ADS_CLIENT = process.env.MONETAG_SITE_ID || '';
 var PUB_ID = ADS_CLIENT.replace('ca-pub-', '');
+var SITE_HOST = parsedBaseUrl.hostname;
+
+function dedupeById(items) {
+  var seen = {};
+  var unique = [];
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var id = item && item.id;
+    if (!id) {
+      unique.push(item);
+      continue;
+    }
+    if (seen[id]) {
+      console.warn('[build] Skipping duplicate catalog id: ' + id);
+      continue;
+    }
+    seen[id] = true;
+    unique.push(item);
+  }
+  return unique;
+}
+
+games = dedupeById(games);
+webTools = dedupeById(webTools);
+consumerTools = dedupeById(consumerTools);
 
 function ensureDir(p){ fs.mkdirSync(p, { recursive: true }); }
 function write(p, c){ ensureDir(path.dirname(p)); fs.writeFileSync(p, c); }
@@ -83,9 +111,71 @@ function injectToolContentSeo(content, canonicalPath) {
 }
 
 function injectBeforeClosingTag(content, closingTag, injection) {
-  var idx = content.lastIndexOf(closingTag);
-  if (idx === -1) return content + injection;
-  return content.slice(0, idx) + injection + content.slice(idx);
+  var normalizedTag = String(closingTag || '').toLowerCase();
+  var text = String(content || '');
+
+  if (normalizedTag === '</head>') {
+    var headMatch = /<\/head>/i.exec(text);
+    if (headMatch && typeof headMatch.index === 'number') {
+      return text.slice(0, headMatch.index) + injection + text.slice(headMatch.index);
+    }
+    return text + injection;
+  }
+
+  if (normalizedTag === '</body>') {
+    var bodyBeforeHtmlMatch = /<\/body>(\s*<\/html>\s*)$/i.exec(text);
+    if (bodyBeforeHtmlMatch && typeof bodyBeforeHtmlMatch.index === 'number') {
+      return text.slice(0, bodyBeforeHtmlMatch.index) + injection + text.slice(bodyBeforeHtmlMatch.index);
+    }
+  }
+
+  var idx = text.lastIndexOf(closingTag);
+  if (idx === -1) return text + injection;
+  return text.slice(0, idx) + injection + text.slice(idx);
+}
+
+function countRegexMatches(content, pattern) {
+  var matches = String(content || '').match(pattern);
+  return matches ? matches.length : 0;
+}
+
+function hasSeverelyCorruptedText(content) {
+  return countRegexMatches(content, /\uFFFD/g) >= 20 ||
+    countRegexMatches(content, /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g) >= 20;
+}
+
+function readToolSourceContent(srcFile, logLabel) {
+  var content = fs.readFileSync(srcFile, 'utf8');
+  if (hasSeverelyCorruptedText(content)) {
+    console.warn('[build] Skipping corrupted tool source: ' + logLabel);
+    return null;
+  }
+  return content;
+}
+
+function buildLegacyToolLinkMap(sourceFileByLang, availableLanguages, hasIndexHtml) {
+  var linkMap = {};
+  Object.keys(sourceFileByLang).forEach(function(lang) {
+    if (sourceFileByLang[lang]) {
+      linkMap[sourceFileByLang[lang]] = 'content-' + lang + '.html';
+    }
+  });
+
+  if (hasIndexHtml && !linkMap['index.html']) {
+    if (availableLanguages.en) linkMap['index.html'] = 'content-en.html';
+    else if (availableLanguages.ko) linkMap['index.html'] = 'content-ko.html';
+    else if (availableLanguages.ja) linkMap['index.html'] = 'content-ja.html';
+  }
+
+  return linkMap;
+}
+
+function rewriteLegacyToolLinks(content, linkMap) {
+  return String(content || '').replace(/((?:href|src)=["'])(index(?:-(?:ko|en|ja))?\.html)([^"']*)(["'])/ig, function(match, prefix, target, suffix, quote) {
+    var rewritten = linkMap[target];
+    if (!rewritten) return match;
+    return prefix + rewritten + suffix + quote;
+  });
 }
 
 function buildGameSeoTitle(game) {
@@ -275,12 +365,12 @@ function buildWebSiteSchema() {
     '@type': 'WebSite',
     'name': 'InstaIdea - Mini Games & Tools',
     'alternateName': ['Mini Games & Tools', 'InstaIdea'],
-    'url': BASE_URL + '/',
+    'url': absUrl('/'),
     'description': 'Free brain training games, developer tools, and fun utilities',
     'inLanguage': ['ko', 'en', 'ja'],
     'potentialAction': {
       '@type': 'SearchAction',
-      'target': BASE_URL + '/?q={search_term_string}',
+      'target': absUrl('/?q={search_term_string}'),
       'query-input': 'required name=search_term_string'
     }
   };
@@ -1108,47 +1198,56 @@ function renderSectionHubs() {
   );
 }
 function renderPrivacy() {
+  var privacy = i18n.ko.privacy;
+  var privacyMeta = {
+    ko: {
+      title: i18n.ko.privacy.title + ' - Mini Games & Tools',
+      description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
+    },
+    en: {
+      title: i18n.en.privacy.title + ' - Mini Games & Tools',
+      description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
+    },
+    ja: {
+      title: i18n.ja.privacy.title + ' - Mini Games & Tools',
+      description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
+    }
+  };
   var today = new Date().toISOString().split('T')[0];
   var body =
-    '<h1 data-i18n-privacy="heading">媛쒖씤?뺣낫泥섎━諛⑹묠</h1>' +
+    '<h1 data-i18n-privacy="heading">' + escapeHtml(privacy.heading) + '</h1>' +
     '<div class="game-card">' +
-
-    '<h3 style="color:#333" data-i18n-privacy="section1Title">1. ?섏쭛?섎뒗 ?뺣낫</h3>' +
-    '<p style="color:#555" data-i18n-privacy="section1Desc">蹂??뱀궗?댄듃???ъ슜?먮줈遺??吏곸젒?곸씤 媛쒖씤?뺣낫瑜??섏쭛?섏? ?딆뒿?덈떎. ?ㅻ쭔, ?쒕퉬??媛쒖꽑???꾪빐 ?ㅼ쓬怨?媛숈? ?뺣낫媛 ?먮룞?쇰줈 ?섏쭛?????덉뒿?덈떎:</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section1Title">' + escapeHtml(privacy.section1Title) + '</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section1Desc">' + escapeHtml(privacy.section1Desc) + '</p>' +
     '<ul style="color:#555">' +
-    '<li data-i18n-privacy="section1Item1">釉뚮씪?곗? ?좏삎 諛?踰꾩쟾</li>' +
-    '<li data-i18n-privacy="section1Item2">?댁쁺 泥댁젣</li>' +
-    '<li data-i18n-privacy="section1Item3">諛⑸Ц ?쇱떆</li>' +
-    '<li data-i18n-privacy="section1Item4">?몄뼱 ?ㅼ젙</li>' +
+    '<li data-i18n-privacy="section1Item1">' + escapeHtml(privacy.section1Item1) + '</li>' +
+    '<li data-i18n-privacy="section1Item2">' + escapeHtml(privacy.section1Item2) + '</li>' +
+    '<li data-i18n-privacy="section1Item3">' + escapeHtml(privacy.section1Item3) + '</li>' +
+    '<li data-i18n-privacy="section1Item4">' + escapeHtml(privacy.section1Item4) + '</li>' +
     '</ul>' +
-
-    '<h3 style="color:#333" data-i18n-privacy="section2Title">2. 荑좏궎 諛?愿묎퀬</h3>' +
-    '<p style="color:#555" data-i18n-privacy="section2Desc1">蹂??뱀궗?댄듃??Google AdSense瑜??듯빐 愿묎퀬瑜?寃뚯옱?⑸땲?? Google? ?ъ슜?먯쓽 愿?ъ궗??湲곕컲??愿묎퀬瑜??쒖떆?섍린 ?꾪빐 荑좏궎瑜??ъ슜?????덉뒿?덈떎.</p>' +
-    '<p style="color:#555"><span data-i18n-privacy="section2Desc2">?ъ슜?먮뒗 Google 愿묎퀬 ?ㅼ젙?먯꽌 留욎땄 愿묎퀬瑜?鍮꾪솢?깊솕?????덉뒿?덈떎.</span> <a href="https://www.google.com/settings/ads" style="color:#667eea" target="_blank" rel="noopener" data-i18n-privacy="section2Link">Google 愿묎퀬 ?ㅼ젙</a></p>' +
-
-    '<h3 style="color:#333" data-i18n-privacy="section3Title">3. 濡쒖뺄 ?ㅽ넗由ъ?</h3>' +
-    '<p style="color:#555" data-i18n-privacy="section3Desc">寃뚯엫 ?먯닔 諛??몄뼱 ?ㅼ젙????ν븯湲??꾪빐 釉뚮씪?곗???濡쒖뺄 ?ㅽ넗由ъ?瑜??ъ슜?⑸땲?? ???곗씠?곕뒗 ?ъ슜?먯쓽 湲곌린?먮쭔 ??λ릺硫??쒕쾭濡??꾩넚?섏? ?딆뒿?덈떎.</p>' +
-
-    '<h3 style="color:#333" data-i18n-privacy="section4Title">4. ?????쒕퉬??/h3>' +
-    '<p style="color:#555" data-i18n-privacy="section4Desc">蹂??뱀궗?댄듃???ㅼ쓬 ?????쒕퉬?ㅻ? ?ъ슜?⑸땲??</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section2Title">' + escapeHtml(privacy.section2Title) + '</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section2Desc1">' + escapeHtml(privacy.section2Desc1) + '</p>' +
+    '<p style="color:#555"><span data-i18n-privacy="section2Desc2">' + escapeHtml(privacy.section2Desc2) + '</span> <a href="https://www.google.com/settings/ads" style="color:#667eea" target="_blank" rel="noopener" data-i18n-privacy="section2Link">' + escapeHtml(privacy.section2Link) + '</a></p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section3Title">' + escapeHtml(privacy.section3Title) + '</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section3Desc">' + escapeHtml(privacy.section3Desc) + '</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section4Title">' + escapeHtml(privacy.section4Title) + '</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section4Desc">' + escapeHtml(privacy.section4Desc) + '</p>' +
     '<ul style="color:#555">' +
-    '<li data-i18n-privacy="section4Item1">Google AdSense (愿묎퀬)</li>' +
-    '<li data-i18n-privacy="section4Item2">GitHub Pages (?몄뒪??</li>' +
+    '<li data-i18n-privacy="section4Item1">' + escapeHtml(privacy.section4Item1) + '</li>' +
+    '<li data-i18n-privacy="section4Item2">' + escapeHtml(privacy.section4Item2) + '</li>' +
     '</ul>' +
-
-    '<h3 style="color:#333" data-i18n-privacy="section5Title">5. ?꾨룞 媛쒖씤?뺣낫 蹂댄샇</h3>' +
-    '<p style="color:#555" data-i18n-privacy="section5Desc">蹂??뱀궗?댄듃??13??誘몃쭔 ?꾨룞??媛쒖씤?뺣낫瑜??섎룄?곸쑝濡??섏쭛?섏? ?딆뒿?덈떎.</p>' +
-
-    '<h3 style="color:#333" data-i18n-privacy="section6Title">6. 臾몄쓽</h3>' +
-    '<p style="color:#555"><span data-i18n-privacy="section6Desc">媛쒖씤?뺣낫泥섎━諛⑹묠??愿??臾몄쓽?ы빆???덉쑝?쒕㈃ ?꾨옒 ?대찓?쇰줈 ?곕씫??二쇱꽭??</span> <a href="mailto:pjhk579700@naver.com" style="color:#667eea">pjhk579700@naver.com</a></p>' +
-
-    '<h3 style="color:#333" data-i18n-privacy="section7Title">7. 蹂寃쎌궗??/h3>' +
-    '<p style="color:#555" data-i18n-privacy="section7Desc">蹂?媛쒖씤?뺣낫泥섎━諛⑹묠? ?꾩슂???곕씪 蹂寃쎈맆 ???덉뒿?덈떎. 蹂寃??????섏씠吏???낅뜲?댄듃?⑸땲??</p>' +
-    '<p style="color:#555"><span data-i18n-privacy="lastUpdate">理쒖쥌 ?낅뜲?댄듃: </span>' + today + '</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section5Title">' + escapeHtml(privacy.section5Title) + '</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section5Desc">' + escapeHtml(privacy.section5Desc) + '</p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section6Title">' + escapeHtml(privacy.section6Title) + '</h3>' +
+    '<p style="color:#555"><span data-i18n-privacy="section6Desc">' + escapeHtml(privacy.section6Desc) + '</span> <a href="mailto:pjhk579700@naver.com" style="color:#667eea">pjhk579700@naver.com</a></p>' +
+    '<h3 style="color:#333" data-i18n-privacy="section7Title">' + escapeHtml(privacy.section7Title) + '</h3>' +
+    '<p style="color:#555" data-i18n-privacy="section7Desc">' + escapeHtml(privacy.section7Desc) + '</p>' +
+    '<p style="color:#555"><span data-i18n-privacy="lastUpdate">' + escapeHtml(privacy.lastUpdate) + '</span>' + today + '</p>' +
     '</div>' +
     '<script>' +
     'window.addEventListener("load",function(){' +
     'var origSetLang=setLanguage;' +
+    'var meta=' + JSON.stringify(privacyMeta) + ';' +
     'setLanguage=function(lang){' +
     'origSetLang(lang);' +
     'if(i18nData[lang]&&i18nData[lang].privacy){' +
@@ -1157,15 +1256,18 @@ function renderPrivacy() {
     'var key=el.getAttribute("data-i18n-privacy");' +
     'if(p[key])el.textContent=p[key];' +
     '});' +
-    'document.title=p.title;' +
+    'if(meta[lang]){' +
+    'document.title=meta[lang].title;' +
+    'document.querySelectorAll(\'meta[name="description"],meta[property="og:description"],meta[name="twitter:description"]\').forEach(function(el){el.setAttribute("content",meta[lang].description);});' +
+    'document.querySelectorAll(\'meta[property="og:title"],meta[name="twitter:title"]\').forEach(function(el){el.setAttribute("content",meta[lang].title);});' +
+    '}' +
     '}' +
     '};' +
     'setLanguage(currentLang);' +
     '});' +
     '</script>';
 
-  write(path.join(OUT, 'privacy', 'index.html'), layout('Privacy Policy - 媛쒖씤?뺣낫泥섎━諛⑹묠', '/privacy/', body, false,
-    '誘몃땲寃뚯엫 紐⑥쓬吏?媛쒖씤?뺣낫泥섎━諛⑹묠. 荑좏궎, 愿묎퀬, ?곗씠???섏쭛??愿???뺤콉???뺤씤?섏꽭??'));
+  write(path.join(OUT, 'privacy', 'index.html'), layout(privacyMeta.ko.title, '/privacy/', body, false, privacyMeta.ko.description));
 }
 
 // Copy directory recursively
@@ -1182,6 +1284,60 @@ function copyDir(src, dest) {
     } else {
       fs.copyFileSync(srcPath, destPath);
     }
+  }
+}
+
+function findDuplicateIds(items) {
+  var counts = {};
+  var duplicates = [];
+  for (var i = 0; i < items.length; i++) {
+    var id = items[i].id;
+    counts[id] = (counts[id] || 0) + 1;
+    if (counts[id] === 2) duplicates.push(id);
+  }
+  return duplicates;
+}
+
+function findUncataloguedToolDirs(srcRoot, catalog) {
+  if (!fs.existsSync(srcRoot)) return [];
+  var known = {};
+  for (var i = 0; i < catalog.length; i++) {
+    known[catalog[i].id] = true;
+  }
+
+  return fs.readdirSync(srcRoot, { withFileTypes: true })
+    .filter(function(entry) {
+      return entry.isDirectory() && !known[entry.name];
+    })
+    .map(function(entry) {
+      return entry.name;
+    })
+    .filter(function(dirName) {
+      var dirPath = path.join(srcRoot, dirName);
+      return fs.readdirSync(dirPath).some(function(file) {
+        return /^index.*\.html$/i.test(file);
+      });
+    });
+}
+
+function validateCatalogs() {
+  var issues = [];
+  var duplicateGames = findDuplicateIds(games);
+  var duplicateWebTools = findDuplicateIds(webTools);
+  var duplicateConsumerTools = findDuplicateIds(consumerTools);
+
+  if (duplicateGames.length) issues.push('Duplicate game ids: ' + duplicateGames.join(', '));
+  if (duplicateWebTools.length) issues.push('Duplicate web tool ids: ' + duplicateWebTools.join(', '));
+  if (duplicateConsumerTools.length) issues.push('Duplicate consumer tool ids: ' + duplicateConsumerTools.join(', '));
+
+  var uncataloguedWebTools = findUncataloguedToolDirs(path.join(process.cwd(), 'src', 'external-tools', 'web'), webTools);
+  var uncataloguedConsumerTools = findUncataloguedToolDirs(path.join(process.cwd(), 'src', 'external-tools', 'fun'), consumerTools);
+
+  if (uncataloguedWebTools.length) issues.push('Uncatalogued web tool directories: ' + uncataloguedWebTools.join(', '));
+  if (uncataloguedConsumerTools.length) issues.push('Uncatalogued consumer tool directories: ' + uncataloguedConsumerTools.join(', '));
+
+  if (issues.length) {
+    throw new Error('Catalog validation failed:\n- ' + issues.join('\n- '));
   }
 }
 
@@ -1205,6 +1361,7 @@ function buildToolWrapperOptions(toolId, toolData, toolType) {
     seoDescription: buildToolSeoDescription(toolData, categoryLabel),
     canonicalPath: pathPrefix + toolId + '/',
     baseUrl: BASE_URL,
+    basePath: BASE_PATH,
     sectionLabel: categoryLabel,
     sectionPath: isWebTool ? '/dev-tools/' : '/utilities/',
     sectionDirectoryPath: pathPrefix,
@@ -1244,6 +1401,8 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
     var shareModalPath = href('/common/share-modal.js');
     var handlerScript = '<script src="' + shareModalPath + '"></script><script src="' + handlerPath + '"></script>';
     var availableLanguages = { ko: false, en: false, ja: false };
+    var sourceFileByLang = {};
+    var localizedSources = [];
 
     // Generate for each language using its dedicated source file
     ['ko', 'en', 'ja'].forEach(function(lang) {
@@ -1261,14 +1420,23 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
       }
 
       if (sourceFile && fs.existsSync(path.join(srcPath, sourceFile))) {
-        var content = fs.readFileSync(path.join(srcPath, sourceFile), 'utf8');
-        content = injectToolContentSeo(content, canonicalPath);
-        var contentWithHandler = injectBeforeClosingTag(content, '</body>', handlerScript);
-        var injection = '<script>window.currentLang="' + lang + '";window.toolI18n=' + JSON.stringify(i18nData) + ';</script>';
-        var finalContent = injectBeforeClosingTag(contentWithHandler, '</head>', injection);
-        fs.writeFileSync(path.join(destPath, 'content-' + lang + '.html'), finalContent);
+        var rawContent = readToolSourceContent(path.join(srcPath, sourceFile), toolType + ':' + toolId + ':' + lang);
+        if (!rawContent) return;
+        sourceFileByLang[lang] = sourceFile;
+        localizedSources.push({ lang: lang, content: rawContent });
         availableLanguages[lang] = true;
       }
+    });
+
+    var localizedLinkMap = buildLegacyToolLinkMap(sourceFileByLang, availableLanguages, fs.existsSync(path.join(srcPath, 'index.html')));
+
+    localizedSources.forEach(function(entry) {
+      var content = rewriteLegacyToolLinks(entry.content, localizedLinkMap);
+      content = injectToolContentSeo(content, canonicalPath);
+      var contentWithHandler = injectBeforeClosingTag(content, '</body>', handlerScript);
+      var injection = '<script>window.currentLang="' + entry.lang + '";window.toolI18n=' + JSON.stringify(i18nData) + ';</script>';
+      var finalContent = injectBeforeClosingTag(contentWithHandler, '</head>', injection);
+      fs.writeFileSync(path.join(destPath, 'content-' + entry.lang + '.html'), finalContent);
     });
 
     // At least one language must be available
@@ -1308,43 +1476,50 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
     if (file === 'index.html') {
       languageFiles.default = file;
     } else if (file === 'index-ko.html') {
-      availableLanguages.ko = true;
       languageFiles.ko = file;
     } else if (file === 'index-en.html') {
-      availableLanguages.en = true;
       languageFiles.en = file;
     } else if (file === 'index-ja.html') {
-      availableLanguages.ja = true;
       languageFiles.ja = file;
     }
   });
 
   // Determine default file language
   if (languageFiles.default) {
-    if (!availableLanguages.ko && !availableLanguages.en && !availableLanguages.ja) {
+    if (!languageFiles.ko && !languageFiles.en && !languageFiles.ja) {
       // Only index.html exists - assume Korean
-      availableLanguages.ko = true;
       languageFiles.ko = languageFiles.default;
-    } else if (availableLanguages.en && !availableLanguages.ko) {
+    } else if (languageFiles.en && !languageFiles.ko) {
       // index.html + index-en.html -> index.html is probably Korean
-      availableLanguages.ko = true;
       languageFiles.ko = languageFiles.default;
-    } else if (!availableLanguages.en && !availableLanguages.ko) {
+    } else if (!languageFiles.en && !languageFiles.ko) {
       // Use as fallback
-      availableLanguages.ko = true;
       languageFiles.ko = languageFiles.default;
     }
   }
+
+  var legacySources = [];
+  var sourceFileByLang = {};
 
   // Copy all language files with renamed filenames
   Object.keys(languageFiles).forEach(function(lang) {
     if (lang === 'default') return;
     var srcFile = path.join(srcPath, languageFiles[lang]);
-    var destFile = path.join(destPath, 'content-' + lang + '.html');
     if (fs.existsSync(srcFile)) {
-      var legacyContent = fs.readFileSync(srcFile, 'utf8');
-      fs.writeFileSync(destFile, injectToolContentSeo(legacyContent, canonicalPath));
+      var legacyContent = readToolSourceContent(srcFile, toolType + ':' + toolId + ':' + lang);
+      if (!legacyContent) return;
+      availableLanguages[lang] = true;
+      sourceFileByLang[lang] = languageFiles[lang];
+      legacySources.push({ lang: lang, content: legacyContent });
     }
+  });
+
+  var legacyLinkMap = buildLegacyToolLinkMap(sourceFileByLang, availableLanguages, !!languageFiles.default);
+
+  legacySources.forEach(function(entry) {
+    var destFile = path.join(destPath, 'content-' + entry.lang + '.html');
+    var legacyContent = rewriteLegacyToolLinks(entry.content, legacyLinkMap);
+    fs.writeFileSync(destFile, injectToolContentSeo(legacyContent, canonicalPath));
   });
 
   // Copy other files (not index*.html)
@@ -1361,6 +1536,11 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
     }
   });
 
+  if (!(availableLanguages.ko || availableLanguages.en || availableLanguages.ja)) {
+    console.warn('[build] Skipping tool with no valid localized content: ' + toolType + ':' + toolId);
+    return;
+  }
+
   // Get tool title from toolData
   var toolTitle = toolData.title.en || toolData.title.ko || toolId;
 
@@ -1376,6 +1556,7 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
 }
 
 function build(){
+  validateCatalogs();
   if(fs.existsSync(OUT)) fs.rmSync(OUT, { recursive: true, force: true });
   ensureDir(OUT);
 
@@ -1549,14 +1730,15 @@ function build(){
     name: 'InstaIdea - Mini Games & Tools',
     short_name: 'InstaIdea',
     description: 'Free brain training games, developer tools, and fun utilities',
-    start_url: '/',
+    start_url: href('/'),
+    scope: href('/'),
     display: 'standalone',
     background_color: '#667eea',
     theme_color: '#667eea',
     lang: 'ko',
     categories: ['games', 'utilities', 'entertainment'],
     icons: [
-      { src: '/og-image.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }
+      { src: href('/og-image.svg'), sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }
     ]
   };
   write(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2));
@@ -1569,11 +1751,11 @@ function build(){
     '<stop offset="100%" style="stop-color:#f093fb"/>' +
     '</linearGradient></defs>' +
     '<rect width="1200" height="630" fill="url(#bg)"/>' +
-    '<text x="600" y="200" text-anchor="middle" fill="white" font-size="120" font-family="Arial,sans-serif">?렜</text>' +
+    '<text x="600" y="200" text-anchor="middle" fill="white" font-size="72" font-weight="bold" font-family="Arial,sans-serif">PLAY</text>' +
     '<text x="600" y="320" text-anchor="middle" fill="white" font-size="64" font-weight="bold" font-family="Arial,sans-serif">InstaIdea</text>' +
     '<text x="600" y="400" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="32" font-family="Arial,sans-serif">Mini Games &amp; Tools Collection</text>' +
     '<text x="600" y="460" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="24" font-family="Arial,sans-serif">' + (games.length + webTools.length + consumerTools.length) + '+ Free Games &amp; Tools</text>' +
-    '<text x="600" y="560" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="20" font-family="Arial,sans-serif">instaidea.org</text>' +
+    '<text x="600" y="560" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="20" font-family="Arial,sans-serif">' + escapeHtml(SITE_HOST) + '</text>' +
     '</svg>';
   write(path.join(OUT, 'og-image.svg'), ogSvg);
 
