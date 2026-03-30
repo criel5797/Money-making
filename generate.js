@@ -300,6 +300,14 @@ function injectBeforeClosingTag(content, closingTag, injection) {
   return text.slice(0, idx) + injection + text.slice(idx);
 }
 
+function injectForcedPageLocale(content, lang) {
+  return injectBeforeClosingTag(
+    content,
+    '</body>',
+    '<script>(function(){try{localStorage.setItem("lang",' + JSON.stringify(lang) + ');}catch(e){}window.currentLang=' + JSON.stringify(lang) + ';if(typeof setLanguage==="function"){setLanguage(' + JSON.stringify(lang) + ');}})();</script>'
+  );
+}
+
 function countRegexMatches(content, pattern) {
   var matches = String(content || '').match(pattern);
   return matches ? matches.length : 0;
@@ -344,14 +352,18 @@ function rewriteLegacyToolLinks(content, linkMap) {
   });
 }
 
-function buildGameSeoTitle(game) {
-  var keyword = safeText(game && game.title && game.title.en, 'Brain Training Game');
+function buildGameSeoTitle(game, lang) {
+  var locale = lang || 'en';
+  var keyword = getLocalizedCatalogValue(game && game.title, locale, 'en') || 'Brain Training Game';
+  if (locale === 'ko') return keyword + ' - 무료 온라인 게임';
+  if (locale === 'ja') return keyword + ' - 無料オンラインゲーム';
   return keyword + ' - Check Your Score Free Online';
 }
 
-function buildGameSeoDescription(game) {
-  var keyword = safeText(game && game.title && game.title.en, 'Brain Training Game');
-  var teaser = safeText(game && game.description && game.description.en, 'Train your brain with this free online game.');
+function buildGameSeoDescription(game, lang) {
+  var locale = lang || 'en';
+  var keyword = getLocalizedCatalogValue(game && game.title, locale, 'en') || 'Brain Training Game';
+  var teaser = getLocalizedCatalogValue(game && game.description, locale, 'en') || 'Train your brain with this free online game.';
   return keyword + ' - ' + teaser + ' Play free online, track your best score, and improve with practical tips.';
 }
 
@@ -401,17 +413,18 @@ function getRecommendedGames(currentGame, count) {
   return sameCategory.concat(fallback).slice(0, count);
 }
 
-function buildGameSeoContent(game, faqs) {
+function buildGameSeoContent(game, faqs, lang) {
   if (!game) return '';
 
-  var title = safeText(game.title.en, game.id);
-  var summary = safeText(game.description.en, 'Free online brain training game.');
+  var locale = lang || 'en';
+  var title = getLocalizedCatalogValue(game.title, locale, 'en') || game.id;
+  var summary = getLocalizedCatalogValue(game.description, locale, 'en') || 'Free online brain training game.';
   var averageGuide = buildGameAverageGuide(game.id, game.category);
   var relatedGames = getRecommendedGames(game, 6);
 
   var relatedList = relatedGames.map(function(item) {
-    var label = safeText(item.title.en, item.id);
-    return '<li><a href=\"' + href('/games/' + item.id + '/') + '\">' + escapeHtml(label) + '</a></li>';
+    var label = getLocalizedCatalogValue(item.title, locale, 'en') || item.id;
+    return '<li><a href=\"' + href(getToolLocalePath('/games/' + item.id + '/', locale, 'ko')) + '\">' + escapeHtml(label) + '</a></li>';
   }).join('');
 
   var faqHtml = '';
@@ -450,12 +463,12 @@ function buildGameSeoContent(game, faqs) {
 
       '<h2>Browse by Topic</h2>' +
       '<ul>' +
-        '<li><a href=\"' + href('/games/') + '\">Brain Training Games</a></li>' +
+        '<li><a href=\"' + href(getStaticPagePath('/games/', locale)) + '\">Brain Training Games</a></li>' +
         '<li><a href=\"' + href('/tools/web/') + '\">Web Developer Tools</a></li>' +
         '<li><a href=\"' + href('/tools/fun/') + '\">Daily Utility Tools</a></li>' +
-        '<li><a href=\"' + href('/dev-tools/') + '\">Developer Tools</a></li>' +
-        '<li><a href=\"' + href('/utilities/') + '\">Utilities & Fun Tools</a></li>' +
-        '<li><a href=\"' + href('/all-pages/') + '\">Site Directory</a></li>' +
+        '<li><a href=\"' + href(getStaticPagePath('/dev-tools/', locale)) + '\">Developer Tools</a></li>' +
+        '<li><a href=\"' + href(getStaticPagePath('/utilities/', locale)) + '\">Utilities & Fun Tools</a></li>' +
+        '<li><a href=\"' + href(getStaticPagePath('/all-pages/', locale)) + '\">Site Directory</a></li>' +
       '</ul>' +
     '</section>';
 }
@@ -508,12 +521,14 @@ function buildHubPageBody(options) {
   var cards = '';
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
+    var itemHref = pathPrefix + item.id + '/';
+    if (pathPrefix === '/games/') itemHref = getToolLocalePath(itemHref, lang, 'ko');
     cards += '' +
       '<div class=\"game-card\">' +
         '<div class=\"game-emoji\">' + item.emoji + '</div>' +
         '<div class=\"game-title\">' + escapeHtml(getLocalizedItemTitle(item, lang)) + '</div>' +
         '<div class=\"game-description\">' + escapeHtml(getLocalizedItemDescription(item, lang, 'Free online tool')) + '</div>' +
-        '<a href=\"' + href(pathPrefix + item.id + '/') + '\" class=\"play-btn\">' + escapeHtml(actionLabel) + '</a>' +
+        '<a href=\"' + href(itemHref) + '\" class=\"play-btn\">' + escapeHtml(actionLabel) + '</a>' +
       '</div>';
   }
 
@@ -598,11 +613,12 @@ function buildBreadcrumbSchema(crumbs) {
   };
 }
 
-function buildGameSchema(game, pathname) {
+function buildGameSchema(game, pathname, lang) {
+  var locale = lang || 'en';
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    'name': game.title.en || game.title.ko,
+    'name': getLocalizedCatalogValue(game.title, locale, 'en') || game.id,
     'alternateName': [game.title.ko, game.title.ja].filter(Boolean),
     'url': absUrl(pathname),
     'applicationCategory': 'Game',
@@ -610,7 +626,7 @@ function buildGameSchema(game, pathname) {
     'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' },
     'inLanguage': ['ko', 'en', 'ja'],
     'browserRequirements': 'Requires JavaScript',
-    'description': game.description.en || game.description.ko
+    'description': getLocalizedCatalogValue(game.description, locale, 'en') || 'Free online game'
   };
 }
 
@@ -649,7 +665,7 @@ function buildFAQSchema(faqs) {
 
 // ===== Related Content Builder =====
 
-function buildRelatedSection(currentId, allItems, type, count) {
+function buildRelatedSection(currentId, allItems, type, count, lang) {
   count = count || 4;
   // Pick items excluding current, shuffle-like with deterministic pick
   var others = allItems.filter(function(item) { return item.id !== currentId; });
@@ -672,8 +688,10 @@ function buildRelatedSection(currentId, allItems, type, count) {
     var itemTitle = item.title || {};
     var itemDesc = item.description || item.desc || {};
     var relData = JSON.stringify({ title: itemTitle, desc: itemDesc });
+    var itemHref = bp + item.id + '/';
+    if (type === 'game') itemHref = getToolLocalePath(itemHref, lang || 'ko', 'ko');
     cards +=
-      '<a href="' + href(bp + item.id + '/') + '" class="related-card" data-related=\'' + relData + '\'>' +
+      '<a href="' + href(itemHref) + '" class="related-card" data-related=\'' + relData + '\'>' +
       '<div class="related-emoji">' + item.emoji + '</div>' +
       '<div class="related-title" data-i18n-related-title>' + (itemTitle.ko || '') + '</div>' +
       '<div class="related-desc" data-i18n-related-desc>' + (itemDesc.ko || '') + '</div>' +
@@ -802,18 +820,22 @@ var templateOptions = {
 };
 
 // Generic game wrapper with JSON-LD, FAQ, and related content
-function wrapGame(gameId, generateFn, koTitle, description) {
+function wrapGame(gameId, generateFn, koTitle, description, lang) {
+  var locale = lang || 'ko';
   var gameHTML = generateFn(templateOptions);
   var game = games.find(function(g) { return g.id === gameId; });
-  var pathname = '/games/' + gameId + '/';
+  var canonicalPath = '/games/' + gameId + '/';
+  var pathname = getToolLocalePath(canonicalPath, locale, 'ko');
+  var alternateLocales = buildLocalePathMap(canonicalPath, STATIC_PAGE_LANGS, 'ko');
+  var localizedTitle = game ? (getLocalizedCatalogValue(game.title, locale, 'en') || koTitle) : koTitle;
 
   // Build JSON-LD array: BreadcrumbList + WebApplication + FAQPage
   var breadcrumb = buildBreadcrumbSchema([
-    { name: 'Home', url: absUrl('/') },
-    { name: 'Games', url: absUrl('/games/') },
-    { name: game ? (game.title.en || game.title.ko) : koTitle, url: absUrl(pathname) }
+    { name: 'Home', url: absUrl(getStaticPagePath('/', locale)) },
+    { name: safeText(i18n[locale] && i18n[locale].gamesSection, 'Games'), url: absUrl(getStaticPagePath('/games/', locale)) },
+    { name: localizedTitle, url: absUrl(pathname) }
   ]);
-  var appSchema = game ? buildGameSchema(game, pathname) : null;
+  var appSchema = game ? buildGameSchema(game, pathname, locale) : null;
   var faqs = gameFAQs[gameId] || defaultGameFAQ;
   var faqSchema = buildFAQSchema(faqs);
 
@@ -821,185 +843,220 @@ function wrapGame(gameId, generateFn, koTitle, description) {
   if (appSchema) jsonLdArr.push(appSchema);
   jsonLdArr.push(faqSchema);
 
-  var seoContent = buildGameSeoContent(game, faqs);
+  var seoContent = buildGameSeoContent(game, faqs, locale);
   var body = gameHTML + seoContent;
-  var related = buildRelatedSection(gameId, games, 'game', 6);
+  var related = buildRelatedSection(gameId, games, 'game', 6, locale);
   related += '' +
     '<section class=\"related-section\">' +
       '<h2>Browse More Categories</h2>' +
       '<div class=\"related-grid\">' +
-        '<a href=\"' + href('/games/') + '\" class=\"related-card\"><div class=\"related-emoji\">Games</div><div class=\"related-title\">Brain Training Games</div><div class=\"related-desc\">All reaction, memory, speed, and focus tests</div></a>' +
-        '<a href=\"' + href('/dev-tools/') + '\" class=\"related-card\"><div class=\"related-emoji\">Dev</div><div class=\"related-title\">Developer Tools</div><div class=\"related-desc\">Formatter, converter, validator, and builder tools</div></a>' +
-        '<a href=\"' + href('/utilities/') + '\" class=\"related-card\"><div class=\"related-emoji\">Util</div><div class=\"related-title\">Utilities & Fun</div><div class=\"related-desc\">Daily tools, calculators, and practical helpers</div></a>' +
+        '<a href=\"' + href(getStaticPagePath('/games/', locale)) + '\" class=\"related-card\"><div class=\"related-emoji\">Games</div><div class=\"related-title\">Brain Training Games</div><div class=\"related-desc\">All reaction, memory, speed, and focus tests</div></a>' +
+        '<a href=\"' + href(getStaticPagePath('/dev-tools/', locale)) + '\" class=\"related-card\"><div class=\"related-emoji\">Dev</div><div class=\"related-title\">Developer Tools</div><div class=\"related-desc\">Formatter, converter, validator, and builder tools</div></a>' +
+        '<a href=\"' + href(getStaticPagePath('/utilities/', locale)) + '\" class=\"related-card\"><div class=\"related-emoji\">Util</div><div class=\"related-title\">Utilities & Fun</div><div class=\"related-desc\">Daily tools, calculators, and practical helpers</div></a>' +
       '</div>' +
     '</section>';
 
-  var pageTitle = game ? buildGameSeoTitle(game) : (koTitle + ' - Free Online Game');
-  var pageDescription = game ? buildGameSeoDescription(game) : description;
+  var pageTitle = game ? buildGameSeoTitle(game, locale) : (koTitle + ' - Free Online Game');
+  var pageDescription = game ? buildGameSeoDescription(game, locale) : description;
 
-  return layout(pageTitle, pathname, body, true, pageDescription, jsonLdArr, related);
+  return injectForcedPageLocale(
+    layout(pageTitle, pathname, body, true, pageDescription, jsonLdArr, related, {
+      locale: locale,
+      defaultLang: 'ko',
+      alternateLocales: alternateLocales,
+      localizedNavigation: true,
+      includeI18nScript: true
+    }),
+    locale
+  );
 }
 
-function wrapReactionGame() {
+function wrapReactionGame(lang) {
   return wrapGame(
     'reaction-time',
     generateReactionGame,
     'Reaction Time Test',
-    'Test how quickly you react to a visual signal and improve your average response time.'
+    'Test how quickly you react to a visual signal and improve your average response time.',
+    lang
   );
 }
 
-function wrapMemoryNumberGame() {
+function wrapMemoryNumberGame(lang) {
   return wrapGame(
     'memory-number',
     generateMemoryNumberGame,
     'Number Memory Test',
-    'Memorize increasingly longer numbers and train short-term memory.'
+    'Memorize increasingly longer numbers and train short-term memory.',
+    lang
   );
 }
 
-function wrapTypingSpeedGame() {
+function wrapTypingSpeedGame(lang) {
   return wrapGame(
     'typing-speed',
     generateTypingSpeedGame,
     'Typing Speed Test',
-    'Measure typing speed in WPM with accuracy tracking and repeat practice.'
+    'Measure typing speed in WPM with accuracy tracking and repeat practice.',
+    lang
   );
 }
 
-function wrapColorMatchGame() {
+function wrapColorMatchGame(lang) {
   return wrapGame(
     'color-match',
     generateColorMatchGame,
     'Color Match Test',
-    'Train focus and processing speed by matching text meaning and color.'
+    'Train focus and processing speed by matching text meaning and color.',
+    lang
   );
 }
 
-function wrapMathQuizGame() {
+function wrapMathQuizGame(lang) {
   return wrapGame(
     'math-quiz',
     generateMathQuizGame,
     'Math Quiz Game',
-    'Solve mental math questions under time pressure and improve calculation speed.'
+    'Solve mental math questions under time pressure and improve calculation speed.',
+    lang
   );
 }
 
-function wrapPatternMemoryGame() {
+function wrapPatternMemoryGame(lang) {
   return wrapGame(
     'pattern-memory',
     generatePatternMemoryGame,
     'Pattern Memory Test',
-    'Remember visual patterns and repeat them correctly to advance levels.'
+    'Remember visual patterns and repeat them correctly to advance levels.',
+    lang
   );
 }
 
-function wrapClickSpeedGame() {
+function wrapClickSpeedGame(lang) {
   return wrapGame(
     'click-speed',
     generateClickSpeedGame,
     'Click Speed Test',
-    'Measure how many clicks per second you can perform in a timed challenge.'
+    'Measure how many clicks per second you can perform in a timed challenge.',
+    lang
   );
 }
 
-function wrapAimTrainerGame() {
+function wrapAimTrainerGame(lang) {
   return wrapGame(
     'aim-trainer',
     generateAimTrainerGame,
     'Aim Trainer',
-    'Practice target tracking, mouse control, and fast click accuracy.'
+    'Practice target tracking, mouse control, and fast click accuracy.',
+    lang
   );
 }
 
-function wrapSequenceMemoryGame() {
+function wrapSequenceMemoryGame(lang) {
   return wrapGame(
     'sequence-memory',
     generateSequenceMemoryGame,
     'Sequence Memory Test',
-    'Remember and repeat number sequences in the correct order.'
+    'Remember and repeat number sequences in the correct order.',
+    lang
   );
 }
 
-function wrapWordPuzzleGame() {
+function wrapWordPuzzleGame(lang) {
   return wrapGame(
     'word-puzzle',
     generateWordPuzzleGame,
     'Word Puzzle Game',
-    'Create valid words from letter sets and improve vocabulary recall.'
+    'Create valid words from letter sets and improve vocabulary recall.',
+    lang
   );
 }
 
-function wrapVisualMemoryGame() {
+function wrapVisualMemoryGame(lang) {
   return wrapGame(
     'visual-memory',
     generateVisualMemoryGame,
     'Visual Memory Test',
-    'Memorize tile positions and test your visual recall under pressure.'
+    'Memorize tile positions and test your visual recall under pressure.',
+    lang
   );
 }
 
-function wrapStroopTestGame() {
+function wrapStroopTestGame(lang) {
   return wrapGame(
     'stroop-test',
     generateStroopTestGame,
     'Stroop Test',
-    'Test cognitive flexibility by identifying color under conflicting text cues.'
+    'Test cognitive flexibility by identifying color under conflicting text cues.',
+    lang
   );
 }
 
-function wrapVerbalMemoryGame() {
+function wrapVerbalMemoryGame(lang) {
   return wrapGame(
     'verbal-memory',
     generateVerbalMemoryGame,
     'Verbal Memory Test',
-    'Decide whether words are new or previously seen to train verbal recall.'
+    'Decide whether words are new or previously seen to train verbal recall.',
+    lang
   );
 }
 
-function wrapChimpTestGame() {
+function wrapChimpTestGame(lang) {
   return wrapGame(
     'chimp-test',
     generateChimpTestGame,
     'Chimp Test',
-    'Challenge short-term sequence memory with disappearing number targets.'
+    'Challenge short-term sequence memory with disappearing number targets.',
+    lang
   );
 }
 
-function wrapHearingTestGame() {
+function wrapHearingTestGame(lang) {
   return wrapGame(
     'hearing-test',
     generateHearingTestGame,
     'Hearing Test',
-    'Check the highest audible frequency you can hear in a quick browser test.'
+    'Check the highest audible frequency you can hear in a quick browser test.',
+    lang
   );
 }
 
-function wrapColorBlindTestGame() {
+function wrapColorBlindTestGame(lang) {
   return wrapGame(
     'color-blind-test',
     generateColorBlindTestGame,
     'Color Blind Test',
-    'Find subtle color differences and assess color perception performance.'
+    'Find subtle color differences and assess color perception performance.',
+    lang
   );
 }
 
-function wrapNumberSpeedGame() {
+function wrapNumberSpeedGame(lang) {
   return wrapGame(
     'number-speed',
     generateNumberSpeedGame,
     'Number Speed Test',
-    'Choose larger numbers quickly and improve comparison speed.'
+    'Choose larger numbers quickly and improve comparison speed.',
+    lang
   );
 }
 
-function wrapTargetTrackerGame() {
+function wrapTargetTrackerGame(lang) {
   return wrapGame(
     'target-tracker',
     generateTargetTrackerGame,
     'Target Tracker',
-    'Track a moving target and test hand-eye coordination in real time.'
+    'Track a moving target and test hand-eye coordination in real time.',
+    lang
   );
+}
+
+function writeLocalizedGamePages(gameId, renderFn) {
+  var gameDir = path.join(OUT, 'games', gameId);
+  for (var i = 0; i < STATIC_PAGE_LANGS.length; i++) {
+    var lang = STATIC_PAGE_LANGS[i];
+    write(path.join(gameDir, getToolLocaleFilename(lang, 'ko')), renderFn(lang));
+  }
 }
 
 // Main page generation
@@ -1515,7 +1572,7 @@ function renderIndex() {
           '<span class="game-category">' + escapeHtml(safeText(i18n[lang] && i18n[lang].categories && i18n[lang].categories[g.category], g.category)) + '</span>' +
           '<div class="game-title">' + escapeHtml(getLocalizedCatalogValue(g.title, lang, 'en')) + '</div>' +
           '<div class="game-description">' + escapeHtml(getLocalizedCatalogValue(g.description, lang, 'en')) + '</div>' +
-          '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn">' + escapeHtml(playLabel) + '</a>' +
+          '<a href="' + href(getToolLocalePath('/games/' + g.id + '/', lang, 'ko')) + '" class="play-btn">' + escapeHtml(playLabel) + '</a>' +
         '</div>';
     }
 
@@ -1594,7 +1651,7 @@ function renderIndex() {
           { name: 'Full Site Directory', url: absUrl(getStaticPagePath('/all-pages/', lang)) }
         ], 'Site Hub Pages'),
         buildItemListSchema(games.map(function(g) {
-          return { name: getLocalizedCatalogValue(g.title, lang, 'en'), url: absUrl('/games/' + g.id + '/') };
+          return { name: getLocalizedCatalogValue(g.title, lang, 'en'), url: absUrl(getToolLocalePath('/games/' + g.id + '/', lang, 'ko')) };
         }), localizedGamesTitle),
         buildItemListSchema(webTools.map(function(t) {
           return { name: getLocalizedItemTitle(t, lang), url: absUrl('/tools/web/' + t.id + '/') };
@@ -1616,9 +1673,11 @@ function renderSectionHubs() {
       ]),
       buildCollectionPageSchema(name, getStaticPagePath(canonicalPath, lang), description),
       buildItemListSchema(items.map(function(item) {
+        var itemUrl = itemPathPrefix + item.id + '/';
+        if (itemPathPrefix === '/games/') itemUrl = getToolLocalePath(itemUrl, lang, 'ko');
         return {
           name: getLocalizedItemTitle(item, lang),
-          url: absUrl(itemPathPrefix + item.id + '/')
+          url: absUrl(itemUrl)
         };
       }), name)
     ];
@@ -1767,7 +1826,9 @@ function renderSectionHubs() {
     var toList = function(items, pathPrefix) {
       var html = '';
       for (var i = 0; i < items.length; i++) {
-        html += '<li><a href="' + href(pathPrefix + items[i].id + '/') + '">' + escapeHtml(getLocalizedItemTitle(items[i], lang)) + '</a></li>';
+        var itemHref = pathPrefix + items[i].id + '/';
+        if (pathPrefix === '/games/') itemHref = getToolLocalePath(itemHref, lang, 'ko');
+        html += '<li><a href="' + href(itemHref) + '">' + escapeHtml(getLocalizedItemTitle(items[i], lang)) + '</a></li>';
       }
       return html;
     };
@@ -1797,7 +1858,7 @@ function renderSectionHubs() {
       '</section>';
 
     var allPageLinks = [{ name: 'Home', url: absUrl(getStaticPagePath('/', lang)) }]
-      .concat(games.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl('/games/' + item.id + '/') }; }))
+      .concat(games.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl(getToolLocalePath('/games/' + item.id + '/', lang, 'ko')) }; }))
       .concat(webTools.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl('/tools/web/' + item.id + '/') }; }))
       .concat(consumerTools.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl('/tools/fun/' + item.id + '/') }; }));
 
@@ -2183,24 +2244,24 @@ function build(){
   renderPrivacy();
 
   // 媛?寃뚯엫 ?섏씠吏 ?앹꽦
-  write(path.join(OUT, 'games', 'reaction-time', 'index.html'), wrapReactionGame());
-  write(path.join(OUT, 'games', 'memory-number', 'index.html'), wrapMemoryNumberGame());
-  write(path.join(OUT, 'games', 'typing-speed', 'index.html'), wrapTypingSpeedGame());
-  write(path.join(OUT, 'games', 'color-match', 'index.html'), wrapColorMatchGame());
-  write(path.join(OUT, 'games', 'math-quiz', 'index.html'), wrapMathQuizGame());
-  write(path.join(OUT, 'games', 'pattern-memory', 'index.html'), wrapPatternMemoryGame());
-  write(path.join(OUT, 'games', 'click-speed', 'index.html'), wrapClickSpeedGame());
-  write(path.join(OUT, 'games', 'aim-trainer', 'index.html'), wrapAimTrainerGame());
-  write(path.join(OUT, 'games', 'sequence-memory', 'index.html'), wrapSequenceMemoryGame());
-  write(path.join(OUT, 'games', 'word-puzzle', 'index.html'), wrapWordPuzzleGame());
-  write(path.join(OUT, 'games', 'visual-memory', 'index.html'), wrapVisualMemoryGame());
-  write(path.join(OUT, 'games', 'stroop-test', 'index.html'), wrapStroopTestGame());
-  write(path.join(OUT, 'games', 'verbal-memory', 'index.html'), wrapVerbalMemoryGame());
-  write(path.join(OUT, 'games', 'chimp-test', 'index.html'), wrapChimpTestGame());
-  write(path.join(OUT, 'games', 'hearing-test', 'index.html'), wrapHearingTestGame());
-  write(path.join(OUT, 'games', 'color-blind-test', 'index.html'), wrapColorBlindTestGame());
-  write(path.join(OUT, 'games', 'number-speed', 'index.html'), wrapNumberSpeedGame());
-  write(path.join(OUT, 'games', 'target-tracker', 'index.html'), wrapTargetTrackerGame());
+  writeLocalizedGamePages('reaction-time', wrapReactionGame);
+  writeLocalizedGamePages('memory-number', wrapMemoryNumberGame);
+  writeLocalizedGamePages('typing-speed', wrapTypingSpeedGame);
+  writeLocalizedGamePages('color-match', wrapColorMatchGame);
+  writeLocalizedGamePages('math-quiz', wrapMathQuizGame);
+  writeLocalizedGamePages('pattern-memory', wrapPatternMemoryGame);
+  writeLocalizedGamePages('click-speed', wrapClickSpeedGame);
+  writeLocalizedGamePages('aim-trainer', wrapAimTrainerGame);
+  writeLocalizedGamePages('sequence-memory', wrapSequenceMemoryGame);
+  writeLocalizedGamePages('word-puzzle', wrapWordPuzzleGame);
+  writeLocalizedGamePages('visual-memory', wrapVisualMemoryGame);
+  writeLocalizedGamePages('stroop-test', wrapStroopTestGame);
+  writeLocalizedGamePages('verbal-memory', wrapVerbalMemoryGame);
+  writeLocalizedGamePages('chimp-test', wrapChimpTestGame);
+  writeLocalizedGamePages('hearing-test', wrapHearingTestGame);
+  writeLocalizedGamePages('color-blind-test', wrapColorBlindTestGame);
+  writeLocalizedGamePages('number-speed', wrapNumberSpeedGame);
+  writeLocalizedGamePages('target-tracker', wrapTargetTrackerGame);
 
   // Process Web Tools with language switching
   var webToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'web');
@@ -2266,9 +2327,9 @@ function build(){
     { url: '/privacy/', priority: '0.3', changefreq: 'yearly' }
   ];
   var staticEntries = buildLocalizedStaticEntries(staticCanonicalEntries, STATIC_PAGE_LANGS, 'ko');
-  var gameEntries = games.map(function(game) {
+  var gameEntries = buildLocalizedStaticEntries(games.map(function(game) {
     return { url: '/games/' + game.id + '/', priority: '0.8', changefreq: 'monthly' };
-  });
+  }), STATIC_PAGE_LANGS, 'ko');
   var buildUrlSetXml = function(entries) {
     var xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
     for (var i = 0; i < entries.length; i++) {
