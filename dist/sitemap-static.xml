@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://instaidea.org/</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+<url><loc>https://instaidea.org/index-en.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+<url><loc>https://instaidea.org/index-ja.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
 <url><loc>https://instaidea.org/tools/</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://instaidea.org/tools/index-en.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://instaidea.org/tools/index-ja.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
 <url><loc>https://instaidea.org/games/</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://instaidea.org/games/index-en.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://instaidea.org/games/index-ja.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
 <url><loc>https://instaidea.org/dev-tools/</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://instaidea.org/dev-tools/index-en.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://instaidea.org/dev-tools/index-ja.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://instaidea.org/utilities/</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://instaidea.org/utilities/index-en.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://instaidea.org/utilities/index-ja.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://instaidea.org/tools/web/</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://instaidea.org/tools/web/index-en.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://instaidea.org/tools/web/index-ja.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://instaidea.org/tools/fun/</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://instaidea.org/tools/fun/index-en.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://instaidea.org/tools/fun/index-ja.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://instaidea.org/all-pages/</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://instaidea.org/all-pages/index-en.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://instaidea.org/all-pages/index-ja.html</loc><lastmod>2026-03-30</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://instaidea.org/privacy/</loc><lastmod>2026-03-30</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+<url><loc>https://instaidea.org/privacy/index-en.html</loc><lastmod>2026-03-30</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+<url><loc>https://instaidea.org/privacy/index-ja.html</loc><lastmod>2026-03-30</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>

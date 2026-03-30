@@ -104,6 +104,98 @@ function getToolLocalePath(canonicalPath, lang, defaultLang) {
   return canonicalPath + (lang === defaultLang ? '' : ('index-' + lang + '.html'));
 }
 
+var STATIC_PAGE_LANGS = ['ko', 'en', 'ja'];
+var GOOGLE_ANALYTICS_ID = 'G-CGCL4G4YMY';
+
+function getStaticPagePath(canonicalPath, lang) {
+  return getToolLocalePath(canonicalPath, lang, 'ko');
+}
+
+function buildGoogleAnalyticsTags() {
+  return '' +
+    '<script async src="https://www.googletagmanager.com/gtag/js?id=' + GOOGLE_ANALYTICS_ID + '"></script>' +
+    '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "' + GOOGLE_ANALYTICS_ID + '");</script>';
+}
+
+function buildLocalePathMap(canonicalPath, languages, defaultLang) {
+  var map = {};
+  (languages || []).forEach(function(lang) {
+    map[lang] = getToolLocalePath(canonicalPath, lang, defaultLang);
+  });
+  return map;
+}
+
+function formatLocalizedCount(template, count) {
+  return safeText(template, '{count} items').replace('{count}', String(count));
+}
+
+function getLocalizedCatalogValue(value, lang, fallbackLang) {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  return safeText(
+    value[lang],
+    safeText(value[fallbackLang], safeText(value.en, safeText(value.ko, safeText(value.ja, ''))))
+  );
+}
+
+function getLocalizedItemTitle(item, lang) {
+  return safeText(getLocalizedCatalogValue(item && item.title, lang, 'en'), item && item.id);
+}
+
+function getLocalizedItemDescription(item, lang, fallbackText) {
+  return safeText(
+    getLocalizedCatalogValue((item && (item.description || item.desc)) || '', lang, 'en'),
+    fallbackText || 'Free online tool'
+  );
+}
+
+function buildLocalizedStaticEntries(entries, languages, defaultLang) {
+  var localizedEntries = [];
+  for (var i = 0; i < entries.length; i++) {
+    var entry = entries[i];
+    for (var j = 0; j < languages.length; j++) {
+      localizedEntries.push({
+        url: getToolLocalePath(entry.url, languages[j], defaultLang),
+        priority: entry.priority,
+        changefreq: entry.changefreq
+      });
+    }
+  }
+  return localizedEntries;
+}
+
+function writeLocalizedStaticPages(outputDir, canonicalPath, renderPage, options) {
+  options = options || {};
+  var languages = options.languages || STATIC_PAGE_LANGS;
+  var defaultLang = options.defaultLang || 'ko';
+  var alternateLocales = buildLocalePathMap(canonicalPath, languages, defaultLang);
+
+  languages.forEach(function(lang) {
+    var page = renderPage(lang, alternateLocales) || {};
+    write(
+      path.join(outputDir, getToolLocaleFilename(lang, defaultLang)),
+      layout(
+        page.title,
+        alternateLocales[lang],
+        page.body || '',
+        page.includeAdScript !== false,
+        page.description,
+        page.jsonLd,
+        page.relatedContent,
+        {
+          locale: lang,
+          defaultLang: defaultLang,
+          alternateLocales: alternateLocales,
+          localizedNavigation: true,
+          includeI18nScript: page.includeI18nScript === true
+        }
+      )
+    );
+  });
+
+  return alternateLocales;
+}
+
 function getLocaleOpenGraphValue(lang) {
   if (lang === 'ko') return 'ko_KR';
   if (lang === 'ja') return 'ja_JP';
@@ -172,7 +264,8 @@ function injectToolContentSeo(content, options) {
     '<meta property="og:url" content="' + canonical + '">' +
     '<meta property="og:locale" content="' + ogLocale + '">' +
     ogAlternateTags +
-    altTags;
+    altTags +
+    buildGoogleAnalyticsTags();
 
   if (/<head[^>]*>/i.test(content)) {
     return content.replace(/<head[^>]*>/i, function(match) {
@@ -400,15 +493,26 @@ function getToolExample(toolId) {
   return 'Input example\\nOutput example';
 }
 
-function buildHubPageBody(title, subtitle, intro, items, pathPrefix, actionLabel) {
+function buildHubPageBody(options) {
+  options = options || {};
+  var lang = options.lang || 'en';
+  var title = options.title || '';
+  var subtitle = options.subtitle || '';
+  var intro = options.intro || '';
+  var items = options.items || [];
+  var pathPrefix = options.pathPrefix || '/';
+  var actionLabel = options.actionLabel || 'Open';
+  var relatedGamesHref = href(getStaticPagePath('/games/', lang));
+  var relatedDevToolsHref = href(getStaticPagePath('/dev-tools/', lang));
+  var relatedUtilitiesHref = href(getStaticPagePath('/utilities/', lang));
   var cards = '';
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
     cards += '' +
       '<div class=\"game-card\">' +
         '<div class=\"game-emoji\">' + item.emoji + '</div>' +
-        '<div class=\"game-title\">' + escapeHtml(safeText(item.title.en, item.id)) + '</div>' +
-        '<div class=\"game-description\">' + escapeHtml(safeText(item.description && item.description.en, safeText(item.desc && item.desc.en, 'Free online tool'))) + '</div>' +
+        '<div class=\"game-title\">' + escapeHtml(getLocalizedItemTitle(item, lang)) + '</div>' +
+        '<div class=\"game-description\">' + escapeHtml(getLocalizedItemDescription(item, lang, 'Free online tool')) + '</div>' +
         '<a href=\"' + href(pathPrefix + item.id + '/') + '\" class=\"play-btn\">' + escapeHtml(actionLabel) + '</a>' +
       '</div>';
   }
@@ -435,9 +539,9 @@ function buildHubPageBody(title, subtitle, intro, items, pathPrefix, actionLabel
       '<p><strong>Do pages work on mobile?</strong> Yes, pages are responsive and support mobile and desktop.</p>' +
       '<p><strong>How are pages organized?</strong> Pages are clustered by topic so both users and search engines can navigate the site structure more clearly.</p>' +
       '<ul>' +
-        '<li><a href=\"' + href('/games/') + '\">Brain Training Games</a></li>' +
-        '<li><a href=\"' + href('/dev-tools/') + '\">Developer Tools</a></li>' +
-        '<li><a href=\"' + href('/utilities/') + '\">Utilities & Fun Tools</a></li>' +
+        '<li><a href=\"' + relatedGamesHref + '\">Brain Training Games</a></li>' +
+        '<li><a href=\"' + relatedDevToolsHref + '\">Developer Tools</a></li>' +
+        '<li><a href=\"' + relatedUtilitiesHref + '\">Utilities & Fun Tools</a></li>' +
       '</ul>' +
     '</section>' +
     '<div class=\"grid\">' + cards + '</div>';
@@ -669,7 +773,8 @@ function getGameTitleScript(gameId, emoji) {
 }
 
 // Layout wrapper using the createLayout function from layout.js
-function layout(title, pathname, body, includeAdScript, description, jsonLd, relatedContent) {
+function layout(title, pathname, body, includeAdScript, description, jsonLd, relatedContent, options) {
+  options = options || {};
   return createLayout({
     title: title,
     description: description || title + ' - 무료 미니게임 모음집. 뇌훈련, 개발자 도구, 유틸리티를 즐겨보세요!',
@@ -681,7 +786,12 @@ function layout(title, pathname, body, includeAdScript, description, jsonLd, rel
     baseUrl: BASE_URL,
     i18nData: i18n,
     jsonLd: jsonLd,
-    relatedContent: relatedContent || ''
+    relatedContent: relatedContent || '',
+    locale: options.locale,
+    defaultLang: options.defaultLang,
+    alternateLocales: options.alternateLocales,
+    localizedNavigation: options.localizedNavigation,
+    includeI18nScript: options.includeI18nScript
   });
 }
 
@@ -1356,6 +1466,425 @@ function renderPrivacy() {
   write(path.join(OUT, 'privacy', 'index.html'), layout(privacyMeta.ko.title, '/privacy/', body, false, privacyMeta.ko.description));
 }
 
+function layout(title, pathname, body, includeAdScript, description, jsonLd, relatedContent, options) {
+  options = options || {};
+  return createLayout({
+    title: title,
+    description: description || (title + ' - Free mini games, browser tools, and utilities'),
+    pathname: pathname,
+    body: body,
+    includeAdScript: includeAdScript,
+    monetagSiteId: ADS_CLIENT,
+    basePath: BASE_PATH,
+    baseUrl: BASE_URL,
+    i18nData: i18n,
+    jsonLd: jsonLd,
+    relatedContent: relatedContent || '',
+    locale: options.locale,
+    defaultLang: options.defaultLang,
+    alternateLocales: options.alternateLocales,
+    localizedNavigation: options.localizedNavigation,
+    includeI18nScript: options.includeI18nScript
+  });
+}
+
+function renderIndex() {
+  var totalCount = games.length + webTools.length + consumerTools.length;
+
+  writeLocalizedStaticPages(OUT, '/', function(lang) {
+    var localizedMainTitle = safeText(i18n[lang] && i18n[lang].mainTitle, 'Mini Games & Tools Collection');
+    var localizedMainDesc = safeText(i18n[lang] && i18n[lang].mainDesc, 'Fun games and useful tools in one place.');
+    var localizedCount = formatLocalizedCount(i18n[lang] && i18n[lang].totalCount, totalCount);
+    var localizedGamesTitle = safeText(i18n[lang] && i18n[lang].gamesSection, 'Brain Training Games');
+    var localizedGamesDesc = safeText(i18n[lang] && i18n[lang].gamesSectionDesc, 'Reaction, memory, and focus tests.');
+    var localizedWebToolsTitle = safeText(i18n[lang] && i18n[lang].webToolsSection, 'Developer Tools');
+    var localizedWebToolsDesc = safeText(i18n[lang] && i18n[lang].webToolsSectionDesc, 'Useful tools for development workflows.');
+    var localizedFunToolsTitle = safeText(i18n[lang] && i18n[lang].funToolsSection, 'Fun & Utility Tools');
+    var localizedFunToolsDesc = safeText(i18n[lang] && i18n[lang].funToolsSectionDesc, 'Calculators, fun tools, and daily helpers.');
+    var playLabel = safeText(i18n[lang] && i18n[lang].playBtn, 'Play');
+    var useLabel = safeText(i18n[lang] && i18n[lang].useBtn, 'Use');
+    var gameList = '';
+    var webToolsList = '';
+    var consumerToolsList = '';
+
+    for (var i = 0; i < games.length; i++) {
+      var g = games[i];
+      gameList += '' +
+        '<div class="game-card">' +
+          '<div class="game-emoji">' + g.emoji + '</div>' +
+          '<span class="game-category">' + escapeHtml(safeText(i18n[lang] && i18n[lang].categories && i18n[lang].categories[g.category], g.category)) + '</span>' +
+          '<div class="game-title">' + escapeHtml(getLocalizedCatalogValue(g.title, lang, 'en')) + '</div>' +
+          '<div class="game-description">' + escapeHtml(getLocalizedCatalogValue(g.description, lang, 'en')) + '</div>' +
+          '<a href="' + href('/games/' + g.id + '/') + '" class="play-btn">' + escapeHtml(playLabel) + '</a>' +
+        '</div>';
+    }
+
+    for (var j = 0; j < webTools.length; j++) {
+      var webTool = webTools[j];
+      webToolsList += '' +
+        '<div class="game-card">' +
+          '<div class="game-emoji">' + webTool.emoji + '</div>' +
+          '<div class="game-title">' + escapeHtml(getLocalizedItemTitle(webTool, lang)) + '</div>' +
+          '<div class="game-description">' + escapeHtml(getLocalizedItemDescription(webTool, lang, 'Free online tool')) + '</div>' +
+          '<a href="' + href('/tools/web/' + webTool.id + '/') + '" class="play-btn">' + escapeHtml(useLabel) + '</a>' +
+        '</div>';
+    }
+
+    for (var k = 0; k < consumerTools.length; k++) {
+      var consumerTool = consumerTools[k];
+      consumerToolsList += '' +
+        '<div class="game-card">' +
+          '<div class="game-emoji">' + consumerTool.emoji + '</div>' +
+          '<div class="game-title">' + escapeHtml(getLocalizedItemTitle(consumerTool, lang)) + '</div>' +
+          '<div class="game-description">' + escapeHtml(getLocalizedItemDescription(consumerTool, lang, 'Free online tool')) + '</div>' +
+          '<a href="' + href('/tools/fun/' + consumerTool.id + '/') + '" class="play-btn">' + escapeHtml(useLabel) + '</a>' +
+        '</div>';
+    }
+
+    var body =
+      '<div class="header-section">' +
+        '<h1>' + escapeHtml(localizedMainTitle) + '</h1>' +
+        '<p style="text-align:center;font-size:20px;margin:16px 0;font-weight:500">' + escapeHtml(localizedMainDesc) + '</p>' +
+        '<p style="text-align:center;font-size:16px;margin:8px 0;opacity:0.9">' + escapeHtml(localizedCount) + '</p>' +
+      '</div>' +
+      '<section class="seo-content">' +
+        '<h2>Explore by Directory</h2>' +
+        '<p>Use section directories to find tools faster and help crawlers understand topic clusters.</p>' +
+        '<ul>' +
+          '<li><a href="' + href(getStaticPagePath('/tools/web/', lang)) + '">Web Developer Tools Directory</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/tools/fun/', lang)) + '">Utility Tools Directory</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/all-pages/', lang)) + '">Full Site Directory</a></li>' +
+        '</ul>' +
+      '</section>' +
+      '<div style="margin:40px 0 20px">' +
+        '<h2 style="font-size:2rem;text-align:center;margin-bottom:10px">' + escapeHtml(localizedGamesTitle) + '</h2>' +
+        '<p style="text-align:center;color:#94a3b8;margin-bottom:30px">' + escapeHtml(localizedGamesDesc) + '</p>' +
+      '</div>' +
+      '<div class="grid">' + gameList + '</div>' +
+      '<div style="margin:60px 0 20px">' +
+        '<h2 style="font-size:2rem;text-align:center;margin-bottom:10px">' + escapeHtml(localizedWebToolsTitle) + '</h2>' +
+        '<p style="text-align:center;color:#94a3b8;margin-bottom:30px">' + escapeHtml(localizedWebToolsDesc) + '</p>' +
+      '</div>' +
+      '<div class="grid">' + webToolsList + '</div>' +
+      '<div style="margin:60px 0 20px">' +
+        '<h2 style="font-size:2rem;text-align:center;margin-bottom:10px">' + escapeHtml(localizedFunToolsTitle) + '</h2>' +
+        '<p style="text-align:center;color:#94a3b8;margin-bottom:30px">' + escapeHtml(localizedFunToolsDesc) + '</p>' +
+      '</div>' +
+      '<div class="grid">' + consumerToolsList + '</div>';
+
+    var websiteSchema = buildWebSiteSchema();
+    websiteSchema.url = absUrl(getStaticPagePath('/', lang));
+    websiteSchema.description = localizedMainDesc;
+
+    return {
+      title: safeText(i18n[lang] && i18n[lang].siteTitle, 'Mini Games & Tools Collection'),
+      description: localizedMainDesc + ' ' + localizedCount,
+      body: body,
+      includeAdScript: true,
+      includeI18nScript: false,
+      jsonLd: [
+        websiteSchema,
+        buildItemListSchema([
+          { name: 'Online Tools Directory', url: absUrl(getStaticPagePath('/tools/', lang)) },
+          { name: localizedGamesTitle, url: absUrl(getStaticPagePath('/games/', lang)) },
+          { name: 'Developer Tools', url: absUrl(getStaticPagePath('/dev-tools/', lang)) },
+          { name: 'Utilities & Fun Tools', url: absUrl(getStaticPagePath('/utilities/', lang)) },
+          { name: 'Web Developer Tools Directory', url: absUrl(getStaticPagePath('/tools/web/', lang)) },
+          { name: 'Utility Tools Directory', url: absUrl(getStaticPagePath('/tools/fun/', lang)) },
+          { name: 'Full Site Directory', url: absUrl(getStaticPagePath('/all-pages/', lang)) }
+        ], 'Site Hub Pages'),
+        buildItemListSchema(games.map(function(g) {
+          return { name: getLocalizedCatalogValue(g.title, lang, 'en'), url: absUrl('/games/' + g.id + '/') };
+        }), localizedGamesTitle),
+        buildItemListSchema(webTools.map(function(t) {
+          return { name: getLocalizedItemTitle(t, lang), url: absUrl('/tools/web/' + t.id + '/') };
+        }), localizedWebToolsTitle),
+        buildItemListSchema(consumerTools.map(function(t) {
+          return { name: getLocalizedItemTitle(t, lang), url: absUrl('/tools/fun/' + t.id + '/') };
+        }), localizedFunToolsTitle)
+      ]
+    };
+  });
+}
+
+function renderSectionHubs() {
+  function hubCollectionSchema(name, canonicalPath, description, items, lang, itemPathPrefix) {
+    return [
+      buildBreadcrumbSchema([
+        { name: 'Home', url: absUrl(getStaticPagePath('/', lang)) },
+        { name: name, url: absUrl(getStaticPagePath(canonicalPath, lang)) }
+      ]),
+      buildCollectionPageSchema(name, getStaticPagePath(canonicalPath, lang), description),
+      buildItemListSchema(items.map(function(item) {
+        return {
+          name: getLocalizedItemTitle(item, lang),
+          url: absUrl(itemPathPrefix + item.id + '/')
+        };
+      }), name)
+    ];
+  }
+
+  writeLocalizedStaticPages(path.join(OUT, 'games'), '/games/', function(lang) {
+    var title = safeText(i18n[lang] && i18n[lang].gamesSection, 'Brain Training Games');
+    var intro = safeText(i18n[lang] && i18n[lang].gamesSectionDesc, 'Reaction, memory, focus, and speed challenges.');
+    return {
+      title: title + ' - InstaIdea',
+      description: intro + ' ' + formatLocalizedCount(i18n[lang] && i18n[lang].gameCount, games.length),
+      body: buildHubPageBody({
+        lang: lang,
+        title: title,
+        subtitle: formatLocalizedCount(i18n[lang] && i18n[lang].gameCount, games.length),
+        intro: intro,
+        items: games,
+        pathPrefix: '/games/',
+        actionLabel: safeText(i18n[lang] && i18n[lang].playBtn, 'Play')
+      }),
+      includeAdScript: true,
+      includeI18nScript: false,
+      jsonLd: hubCollectionSchema(title, '/games/', intro, games, lang, '/games/')
+    };
+  });
+
+  writeLocalizedStaticPages(path.join(OUT, 'dev-tools'), '/dev-tools/', function(lang) {
+    var title = safeText(i18n[lang] && i18n[lang].webToolsSection, 'Developer Tools');
+    var intro = safeText(i18n[lang] && i18n[lang].webToolsSectionDesc, 'Useful browser-based tools for technical workflows.');
+    return {
+      title: title + ' - InstaIdea',
+      description: intro + ' ' + webTools.length + '+ browser tools.',
+      body: buildHubPageBody({
+        lang: lang,
+        title: title,
+        subtitle: webTools.length + '+ Free Browser Tools',
+        intro: intro,
+        items: webTools,
+        pathPrefix: '/tools/web/',
+        actionLabel: safeText(i18n[lang] && i18n[lang].useBtn, 'Use')
+      }),
+      includeAdScript: true,
+      includeI18nScript: false,
+      jsonLd: hubCollectionSchema(title, '/dev-tools/', intro, webTools, lang, '/tools/web/')
+    };
+  });
+
+  writeLocalizedStaticPages(path.join(OUT, 'utilities'), '/utilities/', function(lang) {
+    var title = safeText(i18n[lang] && i18n[lang].funToolsSection, 'Utilities & Fun Tools');
+    var intro = safeText(i18n[lang] && i18n[lang].funToolsSectionDesc, 'Everyday helpers, calculators, and lightweight fun tools.');
+    return {
+      title: title + ' - InstaIdea',
+      description: intro + ' ' + consumerTools.length + '+ utility tools.',
+      body: buildHubPageBody({
+        lang: lang,
+        title: title,
+        subtitle: consumerTools.length + '+ Free Daily Utilities',
+        intro: intro,
+        items: consumerTools,
+        pathPrefix: '/tools/fun/',
+        actionLabel: safeText(i18n[lang] && i18n[lang].useBtn, 'Use')
+      }),
+      includeAdScript: true,
+      includeI18nScript: false,
+      jsonLd: hubCollectionSchema(title, '/utilities/', intro, consumerTools, lang, '/tools/fun/')
+    };
+  });
+
+  writeLocalizedStaticPages(path.join(OUT, 'tools', 'web'), '/tools/web/', function(lang) {
+    var title = 'Web Developer Tools Directory';
+    var intro = 'Browse all developer-focused browser tools in one directory.';
+    return {
+      title: title + ' - InstaIdea',
+      description: intro,
+      body: buildHubPageBody({
+        lang: lang,
+        title: title,
+        subtitle: webTools.length + '+ Technical Tools',
+        intro: intro,
+        items: webTools,
+        pathPrefix: '/tools/web/',
+        actionLabel: safeText(i18n[lang] && i18n[lang].useBtn, 'Use')
+      }),
+      includeAdScript: true,
+      includeI18nScript: false,
+      jsonLd: hubCollectionSchema(title, '/tools/web/', intro, webTools, lang, '/tools/web/')
+    };
+  });
+
+  writeLocalizedStaticPages(path.join(OUT, 'tools', 'fun'), '/tools/fun/', function(lang) {
+    var title = 'Utility Tools Directory';
+    var intro = 'Browse all utility and lifestyle-friendly tools in one place.';
+    return {
+      title: title + ' - InstaIdea',
+      description: intro,
+      body: buildHubPageBody({
+        lang: lang,
+        title: title,
+        subtitle: consumerTools.length + '+ Everyday Tools',
+        intro: intro,
+        items: consumerTools,
+        pathPrefix: '/tools/fun/',
+        actionLabel: safeText(i18n[lang] && i18n[lang].useBtn, 'Use')
+      }),
+      includeAdScript: true,
+      includeI18nScript: false,
+      jsonLd: hubCollectionSchema(title, '/tools/fun/', intro, consumerTools, lang, '/tools/fun/')
+    };
+  });
+
+  writeLocalizedStaticPages(path.join(OUT, 'tools'), '/tools/', function(lang) {
+    var body = '' +
+      '<div class="header-section">' +
+        '<h1>Online Tools Directory</h1>' +
+        '<p style="text-align:center;font-size:18px;margin:12px 0;opacity:0.95">Developer tools and daily utilities in one place</p>' +
+      '</div>' +
+      '<section class="seo-content">' +
+        '<h2>Tools Categories</h2>' +
+        '<p>This directory separates technical tools and everyday utilities into clear categories.</p>' +
+        '<ul>' +
+          '<li><a href="' + href(getStaticPagePath('/tools/web/', lang)) + '">Web Developer Tools Directory</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/tools/fun/', lang)) + '">Utility Tools Directory</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/dev-tools/', lang)) + '">Developer Tools</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/utilities/', lang)) + '">Utilities & Fun Tools</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/games/', lang)) + '">Brain Training Games</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/all-pages/', lang)) + '">Full Site Directory</a></li>' +
+        '</ul>' +
+      '</section>';
+    return {
+      title: 'Online Tools Directory - InstaIdea',
+      description: 'Developer tools and utility directories for the full site.',
+      body: body,
+      includeAdScript: true,
+      includeI18nScript: false,
+      jsonLd: [
+        buildBreadcrumbSchema([
+          { name: 'Home', url: absUrl(getStaticPagePath('/', lang)) },
+          { name: 'Online Tools Directory', url: absUrl(getStaticPagePath('/tools/', lang)) }
+        ]),
+        buildCollectionPageSchema('Online Tools Directory', getStaticPagePath('/tools/', lang), 'Top-level tools directory for developer and utility categories.')
+      ]
+    };
+  });
+
+  writeLocalizedStaticPages(path.join(OUT, 'all-pages'), '/all-pages/', function(lang) {
+    var toList = function(items, pathPrefix) {
+      var html = '';
+      for (var i = 0; i < items.length; i++) {
+        html += '<li><a href="' + href(pathPrefix + items[i].id + '/') + '">' + escapeHtml(getLocalizedItemTitle(items[i], lang)) + '</a></li>';
+      }
+      return html;
+    };
+
+    var body = '' +
+      '<div class="header-section">' +
+        '<h1>Full Site Directory</h1>' +
+        '<p style="text-align:center;font-size:18px;margin:12px 0;opacity:0.95">Browse every major page by section</p>' +
+      '</div>' +
+      '<section class="seo-content">' +
+        '<h2>Core Hubs</h2>' +
+        '<ul>' +
+          '<li><a href="' + href(getStaticPagePath('/', lang)) + '">Home</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/tools/', lang)) + '">Online Tools Directory</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/games/', lang)) + '">Brain Training Games</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/dev-tools/', lang)) + '">Developer Tools</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/utilities/', lang)) + '">Utilities & Fun Tools</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/tools/web/', lang)) + '">Web Developer Tools Directory</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/tools/fun/', lang)) + '">Utility Tools Directory</a></li>' +
+        '</ul>' +
+        '<h2>All Brain Training Games</h2>' +
+        '<ul>' + toList(games, '/games/') + '</ul>' +
+        '<h2>All Web Developer Tools</h2>' +
+        '<ul>' + toList(webTools, '/tools/web/') + '</ul>' +
+        '<h2>All Utility Tools</h2>' +
+        '<ul>' + toList(consumerTools, '/tools/fun/') + '</ul>' +
+      '</section>';
+
+    var allPageLinks = [{ name: 'Home', url: absUrl(getStaticPagePath('/', lang)) }]
+      .concat(games.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl('/games/' + item.id + '/') }; }))
+      .concat(webTools.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl('/tools/web/' + item.id + '/') }; }))
+      .concat(consumerTools.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl('/tools/fun/' + item.id + '/') }; }));
+
+    return {
+      title: 'Full Site Directory - InstaIdea',
+      description: 'Complete directory of games, developer tools, and utilities.',
+      body: body,
+      includeAdScript: true,
+      includeI18nScript: false,
+      jsonLd: [
+        buildBreadcrumbSchema([
+          { name: 'Home', url: absUrl(getStaticPagePath('/', lang)) },
+          { name: 'Full Site Directory', url: absUrl(getStaticPagePath('/all-pages/', lang)) }
+        ]),
+        buildCollectionPageSchema('Full Site Directory', getStaticPagePath('/all-pages/', lang), 'Complete internal links page for all major sections and tools.'),
+        buildItemListSchema(allPageLinks, 'Full Site Directory')
+      ]
+    };
+  });
+}
+
+function renderPrivacy() {
+  var privacyMeta = {
+    ko: {
+      title: safeText(i18n.ko && i18n.ko.privacy && i18n.ko.privacy.title, 'Privacy Policy') + ' - Mini Games & Tools',
+      description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
+    },
+    en: {
+      title: safeText(i18n.en && i18n.en.privacy && i18n.en.privacy.title, 'Privacy Policy') + ' - Mini Games & Tools',
+      description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
+    },
+    ja: {
+      title: safeText(i18n.ja && i18n.ja.privacy && i18n.ja.privacy.title, 'Privacy Policy') + ' - Mini Games & Tools',
+      description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
+    }
+  };
+  var today = new Date().toISOString().split('T')[0];
+
+  writeLocalizedStaticPages(path.join(OUT, 'privacy'), '/privacy/', function(lang) {
+    var privacy = (i18n[lang] && i18n[lang].privacy) || (i18n.en && i18n.en.privacy) || {};
+    var body =
+      '<h1>' + escapeHtml(privacy.heading || privacyMeta[lang].title) + '</h1>' +
+      '<div class="game-card">' +
+        '<h3 style="color:#333">' + escapeHtml(privacy.section1Title || '') + '</h3>' +
+        '<p style="color:#555">' + escapeHtml(privacy.section1Desc || '') + '</p>' +
+        '<ul style="color:#555">' +
+          '<li>' + escapeHtml(privacy.section1Item1 || '') + '</li>' +
+          '<li>' + escapeHtml(privacy.section1Item2 || '') + '</li>' +
+          '<li>' + escapeHtml(privacy.section1Item3 || '') + '</li>' +
+          '<li>' + escapeHtml(privacy.section1Item4 || '') + '</li>' +
+        '</ul>' +
+        '<h3 style="color:#333">' + escapeHtml(privacy.section2Title || '') + '</h3>' +
+        '<p style="color:#555">' + escapeHtml(privacy.section2Desc1 || '') + '</p>' +
+        '<p style="color:#555"><span>' + escapeHtml(privacy.section2Desc2 || '') + '</span> <a href="https://www.google.com/settings/ads" style="color:#667eea" target="_blank" rel="noopener">' + escapeHtml(privacy.section2Link || 'Google Ad Settings') + '</a></p>' +
+        '<h3 style="color:#333">' + escapeHtml(privacy.section3Title || '') + '</h3>' +
+        '<p style="color:#555">' + escapeHtml(privacy.section3Desc || '') + '</p>' +
+        '<h3 style="color:#333">' + escapeHtml(privacy.section4Title || '') + '</h3>' +
+        '<p style="color:#555">' + escapeHtml(privacy.section4Desc || '') + '</p>' +
+        '<ul style="color:#555">' +
+          '<li>' + escapeHtml(privacy.section4Item1 || '') + '</li>' +
+          '<li>' + escapeHtml(privacy.section4Item2 || '') + '</li>' +
+        '</ul>' +
+        '<h3 style="color:#333">' + escapeHtml(privacy.section5Title || '') + '</h3>' +
+        '<p style="color:#555">' + escapeHtml(privacy.section5Desc || '') + '</p>' +
+        '<h3 style="color:#333">' + escapeHtml(privacy.section6Title || '') + '</h3>' +
+        '<p style="color:#555"><span>' + escapeHtml(privacy.section6Desc || '') + '</span> <a href="mailto:pjhk579700@naver.com" style="color:#667eea">pjhk579700@naver.com</a></p>' +
+        '<h3 style="color:#333">' + escapeHtml(privacy.section7Title || '') + '</h3>' +
+        '<p style="color:#555">' + escapeHtml(privacy.section7Desc || '') + '</p>' +
+        '<p style="color:#555"><span>' + escapeHtml(privacy.lastUpdate || 'Last updated: ') + '</span>' + today + '</p>' +
+      '</div>';
+
+    return {
+      title: privacyMeta[lang].title,
+      description: privacyMeta[lang].description,
+      body: body,
+      includeAdScript: false,
+      includeI18nScript: false,
+      jsonLd: [
+        buildBreadcrumbSchema([
+          { name: 'Home', url: absUrl(getStaticPagePath('/', lang)) },
+          { name: 'Privacy Policy', url: absUrl(getStaticPagePath('/privacy/', lang)) }
+        ])
+      ]
+    };
+  });
+}
+
 // Copy directory recursively
 function copyDir(src, dest) {
   if (!fs.existsSync(src)) return;
@@ -1725,7 +2254,7 @@ function build(){
 
   // ===== Enhanced Sitemap with segmented files + index =====
   var today = new Date().toISOString().split('T')[0];
-  var staticEntries = [
+  var staticCanonicalEntries = [
     { url: '/', priority: '1.0', changefreq: 'weekly' },
     { url: '/tools/', priority: '0.9', changefreq: 'weekly' },
     { url: '/games/', priority: '0.9', changefreq: 'weekly' },
@@ -1736,6 +2265,7 @@ function build(){
     { url: '/all-pages/', priority: '0.7', changefreq: 'weekly' },
     { url: '/privacy/', priority: '0.3', changefreq: 'yearly' }
   ];
+  var staticEntries = buildLocalizedStaticEntries(staticCanonicalEntries, STATIC_PAGE_LANGS, 'ko');
   var gameEntries = games.map(function(game) {
     return { url: '/games/' + game.id + '/', priority: '0.8', changefreq: 'monthly' };
   });

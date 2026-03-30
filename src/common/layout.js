@@ -1,6 +1,5 @@
 'use strict';
 
-// 공통 CSS 스타일 (모바일 최적화 강화)
 var styles = `
 @keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -46,7 +45,7 @@ nav{text-align:center;margin:24px 0;padding:16px;background:rgba(255,255,255,0.1
 nav a{margin:0 8px;font-size:16px;font-weight:600;color:#fff;padding:8px 16px;border-radius:8px;transition:all 0.3s}
 nav a:hover{background:rgba(255,255,255,0.2)}
 .lang-switcher{display:flex;gap:8px}
-.lang-btn{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;transition:all 0.3s;font-size:14px;min-height:44px;min-width:44px;touch-action:manipulation}
+.lang-btn{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;transition:all 0.3s;font-size:14px;min-height:44px;min-width:44px;touch-action:manipulation;display:inline-flex;align-items:center;justify-content:center}
 .lang-btn:hover{background:rgba(255,255,255,0.3)}
 .lang-btn.active{background:rgba(255,255,255,0.4);box-shadow:0 2px 8px rgba(0,0,0,0.2)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin:32px 0}
@@ -78,7 +77,6 @@ nav a:hover{background:rgba(255,255,255,0.2)}
 .seo-content a:hover{text-decoration:underline}
 `;
 
-// 게임 기록 저장/불러오기 유틸리티 스크립트
 function getGameRecordScript() {
   return `
 window.formatDateTime=function(dateStr){
@@ -125,7 +123,6 @@ window.GameRecord={
 `;
 }
 
-// 공통 i18n 스크립트
 function getI18nScript(i18nData) {
   return getGameRecordScript() + `
 var i18nData=${JSON.stringify(i18nData)};
@@ -163,7 +160,8 @@ function setLanguage(lang){
     }
   });
   document.querySelectorAll(".lang-btn").forEach(function(btn){
-    btn.classList.toggle("active",btn.getAttribute("data-lang")===lang);
+    var targetLang=btn.getAttribute("data-lang");
+    if(targetLang)btn.classList.toggle("active",targetLang===lang);
   });
   var h1=document.querySelector("h1[data-game-title]");
   if(h1&&window.gameTitle&&window.gameTitle[lang]){
@@ -171,6 +169,7 @@ function setLanguage(lang){
   }
 }
 document.querySelectorAll(".lang-btn").forEach(function(btn){
+  if(btn.tagName!=="BUTTON")return;
   btn.addEventListener("click",function(){
     setLanguage(this.getAttribute("data-lang"));
   });
@@ -179,20 +178,123 @@ setLanguage(currentLang);
 `;
 }
 
-// HTML 레이아웃 생성 함수
+var NAV_LABELS = {
+  ko: {
+    home: '\uD648',
+    tools: '\uB3C4\uAD6C',
+    games: '\uAC8C\uC784',
+    devTools: '\uAC1C\uBC1C \uB3C4\uAD6C',
+    utilities: '\uC720\uD2F8\uB9AC\uD2F0',
+    directory: '\uB514\uB809\uD130\uB9AC',
+    webTools: '\uC6F9 \uB3C4\uAD6C',
+    utilityTools: '\uC0DD\uD65C \uB3C4\uAD6C',
+    privacy: '\uAC1C\uC778\uC815\uBCF4\uCC98\uB9AC\uBC29\uCE68',
+    siteName: 'InstaIdea'
+  },
+  en: {
+    home: 'Home',
+    tools: 'Tools',
+    games: 'Games',
+    devTools: 'Dev Tools',
+    utilities: 'Utilities',
+    directory: 'Directory',
+    webTools: 'Web Tools',
+    utilityTools: 'Utility Tools',
+    privacy: 'Privacy Policy',
+    siteName: 'InstaIdea'
+  },
+  ja: {
+    home: '\u30DB\u30FC\u30E0',
+    tools: '\u30C4\u30FC\u30EB',
+    games: '\u30B2\u30FC\u30E0',
+    devTools: '\u958B\u767A\u30C4\u30FC\u30EB',
+    utilities: '\u30E6\u30FC\u30C6\u30A3\u30EA\u30C6\u30A3',
+    directory: '\u30C7\u30A3\u30EC\u30AF\u30C8\u30EA',
+    webTools: 'Web Tools',
+    utilityTools: '\u65E5\u5E38\u30C4\u30FC\u30EB',
+    privacy: '\u30D7\u30E9\u30A4\u30D0\u30B7\u30FC\u30DD\u30EA\u30B7\u30FC',
+    siteName: 'InstaIdea'
+  }
+};
+
+var LANGUAGE_NAMES = {
+  ko: '\uD55C\uAD6D\uC5B4',
+  en: 'English',
+  ja: '\u65E5\u672C\u8A9E'
+};
+
+var OG_LOCALES = {
+  ko: 'ko_KR',
+  en: 'en_US',
+  ja: 'ja_JP'
+};
+
+var GOOGLE_ANALYTICS_ID = 'G-CGCL4G4YMY';
+
+function getGoogleAnalyticsTags() {
+  return '' +
+    '<script async src="https://www.googletagmanager.com/gtag/js?id=' + GOOGLE_ANALYTICS_ID + '"></script>' +
+    '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "' + GOOGLE_ANALYTICS_ID + '");</script>';
+}
+
+function getLocalePathname(pathname, lang, defaultLang) {
+  if (!pathname) return '/';
+  return lang === defaultLang ? pathname : pathname + 'index-' + lang + '.html';
+}
+
+function buildAlternateHreflangTags(baseUrl, alternateLocales, defaultLang) {
+  if (!alternateLocales) return '';
+  var tags = [];
+  ['ko', 'en', 'ja'].forEach(function(lang) {
+    if (!alternateLocales[lang]) return;
+    tags.push('<link rel="alternate" hreflang="' + lang + '" href="' + baseUrl + alternateLocales[lang] + '">');
+  });
+  if (alternateLocales[defaultLang]) {
+    tags.push('<link rel="alternate" hreflang="x-default" href="' + baseUrl + alternateLocales[defaultLang] + '">');
+  }
+  return tags.join('');
+}
+
+function buildOgAlternateTags(locale, alternateLocales) {
+  if (!alternateLocales) return '';
+  return ['ko', 'en', 'ja'].filter(function(lang) {
+    return alternateLocales[lang] && lang !== locale;
+  }).map(function(lang) {
+    return '<meta property="og:locale:alternate" content="' + OG_LOCALES[lang] + '">';
+  }).join('');
+}
+
+function buildLanguageSwitcher(locale, alternateLocales, href) {
+  var items = [];
+  ['ko', 'en', 'ja'].forEach(function(lang) {
+    if (alternateLocales) {
+      if (!alternateLocales[lang]) return;
+      items.push('<a class="lang-btn' + (lang === locale ? ' active' : '') + '" href="' + href(alternateLocales[lang]) + '" hreflang="' + lang + '" lang="' + lang + '">' + LANGUAGE_NAMES[lang] + '</a>');
+      return;
+    }
+    items.push('<button class="lang-btn' + (lang === locale ? ' active' : '') + '" data-lang="' + lang + '" aria-label="Switch language to ' + lang + '">' + LANGUAGE_NAMES[lang] + '</button>');
+  });
+  return '<div class="lang-switcher" role="group" aria-label="Language selection">' + items.join('') + '</div>';
+}
+
 function createLayout(options) {
   var title = options.title;
-  var description = options.description || title + ' - 무료 미니게임 모음집';
+  var description = options.description || (title + ' - Free mini games and tools');
   var pathname = options.pathname;
   var body = options.body;
   var includeAdScript = options.includeAdScript || false;
-  var monetagSiteId = options.monetagSiteId || '';
   var basePath = options.basePath || '';
   var baseUrl = options.baseUrl || 'https://instaidea.org';
   var i18nData = options.i18nData;
   var ogImage = options.ogImage || baseUrl + '/og-image.svg';
   var jsonLd = options.jsonLd || null;
   var relatedContent = options.relatedContent || '';
+  var locale = options.locale || 'ko';
+  var defaultLang = options.defaultLang || 'ko';
+  var alternateLocales = options.alternateLocales || null;
+  var localizedNavigation = !!options.localizedNavigation;
+  var includeI18nScript = options.includeI18nScript !== false;
+  var labels = NAV_LABELS[locale] || NAV_LABELS.en;
 
   var adsScript = '';
   if (includeAdScript) {
@@ -203,90 +305,81 @@ function createLayout(options) {
 
   var canonical = baseUrl + pathname;
   var href = function(p) { return basePath + p; };
+  var navHref = function(p) {
+    return href(localizedNavigation ? getLocalePathname(p, locale, defaultLang) : p);
+  };
+  var ogLocale = OG_LOCALES[locale] || OG_LOCALES.en;
+  var alternateHreflangTags = buildAlternateHreflangTags(baseUrl, alternateLocales, defaultLang);
+  var ogAlternateTags = buildOgAlternateTags(locale, alternateLocales);
+  var languageSwitcher = buildLanguageSwitcher(locale, alternateLocales, href);
+  var adsPlaceholder = '';
 
-var adsPlaceholder = '';
-
-  var html =
-    '<!doctype html><html lang="ko"><head>' +
-    '<meta charset="utf-8">' +
-    '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
-    '<title>' + title + '</title>' +
-    '<meta name="description" content="' + description + '">' +
-
-    // Open Graph 메타태그
-    '<meta property="og:type" content="website">' +
-    '<meta property="og:url" content="' + canonical + '">' +
-    '<meta property="og:title" content="' + title + '">' +
-    '<meta property="og:description" content="' + description + '">' +
-    '<meta property="og:image" content="' + ogImage + '">' +
-    '<meta property="og:locale" content="ko_KR">' +
-    '<meta property="og:locale:alternate" content="en_US">' +
-    '<meta property="og:locale:alternate" content="ja_JP">' +
-    '<meta property="og:site_name" content="Mini Game Collection">' +
-
-    // Twitter Card 메타태그
-    '<meta name="twitter:card" content="summary_large_image">' +
-    '<meta name="twitter:title" content="' + title + '">' +
-    '<meta name="twitter:description" content="' + description + '">' +
-    '<meta name="twitter:image" content="' + ogImage + '">' +
-
-    // 추가 SEO 메타태그
-    '<link rel="canonical" href="' + canonical + '">' +
-    '<meta name="robots" content="index,follow,max-image-preview:large">' +
-    '<meta name="theme-color" content="#667eea">' +
-    '<meta name="apple-mobile-web-app-capable" content="yes">' +
-    '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">' +
-
-    // Favicon & PWA
-    '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">' +
-    '<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">' +
-    '<link rel="manifest" href="' + basePath + '/manifest.json">' +
-
-    // JSON-LD 구조화 데이터
-    (jsonLd ? '<script type="application/ld+json">' + JSON.stringify(jsonLd) + '</script>' : '') +
-
-    adsScript +
-    '<style>' + styles + '</style>' +
+  return (
+    '<!doctype html><html lang="' + locale + '"><head>' +
+      '<meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
+      '<title>' + title + '</title>' +
+      '<meta name="description" content="' + description + '">' +
+      '<meta property="og:type" content="website">' +
+      '<meta property="og:url" content="' + canonical + '">' +
+      '<meta property="og:title" content="' + title + '">' +
+      '<meta property="og:description" content="' + description + '">' +
+      '<meta property="og:image" content="' + ogImage + '">' +
+      '<meta property="og:locale" content="' + ogLocale + '">' +
+      ogAlternateTags +
+      '<meta property="og:site_name" content="InstaIdea">' +
+      '<meta name="twitter:card" content="summary_large_image">' +
+      '<meta name="twitter:title" content="' + title + '">' +
+      '<meta name="twitter:description" content="' + description + '">' +
+      '<meta name="twitter:image" content="' + ogImage + '">' +
+      '<link rel="canonical" href="' + canonical + '">' +
+      alternateHreflangTags +
+      '<meta name="robots" content="index,follow,max-image-preview:large">' +
+      '<meta name="theme-color" content="#667eea">' +
+      '<meta name="apple-mobile-web-app-capable" content="yes">' +
+      '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">' +
+      '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>II</text></svg>">' +
+      '<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>II</text></svg>">' +
+      '<link rel="manifest" href="' + basePath + '/manifest.json">' +
+      (jsonLd ? '<script type="application/ld+json">' + JSON.stringify(jsonLd) + '</script>' : '') +
+      getGoogleAnalyticsTags() +
+      adsScript +
+      '<style>' + styles + '</style>' +
     '</head><body>' +
-    '<a href="#main-content" class="skip-link">Skip to main content</a>' +
-    '<div class="container">' +
-    '<nav role="navigation" aria-label="Main navigation">' +
-    '<a href="' + href('/') + '" data-i18n="home" aria-label="Go to home page">🏠 홈</a>' +
-    '<a href="' + href('/tools/') + '" aria-label="Browse all tools">Tools</a>' +
-    '<a href="' + href('/games/') + '" aria-label="Browse brain games">Games</a>' +
-    '<a href="' + href('/dev-tools/') + '" aria-label="Browse developer tools">Dev Tools</a>' +
-    '<a href="' + href('/utilities/') + '" aria-label="Browse utilities">Utilities</a>' +
-    '<a href="' + href('/all-pages/') + '" aria-label="Browse full site directory">Directory</a>' +
-    '<div class="lang-switcher" role="group" aria-label="Language selection">' +
-    '<button class="lang-btn" data-lang="ko" aria-label="한국어로 변경">한국어</button>' +
-    '<button class="lang-btn" data-lang="en" aria-label="Change to English">English</button>' +
-    '<button class="lang-btn" data-lang="ja" aria-label="日本語に変更">日本語</button>' +
-    '</div>' +
-    '</nav>' +
-    '<main id="main-content" role="main">' +
-    body +
-    '</main>' +
-    '<div class="ad" role="complementary" aria-label="Advertisement">' + adsPlaceholder + '</div>' +
-    relatedContent +
-    '<footer role="contentinfo">' +
-    '<p>© ' + (new Date().getFullYear()) + ' Fun Mini Games</p>' +
-    '<nav aria-label="Footer navigation">' +
-    '<a href="' + href('/') + '" data-i18n="footer">전체 게임 보기</a>' +
-    '<a href="' + href('/tools/') + '">Tools</a>' +
-    '<a href="' + href('/games/') + '">Games</a>' +
-    '<a href="' + href('/dev-tools/') + '">Dev Tools</a>' +
-    '<a href="' + href('/utilities/') + '">Utilities</a>' +
-    '<a href="' + href('/tools/web/') + '">Web Tools</a>' +
-    '<a href="' + href('/tools/fun/') + '">Utility Directory</a>' +
-    '<a href="' + href('/all-pages/') + '">Site Directory</a>' +
-    '<a href="' + href('/privacy/') + '">Privacy Policy</a>' +
-    '</nav>' +
-    '</footer>' +
-    '</div>' +
-    '<script>' + getI18nScript(i18nData) + '</script>' +
-    '</body></html>';
-
-  return html;
+      '<a href="#main-content" class="skip-link">Skip to main content</a>' +
+      '<div class="container">' +
+        '<nav role="navigation" aria-label="Main navigation">' +
+          '<a href="' + navHref('/') + '" data-i18n="home" aria-label="Go to home page">' + labels.home + '</a>' +
+          '<a href="' + navHref('/tools/') + '" aria-label="Browse all tools">' + labels.tools + '</a>' +
+          '<a href="' + navHref('/games/') + '" aria-label="Browse brain games">' + labels.games + '</a>' +
+          '<a href="' + navHref('/dev-tools/') + '" aria-label="Browse developer tools">' + labels.devTools + '</a>' +
+          '<a href="' + navHref('/utilities/') + '" aria-label="Browse utilities">' + labels.utilities + '</a>' +
+          '<a href="' + navHref('/all-pages/') + '" aria-label="Browse full site directory">' + labels.directory + '</a>' +
+          languageSwitcher +
+        '</nav>' +
+        '<main id="main-content" role="main">' +
+          body +
+        '</main>' +
+        '<div class="ad" role="complementary" aria-label="Advertisement">' + adsPlaceholder + '</div>' +
+        relatedContent +
+        '<footer role="contentinfo">' +
+          '<p>&copy; ' + (new Date().getFullYear()) + ' ' + labels.siteName + '</p>' +
+          '<nav aria-label="Footer navigation">' +
+            '<a href="' + navHref('/') + '" data-i18n="footer">' + labels.home + '</a>' +
+            '<a href="' + navHref('/tools/') + '">' + labels.tools + '</a>' +
+            '<a href="' + navHref('/games/') + '">' + labels.games + '</a>' +
+            '<a href="' + navHref('/dev-tools/') + '">' + labels.devTools + '</a>' +
+            '<a href="' + navHref('/utilities/') + '">' + labels.utilities + '</a>' +
+            '<a href="' + navHref('/tools/web/') + '">' + labels.webTools + '</a>' +
+            '<a href="' + navHref('/tools/fun/') + '">' + labels.utilityTools + '</a>' +
+            '<a href="' + navHref('/all-pages/') + '">' + labels.directory + '</a>' +
+            '<a href="' + navHref('/privacy/') + '">' + labels.privacy + '</a>' +
+          '</nav>' +
+        '</footer>' +
+      '</div>' +
+      (includeI18nScript ? '<script>' + getI18nScript(i18nData) + '</script>' : '') +
+    '</body></html>'
+  );
 }
 
 module.exports = {
