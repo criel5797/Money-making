@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/stopwatch/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/stopwatch/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/stopwatch/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/stopwatch/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/stopwatch/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/stopwatch/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ストップウォッチ - オンラインタイマー</title>
+    <meta name="description" content="オンラインストップウォッチ。時間測定とラップタイム記録が可能です。">
+    <meta name="keywords" content="ストップウォッチ, タイマー, 時間測定, ラップタイム, オンラインタイマー">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .stopwatch-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .time-display {
+            font-size: 4rem;
+            font-weight: 300;
+            font-family: 'Courier New', monospace;
+            margin: 30px 0;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .time-display .ms {
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .btn {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-start { background: #27ae60; color: white; }
+        .btn-stop { background: #e74c3c; color: white; }
+        .btn-lap { background: #3498db; color: white; }
+        .btn-reset { background: rgba(255,255,255,0.2); color: white; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .laps {
+            max-height: 250px;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .laps h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .lap-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        .lap-number { color: rgba(255,255,255,0.7); }
+        .lap-time { font-weight: 600; }
+        .lap-diff { color: #f1c40f; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告エリア</div>
+        <header>
+            <h1>⏱️ ストップウォッチ</h1>
+            <p class="subtitle">正確な時間測定</p>
+        </header>
+        <div class="stopwatch-section">
+            <div class="time-display">
+                <span id="minutes">00</span>:<span id="seconds">00</span>.<span id="milliseconds" class="ms">00</span>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-start" id="startBtn" onclick="startStop()">開始</button>
+                <button class="btn btn-lap" id="lapBtn" onclick="recordLap()" disabled>ラップ</button>
+                <button class="btn btn-reset" id="resetBtn" onclick="reset()">リセット</button>
+            </div>
+            <div class="laps" id="lapsContainer" style="display:none">
+                <h3>📋 ラップ記録</h3>
+                <div id="lapsList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告エリア</div>
+    </div>
+    <script>
+        var running = false;
+        var startTime = 0;
+        var elapsedTime = 0;
+        var timerInterval = null;
+        var laps = [];
+
+        var minEl = document.getElementById('minutes');
+        var secEl = document.getElementById('seconds');
+        var msEl = document.getElementById('milliseconds');
+        var startBtn = document.getElementById('startBtn');
+        var lapBtn = document.getElementById('lapBtn');
+        var lapsContainer = document.getElementById('lapsContainer');
+        var lapsList = document.getElementById('lapsList');
+
+        function formatTime(ms) {
+            var minutes = Math.floor(ms / 60000);
+            var seconds = Math.floor((ms % 60000) / 1000);
+            var milliseconds = Math.floor((ms % 1000) / 10);
+            return {
+                min: String(minutes).padStart(2, '0'),
+                sec: String(seconds).padStart(2, '0'),
+                ms: String(milliseconds).padStart(2, '0')
+            };
+        }
+
+        function updateDisplay() {
+            var current = Date.now() - startTime + elapsedTime;
+            var time = formatTime(current);
+            minEl.textContent = time.min;
+            secEl.textContent = time.sec;
+            msEl.textContent = time.ms;
+        }
+
+        function startStop() {
+            if (running) {
+                clearInterval(timerInterval);
+                elapsedTime += Date.now() - startTime;
+                startBtn.textContent = '開始';
+                startBtn.className = 'btn btn-start';
+                lapBtn.disabled = true;
+            } else {
+                startTime = Date.now();
+                timerInterval = setInterval(updateDisplay, 10);
+                startBtn.textContent = '停止';
+                startBtn.className = 'btn btn-stop';
+                lapBtn.disabled = false;
+            }
+            running = !running;
+        }
+
+        function recordLap() {
+            var current = Date.now() - startTime + elapsedTime;
+            var prevLap = laps.length > 0 ? laps[laps.length - 1].total : 0;
+            var diff = current - prevLap;
+            laps.push({ total: current, diff: diff });
+            renderLaps();
+        }
+
+        function renderLaps() {
+            if (laps.length === 0) {
+                lapsContainer.style.display = 'none';
+                return;
+            }
+            lapsContainer.style.display = 'block';
+            var html = '';
+            for (var i = laps.length - 1; i >= 0; i--) {
+                var lap = laps[i];
+                var total = formatTime(lap.total);
+                var diff = formatTime(lap.diff);
+                html += '<div class="lap-item">' +
+                    '<span class="lap-number">#' + (i + 1) + '</span>' +
+                    '<span class="lap-diff">+' + diff.min + ':' + diff.sec + '.' + diff.ms + '</span>' +
+                    '<span class="lap-time">' + total.min + ':' + total.sec + '.' + total.ms + '</span>' +
+                    '</div>';
+            }
+            lapsList.innerHTML = html;
+        }
+
+        function reset() {
+            clearInterval(timerInterval);
+            running = false;
+            elapsedTime = 0;
+            laps = [];
+            minEl.textContent = '00';
+            secEl.textContent = '00';
+            msEl.textContent = '00';
+            startBtn.textContent = '開始';
+            startBtn.className = 'btn btn-start';
+            lapBtn.disabled = true;
+            lapsContainer.style.display = 'none';
+            lapsList.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

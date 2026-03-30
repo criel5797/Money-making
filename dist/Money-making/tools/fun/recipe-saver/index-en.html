@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/recipe-saver/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/recipe-saver/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/recipe-saver/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/recipe-saver/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/recipe-saver/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/recipe-saver/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Saver</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #F2994A, #F2C94C); min-height: 100vh; color: #333; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.3); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; color: #fff; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .recipe-section { background: rgba(255,255,255,.9); border-radius: 16px; padding: 25px; }
+        .tabs { display: flex; margin-bottom: 20px; }
+        .tab { flex: 1; padding: 12px; text-align: center; background: #eee; cursor: pointer; border: none; font-size: .95rem; }
+        .tab:first-child { border-radius: 10px 0 0 10px; }
+        .tab:last-child { border-radius: 0 10px 10px 0; }
+        .tab.active { background: #F2994A; color: #fff; }
+        .add-form { display: none; }
+        .add-form.active { display: block; }
+        .form-row { margin-bottom: 12px; }
+        .form-row input, .form-row textarea, .form-row select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; }
+        .form-row textarea { min-height: 100px; resize: vertical; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #F2994A, #F2C94C); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .recipe-list { display: none; max-height: 400px; overflow-y: auto; }
+        .recipe-list.active { display: block; }
+        .recipe-item { padding: 15px; background: #f9f9f9; border-radius: 12px; margin-bottom: 12px; cursor: pointer; }
+        .recipe-header { display: flex; justify-content: space-between; align-items: center; }
+        .recipe-title { font-weight: 600; font-size: 1.1rem; }
+        .recipe-category { font-size: .8rem; color: #888; padding: 3px 8px; background: #eee; border-radius: 10px; }
+        .recipe-preview { font-size: .85rem; color: #666; margin-top: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .recipe-detail { display: none; }
+        .recipe-detail.active { display: block; }
+        .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .back-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        .detail-title { font-size: 1.3rem; font-weight: 700; }
+        .del-btn { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 1.2rem; }
+        .detail-section { margin-bottom: 15px; }
+        .detail-label { font-weight: 600; margin-bottom: 8px; color: #F2994A; }
+        .detail-content { background: #f5f5f5; padding: 12px; border-radius: 8px; font-size: .95rem; line-height: 1.6; white-space: pre-wrap; }
+        .search-box { margin-bottom: 15px; }
+        .search-box input { width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🍳 Recipe Saver</h1>
+        </header>
+        <div class="recipe-section">
+            <div class="tabs" id="mainTabs">
+                <button class="tab active" onclick="setTab('list')">Recipes</button>
+                <button class="tab" onclick="setTab('add')">Add Recipe</button>
+            </div>
+            <div class="recipe-list active" id="recipeList">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search recipes..." oninput="renderList()">
+                </div>
+                <div id="listContent"></div>
+            </div>
+            <div class="add-form" id="addForm">
+                <div class="form-row">
+                    <input type="text" id="recipeName" placeholder="Recipe name">
+                </div>
+                <div class="form-row">
+                    <select id="recipeCategory">
+                        <option value="american">American</option>
+                        <option value="italian">Italian</option>
+                        <option value="asian">Asian</option>
+                        <option value="mexican">Mexican</option>
+                        <option value="dessert">Dessert</option>
+                        <option value="drink">Drink</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <textarea id="recipeIngredients" placeholder="Ingredients (one per line)"></textarea>
+                </div>
+                <div class="form-row">
+                    <textarea id="recipeSteps" placeholder="Instructions (one step per line)"></textarea>
+                </div>
+                <button class="add-btn" onclick="addRecipe()">Save Recipe</button>
+            </div>
+            <div class="recipe-detail" id="recipeDetail">
+                <div class="detail-header">
+                    <button class="back-btn" onclick="showList()">←</button>
+                    <div class="detail-title" id="detailTitle"></div>
+                    <button class="del-btn" id="delBtn">🗑️</button>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-label">Ingredients</div>
+                    <div class="detail-content" id="detailIngredients"></div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-label">Instructions</div>
+                    <div class="detail-content" id="detailSteps"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var recipes = JSON.parse(localStorage.getItem('recipes') || '[]');
+        var currentTab = 'list';
+        var categoryNames = { american: 'American', italian: 'Italian', asian: 'Asian', mexican: 'Mexican', dessert: 'Dessert', drink: 'Drink', other: 'Other' };
+        function save() { localStorage.setItem('recipes', JSON.stringify(recipes)); }
+        function setTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(function(t, i) { t.classList.toggle('active', ['list','add'][i] === tab); });
+            document.getElementById('recipeList').classList.toggle('active', tab === 'list');
+            document.getElementById('addForm').classList.toggle('active', tab === 'add');
+            document.getElementById('recipeDetail').classList.remove('active');
+            document.getElementById('mainTabs').style.display = 'flex';
+            if (tab === 'list') renderList();
+        }
+        function addRecipe() {
+            var name = document.getElementById('recipeName').value.trim();
+            var category = document.getElementById('recipeCategory').value;
+            var ingredients = document.getElementById('recipeIngredients').value.trim();
+            var steps = document.getElementById('recipeSteps').value.trim();
+            if (!name || !ingredients || !steps) return;
+            recipes.push({ id: Date.now().toString(), name: name, category: category, ingredients: ingredients, steps: steps });
+            save();
+            document.getElementById('recipeName').value = '';
+            document.getElementById('recipeIngredients').value = '';
+            document.getElementById('recipeSteps').value = '';
+            setTab('list');
+        }
+        function showDetail(id) {
+            var recipe = recipes.find(function(r) { return r.id === id; });
+            if (!recipe) return;
+            document.getElementById('mainTabs').style.display = 'none';
+            document.getElementById('recipeList').classList.remove('active');
+            document.getElementById('addForm').classList.remove('active');
+            document.getElementById('recipeDetail').classList.add('active');
+            document.getElementById('detailTitle').textContent = recipe.name;
+            document.getElementById('detailIngredients').textContent = recipe.ingredients;
+            document.getElementById('detailSteps').textContent = recipe.steps;
+            document.getElementById('delBtn').onclick = function() { deleteRecipe(id); };
+        }
+        function showList() {
+            document.getElementById('mainTabs').style.display = 'flex';
+            document.getElementById('recipeDetail').classList.remove('active');
+            document.getElementById('recipeList').classList.add('active');
+        }
+        function deleteRecipe(id) {
+            recipes = recipes.filter(function(r) { return r.id !== id; });
+            save();
+            showList();
+            renderList();
+        }
+        function renderList() {
+            var search = document.getElementById('searchInput').value.toLowerCase();
+            var filtered = recipes.filter(function(r) {
+                return r.name.toLowerCase().indexOf(search) > -1 || r.ingredients.toLowerCase().indexOf(search) > -1;
+            });
+            var content = document.getElementById('listContent');
+            content.innerHTML = '';
+            if (filtered.length === 0) {
+                content.innerHTML = '<div style="text-align:center;color:#888;padding:20px">No recipes yet</div>';
+                return;
+            }
+            filtered.forEach(function(r) {
+                var div = document.createElement('div');
+                div.className = 'recipe-item';
+                div.onclick = function() { showDetail(r.id); };
+                div.innerHTML = '<div class="recipe-header"><span class="recipe-title">' + r.name + '</span><span class="recipe-category">' + categoryNames[r.category] + '</span></div><div class="recipe-preview">' + r.ingredients.split('\n')[0] + '...</div>';
+                content.appendChild(div);
+            });
+        }
+        renderList();
+    </script>
+</body>
+</html>

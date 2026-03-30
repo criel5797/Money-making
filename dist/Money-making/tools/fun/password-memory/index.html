@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/password-memory/"><meta property="og:url" content="https://instaidea.org/tools/fun/password-memory/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/password-memory/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/password-memory/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/password-memory/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/password-memory/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 기억력 게임</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; text-align: center; }
+        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: 700; }
+        .stat-label { font-size: .8rem; opacity: .7; }
+        .password-display { background: rgba(0,0,0,.3); padding: 25px; border-radius: 12px; margin-bottom: 20px; font-family: monospace; font-size: 2rem; letter-spacing: 5px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        .input-area { margin-bottom: 20px; }
+        .input-area input { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 1.5rem; text-align: center; font-family: monospace; letter-spacing: 3px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; margin: 5px; }
+        .start-btn { background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; width: 100%; }
+        .check-btn { background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; width: 100%; }
+        .message { padding: 15px; border-radius: 10px; margin-top: 15px; font-weight: 600; }
+        .success { background: rgba(56,239,125,.3); }
+        .fail { background: rgba(255,107,107,.3); }
+        .level-info { opacity: .7; font-size: .9rem; margin-bottom: 15px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🔐 비밀번호 기억력 게임</h1>
+        </header>
+        <div class="game-section">
+            <div class="stats">
+                <div class="stat"><div class="stat-value" id="level">1</div><div class="stat-label">레벨</div></div>
+                <div class="stat"><div class="stat-value" id="score">0</div><div class="stat-label">점수</div></div>
+                <div class="stat"><div class="stat-value" id="highscore">0</div><div class="stat-label">최고점</div></div>
+            </div>
+            <div class="level-info" id="levelInfo">레벨 1: 4자리 숫자</div>
+            <div class="password-display" id="passwordDisplay">시작을 눌러주세요</div>
+            <div class="input-area hidden" id="inputArea">
+                <input type="text" id="userInput" placeholder="기억한 비밀번호 입력" maxlength="12" autocomplete="off">
+            </div>
+            <button class="btn start-btn" id="startBtn" onclick="startGame()">게임 시작</button>
+            <button class="btn check-btn hidden" id="checkBtn" onclick="checkAnswer()">확인</button>
+            <div class="message hidden" id="message"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var password = '';
+        var level = 1;
+        var score = 0;
+        var highscore = parseInt(localStorage.getItem('pw_highscore') || '0');
+        document.getElementById('highscore').textContent = highscore;
+        var levelConfig = [
+            { len: 4, chars: '0123456789', name: '4자리 숫자' },
+            { len: 5, chars: '0123456789', name: '5자리 숫자' },
+            { len: 6, chars: '0123456789', name: '6자리 숫자' },
+            { len: 6, chars: '0123456789ABCDEF', name: '6자리 16진수' },
+            { len: 7, chars: '0123456789ABCDEF', name: '7자리 16진수' },
+            { len: 8, chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', name: '8자리 영숫자' },
+            { len: 9, chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', name: '9자리 영숫자' },
+            { len: 10, chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', name: '10자리 대소문자' }
+        ];
+        function generatePassword() {
+            var config = levelConfig[Math.min(level - 1, levelConfig.length - 1)];
+            var pw = '';
+            for (var i = 0; i < config.len; i++) pw += config.chars[Math.floor(Math.random() * config.chars.length)];
+            return pw;
+        }
+        function startGame() {
+            document.getElementById('message').classList.add('hidden');
+            password = generatePassword();
+            document.getElementById('passwordDisplay').textContent = password;
+            document.getElementById('startBtn').classList.add('hidden');
+            document.getElementById('inputArea').classList.add('hidden');
+            document.getElementById('checkBtn').classList.add('hidden');
+            var config = levelConfig[Math.min(level - 1, levelConfig.length - 1)];
+            document.getElementById('levelInfo').textContent = '레벨 ' + level + ': ' + config.name;
+            setTimeout(function() {
+                document.getElementById('passwordDisplay').textContent = '?????';
+                document.getElementById('inputArea').classList.remove('hidden');
+                document.getElementById('checkBtn').classList.remove('hidden');
+                document.getElementById('userInput').value = '';
+                document.getElementById('userInput').focus();
+            }, 3000);
+        }
+        function checkAnswer() {
+            var input = document.getElementById('userInput').value.toUpperCase();
+            var msg = document.getElementById('message');
+            msg.classList.remove('hidden', 'success', 'fail');
+            if (input === password) {
+                score += level * 10;
+                level++;
+                msg.textContent = '정답! +' + ((level - 1) * 10) + '점';
+                msg.classList.add('success');
+                if (score > highscore) {
+                    highscore = score;
+                    localStorage.setItem('pw_highscore', highscore);
+                    document.getElementById('highscore').textContent = highscore;
+                }
+            } else {
+                msg.textContent = '오답! 정답: ' + password;
+                msg.classList.add('fail');
+                level = 1;
+                score = 0;
+            }
+            document.getElementById('level').textContent = level;
+            document.getElementById('score').textContent = score;
+            document.getElementById('inputArea').classList.add('hidden');
+            document.getElementById('checkBtn').classList.add('hidden');
+            document.getElementById('startBtn').classList.remove('hidden');
+            document.getElementById('startBtn').textContent = '다음 라운드';
+            document.getElementById('passwordDisplay').textContent = '준비되면 시작';
+        }
+        document.getElementById('userInput').addEventListener('keypress', function(e) { if (e.key === 'Enter') checkAnswer(); });
+    </script>
+</body>
+</html>

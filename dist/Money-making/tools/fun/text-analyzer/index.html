@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/text-analyzer/"><meta property="og:url" content="https://instaidea.org/tools/fun/text-analyzer/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/text-analyzer/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/text-analyzer/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/text-analyzer/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/text-analyzer/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>텍스트 분석기</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .analyze-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        textarea { width: 100%; height: 150px; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1rem; resize: vertical; margin-bottom: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .stat-card { background: rgba(255,255,255,.15); padding: 20px; border-radius: 12px; text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: 700; margin-bottom: 5px; }
+        .stat-label { font-size: .85rem; opacity: .8; }
+        .detail-section { margin-top: 20px; background: rgba(0,0,0,.2); border-radius: 12px; padding: 20px; }
+        .detail-title { font-size: 1rem; margin-bottom: 15px; }
+        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+        .detail-row:last-child { border: none; }
+        .freq-word { display: inline-block; background: rgba(255,255,255,.2); padding: 5px 10px; border-radius: 15px; margin: 3px; font-size: .85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header><h1>📊 텍스트 분석기</h1></header>
+        <div class="analyze-section">
+            <textarea id="textInput" placeholder="분석할 텍스트를 입력하세요..." oninput="analyze()"></textarea>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-value" id="charCount">0</div><div class="stat-label">글자 수</div></div>
+                <div class="stat-card"><div class="stat-value" id="charNoSpace">0</div><div class="stat-label">공백 제외</div></div>
+                <div class="stat-card"><div class="stat-value" id="wordCount">0</div><div class="stat-label">단어 수</div></div>
+                <div class="stat-card"><div class="stat-value" id="sentenceCount">0</div><div class="stat-label">문장 수</div></div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-title">상세 분석</div>
+                <div class="detail-row"><span>줄 수</span><span id="lineCount">0</span></div>
+                <div class="detail-row"><span>단락 수</span><span id="paraCount">0</span></div>
+                <div class="detail-row"><span>평균 단어 길이</span><span id="avgWord">0</span></div>
+                <div class="detail-row"><span>읽기 시간</span><span id="readTime">0분</span></div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-title">자주 사용된 단어</div>
+                <div id="freqWords"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        function analyze() {
+            var text = document.getElementById('textInput').value;
+            var chars = text.length;
+            var charsNoSpace = text.replace(/\s/g, '').length;
+            var words = text.trim() ? text.trim().split(/\s+/) : [];
+            var sentences = text.split(/[.!?]+/).filter(function(s) { return s.trim().length > 0; });
+            var lines = text.split('\n').length;
+            var paras = text.split(/\n\n+/).filter(function(p) { return p.trim().length > 0; }).length;
+            var avgWordLen = words.length > 0 ? (words.join('').length / words.length).toFixed(1) : 0;
+            var readTime = Math.max(1, Math.ceil(words.length / 200));
+            document.getElementById('charCount').textContent = chars;
+            document.getElementById('charNoSpace').textContent = charsNoSpace;
+            document.getElementById('wordCount').textContent = words.length;
+            document.getElementById('sentenceCount').textContent = sentences.length;
+            document.getElementById('lineCount').textContent = lines;
+            document.getElementById('paraCount').textContent = paras;
+            document.getElementById('avgWord').textContent = avgWordLen;
+            document.getElementById('readTime').textContent = readTime + '분';
+            var freq = {};
+            words.forEach(function(w) {
+                var word = w.toLowerCase().replace(/[^a-z가-힣0-9]/gi, '');
+                if (word.length > 1) { freq[word] = (freq[word] || 0) + 1; }
+            });
+            var sorted = Object.keys(freq).sort(function(a, b) { return freq[b] - freq[a]; }).slice(0, 10);
+            document.getElementById('freqWords').innerHTML = sorted.map(function(w) {
+                return '<span class="freq-word">' + w + ' (' + freq[w] + ')</span>';
+            }).join('');
+        }
+    </script>
+</body>
+</html>

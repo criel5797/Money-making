@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/typing-practice/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/typing-practice/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/typing-practice/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/typing-practice/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/typing-practice/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/typing-practice/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Practice</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 550px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .typing-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .7; margin-top: 5px; }
+        .text-display { background: rgba(0,0,0,.3); border-radius: 12px; padding: 20px; margin-bottom: 15px; font-size: 1.2rem; line-height: 1.8; min-height: 120px; }
+        .char { transition: color .1s; }
+        .char.correct { color: #38ef7d; }
+        .char.incorrect { color: #ff6b6b; background: rgba(255,107,107,.2); }
+        .char.current { background: rgba(255,255,255,.3); border-radius: 2px; }
+        .input-area { margin-bottom: 20px; }
+        .input-area textarea { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1.1rem; resize: none; height: 80px; }
+        .input-area textarea:focus { outline: 2px solid #667eea; }
+        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+        .ctrl-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .ctrl-btn.secondary { background: rgba(255,255,255,.2); }
+        .difficulty { display: flex; gap: 8px; margin-bottom: 20px; }
+        .diff-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; background: rgba(255,255,255,.15); color: #fff; cursor: pointer; font-size: .9rem; }
+        .diff-btn.active { background: rgba(255,255,255,.35); }
+        .progress-bar { height: 8px; background: rgba(255,255,255,.2); border-radius: 4px; overflow: hidden; margin-bottom: 15px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #38ef7d, #11998e); width: 0%; transition: width .2s; }
+        .history { margin-top: 20px; }
+        .history-title { font-size: .9rem; opacity: .8; margin-bottom: 10px; }
+        .history-list { max-height: 150px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,.1); border-radius: 8px; margin-bottom: 5px; font-size: .85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>⌨️ Typing Practice</h1>
+        </header>
+        <div class="typing-section">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="wpm">0</div>
+                    <div class="stat-label">WPM</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="accuracy">100%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="time">0s</div>
+                    <div class="stat-label">Time</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="text-display" id="textDisplay"></div>
+            <div class="input-area">
+                <textarea id="inputArea" placeholder="Start typing here..." disabled></textarea>
+            </div>
+            <div class="difficulty">
+                <button class="diff-btn active" onclick="setDifficulty('easy')">Easy</button>
+                <button class="diff-btn" onclick="setDifficulty('medium')">Medium</button>
+                <button class="diff-btn" onclick="setDifficulty('hard')">Hard</button>
+            </div>
+            <div class="controls">
+                <button class="ctrl-btn" id="startBtn" onclick="startTest()">Start</button>
+                <button class="ctrl-btn secondary" onclick="resetTest()">↻ Reset</button>
+            </div>
+            <div class="history">
+                <div class="history-title">Recent Results</div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var history = JSON.parse(localStorage.getItem('typing_practice_en') || '[]');
+        var texts = {
+            easy: [
+                'Hello. How are you today?',
+                'The quick brown fox jumps.',
+                'Have a wonderful day.',
+                'Practice makes perfect.',
+                'Keep trying your best.'
+            ],
+            medium: [
+                'Programming is a creative way to solve problems.',
+                'Daily practice helps improve your typing speed.',
+                'Focus on accuracy first, then speed will follow.',
+                'Proper finger positioning is essential for fast typing.',
+                'Touch typing allows you to type without looking.'
+            ],
+            hard: [
+                'Artificial intelligence and machine learning are transforming how we interact with technology.',
+                'Efficient algorithm design can significantly improve the performance of software applications.',
+                'Object-oriented programming principles include encapsulation, inheritance, and polymorphism.',
+                'Cloud computing provides on-demand access to computing resources over the internet.',
+                'Full-stack development requires knowledge of both frontend and backend technologies.'
+            ]
+        };
+        var currentText = '';
+        var currentIndex = 0;
+        var startTime = null;
+        var timer = null;
+        var difficulty = 'easy';
+        var correctChars = 0;
+        var totalTyped = 0;
+        var isRunning = false;
+        function setDifficulty(diff) {
+            difficulty = diff;
+            document.querySelectorAll('.diff-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.textContent.toLowerCase() === diff);
+            });
+            if (!isRunning) selectNewText();
+        }
+        function selectNewText() {
+            var pool = texts[difficulty];
+            currentText = pool[Math.floor(Math.random() * pool.length)];
+            currentIndex = 0;
+            renderText();
+        }
+        function renderText() {
+            var html = '';
+            for (var i = 0; i < currentText.length; i++) {
+                var cls = 'char';
+                if (i < currentIndex) {
+                    cls += correctChars > i || document.getElementById('inputArea').value[i] === currentText[i] ? ' correct' : ' incorrect';
+                } else if (i === currentIndex) {
+                    cls += ' current';
+                }
+                html += '<span class="' + cls + '">' + currentText[i] + '</span>';
+            }
+            document.getElementById('textDisplay').innerHTML = html;
+            document.getElementById('progressFill').style.width = (currentIndex / currentText.length * 100) + '%';
+        }
+        function startTest() {
+            selectNewText();
+            isRunning = true;
+            startTime = Date.now();
+            correctChars = 0;
+            totalTyped = 0;
+            document.getElementById('inputArea').disabled = false;
+            document.getElementById('inputArea').value = '';
+            document.getElementById('inputArea').focus();
+            document.getElementById('startBtn').textContent = 'Typing...';
+            document.getElementById('startBtn').disabled = true;
+            timer = setInterval(updateStats, 100);
+        }
+        function updateStats() {
+            var elapsed = (Date.now() - startTime) / 1000;
+            document.getElementById('time').textContent = Math.floor(elapsed) + 's';
+            var minutes = elapsed / 60;
+            var words = correctChars / 5;
+            var wpm = minutes > 0 ? Math.round(words / minutes) : 0;
+            document.getElementById('wpm').textContent = wpm;
+            var acc = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+            document.getElementById('accuracy').textContent = acc + '%';
+        }
+        function endTest() {
+            isRunning = false;
+            clearInterval(timer);
+            document.getElementById('inputArea').disabled = true;
+            document.getElementById('startBtn').textContent = 'Try Again';
+            document.getElementById('startBtn').disabled = false;
+            var elapsed = (Date.now() - startTime) / 1000;
+            var minutes = elapsed / 60;
+            var words = correctChars / 5;
+            var wpm = minutes > 0 ? Math.round(words / minutes) : 0;
+            var acc = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+            history.unshift({
+                date: new Date().toLocaleString('en-US'),
+                wpm: wpm,
+                accuracy: acc,
+                difficulty: difficulty
+            });
+            localStorage.setItem('typing_practice_en', JSON.stringify(history.slice(0, 20)));
+            renderHistory();
+        }
+        function resetTest() {
+            isRunning = false;
+            clearInterval(timer);
+            document.getElementById('inputArea').disabled = true;
+            document.getElementById('inputArea').value = '';
+            document.getElementById('startBtn').textContent = 'Start';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('wpm').textContent = '0';
+            document.getElementById('accuracy').textContent = '100%';
+            document.getElementById('time').textContent = '0s';
+            document.getElementById('progressFill').style.width = '0%';
+            selectNewText();
+        }
+        function renderHistory() {
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            history.slice(0, 10).forEach(function(h) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<span>' + h.date + '</span><span>' + h.wpm + ' WPM / ' + h.accuracy + '%</span>';
+                list.appendChild(div);
+            });
+        }
+        document.getElementById('inputArea').addEventListener('input', function(e) {
+            if (!isRunning) return;
+            var input = e.target.value;
+            totalTyped = input.length;
+            correctChars = 0;
+            for (var i = 0; i < input.length && i < currentText.length; i++) {
+                if (input[i] === currentText[i]) correctChars++;
+            }
+            currentIndex = input.length;
+            renderText();
+            if (input.length >= currentText.length) {
+                endTest();
+            }
+        });
+        selectNewText();
+        renderHistory();
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/wish-counter/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/wish-counter/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/wish-counter/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/wish-counter/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/wish-counter/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/wish-counter/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wish Counter</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #4a00e0); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .wish-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .counter-display { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 16px; padding: 40px; margin-bottom: 20px; text-align: center; }
+        .counter-icon { font-size: 3rem; margin-bottom: 10px; }
+        .counter-number { font-size: 4rem; font-weight: 700; }
+        .counter-label { font-size: .9rem; opacity: .8; margin-top: 5px; }
+        .count-btn { width: 100%; padding: 20px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; font-size: 1.2rem; cursor: pointer; font-weight: 600; margin-bottom: 15px; transition: transform .1s; }
+        .count-btn:active { transform: scale(0.98); }
+        .btn-row { display: flex; gap: 10px; margin-bottom: 20px; }
+        .reset-btn { flex: 1; padding: 14px; border: none; border-radius: 10px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; }
+        .history-title { font-size: .9rem; margin-bottom: 10px; opacity: .8; }
+        .history-list { max-height: 150px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; padding: 10px 15px; background: rgba(255,255,255,.1); border-radius: 8px; margin-bottom: 5px; font-size: .85rem; }
+        .add-wish { margin-top: 15px; }
+        .add-input { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🌟 Wish Counter</h1>
+        </header>
+        <div class="wish-section">
+            <div class="counter-display">
+                <div class="counter-icon">✨</div>
+                <div class="counter-number" id="counter">0</div>
+                <div class="counter-label" id="wishLabel">Make a wish!</div>
+            </div>
+            <button class="count-btn" onclick="makeWish()">🙏 Make a Wish</button>
+            <div class="add-wish">
+                <input type="text" class="add-input" id="wishInput" placeholder="Today's wish (optional)">
+            </div>
+            <div class="btn-row">
+                <button class="reset-btn" onclick="resetCounter()">Reset</button>
+            </div>
+            <div class="history-title">Wish History</div>
+            <div class="history-list" id="historyList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var wishData = JSON.parse(localStorage.getItem('wish_counter_en') || '{"count":0,"wishes":[]}');
+        function save() { localStorage.setItem('wish_counter_en', JSON.stringify(wishData)); }
+        function makeWish() {
+            wishData.count++;
+            var wishText = document.getElementById('wishInput').value.trim();
+            if (wishText) {
+                wishData.wishes.unshift({ text: wishText, date: new Date().toISOString(), count: wishData.count });
+                if (wishData.wishes.length > 20) wishData.wishes.pop();
+                document.getElementById('wishInput').value = '';
+            }
+            save();
+            render();
+            animateCounter();
+        }
+        function animateCounter() {
+            var counter = document.getElementById('counter');
+            counter.style.transform = 'scale(1.2)';
+            setTimeout(function() { counter.style.transform = 'scale(1)'; }, 150);
+        }
+        function resetCounter() {
+            if (confirm('Reset the counter?')) {
+                wishData.count = 0;
+                save();
+                render();
+            }
+        }
+        function formatDate(iso) {
+            var d = new Date(iso);
+            return (d.getMonth() + 1) + '/' + d.getDate();
+        }
+        function render() {
+            document.getElementById('counter').textContent = wishData.count;
+            var label = document.getElementById('wishLabel');
+            if (wishData.count === 0) {
+                label.textContent = 'Make a wish!';
+            } else if (wishData.count < 10) {
+                label.textContent = 'Great start!';
+            } else if (wishData.count < 50) {
+                label.textContent = 'Keep going!';
+            } else if (wishData.count < 100) {
+                label.textContent = 'Amazing! Continue!';
+            } else {
+                label.textContent = 'Wish Master! ⭐';
+            }
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            wishData.wishes.slice(0, 10).forEach(function(w) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<span>' + w.text + '</span><span>' + formatDate(w.date) + '</span>';
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

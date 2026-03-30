@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/size-converter/"><meta property="og:url" content="https://instaidea.org/tools/fun/size-converter/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/size-converter/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/size-converter/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/size-converter/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/size-converter/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사이즈 변환</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #ff9a9e, #fecfef); min-height: 100vh; color: #333; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.3); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; color: #fff; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 1px 1px 3px rgba(0,0,0,.2); }
+        .size-section { background: rgba(255,255,255,.9); border-radius: 16px; padding: 25px; }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; }
+        .tab { flex: 1; padding: 12px; border: none; border-radius: 10px; background: #eee; cursor: pointer; font-weight: 600; }
+        .tab.active { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+        .size-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; font-size: .75rem; margin-bottom: 15px; }
+        .size-header { background: #667eea; color: #fff; padding: 8px 4px; text-align: center; font-weight: 600; }
+        .size-cell { background: #f5f5f5; padding: 8px 4px; text-align: center; }
+        .size-cell.highlight { background: #ffd93d; font-weight: 600; }
+        .input-section { margin-top: 20px; }
+        .input-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .input-row select, .input-row input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 10px; }
+        .result-box { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; padding: 20px; border-radius: 12px; text-align: center; margin-top: 15px; }
+        .result-title { font-size: .85rem; opacity: .8; margin-bottom: 5px; }
+        .result-value { font-size: 1.5rem; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>👕 사이즈 변환</h1>
+        </header>
+        <div class="size-section">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('shoes')">신발</button>
+                <button class="tab" onclick="showTab('clothes')">의류</button>
+                <button class="tab" onclick="showTab('ring')">반지</button>
+            </div>
+            <div id="shoes-tab">
+                <div class="size-grid">
+                    <div class="size-header">한국</div>
+                    <div class="size-header">US</div>
+                    <div class="size-header">UK</div>
+                    <div class="size-header">EU</div>
+                    <div class="size-cell">230</div><div class="size-cell">6</div><div class="size-cell">5</div><div class="size-cell">36</div>
+                    <div class="size-cell">235</div><div class="size-cell">6.5</div><div class="size-cell">5.5</div><div class="size-cell">37</div>
+                    <div class="size-cell">240</div><div class="size-cell">7</div><div class="size-cell">6</div><div class="size-cell">38</div>
+                    <div class="size-cell">245</div><div class="size-cell">7.5</div><div class="size-cell">6.5</div><div class="size-cell">39</div>
+                    <div class="size-cell">250</div><div class="size-cell">8</div><div class="size-cell">7</div><div class="size-cell">40</div>
+                    <div class="size-cell">255</div><div class="size-cell">8.5</div><div class="size-cell">7.5</div><div class="size-cell">41</div>
+                    <div class="size-cell">260</div><div class="size-cell">9</div><div class="size-cell">8</div><div class="size-cell">42</div>
+                    <div class="size-cell">265</div><div class="size-cell">9.5</div><div class="size-cell">8.5</div><div class="size-cell">43</div>
+                    <div class="size-cell">270</div><div class="size-cell">10</div><div class="size-cell">9</div><div class="size-cell">44</div>
+                    <div class="size-cell">275</div><div class="size-cell">10.5</div><div class="size-cell">9.5</div><div class="size-cell">45</div>
+                    <div class="size-cell">280</div><div class="size-cell">11</div><div class="size-cell">10</div><div class="size-cell">46</div>
+                </div>
+            </div>
+            <div id="clothes-tab" style="display:none">
+                <div class="size-grid">
+                    <div class="size-header">한국</div>
+                    <div class="size-header">US</div>
+                    <div class="size-header">UK</div>
+                    <div class="size-header">EU</div>
+                    <div class="size-cell">85(S)</div><div class="size-cell">S</div><div class="size-cell">8</div><div class="size-cell">44</div>
+                    <div class="size-cell">90(M)</div><div class="size-cell">M</div><div class="size-cell">10</div><div class="size-cell">46</div>
+                    <div class="size-cell">95(L)</div><div class="size-cell">L</div><div class="size-cell">12</div><div class="size-cell">48</div>
+                    <div class="size-cell">100(XL)</div><div class="size-cell">XL</div><div class="size-cell">14</div><div class="size-cell">50</div>
+                    <div class="size-cell">105(XXL)</div><div class="size-cell">XXL</div><div class="size-cell">16</div><div class="size-cell">52</div>
+                </div>
+            </div>
+            <div id="ring-tab" style="display:none">
+                <div class="size-grid">
+                    <div class="size-header">한국</div>
+                    <div class="size-header">US</div>
+                    <div class="size-header">UK</div>
+                    <div class="size-header">둘레(mm)</div>
+                    <div class="size-cell">5</div><div class="size-cell">3</div><div class="size-cell">F</div><div class="size-cell">44.2</div>
+                    <div class="size-cell">7</div><div class="size-cell">4</div><div class="size-cell">H</div><div class="size-cell">46.8</div>
+                    <div class="size-cell">9</div><div class="size-cell">5</div><div class="size-cell">J</div><div class="size-cell">49.3</div>
+                    <div class="size-cell">11</div><div class="size-cell">6</div><div class="size-cell">L</div><div class="size-cell">51.9</div>
+                    <div class="size-cell">13</div><div class="size-cell">7</div><div class="size-cell">N</div><div class="size-cell">54.4</div>
+                    <div class="size-cell">15</div><div class="size-cell">8</div><div class="size-cell">P</div><div class="size-cell">57.0</div>
+                    <div class="size-cell">17</div><div class="size-cell">9</div><div class="size-cell">R</div><div class="size-cell">59.5</div>
+                    <div class="size-cell">19</div><div class="size-cell">10</div><div class="size-cell">T</div><div class="size-cell">62.1</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        function showTab(tab) {
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('[id$="-tab"]').forEach(function(t) { t.style.display = 'none'; });
+            event.target.classList.add('active');
+            document.getElementById(tab + '-tab').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

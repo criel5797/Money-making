@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/name-generator/"><meta property="og:url" content="https://instaidea.org/tools/fun/name-generator/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/name-generator/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/name-generator/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/name-generator/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/name-generator/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 이름 짓기 - 아기 이름, 펫 이름, 브랜드명 생성기</title>
+    <meta name="description" content="AI가 완벽한 이름을 지어드립니다. 아기 이름, 반려동물 이름, 브랜드명, 캐릭터명까지. 의미있는 이름을 무료로 추천받으세요.">
+    <meta name="keywords" content="아기이름, 이름짓기, 이름추천, 작명, 펫이름, 강아지이름, 고양이이름, 브랜드명, AI작명">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #f8f4f0;
+            --bg-secondary: #ffffff;
+            --bg-accent: #fff8f0;
+            --text-primary: #2d2d2d;
+            --text-secondary: #666666;
+            --accent: #e67e22;
+            --accent-secondary: #f39c12;
+            --pink: #e91e8c;
+            --blue: #3498db;
+            --green: #27ae60;
+            --purple: #9b59b6;
+            --border: #eee;
+        }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+        .logo { font-size: 3.5rem; margin-bottom: 15px; }
+        h1 {
+            font-size: 2.3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #e67e22, #e91e8c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: var(--text-secondary);
+        }
+
+        .type-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        @media (max-width: 600px) {
+            .type-selector { grid-template-columns: repeat(2, 1fr); }
+        }
+        .type-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .type-card.selected {
+            border-color: var(--accent);
+            background: var(--bg-accent);
+        }
+        .type-icon { font-size: 2.5rem; margin-bottom: 12px; }
+        .type-name { font-weight: 600; font-size: 1.05rem; }
+        .type-desc { font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px; }
+
+        .main-card {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 35px;
+            margin: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: none;
+        }
+        .main-card.show { display: block; }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--bg-primary);
+        }
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .style-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .style-chip {
+            padding: 10px 18px;
+            background: var(--bg-primary);
+            border: 2px solid #eee;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .style-chip:hover { border-color: var(--accent); }
+        .style-chip.selected {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(230,126,34,0.35);
+        }
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 30px;
+        }
+        .results-section.show { display: block; }
+
+        .results-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .name-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .name-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .name-info { flex: 1; }
+        .name-main {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .name-reading {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .name-meaning {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .name-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+        .action-btn.liked {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .saved-names {
+            background: var(--bg-accent);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        .saved-names.show { display: block; }
+        .saved-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .saved-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .saved-tag {
+            padding: 8px 15px;
+            background: white;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .remove-saved {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            font-size: 1rem;
+        }
+        .remove-saved:hover { color: #e74c3c; }
+
+        .more-btn {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+        .more-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tips-section {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .tips-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .tips-list {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            list-style: none;
+        }
+        .tips-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .tips-list li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"랜덤 이름 생성","en":"Random Name Generator","ja":"ランダム名前生成"},"desc":{"ko":"무작위 이름 생성","en":"Generate random names","ja":"ランダムな名前を生成"}},"header":{"title":{"ko":"랜덤 이름 생성","en":"Name Generator","ja":"名前生成"},"subtitle":{"ko":"무작위 이름을 생성하세요","en":"Generate random names","ja":"ランダムな名前を生成"}},"options":{"gender":{"ko":"성별","en":"Gender","ja":"性別"},"male":{"ko":"남성","en":"Male","ja":"男性"},"female":{"ko":"여성","en":"Female","ja":"女性"},"any":{"ko":"무관","en":"Any","ja":"無関係"},"country":{"ko":"국가","en":"Country","ja":"国"}},"buttons":{"generate":{"ko":"생성","en":"Generate","ja":"生成"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}}};</script></head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">✨</div>
+            <h1>AI 이름 짓기</h1>
+            <p class="subtitle">특별한 이름, AI가 찾아드릴게요</p>
+        </header>
+
+        <div class="type-selector">
+            <div class="type-card" onclick="selectType('baby')" data-type="baby">
+                <div class="type-icon">👶</div>
+                <div class="type-name">아기 이름</div>
+                <div class="type-desc">소중한 아이에게</div>
+            </div>
+            <div class="type-card" onclick="selectType('pet')" data-type="pet">
+                <div class="type-icon">🐾</div>
+                <div class="type-name">펫 이름</div>
+                <div class="type-desc">반려동물에게</div>
+            </div>
+            <div class="type-card" onclick="selectType('brand')" data-type="brand">
+                <div class="type-icon">💼</div>
+                <div class="type-name">브랜드명</div>
+                <div class="type-desc">사업/프로젝트</div>
+            </div>
+            <div class="type-card" onclick="selectType('nickname')" data-type="nickname">
+                <div class="type-icon">🎮</div>
+                <div class="type-name">닉네임</div>
+                <div class="type-desc">게임/SNS용</div>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <!-- 아기 이름 폼 -->
+        <div class="main-card" id="babyForm">
+            <div class="section-title">👶 아기 이름 정보</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">성별</label>
+                    <select id="babyGender">
+                        <option value="male">남자아이</option>
+                        <option value="female">여자아이</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">성씨</label>
+                    <input type="text" id="babySurname" placeholder="예: 김, 이, 박">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">원하는 느낌</div>
+            <div class="style-chips" id="babyStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">순수한</span>
+                <span class="style-chip" onclick="toggleStyle(this)">강인한</span>
+                <span class="style-chip" onclick="toggleStyle(this)">지적인</span>
+                <span class="style-chip" onclick="toggleStyle(this)">예쁜</span>
+                <span class="style-chip" onclick="toggleStyle(this)">고급스러운</span>
+                <span class="style-chip" onclick="toggleStyle(this)">전통적인</span>
+                <span class="style-chip" onclick="toggleStyle(this)">현대적인</span>
+                <span class="style-chip" onclick="toggleStyle(this)">자연적인</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('baby')">✨ 이름 추천받기</button>
+        </div>
+
+        <!-- 펫 이름 폼 -->
+        <div class="main-card" id="petForm">
+            <div class="section-title">🐾 반려동물 정보</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">종류</label>
+                    <select id="petType">
+                        <option value="dog">강아지 🐕</option>
+                        <option value="cat">고양이 🐱</option>
+                        <option value="bird">새 🐦</option>
+                        <option value="rabbit">토끼 🐰</option>
+                        <option value="hamster">햄스터 🐹</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">성별</label>
+                    <select id="petGender">
+                        <option value="male">남아</option>
+                        <option value="female">여아</option>
+                        <option value="unknown">모름</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">털색/특징</label>
+                    <input type="text" id="petFeature" placeholder="예: 하얀색, 점박이">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">원하는 스타일</div>
+            <div class="style-chips" id="petStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">귀여운</span>
+                <span class="style-chip" onclick="toggleStyle(this)">멋진</span>
+                <span class="style-chip" onclick="toggleStyle(this)">우아한</span>
+                <span class="style-chip" onclick="toggleStyle(this)">재미있는</span>
+                <span class="style-chip" onclick="toggleStyle(this)">음식 관련</span>
+                <span class="style-chip" onclick="toggleStyle(this)">영어</span>
+                <span class="style-chip" onclick="toggleStyle(this)">한글</span>
+                <span class="style-chip" onclick="toggleStyle(this)">일본어</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('pet')">✨ 이름 추천받기</button>
+        </div>
+
+        <!-- 브랜드명 폼 -->
+        <div class="main-card" id="brandForm">
+            <div class="section-title">💼 브랜드/비즈니스 정보</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">업종/분야</label>
+                    <select id="brandCategory">
+                        <option value="tech">IT/테크</option>
+                        <option value="fashion">패션/뷰티</option>
+                        <option value="food">식품/음식</option>
+                        <option value="health">건강/피트니스</option>
+                        <option value="education">교육</option>
+                        <option value="creative">크리에이티브/디자인</option>
+                        <option value="service">서비스업</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">핵심 키워드</label>
+                    <input type="text" id="brandKeyword" placeholder="예: 친환경, 프리미엄">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">브랜드 느낌</div>
+            <div class="style-chips" id="brandStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">전문적인</span>
+                <span class="style-chip" onclick="toggleStyle(this)">친근한</span>
+                <span class="style-chip" onclick="toggleStyle(this)">혁신적인</span>
+                <span class="style-chip" onclick="toggleStyle(this)">신뢰감</span>
+                <span class="style-chip" onclick="toggleStyle(this)">트렌디</span>
+                <span class="style-chip" onclick="toggleStyle(this)">클래식</span>
+                <span class="style-chip" onclick="toggleStyle(this)">영어</span>
+                <span class="style-chip" onclick="toggleStyle(this)">한글</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('brand')">✨ 브랜드명 추천받기</button>
+        </div>
+
+        <!-- 닉네임 폼 -->
+        <div class="main-card" id="nicknameForm">
+            <div class="section-title">🎮 닉네임 정보</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label class="option-label">용도</label>
+                    <select id="nicknameUse">
+                        <option value="game">게임</option>
+                        <option value="sns">SNS/인스타</option>
+                        <option value="youtube">유튜브/스트리밍</option>
+                        <option value="general">일반</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label">포함할 단어 (선택)</label>
+                    <input type="text" id="nicknameWord" placeholder="예: 별, star, 달">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:25px;">스타일</div>
+            <div class="style-chips" id="nicknameStyle">
+                <span class="style-chip" onclick="toggleStyle(this)">쿨한</span>
+                <span class="style-chip" onclick="toggleStyle(this)">귀여운</span>
+                <span class="style-chip" onclick="toggleStyle(this)">미스터리한</span>
+                <span class="style-chip" onclick="toggleStyle(this)">유머러스</span>
+                <span class="style-chip" onclick="toggleStyle(this)">프로페셔널</span>
+                <span class="style-chip" onclick="toggleStyle(this)">영어</span>
+                <span class="style-chip" onclick="toggleStyle(this)">한글</span>
+                <span class="style-chip" onclick="toggleStyle(this)">숫자 포함</span>
+            </div>
+
+            <button class="generate-btn" onclick="generateNames('nickname')">✨ 닉네임 추천받기</button>
+        </div>
+
+        <!-- 결과 섹션 -->
+        <div class="results-section" id="resultsSection">
+            <div class="section-title">🎉 추천 이름</div>
+            <div class="results-grid" id="resultsGrid"></div>
+
+            <div class="saved-names" id="savedNames">
+                <div class="saved-title">❤️ 저장한 이름</div>
+                <div class="saved-list" id="savedList"></div>
+            </div>
+
+            <button class="more-btn" onclick="regenerate()">🔄 다른 이름 더 보기</button>
+        </div>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="tips-section">
+            <div class="tips-title">좋은 이름을 고르는 팁</div>
+            <ul class="tips-list">
+                <li>소리내어 불러보세요. 부르기 편하고 듣기 좋은지 확인하세요.</li>
+                <li>검색해보세요. 같은 이름이 이미 많이 사용되고 있는지 확인하세요.</li>
+                <li>줄임말이나 별명으로 변형될 가능성도 생각해보세요.</li>
+                <li>시간을 두고 결정하세요. 급하게 정하면 후회할 수 있어요.</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>완벽한 이름, 여기서 찾으세요 ✨</p>
+            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentType = '';
+        let savedNamesList = [];
+
+        const nameDatabase = {
+            baby: {
+                male: [
+                    { name: '서준', reading: '서준 (Seo-jun)', meaning: '서쪽의 뛰어난 사람. 지혜롭고 준수함을 뜻합니다.', styles: ['지적인', '현대적인'] },
+                    { name: '도윤', reading: '도윤 (Do-yun)', meaning: '도리를 아는 윤택한 사람. 바르고 풍요로운 삶을 상징합니다.', styles: ['전통적인', '고급스러운'] },
+                    { name: '시우', reading: '시우 (Si-woo)', meaning: '때를 아는 뛰어난 사람. 지혜와 총명함을 의미합니다.', styles: ['현대적인', '지적인'] },
+                    { name: '하준', reading: '하준 (Ha-jun)', meaning: '큰 뜻을 품은 준수한 사람. 웅대한 꿈을 상징합니다.', styles: ['강인한', '고급스러운'] },
+                    { name: '준서', reading: '준서 (Jun-seo)', meaning: '준수하고 상서로운 사람. 빼어난 재능을 뜻합니다.', styles: ['전통적인', '지적인'] },
+                    { name: '건우', reading: '건우 (Geon-woo)', meaning: '건강하고 우뚝 선 사람. 강건함을 상징합니다.', styles: ['강인한', '전통적인'] },
+                    { name: '예준', reading: '예준 (Ye-jun)', meaning: '예의 바르고 준수한 사람. 품격을 뜻합니다.', styles: ['고급스러운', '전통적인'] },
+                    { name: '민준', reading: '민준 (Min-jun)', meaning: '민첩하고 준수한 사람. 영리함을 상징합니다.', styles: ['지적인', '현대적인'] },
+                    { name: '지호', reading: '지호 (Ji-ho)', meaning: '지혜롭고 호탕한 사람. 넓은 마음을 뜻합니다.', styles: ['강인한', '지적인'] },
+                    { name: '윤우', reading: '윤우 (Yun-woo)', meaning: '윤택하고 빼어난 사람. 풍요와 뛰어남을 상징합니다.', styles: ['고급스러운', '현대적인'] }
+                ],
+                female: [
+                    { name: '서윤', reading: '서윤 (Seo-yun)', meaning: '서쪽의 윤택한 사람. 빛나고 풍요로움을 뜻합니다.', styles: ['예쁜', '현대적인'] },
+                    { name: '서연', reading: '서연 (Seo-yeon)', meaning: '상서로운 연꽃 같은 사람. 고귀함을 상징합니다.', styles: ['고급스러운', '예쁜'] },
+                    { name: '지우', reading: '지우 (Ji-woo)', meaning: '지혜롭고 빼어난 사람. 총명함을 뜻합니다.', styles: ['지적인', '현대적인'] },
+                    { name: '하은', reading: '하은 (Ha-eun)', meaning: '크고 넓은 은혜. 베푸는 마음을 상징합니다.', styles: ['순수한', '전통적인'] },
+                    { name: '하윤', reading: '하윤 (Ha-yun)', meaning: '넓고 윤택한 사람. 풍요로운 삶을 뜻합니다.', styles: ['고급스러운', '현대적인'] },
+                    { name: '민서', reading: '민서 (Min-seo)', meaning: '민첩하고 상서로운 사람. 영리함을 상징합니다.', styles: ['지적인', '예쁜'] },
+                    { name: '수아', reading: '수아 (Su-a)', meaning: '빼어나게 아름다운 사람. 고운 자태를 뜻합니다.', styles: ['예쁜', '순수한'] },
+                    { name: '지아', reading: '지아 (Ji-a)', meaning: '지혜롭고 아름다운 사람. 총명함과 미를 상징합니다.', styles: ['예쁜', '지적인'] },
+                    { name: '채원', reading: '채원 (Chae-won)', meaning: '빛나는 근원. 밝고 긍정적인 에너지를 뜻합니다.', styles: ['순수한', '현대적인'] },
+                    { name: '윤서', reading: '윤서 (Yun-seo)', meaning: '윤택하고 상서로운 사람. 풍요와 행복을 상징합니다.', styles: ['고급스러운', '예쁜'] }
+                ]
+            },
+            pet: {
+                cute: ['뽀삐', '콩이', '몽이', '두부', '모찌', '쿠키', '초코', '밤이', '솜이', '복이', '꿀이', '콩알', '도토리', '젤리', '푸딩', '마카롱', '라떼', '카푸', '피치', '망고'],
+                cool: ['제이', '맥스', '루키', '타이거', '레오', '뮤즈', '블랙', '섀도우', '스톰', '록시', '헌터', '라이언', '킹', '제트', '블레이드', '스파이크', '체이서', '울프', '팬텀', '에이스'],
+                elegant: ['벨라', '루나', '미아', '소피아', '클로이', '샬롯', '빅토리아', '오로라', '아리아', '세레나', '그레이스', '엘리', '프린세스', '레이디', '앙쥬', '프레야', '비앙카', '사브리나', '디바', '로즈'],
+                food: ['떡볶이', '치킨', '김밥', '라면', '만두', '호떡', '붕어빵', '순대', '튀김', '오뎅', '카레', '케첩', '마요', '와사비', '피자', '파스타', '스시', '우동', '타코', '버거'],
+                korean: ['달래', '나래', '바람', '하늘', '구름', '별이', '해피', '사랑', '미르', '아리', '소나', '단이', '한별', '보람', '샛별', '가온', '가람', '나무', '풀잎', '봄이'],
+                english: ['Buddy', 'Lucky', 'Charlie', 'Cooper', 'Bear', 'Duke', 'Tucker', 'Jack', 'Rocky', 'Teddy', 'Daisy', 'Lucy', 'Coco', 'Molly', 'Sadie', 'Lily', 'Zoey', 'Stella', 'Penny', 'Ruby']
+            },
+            brand: {
+                tech: ['테크노바', '이노플렉스', '스마트온', '디지털랩', '코드웨이브', '넥스트업', '데이터림', '클라우디오', '인피니티', '퓨처링크', 'Innovix', 'TechFlow', 'ByteWise', 'NeoSpark', 'CloudNest'],
+                fashion: ['벨루아', '엘레강스', '모던시크', '르블랑', '아뜰리에', '프리마', '라비앙', '솔레이', '로제', '비앙카', 'Luxire', 'Velora', 'Chique', 'Primrose', 'Ethereal'],
+                food: ['맛담', '미식공방', '자연담다', '신선한끼', '푸드스토리', '맛있는상상', '정성한상', '오늘의밥상', '건강한하루', 'Freshly', 'Nourish', 'TasteBud', 'Flavora', 'PureEats'],
+                creative: ['크리에이터블', '아트스페이스', '비전메이커', '인스피레이션', '크래프트웍스', '디자인룸', '아이디어팩토리', 'Creatify', 'Artisan', 'Visionary', 'DesignLab', 'Inspiro']
+            },
+            nickname: {
+                cool: ['DarkPhoenix', 'ShadowHunter', 'StormBringer', 'NightWolf', 'IceKing', 'ThunderStrike', 'SilentBlade', 'StarKiller', 'VoidWalker', 'FireLord'],
+                cute: ['꿀토끼', '별빛소녀', '달콤냥이', '구름위의곰', '반짝별이', 'SweetBunny', 'StarDust', 'MoonChild', 'CozyBear', 'PinkCloud'],
+                funny: ['김치워리어', '라면히어로', '떡볶이마스터', '치킨사랑꾼', '졸린판다', 'NoodleMaster', 'SleepyPanda', 'CouchPotato', 'LazyLion', 'ChickenKing'],
+                pro: ['Pro_Player', 'Elite_Gamer', 'Master_Chief', 'Victory_King', 'Champion_X', 'Legend_One', 'Supreme_Star', 'Ultimate_Pro', 'Ace_Player', 'Top_Tier']
+            }
+        };
+
+        function selectType(type) {
+            document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+            document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+            currentType = type;
+
+            document.querySelectorAll('.main-card').forEach(f => f.classList.remove('show'));
+            document.getElementById(`${type}Form`).classList.add('show');
+            document.getElementById('resultsSection').classList.remove('show');
+        }
+
+        function toggleStyle(el) {
+            el.classList.toggle('selected');
+        }
+
+        function generateNames(type) {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> 이름 생성 중...';
+
+            setTimeout(() => {
+                let names = [];
+
+                if (type === 'baby') {
+                    const gender = document.getElementById('babyGender').value;
+                    const surname = document.getElementById('babySurname').value || '';
+                    const selectedStyles = getSelectedStyles('babyStyle');
+
+                    let pool = nameDatabase.baby[gender];
+                    if (selectedStyles.length > 0) {
+                        pool = pool.filter(n => n.styles.some(s => selectedStyles.includes(s)));
+                        if (pool.length < 5) pool = nameDatabase.baby[gender];
+                    }
+
+                    names = shuffle(pool).slice(0, 5).map(n => ({
+                        ...n,
+                        name: surname + n.name
+                    }));
+                } else if (type === 'pet') {
+                    const selectedStyles = getSelectedStyles('petStyle');
+                    let category = 'cute';
+                    if (selectedStyles.includes('멋진')) category = 'cool';
+                    if (selectedStyles.includes('우아한')) category = 'elegant';
+                    if (selectedStyles.includes('음식 관련')) category = 'food';
+                    if (selectedStyles.includes('한글')) category = 'korean';
+                    if (selectedStyles.includes('영어')) category = 'english';
+
+                    names = shuffle(nameDatabase.pet[category]).slice(0, 6).map(n => ({
+                        name: n,
+                        reading: '',
+                        meaning: getPetMeaning(n)
+                    }));
+                } else if (type === 'brand') {
+                    const category = document.getElementById('brandCategory').value;
+                    const pool = nameDatabase.brand[category] || nameDatabase.brand.tech;
+
+                    names = shuffle(pool).slice(0, 6).map(n => ({
+                        name: n,
+                        reading: '',
+                        meaning: getBrandMeaning(n)
+                    }));
+                } else if (type === 'nickname') {
+                    const selectedStyles = getSelectedStyles('nicknameStyle');
+                    let category = 'cool';
+                    if (selectedStyles.includes('귀여운')) category = 'cute';
+                    if (selectedStyles.includes('유머러스')) category = 'funny';
+                    if (selectedStyles.includes('프로페셔널')) category = 'pro';
+
+                    const customWord = document.getElementById('nicknameWord').value;
+                    let pool = nameDatabase.nickname[category];
+
+                    names = shuffle(pool).slice(0, 6).map(n => {
+                        if (customWord && Math.random() > 0.5) {
+                            n = customWord + '_' + n.split(/[_\s]/)[1];
+                        }
+                        return {
+                            name: n,
+                            reading: '',
+                            meaning: getNicknameMeaning(n)
+                        };
+                    });
+                }
+
+                displayResults(names);
+                btn.disabled = false;
+                btn.innerHTML = '✨ 이름 추천받기';
+            }, 1500);
+        }
+
+        function getSelectedStyles(containerId) {
+            const container = document.getElementById(containerId);
+            return Array.from(container.querySelectorAll('.style-chip.selected')).map(el => el.textContent);
+        }
+
+        function shuffle(array) {
+            return [...array].sort(() => Math.random() - 0.5);
+        }
+
+        function getPetMeaning(name) {
+            const meanings = [
+                '사랑스럽고 귀여운 느낌의 이름이에요.',
+                '부르기 쉽고 친근한 이름입니다.',
+                '독특하고 개성있는 이름이에요.',
+                '귀엽고 발랄한 느낌을 주는 이름입니다.',
+                '애정을 담아 부르기 좋은 이름이에요.'
+            ];
+            return meanings[Math.floor(Math.random() * meanings.length)];
+        }
+
+        function getBrandMeaning(name) {
+            const meanings = [
+                '현대적이고 전문적인 이미지를 전달합니다.',
+                '신뢰감과 혁신을 동시에 느끼게 하는 이름입니다.',
+                '기억하기 쉽고 부르기 편한 브랜드명입니다.',
+                '트렌디하면서도 안정적인 느낌을 줍니다.',
+                '독특하면서도 친근한 이미지의 이름입니다.'
+            ];
+            return meanings[Math.floor(Math.random() * meanings.length)];
+        }
+
+        function getNicknameMeaning(name) {
+            const meanings = [
+                '개성있고 기억에 남는 닉네임이에요.',
+                '센스있고 트렌디한 닉네임입니다.',
+                '눈에 띄고 임팩트 있는 닉네임이에요.',
+                '친근하면서도 멋진 느낌의 닉네임입니다.',
+                '유니크하고 특별한 닉네임이에요.'
+            ];
+            return meanings[Math.floor(Math.random() * meanings.length)];
+        }
+
+        function displayResults(names) {
+            const grid = document.getElementById('resultsGrid');
+            grid.innerHTML = names.map((n, i) => `
+                <div class="name-card" onclick="copyName('${n.name}')">
+                    <div class="name-info">
+                        <div class="name-main">${n.name}</div>
+                        ${n.reading ? `<div class="name-reading">${n.reading}</div>` : ''}
+                        <div class="name-meaning">${n.meaning}</div>
+                    </div>
+                    <div class="name-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); toggleSave('${n.name}')" id="save-${i}">❤️</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); copyName('${n.name}')">📋</button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('resultsSection').classList.add('show');
+            showToast('이름이 생성되었어요!');
+        }
+
+        function toggleSave(name) {
+            const idx = savedNamesList.indexOf(name);
+            if (idx > -1) {
+                savedNamesList.splice(idx, 1);
+                showToast('저장 목록에서 제거했어요');
+            } else {
+                savedNamesList.push(name);
+                showToast('이름을 저장했어요!');
+            }
+            updateSavedList();
+        }
+
+        function updateSavedList() {
+            const container = document.getElementById('savedNames');
+            const list = document.getElementById('savedList');
+
+            if (savedNamesList.length > 0) {
+                container.classList.add('show');
+                list.innerHTML = savedNamesList.map(name => `
+                    <span class="saved-tag">
+                        ${name}
+                        <button class="remove-saved" onclick="removeSaved('${name}')">×</button>
+                    </span>
+                `).join('');
+            } else {
+                container.classList.remove('show');
+            }
+        }
+
+        function removeSaved(name) {
+            savedNamesList = savedNamesList.filter(n => n !== name);
+            updateSavedList();
+        }
+
+        function copyName(name) {
+            navigator.clipboard.writeText(name);
+            showToast(`"${name}" 복사되었어요!`);
+        }
+
+        function regenerate() {
+            const btn = document.querySelector(`#${currentType}Form .generate-btn`);
+            btn.click();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/loan-calculator/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/loan-calculator/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/loan-calculator/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/loan-calculator/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/loan-calculator/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/loan-calculator/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ローン計算機</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #2c3e50, #4ca1af); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .calc-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .input-group { margin-bottom: 18px; }
+        .input-label { font-size: .9rem; margin-bottom: 8px; opacity: .8; }
+        input[type=number] { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; font-size: 1rem; }
+        .calc-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; cursor: pointer; margin: 20px 0; }
+        .result-card { background: rgba(0,0,0,.3); border-radius: 12px; padding: 25px; }
+        .result-main { text-align: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,.2); }
+        .result-label { font-size: .9rem; opacity: .8; margin-bottom: 5px; }
+        .result-value { font-size: 2.2rem; font-weight: 700; }
+        .result-unit { font-size: .9rem; opacity: .8; }
+        .detail-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+        .detail-row:last-child { border: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header><h1>🏦 ローン計算機</h1></header>
+        <div class="calc-section">
+            <div class="input-group">
+                <div class="input-label">借入金額 (円)</div>
+                <input type="number" id="loanAmount" placeholder="10000000" value="10000000">
+            </div>
+            <div class="input-group">
+                <div class="input-label">年利率 (%)</div>
+                <input type="number" id="interestRate" placeholder="4.5" value="4.5" step="0.1">
+            </div>
+            <div class="input-group">
+                <div class="input-label">借入期間 (年)</div>
+                <input type="number" id="loanYears" placeholder="30" value="30">
+            </div>
+            <button class="calc-btn" onclick="calculate()">計算する</button>
+            <div class="result-card">
+                <div class="result-main">
+                    <div class="result-label">月々の返済額</div>
+                    <div class="result-value" id="monthlyPayment">0</div>
+                    <div class="result-unit">円/月</div>
+                </div>
+                <div class="detail-row"><span>総返済額</span><span id="totalPayment">0円</span></div>
+                <div class="detail-row"><span>総利息</span><span id="totalInterest">0円</span></div>
+                <div class="detail-row"><span>利息割合</span><span id="interestRatio">0%</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        function calculate() {
+            var principal = parseFloat(document.getElementById('loanAmount').value) || 0;
+            var rate = parseFloat(document.getElementById('interestRate').value) || 0;
+            var years = parseInt(document.getElementById('loanYears').value) || 1;
+            var monthlyRate = rate / 100 / 12;
+            var months = years * 12;
+            var monthly = 0;
+            if (monthlyRate > 0) {
+                var factor = Math.pow(1 + monthlyRate, months);
+                monthly = principal * (monthlyRate * factor) / (factor - 1);
+            } else {
+                monthly = principal / months;
+            }
+            var totalPayment = monthly * months;
+            var totalInterest = totalPayment - principal;
+            var ratio = principal > 0 ? (totalInterest / principal) * 100 : 0;
+            document.getElementById('monthlyPayment').textContent = Math.round(monthly).toLocaleString();
+            document.getElementById('totalPayment').textContent = Math.round(totalPayment).toLocaleString() + '円';
+            document.getElementById('totalInterest').textContent = Math.round(totalInterest).toLocaleString() + '円';
+            document.getElementById('interestRatio').textContent = ratio.toFixed(1) + '%';
+        }
+        calculate();
+    </script>
+</body>
+</html>

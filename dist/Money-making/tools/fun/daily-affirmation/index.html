@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/daily-affirmation/"><meta property="og:url" content="https://instaidea.org/tools/fun/daily-affirmation/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/daily-affirmation/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/daily-affirmation/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/daily-affirmation/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/daily-affirmation/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘의 확언</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #ff9a9e, #fecfef); min-height: 100vh; color: #333; padding: 20px; display: flex; align-items: center; justify-content: center; }
+        .container { max-width: 500px; width: 100%; }
+        .ad-banner { background: rgba(255,255,255,.3); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; color: #c44569; }
+        .affirmation-section { background: rgba(255,255,255,.8); border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,.1); }
+        .affirmation-icon { font-size: 4rem; margin-bottom: 25px; }
+        .affirmation-text { font-size: 1.4rem; line-height: 1.8; color: #555; margin-bottom: 30px; font-style: italic; min-height: 100px; }
+        .new-btn { padding: 16px 40px; border: none; border-radius: 30px; background: linear-gradient(135deg, #ff9a9e, #fad0c4); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(255,154,158,.4); }
+        .category-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .cat-btn { padding: 10px 18px; border: 1px solid #fad0c4; border-radius: 20px; background: transparent; color: #c44569; cursor: pointer; font-size: .9rem; }
+        .cat-btn.active { background: #fad0c4; color: #fff; }
+        .share-btn { display: block; margin: 0 auto; padding: 12px 25px; border: 1px solid #c44569; border-radius: 20px; background: transparent; color: #c44569; cursor: pointer; font-size: .9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header><h1>✨ 오늘의 확언</h1></header>
+        <div class="affirmation-section">
+            <div class="category-btns">
+                <button class="cat-btn active" onclick="setCat('all')">전체</button>
+                <button class="cat-btn" onclick="setCat('confidence')">자신감</button>
+                <button class="cat-btn" onclick="setCat('success')">성공</button>
+                <button class="cat-btn" onclick="setCat('peace')">평화</button>
+                <button class="cat-btn" onclick="setCat('love')">사랑</button>
+            </div>
+            <div class="affirmation-icon">💖</div>
+            <div class="affirmation-text" id="affirmationText">새로운 확언을 불러오세요</div>
+            <button class="new-btn" onclick="newAffirmation()">새로운 확언</button>
+            <button class="share-btn" onclick="copyToClipboard()">복사하기</button>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var affirmations = {
+            confidence: [
+                "나는 충분히 가치 있는 사람이다.",
+                "나는 나 자신을 있는 그대로 사랑한다.",
+                "나는 어떤 도전도 극복할 수 있는 힘이 있다.",
+                "나의 존재 자체가 세상에 빛을 더한다."
+            ],
+            success: [
+                "나는 성공을 향해 매일 한 걸음씩 나아가고 있다.",
+                "나에게는 원하는 것을 이룰 능력이 있다.",
+                "모든 실패는 성공으로 가는 디딤돌이다.",
+                "나는 나의 꿈을 현실로 만들 수 있다."
+            ],
+            peace: [
+                "나는 지금 이 순간 평화롭다.",
+                "나는 스트레스를 내려놓고 마음의 평온을 선택한다.",
+                "나는 감사함으로 하루를 시작한다.",
+                "모든 것은 제자리를 찾아가고 있다."
+            ],
+            love: [
+                "나는 사랑받을 자격이 있다.",
+                "나는 다른 사람들에게 사랑과 친절을 베푼다.",
+                "내 마음은 사랑으로 가득 차 있다.",
+                "나는 나 자신에게 친절하고 관대하다."
+            ]
+        };
+        var category = 'all';
+        function setCat(c) {
+            category = c;
+            document.querySelectorAll('.cat-btn').forEach(function(b) { b.classList.remove('active'); });
+            event.target.classList.add('active');
+            newAffirmation();
+        }
+        function newAffirmation() {
+            var pool = [];
+            if (category === 'all') {
+                Object.keys(affirmations).forEach(function(k) { pool = pool.concat(affirmations[k]); });
+            } else {
+                pool = affirmations[category] || [];
+            }
+            var text = pool[Math.floor(Math.random() * pool.length)];
+            document.getElementById('affirmationText').textContent = text;
+        }
+        function copyToClipboard() {
+            var text = document.getElementById('affirmationText').textContent;
+            navigator.clipboard.writeText(text).then(function() { alert('복사되었습니다!'); });
+        }
+        newAffirmation();
+    </script>
+</body>
+</html>

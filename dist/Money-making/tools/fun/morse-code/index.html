@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/morse-code/"><meta property="og:url" content="https://instaidea.org/tools/fun/morse-code/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/morse-code/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/morse-code/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/morse-code/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/morse-code/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모스 부호 변환기 - 텍스트 ↔ 모스</title>
+    <meta name="description" content="무료 모스 부호 변환기. 텍스트를 모스 부호로, 모스 부호를 텍스트로 변환하세요.">
+    <meta name="keywords" content="모스 부호, 모스 코드, 변환기, 암호">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 600px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .morse-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .mode-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .mode-tab {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .mode-tab:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .mode-tab.active {
+            background: rgba(255,255,255,0.3);
+            border-color: white;
+        }
+        .input-area {
+            margin-bottom: 20px;
+        }
+        .input-label {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        textarea:focus {
+            outline: 3px solid rgba(255,255,255,0.3);
+        }
+        .convert-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        .convert-btn:hover {
+            transform: scale(1.02);
+        }
+        .output-area {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 100px;
+        }
+        .output-label {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        .output-text {
+            font-family: monospace;
+            font-size: 1.2rem;
+            word-break: break-all;
+            line-height: 2;
+        }
+        .output-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .action-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .morse-table {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .morse-table h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .table-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        .table-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 5px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        .table-char {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .table-morse {
+            font-family: monospace;
+            opacity: 0.8;
+            font-size: 0.75rem;
+        }
+        .play-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .play-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .play-btn:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>📡 모스 부호 변환기</h1>
+            <p class="subtitle">텍스트와 모스 부호를 상호 변환</p>
+        </header>
+        <div class="morse-section">
+            <div class="mode-tabs">
+                <button class="mode-tab active" onclick="setMode('textToMorse')">텍스트 → 모스</button>
+                <button class="mode-tab" onclick="setMode('morseToText')">모스 → 텍스트</button>
+            </div>
+
+            <div class="input-area">
+                <div class="input-label" id="inputLabel">텍스트 입력</div>
+                <textarea id="inputText" placeholder="여기에 텍스트를 입력하세요..." oninput="convert()"></textarea>
+            </div>
+
+            <button class="convert-btn" onclick="convert()">🔄 변환</button>
+
+            <div class="output-area">
+                <div class="output-label" id="outputLabel">모스 부호 결과</div>
+                <div class="output-text" id="outputText">-</div>
+                <div class="output-actions">
+                    <button class="action-btn" onclick="copyOutput()">📋 복사</button>
+                    <button class="action-btn" onclick="swapInputOutput()">🔁 입력으로</button>
+                </div>
+            </div>
+
+            <div class="play-controls">
+                <button class="play-btn" onclick="playMorse()">🔊 소리 재생</button>
+                <button class="play-btn" onclick="stopMorse()">⏹ 정지</button>
+            </div>
+
+            <div class="morse-table">
+                <h3>📖 모스 부호표</h3>
+                <div class="table-grid" id="tableGrid"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
+    </div>
+    <script>
+        var morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....',
+            'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 'P': '.--.',
+            'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+            'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-',
+            '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', ' ': '/'
+        };
+
+        var reverseMorse = {};
+        Object.keys(morseCode).forEach(function(key) {
+            reverseMorse[morseCode[key]] = key;
+        });
+
+        var currentMode = 'textToMorse';
+        var audioContext = null;
+        var isPlaying = false;
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(function(tab, i) {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            if (mode === 'textToMorse') {
+                document.getElementById('inputLabel').textContent = '텍스트 입력';
+                document.getElementById('outputLabel').textContent = '모스 부호 결과';
+                document.getElementById('inputText').placeholder = '여기에 텍스트를 입력하세요...';
+            } else {
+                document.getElementById('inputLabel').textContent = '모스 부호 입력';
+                document.getElementById('outputLabel').textContent = '텍스트 결과';
+                document.getElementById('inputText').placeholder = '모스 부호를 입력하세요 (점: . 선: -, 글자 구분: 공백, 단어 구분: /)';
+            }
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').textContent = '-';
+        }
+
+        function convert() {
+            var input = document.getElementById('inputText').value;
+            var output = '';
+
+            if (currentMode === 'textToMorse') {
+                output = textToMorse(input);
+            } else {
+                output = morseToText(input);
+            }
+
+            document.getElementById('outputText').textContent = output || '-';
+        }
+
+        function textToMorse(text) {
+            return text.toUpperCase().split('').map(function(char) {
+                return morseCode[char] || char;
+            }).join(' ');
+        }
+
+        function morseToText(morse) {
+            return morse.split(' ').map(function(code) {
+                if (code === '/') return ' ';
+                return reverseMorse[code] || code;
+            }).join('');
+        }
+
+        function copyOutput() {
+            var output = document.getElementById('outputText').textContent;
+            navigator.clipboard.writeText(output).then(function() {
+                alert('복사되었습니다!');
+            });
+        }
+
+        function swapInputOutput() {
+            var output = document.getElementById('outputText').textContent;
+            if (output && output !== '-') {
+                document.getElementById('inputText').value = output;
+                // Toggle mode
+                if (currentMode === 'textToMorse') {
+                    setMode('morseToText');
+                    document.querySelectorAll('.mode-tab')[1].classList.add('active');
+                    document.querySelectorAll('.mode-tab')[0].classList.remove('active');
+                } else {
+                    setMode('textToMorse');
+                    document.querySelectorAll('.mode-tab')[0].classList.add('active');
+                    document.querySelectorAll('.mode-tab')[1].classList.remove('active');
+                }
+                convert();
+            }
+        }
+
+        function playMorse() {
+            var morse = currentMode === 'textToMorse'
+                ? document.getElementById('outputText').textContent
+                : textToMorse(document.getElementById('inputText').value);
+
+            if (!morse || morse === '-') return;
+
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            isPlaying = true;
+            var dotDuration = 0.1;
+            var dashDuration = 0.3;
+            var pauseDuration = 0.1;
+            var letterPause = 0.3;
+            var wordPause = 0.7;
+            var currentTime = audioContext.currentTime;
+
+            morse.split('').forEach(function(char) {
+                if (char === '.') {
+                    playTone(currentTime, dotDuration);
+                    currentTime += dotDuration + pauseDuration;
+                } else if (char === '-') {
+                    playTone(currentTime, dashDuration);
+                    currentTime += dashDuration + pauseDuration;
+                } else if (char === ' ') {
+                    currentTime += letterPause;
+                } else if (char === '/') {
+                    currentTime += wordPause;
+                }
+            });
+        }
+
+        function playTone(startTime, duration) {
+            var osc = audioContext.createOscillator();
+            var gain = audioContext.createGain();
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.frequency.value = 700;
+            gain.gain.value = 0.3;
+            osc.start(startTime);
+            osc.stop(startTime + duration);
+        }
+
+        function stopMorse() {
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+            isPlaying = false;
+        }
+
+        // Render morse table
+        function renderTable() {
+            var grid = document.getElementById('tableGrid');
+            Object.keys(morseCode).forEach(function(char) {
+                if (char === ' ') return;
+                var div = document.createElement('div');
+                div.className = 'table-item';
+                div.innerHTML = '<div class="table-char">' + char + '</div><div class="table-morse">' + morseCode[char] + '</div>';
+                grid.appendChild(div);
+            });
+        }
+
+        renderTable();
+    </script>
+</body>
+</html>

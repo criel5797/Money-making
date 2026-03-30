@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/quiz-game/"><meta property="og:url" content="https://instaidea.org/tools/fun/quiz-game/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/quiz-game/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/quiz-game/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/quiz-game/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/quiz-game/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퀴즈 게임</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #4facfe, #00f2fe); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.15); border-radius: 16px; padding: 25px; }
+        .progress { display: flex; gap: 6px; margin-bottom: 20px; }
+        .progress-dot { flex: 1; height: 8px; border-radius: 4px; background: rgba(255,255,255,.3); }
+        .progress-dot.correct { background: #4ade80; }
+        .progress-dot.wrong { background: #ef4444; }
+        .progress-dot.current { background: #ffd93d; }
+        .category { text-align: center; font-size: .85rem; opacity: .8; margin-bottom: 10px; }
+        .question-container { background: rgba(0,0,0,.2); border-radius: 14px; padding: 20px; margin-bottom: 20px; min-height: 100px; }
+        .question-number { font-size: .9rem; opacity: .7; margin-bottom: 10px; }
+        .question-text { font-size: 1.15rem; line-height: 1.5; }
+        .answers { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .answer-btn { padding: 16px; border: none; border-radius: 12px; background: rgba(255,255,255,.2); color: #fff; font-size: 1rem; cursor: pointer; text-align: left; transition: background .2s, transform .1s; }
+        .answer-btn:hover:not(:disabled) { background: rgba(255,255,255,.3); }
+        .answer-btn:active:not(:disabled) { transform: scale(0.98); }
+        .answer-btn.correct { background: #4ade80 !important; }
+        .answer-btn.wrong { background: #ef4444 !important; }
+        .answer-btn:disabled { cursor: not-allowed; opacity: .7; }
+        .result-box { text-align: center; padding: 30px; background: rgba(0,0,0,.2); border-radius: 14px; margin-bottom: 20px; display: none; }
+        .result-score { font-size: 3rem; font-weight: 700; margin-bottom: 10px; }
+        .result-text { font-size: 1.1rem; opacity: .9; }
+        .next-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; cursor: pointer; font-weight: 600; display: none; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.3rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+        .start-screen { text-align: center; padding: 30px 0; }
+        .start-btn { padding: 18px 40px; border: none; border-radius: 14px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.2rem; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🧠 퀴즈 게임</h1>
+        </header>
+        <div class="game-section">
+            <div id="startScreen" class="start-screen">
+                <p style="margin-bottom:20px;font-size:1.1rem">다양한 상식 퀴즈에 도전하세요!</p>
+                <button class="start-btn" onclick="startGame()">🎯 게임 시작</button>
+            </div>
+            <div id="gameScreen" style="display:none">
+                <div class="progress" id="progress"></div>
+                <div class="category" id="category"></div>
+                <div class="question-container">
+                    <div class="question-number" id="questionNumber"></div>
+                    <div class="question-text" id="questionText"></div>
+                </div>
+                <div class="answers" id="answers"></div>
+                <button class="next-btn" id="nextBtn" onclick="nextQuestion()">다음 문제 ▶</button>
+            </div>
+            <div id="resultScreen" style="display:none">
+                <div class="result-box" style="display:block">
+                    <div class="result-score" id="finalScore">0/10</div>
+                    <div class="result-text" id="resultText">수고하셨습니다!</div>
+                </div>
+                <button class="next-btn" style="display:block" onclick="startGame()">🔄 다시 도전</button>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalGames">0</div>
+                    <div class="stat-label">게임 수</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="highScore">0</div>
+                    <div class="stat-label">최고 점수</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="avgScore">0%</div>
+                    <div class="stat-label">평균 정답률</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var questions = [
+            { category: '과학', q: '물의 화학식은?', answers: ['H2O', 'CO2', 'O2', 'N2'], correct: 0 },
+            { category: '역사', q: '세종대왕이 한글을 창제한 연도는?', answers: ['1443년', '1392년', '1592년', '1446년'], correct: 0 },
+            { category: '지리', q: '세계에서 가장 큰 대륙은?', answers: ['아시아', '아프리카', '유럽', '북아메리카'], correct: 0 },
+            { category: '스포츠', q: '축구 한 팀의 선수 수는?', answers: ['11명', '9명', '10명', '12명'], correct: 0 },
+            { category: '과학', q: '태양계에서 가장 큰 행성은?', answers: ['목성', '토성', '지구', '화성'], correct: 0 },
+            { category: '문화', q: '한국의 전통 명절이 아닌 것은?', answers: ['핼러윈', '추석', '설날', '단오'], correct: 0 },
+            { category: '수학', q: '원주율 파이의 값은 약?', answers: ['3.14', '2.71', '1.41', '1.73'], correct: 0 },
+            { category: '지리', q: '한국의 수도는?', answers: ['서울', '부산', '대구', '인천'], correct: 0 },
+            { category: '역사', q: '한국전쟁 발발 연도는?', answers: ['1950년', '1945년', '1953년', '1948년'], correct: 0 },
+            { category: '과학', q: '빛의 속도는 초당 약?', answers: ['30만 km', '15만 km', '50만 km', '100만 km'], correct: 0 }
+        ];
+        var currentQuestion = 0;
+        var score = 0;
+        var answered = false;
+        var results = [];
+        var stats = JSON.parse(localStorage.getItem('quiz_ko') || '{"games":0,"total":0,"correct":0,"high":0}');
+
+        function shuffleArray(arr) {
+            var shuffled = arr.slice();
+            for (var i = shuffled.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = shuffled[i];
+                shuffled[i] = shuffled[j];
+                shuffled[j] = temp;
+            }
+            return shuffled;
+        }
+
+        function startGame() {
+            questions = shuffleArray(questions);
+            currentQuestion = 0;
+            score = 0;
+            results = [];
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('resultScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            var q = questions[currentQuestion];
+            document.getElementById('category').textContent = '📚 ' + q.category;
+            document.getElementById('questionNumber').textContent = '문제 ' + (currentQuestion + 1) + ' / ' + questions.length;
+            document.getElementById('questionText').textContent = q.q;
+
+            var answersDiv = document.getElementById('answers');
+            answersDiv.innerHTML = '';
+            q.answers.forEach(function(answer, i) {
+                var btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.textContent = answer;
+                btn.onclick = function() { checkAnswer(i); };
+                answersDiv.appendChild(btn);
+            });
+
+            var progress = document.getElementById('progress');
+            progress.innerHTML = '';
+            for (var i = 0; i < questions.length; i++) {
+                var dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                if (i < results.length) {
+                    dot.classList.add(results[i] ? 'correct' : 'wrong');
+                } else if (i === currentQuestion) {
+                    dot.classList.add('current');
+                }
+                progress.appendChild(dot);
+            }
+
+            document.getElementById('nextBtn').style.display = 'none';
+        }
+
+        function checkAnswer(selected) {
+            if (answered) return;
+            answered = true;
+            var q = questions[currentQuestion];
+            var buttons = document.querySelectorAll('.answer-btn');
+
+            buttons.forEach(function(btn, i) {
+                btn.disabled = true;
+                if (i === q.correct) btn.classList.add('correct');
+                else if (i === selected) btn.classList.add('wrong');
+            });
+
+            if (selected === q.correct) {
+                score++;
+                results.push(true);
+            } else {
+                results.push(false);
+            }
+
+            var progress = document.getElementById('progress');
+            progress.children[currentQuestion].className = 'progress-dot ' + (results[currentQuestion] ? 'correct' : 'wrong');
+
+            if (currentQuestion < questions.length - 1) {
+                document.getElementById('nextBtn').style.display = 'block';
+            } else {
+                setTimeout(endGame, 1000);
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            showQuestion();
+        }
+
+        function endGame() {
+            document.getElementById('gameScreen').style.display = 'none';
+            document.getElementById('resultScreen').style.display = 'block';
+            document.getElementById('finalScore').textContent = score + '/' + questions.length;
+
+            var percent = Math.round(score / questions.length * 100);
+            var text = percent >= 80 ? '훌륭해요! 🎉' : percent >= 60 ? '잘했어요! 👍' : percent >= 40 ? '좋아요! 😊' : '다시 도전해보세요! 💪';
+            document.getElementById('resultText').textContent = text;
+
+            stats.games++;
+            stats.total += questions.length;
+            stats.correct += score;
+            if (score > stats.high) stats.high = score;
+            localStorage.setItem('quiz_ko', JSON.stringify(stats));
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalGames').textContent = stats.games;
+            document.getElementById('highScore').textContent = stats.high;
+            document.getElementById('avgScore').textContent = stats.total > 0 ? Math.round(stats.correct / stats.total * 100) + '%' : '0%';
+        }
+
+        updateStats();
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/screen-color/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/screen-color/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/screen-color/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/screen-color/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/screen-color/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/screen-color/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画面カラーテスト</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; min-height: 100vh; transition: background .3s; }
+        h1 { text-align: center; padding: 20px; font-size: 1.5rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.5); }
+        .controls { background: rgba(0,0,0,.8); border-radius: 16px; padding: 25px; color: #fff; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 500px; }
+        .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .color-btn { padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-size: .8rem; font-weight: 600; }
+        .color-btn:hover { transform: scale(1.05); }
+        .custom-color { display: flex; gap: 10px; align-items: center; margin-bottom: 15px; }
+        input[type=color] { width: 60px; height: 40px; border: none; border-radius: 8px; }
+        input[type=text] { flex: 1; padding: 12px; border: none; border-radius: 8px; }
+        .apply-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; }
+        .info { text-align: center; font-size: .85rem; opacity: .7; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <h1>🖥️ 画面カラーテスト</h1>
+    <div class="controls">
+        <div class="color-grid">
+            <button class="color-btn" style="background:#ff0000;color:#fff" onclick="setC('#ff0000')">赤</button>
+            <button class="color-btn" style="background:#00ff00;color:#000" onclick="setC('#00ff00')">緑</button>
+            <button class="color-btn" style="background:#0000ff;color:#fff" onclick="setC('#0000ff')">青</button>
+            <button class="color-btn" style="background:#ffffff;color:#000" onclick="setC('#ffffff')">白</button>
+            <button class="color-btn" style="background:#000000;color:#fff" onclick="setC('#000000')">黒</button>
+            <button class="color-btn" style="background:#ffff00;color:#000" onclick="setC('#ffff00')">黄</button>
+            <button class="color-btn" style="background:#ff00ff;color:#fff" onclick="setC('#ff00ff')">マゼンタ</button>
+            <button class="color-btn" style="background:#00ffff;color:#000" onclick="setC('#00ffff')">シアン</button>
+        </div>
+        <div class="custom-color">
+            <input type="color" id="cp" value="#667eea">
+            <input type="text" id="ci" placeholder="#667eea">
+        </div>
+        <button class="apply-btn" onclick="applyC()">色を適用</button>
+        <div class="info">モニタードット抜けテスト</div>
+    </div>
+    <script>
+        function setC(c){document.body.style.background=c;document.getElementById('cp').value=c;document.getElementById('ci').value=c}
+        function applyC(){var c=document.getElementById('ci').value||document.getElementById('cp').value;setC(c)}
+        document.getElementById('cp').oninput=function(){document.getElementById('ci').value=this.value};
+        setC('#667eea');
+    </script>
+</body>
+</html>

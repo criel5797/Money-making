@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/plant-watering/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/plant-watering/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/plant-watering/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/plant-watering/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/plant-watering/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/plant-watering/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Watering</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #56ab2f, #a8e063); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .plant-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,.2); border-radius: 12px; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .7; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input, .form-row select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .plants { max-height: 350px; overflow-y: auto; }
+        .plant-item { display: flex; align-items: center; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 10px; }
+        .plant-icon { font-size: 2rem; margin-right: 15px; }
+        .plant-info { flex: 1; }
+        .plant-name { font-weight: 600; font-size: 1.1rem; }
+        .plant-schedule { font-size: .8rem; opacity: .8; margin-top: 3px; }
+        .plant-status { font-size: .75rem; padding: 3px 8px; border-radius: 10px; margin-top: 5px; display: inline-block; }
+        .status-ok { background: #38ef7d; color: #000; }
+        .status-soon { background: #ffd93d; color: #000; }
+        .status-overdue { background: #ff6b6b; color: #fff; }
+        .water-btn { padding: 8px 15px; border: none; border-radius: 8px; background: #4fc3f7; color: #fff; cursor: pointer; font-weight: 600; margin-right: 8px; }
+        .del-btn { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🌱 Plant Watering</h1>
+        </header>
+        <div class="plant-section">
+            <div class="stats">
+                <div class="stat"><div class="stat-value" id="totalPlants">0</div><div class="stat-label">Total Plants</div></div>
+                <div class="stat"><div class="stat-value" id="needWater">0</div><div class="stat-label">Need Water</div></div>
+            </div>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="plantName" placeholder="Plant name">
+                    <select id="plantIcon">
+                        <option value="🌱">🌱 Sprout</option>
+                        <option value="🌿">🌿 Herb</option>
+                        <option value="🌵">🌵 Cactus</option>
+                        <option value="🌸">🌸 Flower</option>
+                        <option value="🌳">🌳 Tree</option>
+                        <option value="🌻">🌻 Sunflower</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <select id="waterInterval">
+                        <option value="1">Daily</option>
+                        <option value="2">Every 2 days</option>
+                        <option value="3">Every 3 days</option>
+                        <option value="7">Weekly</option>
+                        <option value="14">Bi-weekly</option>
+                    </select>
+                </div>
+                <button class="add-btn" onclick="addPlant()">Add Plant</button>
+            </div>
+            <div class="plants" id="plants"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var plants = JSON.parse(localStorage.getItem('plants') || '[]');
+        var intervalNames = { 1: 'Daily', 2: 'Every 2 days', 3: 'Every 3 days', 7: 'Weekly', 14: 'Bi-weekly' };
+        function save() { localStorage.setItem('plants', JSON.stringify(plants)); }
+        function addPlant() {
+            var name = document.getElementById('plantName').value.trim();
+            var icon = document.getElementById('plantIcon').value;
+            var interval = parseInt(document.getElementById('waterInterval').value);
+            if (!name) return;
+            plants.push({ id: Date.now().toString(), name: name, icon: icon, interval: interval, lastWatered: new Date().toISOString() });
+            save();
+            document.getElementById('plantName').value = '';
+            render();
+        }
+        function waterPlant(id) {
+            var plant = plants.find(function(p) { return p.id === id; });
+            if (plant) { plant.lastWatered = new Date().toISOString(); save(); render(); }
+        }
+        function deletePlant(id) {
+            plants = plants.filter(function(p) { return p.id !== id; });
+            save();
+            render();
+        }
+        function getDaysUntilWater(plant) {
+            var last = new Date(plant.lastWatered);
+            var next = new Date(last.getTime() + plant.interval * 24 * 60 * 60 * 1000);
+            var now = new Date();
+            return Math.ceil((next - now) / (24 * 60 * 60 * 1000));
+        }
+        function render() {
+            var needWaterCount = plants.filter(function(p) { return getDaysUntilWater(p) <= 0; }).length;
+            document.getElementById('totalPlants').textContent = plants.length;
+            document.getElementById('needWater').textContent = needWaterCount;
+            var sorted = plants.slice().sort(function(a, b) { return getDaysUntilWater(a) - getDaysUntilWater(b); });
+            var list = document.getElementById('plants');
+            list.innerHTML = '';
+            sorted.forEach(function(plant) {
+                var days = getDaysUntilWater(plant);
+                var status, statusText;
+                if (days <= 0) { status = 'overdue'; statusText = 'Needs water!'; }
+                else if (days <= 1) { status = 'soon'; statusText = 'Tomorrow'; }
+                else { status = 'ok'; statusText = 'In ' + days + ' days'; }
+                var div = document.createElement('div');
+                div.className = 'plant-item';
+                div.innerHTML = '<div class="plant-icon">' + plant.icon + '</div><div class="plant-info"><div class="plant-name">' + plant.name + '</div><div class="plant-schedule">' + intervalNames[plant.interval] + '</div><span class="plant-status status-' + status + '">' + statusText + '</span></div><button class="water-btn" onclick="waterPlant(\'' + plant.id + '\')">💧</button><button class="del-btn" onclick="deletePlant(\'' + plant.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

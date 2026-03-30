@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/two-truths-one-lie/"><meta property="og:url" content="https://instaidea.org/tools/fun/two-truths-one-lie/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/two-truths-one-lie/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/two-truths-one-lie/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/two-truths-one-lie/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/two-truths-one-lie/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>두 개의 진실 하나의 거짓</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #059669, #047857); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.6rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .player-section { margin-bottom: 25px; }
+        .player-label { font-size: .9rem; opacity: .7; margin-bottom: 10px; }
+        .player-input { width: 100%; padding: 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; }
+        .player-input::placeholder { color: rgba(255,255,255,.5); }
+        .statements-section { margin-bottom: 25px; }
+        .statement-group { margin-bottom: 15px; }
+        .statement-label { display: flex; align-items: center; gap: 10px; font-size: .9rem; margin-bottom: 8px; }
+        .statement-emoji { font-size: 1.2rem; }
+        .statement-input { width: 100%; padding: 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; }
+        .lie-select { display: flex; gap: 10px; margin-bottom: 20px; }
+        .lie-btn { flex: 1; padding: 12px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: .9rem; cursor: pointer; transition: all .3s; }
+        .lie-btn.active { background: #ef4444; border-color: #ef4444; }
+        .actions { display: flex; gap: 12px; }
+        .action-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        .reveal-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .new-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .reveal-section { display: none; text-align: center; margin-top: 25px; padding-top: 25px; border-top: 2px solid rgba(255,255,255,.2); }
+        .reveal-title { font-size: 1.2rem; margin-bottom: 15px; }
+        .reveal-statement { background: linear-gradient(135deg, #ef4444, #dc2626); padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .reveal-label { font-size: .9rem; opacity: .8; margin-bottom: 8px; }
+        .reveal-text { font-size: 1.2rem; font-weight: 600; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-top: 20px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>✌️ 두 개의 진실 하나의 거짓</h1>
+            <p class="subtitle">진실 2개와 거짓 1개를 말하고 친구들이 맞춰보게 하세요!</p>
+        </header>
+        <div class="game-section">
+            <div class="player-section">
+                <div class="player-label">발표자 이름</div>
+                <input type="text" class="player-input" id="playerName" placeholder="이름을 입력하세요">
+            </div>
+            <div class="statements-section">
+                <div class="statement-group">
+                    <div class="statement-label"><span class="statement-emoji">1️⃣</span> 첫 번째 문장</div>
+                    <input type="text" class="statement-input" id="statement1" placeholder="진실 또는 거짓을 입력하세요">
+                </div>
+                <div class="statement-group">
+                    <div class="statement-label"><span class="statement-emoji">2️⃣</span> 두 번째 문장</div>
+                    <input type="text" class="statement-input" id="statement2" placeholder="진실 또는 거짓을 입력하세요">
+                </div>
+                <div class="statement-group">
+                    <div class="statement-label"><span class="statement-emoji">3️⃣</span> 세 번째 문장</div>
+                    <input type="text" class="statement-input" id="statement3" placeholder="진실 또는 거짓을 입력하세요">
+                </div>
+            </div>
+            <div class="player-label">어느 것이 거짓인가요?</div>
+            <div class="lie-select">
+                <button class="lie-btn" onclick="selectLie(1)">1번</button>
+                <button class="lie-btn" onclick="selectLie(2)">2번</button>
+                <button class="lie-btn" onclick="selectLie(3)">3번</button>
+            </div>
+            <div class="actions">
+                <button class="action-btn new-btn" onclick="newRound()">🔄 새 게임</button>
+                <button class="action-btn reveal-btn" onclick="revealLie()">🎭 거짓 공개!</button>
+            </div>
+            <div class="reveal-section" id="revealSection">
+                <div class="reveal-title">🎉 거짓이 밝혀졌습니다!</div>
+                <div class="reveal-statement">
+                    <div class="reveal-label">거짓말은...</div>
+                    <div class="reveal-text" id="revealText"></div>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="stats-title">📊 게임 통계</div>
+                <div class="stats-row"><span>총 라운드</span><span id="totalRounds">0</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var selectedLie = 0;
+        var totalRounds = 0;
+
+        function selectLie(num) {
+            selectedLie = num;
+            document.querySelectorAll('.lie-btn').forEach(function(btn, i) {
+                btn.classList.toggle('active', i + 1 === num);
+            });
+        }
+
+        function revealLie() {
+            if (selectedLie === 0) {
+                alert('먼저 거짓인 문장을 선택하세요!');
+                return;
+            }
+
+            var statement = document.getElementById('statement' + selectedLie).value || selectedLie + '번 문장';
+            document.getElementById('revealText').textContent = statement;
+            document.getElementById('revealSection').style.display = 'block';
+
+            totalRounds++;
+            document.getElementById('totalRounds').textContent = totalRounds;
+            saveStats();
+        }
+
+        function newRound() {
+            selectedLie = 0;
+            document.querySelectorAll('.lie-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.statement-input').forEach(function(input) {
+                input.value = '';
+            });
+            document.getElementById('playerName').value = '';
+            document.getElementById('revealSection').style.display = 'none';
+        }
+
+        function saveStats() {
+            var stats = JSON.parse(localStorage.getItem('twotruthsonelie_ko') || '{"rounds":0}');
+            stats.rounds = totalRounds;
+            localStorage.setItem('twotruthsonelie_ko', JSON.stringify(stats));
+        }
+
+        function loadStats() {
+            var stats = JSON.parse(localStorage.getItem('twotruthsonelie_ko') || '{"rounds":0}');
+            totalRounds = stats.rounds;
+            document.getElementById('totalRounds').textContent = totalRounds;
+        }
+
+        loadStats();
+    </script>
+</body>
+</html>

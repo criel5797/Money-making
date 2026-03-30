@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/tarot-card/"><meta property="og:url" content="https://instaidea.org/tools/fun/tarot-card/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/tarot-card/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/tarot-card/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/tarot-card/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/tarot-card/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타로 카드</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .card-area { perspective: 1000px; margin-bottom: 20px; }
+        .card { width: 200px; height: 300px; margin: 0 auto; position: relative; transform-style: preserve-3d; transition: transform 0.8s; cursor: pointer; }
+        .card.flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .card-back { background: linear-gradient(135deg, #4c1d95, #7c3aed); border: 3px solid #a78bfa; }
+        .card-back::before { content: '('; font-size: 4rem; }
+        .card-back::after { content: 'TAROT'; font-size: 1.5rem; margin-top: 10px; opacity: .7; }
+        .card-front { background: linear-gradient(135deg, #fbbf24, #f59e0b); transform: rotateY(180deg); color: #1a1a2e; padding: 15px; }
+        .card-symbol { font-size: 4rem; margin-bottom: 10px; }
+        .card-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; }
+        .card-number { font-size: .9rem; opacity: .7; }
+        .reading { background: rgba(255,255,255,.1); border-radius: 12px; padding: 15px; margin-bottom: 20px; min-height: 100px; }
+        .reading-title { font-size: 1.1rem; font-weight: 700; color: #fbbf24; margin-bottom: 10px; }
+        .reading-text { font-size: .95rem; line-height: 1.6; opacity: .9; }
+        .draw-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #7c3aed, #5b21b6); color: #fff; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: transform .2s; margin-bottom: 10px; }
+        .draw-btn:hover { transform: scale(1.02); }
+        .draw-btn:active { transform: scale(0.98); }
+        .spread-options { display: flex; gap: 10px; margin-bottom: 15px; }
+        .spread-btn { flex: 1; padding: 12px 8px; border: none; border-radius: 8px; background: rgba(255,255,255,.1); color: #fff; font-size: .85rem; cursor: pointer; }
+        .spread-btn.active { background: #7c3aed; }
+        .history { margin-top: 15px; }
+        .history-label { font-size: .8rem; opacity: .7; margin-bottom: 10px; }
+        .history-items { display: flex; gap: 8px; flex-wrap: wrap; }
+        .history-item { padding: 8px 12px; background: rgba(255,255,255,.1); border-radius: 8px; font-size: .8rem; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>타로 카드</h1>
+        </header>
+        <div class="game-section">
+            <div class="spread-options">
+                <button class="spread-btn active" onclick="setSpread(1)">1장</button>
+                <button class="spread-btn" onclick="setSpread(3)">3장</button>
+            </div>
+            <div class="card-area">
+                <div class="card" id="tarotCard" onclick="flipCard()">
+                    <div class="card-face card-back"></div>
+                    <div class="card-face card-front">
+                        <div class="card-symbol" id="cardSymbol">0</div>
+                        <div class="card-name" id="cardName">카드 이름</div>
+                        <div class="card-number" id="cardNumber">No. 0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reading" id="reading">
+                <div class="reading-title">카드를 뿔어보세요</div>
+                <div class="reading-text">카드를 클릭하거나 아래 버튼을 눌러 운세를 확인하세요.</div>
+            </div>
+            <button class="draw-btn" onclick="drawCard()">카드 뿔기</button>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="draws">0</div>
+                    <div class="stat-label">전체 해석 수</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="majorCount">0</div>
+                    <div class="stat-label">메이저 아르카나</div>
+                </div>
+            </div>
+            <div class="history">
+                <div class="history-label">최근 카드</div>
+                <div class="history-items" id="history"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var majorArcana = [
+            { num: 0, name: 'The Fool', symbol: '0', reading: 'New beginnings, innocence, and adventure await. Move forward without fear.' },
+            { num: 1, name: 'The Magician', symbol: 'I', reading: 'Your willpower and creativity are strong. Believe in your abilities.' },
+            { num: 2, name: 'High Priestess', symbol: 'II', reading: 'Trust your intuition and inner wisdom. Hidden truths will be revealed.' },
+            { num: 3, name: 'The Empress', symbol: 'III', reading: 'A time of abundance and love. Express your creativity.' },
+            { num: 4, name: 'The Emperor', symbol: 'IV', reading: 'Authority and stability are present. It is time to lead.' },
+            { num: 5, name: 'The Hierophant', symbol: 'V', reading: 'Follow tradition and teachings. A good time to seek advice.' },
+            { num: 6, name: 'The Lovers', symbol: 'VI', reading: 'A time of love and choices. Listen to your heart.' },
+            { num: 7, name: 'The Chariot', symbol: 'VII', reading: 'Victory and determination. Charge forward toward your goals.' },
+            { num: 8, name: 'Strength', symbol: 'VIII', reading: 'Discover your inner strength and courage. Be patient.' },
+            { num: 9, name: 'The Hermit', symbol: 'IX', reading: 'Time for introspection. You need some time alone.' },
+            { num: 10, name: 'Wheel of Fortune', symbol: 'X', reading: 'Change is coming. Accept the flow of destiny.' },
+            { num: 11, name: 'Justice', symbol: 'XI', reading: 'A time of fairness and truth. Make the right decision.' },
+            { num: 12, name: 'The Hanged Man', symbol: 'XII', reading: 'A new perspective is needed. Pause and reflect.' },
+            { num: 13, name: 'Death', symbol: 'XIII', reading: 'Transformation and rebirth. Every ending is a new beginning.' },
+            { num: 14, name: 'Temperance', symbol: 'XIV', reading: 'Balance and harmony are needed. Be patient.' },
+            { num: 15, name: 'The Devil', symbol: 'XV', reading: 'Break free from attachments. It is time to find freedom.' },
+            { num: 16, name: 'The Tower', symbol: 'XVI', reading: 'Sudden change may occur. But this is an opportunity for rebuilding.' },
+            { num: 17, name: 'The Star', symbol: 'XVII', reading: 'A time of hope and inspiration. Follow your dreams.' },
+            { num: 18, name: 'The Moon', symbol: 'XVIII', reading: 'Trust your intuition. Anxiety will soon pass.' },
+            { num: 19, name: 'The Sun', symbol: 'XIX', reading: 'Success and joy are coming. A bright future awaits.' },
+            { num: 20, name: 'Judgement', symbol: 'XX', reading: 'A time of awakening and renewal. Reflect on the past and start anew.' },
+            { num: 21, name: 'The World', symbol: 'XXI', reading: 'Completion and achievement. Congratulations, you have reached your goal.' }
+        ];
+
+        var spreadCount = 1;
+        var currentCard = null;
+        var isFlipped = false;
+        var stats = JSON.parse(localStorage.getItem('tarot_ko') || '{"draws":0,"majorCount":0,"history":[]}');
+
+        function setSpread(count) {
+            spreadCount = count;
+            document.querySelectorAll('.spread-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.textContent.indexOf(count) >= 0);
+            });
+        }
+
+        function drawCard() {
+            var card = document.getElementById('tarotCard');
+            if (isFlipped) {
+                card.classList.remove('flipped');
+                isFlipped = false;
+                setTimeout(function() {
+                    selectNewCard();
+                    setTimeout(function() {
+                        card.classList.add('flipped');
+                        isFlipped = true;
+                        showReading();
+                    }, 300);
+                }, 400);
+            } else {
+                selectNewCard();
+                card.classList.add('flipped');
+                isFlipped = true;
+                showReading();
+            }
+        }
+
+        function flipCard() {
+            if (!currentCard) {
+                drawCard();
+                return;
+            }
+            var card = document.getElementById('tarotCard');
+            if (!isFlipped) {
+                card.classList.add('flipped');
+                isFlipped = true;
+                showReading();
+            }
+        }
+
+        function selectNewCard() {
+            currentCard = majorArcana[Math.floor(Math.random() * majorArcana.length)];
+            document.getElementById('cardSymbol').textContent = currentCard.symbol;
+            document.getElementById('cardName').textContent = currentCard.name;
+            document.getElementById('cardNumber').textContent = 'No. ' + currentCard.num;
+
+            stats.draws++;
+            stats.majorCount++;
+            stats.history.unshift(currentCard.name);
+            if (stats.history.length > 10) stats.history.pop();
+            localStorage.setItem('tarot_ko', JSON.stringify(stats));
+            updateDisplay();
+        }
+
+        function showReading() {
+            if (!currentCard) return;
+            var readingEl = document.getElementById('reading');
+            readingEl.innerHTML = '<div class="reading-title">' + currentCard.symbol + ' ' + currentCard.name + '</div>' +
+                '<div class="reading-text">' + currentCard.reading + '</div>';
+        }
+
+        function updateDisplay() {
+            document.getElementById('draws').textContent = stats.draws;
+            document.getElementById('majorCount').textContent = stats.majorCount;
+
+            var historyEl = document.getElementById('history');
+            historyEl.innerHTML = '';
+            stats.history.slice(0, 5).forEach(function(name) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.textContent = name;
+                historyEl.appendChild(div);
+            });
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>

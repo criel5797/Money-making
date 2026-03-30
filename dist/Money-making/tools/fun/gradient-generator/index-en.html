@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/gradient-generator/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/gradient-generator/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/gradient-generator/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/gradient-generator/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/gradient-generator/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/gradient-generator/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Generator - CSS Gradients</title>
+    <meta name="description" content="Free CSS gradient generator. Create beautiful gradient backgrounds and copy the code.">
+    <meta name="keywords" content="gradient, CSS gradient, background, color generator">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 700px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .gradient-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .preview-box {
+            width: 100%;
+            height: 200px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+        }
+        .type-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .type-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .type-btn.active {
+            background: rgba(255,255,255,0.3);
+            border-color: white;
+        }
+        .color-stops {
+            margin-bottom: 20px;
+        }
+        .color-stop {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        .color-stop input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .color-stop input[type="range"] {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+        }
+        .color-stop input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+        .stop-value {
+            width: 50px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .remove-stop {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(231, 76, 60, 0.3);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .remove-stop:hover {
+            background: rgba(231, 76, 60, 0.5);
+        }
+        .add-stop-btn {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed rgba(255,255,255,0.3);
+            border-radius: 10px;
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .add-stop-btn:hover {
+            border-color: white;
+            color: white;
+        }
+        .angle-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .angle-label {
+            font-size: 0.9rem;
+            min-width: 60px;
+        }
+        .angle-control input[type="range"] {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+        }
+        .angle-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+        .angle-value {
+            min-width: 50px;
+            text-align: center;
+        }
+        .code-output {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .code-label {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+        .code-text {
+            font-family: monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+            line-height: 1.6;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .copy-btn {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+        }
+        .random-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+        }
+        .action-btn:hover {
+            transform: scale(1.02);
+        }
+        .presets {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .presets h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .preset-item {
+            height: 60px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .preset-item:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Ad Area</div>
+        <header>
+            <h1>🎨 Gradient Generator</h1>
+            <p class="subtitle">Create beautiful CSS gradients</p>
+        </header>
+        <div class="gradient-section">
+            <div class="preview-box" id="previewBox"></div>
+
+            <div class="type-buttons">
+                <button class="type-btn active" data-type="linear">Linear</button>
+                <button class="type-btn" data-type="radial">Radial</button>
+                <button class="type-btn" data-type="conic">Conic</button>
+            </div>
+
+            <div class="angle-control" id="angleControl">
+                <span class="angle-label">Angle</span>
+                <input type="range" id="angleSlider" min="0" max="360" value="135">
+                <span class="angle-value" id="angleValue">135°</span>
+            </div>
+
+            <div class="color-stops" id="colorStops"></div>
+
+            <button class="add-stop-btn" onclick="addColorStop()">+ Add Color</button>
+
+            <div class="code-output">
+                <div class="code-label">CSS Code</div>
+                <div class="code-text" id="cssCode"></div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn copy-btn" onclick="copyCSS()">📋 Copy Code</button>
+                <button class="action-btn random-btn" onclick="randomGradient()">🎲 Random</button>
+            </div>
+
+            <div class="presets">
+                <h3>✨ Presets</h3>
+                <div class="preset-grid" id="presetGrid"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Ad Area</div>
+    </div>
+    <script>
+        var gradientType = 'linear';
+        var angle = 135;
+        var colorStops = [
+            { color: '#667eea', position: 0 },
+            { color: '#764ba2', position: 100 }
+        ];
+
+        var presets = [
+            { colors: ['#667eea', '#764ba2'], angle: 135 },
+            { colors: ['#f093fb', '#f5576c'], angle: 135 },
+            { colors: ['#4facfe', '#00f2fe'], angle: 135 },
+            { colors: ['#43e97b', '#38f9d7'], angle: 135 },
+            { colors: ['#fa709a', '#fee140'], angle: 135 },
+            { colors: ['#30cfd0', '#330867'], angle: 135 },
+            { colors: ['#a8edea', '#fed6e3'], angle: 135 },
+            { colors: ['#ff9a9e', '#fecfef'], angle: 135 }
+        ];
+
+        document.querySelectorAll('.type-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.type-btn').forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                gradientType = btn.dataset.type;
+
+                var angleControl = document.getElementById('angleControl');
+                if (gradientType === 'radial') {
+                    angleControl.style.display = 'none';
+                } else {
+                    angleControl.style.display = 'flex';
+                }
+
+                updateGradient();
+            });
+        });
+
+        document.getElementById('angleSlider').addEventListener('input', function(e) {
+            angle = parseInt(e.target.value);
+            document.getElementById('angleValue').textContent = angle + '°';
+            updateGradient();
+        });
+
+        function renderColorStops() {
+            var container = document.getElementById('colorStops');
+            container.innerHTML = '';
+
+            colorStops.forEach(function(stop, index) {
+                var div = document.createElement('div');
+                div.className = 'color-stop';
+                div.innerHTML =
+                    '<input type="color" value="' + stop.color + '" onchange="updateColor(' + index + ', this.value)">' +
+                    '<input type="range" min="0" max="100" value="' + stop.position + '" onchange="updatePosition(' + index + ', this.value)">' +
+                    '<span class="stop-value">' + stop.position + '%</span>' +
+                    (colorStops.length > 2 ? '<button class="remove-stop" onclick="removeColorStop(' + index + ')">×</button>' : '');
+                container.appendChild(div);
+            });
+        }
+
+        function updateColor(index, color) {
+            colorStops[index].color = color;
+            updateGradient();
+        }
+
+        function updatePosition(index, position) {
+            colorStops[index].position = parseInt(position);
+            renderColorStops();
+            updateGradient();
+        }
+
+        function addColorStop() {
+            var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            var positions = colorStops.map(function(s) { return s.position; });
+            var newPosition = Math.round((Math.min.apply(null, positions) + Math.max.apply(null, positions)) / 2);
+
+            colorStops.push({ color: randomColor, position: newPosition });
+            colorStops.sort(function(a, b) { return a.position - b.position; });
+            renderColorStops();
+            updateGradient();
+        }
+
+        function removeColorStop(index) {
+            if (colorStops.length > 2) {
+                colorStops.splice(index, 1);
+                renderColorStops();
+                updateGradient();
+            }
+        }
+
+        function updateGradient() {
+            var gradient = buildGradient();
+            document.getElementById('previewBox').style.background = gradient;
+            document.getElementById('cssCode').textContent = 'background: ' + gradient + ';';
+        }
+
+        function buildGradient() {
+            var stops = colorStops.map(function(s) { return s.color + ' ' + s.position + '%'; }).join(', ');
+
+            if (gradientType === 'linear') {
+                return 'linear-gradient(' + angle + 'deg, ' + stops + ')';
+            } else if (gradientType === 'radial') {
+                return 'radial-gradient(circle, ' + stops + ')';
+            } else {
+                return 'conic-gradient(from ' + angle + 'deg, ' + stops + ')';
+            }
+        }
+
+        function copyCSS() {
+            var css = 'background: ' + buildGradient() + ';';
+            navigator.clipboard.writeText(css).then(function() {
+                alert('CSS code copied!');
+            });
+        }
+
+        function randomGradient() {
+            colorStops = [
+                { color: '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'), position: 0 },
+                { color: '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'), position: 100 }
+            ];
+            angle = Math.floor(Math.random() * 360);
+            document.getElementById('angleSlider').value = angle;
+            document.getElementById('angleValue').textContent = angle + '°';
+            renderColorStops();
+            updateGradient();
+        }
+
+        function applyPreset(preset) {
+            colorStops = preset.colors.map(function(color, i) {
+                return { color: color, position: i * (100 / (preset.colors.length - 1)) };
+            });
+            angle = preset.angle;
+            document.getElementById('angleSlider').value = angle;
+            document.getElementById('angleValue').textContent = angle + '°';
+            renderColorStops();
+            updateGradient();
+        }
+
+        function renderPresets() {
+            var grid = document.getElementById('presetGrid');
+            presets.forEach(function(preset, i) {
+                var div = document.createElement('div');
+                div.className = 'preset-item';
+                div.style.background = 'linear-gradient(' + preset.angle + 'deg, ' + preset.colors.join(', ') + ')';
+                div.onclick = function() { applyPreset(preset); };
+                grid.appendChild(div);
+            });
+        }
+
+        renderColorStops();
+        renderPresets();
+        updateGradient();
+    </script>
+</body>
+</html>

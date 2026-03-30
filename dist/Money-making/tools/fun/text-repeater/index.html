@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/text-repeater/"><meta property="og:url" content="https://instaidea.org/tools/fun/text-repeater/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/text-repeater/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/text-repeater/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/text-repeater/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/text-repeater/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>텍스트 반복기 - 글자 복사 붙여넣기</title>
+    <meta name="description" content="텍스트를 원하는 횟수만큼 반복해서 복사할 수 있는 도구입니다.">
+    <meta name="keywords" content="텍스트 반복, 글자 복사, 문자 반복, 복붙, 텍스트 생성">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .main-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .input-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1rem;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #fff;
+            background: rgba(255,255,255,0.15);
+        }
+        input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.5); }
+        textarea {
+            height: 80px;
+            resize: none;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .option-group label {
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+        .option-group input {
+            text-align: center;
+        }
+        .separator-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .sep-btn {
+            padding: 8px 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .sep-btn.active {
+            background: rgba(255,255,255,0.3);
+            border-color: #fff;
+        }
+        .generate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39,174,96,0.4);
+        }
+        .result-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .result-header h3 { font-size: 1rem; }
+        .char-count {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .result-box {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 15px;
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+            word-break: break-all;
+            white-space: pre-wrap;
+            font-size: 0.95rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .copy-btn, .clear-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .copy-btn { background: #3498db; color: white; }
+        .clear-btn { background: rgba(255,255,255,0.2); color: white; }
+        .copied {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            padding: 15px 30px;
+            border-radius: 10px;
+            z-index: 100;
+            animation: fadeInOut 1.5s ease;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            20%, 80% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>🔄 텍스트 반복기</h1>
+            <p class="subtitle">텍스트를 원하는 만큼 반복하세요</p>
+        </header>
+        <div class="main-section">
+            <div class="input-group">
+                <label>반복할 텍스트</label>
+                <textarea id="inputText" placeholder="반복할 텍스트를 입력하세요"></textarea>
+            </div>
+            <div class="options">
+                <div class="option-group">
+                    <label>반복 횟수</label>
+                    <input type="number" id="repeatCount" value="10" min="1" max="1000">
+                </div>
+                <div class="option-group">
+                    <label>구분자</label>
+                    <input type="text" id="customSep" placeholder="없음">
+                </div>
+            </div>
+            <div class="separator-options">
+                <button class="sep-btn active" data-sep="">없음</button>
+                <button class="sep-btn" data-sep=" ">공백</button>
+                <button class="sep-btn" data-sep="\n">줄바꿈</button>
+                <button class="sep-btn" data-sep=", ">쉼표</button>
+            </div>
+            <button class="generate-btn" onclick="generate()">생성하기</button>
+            <div class="result-section">
+                <div class="result-header">
+                    <h3>📝 결과</h3>
+                    <span class="char-count" id="charCount">0자</span>
+                </div>
+                <div class="result-box" id="result"></div>
+                <div class="btn-group">
+                    <button class="copy-btn" onclick="copyResult()">복사하기</button>
+                    <button class="clear-btn" onclick="clearAll()">지우기</button>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
+    </div>
+    <script>
+        var separator = '';
+
+        document.querySelectorAll('.sep-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.sep-btn').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                separator = this.dataset.sep;
+                document.getElementById('customSep').value = separator === '\\n' ? '' : separator;
+            });
+        });
+
+        document.getElementById('customSep').addEventListener('input', function() {
+            separator = this.value;
+            document.querySelectorAll('.sep-btn').forEach(function(b) { b.classList.remove('active'); });
+        });
+
+        function generate() {
+            var text = document.getElementById('inputText').value;
+            var count = parseInt(document.getElementById('repeatCount').value) || 1;
+            count = Math.min(count, 1000);
+
+            if (!text) {
+                document.getElementById('result').textContent = '텍스트를 입력하세요';
+                document.getElementById('charCount').textContent = '0자';
+                return;
+            }
+
+            var sep = separator === '\\n' ? '\n' : separator;
+            var arr = [];
+            for (var i = 0; i < count; i++) arr.push(text);
+            var result = arr.join(sep);
+
+            document.getElementById('result').textContent = result;
+            document.getElementById('charCount').textContent = result.length.toLocaleString() + '자';
+        }
+
+        function copyResult() {
+            var text = document.getElementById('result').textContent;
+            if (text && text !== '텍스트를 입력하세요') {
+                navigator.clipboard.writeText(text).then(function() {
+                    showCopied();
+                });
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('result').textContent = '';
+            document.getElementById('charCount').textContent = '0자';
+        }
+
+        function showCopied() {
+            var div = document.createElement('div');
+            div.className = 'copied';
+            div.textContent = '복사되었습니다!';
+            document.body.appendChild(div);
+            setTimeout(function() { div.remove(); }, 1500);
+        }
+    </script>
+</body>
+</html>

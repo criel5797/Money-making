@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/song-guess/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/song-guess/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/song-guess/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/song-guess/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/song-guess/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/song-guess/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曲当てゲーム</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #a855f7, #9333ea); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .category-btn { padding: 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; text-align: center; transition: all .3s; }
+        .category-btn.active { background: rgba(255,255,255,.3); border-color: #fff; }
+        .category-emoji { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .play-section { display: none; }
+        .question-num { text-align: center; font-size: .9rem; opacity: .7; margin-bottom: 15px; }
+        .lyrics-card { background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); border-radius: 20px; padding: 30px; text-align: center; margin-bottom: 20px; min-height: 150px; }
+        .lyrics-label { font-size: .9rem; opacity: .7; margin-bottom: 15px; }
+        .lyrics-text { font-size: 1.3rem; font-weight: 600; line-height: 1.6; }
+        .hint-section { margin-bottom: 20px; }
+        .hint-btn { width: 100%; padding: 12px; border: 2px solid rgba(255,255,255,.3); border-radius: 10px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; margin-bottom: 10px; }
+        .hint-text { background: rgba(255,255,255,.1); padding: 15px; border-radius: 10px; text-align: center; display: none; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .option-btn { padding: 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; transition: all .3s; }
+        .option-btn.correct { background: #22c55e; border-color: #22c55e; }
+        .option-btn.wrong { background: #ef4444; border-color: #ef4444; }
+        .score-display { text-align: center; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .score-text { font-size: 1.2rem; }
+        .score-value { font-size: 2rem; font-weight: 700; color: #fbbf24; }
+        .result-section { display: none; text-align: center; }
+        .result-icon { font-size: 5rem; margin-bottom: 20px; }
+        .result-score { font-size: 3rem; font-weight: 700; margin-bottom: 5px; }
+        .result-total { font-size: 1.2rem; opacity: .8; margin-bottom: 25px; }
+        .next-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 15px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎵 曲当てゲーム</h1>
+            <p class="subtitle">歌詞から曲名を当てよう！</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="category-grid">
+                    <button class="category-btn active" onclick="selectCategory(0)"><span class="category-emoji">🎤</span>J-POP</button>
+                    <button class="category-btn" onclick="selectCategory(1)"><span class="category-emoji">👶</span>童謡</button>
+                    <button class="category-btn" onclick="selectCategory(2)"><span class="category-emoji">🎬</span>アニメ</button>
+                    <button class="category-btn" onclick="selectCategory(3)"><span class="category-emoji">🎸</span>ロック</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 ゲーム開始！</button>
+            </div>
+            <div class="play-section" id="playSection">
+                <div class="question-num" id="questionNum">問題 1 / 10</div>
+                <div class="lyrics-card">
+                    <div class="lyrics-label">この歌詞の曲は？</div>
+                    <div class="lyrics-text" id="lyricsText">歌詞がここに表示されます</div>
+                </div>
+                <div class="hint-section">
+                    <button class="hint-btn" onclick="showHint()">💡 ヒントを見る</button>
+                    <div class="hint-text" id="hintText">アーティスト: </div>
+                </div>
+                <div class="options-grid" id="optionsGrid"></div>
+                <button class="next-btn" id="nextBtn" onclick="nextQuestion()">次の問題 ➡️</button>
+                <div class="score-display">
+                    <div class="score-text">現在のスコア</div>
+                    <div class="score-value" id="scoreValue">0</div>
+                </div>
+            </div>
+            <div class="result-section" id="resultSection">
+                <div class="result-icon">🏆</div>
+                <div class="result-score" id="resultScore">0</div>
+                <div class="result-total">/ 10 正解</div>
+                <button class="start-btn" onclick="resetGame()">🔄 もう一度</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var songData = {
+            0: [ // J-POP
+                { lyrics: '夜に駆ける\n沈むように', answer: '夜に駆ける', artist: 'YOASOBI', options: ['夜に駆ける', 'アイドル', '怪物', '群青'] },
+                { lyrics: 'Lemon\n夢ならばどれほど', answer: 'Lemon', artist: '米津玄師', options: ['Lemon', 'Kick Back', 'LOSER', 'ピースサイン'] },
+                { lyrics: 'アイドル\n無敵の笑顔で', answer: 'アイドル', artist: 'YOASOBI', options: ['アイドル', '夜に駆ける', '祝福', 'ハルジオン'] },
+                { lyrics: '紅蓮華\n強くなれる理由', answer: '紅蓮華', artist: 'LiSA', options: ['紅蓮華', '炎', 'Catch the Moment', '明け星'] },
+                { lyrics: 'うっせぇわ\nうっせぇ うっせぇ', answer: 'うっせぇわ', artist: 'Ado', options: ['うっせぇわ', '踊', '新時代', '私は最強'] },
+                { lyrics: 'ドライフラワー\n多分私を離さない', answer: 'ドライフラワー', artist: '優里', options: ['ドライフラワー', 'ベテルギウス', 'かくれんぼ', 'シャッター'] },
+                { lyrics: 'マリーゴールド\n麦わらの帽子', answer: 'マリーゴールド', artist: 'あいみょん', options: ['マリーゴールド', '裸の心', 'ハルノヒ', '愛を伝えたいだとか'] }
+            ],
+            1: [ // 童謡
+                { lyrics: 'きらきらひかる\nお空の星よ', answer: 'きらきら星', artist: '童謡', options: ['きらきら星', 'ちょうちょ', 'チューリップ', 'ぶんぶんぶん'] },
+                { lyrics: 'ぞうさん ぞうさん\nお鼻が長いのね', answer: 'ぞうさん', artist: '童謡', options: ['ぞうさん', 'いぬのおまわりさん', 'かえるの歌', 'とんぼのめがね'] },
+                { lyrics: 'さいた さいた\nチューリップの花が', answer: 'チューリップ', artist: '童謡', options: ['チューリップ', 'たんぽぽ', 'さくら', 'あさがお'] },
+                { lyrics: 'かえるの歌が\nきこえてくるよ', answer: 'かえるの歌', artist: '童謡', options: ['かえるの歌', 'おたまじゃくし', 'めだかの学校', 'こいのぼり'] },
+                { lyrics: '大きな栗の木の\n下で', answer: '大きな栗の木の下で', artist: '童謡', options: ['大きな栗の木の下で', 'どんぐりころころ', 'まつぼっくり', '紅葉'] },
+                { lyrics: 'げんこつやまの\nたぬきさん', answer: 'げんこつ山のたぬきさん', artist: '童謡', options: ['げんこつ山のたぬきさん', 'あたまかたひざポン', 'むすんでひらいて', 'おべんとうばこ'] }
+            ],
+            2: [ // アニメ
+                { lyrics: '残酷な天使のように\n少年よ神話になれ', answer: '残酷な天使のテーゼ', artist: 'エヴァンゲリオン', options: ['残酷な天使のテーゼ', '魂のルフラン', 'Beautiful World', 'One Last Kiss'] },
+                { lyrics: 'ルパン ザ サード\nルパン ザ サード', answer: 'ルパン三世のテーマ', artist: 'ルパン三世', options: ['ルパン三世のテーマ', '炎のたからもの', 'セクシーアドベンチャー', 'スーパーヒーロー'] },
+                { lyrics: '走れ正直者\nドラえもん', answer: 'ドラえもんのうた', artist: 'ドラえもん', options: ['ドラえもんのうた', '夢をかなえて', '踊れ どれ ドラ', 'ハグしちゃお'] },
+                { lyrics: 'ポケットモンスター\n誰がナンバーワン', answer: 'めざせポケモンマスター', artist: 'ポケモン', options: ['めざせポケモンマスター', '1・2・3', 'OK!', 'タイプ:ワイルド'] },
+                { lyrics: 'サザエさん サザエさん\nサザエさんは愉快だな', answer: 'サザエさん', artist: 'サザエさん', options: ['サザエさん', 'サザエさん一家', 'おどるポンポコリン', 'ありがとう'] },
+                { lyrics: 'アンパンマンは君さ\n元気を出して', answer: 'アンパンマンのマーチ', artist: 'アンパンマン', options: ['アンパンマンのマーチ', '勇気りんりん', 'アンパンマンたいそう', 'ぼくらはヒーロー'] }
+            ],
+            3: [ // ロック
+                { lyrics: '愛をこめて花束を\n大切なあなたに贈ります', answer: '愛をこめて花束を', artist: 'Superfly', options: ['愛をこめて花束を', 'タマシイレボリューション', 'Beautiful', 'Bi-Li-Li Emotion'] },
+                { lyrics: '天体観測\n見えないものを見ようとして', answer: '天体観測', artist: 'BUMP OF CHICKEN', options: ['天体観測', 'カルマ', '車輪の唄', 'ダンデライオン'] },
+                { lyrics: '小さな恋のうた\n僕の心をつかんだまま', answer: '小さな恋のうた', artist: 'MONGOL800', options: ['小さな恋のうた', 'あなたに', 'Don\'t worry be happy', '琉球愛歌'] },
+                { lyrics: 'Tomorrow never knows\n心の表はあまりにも', answer: 'Tomorrow never knows', artist: 'Mr.Children', options: ['Tomorrow never knows', 'HANABI', 'Sign', 'シーソーゲーム'] },
+                { lyrics: '全力少年\n積み上げたものを', answer: '全力少年', artist: 'スキマスイッチ', options: ['全力少年', '奏', 'ボクノート', 'Line'] }
+            ]
+        };
+
+        var selectedCategory = 0;
+        var currentSongs = [];
+        var songIndex = 0;
+        var score = 0;
+        var answered = false;
+
+        function selectCategory(index) {
+            selectedCategory = index;
+            var btns = document.querySelectorAll('.category-btn');
+            btns.forEach(function(btn, i) {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function shuffleArray(arr) {
+            var a = arr.slice();
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var t = a[i]; a[i] = a[j]; a[j] = t;
+            }
+            return a;
+        }
+
+        function startGame() {
+            currentSongs = shuffleArray(songData[selectedCategory]).slice(0, 10);
+            songIndex = 0;
+            score = 0;
+
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('playSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+
+            showSong();
+        }
+
+        function showSong() {
+            answered = false;
+            var song = currentSongs[songIndex];
+            document.getElementById('questionNum').textContent = '問題 ' + (songIndex + 1) + ' / ' + currentSongs.length;
+            document.getElementById('lyricsText').textContent = song.lyrics;
+            document.getElementById('hintText').textContent = 'アーティスト: ' + song.artist;
+            document.getElementById('hintText').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('scoreValue').textContent = score;
+
+            var shuffledOptions = shuffleArray(song.options);
+            var html = '';
+            shuffledOptions.forEach(function(opt) {
+                html += '<button class="option-btn" onclick="selectAnswer(this, \'' + opt + '\', \'' + song.answer + '\')">' + opt + '</button>';
+            });
+            document.getElementById('optionsGrid').innerHTML = html;
+        }
+
+        function showHint() {
+            document.getElementById('hintText').style.display = 'block';
+        }
+
+        function selectAnswer(btn, selected, correct) {
+            if (answered) return;
+            answered = true;
+
+            var btns = document.querySelectorAll('.option-btn');
+            btns.forEach(function(b) {
+                if (b.textContent === correct) b.classList.add('correct');
+                else if (b === btn && selected !== correct) b.classList.add('wrong');
+            });
+
+            if (selected === correct) score++;
+            document.getElementById('scoreValue').textContent = score;
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            songIndex++;
+            if (songIndex >= currentSongs.length) {
+                endGame();
+            } else {
+                showSong();
+            }
+        }
+
+        function endGame() {
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultScore').textContent = score;
+
+            var stats = JSON.parse(localStorage.getItem('songguess_ja') || '{"best":0}');
+            if (score > stats.best) stats.best = score;
+            localStorage.setItem('songguess_ja', JSON.stringify(stats));
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

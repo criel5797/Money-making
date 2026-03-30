@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/rent-tracker/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/rent-tracker/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/rent-tracker/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/rent-tracker/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/rent-tracker/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/rent-tracker/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Tracker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .rent-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .summary { background: rgba(0,0,0,.3); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .rent-amount { font-size: 2rem; font-weight: 700; margin-bottom: 5px; }
+        .due-date { font-size: .9rem; opacity: .8; }
+        .status-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: .85rem; margin-top: 10px; }
+        .status-paid { background: #38ef7d; color: #000; }
+        .status-pending { background: #ffd93d; color: #000; }
+        .status-overdue { background: #ff6b6b; color: #fff; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .set-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .history { max-height: 200px; overflow-y: auto; }
+        .history-title { font-size: .9rem; margin-bottom: 10px; opacity: .8; }
+        .history-item { display: flex; justify-content: space-between; padding: 12px 15px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 8px; }
+        .history-date { font-weight: 600; }
+        .history-amount { color: #38ef7d; }
+        .pay-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🏠 Rent Tracker</h1>
+        </header>
+        <div class="rent-section">
+            <div class="summary">
+                <div class="rent-amount" id="rentAmount">$0</div>
+                <div class="due-date" id="dueDate">Due date not set</div>
+                <span class="status-badge" id="statusBadge">-</span>
+            </div>
+            <button class="pay-btn" id="payBtn" onclick="payRent()">Mark This Month Paid</button>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="number" id="rentInput" placeholder="Rent amount">
+                    <input type="number" id="dueDayInput" placeholder="Due day (1-31)" min="1" max="31">
+                </div>
+                <button class="set-btn" onclick="setRent()">Set Rent</button>
+            </div>
+            <div class="history-title">Payment History</div>
+            <div class="history" id="history"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var rentData = JSON.parse(localStorage.getItem('rent_data') || '{"amount":0,"dueDay":1,"payments":[]}');
+        function save() { localStorage.setItem('rent_data', JSON.stringify(rentData)); }
+        function setRent() {
+            var amount = parseFloat(document.getElementById('rentInput').value) || 0;
+            var dueDay = parseInt(document.getElementById('dueDayInput').value) || 1;
+            if (amount > 0) {
+                rentData.amount = amount;
+                rentData.dueDay = Math.min(31, Math.max(1, dueDay));
+                save();
+                render();
+            }
+        }
+        function payRent() {
+            var today = new Date();
+            var month = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
+            if (!rentData.payments.find(function(p) { return p.month === month; })) {
+                rentData.payments.push({ month: month, date: today.toISOString(), amount: rentData.amount });
+                save();
+                render();
+            }
+        }
+        function getStatus() {
+            var today = new Date();
+            var month = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
+            var paid = rentData.payments.find(function(p) { return p.month === month; });
+            if (paid) return 'paid';
+            if (today.getDate() > rentData.dueDay) return 'overdue';
+            return 'pending';
+        }
+        function render() {
+            document.getElementById('rentAmount').textContent = '$' + rentData.amount.toFixed(2);
+            document.getElementById('dueDate').textContent = 'Due on the ' + rentData.dueDay + getSuffix(rentData.dueDay) + ' of each month';
+            var status = getStatus();
+            var badge = document.getElementById('statusBadge');
+            var payBtn = document.getElementById('payBtn');
+            if (status === 'paid') {
+                badge.textContent = 'Paid';
+                badge.className = 'status-badge status-paid';
+                payBtn.style.display = 'none';
+            } else if (status === 'overdue') {
+                badge.textContent = 'Overdue';
+                badge.className = 'status-badge status-overdue';
+                payBtn.style.display = 'block';
+            } else {
+                badge.textContent = 'Pending';
+                badge.className = 'status-badge status-pending';
+                payBtn.style.display = 'block';
+            }
+            var history = document.getElementById('history');
+            history.innerHTML = '';
+            rentData.payments.slice().reverse().slice(0, 12).forEach(function(p) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<span class="history-date">' + p.month + '</span><span class="history-amount">$' + p.amount.toFixed(2) + '</span>';
+                history.appendChild(div);
+            });
+        }
+        function getSuffix(d) {
+            if (d > 3 && d < 21) return 'th';
+            switch (d % 10) { case 1: return 'st'; case 2: return 'nd'; case 3: return 'rd'; default: return 'th'; }
+        }
+        render();
+    </script>
+</body>
+</html>

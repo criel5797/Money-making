@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/flashcard/"><meta property="og:url" content="https://instaidea.org/tools/fun/flashcard/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/flashcard/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/flashcard/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/flashcard/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/flashcard/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>플래시카드</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #ff512f, #f09819); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .card-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .flashcard { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 16px; padding: 30px; min-height: 200px; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; margin-bottom: 20px; transition: transform .3s; }
+        .flashcard:hover { transform: scale(1.02); }
+        .flashcard-content { font-size: 1.3rem; font-weight: 600; }
+        .flashcard.flipped { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .nav-btns { display: flex; gap: 10px; margin-bottom: 20px; }
+        .nav-btn { flex: 1; padding: 14px; border: none; border-radius: 10px; background: rgba(255,255,255,.2); color: #fff; font-size: 1.2rem; cursor: pointer; }
+        .progress { text-align: center; margin-bottom: 20px; font-size: .9rem; opacity: .8; }
+        .deck-section { margin-top: 20px; }
+        .deck-title { font-size: .9rem; margin-bottom: 10px; }
+        .add-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .add-form input, .add-form textarea { padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-form textarea { min-height: 60px; resize: vertical; }
+        .add-btn { padding: 12px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-weight: 600; cursor: pointer; }
+        .card-count { font-size: .8rem; opacity: .7; margin-top: 10px; }
+        .shuffle-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>📚 플래시카드</h1>
+        </header>
+        <div class="card-section">
+            <div class="progress" id="progress">1 / 0</div>
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="flashcard-content" id="cardContent">카드를 추가해주세요</div>
+            </div>
+            <div class="nav-btns">
+                <button class="nav-btn" onclick="prevCard()">◀</button>
+                <button class="nav-btn" onclick="nextCard()">▶</button>
+            </div>
+            <button class="shuffle-btn" onclick="shuffleDeck()">🔀 섞기</button>
+            <div class="deck-section">
+                <div class="deck-title">새 카드 추가</div>
+                <div class="add-form">
+                    <input type="text" id="frontInput" placeholder="앞면 (질문)">
+                    <textarea id="backInput" placeholder="뒷면 (정답)"></textarea>
+                    <button class="add-btn" onclick="addCard()">카드 추가</button>
+                </div>
+                <div class="card-count" id="cardCount">총 0장의 카드</div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var cards = JSON.parse(localStorage.getItem('flashcards') || '[]');
+        var currentIndex = 0;
+        var isFlipped = false;
+        function save() { localStorage.setItem('flashcards', JSON.stringify(cards)); }
+        function addCard() {
+            var front = document.getElementById('frontInput').value.trim();
+            var back = document.getElementById('backInput').value.trim();
+            if (front && back) {
+                cards.push({ front: front, back: back });
+                save();
+                document.getElementById('frontInput').value = '';
+                document.getElementById('backInput').value = '';
+                render();
+            }
+        }
+        function flipCard() {
+            if (cards.length === 0) return;
+            isFlipped = !isFlipped;
+            var flashcard = document.getElementById('flashcard');
+            var content = document.getElementById('cardContent');
+            flashcard.classList.toggle('flipped', isFlipped);
+            content.textContent = isFlipped ? cards[currentIndex].back : cards[currentIndex].front;
+        }
+        function prevCard() {
+            if (cards.length === 0) return;
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            isFlipped = false;
+            render();
+        }
+        function nextCard() {
+            if (cards.length === 0) return;
+            currentIndex = (currentIndex + 1) % cards.length;
+            isFlipped = false;
+            render();
+        }
+        function shuffleDeck() {
+            for (var i = cards.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = cards[i];
+                cards[i] = cards[j];
+                cards[j] = temp;
+            }
+            currentIndex = 0;
+            isFlipped = false;
+            save();
+            render();
+        }
+        function render() {
+            var flashcard = document.getElementById('flashcard');
+            var content = document.getElementById('cardContent');
+            flashcard.classList.remove('flipped');
+            if (cards.length === 0) {
+                content.textContent = '카드를 추가해주세요';
+                document.getElementById('progress').textContent = '0 / 0';
+            } else {
+                content.textContent = cards[currentIndex].front;
+                document.getElementById('progress').textContent = (currentIndex + 1) + ' / ' + cards.length;
+            }
+            document.getElementById('cardCount').textContent = '총 ' + cards.length + '장의 카드';
+        }
+        render();
+    </script>
+</body>
+</html>

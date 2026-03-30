@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/decision-maker/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/decision-maker/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/decision-maker/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/decision-maker/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/decision-maker/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/decision-maker/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>決定ヘルパー</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #8e44ad, #9b59b6); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .decision-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .options-container { margin-bottom: 20px; }
+        .option-input { display: flex; gap: 10px; margin-bottom: 10px; }
+        .option-input input { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .option-input button { padding: 12px 15px; border: none; border-radius: 10px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; }
+        .add-btn { width: 100%; padding: 12px; border: 1px dashed rgba(255,255,255,.5); border-radius: 10px; background: transparent; color: #fff; cursor: pointer; margin-bottom: 20px; }
+        .decide-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; font-size: 1.2rem; font-weight: 600; cursor: pointer; margin-bottom: 25px; }
+        .result-card { background: rgba(0,0,0,.3); border-radius: 16px; padding: 30px; text-align: center; min-height: 150px; display: flex; flex-direction: column; justify-content: center; }
+        .result-label { font-size: .9rem; opacity: .8; margin-bottom: 15px; }
+        .result-value { font-size: 2rem; font-weight: 700; }
+        .wheel-container { position: relative; width: 250px; height: 250px; margin: 0 auto 30px; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #fff; transition: transform 3s ease-out; }
+        .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 2rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header><h1>🎯 決定ヘルパー</h1></header>
+        <div class="decision-section">
+            <div class="options-container" id="optionsContainer">
+                <div class="option-input">
+                    <input type="text" placeholder="オプション1" value="はい">
+                    <button onclick="removeOption(this)">×</button>
+                </div>
+                <div class="option-input">
+                    <input type="text" placeholder="オプション2" value="いいえ">
+                    <button onclick="removeOption(this)">×</button>
+                </div>
+            </div>
+            <button class="add-btn" onclick="addOption()">+ オプション追加</button>
+            <div class="wheel-container">
+                <div class="pointer">▼</div>
+                <canvas id="wheel" class="wheel" width="250" height="250"></canvas>
+            </div>
+            <button class="decide-btn" onclick="decide()">決定する!</button>
+            <div class="result-card">
+                <div class="result-label">結果</div>
+                <div class="result-value" id="result">オプションを入力して決定</div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var colors = ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#98D8C8','#F7DC6F'];
+        var rotation = 0;
+        function getOptions() {
+            var inputs = document.querySelectorAll('.option-input input');
+            var opts = [];
+            inputs.forEach(function(inp) { if (inp.value.trim()) opts.push(inp.value.trim()); });
+            return opts;
+        }
+        function drawWheel() {
+            var opts = getOptions();
+            var canvas = document.getElementById('wheel');
+            var ctx = canvas.getContext('2d');
+            var cx = canvas.width / 2;
+            var cy = canvas.height / 2;
+            var r = Math.min(cx, cy) - 5;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (opts.length === 0) return;
+            var arc = 2 * Math.PI / opts.length;
+            opts.forEach(function(opt, i) {
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, r, i * arc, (i + 1) * arc);
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.fill();
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(i * arc + arc / 2);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 14px sans-serif';
+                ctx.fillText(opt.length > 10 ? opt.slice(0,10) + '..' : opt, r - 10, 5);
+                ctx.restore();
+            });
+        }
+        function addOption() {
+            var container = document.getElementById('optionsContainer');
+            var div = document.createElement('div');
+            div.className = 'option-input';
+            div.innerHTML = '<input type="text" placeholder="オプション"><button onclick="removeOption(this)">×</button>';
+            container.appendChild(div);
+            div.querySelector('input').oninput = drawWheel;
+            drawWheel();
+        }
+        function removeOption(btn) {
+            var inputs = document.querySelectorAll('.option-input');
+            if (inputs.length > 2) { btn.parentElement.remove(); drawWheel(); }
+        }
+        function decide() {
+            var opts = getOptions();
+            if (opts.length < 2) { alert('最低2つのオプションが必要です'); return; }
+            var idx = Math.floor(Math.random() * opts.length);
+            var arc = 360 / opts.length;
+            var targetAngle = 360 - (idx * arc + arc / 2);
+            rotation += 360 * 5 + targetAngle;
+            document.getElementById('wheel').style.transform = 'rotate(' + rotation + 'deg)';
+            setTimeout(function() {
+                document.getElementById('result').textContent = opts[idx];
+            }, 3000);
+        }
+        document.querySelectorAll('.option-input input').forEach(function(inp) { inp.oninput = drawWheel; });
+        drawWheel();
+    </script>
+</body>
+</html>

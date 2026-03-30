@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/daily-quote/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/daily-quote/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/daily-quote/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/daily-quote/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/daily-quote/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/daily-quote/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Quote</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #2c3e50, #4ca1af); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .quote-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .quote-card { background: rgba(255,255,255,.1); border-radius: 16px; padding: 30px; margin-bottom: 20px; text-align: center; position: relative; }
+        .quote-icon { font-size: 3rem; margin-bottom: 15px; }
+        .quote-text { font-size: 1.3rem; line-height: 1.6; margin-bottom: 20px; font-style: italic; }
+        .quote-author { font-size: 1rem; opacity: .8; }
+        .category-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .cat-tab { padding: 8px 16px; border: none; border-radius: 20px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; font-size: .85rem; }
+        .cat-tab.active { background: rgba(255,255,255,.4); }
+        .action-btns { display: flex; gap: 10px; margin-bottom: 20px; }
+        .action-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .action-btn.secondary { background: rgba(255,255,255,.2); }
+        .favorites { margin-top: 20px; }
+        .fav-title { font-size: .9rem; opacity: .8; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .fav-count { background: rgba(255,255,255,.2); padding: 2px 10px; border-radius: 10px; font-size: .8rem; }
+        .fav-list { max-height: 200px; overflow-y: auto; }
+        .fav-item { padding: 12px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 8px; font-size: .9rem; }
+        .fav-item-text { margin-bottom: 5px; }
+        .fav-item-author { font-size: .8rem; opacity: .7; }
+        .fav-item-delete { float: right; background: none; border: none; color: #ff6b6b; cursor: pointer; }
+        .share-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .share-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; background: rgba(255,255,255,.15); color: #fff; cursor: pointer; font-size: .85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>💬 Daily Quote</h1>
+        </header>
+        <div class="quote-section">
+            <div class="quote-card" id="quoteCard">
+                <div class="quote-icon">📜</div>
+                <div class="quote-text" id="quoteText">"The only way to do great work is to love what you do."</div>
+                <div class="quote-author" id="quoteAuthor">- Steve Jobs</div>
+            </div>
+            <div class="category-tabs">
+                <button class="cat-tab active" onclick="setCategory('all')">All</button>
+                <button class="cat-tab" onclick="setCategory('motivation')">Motivation</button>
+                <button class="cat-tab" onclick="setCategory('love')">Love</button>
+                <button class="cat-tab" onclick="setCategory('success')">Success</button>
+                <button class="cat-tab" onclick="setCategory('wisdom')">Wisdom</button>
+                <button class="cat-tab" onclick="setCategory('happiness')">Happiness</button>
+            </div>
+            <div class="action-btns">
+                <button class="action-btn" onclick="newQuote()">✨ New Quote</button>
+                <button class="action-btn secondary" onclick="saveFavorite()">❤️ Save</button>
+            </div>
+            <div class="share-btns">
+                <button class="share-btn" onclick="copyQuote()">📋 Copy</button>
+                <button class="share-btn" onclick="shareQuote()">📤 Share</button>
+            </div>
+            <div class="favorites">
+                <div class="fav-title">
+                    <span>Saved Quotes</span>
+                    <span class="fav-count" id="favCount">0</span>
+                </div>
+                <div class="fav-list" id="favList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var favorites = JSON.parse(localStorage.getItem('daily_quote_en') || '[]');
+        var currentQuote = {};
+        var currentCategory = 'all';
+        var quotes = {
+            motivation: [
+                { text: 'Believe you can and you\'re halfway there.', author: 'Theodore Roosevelt' },
+                { text: 'Success is not final, failure is not fatal: it is the courage to continue that counts.', author: 'Winston Churchill' },
+                { text: 'Don\'t put off until tomorrow what you can do today.', author: 'Benjamin Franklin' },
+                { text: 'A journey of a thousand miles begins with a single step.', author: 'Lao Tzu' },
+                { text: 'I have not failed. I\'ve just found 10,000 ways that won\'t work.', author: 'Thomas Edison' }
+            ],
+            love: [
+                { text: 'If you want to be loved, be lovable.', author: 'Benjamin Franklin' },
+                { text: 'Love is not looking at each other, but looking together in the same direction.', author: 'Antoine de Saint-Exupéry' },
+                { text: 'The greatest thing you\'ll ever learn is just to love and be loved in return.', author: 'Nat King Cole' },
+                { text: 'Where there is love there is life.', author: 'Mahatma Gandhi' },
+                { text: 'The best thing to hold onto in life is each other.', author: 'Audrey Hepburn' }
+            ],
+            success: [
+                { text: 'The secret of getting ahead is getting started.', author: 'Mark Twain' },
+                { text: 'Success is walking from failure to failure with no loss of enthusiasm.', author: 'Winston Churchill' },
+                { text: 'Opportunities don\'t happen. You create them.', author: 'Chris Grosser' },
+                { text: 'It does not matter how slowly you go as long as you do not stop.', author: 'Confucius' },
+                { text: 'Victory belongs to the most persevering.', author: 'Napoleon Bonaparte' }
+            ],
+            wisdom: [
+                { text: 'Knowledge is power.', author: 'Francis Bacon' },
+                { text: 'The only true wisdom is in knowing you know nothing.', author: 'Socrates' },
+                { text: 'In the middle of difficulty lies opportunity.', author: 'Albert Einstein' },
+                { text: 'Know thyself.', author: 'Socrates' },
+                { text: 'The unexamined life is not worth living.', author: 'Socrates' }
+            ],
+            happiness: [
+                { text: 'Happiness is a journey, not a destination.', author: 'Ben Sweetland' },
+                { text: 'The purpose of our lives is to be happy.', author: 'Dalai Lama' },
+                { text: 'Happiness depends upon ourselves.', author: 'Aristotle' },
+                { text: 'The most wasted of days is one without laughter.', author: 'E.E. Cummings' },
+                { text: 'Happiness is not something ready made. It comes from your own actions.', author: 'Dalai Lama' }
+            ]
+        };
+        function getAllQuotes() {
+            var all = [];
+            for (var cat in quotes) {
+                all = all.concat(quotes[cat]);
+            }
+            return all;
+        }
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-tab').forEach(function(tab) {
+                tab.classList.toggle('active', tab.textContent.toLowerCase().includes(cat === 'all' ? 'all' : cat));
+            });
+            newQuote();
+        }
+        function newQuote() {
+            var pool = currentCategory === 'all' ? getAllQuotes() : quotes[currentCategory];
+            var quote = pool[Math.floor(Math.random() * pool.length)];
+            currentQuote = quote;
+            document.getElementById('quoteText').textContent = '"' + quote.text + '"';
+            document.getElementById('quoteAuthor').textContent = '- ' + quote.author;
+        }
+        function saveFavorite() {
+            if (!currentQuote.text) return;
+            var exists = favorites.some(function(f) { return f.text === currentQuote.text; });
+            if (!exists) {
+                favorites.unshift(currentQuote);
+                localStorage.setItem('daily_quote_en', JSON.stringify(favorites));
+                renderFavorites();
+                alert('Saved!');
+            } else {
+                alert('Already saved.');
+            }
+        }
+        function deleteFavorite(index) {
+            favorites.splice(index, 1);
+            localStorage.setItem('daily_quote_en', JSON.stringify(favorites));
+            renderFavorites();
+        }
+        function renderFavorites() {
+            var list = document.getElementById('favList');
+            list.innerHTML = '';
+            document.getElementById('favCount').textContent = favorites.length;
+            favorites.forEach(function(fav, i) {
+                var div = document.createElement('div');
+                div.className = 'fav-item';
+                div.innerHTML = '<button class="fav-item-delete" onclick="deleteFavorite(' + i + ')">×</button><div class="fav-item-text">"' + fav.text + '"</div><div class="fav-item-author">- ' + fav.author + '</div>';
+                list.appendChild(div);
+            });
+        }
+        function copyQuote() {
+            var text = currentQuote.text + ' - ' + currentQuote.author;
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Copied!');
+            });
+        }
+        function shareQuote() {
+            var text = currentQuote.text + ' - ' + currentQuote.author;
+            if (navigator.share) {
+                navigator.share({ title: 'Daily Quote', text: text });
+            } else {
+                copyQuote();
+            }
+        }
+        newQuote();
+        renderFavorites();
+    </script>
+</body>
+</html>

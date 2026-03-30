@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/web/image-to-base64/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/web/image-to-base64/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/web/image-to-base64/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/web/image-to-base64/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/web/image-to-base64/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/web/image-to-base64/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画像をBase64に変換 - 無料オンラインツール</title>
+    <meta name="description" content="画像を即座にBase64文字列に変換します。HTML、CSS、JSONに画像を埋め込むための無料オンラインツールです。">
+    <meta name="keywords" content="画像 base64, base64 エンコーダー, 画像エンコーダー, data uri, 画像埋め込み, base64 変換">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #14b8a6;
+            --accent-hover: #0d9488;
+            --border: #475569;
+            --success: #22c55e;
+        }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 30px 20px; position: relative; }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .lang-switch a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .lang-switch a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        .upload-zone {
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--accent);
+            background: rgba(20, 184, 166, 0.05);
+        }
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .upload-text { color: var(--text-secondary); margin-bottom: 15px; }
+        .upload-hint { color: var(--text-secondary); font-size: 0.85rem; }
+        .upload-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .upload-btn:hover { background: var(--accent-hover); }
+        input[type="file"] { display: none; }
+
+        .preview-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            display: none;
+        }
+        .preview-section.show { display: block; }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .preview-title { font-weight: 600; }
+        .preview-actions { display: flex; gap: 10px; }
+        .btn-sm {
+            padding: 8px 15px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-sm:hover { background: var(--border); }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 700px) {
+            .preview-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+            .lang-switch { position: static; margin-bottom: 20px; }
+            header { padding-top: 20px; }
+        }
+
+        .preview-image {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+        .preview-image img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+        }
+
+        .preview-info {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .info-item:last-child { border-bottom: none; }
+        .info-label { color: var(--text-secondary); }
+        .info-value { color: var(--accent); font-family: monospace; }
+
+        .output-section {
+            margin-top: 25px;
+        }
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .output-label { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--success);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            resize: vertical;
+        }
+        textarea:focus { outline: none; border-color: var(--accent); }
+
+        .copy-all-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), #06b6d4);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        .copy-all-btn:hover { transform: translateY(-2px); }
+
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+        .info-section h3 { margin-bottom: 15px; color: var(--accent); }
+        .info-section p { color: var(--text-secondary); margin-bottom: 10px; line-height: 1.7; }
+        .info-section code {
+            background: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+    </style>
+<script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"이미지 Base64 변환","en":"Image to Base64","ja":"画像Base64変換"},"desc":{"ko":"이미지를 Base64 코드로 변환","en":"Convert Image to Base64","ja":"画像をBase64に変換"}},"header":{"title":{"ko":"이미지 Base64 변환","en":"Image to Base64","ja":"画像Base64変換"},"subtitle":{"ko":"이미지를 문자열로 변환하세요","en":"Convert image to string","ja":"画像を文字列に変換"}},"upload":{"text":{"ko":"이미지를 드래그하거나 클릭하세요","en":"Drag & Drop or Click","ja":"ドラッグ＆ドロップまたはクリック"},"hint":{"ko":"지원: JPG, PNG, GIF, SVG...","en":"Supports: JPG, PNG...","ja":"対応: JPG, PNG..."},"btn":{"ko":"이미지 선택","en":"Select Image","ja":"画像選択"}},"preview":{"title":{"ko":"미리보기","en":"Preview","ja":"プレビュー"},"clear":{"ko":"지우기","en":"Clear","ja":"クリア"},"info":{"name":{"ko":"파일 이름","en":"Name","ja":"ファイル名"},"type":{"ko":"파일 유형","en":"Type","ja":"タイプ"},"size":{"ko":"원본 크기","en":"Size","ja":"サイズ"},"dim":{"ko":"해상도","en":"Dimensions","ja":"解像度"},"b64size":{"ko":"Base64 크기","en":"Base64 Size","ja":"Base64サイズ"}}},"output":{"label":{"uri":{"ko":"Data URI (사용 가능)","en":"Data URI","ja":"Data URI"},"raw":{"ko":"Base64 문자열","en":"Base64 String","ja":"Base64文字列"},"html":{"ko":"HTML 태그","en":"HTML Tag","ja":"HTMLタグ"},"css":{"ko":"CSS 배경","en":"CSS Background","ja":"CSS背景"}},"copy":{"ko":"복사","en":"Copy","ja":"コピー"},"copyAll":{"ko":"전체 복사","en":"Copy All","ja":"全コピー"}},"info":{"title":{"ko":"Base64 이미지란?","en":"About Base64 Image","ja":"Base64画像とは？"}}};</script></head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lang-switch">
+                <a href="index.html">English</a>
+            </div>
+            <h1>画像 → Base64</h1>
+            <p class="subtitle">画像をBase64エンコード文字列に変換</p>
+        </header>
+
+        <div class="ad-banner">広告</div>
+
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">🖼️</div>
+            <p class="upload-text">画像をここにドラッグ&ドロップするか、クリックして選択</p>
+            <p class="upload-hint">対応形式: JPG, PNG, GIF, SVG, WebP, ICO</p>
+            <button class="upload-btn">画像を選択</button>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+
+        <div class="preview-section" id="previewSection">
+            <div class="preview-header">
+                <span class="preview-title">画像プレビュー</span>
+                <div class="preview-actions">
+                    <button class="btn-sm" onclick="clearImage()">クリア</button>
+                </div>
+            </div>
+
+            <div class="preview-grid">
+                <div class="preview-image">
+                    <img id="previewImg" src="" alt="プレビュー">
+                </div>
+                <div class="preview-info">
+                    <div class="info-item">
+                        <span class="info-label">ファイル名</span>
+                        <span class="info-value" id="fileName">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">ファイル形式</span>
+                        <span class="info-value" id="fileType">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">元のサイズ</span>
+                        <span class="info-value" id="fileSize">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">解像度</span>
+                        <span class="info-value" id="dimensions">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Base64サイズ</span>
+                        <span class="info-value" id="base64Size">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('datauri')">Data URI</button>
+                    <button class="tab" onclick="switchTab('base64')">Base64のみ</button>
+                    <button class="tab" onclick="switchTab('html')">HTML &lt;img&gt;</button>
+                    <button class="tab" onclick="switchTab('css')">CSS背景</button>
+                </div>
+
+                <div class="output-header">
+                    <span class="output-label" id="outputLabel">Data URI (すぐに使用可能)</span>
+                    <button class="btn-sm" onclick="copyOutput()">コピー</button>
+                </div>
+                <textarea id="outputText" readonly></textarea>
+
+                <button class="copy-all-btn" onclick="copyOutput()">📋 クリップボードにコピー</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">広告</div>
+
+        <div class="info-section">
+            <h3>Base64エンコーディングとは?</h3>
+            <p>Base64は、バイナリデータ(画像など)をASCIIテキストで表現するバイナリ-テキストエンコーディング方式です。これにより、別ファイルなしで画像をHTML、CSS、またはJSONに直接埋め込むことができます。</p>
+        </div>
+
+        <div class="info-section">
+            <h3>Base64画像を使用すべき場合</h3>
+            <p>✅ <strong>小さな画像</strong> - 10KB未満のアイコン、ロゴ</p>
+            <p>✅ <strong>HTTPリクエストを減らす</strong> - 重要な画像をインライン埋め込み</p>
+            <p>✅ <strong>メールテンプレート</strong> - 外部読み込みなしで表示される画像を埋め込む</p>
+            <p>✅ <strong>単一ファイルHTML</strong> - 独立したHTMLファイルを作成</p>
+            <p>❌ <strong>大きな画像</strong> - Base64はサイズを約33%増加させる</p>
+            <p>❌ <strong>頻繁に変更される画像</strong> - 個別にキャッシュできない</p>
+        </div>
+
+        <div class="info-section">
+            <h3>使用例</h3>
+            <p><strong>HTML:</strong> <code>&lt;img src="data:image/png;base64,..."&gt;</code></p>
+            <p><strong>CSS:</strong> <code>background-image: url(data:image/png;base64,...);</code></p>
+            <p><strong>JSON:</strong> <code>{"image": "data:image/png;base64,..."}</code></p>
+        </div>
+
+        <footer>
+            <p>Webデベロッパーのために作成</p>
+            <p style="margin-top: 10px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentBase64 = '';
+        let currentMimeType = '';
+        let currentTab = 'datauri';
+
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+
+        // Drag and drop
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                processFile(file);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        });
+
+        function processFile(file) {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const dataUri = e.target.result;
+                currentBase64 = dataUri.split(',')[1];
+                currentMimeType = file.type;
+
+                // Show preview
+                document.getElementById('previewImg').src = dataUri;
+                document.getElementById('previewSection').classList.add('show');
+
+                // Show info
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileType').textContent = file.type;
+                document.getElementById('fileSize').textContent = formatSize(file.size);
+                document.getElementById('base64Size').textContent = formatSize(currentBase64.length);
+
+                // Get dimensions
+                const img = new Image();
+                img.onload = () => {
+                    document.getElementById('dimensions').textContent = `${img.width} x ${img.height}px`;
+                };
+                img.src = dataUri;
+
+                // Update output
+                updateOutput();
+                showToast('画像が変換されました!');
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            updateOutput();
+        }
+
+        function updateOutput() {
+            const output = document.getElementById('outputText');
+            const label = document.getElementById('outputLabel');
+            const dataUri = `data:${currentMimeType};base64,${currentBase64}`;
+
+            switch (currentTab) {
+                case 'datauri':
+                    output.value = dataUri;
+                    label.textContent = 'Data URI (すぐに使用可能)';
+                    break;
+                case 'base64':
+                    output.value = currentBase64;
+                    label.textContent = 'Base64文字列のみ';
+                    break;
+                case 'html':
+                    output.value = `<img src="${dataUri}" alt="Image">`;
+                    label.textContent = 'HTML <img> タグ';
+                    break;
+                case 'css':
+                    output.value = `background-image: url(${dataUri});`;
+                    label.textContent = 'CSS背景プロパティ';
+                    break;
+            }
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (output) {
+                navigator.clipboard.writeText(output);
+                showToast('コピーしました!');
+            }
+        }
+
+        function clearImage() {
+            currentBase64 = '';
+            currentMimeType = '';
+            document.getElementById('previewSection').classList.remove('show');
+            document.getElementById('outputText').value = '';
+            fileInput.value = '';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
+</html>

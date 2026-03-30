@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/daily-journal/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/daily-journal/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/daily-journal/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/daily-journal/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/daily-journal/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/daily-journal/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Journal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #a18cd1, #fbc2eb); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .journal-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .date-display { text-align: center; margin-bottom: 20px; }
+        .date-text { font-size: 1.2rem; font-weight: 600; }
+        .mood-section { margin-bottom: 20px; }
+        .mood-label { font-size: .9rem; margin-bottom: 10px; opacity: .9; }
+        .mood-options { display: flex; justify-content: space-around; }
+        .mood-btn { font-size: 2rem; background: rgba(255,255,255,.2); border: none; padding: 12px; border-radius: 12px; cursor: pointer; transition: transform .2s; }
+        .mood-btn.selected { background: rgba(255,255,255,.4); transform: scale(1.1); }
+        .entry-area { margin-bottom: 20px; }
+        .entry-label { font-size: .9rem; margin-bottom: 8px; opacity: .9; }
+        .entry-textarea { width: 100%; min-height: 150px; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; resize: vertical; font-size: 1rem; line-height: 1.6; }
+        .save-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; margin-bottom: 20px; }
+        .history-title { font-size: .9rem; margin-bottom: 10px; opacity: .8; }
+        .history-list { max-height: 200px; overflow-y: auto; }
+        .history-item { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; margin-bottom: 8px; cursor: pointer; }
+        .history-date { font-weight: 600; font-size: .85rem; }
+        .history-preview { font-size: .8rem; opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .history-mood { float: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>📔 Daily Journal</h1>
+        </header>
+        <div class="journal-section">
+            <div class="date-display">
+                <div class="date-text" id="dateText"></div>
+            </div>
+            <div class="mood-section">
+                <div class="mood-label">How are you feeling?</div>
+                <div class="mood-options">
+                    <button class="mood-btn" onclick="selectMood('😊')">😊</button>
+                    <button class="mood-btn" onclick="selectMood('😐')">😐</button>
+                    <button class="mood-btn" onclick="selectMood('😢')">😢</button>
+                    <button class="mood-btn" onclick="selectMood('😡')">😡</button>
+                    <button class="mood-btn" onclick="selectMood('😴')">😴</button>
+                </div>
+            </div>
+            <div class="entry-area">
+                <div class="entry-label">How was your day?</div>
+                <textarea class="entry-textarea" id="entryText" placeholder="Write about your day..."></textarea>
+            </div>
+            <button class="save-btn" onclick="saveEntry()">Save Entry</button>
+            <div class="history-title">Previous Entries</div>
+            <div class="history-list" id="historyList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var entries = JSON.parse(localStorage.getItem('daily_journal_en') || '[]');
+        var selectedMood = '';
+        var today = new Date().toISOString().split('T')[0];
+        function save() { localStorage.setItem('daily_journal_en', JSON.stringify(entries)); }
+        function selectMood(mood) {
+            selectedMood = mood;
+            document.querySelectorAll('.mood-btn').forEach(function(btn) {
+                btn.classList.toggle('selected', btn.textContent === mood);
+            });
+        }
+        function saveEntry() {
+            var text = document.getElementById('entryText').value.trim();
+            if (!text) { alert('Please write something first.'); return; }
+            var existing = entries.findIndex(function(e) { return e.date === today; });
+            var entry = { date: today, mood: selectedMood, text: text };
+            if (existing >= 0) {
+                entries[existing] = entry;
+            } else {
+                entries.unshift(entry);
+            }
+            save();
+            render();
+            alert('Entry saved!');
+        }
+        function loadEntry(date) {
+            var entry = entries.find(function(e) { return e.date === date; });
+            if (entry) {
+                document.getElementById('entryText').value = entry.text;
+                if (entry.mood) selectMood(entry.mood);
+            }
+        }
+        function formatDate(dateStr) {
+            var d = new Date(dateStr);
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+        }
+        function render() {
+            var todayDate = new Date();
+            var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('dateText').textContent = days[todayDate.getDay()] + ', ' + months[todayDate.getMonth()] + ' ' + todayDate.getDate();
+            var todayEntry = entries.find(function(e) { return e.date === today; });
+            if (todayEntry) {
+                document.getElementById('entryText').value = todayEntry.text;
+                if (todayEntry.mood) selectMood(todayEntry.mood);
+            }
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            entries.slice(0, 10).forEach(function(e) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.onclick = function() { loadEntry(e.date); };
+                div.innerHTML = '<span class="history-mood">' + (e.mood || '') + '</span><div class="history-date">' + formatDate(e.date) + '</div><div class="history-preview">' + e.text + '</div>';
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

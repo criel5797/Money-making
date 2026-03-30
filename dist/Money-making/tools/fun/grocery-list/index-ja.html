@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/grocery-list/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/grocery-list/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/grocery-list/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/grocery-list/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/grocery-list/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/grocery-list/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>買い物リスト</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #56ab2f, #a8e063); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .grocery-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .add-form { display: flex; gap: 10px; margin-bottom: 20px; }
+        .add-form input { flex: 1; padding: 14px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { padding: 14px 20px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-weight: 600; cursor: pointer; }
+        .category-tabs { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; }
+        .cat-tab { padding: 8px 15px; border: none; border-radius: 20px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; white-space: nowrap; font-size: .85rem; }
+        .cat-tab.active { background: rgba(255,255,255,.4); }
+        .grocery-list { max-height: 350px; overflow-y: auto; }
+        .grocery-item { display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 8px; }
+        .grocery-item.checked { opacity: .5; }
+        .grocery-item.checked .item-name { text-decoration: line-through; }
+        .item-check { width: 24px; height: 24px; border: 2px solid #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .item-check.done { background: #38ef7d; border-color: #38ef7d; }
+        .item-name { flex: 1; font-size: 1rem; }
+        .item-qty { font-size: .85rem; opacity: .8; }
+        .delete-btn { background: none; border: none; color: #ff6b6b; font-size: 1.2rem; cursor: pointer; }
+        .summary { display: flex; justify-content: space-between; margin-top: 15px; padding: 15px; background: rgba(0,0,0,.2); border-radius: 10px; }
+        .summary span { font-size: .9rem; }
+        .clear-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🛒 買い物リスト</h1>
+        </header>
+        <div class="grocery-section">
+            <div class="add-form">
+                <input type="text" id="itemInput" placeholder="品目を入力" onkeypress="if(event.key==='Enter')addItem()">
+                <button class="add-btn" onclick="addItem()">追加</button>
+            </div>
+            <div class="category-tabs">
+                <button class="cat-tab active" onclick="filterCategory('all')">すべて</button>
+                <button class="cat-tab" onclick="filterCategory('野菜')">🥬 野菜</button>
+                <button class="cat-tab" onclick="filterCategory('果物')">🍎 果物</button>
+                <button class="cat-tab" onclick="filterCategory('肉')">🥩 肉</button>
+                <button class="cat-tab" onclick="filterCategory('乳製品')">🥛 乳製品</button>
+                <button class="cat-tab" onclick="filterCategory('その他')">📦 その他</button>
+            </div>
+            <div class="grocery-list" id="groceryList"></div>
+            <div class="summary">
+                <span id="totalItems">合計: 0</span>
+                <span id="checkedItems">完了: 0</span>
+            </div>
+            <button class="clear-btn" onclick="clearChecked()">完了項目を削除</button>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var items = JSON.parse(localStorage.getItem('grocery_list_ja') || '[]');
+        var currentFilter = 'all';
+        function save() { localStorage.setItem('grocery_list_ja', JSON.stringify(items)); }
+        function detectCategory(name) {
+            var veggies = ['玉ねぎ', 'にんじん', 'じゃがいも', 'キャベツ', 'ほうれん草', 'トマト', 'ピーマン', 'ブロッコリー', '白菜', 'ネギ'];
+            var fruits = ['りんご', 'バナナ', 'みかん', 'ぶどう', 'いちご', 'スイカ', 'メロン', '梨', 'もも', 'キウイ'];
+            var meats = ['牛肉', '豚肉', '鶏肉', 'ベーコン', 'ハム', 'ソーセージ'];
+            var dairy = ['牛乳', 'チーズ', 'ヨーグルト', 'バター', 'クリーム', '卵', 'たまご'];
+            if (veggies.some(function(v) { return name.includes(v); })) return '野菜';
+            if (fruits.some(function(f) { return name.includes(f); })) return '果物';
+            if (meats.some(function(m) { return name.includes(m); })) return '肉';
+            if (dairy.some(function(d) { return name.includes(d); })) return '乳製品';
+            return 'その他';
+        }
+        function addItem() {
+            var name = document.getElementById('itemInput').value.trim();
+            if (name) {
+                items.push({ id: Date.now().toString(), name: name, category: detectCategory(name), checked: false });
+                save();
+                render();
+                document.getElementById('itemInput').value = '';
+            }
+        }
+        function toggleItem(id) {
+            var item = items.find(function(i) { return i.id === id; });
+            if (item) item.checked = !item.checked;
+            save();
+            render();
+        }
+        function deleteItem(id) {
+            items = items.filter(function(i) { return i.id !== id; });
+            save();
+            render();
+        }
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-tab').forEach(function(t, i) {
+                t.classList.toggle('active', (i === 0 && cat === 'all') || t.textContent.includes(cat));
+            });
+            render();
+        }
+        function clearChecked() {
+            items = items.filter(function(i) { return !i.checked; });
+            save();
+            render();
+        }
+        function render() {
+            var filtered = currentFilter === 'all' ? items : items.filter(function(i) { return i.category === currentFilter; });
+            var list = document.getElementById('groceryList');
+            list.innerHTML = '';
+            filtered.forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'grocery-item' + (item.checked ? ' checked' : '');
+                div.innerHTML = '<div class="item-check' + (item.checked ? ' done' : '') + '" onclick="toggleItem(\'' + item.id + '\')">' + (item.checked ? '✓' : '') + '</div><span class="item-name">' + item.name + '</span><button class="delete-btn" onclick="deleteItem(\'' + item.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+            document.getElementById('totalItems').textContent = '合計: ' + items.length;
+            document.getElementById('checkedItems').textContent = '完了: ' + items.filter(function(i) { return i.checked; }).length;
+        }
+        render();
+    </script>
+</body>
+</html>

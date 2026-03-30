@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/wifi-password/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/wifi-password/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/wifi-password/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/wifi-password/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/wifi-password/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/wifi-password/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiFiパスワード</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #00b09b, #96c93d); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .wifi-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { margin-bottom: 12px; }
+        .form-row input { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .wifi-list { max-height: 350px; overflow-y: auto; }
+        .wifi-item { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 10px; }
+        .wifi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .wifi-name { font-weight: 700; font-size: 1.1rem; }
+        .delete-btn { background: #ff6b6b; border: none; color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+        .wifi-password { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .password-text { flex: 1; background: rgba(0,0,0,.3); padding: 10px; border-radius: 8px; font-family: monospace; word-break: break-all; }
+        .copy-btn { background: #38ef7d; border: none; color: #000; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .wifi-location { font-size: .85rem; opacity: .8; }
+        .hidden-pass { letter-spacing: 3px; }
+        .show-btn { background: rgba(255,255,255,.2); border: none; color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer; margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>📶 WiFiパスワード</h1>
+        </header>
+        <div class="wifi-section">
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="nameInput" placeholder="WiFi名 (SSID)">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="passwordInput" placeholder="パスワード">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="locationInput" placeholder="場所 (任意: 自宅、オフィス)">
+                </div>
+                <button class="add-btn" onclick="addWifi()">WiFiを保存</button>
+            </div>
+            <div class="wifi-list" id="wifiList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var wifiList = JSON.parse(localStorage.getItem('wifi_passwords_ja') || '[]');
+        var visiblePasswords = {};
+        function save() { localStorage.setItem('wifi_passwords_ja', JSON.stringify(wifiList)); }
+        function addWifi() {
+            var name = document.getElementById('nameInput').value.trim();
+            var password = document.getElementById('passwordInput').value;
+            var location = document.getElementById('locationInput').value.trim();
+            if (name && password) {
+                wifiList.push({ id: Date.now().toString(), name: name, password: password, location: location });
+                save();
+                render();
+                document.getElementById('nameInput').value = '';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('locationInput').value = '';
+            }
+        }
+        function deleteWifi(id) {
+            wifiList = wifiList.filter(function(w) { return w.id !== id; });
+            save();
+            render();
+        }
+        function togglePassword(id) {
+            visiblePasswords[id] = !visiblePasswords[id];
+            render();
+        }
+        function copyPassword(password) {
+            navigator.clipboard.writeText(password).then(function() {
+                alert('パスワードをコピーしました！');
+            });
+        }
+        function render() {
+            var list = document.getElementById('wifiList');
+            list.innerHTML = '';
+            wifiList.forEach(function(w) {
+                var div = document.createElement('div');
+                div.className = 'wifi-item';
+                var isVisible = visiblePasswords[w.id];
+                var displayPassword = isVisible ? w.password : '••••••••';
+                div.innerHTML = '<div class="wifi-header"><span class="wifi-name">📶 ' + w.name + '</span><button class="delete-btn" onclick="deleteWifi(\'' + w.id + '\')">削除</button></div><div class="wifi-password"><span class="password-text' + (isVisible ? '' : ' hidden-pass') + '">' + displayPassword + '</span><button class="show-btn" onclick="togglePassword(\'' + w.id + '\')">' + (isVisible ? '非表示' : '表示') + '</button><button class="copy-btn" onclick="copyPassword(\'' + w.password.replace(/'/g, "\\'") + '\')">コピー</button></div>' + (w.location ? '<div class="wifi-location">📍 ' + w.location + '</div>' : '');
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

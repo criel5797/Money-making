@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/business-card/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/business-card/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/business-card/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/business-card/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/business-card/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/business-card/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Business Card</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .card-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .card-preview { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 16px; padding: 25px; margin-bottom: 20px; min-height: 180px; }
+        .card-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; }
+        .card-title { font-size: .9rem; opacity: .9; margin-bottom: 15px; }
+        .card-info { font-size: .85rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .card-info span { opacity: .9; }
+        .form-row { margin-bottom: 12px; }
+        .form-row input { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .form-label { font-size: .8rem; margin-bottom: 5px; display: block; opacity: .7; }
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        .save-btn { flex: 1; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .share-btn { flex: 1; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>💼 Digital Business Card</h1>
+        </header>
+        <div class="card-section">
+            <div class="card-preview" id="cardPreview">
+                <div class="card-name" id="previewName">John Doe</div>
+                <div class="card-title" id="previewTitle">Software Engineer</div>
+                <div class="card-info"><span>📱</span><span id="previewPhone">+1 234 567 8900</span></div>
+                <div class="card-info"><span>📧</span><span id="previewEmail">john@example.com</span></div>
+                <div class="card-info"><span>🏢</span><span id="previewCompany">ABC Corporation</span></div>
+            </div>
+            <div class="form-row">
+                <label class="form-label">Name</label>
+                <input type="text" id="nameInput" placeholder="Full Name" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">Title</label>
+                <input type="text" id="titleInput" placeholder="Job Title" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">Phone</label>
+                <input type="tel" id="phoneInput" placeholder="Phone Number" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">Email</label>
+                <input type="email" id="emailInput" placeholder="Email Address" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">Company</label>
+                <input type="text" id="companyInput" placeholder="Company Name" oninput="updatePreview()">
+            </div>
+            <div class="btn-group">
+                <button class="save-btn" onclick="saveCard()">Save</button>
+                <button class="share-btn" onclick="shareCard()">Share</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var cardData = JSON.parse(localStorage.getItem('business_card_en') || '{}');
+        function loadCard() {
+            if (cardData.name) document.getElementById('nameInput').value = cardData.name;
+            if (cardData.title) document.getElementById('titleInput').value = cardData.title;
+            if (cardData.phone) document.getElementById('phoneInput').value = cardData.phone;
+            if (cardData.email) document.getElementById('emailInput').value = cardData.email;
+            if (cardData.company) document.getElementById('companyInput').value = cardData.company;
+            updatePreview();
+        }
+        function updatePreview() {
+            document.getElementById('previewName').textContent = document.getElementById('nameInput').value || 'Name';
+            document.getElementById('previewTitle').textContent = document.getElementById('titleInput').value || 'Title';
+            document.getElementById('previewPhone').textContent = document.getElementById('phoneInput').value || 'Phone';
+            document.getElementById('previewEmail').textContent = document.getElementById('emailInput').value || 'Email';
+            document.getElementById('previewCompany').textContent = document.getElementById('companyInput').value || 'Company';
+        }
+        function saveCard() {
+            cardData = {
+                name: document.getElementById('nameInput').value,
+                title: document.getElementById('titleInput').value,
+                phone: document.getElementById('phoneInput').value,
+                email: document.getElementById('emailInput').value,
+                company: document.getElementById('companyInput').value
+            };
+            localStorage.setItem('business_card_en', JSON.stringify(cardData));
+            alert('Card saved!');
+        }
+        function shareCard() {
+            var text = document.getElementById('nameInput').value + '\n' + document.getElementById('titleInput').value + '\n' + document.getElementById('companyInput').value + '\n📱 ' + document.getElementById('phoneInput').value + '\n📧 ' + document.getElementById('emailInput').value;
+            if (navigator.share) {
+                navigator.share({ title: 'Business Card', text: text });
+            } else {
+                navigator.clipboard.writeText(text).then(function() { alert('Card info copied!'); });
+            }
+        }
+        loadCard();
+    </script>
+</body>
+</html>

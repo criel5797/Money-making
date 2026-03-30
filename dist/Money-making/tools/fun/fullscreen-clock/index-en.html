@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/fullscreen-clock/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/fullscreen-clock/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/fullscreen-clock/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/fullscreen-clock/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/fullscreen-clock/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/fullscreen-clock/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Clock - Free Online Clock</title>
+    <meta name="description" content="Free fullscreen clock. See the current time in large display.">
+    <meta name="keywords" content="clock, fullscreen clock, online clock, digital clock">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: background 0.5s;
+        }
+        .clock-container {
+            text-align: center;
+            width: 100%;
+        }
+        .time-display {
+            font-size: clamp(4rem, 20vw, 15rem);
+            font-weight: 200;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 5px;
+            text-shadow: 0 0 30px rgba(255,255,255,0.3);
+            margin-bottom: 20px;
+        }
+        .seconds {
+            font-size: clamp(2rem, 8vw, 5rem);
+            opacity: 0.6;
+            vertical-align: super;
+        }
+        .date-display {
+            font-size: clamp(1rem, 4vw, 2rem);
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+        .day-display {
+            font-size: clamp(0.9rem, 3vw, 1.5rem);
+            opacity: 0.5;
+        }
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+        .controls:hover {
+            opacity: 1;
+        }
+        .control-btn {
+            padding: 10px 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .control-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+        }
+        .control-btn.active {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.6);
+        }
+        .theme-colors {
+            display: flex;
+            gap: 10px;
+        }
+        .color-btn {
+            width: 30px;
+            height: 30px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+        .color-btn.dark { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+        .color-btn.blue { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .color-btn.green { background: linear-gradient(135deg, #134e5e, #71b280); }
+        .color-btn.red { background: linear-gradient(135deg, #c31432, #240b36); }
+        .color-btn.orange { background: linear-gradient(135deg, #f12711, #f5af19); }
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+        .fullscreen-btn:hover {
+            opacity: 1;
+            background: rgba(255,255,255,0.2);
+        }
+        .ad-banner {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.3);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="ad-banner">Ad</div>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
+    <div class="clock-container">
+        <div class="date-display" id="dateDisplay"></div>
+        <div class="time-display" id="timeDisplay"></div>
+        <div class="day-display" id="dayDisplay"></div>
+    </div>
+    <div class="controls">
+        <button class="control-btn" id="formatBtn" onclick="toggleFormat()">12 Hour</button>
+        <button class="control-btn" id="secondsBtn" onclick="toggleSeconds()">Show Seconds</button>
+        <div class="theme-colors">
+            <div class="color-btn dark" onclick="setTheme('dark')"></div>
+            <div class="color-btn blue" onclick="setTheme('blue')"></div>
+            <div class="color-btn green" onclick="setTheme('green')"></div>
+            <div class="color-btn red" onclick="setTheme('red')"></div>
+            <div class="color-btn orange" onclick="setTheme('orange')"></div>
+        </div>
+    </div>
+    <script>
+        var is24Hour = true;
+        var showSeconds = true;
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var themes = {
+            dark: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+            blue: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            green: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
+            red: 'linear-gradient(135deg, #c31432 0%, #240b36 100%)',
+            orange: 'linear-gradient(135deg, #f12711 0%, #f5af19 100%)'
+        };
+
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var ampm = '';
+
+            if (!is24Hour) {
+                ampm = hours >= 12 ? ' PM' : ' AM';
+                hours = hours % 12;
+                if (hours === 0) hours = 12;
+            }
+
+            var timeStr = pad(hours) + ':' + pad(minutes);
+            if (showSeconds) {
+                timeStr += '<span class="seconds">:' + pad(seconds) + '</span>';
+            }
+            timeStr += ampm;
+
+            document.getElementById('timeDisplay').innerHTML = timeStr;
+
+            var month = months[now.getMonth()];
+            var date = now.getDate();
+            var year = now.getFullYear();
+            document.getElementById('dateDisplay').textContent = month + ' ' + date + ', ' + year;
+            document.getElementById('dayDisplay').textContent = days[now.getDay()];
+        }
+
+        function pad(num) {
+            return num.toString().padStart(2, '0');
+        }
+
+        function toggleFormat() {
+            is24Hour = !is24Hour;
+            document.getElementById('formatBtn').textContent = is24Hour ? '12 Hour' : '24 Hour';
+            document.getElementById('formatBtn').classList.toggle('active', !is24Hour);
+            updateClock();
+        }
+
+        function toggleSeconds() {
+            showSeconds = !showSeconds;
+            document.getElementById('secondsBtn').classList.toggle('active', showSeconds);
+            updateClock();
+        }
+
+        function setTheme(theme) {
+            document.body.style.background = themes[theme];
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>

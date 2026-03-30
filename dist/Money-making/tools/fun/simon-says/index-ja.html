@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/simon-says/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/simon-says/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/simon-says/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/simon-says/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/simon-says/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/simon-says/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サイモンゲーム</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.05); border-radius: 16px; padding: 25px; }
+        .score-display { text-align: center; margin-bottom: 20px; }
+        .score-label { font-size: .9rem; opacity: .7; }
+        .score-value { font-size: 3rem; font-weight: 700; color: #ffd93d; }
+        .game-board { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+        .simon-btn { height: 120px; border: none; border-radius: 16px; cursor: pointer; transition: filter .1s, transform .1s; }
+        .simon-btn:active { transform: scale(0.95); }
+        .simon-btn.green { background: #27ae60; }
+        .simon-btn.red { background: #e74c3c; }
+        .simon-btn.yellow { background: #f1c40f; }
+        .simon-btn.blue { background: #3498db; }
+        .simon-btn.lit { filter: brightness(1.5); box-shadow: 0 0 30px currentColor; }
+        .simon-btn:disabled { opacity: .6; cursor: not-allowed; }
+        .message { text-align: center; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 1.1rem; background: rgba(255,255,255,.1); min-height: 55px; display: flex; align-items: center; justify-content: center; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 14px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.2rem; cursor: pointer; font-weight: 700; margin-bottom: 20px; }
+        .start-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.3rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .7; }
+        .difficulty { display: flex; gap: 10px; margin-bottom: 20px; }
+        .diff-btn { flex: 1; padding: 10px; border: none; border-radius: 10px; background: rgba(255,255,255,.15); color: #fff; cursor: pointer; font-size: .85rem; }
+        .diff-btn.active { background: rgba(255,255,255,.35); font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎮 サイモンゲーム</h1>
+        </header>
+        <div class="game-section">
+            <div class="score-display">
+                <div class="score-label">スコア</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="difficulty">
+                <button class="diff-btn active" onclick="setSpeed(1000)">簡単</button>
+                <button class="diff-btn" onclick="setSpeed(600)">普通</button>
+                <button class="diff-btn" onclick="setSpeed(350)">難しい</button>
+            </div>
+            <div class="game-board">
+                <button class="simon-btn green" id="green" onclick="playerInput('green')"></button>
+                <button class="simon-btn red" id="red" onclick="playerInput('red')"></button>
+                <button class="simon-btn yellow" id="yellow" onclick="playerInput('yellow')"></button>
+                <button class="simon-btn blue" id="blue" onclick="playerInput('blue')"></button>
+            </div>
+            <div class="message" id="message">スタートを押してください！</div>
+            <button class="start-btn" id="startBtn" onclick="startGame()">🎯 ゲームスタート</button>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="highScore">0</div>
+                    <div class="stat-label">ハイスコア</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="gamesPlayed">0</div>
+                    <div class="stat-label">ゲーム数</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var colors = ['green', 'red', 'yellow', 'blue'];
+        var sequence = [];
+        var playerSequence = [];
+        var score = 0;
+        var isPlaying = false;
+        var speed = 1000;
+        var stats = JSON.parse(localStorage.getItem('simon_ja') || '{"high":0,"games":0}');
+
+        document.getElementById('highScore').textContent = stats.high;
+        document.getElementById('gamesPlayed').textContent = stats.games;
+
+        function setSpeed(s) {
+            speed = s;
+            document.querySelectorAll('.diff-btn').forEach(function(btn, i) {
+                btn.classList.toggle('active', (i === 0 && s === 1000) || (i === 1 && s === 600) || (i === 2 && s === 350));
+            });
+        }
+
+        function startGame() {
+            sequence = [];
+            playerSequence = [];
+            score = 0;
+            isPlaying = true;
+            document.getElementById('score').textContent = score;
+            document.getElementById('startBtn').disabled = true;
+            setButtonsEnabled(false);
+            nextRound();
+        }
+
+        function nextRound() {
+            playerSequence = [];
+            sequence.push(colors[Math.floor(Math.random() * 4)]);
+            document.getElementById('message').textContent = 'パターンを覚えて...';
+            setTimeout(function() { playSequence(0); }, 500);
+        }
+
+        function playSequence(index) {
+            if (index >= sequence.length) {
+                setButtonsEnabled(true);
+                document.getElementById('message').textContent = 'あなたの番！（' + sequence.length + '色）';
+                return;
+            }
+            lightUp(sequence[index]);
+            setTimeout(function() { playSequence(index + 1); }, speed);
+        }
+
+        function lightUp(color) {
+            var btn = document.getElementById(color);
+            btn.classList.add('lit');
+            setTimeout(function() { btn.classList.remove('lit'); }, speed * 0.6);
+        }
+
+        function playerInput(color) {
+            if (!isPlaying) return;
+            playerSequence.push(color);
+            lightUp(color);
+
+            var idx = playerSequence.length - 1;
+            if (playerSequence[idx] !== sequence[idx]) {
+                gameOver();
+                return;
+            }
+
+            if (playerSequence.length === sequence.length) {
+                score++;
+                document.getElementById('score').textContent = score;
+                setButtonsEnabled(false);
+                document.getElementById('message').textContent = 'よくできました！🎉';
+                setTimeout(nextRound, 1000);
+            }
+        }
+
+        function gameOver() {
+            isPlaying = false;
+            setButtonsEnabled(false);
+            document.getElementById('message').textContent = 'ゲームオーバー！スコア: ' + score;
+            document.getElementById('startBtn').disabled = false;
+
+            stats.games++;
+            if (score > stats.high) stats.high = score;
+            localStorage.setItem('simon_ja', JSON.stringify(stats));
+            document.getElementById('highScore').textContent = stats.high;
+            document.getElementById('gamesPlayed').textContent = stats.games;
+        }
+
+        function setButtonsEnabled(enabled) {
+            document.querySelectorAll('.simon-btn').forEach(function(btn) {
+                btn.disabled = !enabled;
+            });
+        }
+
+        setButtonsEnabled(false);
+    </script>
+</body>
+</html>

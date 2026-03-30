@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/fuel-log/"><meta property="og:url" content="https://instaidea.org/tools/fun/fuel-log/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/fuel-log/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/fuel-log/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/fuel-log/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/fuel-log/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주유 기록</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #f46b45, #eea849); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .fuel-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-box { background: rgba(0,0,0,.3); border-radius: 12px; padding: 15px; text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .8; margin-top: 3px; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .form-row input { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .fuel-list { max-height: 200px; overflow-y: auto; }
+        .fuel-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 8px; }
+        .fuel-date { font-weight: 600; }
+        .fuel-info { font-size: .85rem; opacity: .9; }
+        .fuel-cost { color: #38ef7d; font-weight: 600; }
+        .delete-btn { background: #ff6b6b; border: none; color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>⛽ 주유 기록</h1>
+        </header>
+        <div class="fuel-section">
+            <div class="summary">
+                <div class="stat-box">
+                    <div class="stat-value" id="totalCost">0원</div>
+                    <div class="stat-label">총 주유비</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="avgEfficiency">0</div>
+                    <div class="stat-label">평균 연비 (km/L)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="totalLiters">0L</div>
+                    <div class="stat-label">총 주유량</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="totalDistance">0km</div>
+                    <div class="stat-label">총 주행거리</div>
+                </div>
+            </div>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="date" id="dateInput">
+                    <input type="number" id="odometerInput" placeholder="주행거리 (km)">
+                </div>
+                <div class="form-row">
+                    <input type="number" id="litersInput" placeholder="주유량 (L)" step="0.1">
+                    <input type="number" id="priceInput" placeholder="리터당 가격">
+                </div>
+                <button class="add-btn" onclick="addFuel()">주유 기록 추가</button>
+            </div>
+            <div class="fuel-list" id="fuelList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var fuelLogs = JSON.parse(localStorage.getItem('fuel_logs') || '[]');
+        function save() { localStorage.setItem('fuel_logs', JSON.stringify(fuelLogs)); }
+        function addFuel() {
+            var date = document.getElementById('dateInput').value;
+            var odometer = parseInt(document.getElementById('odometerInput').value) || 0;
+            var liters = parseFloat(document.getElementById('litersInput').value) || 0;
+            var price = parseInt(document.getElementById('priceInput').value) || 0;
+            if (date && odometer > 0 && liters > 0) {
+                var cost = Math.round(liters * price);
+                fuelLogs.push({ id: Date.now().toString(), date: date, odometer: odometer, liters: liters, price: price, cost: cost });
+                save();
+                render();
+                document.getElementById('odometerInput').value = '';
+                document.getElementById('litersInput').value = '';
+                document.getElementById('priceInput').value = '';
+            }
+        }
+        function deleteFuel(id) {
+            fuelLogs = fuelLogs.filter(function(f) { return f.id !== id; });
+            save();
+            render();
+        }
+        function render() {
+            fuelLogs.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+            var totalCost = 0, totalLiters = 0, totalDistance = 0;
+            fuelLogs.forEach(function(f, i) {
+                totalCost += f.cost;
+                totalLiters += f.liters;
+            });
+            if (fuelLogs.length >= 2) {
+                totalDistance = fuelLogs[0].odometer - fuelLogs[fuelLogs.length - 1].odometer;
+            }
+            var avgEfficiency = totalLiters > 0 && totalDistance > 0 ? (totalDistance / totalLiters).toFixed(1) : 0;
+            document.getElementById('totalCost').textContent = totalCost.toLocaleString() + '원';
+            document.getElementById('totalLiters').textContent = totalLiters.toFixed(1) + 'L';
+            document.getElementById('totalDistance').textContent = totalDistance.toLocaleString() + 'km';
+            document.getElementById('avgEfficiency').textContent = avgEfficiency;
+            var list = document.getElementById('fuelList');
+            list.innerHTML = '';
+            fuelLogs.forEach(function(f) {
+                var div = document.createElement('div');
+                div.className = 'fuel-item';
+                div.innerHTML = '<div><div class="fuel-date">' + f.date + '</div><div class="fuel-info">' + f.liters + 'L @ ' + f.price.toLocaleString() + '원/L</div></div><span class="fuel-cost">' + f.cost.toLocaleString() + '원</span><button class="delete-btn" onclick="deleteFuel(\'' + f.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+        }
+        document.getElementById('dateInput').valueAsDate = new Date();
+        render();
+    </script>
+</body>
+</html>

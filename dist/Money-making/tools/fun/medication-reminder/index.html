@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/medication-reminder/"><meta property="og:url" content="https://instaidea.org/tools/fun/medication-reminder/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/medication-reminder/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/medication-reminder/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/medication-reminder/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/medication-reminder/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>약 복용 알림</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #00c9ff, #92fe9d); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .med-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .today-summary { background: rgba(0,0,0,.2); border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: center; }
+        .summary-title { font-size: .9rem; opacity: .8; margin-bottom: 5px; }
+        .summary-count { font-size: 2rem; font-weight: 700; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .form-row input, .form-row select { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .meds { max-height: 300px; overflow-y: auto; }
+        .med-item { display: flex; align-items: center; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 10px; }
+        .med-icon { font-size: 1.8rem; margin-right: 15px; }
+        .med-info { flex: 1; }
+        .med-name { font-weight: 600; font-size: 1.1rem; }
+        .med-schedule { font-size: .8rem; opacity: .8; margin-top: 3px; }
+        .med-status { font-size: .75rem; padding: 3px 8px; border-radius: 10px; margin-top: 5px; display: inline-block; }
+        .status-taken { background: #38ef7d; color: #000; }
+        .status-pending { background: #ffd93d; color: #000; }
+        .take-btn { padding: 8px 15px; border: none; border-radius: 8px; background: #4caf50; color: #fff; cursor: pointer; font-weight: 600; margin-right: 8px; }
+        .del-btn { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>💊 약 복용 알림</h1>
+        </header>
+        <div class="med-section">
+            <div class="today-summary">
+                <div class="summary-title">오늘 복용 현황</div>
+                <div class="summary-count" id="todayStatus">0/0</div>
+            </div>
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="medName" placeholder="약 이름">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="medDosage" placeholder="용량 (예: 1정)">
+                    <select id="medFrequency">
+                        <option value="morning">아침</option>
+                        <option value="noon">점심</option>
+                        <option value="evening">저녁</option>
+                        <option value="bedtime">취침전</option>
+                    </select>
+                </div>
+                <button class="add-btn" onclick="addMed()">약 추가</button>
+            </div>
+            <div class="meds" id="meds"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var meds = JSON.parse(localStorage.getItem('medications') || '[]');
+        var takenToday = JSON.parse(localStorage.getItem('meds_taken_' + new Date().toDateString()) || '[]');
+        var freqNames = { morning: '아침', noon: '점심', evening: '저녁', bedtime: '취침전' };
+        var freqOrder = { morning: 0, noon: 1, evening: 2, bedtime: 3 };
+        function save() {
+            localStorage.setItem('medications', JSON.stringify(meds));
+            localStorage.setItem('meds_taken_' + new Date().toDateString(), JSON.stringify(takenToday));
+        }
+        function addMed() {
+            var name = document.getElementById('medName').value.trim();
+            var dosage = document.getElementById('medDosage').value.trim();
+            var frequency = document.getElementById('medFrequency').value;
+            if (!name) return;
+            meds.push({ id: Date.now().toString(), name: name, dosage: dosage || '1정', frequency: frequency });
+            save();
+            document.getElementById('medName').value = '';
+            document.getElementById('medDosage').value = '';
+            render();
+        }
+        function takeMed(id) {
+            if (!takenToday.includes(id)) {
+                takenToday.push(id);
+                save();
+                render();
+            }
+        }
+        function untakeMed(id) {
+            takenToday = takenToday.filter(function(t) { return t !== id; });
+            save();
+            render();
+        }
+        function deleteMed(id) {
+            meds = meds.filter(function(m) { return m.id !== id; });
+            save();
+            render();
+        }
+        function render() {
+            var taken = takenToday.length;
+            document.getElementById('todayStatus').textContent = taken + '/' + meds.length;
+            var sorted = meds.slice().sort(function(a, b) { return freqOrder[a.frequency] - freqOrder[b.frequency]; });
+            var list = document.getElementById('meds');
+            list.innerHTML = '';
+            sorted.forEach(function(med) {
+                var isTaken = takenToday.includes(med.id);
+                var div = document.createElement('div');
+                div.className = 'med-item';
+                div.innerHTML = '<div class="med-icon">💊</div><div class="med-info"><div class="med-name">' + med.name + '</div><div class="med-schedule">' + med.dosage + ' · ' + freqNames[med.frequency] + '</div><span class="med-status ' + (isTaken ? 'status-taken' : 'status-pending') + '">' + (isTaken ? '복용완료' : '복용대기') + '</span></div><button class="take-btn" onclick="' + (isTaken ? 'untakeMed' : 'takeMed') + '(\'' + med.id + '\')">' + (isTaken ? '↩️' : '✓') + '</button><button class="del-btn" onclick="deleteMed(\'' + med.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+        }
+        render();
+    </script>
+</body>
+</html>

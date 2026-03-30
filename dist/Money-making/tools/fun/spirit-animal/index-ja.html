@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/spirit-animal/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/spirit-animal/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/spirit-animal/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/spirit-animal/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/spirit-animal/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/spirit-animal/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>私を動物で表現すると？ - 動物性格テスト | 私の動物探し</title>
+    <meta name="description" content="私を動物で表現すると何だろう？無料動物性格テストで私の動物を探してみよう。猫？犬？狐？今すぐ確認！">
+    <meta name="keywords" content="動物テスト,動物性格,私を動物で,動物性格テスト,私の動物,動物心理テスト">
+    
+    <meta property="og:title" content="私を動物で表現すると？ - 動物性格テスト">
+    <meta property="og:description" content="私の動物を探してみよう！">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/1a472a/90EE90?text=動物性格テスト">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #90EE90, #32CD32);
+            color: #1a472a;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5016 50%, #1a472a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .nature-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .leaf {
+            position: absolute;
+            font-size: 24px;
+            animation: falling 15s infinite linear;
+            opacity: 0.4;
+        }
+
+        @keyframes falling {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            background: linear-gradient(135deg, #90EE90, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #a8d5a8; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(144,238,144,0.1);
+            border: 1px solid rgba(144,238,144,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #90EE90;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .intro-section {
+            text-align: center;
+        }
+
+        .intro-section h2 {
+            color: #90EE90;
+            margin-bottom: 20px;
+        }
+
+        .intro-section p {
+            color: #a8d5a8;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .animal-preview {
+            font-size: 50px;
+            margin: 20px 0;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #90EE90, #32CD32);
+            color: #1a472a;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(144, 238, 144, 0.4);
+        }
+
+        .question-section {
+            display: none;
+        }
+
+        .question-section.active { display: block; }
+
+        .progress-container { margin-bottom: 25px; }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #90EE90, #32CD32);
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #a8d5a8;
+            font-size: 14px;
+        }
+
+        .question-card {
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .question-text {
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #c8e8c8;
+        }
+
+        .option:hover {
+            border-color: #90EE90;
+            background: rgba(144, 238, 144, 0.1);
+        }
+
+        .option.selected {
+            border-color: #90EE90;
+            background: rgba(144, 238, 144, 0.2);
+            color: #90EE90;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-header p { color: #a8d5a8; font-size: 14px; }
+
+        .animal-emoji {
+            font-size: 100px;
+            display: block;
+            margin: 20px 0;
+            filter: drop-shadow(0 0 30px rgba(144, 238, 144, 0.5));
+        }
+
+        .animal-name {
+            font-size: 2.5rem;
+            color: #90EE90;
+            margin: 10px 0;
+        }
+
+        .animal-title {
+            color: #FFD700;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #90EE90;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #c8e8c8;
+            line-height: 1.8;
+        }
+
+        .traits-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .trait-tag {
+            background: linear-gradient(135deg, rgba(144, 238, 144, 0.2), rgba(50, 205, 50, 0.2));
+            border: 1px solid rgba(144, 238, 144, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #90EE90;
+            font-size: 14px;
+        }
+
+        .match-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .match-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .match-item.good { border: 1px solid rgba(144, 238, 144, 0.3); }
+        .match-item.bad { border: 1px solid rgba(255, 99, 71, 0.3); }
+
+        .match-item .label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .match-item .emoji { font-size: 36px; }
+        .match-item .name { color: #fff; margin-top: 5px; font-weight: 600; }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #90EE90, #32CD32);
+            color: #1a472a;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.7rem; }
+            .animal-name { font-size: 1.8rem; }
+            .match-section { grid-template-columns: 1fr; }
+        }
+    </style>
+<script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"동물 성격 테스트","en":"Spirit Animal Test","ja":"動物性格テスト"},"desc":{"ko":"나와 닮은 동물 찾기","en":"Find your spirit animal","ja":"私に似た動物を探す"}},"header":{"title":{"ko":"동물 성격 테스트","en":"Spirit Animal Test","ja":"動物性格テスト"},"subtitle":{"ko":"나와 가장 닮은 동물은?","en":"Which animal are you most like?","ja":"私に一番似た動物は？"}},"buttons":{"start":{"ko":"시작하기","en":"Start","ja":"開始"},"next":{"ko":"다음","en":"Next","ja":"次へ"},"result":{"ko":"결과 보기","en":"View Result","ja":"結果を見る"},"share":{"ko":"공유하기","en":"Share","ja":"共有"},"retry":{"ko":"다시 하기","en":"Try Again","ja":"もう一度"}},"result":{"yourAnimal":{"ko":"당신의 동물:","en":"Your Animal:","ja":"あなたの動物:"}},"disclaimer":{"ko":"재미로 즐기는 테스트입니다.","en":"This is for entertainment.","ja":"娯楽用のテストです。"}};</script></head>
+<body>
+    <div class="nature-bg" id="natureBg"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>私を動物で表現すると？</h1>
+            <p class="subtitle">あなたのスピリットアニマルを探してみよう</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            お遊びで楽しむ動物性格テストです！
+        </div>
+
+        <div class="card">
+            <div class="intro-section" id="introSection">
+                <div class="animal-preview">🦊🐱🐶🦁</div>
+                <h2>あなたはどんな動物でしょうか？</h2>
+                <p>
+                    すべての人には似ている動物がいます。<br>
+                    8つの質問であなたのスピリットアニマルを見つけます！<br><br>
+                    直感的に答えてください。
+                </p>
+                <button class="start-btn" onclick="startTest()">テストを始める</button>
+            </div>
+
+            <div class="question-section" id="questionSection">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">1 / 8</div>
+                </div>
+                <div class="question-card" id="questionCard"></div>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <p>あなたのスピリットアニマルは...</p>
+                    <span class="animal-emoji" id="animalEmoji">🦊</span>
+                    <div class="animal-name" id="animalName">狐</div>
+                    <div class="animal-title" id="animalTitle">"賢い戦略家"</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>🌟 性格特徴</h3>
+                    <p id="animalDescription"></p>
+                    <div class="traits-container" id="traitsContainer"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💪 長所</h3>
+                    <p id="animalStrength"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>⚠️ 注意点</h3>
+                    <p id="animalWeakness"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💕 相性動物</h3>
+                    <div class="match-section" id="matchSection"></div>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="resetTest()">やり直す</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>このテストはお遊びです。</p>
+        </footer>
+    </div>
+
+    <script>
+        // 葉の背景
+        function createLeaves() {
+            const container = document.getElementById('natureBg');
+            const leaves = ['🍃', '🌿', '🍂', '🌱'];
+            for (let i = 0; i < 15; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.innerHTML = leaves[Math.floor(Math.random() * leaves.length)];
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 15 + 's';
+                leaf.style.animationDuration = (12 + Math.random() * 8) + 's';
+                container.appendChild(leaf);
+            }
+        }
+        createLeaves();
+
+        const questions = [
+            {
+                text: "週末の朝、あなたは？",
+                options: [
+                    { text: "早く起きて活動開始！", type: "active" },
+                    { text: "寝坊してゆっくり", type: "calm" },
+                    { text: "やることの計画を立てる", type: "smart" },
+                    { text: "気分次第", type: "free" }
+                ]
+            },
+            {
+                text: "友達の間で私は？",
+                options: [
+                    { text: "ムードメーカー", type: "active" },
+                    { text: "静かなオブザーバー", type: "calm" },
+                    { text: "アドバイスする役割", type: "smart" },
+                    { text: "一人で行動する方", type: "lone" }
+                ]
+            },
+            {
+                text: "ストレスを感じた時、私は？",
+                options: [
+                    { text: "運動したり外に出る", type: "active" },
+                    { text: "一人で静かに休む", type: "calm" },
+                    { text: "問題の解決策を探す", type: "smart" },
+                    { text: "自由に旅に出る", type: "free" }
+                ]
+            },
+            {
+                text: "仕事をする時、私は？",
+                options: [
+                    { text: "リーダーの役割を担う", type: "leader" },
+                    { text: "チームメンバーと協力する", type: "social" },
+                    { text: "一人で集中して仕事する", type: "lone" },
+                    { text: "創造的なアイデアを出す", type: "free" }
+                ]
+            },
+            {
+                text: "新しい人に会うと？",
+                options: [
+                    { text: "先に近づいて話しかける", type: "social" },
+                    { text: "ゆっくり観察する", type: "calm" },
+                    { text: "相手を把握する", type: "smart" },
+                    { text: "警戒する方", type: "lone" }
+                ]
+            },
+            {
+                text: "葛藤が生じると？",
+                options: [
+                    { text: "直接的に解決する", type: "leader" },
+                    { text: "避けたい", type: "calm" },
+                    { text: "戦略的に対応する", type: "smart" },
+                    { text: "そのまま去ってしまう", type: "free" }
+                ]
+            },
+            {
+                text: "一番大切に思うことは？",
+                options: [
+                    { text: "達成と成功", type: "leader" },
+                    { text: "平和と安定", type: "calm" },
+                    { text: "知識と知恵", type: "smart" },
+                    { text: "自由と冒険", type: "free" }
+                ]
+            },
+            {
+                text: "理想的な生活空間は？",
+                options: [
+                    { text: "活気ある都心", type: "social" },
+                    { text: "静かな田舎", type: "calm" },
+                    { text: "きれいなマンション", type: "smart" },
+                    { text: "自由に移動しながら", type: "free" }
+                ]
+            }
+        ];
+
+        const animals = {
+            lion: {
+                emoji: "🦁",
+                name: "ライオン",
+                title: "\"堂々としたリーダー\"",
+                description: "あなたは生まれながらのリーダーです。堂々として自信があり、人々が自然についてきます。責任感が強く、目標に向かって大胆に進みます。",
+                traits: ["リーダーシップ", "自信", "責任感", "堂々", "カリスマ"],
+                strength: "どんな状況でも萎縮せずにリーダーシップを発揮します。チームを導いて大きなことを成し遂げる能力があります。",
+                weakness: "時には強く見えすぎて近づきにくいことがあります。他人の意見も聞いてみてください。",
+                goodMatch: { emoji: "🐺", name: "オオカミ" },
+                badMatch: { emoji: "🦊", name: "キツネ" }
+            },
+            cat: {
+                emoji: "🐱",
+                name: "ネコ",
+                title: "\"独立的な貴族\"",
+                description: "あなたは独立的で自分だけの世界があります。人々と付き合いますが、一人の時間も大切にします。優雅で神秘的な魅力があります。",
+                traits: ["独立的", "神秘的", "優雅", "直感的", "気まぐれ"],
+                strength: "自分の領域を守りながらも魅力的な存在感を発揮します。必要な時に一人でもうまくやります。",
+                weakness: "時にはクールすぎて誤解されることがあります。感情表現をもう少ししてみてください。",
+                goodMatch: { emoji: "🦉", name: "フクロウ" },
+                badMatch: { emoji: "🐶", name: "イヌ" }
+            },
+            dog: {
+                emoji: "🐶",
+                name: "イヌ",
+                title: "\"忠実な友達\"",
+                description: "あなたは温かくて親切な人です。周りの人を心から大切にし、一緒にいる時に幸せを感じます。忠実で信頼できる友達です。",
+                traits: ["親切", "忠誠心", "社交的", "温かさ", "楽天的"],
+                strength: "真心を込めて人々に接します。一緒にいると楽で幸せになる人です。",
+                weakness: "他人に合わせすぎて自分を失うことがあります。時には自分のための時間も持ってください。",
+                goodMatch: { emoji: "🐱", name: "ネコ" },
+                badMatch: { emoji: "🦅", name: "ワシ" }
+            },
+            fox: {
+                emoji: "🦊",
+                name: "キツネ",
+                title: "\"賢い戦略家\"",
+                description: "あなたは賢くて察しが良いです。状況を素早く把握して最善の方法を見つけます。適応力に優れ、危機的状況で真価を発揮します。",
+                traits: ["賢さ", "適応力", "観察力", "戦略的", "魅力的"],
+                strength: "どんな状況でも生き残る方法を知っています。人の心を読む能力に優れています。",
+                weakness: "計算的に見られることがあります。時には純粋に心を開いてみてください。",
+                goodMatch: { emoji: "🐰", name: "ウサギ" },
+                badMatch: { emoji: "🦁", name: "ライオン" }
+            },
+            owl: {
+                emoji: "🦉",
+                name: "フクロウ",
+                title: "\"賢明な賢者\"",
+                description: "あなたは深く考えて分析することが好きです。静かに観察して本質を把握します。知識と知恵を追求する思索家です。",
+                traits: ["知恵", "観察力", "分析的", "落ち着き", "慎重"],
+                strength: "複雑な問題も落ち着いて分析して解決策を見つけます。アドバイスを求めると信頼できる答えをくれます。",
+                weakness: "考えすぎて行動が遅れることがあります。時には先に動くことも必要です。",
+                goodMatch: { emoji: "🐱", name: "ネコ" },
+                badMatch: { emoji: "🐵", name: "サル" }
+            },
+            wolf: {
+                emoji: "🐺",
+                name: "オオカミ",
+                title: "\"孤独な戦士\"",
+                description: "あなたは強くて独立的です。群れと一緒にいますが一人でも強いです。忠実で家族と友達を最後まで守ります。",
+                traits: ["強靭", "独立心", "忠誠心", "本能的", "慎重"],
+                strength: "危機的状況で真価を発揮します。大切なものを守るために何でもします。",
+                weakness: "簡単に心を開かないので孤独を感じることがあります。信頼できる人には心を開いてみてください。",
+                goodMatch: { emoji: "🦁", name: "ライオン" },
+                badMatch: { emoji: "🦋", name: "チョウ" }
+            },
+            butterfly: {
+                emoji: "🦋",
+                name: "チョウ",
+                title: "\"自由な魂\"",
+                description: "あなたは自由で美しい魂です。一箇所に留まるより新しい経験を追求します。創造的で芸術的な感性があります。",
+                traits: ["自由", "創造性", "変化", "美しさ", "軽さ"],
+                strength: "変化を恐れず新しいことに挑戦します。どこでも美しさを見つけます。",
+                weakness: "一つに集中するのが難しいことがあります。時には深く掘り下げることも必要です。",
+                goodMatch: { emoji: "🌸", name: "花" },
+                badMatch: { emoji: "🐺", name: "オオカミ" }
+            },
+            rabbit: {
+                emoji: "🐰",
+                name: "ウサギ",
+                title: "\"可愛いセンスの持ち主\"",
+                description: "あなたは可愛くてセンスのある人です。素早い判断力と機敏さを持っています。周りの雰囲気を明るくする力があります。",
+                traits: ["可愛さ", "機敏", "センス", "社交的", "敏感"],
+                strength: "雰囲気把握が早く、機転を利かせて対応します。人々に愛される魅力があります。",
+                weakness: "敏感すぎて小さなことでも傷つくことがあります。もう少し強くなっても大丈夫です。",
+                goodMatch: { emoji: "🦊", name: "キツネ" },
+                badMatch: { emoji: "🦅", name: "ワシ" }
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+        let resultData = {};
+
+        function startTest() {
+            document.getElementById('introSection').style.display = 'none';
+            document.getElementById('questionSection').classList.add('active');
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            const q = questions[index];
+            const container = document.getElementById('questionCard');
+
+            let optionsHtml = q.options.map((opt, i) =>
+                `<div class="option" onclick="selectOption(${i}, '${opt.type}')">${opt.text}</div>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+            `;
+
+            document.getElementById('progressFill').style.width = ((index + 1) / questions.length * 100) + '%';
+            document.getElementById('progressText').textContent = `${index + 1} / ${questions.length}`;
+        }
+
+        function selectOption(optionIndex, type) {
+            answers.push(type);
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                } else {
+                    calculateResult();
+                }
+            }, 400);
+        }
+
+        function calculateResult() {
+            // タイプカウント
+            const counts = {};
+            answers.forEach(type => {
+                counts[type] = (counts[type] || 0) + 1;
+            });
+
+            // 動物マッチング
+            let animal = 'fox'; // デフォルト
+
+            if (counts.leader >= 2 && counts.active >= 1) animal = 'lion';
+            else if (counts.calm >= 3 || (counts.lone >= 2 && counts.calm >= 1)) animal = 'cat';
+            else if (counts.social >= 3 || (counts.active >= 2 && counts.social >= 1)) animal = 'dog';
+            else if (counts.smart >= 3) animal = 'owl';
+            else if (counts.lone >= 3 || (counts.smart >= 2 && counts.calm >= 1)) animal = 'wolf';
+            else if (counts.free >= 3) animal = 'butterfly';
+            else if (counts.social >= 2 && counts.calm >= 1) animal = 'rabbit';
+            else if (counts.smart >= 2 || counts.calm >= 2) animal = 'fox';
+
+            resultData = animals[animal];
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('animalEmoji').textContent = resultData.emoji;
+            document.getElementById('animalName').textContent = resultData.name;
+            document.getElementById('animalTitle').textContent = resultData.title;
+            document.getElementById('animalDescription').textContent = resultData.description;
+            document.getElementById('animalStrength').textContent = resultData.strength;
+            document.getElementById('animalWeakness').textContent = resultData.weakness;
+
+            document.getElementById('traitsContainer').innerHTML = resultData.traits.map(t =>
+                `<span class="trait-tag">${t}</span>`
+            ).join('');
+
+            document.getElementById('matchSection').innerHTML = `
+                <div class="match-item good">
+                    <div class="label">相性の良い動物</div>
+                    <div class="emoji">${resultData.goodMatch.emoji}</div>
+                    <div class="name">${resultData.goodMatch.name}</div>
+                </div>
+                <div class="match-item bad">
+                    <div class="label">注意する動物</div>
+                    <div class="emoji">${resultData.badMatch.emoji}</div>
+                    <div class="name">${resultData.badMatch.name}</div>
+                </div>
+            `;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `🦊 動物性格テスト結果
+
+私の動物タイプ: ${resultData.emoji} ${resultData.name}
+${resultData.title}
+
+${resultData.description}
+
+✨ 私の特徴: ${resultData.traits.slice(0, 3).join(' · ')}
+
+🐾 あなたはどんな動物？`;
+
+            window.shareWithModal('動物性格テスト', text);
+        }
+
+        function resetTest() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('introSection').style.display = 'block';
+        }
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
+</html>

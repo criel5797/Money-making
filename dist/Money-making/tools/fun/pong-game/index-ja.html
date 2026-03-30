@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/pong-game/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/pong-game/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/pong-game/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/pong-game/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/pong-game/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/pong-game/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポンゲーム</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .score-bar { display: flex; justify-content: space-around; margin-bottom: 15px; }
+        .score-item { text-align: center; }
+        .score-label { font-size: .8rem; opacity: .7; }
+        .score-value { font-size: 2rem; font-weight: 700; }
+        .game-canvas { display: flex; justify-content: center; margin-bottom: 15px; }
+        #gameCanvas { background: #000; border-radius: 8px; }
+        .controls { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .ctrl-side { display: flex; flex-direction: column; gap: 8px; }
+        .ctrl-btn { padding: 15px 25px; border: none; border-radius: 10px; background: rgba(255,255,255,.2); color: #fff; font-size: 1.3rem; cursor: pointer; }
+        .ctrl-btn:active { background: rgba(255,255,255,.4); }
+        .action-btns { display: flex; gap: 10px; margin-bottom: 15px; }
+        .action-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .start-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+        .mode-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .game-over { text-align: center; padding: 20px; background: rgba(102,126,234,.2); border-radius: 12px; margin-bottom: 15px; display: none; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🏓 ポンゲーム</h1>
+        </header>
+        <div class="game-section">
+            <div class="score-bar">
+                <div class="score-item">
+                    <div class="score-label">プレイヤー</div>
+                    <div class="score-value" id="playerScore">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">VS</div>
+                    <div class="score-value">:</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label" id="opponentLabel">コンピュータ</div>
+                    <div class="score-value" id="cpuScore">0</div>
+                </div>
+            </div>
+            <div class="game-canvas">
+                <canvas id="gameCanvas" width="320" height="400"></canvas>
+            </div>
+            <div id="gameOver" class="game-over">
+                <h2 id="endMessage">ゲームオーバー！</h2>
+            </div>
+            <div class="controls">
+                <div class="ctrl-side">
+                    <button class="ctrl-btn" onmousedown="p1Up=true" onmouseup="p1Up=false" ontouchstart="p1Up=true" ontouchend="p1Up=false">⬆️</button>
+                    <button class="ctrl-btn" onmousedown="p1Down=true" onmouseup="p1Down=false" ontouchstart="p1Down=true" ontouchend="p1Down=false">⬇️</button>
+                </div>
+                <div class="ctrl-side" id="p2Controls" style="display:none">
+                    <button class="ctrl-btn" onmousedown="p2Up=true" onmouseup="p2Up=false" ontouchstart="p2Up=true" ontouchend="p2Up=false">⬆️</button>
+                    <button class="ctrl-btn" onmousedown="p2Down=true" onmouseup="p2Down=false" ontouchstart="p2Down=true" ontouchend="p2Down=false">⬇️</button>
+                </div>
+            </div>
+            <div class="action-btns">
+                <button class="action-btn start-btn" onclick="startGame()">🎮 スタート</button>
+                <button class="action-btn mode-btn" onclick="toggleMode()">👤 1Pモード</button>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="wins">0</div>
+                    <div class="stat-label">勝利</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="losses">0</div>
+                    <div class="stat-label">敗北</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var canvas = document.getElementById('gameCanvas');
+        var ctx = canvas.getContext('2d');
+        var paddleW = 10, paddleH = 60;
+        var ballSize = 10;
+        var p1Y, p2Y, ballX, ballY, ballDX, ballDY;
+        var p1Score = 0, p2Score = 0;
+        var gameLoop = null;
+        var isPlaying = false;
+        var is2Player = false;
+        var p1Up = false, p1Down = false, p2Up = false, p2Down = false;
+        var winScore = 5;
+        var stats = JSON.parse(localStorage.getItem('pong_ja') || '{"wins":0,"losses":0}');
+
+        function init() {
+            p1Y = (canvas.height - paddleH) / 2;
+            p2Y = (canvas.height - paddleH) / 2;
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballDX = 4 * (Math.random() > 0.5 ? 1 : -1);
+            ballDY = 4 * (Math.random() - 0.5);
+        }
+
+        function draw() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.setLineDash([10, 10]);
+            ctx.strokeStyle = '#333';
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#4ade80';
+            ctx.fillRect(0, p1Y, paddleW, paddleH);
+            ctx.fillStyle = '#f472b6';
+            ctx.fillRect(canvas.width - paddleW, p2Y, paddleW, paddleH);
+
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, ballSize / 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function update() {
+            if (p1Up && p1Y > 0) p1Y -= 6;
+            if (p1Down && p1Y < canvas.height - paddleH) p1Y += 6;
+
+            if (is2Player) {
+                if (p2Up && p2Y > 0) p2Y -= 6;
+                if (p2Down && p2Y < canvas.height - paddleH) p2Y += 6;
+            } else {
+                var cpuTarget = ballY - paddleH / 2;
+                if (p2Y < cpuTarget - 5) p2Y += 4;
+                else if (p2Y > cpuTarget + 5) p2Y -= 4;
+                p2Y = Math.max(0, Math.min(canvas.height - paddleH, p2Y));
+            }
+
+            ballX += ballDX;
+            ballY += ballDY;
+
+            if (ballY <= 0 || ballY >= canvas.height) ballDY = -ballDY;
+
+            if (ballX <= paddleW && ballY >= p1Y && ballY <= p1Y + paddleH) {
+                ballDX = Math.abs(ballDX) * 1.05;
+                ballDY = (ballY - (p1Y + paddleH / 2)) * 0.2;
+            }
+            if (ballX >= canvas.width - paddleW && ballY >= p2Y && ballY <= p2Y + paddleH) {
+                ballDX = -Math.abs(ballDX) * 1.05;
+                ballDY = (ballY - (p2Y + paddleH / 2)) * 0.2;
+            }
+
+            if (ballX < 0) {
+                p2Score++;
+                document.getElementById('cpuScore').textContent = p2Score;
+                checkWin();
+                resetBall();
+            }
+            if (ballX > canvas.width) {
+                p1Score++;
+                document.getElementById('playerScore').textContent = p1Score;
+                checkWin();
+                resetBall();
+            }
+        }
+
+        function resetBall() {
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballDX = 4 * (ballDX > 0 ? -1 : 1);
+            ballDY = 4 * (Math.random() - 0.5);
+        }
+
+        function checkWin() {
+            if (p1Score >= winScore || p2Score >= winScore) {
+                isPlaying = false;
+                cancelAnimationFrame(gameLoop);
+                var won = p1Score >= winScore;
+                document.getElementById('gameOver').style.display = 'block';
+                document.getElementById('endMessage').textContent = won ? '勝利！🎉' : '敗北...';
+                if (!is2Player) {
+                    if (won) stats.wins++; else stats.losses++;
+                    localStorage.setItem('pong_ja', JSON.stringify(stats));
+                    updateStats();
+                }
+            }
+        }
+
+        function startGame() {
+            p1Score = 0; p2Score = 0;
+            document.getElementById('playerScore').textContent = '0';
+            document.getElementById('cpuScore').textContent = '0';
+            document.getElementById('gameOver').style.display = 'none';
+            isPlaying = true;
+            init();
+            if (gameLoop) cancelAnimationFrame(gameLoop);
+            function loop() {
+                if (isPlaying) {
+                    update();
+                    draw();
+                    gameLoop = requestAnimationFrame(loop);
+                }
+            }
+            loop();
+        }
+
+        function toggleMode() {
+            is2Player = !is2Player;
+            document.querySelector('.mode-btn').textContent = is2Player ? '👥 2Pモード' : '👤 1Pモード';
+            document.getElementById('opponentLabel').textContent = is2Player ? 'プレイヤー2' : 'コンピュータ';
+            document.getElementById('p2Controls').style.display = is2Player ? 'flex' : 'none';
+        }
+
+        function updateStats() {
+            document.getElementById('wins').textContent = stats.wins;
+            document.getElementById('losses').textContent = stats.losses;
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'w' || e.key === 'W') p1Up = true;
+            if (e.key === 's' || e.key === 'S') p1Down = true;
+            if (e.key === 'ArrowUp') { e.preventDefault(); p2Up = true; }
+            if (e.key === 'ArrowDown') { e.preventDefault(); p2Down = true; }
+        });
+        document.addEventListener('keyup', function(e) {
+            if (e.key === 'w' || e.key === 'W') p1Up = false;
+            if (e.key === 's' || e.key === 'S') p1Down = false;
+            if (e.key === 'ArrowUp') p2Up = false;
+            if (e.key === 'ArrowDown') p2Down = false;
+        });
+
+        updateStats();
+        init();
+        draw();
+    </script>
+</body>
+</html>

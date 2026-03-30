@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/message-generator/"><meta property="og:url" content="https://instaidea.org/tools/fun/message-generator/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/message-generator/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/message-generator/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/message-generator/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/message-generator/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 메시지 생성기 - 축하, 감사, 위로, 고백 메시지 자동 작성</title>
+    <meta name="description" content="AI가 상황에 맞는 완벽한 메시지를 작성해드립니다. 생일 축하, 결혼 축하, 감사 인사, 위로의 말, 고백 메시지까지.">
+    <meta name="keywords" content="축하 메시지, 감사 메시지, 위로 메시지, 고백 메시지, AI 메시지, 메시지 작성, 인사말 생성">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #fef7f0;
+            --bg-secondary: #ffffff;
+            --bg-accent: #fff5eb;
+            --text-primary: #2d2d2d;
+            --text-secondary: #666666;
+            --accent: #ff6b6b;
+            --accent-secondary: #feca57;
+            --accent-gradient: linear-gradient(135deg, #ff6b6b, #feca57);
+            --border: #eee;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+        .logo { font-size: 3rem; margin-bottom: 15px; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: var(--text-secondary);
+        }
+
+        .main-card {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 35px;
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .category-btn {
+            padding: 18px 15px;
+            background: var(--bg-accent);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .category-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.2);
+        }
+        .category-btn.selected {
+            border-color: var(--accent);
+            background: #fff5f5;
+        }
+        .category-icon { font-size: 1.8rem; margin-bottom: 8px; }
+        .category-name { font-size: 0.95rem; font-weight: 500; }
+
+        .sub-options {
+            display: none;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-accent);
+            border-radius: 16px;
+        }
+        .sub-options.show { display: flex; }
+        .sub-btn {
+            padding: 10px 18px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .sub-btn:hover { border-color: var(--accent); }
+        .sub-btn.selected {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .input-section { margin-bottom: 25px; }
+        .input-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid #eee;
+            border-radius: 14px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        textarea { resize: vertical; min-height: 100px; }
+
+        .tone-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .tone-btn {
+            padding: 12px 20px;
+            background: var(--bg-accent);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .tone-btn:hover { background: #ffe8d6; }
+        .tone-btn.selected {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,107,107,0.35);
+        }
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px dashed #eee;
+        }
+        .result-section.show { display: block; }
+
+        .result-card {
+            background: var(--bg-accent);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        .result-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        .result-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .action-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .regenerate-btn {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .regenerate-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tips-section {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+        .tips-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .tips-list {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .tips-list li { margin-bottom: 8px; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .main-card { padding: 25px 20px; }
+            h1 { font-size: 1.8rem; }
+            .category-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"메시지 생성기","en":"Message Generator","ja":"メッセージ生成"},"desc":{"ko":"상황별 메시지 생성","en":"Generate messages","ja":"メッセージ生成"}},"header":{"title":{"ko":"메시지 생성기","en":"Message Generator","ja":"メッセージ生成"},"subtitle":{"ko":"상황에 맞는 메시지 추천","en":"Get message recommendations","ja":"状況に合ったメッセージ推薦"}},"categories":{"birthday":{"ko":"생일","en":"Birthday","ja":"誕生日"},"thanks":{"ko":"감사","en":"Thanks","ja":"感謝"},"sorry":{"ko":"사과","en":"Apology","ja":"謝罪"},"cheer":{"ko":"응원","en":"Cheer","ja":"応援"},"love":{"ko":"사랑","en":"Love","ja":"愛"}},"buttons":{"generate":{"ko":"생성","en":"Generate","ja":"生成"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"},"share":{"ko":"공유","en":"Share","ja":"共有"}}};</script></head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">💌</div>
+            <h1>AI 메시지 생성기</h1>
+            <p class="subtitle">상황에 딱 맞는 완벽한 메시지를 AI가 작성해드려요</p>
+        </header>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="main-card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                어떤 메시지가 필요하세요?
+            </div>
+            <div class="category-grid" id="categoryGrid">
+                <div class="category-btn" data-category="celebration" onclick="selectCategory(this)">
+                    <div class="category-icon">🎉</div>
+                    <div class="category-name">축하</div>
+                </div>
+                <div class="category-btn" data-category="thanks" onclick="selectCategory(this)">
+                    <div class="category-icon">🙏</div>
+                    <div class="category-name">감사</div>
+                </div>
+                <div class="category-btn" data-category="comfort" onclick="selectCategory(this)">
+                    <div class="category-icon">🤗</div>
+                    <div class="category-name">위로</div>
+                </div>
+                <div class="category-btn" data-category="love" onclick="selectCategory(this)">
+                    <div class="category-icon">💕</div>
+                    <div class="category-name">고백/사랑</div>
+                </div>
+                <div class="category-btn" data-category="apology" onclick="selectCategory(this)">
+                    <div class="category-icon">😢</div>
+                    <div class="category-name">사과</div>
+                </div>
+                <div class="category-btn" data-category="encourage" onclick="selectCategory(this)">
+                    <div class="category-icon">💪</div>
+                    <div class="category-name">응원</div>
+                </div>
+            </div>
+
+            <div class="sub-options" id="subOptions"></div>
+
+            <div class="step-title">
+                <span class="step-number">2</span>
+                상세 정보를 알려주세요
+            </div>
+            <div class="input-section">
+                <label class="input-label">받는 사람과의 관계</label>
+                <select id="relationship">
+                    <option value="">선택해주세요</option>
+                    <option value="친구">친구</option>
+                    <option value="연인">연인</option>
+                    <option value="부모님">부모님</option>
+                    <option value="형제/자매">형제/자매</option>
+                    <option value="선배">선배</option>
+                    <option value="후배">후배</option>
+                    <option value="직장 동료">직장 동료</option>
+                    <option value="직장 상사">직장 상사</option>
+                    <option value="선생님">선생님</option>
+                    <option value="지인">지인</option>
+                </select>
+            </div>
+
+            <div class="input-section">
+                <label class="input-label">추가 정보 (선택사항)</label>
+                <textarea id="additionalInfo" placeholder="예: 10년 지기 친구, 첫 직장 동료, 항상 챙겨주시는 분 등"></textarea>
+            </div>
+
+            <div class="step-title">
+                <span class="step-number">3</span>
+                원하는 분위기를 선택하세요
+            </div>
+            <div class="tone-selector" id="toneSelector">
+                <button class="tone-btn selected" data-tone="따뜻하고 진심어린" onclick="selectTone(this)">💛 따뜻하게</button>
+                <button class="tone-btn" data-tone="유머러스하고 재미있는" onclick="selectTone(this)">😄 재미있게</button>
+                <button class="tone-btn" data-tone="격식있고 정중한" onclick="selectTone(this)">🎩 격식있게</button>
+                <button class="tone-btn" data-tone="감성적이고 문학적인" onclick="selectTone(this)">🌙 감성적으로</button>
+                <button class="tone-btn" data-tone="짧고 임팩트있는" onclick="selectTone(this)">⚡ 짧고 강렬하게</button>
+            </div>
+
+            <button class="generate-btn" id="generateBtn" onclick="generateMessage()">
+                ✨ 메시지 생성하기
+            </button>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-card">
+                    <div class="result-label">생성된 메시지</div>
+                    <div class="result-text" id="resultText"></div>
+                    <div class="result-actions">
+                        <button class="action-btn" onclick="copyMessage()">📋 복사하기</button>
+                        <button class="action-btn" onclick="shareKakao()">💬 카카오톡 공유</button>
+                    </div>
+                </div>
+                <button class="regenerate-btn" onclick="generateMessage()">🔄 다른 버전으로 다시 생성</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고 영역</div>
+
+        <div class="tips-section">
+            <div class="tips-title">💡 더 좋은 메시지를 위한 팁</div>
+            <ul class="tips-list">
+                <li>구체적인 관계와 상황을 적을수록 더 맞춤화된 메시지가 생성됩니다</li>
+                <li>여러 번 생성해서 가장 마음에 드는 버전을 선택하세요</li>
+                <li>생성된 메시지에 본인만의 문장을 추가하면 더욱 진심이 전해져요</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>마음을 전하는 가장 쉬운 방법 💌</p>
+            <p style="margin-top: 10px;"><a href="/">홈</a> · <a href="#privacy">개인정보처리방침</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let selectedCategory = '';
+        let selectedSubOption = '';
+        let selectedTone = '따뜻하고 진심어린';
+
+        const subOptionsData = {
+            celebration: ['생일', '결혼', '합격', '취업', '승진', '출산', '졸업', '집들이', '개업'],
+            thanks: ['도움 감사', '선물 감사', '조언 감사', '응원 감사', '시간 내줘서 감사', '항상 감사'],
+            comfort: ['이별', '실패/좌절', '건강 문제', '가족 일', '직장 스트레스', '힘든 시기'],
+            love: ['첫 고백', '기념일', '평소 사랑 표현', '오래된 연인', '짝사랑', '재회'],
+            apology: ['약속 못 지킴', '실수함', '상처 줌', '연락 못함', '오해', '늦은 사과'],
+            encourage: ['시험/면접', '새로운 도전', '힘든 시기', '목표 달성', '건강 회복', '새출발']
+        };
+
+        const messageTemplates = {
+            celebration: {
+                생일: [
+                    "{relation}에게,\n\n생일 진심으로 축하해! 🎂\n\n{tone} 말하자면, 네가 태어난 오늘이 정말 특별한 날이야. 올 한 해도 웃을 일만 가득하길 바라고, 하고 싶은 거 다 이루는 한 해가 되길! {extra}\n\n생일 축하해, 정말 고마운 사람아! 🎉",
+                    "오늘은 {relation}의 생일! 🎈\n\n태어나줘서 고마워. {tone} 얘기하고 싶었어. 네 덕분에 내 삶이 더 풍요로워졌거든. 앞으로도 건강하고 행복하게, 원하는 모든 걸 이루길 바랄게. {extra}\n\n최고의 하루 보내! 💕",
+                    "{relation}, 생일 축하해! 🥳\n\n{tone} 한마디 하자면... 너 같은 사람이 내 {relation}라서 난 정말 행운이야. 올해는 특별히 더 좋은 일들만 가득하길! {extra}\n\n사랑해, 생일 축하해! ✨"
+                ],
+                결혼: [
+                    "{relation}의 결혼을 진심으로 축하해! 💒\n\n{tone} 말씀드리자면, 두 분의 사랑이 영원하길 바랍니다. {extra}\n\n앞으로의 여정에 행복만 가득하길! 결혼 축하드려요! 💐",
+                    "드디어 결혼이라니! {relation}, 정말 축하해! 💍\n\n{tone} 전하고 싶어. 좋은 사람 만나서 정말 다행이야. {extra} 평생 서로 아끼고 사랑하며 살길 바랄게.\n\n행복하게 잘 살아! 결혼 축하해! 🎊"
+                ],
+                합격: [
+                    "{relation}, 합격 축하해! 🎉\n\n{tone} 말해줄게. 네 노력이 드디어 결실을 맺었어! {extra} 정말 자랑스럽고, 앞으로의 여정도 응원할게.\n\n진심으로 축하해! 🏆",
+                    "합격이라니!! {relation} 정말 대단해! ✨\n\n{tone} 얘기하자면, 그동안 얼마나 열심히 했는지 아니까 더 감격스러워. {extra}\n\n이제 시작이야, 화이팅! 축하해! 🎊"
+                ],
+                취업: [
+                    "{relation}, 취업 축하해! 🎉\n\n{tone} 말하고 싶어. 드디어 네 능력을 펼칠 무대를 찾았구나! {extra} 새로운 시작 응원할게.\n\n멋진 직장인이 되길! 축하해! 💼",
+                    "취업 소식 듣고 얼마나 기뻤는지 몰라! {relation}, 축하해! 🌟\n\n{tone} 전할게. 그동안 고생 많았어, 이제 좋은 일만 있을 거야. {extra}\n\n화이팅! 진심으로 축하해! 🎊"
+                ],
+                승진: [
+                    "{relation}, 승진 축하드립니다! 🎊\n\n{tone} 말씀드리자면, 그동안의 노력과 성과가 인정받은 거예요. {extra} 더 높은 곳에서도 빛나실 거라 믿습니다.\n\n진심으로 축하드려요! 🏆",
+                    "승진 소식 듣고 정말 기뻤어요! {relation}, 축하드립니다! ✨\n\n{tone} 전하고 싶어요. 앞으로도 좋은 일만 가득하시길! {extra}\n\n축하드려요! 🎉"
+                ],
+                출산: [
+                    "{relation}, 출산 축하드려요! 👶\n\n{tone} 말씀드릴게요. 새 생명의 탄생, 정말 경이롭고 축복받을 일이에요. {extra}\n\n아기도 부모님도 모두 건강하시길 바랍니다! 💕",
+                    "아기 탄생 소식에 너무 기뻐요! {relation}, 축하드립니다! 🍼\n\n{tone} 전할게요. 예쁜 아기와 함께 행복한 나날 보내시길! {extra}\n\n진심으로 축하드려요! 🎀"
+                ],
+                졸업: [
+                    "{relation}, 졸업 축하해! 🎓\n\n{tone} 말해줄게. 그동안 정말 고생 많았어! {extra} 이제 새로운 세상이 널 기다리고 있어.\n\n졸업 축하하고, 앞날에 꽃길만 있길! 🌸",
+                    "드디어 졸업이다! {relation}, 축하해! 🎉\n\n{tone} 얘기하자면, 네가 여기까지 온 게 정말 대단해. {extra}\n\n새로운 시작 응원할게! 졸업 축하해! ✨"
+                ],
+                집들이: [
+                    "{relation}, 집들이 축하해! 🏠\n\n{tone} 말할게. 새 보금자리에서 좋은 일만 가득하길! {extra}\n\n예쁜 집에서 행복하게 살아! 축하해! 🎊",
+                    "새집 축하해! {relation}! 🏡\n\n{tone} 전하고 싶어. 따뜻하고 편안한 공간이 되길 바라! {extra}\n\n집들이 축하하고, 놀러 갈게! 🎉"
+                ],
+                개업: [
+                    "{relation}, 개업 축하드립니다! 🎊\n\n{tone} 말씀드릴게요. 새로운 도전에 박수를 보냅니다! {extra}\n\n대박 나시길 바랍니다! 축하드려요! 💰",
+                    "개업 소식 듣고 정말 기뻤어요! {relation}, 축하드립니다! 🏪\n\n{tone} 전할게요. 하시는 일 모두 잘 되시길! {extra}\n\n번창하세요! 축하드려요! 🎉"
+                ]
+            },
+            thanks: {
+                "도움 감사": [
+                    "{relation}에게,\n\n{tone} 감사 인사를 전하고 싶어요. 정말 큰 도움이 됐어요. {extra}\n\n덕분에 잘 해결할 수 있었어요. 진심으로 고마워요! 🙏",
+                    "{relation}, 정말 고마워요! 💕\n\n{tone} 말씀드릴게요. 도움 주셔서 정말 감사해요. {extra} 언제 어떻게 보답해야 할지 모르겠어요.\n\n진심으로 감사드려요! ✨"
+                ],
+                "선물 감사": [
+                    "{relation}, 선물 정말 감사해요! 🎁\n\n{tone} 말씀드릴게요. 이렇게 마음 써주셔서 감동받았어요. {extra}\n\n소중히 잘 쓸게요. 정말 고마워요! 💕",
+                    "선물 너무 잘 받았어요, {relation}! ✨\n\n{tone} 전하고 싶어요. 센스 있는 선물에 기분이 너무 좋아요. {extra}\n\n감사해요! 🙏"
+                ],
+                "조언 감사": [
+                    "{relation}, 조언 정말 감사드려요! 🙏\n\n{tone} 말씀드릴게요. 덕분에 방향을 잡을 수 있었어요. {extra}\n\n좋은 말씀 해주셔서 진심으로 감사해요! ✨",
+                    "{relation}의 조언이 큰 힘이 됐어요! 💪\n\n{tone} 전할게요. 현명한 조언 덕분에 자신감이 생겼어요. {extra}\n\n정말 고마워요! 🙏"
+                ],
+                "응원 감사": [
+                    "{relation}, 응원해줘서 정말 고마워! 💪\n\n{tone} 말할게. 네 응원이 큰 힘이 됐어. {extra}\n\n덕분에 힘낼 수 있었어. 진짜 고마워! ✨",
+                    "응원 덕분에 힘이 났어, {relation}! 🌟\n\n{tone} 전하고 싶어. 네가 있어서 든든해. {extra}\n\n고마워, 정말! 💕"
+                ],
+                "시간 내줘서 감사": [
+                    "{relation}, 바쁘신데 시간 내주셔서 감사해요! ⏰\n\n{tone} 말씀드릴게요. 소중한 시간 써주셔서 정말 감사드려요. {extra}\n\n덕분에 좋은 시간이었어요. 고맙습니다! 🙏",
+                    "시간 내주셔서 정말 감사해요, {relation}! ✨\n\n{tone} 전할게요. 바쁘실 텐데 감사해요. {extra}\n\n꼭 보답할게요! 🙏"
+                ],
+                "항상 감사": [
+                    "{relation}에게,\n\n{tone} 평소에 못 했던 말을 전할게요. 항상 곁에서 챙겨주셔서 정말 감사해요. {extra}\n\n당연하게 여기지 않을게요. 진심으로 고마워요! 💕",
+                    "{relation}, 평소에 잘 못 전했는데... 💕\n\n{tone} 말씀드릴게요. 늘 감사하게 생각하고 있어요. {extra}\n\n앞으로도 잘 부탁드려요. 고마워요! 🙏"
+                ]
+            },
+            comfort: {
+                "이별": [
+                    "{relation}아,\n\n{tone} 말해줄게. 많이 힘들지? 지금은 아무것도 안 들리겠지만... {extra}\n\n시간이 지나면 괜찮아질 거야. 네 곁에 있을게. 힘내. 💕",
+                    "{relation}, 괜찮아? 💔\n\n{tone} 전하고 싶어. 울고 싶을 땐 울어도 돼. {extra} 지금 힘든 거 다 알아.\n\n언제든 연락해. 내가 옆에 있을게. 🤗"
+                ],
+                "실패/좌절": [
+                    "{relation}아,\n\n{tone} 말해줄게. 이번엔 안 됐지만, 네 가치가 달라지는 건 아니야. {extra}\n\n다시 일어날 수 있어, 널 믿어. 힘내! 💪",
+                    "{relation}, 많이 속상하지? 😢\n\n{tone} 전할게. 실패는 성공의 어머니라잖아. {extra} 이 경험이 분명 도움이 될 거야.\n\n넌 할 수 있어. 응원해! ✨"
+                ],
+                "건강 문제": [
+                    "{relation}, 몸은 좀 어때? 🏥\n\n{tone} 말씀드릴게요. 건강이 최우선이에요. 다른 건 다 나중이에요. {extra}\n\n푹 쉬시고, 빨리 나으시길 바랍니다. 🙏",
+                    "{relation}, 많이 걱정돼요. 💕\n\n{tone} 전할게요. 아프면 마음까지 힘들잖아요. {extra}\n\n빨리 회복하시길 진심으로 바랄게요. 힘내세요! 🍀"
+                ],
+                "가족 일": [
+                    "{relation}아,\n\n{tone} 말해줄게. 가족 일은 정말 마음이 무겁지. {extra}\n\n혼자 감당하려 하지 마. 내가 옆에 있을게. 🤗",
+                    "{relation}, 힘들었겠다. 😢\n\n{tone} 전하고 싶어. 네가 감당하기엔 무거운 짐이야. {extra}\n\n언제든 얘기해. 들어줄게. 💕"
+                ],
+                "직장 스트레스": [
+                    "{relation}, 요즘 회사 때문에 힘들지? 😮‍💨\n\n{tone} 말해줄게. 일은 일일 뿐이야, 네 건강이 더 중요해. {extra}\n\n너무 무리하지 마. 쉴 땐 쉬어! 💪",
+                    "{relation}, 스트레스 많이 받았구나. 😢\n\n{tone} 전할게. 완벽하지 않아도 괜찮아. {extra}\n\n잘하고 있어. 조금만 힘내! ✨"
+                ],
+                "힘든 시기": [
+                    "{relation}아,\n\n{tone} 말해줄게. 지금 정말 힘든 시기인 거 알아. {extra}\n\n이것도 지나갈 거야. 네 옆에 있을게. 🤗",
+                    "{relation}, 요즘 많이 힘들지? 💕\n\n{tone} 전하고 싶어. 힘들 땐 힘들다고 말해도 돼. {extra}\n\n혼자 아니야. 언제든 연락해. ✨"
+                ]
+            },
+            love: {
+                "첫 고백": [
+                    "{relation}에게,\n\n{tone} 말할게. 솔직히 말하면, 널 좋아해. {extra}\n\n용기 내서 말하는 거야. 내 마음 받아줄래? 💕",
+                    "{relation}아,\n\n이렇게 말하는 게 떨리지만... {tone} 고백할게. 네가 좋아. {extra}\n\n우리 사귀지 않을래? 💗"
+                ],
+                "기념일": [
+                    "사랑하는 {relation}에게,\n\n{tone} 말해줄게. 오늘 우리의 특별한 날이잖아. {extra}\n\n앞으로도 함께하자. 사랑해! 💕",
+                    "{relation}, 오늘이 무슨 날인지 알지? 💗\n\n{tone} 전할게. 너와 함께한 시간들이 너무 소중해. {extra}\n\n앞으로도 영원히 함께! 사랑해! ✨"
+                ],
+                "평소 사랑 표현": [
+                    "오늘 갑자기 {relation}한테 말하고 싶어서. 💕\n\n{tone} 고백할게. 그냥... 네가 있어서 행복해. {extra}\n\n고마워, 사랑해! 💗",
+                    "{relation}아,\n\n특별한 날은 아니지만 {tone} 말하고 싶었어. 네가 내 옆에 있어줘서 고마워. {extra}\n\n많이 사랑해! 💕"
+                ],
+                "오래된 연인": [
+                    "내 {relation}에게,\n\n{tone} 전할게. 오래됐지만, 아직도 네가 좋아. {extra}\n\n앞으로도 평생 함께하자. 사랑해! 💕",
+                    "{relation}, 이런 말 쑥스럽지만... 💗\n\n{tone} 말할게. 시간이 지날수록 네가 더 소중해져. {extra}\n\n항상 고맙고, 사랑해! ✨"
+                ],
+                "짝사랑": [
+                    "{relation}에게,\n\n{tone} 용기 내서 말할게. 사실 널 오랫동안 좋아했어. {extra}\n\n부담 안 줬으면 좋겠어. 그냥 내 마음이야. 💕",
+                    "{relation}아,\n\n떨리지만 {tone} 고백할게. 널 좋아해, 꽤 오래전부터. {extra}\n\n답장 안 해도 괜찮아. 그냥 알아줬으면 해서. 💗"
+                ],
+                "재회": [
+                    "{relation}아,\n\n오랜만이야. {tone} 말할게. 그동안 많이 생각했어. {extra}\n\n우리 다시 시작할 수 있을까? 💕",
+                    "{relation}에게,\n\n{tone} 전하고 싶어. 시간이 지나도 네 생각이 나. {extra}\n\n다시 만날 수 있을까? 💗"
+                ]
+            },
+            apology: {
+                "약속 못 지킴": [
+                    "{relation}에게,\n\n{tone} 사과할게. 약속 못 지켜서 정말 미안해. {extra}\n\n다시는 이런 일 없도록 할게. 용서해줘. 🙏",
+                    "{relation}, 정말 미안해. 😢\n\n{tone} 말할게. 약속을 어긴 건 변명의 여지가 없어. {extra}\n\n다음엔 꼭 지킬게. 미안해. 🙏"
+                ],
+                "실수함": [
+                    "{relation}에게,\n\n{tone} 사과드릴게요. 제 실수였어요. {extra}\n\n앞으로 더 조심할게요. 정말 죄송해요. 🙏",
+                    "{relation}, 실수했어요. 미안해요. 😢\n\n{tone} 말씀드릴게요. 변명하지 않을게요. {extra}\n\n용서해주세요. 🙏"
+                ],
+                "상처 줌": [
+                    "{relation}아,\n\n{tone} 사과할게. 내가 상처 줬다는 거 알아. {extra}\n\n정말 미안해. 그럴 의도가 아니었어. 용서해줄 수 있어? 😢",
+                    "{relation}에게,\n\n많이 상처받았지? {tone} 말할게. 내가 잘못했어. {extra}\n\n진심으로 미안해. 🙏"
+                ],
+                "연락 못함": [
+                    "{relation}, 오랜만이야. 😅\n\n{tone} 사과할게. 연락 못 해서 미안해. {extra}\n\n바빴다는 게 핑계인 거 알아. 앞으로 자주 연락할게! 🙏",
+                    "{relation}에게,\n\n연락 없이 지내서 미안해. {tone} 말할게. 잊은 게 아니야. {extra}\n\n앞으로 더 신경 쓸게. 미안해! 😢"
+                ],
+                "오해": [
+                    "{relation}아,\n\n{tone} 말할게. 오해가 있었던 것 같아. 내 잘못이야. {extra}\n\n오해 풀고 예전처럼 지내고 싶어. 미안해. 🙏",
+                    "{relation}에게,\n\n{tone} 사과드릴게요. 제가 오해를 샀네요. {extra}\n\n풀어줄 수 있을까요? 정말 미안해요. 😢"
+                ],
+                "늦은 사과": [
+                    "{relation}에게,\n\n{tone} 말할게. 이제서야 사과해서 미안해. 그때 정말 잘못했어. {extra}\n\n늦었지만 진심으로 미안하다고 말하고 싶었어. 🙏",
+                    "{relation}아,\n\n많이 늦었지만... {tone} 사과할게. 그동안 계속 마음에 걸렸어. {extra}\n\n용서 안 해도 괜찮아, 그냥 미안하다고 말하고 싶었어. 😢"
+                ]
+            },
+            encourage: {
+                "시험/면접": [
+                    "{relation}, 곧 시험이지? 💪\n\n{tone} 응원할게. 그동안 열심히 한 거 다 알아. {extra}\n\n넌 분명 잘할 거야! 화이팅! ✨",
+                    "{relation}, 면접 앞두고 떨리지? 🍀\n\n{tone} 말해줄게. 네 능력 믿어. {extra}\n\n당당하게 다녀와! 응원해! 💪"
+                ],
+                "새로운 도전": [
+                    "{relation}, 새로운 도전 앞에 섰구나! ✨\n\n{tone} 응원할게. 시작이 반이야. {extra}\n\n넌 할 수 있어! 파이팅! 💪",
+                    "{relation}의 새 도전을 응원해! 🚀\n\n{tone} 말해줄게. 용기 내서 시작한 거 멋져. {extra}\n\n끝까지 응원할게! 화이팅! ✨"
+                ],
+                "힘든 시기": [
+                    "{relation}아, 요즘 힘들지? 🤗\n\n{tone} 응원할게. 지금 잘하고 있어. {extra}\n\n조금만 더 힘내! 넌 강한 사람이야! 💪",
+                    "{relation}, 힘든 거 알아. 😢\n\n{tone} 말해줄게. 포기하지 마. {extra}\n\n네 옆에 있을게. 할 수 있어! ✨"
+                ],
+                "목표 달성": [
+                    "{relation}, 목표를 향해 달려가고 있구나! 🏃\n\n{tone} 응원할게. 그 열정 정말 대단해. {extra}\n\n끝까지 화이팅! 넌 해낼 수 있어! 💪",
+                    "{relation}의 열정을 응원해! ✨\n\n{tone} 말해줄게. 목표 달성하는 그날까지 함께할게. {extra}\n\n파이팅! 🚀"
+                ],
+                "건강 회복": [
+                    "{relation}, 빨리 나아야 해! 🏥\n\n{tone} 응원할게. 몸이 최우선이야. {extra}\n\n푹 쉬고, 건강하게 돌아와! 기다릴게! 💕",
+                    "{relation}, 건강 회복 응원해! 🍀\n\n{tone} 말해줄게. 조금씩 좋아질 거야. {extra}\n\n힘내! 빨리 나으길! 🙏"
+                ],
+                "새출발": [
+                    "{relation}, 새로운 시작이구나! 🌱\n\n{tone} 응원할게. 새출발 축하해. {extra}\n\n좋은 일만 가득할 거야! 화이팅! ✨",
+                    "{relation}의 새 시작을 응원해! 🚀\n\n{tone} 말해줄게. 앞으로가 더 기대돼. {extra}\n\n멋지게 해내자! 파이팅! 💪"
+                ]
+            }
+        };
+
+        function selectCategory(el) {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedCategory = el.dataset.category;
+            selectedSubOption = '';
+
+            const subOptions = document.getElementById('subOptions');
+            const options = subOptionsData[selectedCategory];
+
+            subOptions.innerHTML = options.map(opt =>
+                `<button class="sub-btn" onclick="selectSubOption(this)" data-option="${opt}">${opt}</button>`
+            ).join('');
+            subOptions.classList.add('show');
+        }
+
+        function selectSubOption(el) {
+            document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedSubOption = el.dataset.option;
+        }
+
+        function selectTone(el) {
+            document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTone = el.dataset.tone;
+        }
+
+        function generateMessage() {
+            if (!selectedCategory) {
+                showToast('메시지 종류를 선택해주세요');
+                return;
+            }
+            if (!selectedSubOption) {
+                showToast('상세 항목을 선택해주세요');
+                return;
+            }
+
+            const relationship = document.getElementById('relationship').value || '당신';
+            const additionalInfo = document.getElementById('additionalInfo').value;
+            const btn = document.getElementById('generateBtn');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> 메시지 생성 중...';
+
+            setTimeout(() => {
+                const templates = messageTemplates[selectedCategory][selectedSubOption];
+                const template = templates[Math.floor(Math.random() * templates.length)];
+
+                let message = template
+                    .replace(/{relation}/g, relationship)
+                    .replace(/{tone}/g, selectedTone)
+                    .replace(/{extra}/g, additionalInfo ? `(${additionalInfo})` : '');
+
+                // Clean up
+                message = message.replace(/\(\)/g, '').replace(/  /g, ' ');
+
+                document.getElementById('resultText').textContent = message;
+                document.getElementById('resultSection').classList.add('show');
+
+                btn.disabled = false;
+                btn.innerHTML = '✨ 메시지 생성하기';
+
+                showToast('메시지가 생성되었어요!');
+            }, 1500);
+        }
+
+        function copyMessage() {
+            const text = document.getElementById('resultText').textContent;
+            navigator.clipboard.writeText(text);
+            showToast('메시지가 복사되었어요!');
+        }
+
+        function shareKakao() {
+            const text = document.getElementById('resultText').textContent;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI가 작성한 메시지',
+                    text: text
+                });
+            } else {
+                copyMessage();
+                showToast('복사되었어요! 카카오톡에 붙여넣기 해주세요');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
+</html>

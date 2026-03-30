@@ -40,6 +40,7 @@ var BASE_ORIGIN = parsedBaseUrl.origin;
 
 var repoEnv = (process.env.GITHUB_REPOSITORY || '');
 var repoName = repoEnv.split('/')[1] || '';
+var LEGACY_REPO_PATH = repoName || path.basename(process.cwd()) || 'Money-making';
 var autoBasePath = repoName ? '/' + repoName : '';
 var BASE_PATH = process.env.BASE_PATH || parsedBaseUrl.pathname.replace(/\/$/, '') || autoBasePath || '';
 if (BASE_PATH === '/') BASE_PATH = '';
@@ -1963,6 +1964,24 @@ function copyDir(src, dest) {
   }
 }
 
+function createLegacyRepoPathMirror() {
+  if (!LEGACY_REPO_PATH) return;
+  var legacyDir = path.join(OUT, LEGACY_REPO_PATH);
+  ensureDir(legacyDir);
+  var entries = fs.readdirSync(OUT, { withFileTypes: true });
+  for (var i = 0; i < entries.length; i++) {
+    var entry = entries[i];
+    if (entry.name === LEGACY_REPO_PATH) continue;
+    var srcPath = path.join(OUT, entry.name);
+    var destPath = path.join(legacyDir, entry.name);
+    if (entry.isDirectory()) {
+      copyDir(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
 function findDuplicateIds(items) {
   var counts = {};
   var duplicates = [];
@@ -2435,9 +2454,13 @@ function build(){
     '<text x="600" y="320" text-anchor="middle" fill="white" font-size="64" font-weight="bold" font-family="Arial,sans-serif">InstaIdea</text>' +
     '<text x="600" y="400" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="32" font-family="Arial,sans-serif">Mini Games &amp; Tools Collection</text>' +
     '<text x="600" y="460" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="24" font-family="Arial,sans-serif">' + (games.length + webTools.length + consumerTools.length) + '+ Free Games &amp; Tools</text>' +
-    '<text x="600" y="560" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="20" font-family="Arial,sans-serif">' + escapeHtml(SITE_HOST) + '</text>' +
-    '</svg>';
+     '<text x="600" y="560" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="20" font-family="Arial,sans-serif">' + escapeHtml(SITE_HOST) + '</text>' +
+     '</svg>';
   write(path.join(OUT, 'og-image.svg'), ogSvg);
+
+  if (!BASE_PATH && LEGACY_REPO_PATH) {
+    createLegacyRepoPathMirror();
+  }
 
   console.log('Generated ' + games.length + ' game(s), ' + webTools.length + ' web tool(s), ' + consumerTools.length + ' consumer tool(s), and main page');
   console.log('SEO enhancements: JSON-LD, enhanced sitemap, manifest.json, OG image, related content sections');

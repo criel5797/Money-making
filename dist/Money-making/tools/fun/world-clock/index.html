@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/world-clock/"><meta property="og:url" content="https://instaidea.org/tools/fun/world-clock/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/world-clock/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/world-clock/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/world-clock/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/world-clock/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세계 시계 - 전세계 시간 확인</title>
+    <meta name="description" content="무료 세계 시계. 전세계 주요 도시의 현재 시간을 한눈에 확인하세요.">
+    <meta name="keywords" content="세계 시계, 시간대, 국제 시간, 타임존">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 600px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .clock-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .local-time {
+            text-align: center;
+            padding: 25px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+        .local-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+        .local-clock {
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        .local-date {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        .add-city {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .city-select {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        .city-select option {
+            background: #1e3799;
+        }
+        .add-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .add-btn:hover {
+            transform: scale(1.02);
+        }
+        .city-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .city-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .city-card:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .city-info {
+            flex: 1;
+        }
+        .city-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .city-timezone {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        .city-time {
+            text-align: right;
+        }
+        .city-clock {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        .city-date {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .city-diff {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+        .remove-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(231, 76, 60, 0.3);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        .remove-btn:hover {
+            background: rgba(231, 76, 60, 0.5);
+        }
+        .day-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+        .day-same { background: rgba(46, 204, 113, 0.3); }
+        .day-prev { background: rgba(241, 196, 15, 0.3); }
+        .day-next { background: rgba(52, 152, 219, 0.3); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>🌍 세계 시계</h1>
+            <p class="subtitle">전세계 주요 도시의 시간을 확인하세요</p>
+        </header>
+        <div class="clock-section">
+            <div class="local-time">
+                <div class="local-label">📍 내 현재 시간</div>
+                <div class="local-clock" id="localClock">00:00:00</div>
+                <div class="local-date" id="localDate"></div>
+            </div>
+
+            <div class="add-city">
+                <select class="city-select" id="citySelect">
+                    <option value="">도시 선택...</option>
+                    <option value="America/New_York">🇺🇸 뉴욕</option>
+                    <option value="America/Los_Angeles">🇺🇸 로스앤젤레스</option>
+                    <option value="Europe/London">🇬🇧 런던</option>
+                    <option value="Europe/Paris">🇫🇷 파리</option>
+                    <option value="Europe/Berlin">🇩🇪 베를린</option>
+                    <option value="Asia/Tokyo">🇯🇵 도쿄</option>
+                    <option value="Asia/Shanghai">🇨🇳 상하이</option>
+                    <option value="Asia/Hong_Kong">🇭🇰 홍콩</option>
+                    <option value="Asia/Singapore">🇸🇬 싱가포르</option>
+                    <option value="Asia/Dubai">🇦🇪 두바이</option>
+                    <option value="Australia/Sydney">🇦🇺 시드니</option>
+                    <option value="Pacific/Auckland">🇳🇿 오클랜드</option>
+                    <option value="America/Sao_Paulo">🇧🇷 상파울루</option>
+                    <option value="Africa/Cairo">🇪🇬 카이로</option>
+                    <option value="Europe/Moscow">🇷🇺 모스크바</option>
+                    <option value="Asia/Bangkok">🇹🇭 방콕</option>
+                    <option value="Asia/Jakarta">🇮🇩 자카르타</option>
+                    <option value="Asia/Mumbai">🇮🇳 뭄바이</option>
+                </select>
+                <button class="add-btn" onclick="addCity()">+ 추가</button>
+            </div>
+
+            <div class="city-list" id="cityList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
+    </div>
+    <script>
+        var cities = JSON.parse(localStorage.getItem('worldClockCities') || '[]');
+        var cityNames = {
+            'America/New_York': { name: '🇺🇸 뉴욕', short: 'EST/EDT' },
+            'America/Los_Angeles': { name: '🇺🇸 로스앤젤레스', short: 'PST/PDT' },
+            'Europe/London': { name: '🇬🇧 런던', short: 'GMT/BST' },
+            'Europe/Paris': { name: '🇫🇷 파리', short: 'CET/CEST' },
+            'Europe/Berlin': { name: '🇩🇪 베를린', short: 'CET/CEST' },
+            'Asia/Tokyo': { name: '🇯🇵 도쿄', short: 'JST' },
+            'Asia/Shanghai': { name: '🇨🇳 상하이', short: 'CST' },
+            'Asia/Hong_Kong': { name: '🇭🇰 홍콩', short: 'HKT' },
+            'Asia/Singapore': { name: '🇸🇬 싱가포르', short: 'SGT' },
+            'Asia/Dubai': { name: '🇦🇪 두바이', short: 'GST' },
+            'Australia/Sydney': { name: '🇦🇺 시드니', short: 'AEST/AEDT' },
+            'Pacific/Auckland': { name: '🇳🇿 오클랜드', short: 'NZST/NZDT' },
+            'America/Sao_Paulo': { name: '🇧🇷 상파울루', short: 'BRT' },
+            'Africa/Cairo': { name: '🇪🇬 카이로', short: 'EET' },
+            'Europe/Moscow': { name: '🇷🇺 모스크바', short: 'MSK' },
+            'Asia/Bangkok': { name: '🇹🇭 방콕', short: 'ICT' },
+            'Asia/Jakarta': { name: '🇮🇩 자카르타', short: 'WIB' },
+            'Asia/Mumbai': { name: '🇮🇳 뭄바이', short: 'IST' }
+        };
+
+        function updateClocks() {
+            var now = new Date();
+
+            // Local time
+            document.getElementById('localClock').textContent =
+                now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('localDate').textContent =
+                now.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+
+            // City times
+            cities.forEach(function(tz, i) {
+                var cityTime = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+                var clockEl = document.getElementById('clock-' + i);
+                var dateEl = document.getElementById('date-' + i);
+                var diffEl = document.getElementById('diff-' + i);
+
+                if (clockEl) {
+                    clockEl.textContent = cityTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    dateEl.textContent = cityTime.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
+
+                    // Calculate day difference
+                    var localDay = now.getDate();
+                    var cityDay = cityTime.getDate();
+                    var dayIndicator = '';
+
+                    if (cityDay < localDay) {
+                        dayIndicator = '<span class="day-indicator day-prev">어제</span>';
+                    } else if (cityDay > localDay) {
+                        dayIndicator = '<span class="day-indicator day-next">내일</span>';
+                    }
+                    dateEl.innerHTML = cityTime.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' }) + dayIndicator;
+
+                    // Time difference
+                    var localOffset = now.getTimezoneOffset();
+                    var diff = (cityTime.getTime() - now.getTime()) / (1000 * 60 * 60);
+                    var diffText = diff >= 0 ? '+' + diff.toFixed(1) : diff.toFixed(1);
+                    diffEl.textContent = 'UTC' + diffText + '시간';
+                }
+            });
+        }
+
+        function addCity() {
+            var select = document.getElementById('citySelect');
+            var tz = select.value;
+            if (!tz || cities.includes(tz)) return;
+
+            cities.push(tz);
+            localStorage.setItem('worldClockCities', JSON.stringify(cities));
+            renderCities();
+            select.value = '';
+        }
+
+        function removeCity(index) {
+            cities.splice(index, 1);
+            localStorage.setItem('worldClockCities', JSON.stringify(cities));
+            renderCities();
+        }
+
+        function renderCities() {
+            var list = document.getElementById('cityList');
+            list.innerHTML = '';
+
+            cities.forEach(function(tz, i) {
+                var info = cityNames[tz] || { name: tz, short: '' };
+                var div = document.createElement('div');
+                div.className = 'city-card';
+                div.innerHTML = '<div class="city-info">' +
+                    '<div class="city-name">' + info.name + '</div>' +
+                    '<div class="city-timezone">' + info.short + '</div></div>' +
+                    '<div class="city-time">' +
+                    '<div class="city-clock" id="clock-' + i + '">--:--:--</div>' +
+                    '<div class="city-date" id="date-' + i + '"></div>' +
+                    '<div class="city-diff" id="diff-' + i + '"></div></div>' +
+                    '<button class="remove-btn" onclick="removeCity(' + i + ')">×</button>';
+                list.appendChild(div);
+            });
+
+            updateClocks();
+        }
+
+        // Default cities if empty
+        if (cities.length === 0) {
+            cities = ['America/New_York', 'Europe/London', 'Asia/Tokyo'];
+            localStorage.setItem('worldClockCities', JSON.stringify(cities));
+        }
+
+        renderCities();
+        setInterval(updateClocks, 1000);
+    </script>
+</body>
+</html>

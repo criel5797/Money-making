@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/coin-age/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/coin-age/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/coin-age/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/coin-age/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/coin-age/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/coin-age/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コイン年齢計算機</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #f39c12, #e74c3c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .coin-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .input-group { margin-bottom: 20px; }
+        .input-label { font-size: .9rem; margin-bottom: 10px; opacity: .8; }
+        .year-input { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1.2rem; text-align: center; }
+        .calc-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-bottom: 20px; }
+        .result-box { background: rgba(0,0,0,.2); border-radius: 12px; padding: 25px; text-align: center; margin-bottom: 20px; }
+        .result-age { font-size: 4rem; font-weight: 700; margin-bottom: 10px; }
+        .result-label { font-size: 1rem; opacity: .8; }
+        .result-detail { font-size: .9rem; opacity: .7; margin-top: 15px; line-height: 1.8; white-space: pre-line; }
+        .coin-visual { width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(145deg, #d4af37, #b8860b); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+        .fun-facts { background: rgba(255,255,255,.1); border-radius: 12px; padding: 20px; }
+        .fun-facts h3 { font-size: 1rem; margin-bottom: 15px; }
+        .fun-facts ul { padding-left: 20px; font-size: .9rem; line-height: 1.8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🪙 コイン年齢計算機</h1>
+        </header>
+        <div class="coin-section">
+            <div class="coin-visual" id="coinVisual">🪙</div>
+            <div class="input-group">
+                <div class="input-label">コイン発行年</div>
+                <input type="number" class="year-input" id="yearInput" min="1900" placeholder="例: 1995">
+            </div>
+            <button class="calc-btn" onclick="calculate()">🔍 年齢を計算</button>
+            <div class="result-box">
+                <div class="result-age" id="resultAge">-</div>
+                <div class="result-label" id="resultLabel">年を入力してください</div>
+                <div class="result-detail" id="resultDetail"></div>
+            </div>
+            <div class="fun-facts">
+                <h3>💡 ご存知ですか?</h3>
+                <ul>
+                    <li>希少なコインは額面以上の価値があります</li>
+                    <li>古いコインほど収集価値が高い場合があります</li>
+                    <li>発行年によって希少性が異なります</li>
+                </ul>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var yearInput = document.getElementById('yearInput');
+        yearInput.max = String(new Date().getFullYear());
+
+        function calculate() {
+            var y = parseInt(yearInput.value, 10);
+            var now = new Date().getFullYear();
+            if (isNaN(y) || y < 1900 || y > now) {
+                document.getElementById('resultAge').textContent = '?';
+                document.getElementById('resultLabel').textContent = '有効な年を入力してください';
+                document.getElementById('resultDetail').textContent = '';
+                return;
+            }
+
+            var age = now - y;
+            document.getElementById('resultAge').textContent = age + '年';
+            document.getElementById('resultLabel').textContent = 'このコインの年齢';
+
+            var detail = '発行年: ' + y + '年\n';
+            if (age >= 50) detail += '50年以上! 希少なコインかもしれません\n';
+            else if (age >= 30) detail += '30年以上! ヴィンテージコインです\n';
+            else if (age >= 20) detail += '20年以上! かなり古いです\n';
+            else detail += '比較的新しいコインです\n';
+            detail += '\n経過時間: ' + (age * 365) + '日, ' + (age * 12) + 'か月';
+            document.getElementById('resultDetail').textContent = detail;
+        }
+    </script>
+</body>
+</html>

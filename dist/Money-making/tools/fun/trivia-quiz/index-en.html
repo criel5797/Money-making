@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/trivia-quiz/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/trivia-quiz/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/trivia-quiz/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/trivia-quiz/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/trivia-quiz/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/trivia-quiz/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quiz</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .quiz-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .score-bar { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 12px 16px; background: rgba(255,255,255,.1); border-radius: 10px; }
+        .score-item { text-align: center; }
+        .score-label { font-size: .75rem; opacity: .7; }
+        .score-value { font-size: 1.3rem; font-weight: 700; }
+        .progress-bar { height: 8px; background: rgba(255,255,255,.2); border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #4ade80; border-radius: 4px; transition: width .3s; }
+        .question-card { background: rgba(255,255,255,.15); border-radius: 16px; padding: 25px; margin-bottom: 20px; }
+        .question-num { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .question-text { font-size: 1.2rem; line-height: 1.5; margin-bottom: 20px; }
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option-btn { padding: 15px 20px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; text-align: left; transition: all .2s; }
+        .option-btn:hover { background: rgba(255,255,255,.2); transform: translateX(5px); }
+        .option-btn.correct { background: #22c55e; border-color: #22c55e; }
+        .option-btn.wrong { background: #ef4444; border-color: #ef4444; }
+        .option-btn.disabled { pointer-events: none; opacity: .7; }
+        .result-area { display: none; text-align: center; }
+        .result-area.show { display: block; animation: fadeIn .5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .result-icon { font-size: 4rem; margin-bottom: 15px; }
+        .result-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
+        .result-score { font-size: 3rem; font-weight: 700; color: #fbbf24; margin-bottom: 15px; }
+        .result-text { font-size: 1rem; opacity: .8; margin-bottom: 20px; }
+        .action-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-bottom: 10px; }
+        .action-btn:hover { transform: scale(1.02); }
+        .category-select { margin-bottom: 20px; }
+        .category-label { font-size: .9rem; opacity: .8; margin-bottom: 8px; display: block; }
+        .category-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+        .cat-btn { padding: 10px 16px; border: none; border-radius: 20px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; font-size: .85rem; }
+        .cat-btn.active { background: rgba(255,255,255,.4); }
+        .stats { margin-top: 15px; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🧠 Trivia Quiz</h1>
+        </header>
+        <div class="quiz-section">
+            <div class="score-bar">
+                <div class="score-item">
+                    <div class="score-label">Question</div>
+                    <div class="score-value" id="questionNum">1/10</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">Correct</div>
+                    <div class="score-value" id="correctCount">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">Score</div>
+                    <div class="score-value" id="score">0</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="category-select" id="categorySelect">
+                <label class="category-label">Select Category</label>
+                <div class="category-btns">
+                    <button class="cat-btn active" onclick="setCategory('all')">All</button>
+                    <button class="cat-btn" onclick="setCategory('science')">Science</button>
+                    <button class="cat-btn" onclick="setCategory('history')">History</button>
+                    <button class="cat-btn" onclick="setCategory('geography')">Geography</button>
+                    <button class="cat-btn" onclick="setCategory('culture')">Culture</button>
+                </div>
+            </div>
+            <div class="question-card" id="questionCard">
+                <div class="question-num" id="questionLabel">Question 1</div>
+                <div class="question-text" id="questionText">Press Start to begin!</div>
+                <div class="options" id="options"></div>
+            </div>
+            <button class="action-btn" id="startBtn" onclick="startQuiz()">🎮 Start Quiz</button>
+            <div class="result-area" id="resultArea">
+                <div class="result-icon" id="resultIcon">🏆</div>
+                <div class="result-title" id="resultTitle">Quiz Complete!</div>
+                <div class="result-score" id="resultScore">0 pts</div>
+                <div class="result-text" id="resultText">Well done!</div>
+                <button class="action-btn" onclick="startQuiz()">🔄 Play Again</button>
+            </div>
+            <div class="stats">
+                <div class="stats-title">📊 My Stats</div>
+                <div class="stats-row"><span>Total Games</span><span id="totalGames">0</span></div>
+                <div class="stats-row"><span>Best Score</span><span id="bestScore">0</span></div>
+                <div class="stats-row"><span>Avg. Accuracy</span><span id="avgRate">0%</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var questions = {
+            science: [
+                { q: 'What is the chemical formula for water?', o: ['H2O', 'CO2', 'NaCl', 'O2'], a: 0 },
+                { q: 'What is the largest planet in our solar system?', o: ['Jupiter', 'Saturn', 'Earth', 'Mars'], a: 0 },
+                { q: 'What is the speed of light in km per second?', o: ['300,000 km', '150,000 km', '500,000 km', '1,000,000 km'], a: 0 },
+                { q: 'Who discovered the structure of DNA?', o: ['Watson and Crick', 'Einstein', 'Newton', 'Darwin'], a: 0 },
+                { q: 'What element has atomic number 1?', o: ['Hydrogen', 'Helium', 'Oxygen', 'Nitrogen'], a: 0 }
+            ],
+            history: [
+                { q: 'In what year did World War II end?', o: ['1945', '1939', '1950', '1941'], a: 0 },
+                { q: 'Who was the first President of the United States?', o: ['George Washington', 'Abraham Lincoln', 'Thomas Jefferson', 'John Adams'], a: 0 },
+                { q: 'What year did the French Revolution begin?', o: ['1789', '1776', '1815', '1848'], a: 0 },
+                { q: 'Who built the Great Wall of China?', o: ['Qin Shi Huang', 'Genghis Khan', 'Kublai Khan', 'Confucius'], a: 0 },
+                { q: 'What ancient civilization built the pyramids?', o: ['Egyptians', 'Greeks', 'Romans', 'Mayans'], a: 0 }
+            ],
+            geography: [
+                { q: 'What is the longest river in the world?', o: ['Nile', 'Amazon', 'Yangtze', 'Mississippi'], a: 0 },
+                { q: 'What is the highest mountain in the world?', o: ['Mount Everest', 'K2', 'Kilimanjaro', 'Mont Blanc'], a: 0 },
+                { q: 'What is the capital of Russia?', o: ['Moscow', 'St. Petersburg', 'Kiev', 'Vladivostok'], a: 0 },
+                { q: 'What is the capital of Australia?', o: ['Canberra', 'Sydney', 'Melbourne', 'Brisbane'], a: 0 },
+                { q: 'What is the largest desert in the world?', o: ['Sahara', 'Gobi', 'Kalahari', 'Atacama'], a: 0 }
+            ],
+            culture: [
+                { q: 'Who painted the Mona Lisa?', o: ['Leonardo da Vinci', 'Michelangelo', 'Raphael', 'Picasso'], a: 0 },
+                { q: 'Who wrote Romeo and Juliet?', o: ['Shakespeare', 'Goethe', 'Tolstoy', 'Dostoyevsky'], a: 0 },
+                { q: 'How often are the Olympic Games held?', o: ['Every 4 years', 'Every 2 years', 'Every 3 years', 'Every 5 years'], a: 0 },
+                { q: 'Which country are The Beatles from?', o: ['United Kingdom', 'United States', 'Germany', 'Australia'], a: 0 },
+                { q: 'In which country are the Pyramids of Giza located?', o: ['Egypt', 'Greece', 'India', 'China'], a: 0 }
+            ]
+        };
+        var currentCategory = 'all';
+        var currentQuestions = [];
+        var currentIndex = 0;
+        var score = 0;
+        var correctCount = 0;
+        var stats = JSON.parse(localStorage.getItem('trivia_en') || '{"games":0,"best":0,"total":0,"correct":0}');
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(cat === 'all' ? 'all' : cat));
+            });
+        }
+
+        function shuffle(arr) {
+            for (var i = arr.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
+            }
+            return arr;
+        }
+
+        function getQuestions() {
+            var pool = [];
+            if (currentCategory === 'all') {
+                for (var cat in questions) {
+                    pool = pool.concat(questions[cat]);
+                }
+            } else {
+                pool = questions[currentCategory].slice();
+            }
+            return shuffle(pool).slice(0, 10);
+        }
+
+        function startQuiz() {
+            currentQuestions = getQuestions();
+            currentIndex = 0;
+            score = 0;
+            correctCount = 0;
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('categorySelect').style.display = 'none';
+            document.getElementById('resultArea').classList.remove('show');
+            document.getElementById('questionCard').style.display = 'block';
+            updateUI();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            var q = currentQuestions[currentIndex];
+            document.getElementById('questionLabel').textContent = 'Question ' + (currentIndex + 1);
+            document.getElementById('questionText').textContent = q.q;
+            var optionsEl = document.getElementById('options');
+            optionsEl.innerHTML = '';
+            q.o.forEach(function(opt, i) {
+                var btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = function() { selectAnswer(i); };
+                optionsEl.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(index) {
+            var q = currentQuestions[currentIndex];
+            var btns = document.querySelectorAll('.option-btn');
+            btns.forEach(function(btn, i) {
+                btn.classList.add('disabled');
+                if (i === q.a) btn.classList.add('correct');
+                if (i === index && i !== q.a) btn.classList.add('wrong');
+            });
+            if (index === q.a) {
+                correctCount++;
+                score += 10;
+            }
+            updateUI();
+            setTimeout(function() {
+                currentIndex++;
+                if (currentIndex < currentQuestions.length) {
+                    showQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1000);
+        }
+
+        function updateUI() {
+            document.getElementById('questionNum').textContent = (currentIndex + 1) + '/' + currentQuestions.length;
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('score').textContent = score;
+            document.getElementById('progressFill').style.width = ((currentIndex + 1) / currentQuestions.length * 100) + '%';
+        }
+
+        function showResult() {
+            document.getElementById('questionCard').style.display = 'none';
+            document.getElementById('resultArea').classList.add('show');
+            var rate = Math.round(correctCount / currentQuestions.length * 100);
+            document.getElementById('resultScore').textContent = score + ' pts';
+            if (rate >= 80) {
+                document.getElementById('resultIcon').textContent = '🏆';
+                document.getElementById('resultTitle').textContent = 'Excellent!';
+                document.getElementById('resultText').textContent = rate + '% accuracy! Amazing!';
+            } else if (rate >= 50) {
+                document.getElementById('resultIcon').textContent = '👍';
+                document.getElementById('resultTitle').textContent = 'Good Job!';
+                document.getElementById('resultText').textContent = rate + '% accuracy! Keep practicing.';
+            } else {
+                document.getElementById('resultIcon').textContent = '💪';
+                document.getElementById('resultTitle').textContent = 'Keep Trying!';
+                document.getElementById('resultText').textContent = rate + '% accuracy. Try again!';
+            }
+            stats.games++;
+            stats.total += currentQuestions.length;
+            stats.correct += correctCount;
+            if (score > stats.best) stats.best = score;
+            localStorage.setItem('trivia_en', JSON.stringify(stats));
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalGames').textContent = stats.games;
+            document.getElementById('bestScore').textContent = stats.best;
+            document.getElementById('avgRate').textContent = stats.total > 0 ? Math.round(stats.correct / stats.total * 100) + '%' : '0%';
+        }
+
+        updateStats();
+    </script>
+</body>
+</html>

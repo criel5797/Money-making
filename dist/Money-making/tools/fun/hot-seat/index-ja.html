@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/hot-seat/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/hot-seat/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/hot-seat/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/hot-seat/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/hot-seat/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/hot-seat/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホットシート</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #dc2626, #b91c1c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .95rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .intensity-section { margin-bottom: 20px; }
+        .intensity-title { font-size: .9rem; opacity: .7; margin-bottom: 12px; }
+        .intensity-btns { display: flex; gap: 8px; }
+        .intensity-btn { flex: 1; padding: 12px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: .9rem; cursor: pointer; transition: all .3s; }
+        .intensity-btn.active { background: #fff; color: #dc2626; border-color: #fff; }
+        .question-card { background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); border-radius: 20px; padding: 40px 25px; text-align: center; margin-bottom: 20px; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .question-emoji { font-size: 3rem; margin-bottom: 15px; }
+        .question-text { font-size: 1.3rem; font-weight: 600; line-height: 1.6; }
+        .actions { display: flex; gap: 12px; margin-bottom: 20px; }
+        .action-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all .3s; }
+        .next-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .skip-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🔥 ホットシート</h1>
+            <p class="subtitle">熱い質問に答えよう！</p>
+        </header>
+        <div class="game-section">
+            <div class="intensity-section">
+                <div class="intensity-title">強度を選択</div>
+                <div class="intensity-btns">
+                    <button class="intensity-btn active" onclick="setIntensity('mild')">🌶️</button>
+                    <button class="intensity-btn" onclick="setIntensity('medium')">🌶️🌶️</button>
+                    <button class="intensity-btn" onclick="setIntensity('spicy')">🌶️🌶️🌶️</button>
+                </div>
+            </div>
+            <div class="question-card" id="questionCard">
+                <div class="question-emoji" id="questionEmoji">🔥</div>
+                <div class="question-text" id="questionText">ボタンを押して質問を受け取ろう！</div>
+            </div>
+            <div class="actions">
+                <button class="action-btn skip-btn" onclick="skipQuestion()">⏭️ パス</button>
+                <button class="action-btn next-btn" onclick="nextQuestion()">🔥 次の質問</button>
+            </div>
+            <div class="stats">
+                <div class="stats-title">📊 統計</div>
+                <div class="stats-row"><span>回答した質問</span><span id="answeredCount">0</span></div>
+                <div class="stats-row"><span>パスした質問</span><span id="skippedCount">0</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var questions = {
+            mild: [
+                { emoji: "😅", text: "最も恥ずかしかった瞬間は？" },
+                { emoji: "💭", text: "最近一番考えていることは？" },
+                { emoji: "🎵", text: "シャワー中に歌う曲は？" },
+                { emoji: "📱", text: "スマホで一番使うアプリは？" },
+                { emoji: "🍔", text: "無人島に一つだけ持っていけるなら？" },
+                { emoji: "😴", text: "最も変な夢は？" },
+                { emoji: "🎬", text: "10回以上見た映画は？" },
+                { emoji: "🗣️", text: "口癖はある？" },
+                { emoji: "🏠", text: "家で一人の時何をする？" },
+                { emoji: "🎁", text: "もらった最悪のプレゼントは？" },
+                { emoji: "🤔", text: "一番よくつく嘘は？" },
+                { emoji: "😤", text: "最も怒った瞬間は？" },
+                { emoji: "🎯", text: "叶えたいバケットリストは？" },
+                { emoji: "👻", text: "最も怖かった経験は？" },
+                { emoji: "🍕", text: "食べながら泣いた食べ物は？" }
+            ],
+            medium: [
+                { emoji: "💔", text: "最大の失恋経験は？" },
+                { emoji: "🤫", text: "誰にも言えない秘密がある？" },
+                { emoji: "😳", text: "誰かをストーキングしたことは？" },
+                { emoji: "💸", text: "最も無駄にしたお金の経験は？" },
+                { emoji: "🎭", text: "仮病を使ったことは？" },
+                { emoji: "📞", text: "受けたくない電話は誰から？" },
+                { emoji: "😈", text: "やった一番悪いことは？" },
+                { emoji: "💑", text: "理想のタイプの第一条件は？" },
+                { emoji: "🙈", text: "SNSから削除した黒歴史は？" },
+                { emoji: "💪", text: "最高の長所と最悪の短所は？" },
+                { emoji: "🔮", text: "未来への最大の心配は？" },
+                { emoji: "👀", text: "こっそり見た他人のものは？" },
+                { emoji: "😢", text: "最近泣いた理由は？" },
+                { emoji: "🚫", text: "絶対に許せないことは？" },
+                { emoji: "💋", text: "初キスの話を聞かせて" }
+            ],
+            spicy: [
+                { emoji: "🔥", text: "最もワイルドな経験は？" },
+                { emoji: "💣", text: "バレたら人生終わる秘密は？" },
+                { emoji: "😏", text: "最も大胆だったことは？" },
+                { emoji: "🍷", text: "酔って一番狂ったことは？" },
+                { emoji: "💔", text: "浮気したことある？" },
+                { emoji: "🤯", text: "衝撃を受けた大人のコンテンツは？" },
+                { emoji: "😈", text: "誰かに復讐したことある？" },
+                { emoji: "💰", text: "お金のためにできる最悪のことは？" },
+                { emoji: "🔞", text: "親が知ったらショックな秘密は？" },
+                { emoji: "👀", text: "こっそり知りたい誰かの秘密は？" },
+                { emoji: "💕", text: "禁断の恋をしたことある？" },
+                { emoji: "🎰", text: "人生最大のギャンブルは？" },
+                { emoji: "😱", text: "嘘で作った最大の事件は？" },
+                { emoji: "🌙", text: "ワンナイトの経験談を話して" },
+                { emoji: "🔥", text: "恋愛で最も後悔していることは？" }
+            ]
+        };
+
+        var currentIntensity = 'mild';
+        var deck = [];
+        var answeredCount = 0;
+        var skippedCount = 0;
+
+        function setIntensity(level) {
+            currentIntensity = level;
+            document.querySelectorAll('.intensity-btn').forEach(function(btn, i) {
+                var levels = ['mild', 'medium', 'spicy'];
+                btn.classList.toggle('active', levels[i] === level);
+            });
+            resetDeck();
+        }
+
+        function resetDeck() {
+            deck = questions[currentIntensity].slice();
+            shuffleDeck();
+        }
+
+        function shuffleDeck() {
+            for (var i = deck.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = deck[i];
+                deck[i] = deck[j];
+                deck[j] = temp;
+            }
+        }
+
+        function nextQuestion() {
+            if (deck.length === 0) {
+                resetDeck();
+            }
+            var q = deck.pop();
+            document.getElementById('questionEmoji').textContent = q.emoji;
+            document.getElementById('questionText').textContent = q.text;
+            answeredCount++;
+            updateStats();
+            animateCard();
+        }
+
+        function skipQuestion() {
+            if (deck.length === 0) {
+                resetDeck();
+            }
+            var q = deck.pop();
+            document.getElementById('questionEmoji').textContent = q.emoji;
+            document.getElementById('questionText').textContent = q.text;
+            skippedCount++;
+            updateStats();
+            animateCard();
+        }
+
+        function animateCard() {
+            var card = document.getElementById('questionCard');
+            card.style.transform = 'scale(0.95)';
+            setTimeout(function() {
+                card.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        function updateStats() {
+            document.getElementById('answeredCount').textContent = answeredCount;
+            document.getElementById('skippedCount').textContent = skippedCount;
+            saveStats();
+        }
+
+        function saveStats() {
+            var stats = JSON.parse(localStorage.getItem('hotseat_ja') || '{"total":0}');
+            stats.total = answeredCount + skippedCount;
+            localStorage.setItem('hotseat_ja', JSON.stringify(stats));
+        }
+
+        resetDeck();
+    </script>
+</body>
+</html>

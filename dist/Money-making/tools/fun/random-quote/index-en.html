@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/random-quote/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/random-quote/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/random-quote/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/random-quote/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/random-quote/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/random-quote/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #434343, #000000); min-height: 100vh; color: #fff; padding: 20px; display: flex; align-items: center; justify-content: center; }
+        .container { max-width: 600px; width: 100%; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .quote-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 40px 30px; text-align: center; }
+        .quote-icon { font-size: 3rem; margin-bottom: 20px; opacity: .5; }
+        .quote-text { font-size: 1.4rem; line-height: 1.8; margin-bottom: 25px; font-style: italic; }
+        .quote-author { font-size: 1rem; opacity: .7; margin-bottom: 30px; }
+        .new-btn { padding: 18px 40px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        .category-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 25px; }
+        .cat-btn { padding: 10px 16px; border: 1px solid rgba(255,255,255,.3); border-radius: 20px; background: transparent; color: #fff; cursor: pointer; font-size: .9rem; }
+        .cat-btn.active { background: rgba(255,255,255,.2); border-color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header><h1>💬 Random Quote</h1></header>
+        <div class="quote-section">
+            <div class="category-btns">
+                <button class="cat-btn active" onclick="setCat('all')">All</button>
+                <button class="cat-btn" onclick="setCat('motivation')">Motivation</button>
+                <button class="cat-btn" onclick="setCat('love')">Love</button>
+                <button class="cat-btn" onclick="setCat('success')">Success</button>
+                <button class="cat-btn" onclick="setCat('life')">Life</button>
+            </div>
+            <div class="quote-icon">❝</div>
+            <div class="quote-text" id="quoteText">Click for a new quote</div>
+            <div class="quote-author" id="quoteAuthor">- Click below -</div>
+            <button class="new-btn" onclick="newQuote()">New Quote</button>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var quotes = {
+            motivation: [
+                { text: "Success is not an accident. It is hard work, perseverance, learning, studying, sacrifice and most of all, love of what you are doing.", author: "Pele" },
+                { text: "Failure is the mother of success.", author: "Thomas Edison" },
+                { text: "Do not put off until tomorrow what you can do today.", author: "Benjamin Franklin" },
+                { text: "Dream big. That is what keeps you moving.", author: "Unknown" }
+            ],
+            love: [
+                { text: "The best and most beautiful things cannot be seen or touched. They must be felt with the heart.", author: "Helen Keller" },
+                { text: "Falling in love is natural. Keeping it is a choice.", author: "Unknown" },
+                { text: "True love never has an ending.", author: "Shakespeare" }
+            ],
+            success: [
+                { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+                { text: "Great things are done by a series of small things brought together.", author: "Vincent Van Gogh" },
+                { text: "Chance favors the prepared mind.", author: "Louis Pasteur" }
+            ],
+            life: [
+                { text: "Life is short. That is what makes it beautiful.", author: "Unknown" },
+                { text: "Today is the first day of the rest of your life.", author: "Charles Dederich" },
+                { text: "When life gives you lemons, make lemonade.", author: "Dale Carnegie" }
+            ]
+        };
+        var category = 'all';
+        function setCat(c) {
+            category = c;
+            document.querySelectorAll('.cat-btn').forEach(function(b) { b.classList.remove('active'); });
+            event.target.classList.add('active');
+            newQuote();
+        }
+        function newQuote() {
+            var pool = [];
+            if (category === 'all') {
+                Object.keys(quotes).forEach(function(k) { pool = pool.concat(quotes[k]); });
+            } else {
+                pool = quotes[category] || [];
+            }
+            var q = pool[Math.floor(Math.random() * pool.length)];
+            document.getElementById('quoteText').textContent = q.text;
+            document.getElementById('quoteAuthor').textContent = '- ' + q.author + ' -';
+        }
+        newQuote();
+    </script>
+</body>
+</html>

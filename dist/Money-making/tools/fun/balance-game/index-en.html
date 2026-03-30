@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/balance-game/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/balance-game/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/balance-game/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/balance-game/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/balance-game/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/balance-game/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balance Game</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #8b5cf6, #7c3aed); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-section { margin-bottom: 20px; }
+        .category-label { font-size: .9rem; opacity: .7; margin-bottom: 10px; display: block; text-align: center; }
+        .category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .category-btn { padding: 12px 8px; border: 2px solid rgba(255,255,255,.3); border-radius: 10px; background: rgba(255,255,255,.1); color: #fff; font-size: .85rem; cursor: pointer; text-align: center; transition: all .3s; }
+        .category-btn.active { background: rgba(255,255,255,.3); border-color: #fff; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .question-section { display: none; }
+        .question-number { text-align: center; font-size: .9rem; opacity: .7; margin-bottom: 15px; }
+        .vs-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .choice-btn { padding: 30px 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 16px; background: rgba(255,255,255,.1); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; text-align: center; transition: all .3s; line-height: 1.4; }
+        .choice-btn:hover { background: rgba(255,255,255,.2); transform: scale(1.02); }
+        .choice-btn.selected { border-color: #22c55e; background: rgba(34,197,94,.3); }
+        .vs-divider { text-align: center; font-size: 1.5rem; font-weight: 700; color: #fbbf24; }
+        .result-bar { display: none; margin-top: 15px; }
+        .bar-container { height: 40px; background: rgba(255,255,255,.1); border-radius: 20px; overflow: hidden; display: flex; }
+        .bar-left { background: linear-gradient(90deg, #3b82f6, #2563eb); display: flex; align-items: center; justify-content: center; font-weight: 600; transition: width 0.5s; }
+        .bar-right { background: linear-gradient(90deg, #ec4899, #db2777); display: flex; align-items: center; justify-content: center; font-weight: 600; transition: width 0.5s; }
+        .navigation { display: flex; gap: 12px; margin-top: 20px; }
+        .nav-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        .nav-btn.primary { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-top: 20px; text-align: center; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: center; gap: 20px; font-size: .9rem; }
+        .complete-section { display: none; text-align: center; }
+        .complete-icon { font-size: 5rem; margin-bottom: 20px; }
+        .complete-text { font-size: 1.5rem; font-weight: 700; margin-bottom: 25px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>⚖️ Balance Game</h1>
+            <p class="subtitle">Difficult choices, what's your answer?</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="category-section">
+                    <span class="category-label">Select Category</span>
+                    <div class="category-grid">
+                        <button class="category-btn active" onclick="selectCategory(0)">Life</button>
+                        <button class="category-btn" onclick="selectCategory(1)">Love</button>
+                        <button class="category-btn" onclick="selectCategory(2)">Food</button>
+                        <button class="category-btn" onclick="selectCategory(3)">Money</button>
+                        <button class="category-btn" onclick="selectCategory(4)">Powers</button>
+                        <button class="category-btn" onclick="selectCategory(5)">Random</button>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 Start Game!</button>
+            </div>
+            <div class="question-section" id="questionSection">
+                <div class="question-number" id="questionNumber">Question 1 / 10</div>
+                <div class="vs-container">
+                    <button class="choice-btn" id="choiceA" onclick="selectChoice('A')">Choice A</button>
+                    <div class="vs-divider">VS</div>
+                    <button class="choice-btn" id="choiceB" onclick="selectChoice('B')">Choice B</button>
+                </div>
+                <div class="result-bar" id="resultBar">
+                    <div class="bar-container">
+                        <div class="bar-left" id="barLeft">50%</div>
+                        <div class="bar-right" id="barRight">50%</div>
+                    </div>
+                </div>
+                <div class="navigation" id="navigation" style="display:none">
+                    <button class="nav-btn primary" onclick="nextQuestion()">Next Question ➡️</button>
+                </div>
+                <div class="stats">
+                    <div class="stats-title">Current Progress</div>
+                    <div class="stats-row">
+                        <span>Choice A: <span id="countA">0</span></span>
+                        <span>Choice B: <span id="countB">0</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="complete-section" id="completeSection">
+                <div class="complete-icon">🎉</div>
+                <div class="complete-text">Game Complete!</div>
+                <div class="stats">
+                    <div class="stats-row">
+                        <span>Choice A: <span id="finalA">0</span></span>
+                        <span>Choice B: <span id="finalB">0</span></span>
+                    </div>
+                </div>
+                <button class="start-btn" style="margin-top:20px" onclick="resetGame()">🔄 Play Again</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var questions = {
+            0: [ // Life
+                ['Live in eternal summer', 'Live in eternal winter'],
+                ['Sleep only 2 hours without feeling tired', 'Need 12 hours of sleep daily'],
+                ['Always be 10 minutes late', 'Always arrive 2 hours early'],
+                ['Live without TV forever', 'Live without phone forever'],
+                ['Never sweat again', 'Never have bad breath again'],
+                ['Work from home forever', 'Work in office forever'],
+                ['Live healthy to 100', 'Live rich until 50'],
+                ['Have perfect memory', 'Have double the physical strength'],
+                ['Be extremely lucky', 'Be extremely talented'],
+                ['Know when you die', 'Know how you die']
+            ],
+            1: [ // Love
+                ['Marry your first love', 'Marry your last love'],
+                ['Perfect looks partner', 'Perfect personality partner'],
+                ['Rich unfaithful partner', 'Poor faithful partner'],
+                ['Fight daily but make up', 'Never fight but feel nothing'],
+                ['Partner knows all your passwords', 'You know none of theirs'],
+                ['Partner 10 years younger', 'Partner 10 years older'],
+                ['Public relationship', 'Secret relationship'],
+                ['Completely different hobbies', 'Identical hobbies'],
+                ['Long distance for 3 years', 'Move in after 3 months'],
+                ['Parents disapprove marriage', 'Friends disapprove marriage']
+            ],
+            2: [ // Food
+                ['Only sweet food forever', 'Only salty food forever'],
+                ['Only cold food forever', 'Only hot food forever'],
+                ['Tasteless healthy food', 'Delicious unhealthy food'],
+                ['Only rice forever', 'Only bread forever'],
+                ['Same free meal daily', 'Expensive varied meals'],
+                ['Eat alone at best restaurant', 'Eat with friends at average place'],
+                ['Never eat beef again', 'Never eat seafood again'],
+                ['Cup noodles only', 'Convenience store meals only'],
+                ['Never drink coffee again', 'Never drink alcohol again'],
+                ['Eat same breakfast forever', 'Eat same dinner forever']
+            ],
+            3: [ // Money
+                ['$10M but 3 years prison', '$1M and freedom'],
+                ['Stable $50k/year forever', 'Unstable up to $500k/year'],
+                ['Rich but no free time', 'Poor but lots of free time'],
+                ['Win lottery now', 'Assets 10x in 10 years'],
+                ['Rich with no friends', 'Poor with many friends'],
+                ['Rich in countryside', 'Poor in city'],
+                ['$100k now', '$1M in 10 years'],
+                ['50% discount on all shopping', 'Free food forever'],
+                ['Free tiny apartment', 'Paid spacious apartment'],
+                ['Fixed $80k salary forever', 'Performance based $0-$300k']
+            ],
+            4: [ // Powers
+                ['Ability to fly', 'Ability to teleport'],
+                ['Read minds', 'See the future'],
+                ['Turn invisible', 'Stop time'],
+                ['Speak all languages', 'Play all instruments'],
+                ['Genius brain', 'Perfect looks'],
+                ['Never need sleep', 'Never need food'],
+                ['Travel to past', 'Travel to future'],
+                ['Talk to animals', 'Control plants'],
+                ['Perfect memory', 'Perfect emotional control'],
+                ['Never age', 'Never get sick']
+            ]
+        };
+
+        var selectedCategory = 0;
+        var currentQuestions = [];
+        var currentIndex = 0;
+        var countA = 0;
+        var countB = 0;
+        var hasSelected = false;
+
+        function selectCategory(index) {
+            selectedCategory = index;
+            var btns = document.querySelectorAll('.category-btn');
+            btns.forEach(function(btn, i) {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function shuffleArray(array) {
+            var arr = array.slice();
+            for (var i = arr.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            return arr;
+        }
+
+        function startGame() {
+            if (selectedCategory === 5) {
+                var allQuestions = [];
+                for (var i = 0; i < 5; i++) {
+                    allQuestions = allQuestions.concat(questions[i]);
+                }
+                currentQuestions = shuffleArray(allQuestions).slice(0, 10);
+            } else {
+                currentQuestions = shuffleArray(questions[selectedCategory]).slice(0, 10);
+            }
+
+            currentIndex = 0;
+            countA = 0;
+            countB = 0;
+
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('questionSection').style.display = 'block';
+            document.getElementById('completeSection').style.display = 'none';
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            hasSelected = false;
+            var q = currentQuestions[currentIndex];
+            document.getElementById('questionNumber').textContent = 'Question ' + (currentIndex + 1) + ' / ' + currentQuestions.length;
+            document.getElementById('choiceA').textContent = q[0];
+            document.getElementById('choiceB').textContent = q[1];
+            document.getElementById('choiceA').classList.remove('selected');
+            document.getElementById('choiceB').classList.remove('selected');
+            document.getElementById('resultBar').style.display = 'none';
+            document.getElementById('navigation').style.display = 'none';
+            updateStats();
+        }
+
+        function selectChoice(choice) {
+            if (hasSelected) return;
+            hasSelected = true;
+
+            if (choice === 'A') {
+                countA++;
+                document.getElementById('choiceA').classList.add('selected');
+            } else {
+                countB++;
+                document.getElementById('choiceB').classList.add('selected');
+            }
+
+            var percentA = Math.floor(Math.random() * 40) + 30;
+            var percentB = 100 - percentA;
+
+            document.getElementById('barLeft').style.width = percentA + '%';
+            document.getElementById('barLeft').textContent = percentA + '%';
+            document.getElementById('barRight').style.width = percentB + '%';
+            document.getElementById('barRight').textContent = percentB + '%';
+            document.getElementById('resultBar').style.display = 'block';
+            document.getElementById('navigation').style.display = 'flex';
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('countA').textContent = countA;
+            document.getElementById('countB').textContent = countB;
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex >= currentQuestions.length) {
+                endGame();
+            } else {
+                showQuestion();
+            }
+        }
+
+        function endGame() {
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('completeSection').style.display = 'block';
+            document.getElementById('finalA').textContent = countA;
+            document.getElementById('finalB').textContent = countB;
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('completeSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/countdown-event/"><meta property="og:url" content="https://instaidea.org/tools/fun/countdown-event/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/countdown-event/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/countdown-event/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/countdown-event/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/countdown-event/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 카운트다운</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #11998e, #38ef7d); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .countdown-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .input-group { margin-bottom: 20px; }
+        .input-label { font-size: .9rem; margin-bottom: 10px; opacity: .8; }
+        input[type=text], input[type=datetime-local] { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1rem; }
+        .set-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-bottom: 25px; }
+        .countdown-display { text-align: center; padding: 30px; background: rgba(0,0,0,.2); border-radius: 16px; margin-bottom: 20px; }
+        .event-name { font-size: 1.2rem; margin-bottom: 20px; opacity: .9; }
+        .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .time-box { background: rgba(255,255,255,.1); padding: 15px 10px; border-radius: 12px; }
+        .time-value { font-size: 2.5rem; font-weight: 700; }
+        .time-label { font-size: .75rem; opacity: .7; margin-top: 5px; }
+        .saved-events { margin-top: 20px; }
+        .saved-events h3 { font-size: 1rem; margin-bottom: 15px; }
+        .event-item { background: rgba(255,255,255,.1); padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .event-item:hover { background: rgba(255,255,255,.2); }
+        .del-btn { background: rgba(231,76,60,.5); border: none; color: #fff; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header><h1>⏳ 이벤트 카운트다운</h1></header>
+        <div class="countdown-section">
+            <div class="input-group">
+                <div class="input-label">이벤트 이름</div>
+                <input type="text" id="eventName" placeholder="예: 새해, 생일, 시험">
+            </div>
+            <div class="input-group">
+                <div class="input-label">목표 날짜와 시간</div>
+                <input type="datetime-local" id="eventDate">
+            </div>
+            <button class="set-btn" onclick="setEvent()">카운트다운 시작</button>
+            <div class="countdown-display">
+                <div class="event-name" id="displayName">이벤트를 설정하세요</div>
+                <div class="time-grid">
+                    <div class="time-box"><div class="time-value" id="days">0</div><div class="time-label">일</div></div>
+                    <div class="time-box"><div class="time-value" id="hours">0</div><div class="time-label">시간</div></div>
+                    <div class="time-box"><div class="time-value" id="mins">0</div><div class="time-label">분</div></div>
+                    <div class="time-box"><div class="time-value" id="secs">0</div><div class="time-label">초</div></div>
+                </div>
+            </div>
+            <div class="saved-events">
+                <h3>📋 저장된 이벤트</h3>
+                <div id="eventList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var currentEvent = null;
+        var events = JSON.parse(localStorage.getItem('cdEvents') || '[]');
+        function setEvent() {
+            var n = document.getElementById('eventName').value;
+            var d = document.getElementById('eventDate').value;
+            if (!n || !d) { alert('이름과 날짜를 입력하세요'); return; }
+            currentEvent = { name: n, date: new Date(d).getTime() };
+            events.push(currentEvent);
+            localStorage.setItem('cdEvents', JSON.stringify(events));
+            renderEvents();
+            update();
+        }
+        function loadEvent(e) { currentEvent = e; update(); }
+        function delEvent(i) {
+            events.splice(i, 1);
+            localStorage.setItem('cdEvents', JSON.stringify(events));
+            renderEvents();
+        }
+        function renderEvents() {
+            var list = document.getElementById('eventList');
+            list.innerHTML = '';
+            events.forEach(function(e, i) {
+                var div = document.createElement('div');
+                div.className = 'event-item';
+                div.innerHTML = '<span onclick="loadEvent(events[' + i + '])">' + e.name + '</span><button class="del-btn" onclick="event.stopPropagation();delEvent(' + i + ')">삭제</button>';
+                list.appendChild(div);
+            });
+        }
+        function update() {
+            if (!currentEvent) return;
+            document.getElementById('displayName').textContent = currentEvent.name;
+            var now = Date.now();
+            var diff = currentEvent.date - now;
+            if (diff < 0) { diff = 0; }
+            var d = Math.floor(diff / 86400000);
+            var h = Math.floor((diff % 86400000) / 3600000);
+            var m = Math.floor((diff % 3600000) / 60000);
+            var s = Math.floor((diff % 60000) / 1000);
+            document.getElementById('days').textContent = d;
+            document.getElementById('hours').textContent = h;
+            document.getElementById('mins').textContent = m;
+            document.getElementById('secs').textContent = s;
+        }
+        renderEvents();
+        if (events.length > 0) { currentEvent = events[0]; update(); }
+        setInterval(update, 1000);
+    </script>
+</body>
+</html>

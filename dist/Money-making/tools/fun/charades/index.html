@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/charades/"><meta property="og:url" content="https://instaidea.org/tools/fun/charades/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/charades/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/charades/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/charades/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/charades/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제스처 게임</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #f97316, #ea580c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-section { margin-bottom: 20px; }
+        .category-title { font-size: .9rem; opacity: .7; margin-bottom: 12px; }
+        .categories { display: flex; flex-wrap: wrap; gap: 8px; }
+        .category-btn { padding: 10px 16px; border: 2px solid rgba(255,255,255,.3); border-radius: 20px; background: rgba(255,255,255,.1); color: #fff; font-size: .9rem; cursor: pointer; transition: all .3s; }
+        .category-btn.active { background: #fff; color: #ea580c; border-color: #fff; }
+        .timer-section { text-align: center; margin-bottom: 20px; }
+        .timer { font-size: 4rem; font-weight: 700; }
+        .timer.warning { color: #fbbf24; animation: pulse 0.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .card-area { min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .word-card { width: 100%; background: linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.15)); border-radius: 20px; padding: 50px 30px; text-align: center; }
+        .word-text { font-size: 2.2rem; font-weight: 700; }
+        .word-hint { font-size: 1rem; opacity: .7; margin-top: 15px; }
+        .controls { display: flex; gap: 12px; margin-bottom: 20px; }
+        .control-btn { flex: 1; padding: 18px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all .3s; }
+        .correct-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .skip-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .game-over { display: none; text-align: center; }
+        .score-display { font-size: 5rem; font-weight: 700; margin-bottom: 15px; }
+        .score-label { font-size: 1.2rem; opacity: .8; margin-bottom: 25px; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-top: 20px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+        .timer-setting { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .timer-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .timer-display { font-size: 1.5rem; font-weight: 700; min-width: 60px; text-align: center; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🎭 제스처 게임</h1>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="category-section">
+                    <div class="category-title">카테고리</div>
+                    <div class="categories" id="categories"></div>
+                </div>
+                <div class="timer-setting">
+                    <button class="timer-btn" onclick="changeTime(-10)">-</button>
+                    <div class="timer-display" id="timerSetting">60초</div>
+                    <button class="timer-btn" onclick="changeTime(10)">+</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎬 게임 시작!</button>
+            </div>
+            <div class="play-section hidden" id="playSection">
+                <div class="timer-section">
+                    <div class="timer" id="timer">60</div>
+                </div>
+                <div class="card-area">
+                    <div class="word-card">
+                        <div class="word-text" id="wordText">준비!</div>
+                        <div class="word-hint" id="wordHint"></div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="control-btn skip-btn" onclick="skipWord()">⏭️ 패스</button>
+                    <button class="control-btn correct-btn" onclick="correctWord()">✅ 정답!</button>
+                </div>
+                <div class="stats">
+                    <div class="stats-row"><span>정답</span><span id="correctCount">0</span></div>
+                    <div class="stats-row"><span>패스</span><span id="skipCount">0</span></div>
+                </div>
+            </div>
+            <div class="game-over hidden" id="gameOver">
+                <div class="score-display" id="finalScore">0</div>
+                <div class="score-label">정답 개수</div>
+                <button class="start-btn" onclick="resetGame()">🔄 다시 하기</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
+    </div>
+    <script>
+        var words = {
+            movies: { name: '영화', words: ["타이타닉", "아바타", "해리포터", "어벤져스", "겨울왕국", "인셉션", "매트릭스", "쥬라기공원", "라이온킹", "스파이더맨", "아이언맨", "기생충", "인터스텔라", "토르", "배트맨", "슈퍼맨", "반지의제왕", "토이스토리", "니모를 찾아서", "알라딘"] },
+            animals: { name: '동물', words: ["사자", "호랑이", "코끼리", "기린", "원숭이", "펭귄", "캥거루", "고릴라", "곰", "늑대", "여우", "토끼", "거북이", "뱀", "악어", "상어", "돌고래", "고래", "문어", "게"] },
+            actions: { name: '동작', words: ["수영하기", "달리기", "춤추기", "요리하기", "청소하기", "운전하기", "노래하기", "그림그리기", "피아노치기", "축구하기", "농구하기", "스키타기", "낚시하기", "등산하기", "자전거타기", "줄넘기", "권투하기", "태권도", "골프치기", "요가하기"] },
+            jobs: { name: '직업', words: ["의사", "경찰관", "소방관", "선생님", "요리사", "가수", "배우", "화가", "사진작가", "조종사", "우주비행사", "과학자", "판사", "변호사", "간호사", "군인", "농부", "어부", "광대", "마술사"] },
+            things: { name: '사물', words: ["자동차", "비행기", "헬리콥터", "기차", "배", "로켓", "냉장고", "세탁기", "에어컨", "텔레비전", "컴퓨터", "스마트폰", "피아노", "기타", "드럼", "바이올린", "우산", "선풍기", "청소기", "전자레인지"] }
+        };
+
+        var categories = ['movies', 'animals', 'actions', 'jobs', 'things'];
+        var selectedCategories = ['animals'];
+        var gameDuration = 60;
+        var timeLeft = 60;
+        var timer = null;
+        var deck = [];
+        var correctCount = 0;
+        var skipCount = 0;
+
+        function initCategories() {
+            var html = '';
+            for (var i = 0; i < categories.length; i++) {
+                var cat = categories[i];
+                var active = selectedCategories.indexOf(cat) !== -1 ? 'active' : '';
+                html += '<button class="category-btn ' + active + '" onclick="toggleCategory(\'' + cat + '\')">' + words[cat].name + '</button>';
+            }
+            document.getElementById('categories').innerHTML = html;
+        }
+
+        function toggleCategory(cat) {
+            var idx = selectedCategories.indexOf(cat);
+            if (idx === -1) {
+                selectedCategories.push(cat);
+            } else if (selectedCategories.length > 1) {
+                selectedCategories.splice(idx, 1);
+            }
+            initCategories();
+        }
+
+        function changeTime(delta) {
+            gameDuration = Math.max(30, Math.min(120, gameDuration + delta));
+            document.getElementById('timerSetting').textContent = gameDuration + '초';
+        }
+
+        function buildDeck() {
+            deck = [];
+            for (var i = 0; i < selectedCategories.length; i++) {
+                var cat = selectedCategories[i];
+                for (var j = 0; j < words[cat].words.length; j++) {
+                    deck.push({ word: words[cat].words[j], category: words[cat].name });
+                }
+            }
+            shuffleDeck();
+        }
+
+        function shuffleDeck() {
+            for (var i = deck.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = deck[i];
+                deck[i] = deck[j];
+                deck[j] = temp;
+            }
+        }
+
+        function startGame() {
+            buildDeck();
+            correctCount = 0;
+            skipCount = 0;
+            timeLeft = gameDuration;
+            document.getElementById('setupSection').classList.add('hidden');
+            document.getElementById('playSection').classList.remove('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+            updateStats();
+            nextWord();
+            startTimer();
+        }
+
+        function startTimer() {
+            updateTimerDisplay();
+            timer = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            var timerEl = document.getElementById('timer');
+            timerEl.textContent = timeLeft;
+            timerEl.classList.toggle('warning', timeLeft <= 10);
+        }
+
+        function nextWord() {
+            if (deck.length === 0) {
+                buildDeck();
+            }
+            var item = deck.pop();
+            document.getElementById('wordText').textContent = item.word;
+            document.getElementById('wordHint').textContent = item.category;
+        }
+
+        function correctWord() {
+            correctCount++;
+            updateStats();
+            nextWord();
+        }
+
+        function skipWord() {
+            skipCount++;
+            updateStats();
+            nextWord();
+        }
+
+        function updateStats() {
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('skipCount').textContent = skipCount;
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            document.getElementById('playSection').classList.add('hidden');
+            document.getElementById('gameOver').classList.remove('hidden');
+            document.getElementById('finalScore').textContent = correctCount;
+
+            var stats = JSON.parse(localStorage.getItem('charades_ko') || '{"played":0,"totalCorrect":0,"best":0}');
+            stats.played++;
+            stats.totalCorrect += correctCount;
+            if (correctCount > stats.best) stats.best = correctCount;
+            localStorage.setItem('charades_ko', JSON.stringify(stats));
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').classList.remove('hidden');
+            document.getElementById('playSection').classList.add('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+        }
+
+        initCategories();
+    </script>
+</body>
+</html>

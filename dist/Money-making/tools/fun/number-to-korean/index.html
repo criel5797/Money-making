@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/number-to-korean/"><meta property="og:url" content="https://instaidea.org/tools/fun/number-to-korean/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/number-to-korean/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/number-to-korean/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/number-to-korean/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/number-to-korean/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 한글 변환기 - 금액 한글 표기</title>
+    <meta name="description" content="숫자를 한글로 변환해주는 도구입니다. 금액 표기, 수표 작성, 공문서 작성 시 유용합니다.">
+    <meta name="keywords" content="숫자 한글 변환, 금액 한글, 수표 금액, 한글 숫자, 숫자 읽기">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .input-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .input-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1.2rem;
+            text-align: right;
+        }
+        input:focus {
+            outline: none;
+            border-color: #fff;
+            background: rgba(255,255,255,0.15);
+        }
+        input::placeholder { color: rgba(255,255,255,0.5); }
+        .result-box {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            min-height: 60px;
+        }
+        .result-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 8px;
+        }
+        .result-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            word-break: keep-all;
+            line-height: 1.5;
+        }
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-copy { background: #27ae60; color: white; }
+        .btn-clear { background: rgba(255,255,255,0.2); color: white; }
+        button:hover { transform: translateY(-2px); opacity: 0.9; }
+        .options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .option-btn {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option-btn.active {
+            background: rgba(255,255,255,0.3);
+            border-color: #fff;
+        }
+        .examples {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .examples h3 { margin-bottom: 15px; font-size: 1rem; }
+        .example-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+        .example-item:last-child { border: none; }
+        .copied {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            padding: 15px 30px;
+            border-radius: 10px;
+            z-index: 100;
+            animation: fadeInOut 1.5s ease;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            20%, 80% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>🔢 숫자 한글 변환기</h1>
+            <p class="subtitle">숫자를 한글로 변환해드립니다</p>
+        </header>
+        <div class="input-section">
+            <div class="options">
+                <button class="option-btn active" data-type="money">금액 (원)</button>
+                <button class="option-btn" data-type="number">일반 숫자</button>
+            </div>
+            <div class="input-group">
+                <label>숫자를 입력하세요</label>
+                <input type="text" id="numberInput" placeholder="예: 1234567890" inputmode="numeric">
+            </div>
+            <div class="result-box">
+                <div class="result-label">한글 표기</div>
+                <div class="result-text" id="koreanResult">-</div>
+            </div>
+            <div class="result-box">
+                <div class="result-label">읽기</div>
+                <div class="result-text" id="readingResult">-</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn-copy" onclick="copyResult()">복사하기</button>
+                <button class="btn-clear" onclick="clearInput()">지우기</button>
+            </div>
+        </div>
+        <div class="examples">
+            <h3>📝 변환 예시</h3>
+            <div class="example-item"><span>1,234</span><span>일천이백삼십사</span></div>
+            <div class="example-item"><span>10,000</span><span>일만</span></div>
+            <div class="example-item"><span>1,000,000</span><span>일백만</span></div>
+            <div class="example-item"><span>100,000,000</span><span>일억</span></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
+    </div>
+    <script>
+        var type = 'money';
+        var digits = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+        var units = ['', '십', '백', '천'];
+        var bigUnits = ['', '만', '억', '조', '경'];
+
+        document.querySelectorAll('.option-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.option-btn').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                type = this.dataset.type;
+                convert();
+            });
+        });
+
+        document.getElementById('numberInput').addEventListener('input', function(e) {
+            var value = e.target.value.replace(/[^0-9]/g, '');
+            if (value.length > 16) value = value.slice(0, 16);
+            e.target.value = formatNumber(value);
+            convert();
+        });
+
+        function formatNumber(num) {
+            return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function convert() {
+            var input = document.getElementById('numberInput').value.replace(/,/g, '');
+            if (!input || input === '0') {
+                document.getElementById('koreanResult').textContent = input === '0' ? '영' : '-';
+                document.getElementById('readingResult').textContent = input === '0' ? '영' : '-';
+                return;
+            }
+            var korean = numberToKorean(input);
+            var suffix = type === 'money' ? '원' : '';
+            document.getElementById('koreanResult').textContent = korean + suffix;
+            document.getElementById('readingResult').textContent = korean.replace(/일([천백십만억조경])/g, '$1') + suffix;
+        }
+
+        function numberToKorean(num) {
+            if (num === '0') return '영';
+            var result = '';
+            var groups = [];
+            while (num.length > 0) {
+                groups.push(num.slice(-4));
+                num = num.slice(0, -4);
+            }
+            for (var i = groups.length - 1; i >= 0; i--) {
+                var group = groups[i];
+                var groupKorean = '';
+                for (var j = 0; j < group.length; j++) {
+                    var digit = parseInt(group[group.length - 1 - j]);
+                    if (digit !== 0) {
+                        groupKorean = digits[digit] + units[j] + groupKorean;
+                    }
+                }
+                if (groupKorean) {
+                    result += groupKorean + bigUnits[i];
+                }
+            }
+            return result || '영';
+        }
+
+        function copyResult() {
+            var text = document.getElementById('koreanResult').textContent;
+            if (text && text !== '-') {
+                navigator.clipboard.writeText(text).then(function() {
+                    showCopied();
+                });
+            }
+        }
+
+        function clearInput() {
+            document.getElementById('numberInput').value = '';
+            document.getElementById('koreanResult').textContent = '-';
+            document.getElementById('readingResult').textContent = '-';
+        }
+
+        function showCopied() {
+            var div = document.createElement('div');
+            div.className = 'copied';
+            div.textContent = '복사되었습니다!';
+            document.body.appendChild(div);
+            setTimeout(function() { div.remove(); }, 1500);
+        }
+    </script>
+</body>
+</html>

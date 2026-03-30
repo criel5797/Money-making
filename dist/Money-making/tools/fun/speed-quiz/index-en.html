@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/speed-quiz/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/speed-quiz/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/speed-quiz/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/speed-quiz/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/speed-quiz/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/speed-quiz/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Quiz</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #0891b2, #0e7490); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .category-btn { padding: 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; text-align: center; transition: all .3s; }
+        .category-btn.active { background: rgba(255,255,255,.3); border-color: #fff; }
+        .category-emoji { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        .timer-setting { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .timer-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .timer-value { font-size: 1.5rem; font-weight: 700; min-width: 80px; text-align: center; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .play-section { display: none; }
+        .timer-bar { height: 8px; background: rgba(255,255,255,.2); border-radius: 4px; overflow: hidden; margin-bottom: 15px; }
+        .timer-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #fbbf24, #ef4444); transition: width 0.1s; }
+        .score-display { text-align: center; font-size: 1.2rem; margin-bottom: 15px; }
+        .score-value { font-size: 2.5rem; font-weight: 700; color: #fbbf24; }
+        .word-card { background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,255,255,.9)); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 20px; min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .hint-label { font-size: .9rem; color: #64748b; margin-bottom: 10px; }
+        .word-text { font-size: 2rem; font-weight: 700; color: #1e293b; }
+        .controls { display: flex; gap: 12px; }
+        .control-btn { flex: 1; padding: 20px; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 600; cursor: pointer; }
+        .skip-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .correct-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .result-section { display: none; text-align: center; }
+        .result-icon { font-size: 5rem; margin-bottom: 20px; }
+        .result-score { font-size: 4rem; font-weight: 700; margin-bottom: 10px; }
+        .result-label { font-size: 1.2rem; opacity: .8; margin-bottom: 25px; }
+        .result-list { background: rgba(255,255,255,.1); border-radius: 12px; padding: 15px; margin-bottom: 20px; max-height: 200px; overflow-y: auto; text-align: left; }
+        .result-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.1); display: flex; justify-content: space-between; }
+        .result-item:last-child { border-bottom: none; }
+        .correct { color: #22c55e; }
+        .skipped { color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>⚡ Speed Quiz</h1>
+            <p class="subtitle">Guess quickly from hints!</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="category-grid">
+                    <button class="category-btn active" onclick="selectCategory(0)"><span class="category-emoji">🎬</span>Characters</button>
+                    <button class="category-btn" onclick="selectCategory(1)"><span class="category-emoji">🏢</span>Places</button>
+                    <button class="category-btn" onclick="selectCategory(2)"><span class="category-emoji">🎵</span>Music</button>
+                    <button class="category-btn" onclick="selectCategory(3)"><span class="category-emoji">📦</span>Objects</button>
+                </div>
+                <div class="timer-setting">
+                    <button class="timer-btn" onclick="changeTime(-10)">-</button>
+                    <div class="timer-value" id="timerSetting">60 sec</div>
+                    <button class="timer-btn" onclick="changeTime(10)">+</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 Start Game!</button>
+            </div>
+            <div class="play-section" id="playSection">
+                <div class="timer-bar">
+                    <div class="timer-fill" id="timerFill"></div>
+                </div>
+                <div class="score-display">
+                    Score: <span class="score-value" id="scoreValue">0</span>
+                </div>
+                <div class="word-card">
+                    <div class="hint-label" id="hintLabel">Hint</div>
+                    <div class="word-text" id="wordText">Word</div>
+                </div>
+                <div class="controls">
+                    <button class="control-btn skip-btn" onclick="skipWord()">⏭️ Skip</button>
+                    <button class="control-btn correct-btn" onclick="correctWord()">✅ Correct</button>
+                </div>
+            </div>
+            <div class="result-section" id="resultSection">
+                <div class="result-icon">🏆</div>
+                <div class="result-score" id="resultScore">0</div>
+                <div class="result-label">Correct Answers</div>
+                <div class="result-list" id="resultList"></div>
+                <button class="start-btn" onclick="resetGame()">🔄 Play Again</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var quizData = {
+            0: [ // Characters
+                { hint: 'Yellow sponge underwater', answer: 'SpongeBob' },
+                { hint: 'Red cape hero', answer: 'Superman' },
+                { hint: 'Wizard with glasses', answer: 'Harry Potter' },
+                { hint: 'Green angry hero', answer: 'Hulk' },
+                { hint: 'Rat that cooks', answer: 'Ratatouille' },
+                { hint: 'Small yellow creatures', answer: 'Minions' },
+                { hint: 'My precious ring', answer: 'Gollum' },
+                { hint: 'Ice queen', answer: 'Elsa' },
+                { hint: 'Bat superhero', answer: 'Batman' },
+                { hint: 'Web-slinging hero', answer: 'Spider-Man' },
+                { hint: 'Red metal suit hero', answer: 'Iron Man' },
+                { hint: 'Curious monkey', answer: 'Curious George' },
+                { hint: 'British detective', answer: 'Sherlock Holmes' },
+                { hint: 'Glass slipper princess', answer: 'Cinderella' },
+                { hint: 'Apple sleeping princess', answer: 'Snow White' }
+            ],
+            1: [ // Places
+                { hint: 'Paris tower', answer: 'Eiffel Tower' },
+                { hint: 'China long wall', answer: 'Great Wall' },
+                { hint: 'Egypt triangle', answer: 'Pyramid' },
+                { hint: 'New York lady', answer: 'Statue of Liberty' },
+                { hint: 'Rome arena', answer: 'Colosseum' },
+                { hint: 'Big Ben city', answer: 'London' },
+                { hint: 'India white tomb', answer: 'Taj Mahal' },
+                { hint: 'Sydney shell building', answer: 'Opera House' },
+                { hint: 'Italy leaning tower', answer: 'Leaning Tower of Pisa' },
+                { hint: 'Mickey Mouse park', answer: 'Disneyland' },
+                { hint: 'Brazil Jesus statue', answer: 'Rio de Janeiro' },
+                { hint: 'US president house', answer: 'White House' },
+                { hint: 'Tokyo red tower', answer: 'Tokyo Tower' },
+                { hint: 'Grand Canyon state', answer: 'Arizona' },
+                { hint: 'Big Apple city', answer: 'New York' }
+            ],
+            2: [ // Music
+                { hint: 'Birthday celebration song', answer: 'Happy Birthday' },
+                { hint: 'Twinkle twinkle', answer: 'Little Star' },
+                { hint: 'Jingle bells', answer: 'Jingle Bells' },
+                { hint: 'Queen rock band anthem', answer: 'We Will Rock You' },
+                { hint: 'ABC song', answer: 'Alphabet Song' },
+                { hint: 'Let it go', answer: 'Frozen' },
+                { hint: 'Baby shark doo doo', answer: 'Baby Shark' },
+                { hint: 'Old MacDonald', answer: 'Had a Farm' },
+                { hint: 'Row row row', answer: 'Your Boat' },
+                { hint: 'Wheels on the bus', answer: 'Go Round' },
+                { hint: 'Silent night', answer: 'Holy Night' },
+                { hint: 'All I want for Christmas', answer: 'Is You' },
+                { hint: 'We wish you', answer: 'Merry Christmas' },
+                { hint: 'Auld lang syne', answer: 'New Year Song' },
+                { hint: 'Bohemian', answer: 'Rhapsody' }
+            ],
+            3: [ // Objects
+                { hint: 'Cold storage box', answer: 'Refrigerator' },
+                { hint: 'Tells time', answer: 'Clock' },
+                { hint: 'Writing tool', answer: 'Pencil' },
+                { hint: 'Rain protection', answer: 'Umbrella' },
+                { hint: 'Hair washing liquid', answer: 'Shampoo' },
+                { hint: 'Clean teeth tool', answer: 'Toothbrush' },
+                { hint: 'Foot covering', answer: 'Shoes' },
+                { hint: 'Cutting tool', answer: 'Knife' },
+                { hint: 'Fire extinguishing device', answer: 'Fire Extinguisher' },
+                { hint: 'Photo taking device', answer: 'Camera' },
+                { hint: 'Nail cutting tool', answer: 'Nail Clipper' },
+                { hint: 'Paper cutting tool', answer: 'Scissors' },
+                { hint: 'Door opening tool', answer: 'Key' },
+                { hint: 'Clothes cleaning machine', answer: 'Washing Machine' },
+                { hint: 'Hair drying device', answer: 'Hair Dryer' }
+            ]
+        };
+
+        var selectedCategory = 0;
+        var gameDuration = 60;
+        var timeLeft = 60;
+        var timer = null;
+        var score = 0;
+        var currentQuiz = [];
+        var quizIndex = 0;
+        var results = [];
+
+        function selectCategory(index) {
+            selectedCategory = index;
+            var btns = document.querySelectorAll('.category-btn');
+            btns.forEach(function(btn, i) {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function changeTime(delta) {
+            gameDuration = Math.max(30, Math.min(120, gameDuration + delta));
+            document.getElementById('timerSetting').textContent = gameDuration + ' sec';
+        }
+
+        function shuffleArray(arr) {
+            var a = arr.slice();
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var t = a[i]; a[i] = a[j]; a[j] = t;
+            }
+            return a;
+        }
+
+        function startGame() {
+            currentQuiz = shuffleArray(quizData[selectedCategory]);
+            quizIndex = 0;
+            score = 0;
+            results = [];
+            timeLeft = gameDuration;
+
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('playSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+
+            showQuiz();
+            startTimer();
+        }
+
+        function showQuiz() {
+            if (quizIndex >= currentQuiz.length) {
+                currentQuiz = shuffleArray(quizData[selectedCategory]);
+                quizIndex = 0;
+            }
+            var q = currentQuiz[quizIndex];
+            document.getElementById('hintLabel').textContent = 'Hint';
+            document.getElementById('wordText').textContent = q.hint;
+            document.getElementById('scoreValue').textContent = score;
+        }
+
+        function startTimer() {
+            var startTime = gameDuration;
+            document.getElementById('timerFill').style.width = '100%';
+
+            timer = setInterval(function() {
+                timeLeft--;
+                var percent = (timeLeft / startTime) * 100;
+                document.getElementById('timerFill').style.width = percent + '%';
+
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function correctWord() {
+            results.push({ word: currentQuiz[quizIndex].answer, correct: true });
+            score++;
+            quizIndex++;
+            showQuiz();
+        }
+
+        function skipWord() {
+            results.push({ word: currentQuiz[quizIndex].answer, correct: false });
+            quizIndex++;
+            showQuiz();
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultScore').textContent = score;
+
+            var listHtml = '';
+            results.forEach(function(r) {
+                var cls = r.correct ? 'correct' : 'skipped';
+                var icon = r.correct ? '✅' : '⏭️';
+                listHtml += '<div class="result-item"><span>' + r.word + '</span><span class="' + cls + '">' + icon + '</span></div>';
+            });
+            document.getElementById('resultList').innerHTML = listHtml;
+
+            var stats = JSON.parse(localStorage.getItem('speedquiz_en') || '{"best":0}');
+            if (score > stats.best) stats.best = score;
+            localStorage.setItem('speedquiz_en', JSON.stringify(stats));
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/charades/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/charades/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/charades/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/charades/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/charades/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/charades/"><script async src="https://www.googletagmanager.com/gtag/js?id=G-CGCL4G4YMY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-CGCL4G4YMY");</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ジェスチャーゲーム</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #f97316, #ea580c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-section { margin-bottom: 20px; }
+        .category-title { font-size: .9rem; opacity: .7; margin-bottom: 12px; }
+        .categories { display: flex; flex-wrap: wrap; gap: 8px; }
+        .category-btn { padding: 10px 16px; border: 2px solid rgba(255,255,255,.3); border-radius: 20px; background: rgba(255,255,255,.1); color: #fff; font-size: .9rem; cursor: pointer; transition: all .3s; }
+        .category-btn.active { background: #fff; color: #ea580c; border-color: #fff; }
+        .timer-section { text-align: center; margin-bottom: 20px; }
+        .timer { font-size: 4rem; font-weight: 700; }
+        .timer.warning { color: #fbbf24; animation: pulse 0.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .card-area { min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .word-card { width: 100%; background: linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.15)); border-radius: 20px; padding: 50px 30px; text-align: center; }
+        .word-text { font-size: 2.2rem; font-weight: 700; }
+        .word-hint { font-size: 1rem; opacity: .7; margin-top: 15px; }
+        .controls { display: flex; gap: 12px; margin-bottom: 20px; }
+        .control-btn { flex: 1; padding: 18px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all .3s; }
+        .correct-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .skip-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .game-over { display: none; text-align: center; }
+        .score-display { font-size: 5rem; font-weight: 700; margin-bottom: 15px; }
+        .score-label { font-size: 1.2rem; opacity: .8; margin-bottom: 25px; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-top: 20px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+        .timer-setting { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .timer-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .timer-display { font-size: 1.5rem; font-weight: 700; min-width: 60px; text-align: center; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎭 ジェスチャーゲーム</h1>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="category-section">
+                    <div class="category-title">カテゴリー</div>
+                    <div class="categories" id="categories"></div>
+                </div>
+                <div class="timer-setting">
+                    <button class="timer-btn" onclick="changeTime(-10)">-</button>
+                    <div class="timer-display" id="timerSetting">60秒</div>
+                    <button class="timer-btn" onclick="changeTime(10)">+</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎬 ゲーム開始！</button>
+            </div>
+            <div class="play-section hidden" id="playSection">
+                <div class="timer-section">
+                    <div class="timer" id="timer">60</div>
+                </div>
+                <div class="card-area">
+                    <div class="word-card">
+                        <div class="word-text" id="wordText">準備！</div>
+                        <div class="word-hint" id="wordHint"></div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="control-btn skip-btn" onclick="skipWord()">⏭️ パス</button>
+                    <button class="control-btn correct-btn" onclick="correctWord()">✅ 正解！</button>
+                </div>
+                <div class="stats">
+                    <div class="stats-row"><span>正解</span><span id="correctCount">0</span></div>
+                    <div class="stats-row"><span>パス</span><span id="skipCount">0</span></div>
+                </div>
+            </div>
+            <div class="game-over hidden" id="gameOver">
+                <div class="score-display" id="finalScore">0</div>
+                <div class="score-label">正解数</div>
+                <button class="start-btn" onclick="resetGame()">🔄 もう一度</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var words = {
+            movies: { name: '映画', words: ["タイタニック", "アバター", "ハリーポッター", "アベンジャーズ", "アナと雪の女王", "インセプション", "マトリックス", "ジュラシックパーク", "ライオンキング", "スパイダーマン", "アイアンマン", "パラサイト", "インターステラー", "ソー", "バットマン", "スーパーマン", "ロードオブザリング", "トイストーリー", "ファインディングニモ", "アラジン"] },
+            animals: { name: '動物', words: ["ライオン", "トラ", "ゾウ", "キリン", "サル", "ペンギン", "カンガルー", "ゴリラ", "クマ", "オオカミ", "キツネ", "ウサギ", "カメ", "ヘビ", "ワニ", "サメ", "イルカ", "クジラ", "タコ", "カニ"] },
+            actions: { name: 'アクション', words: ["泳ぐ", "走る", "踊る", "料理する", "掃除する", "運転する", "歌う", "絵を描く", "ピアノを弾く", "サッカーする", "バスケする", "スキーする", "釣りする", "登山する", "自転車に乗る", "縄跳び", "ボクシング", "空手", "ゴルフ", "ヨガ"] },
+            jobs: { name: '職業', words: ["医者", "警察官", "消防士", "先生", "シェフ", "歌手", "俳優", "画家", "写真家", "パイロット", "宇宙飛行士", "科学者", "裁判官", "弁護士", "看護師", "軍人", "農家", "漁師", "ピエロ", "マジシャン"] },
+            things: { name: '物', words: ["車", "飛行機", "ヘリコプター", "電車", "船", "ロケット", "冷蔵庫", "洗濯機", "エアコン", "テレビ", "パソコン", "スマホ", "ピアノ", "ギター", "ドラム", "バイオリン", "傘", "扇風機", "掃除機", "電子レンジ"] }
+        };
+
+        var categories = ['movies', 'animals', 'actions', 'jobs', 'things'];
+        var selectedCategories = ['animals'];
+        var gameDuration = 60;
+        var timeLeft = 60;
+        var timer = null;
+        var deck = [];
+        var correctCount = 0;
+        var skipCount = 0;
+
+        function initCategories() {
+            var html = '';
+            for (var i = 0; i < categories.length; i++) {
+                var cat = categories[i];
+                var active = selectedCategories.indexOf(cat) !== -1 ? 'active' : '';
+                html += '<button class="category-btn ' + active + '" onclick="toggleCategory(\'' + cat + '\')">' + words[cat].name + '</button>';
+            }
+            document.getElementById('categories').innerHTML = html;
+        }
+
+        function toggleCategory(cat) {
+            var idx = selectedCategories.indexOf(cat);
+            if (idx === -1) {
+                selectedCategories.push(cat);
+            } else if (selectedCategories.length > 1) {
+                selectedCategories.splice(idx, 1);
+            }
+            initCategories();
+        }
+
+        function changeTime(delta) {
+            gameDuration = Math.max(30, Math.min(120, gameDuration + delta));
+            document.getElementById('timerSetting').textContent = gameDuration + '秒';
+        }
+
+        function buildDeck() {
+            deck = [];
+            for (var i = 0; i < selectedCategories.length; i++) {
+                var cat = selectedCategories[i];
+                for (var j = 0; j < words[cat].words.length; j++) {
+                    deck.push({ word: words[cat].words[j], category: words[cat].name });
+                }
+            }
+            shuffleDeck();
+        }
+
+        function shuffleDeck() {
+            for (var i = deck.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = deck[i];
+                deck[i] = deck[j];
+                deck[j] = temp;
+            }
+        }
+
+        function startGame() {
+            buildDeck();
+            correctCount = 0;
+            skipCount = 0;
+            timeLeft = gameDuration;
+            document.getElementById('setupSection').classList.add('hidden');
+            document.getElementById('playSection').classList.remove('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+            updateStats();
+            nextWord();
+            startTimer();
+        }
+
+        function startTimer() {
+            updateTimerDisplay();
+            timer = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            var timerEl = document.getElementById('timer');
+            timerEl.textContent = timeLeft;
+            timerEl.classList.toggle('warning', timeLeft <= 10);
+        }
+
+        function nextWord() {
+            if (deck.length === 0) {
+                buildDeck();
+            }
+            var item = deck.pop();
+            document.getElementById('wordText').textContent = item.word;
+            document.getElementById('wordHint').textContent = item.category;
+        }
+
+        function correctWord() {
+            correctCount++;
+            updateStats();
+            nextWord();
+        }
+
+        function skipWord() {
+            skipCount++;
+            updateStats();
+            nextWord();
+        }
+
+        function updateStats() {
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('skipCount').textContent = skipCount;
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            document.getElementById('playSection').classList.add('hidden');
+            document.getElementById('gameOver').classList.remove('hidden');
+            document.getElementById('finalScore').textContent = correctCount;
+
+            var stats = JSON.parse(localStorage.getItem('charades_ja') || '{"played":0,"totalCorrect":0,"best":0}');
+            stats.played++;
+            stats.totalCorrect += correctCount;
+            if (correctCount > stats.best) stats.best = correctCount;
+            localStorage.setItem('charades_ja', JSON.stringify(stats));
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').classList.remove('hidden');
+            document.getElementById('playSection').classList.add('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+        }
+
+        initCategories();
+    </script>
+</body>
+</html>
