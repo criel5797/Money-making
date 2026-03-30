@@ -42,7 +42,11 @@ var repoEnv = (process.env.GITHUB_REPOSITORY || '');
 var repoName = repoEnv.split('/')[1] || '';
 var LEGACY_REPO_PATH = repoName || path.basename(process.cwd()) || 'Money-making';
 var autoBasePath = repoName ? '/' + repoName : '';
-var BASE_PATH = process.env.BASE_PATH || parsedBaseUrl.pathname.replace(/\/$/, '') || autoBasePath || '';
+var rawBasePath = process.env.BASE_PATH || parsedBaseUrl.pathname.replace(/\/$/, '') || autoBasePath || '';
+if (!process.env.BASE_PATH && parsedBaseUrl.hostname && !/github\.io$/i.test(parsedBaseUrl.hostname)) {
+  rawBasePath = '';
+}
+var BASE_PATH = rawBasePath;
 if (BASE_PATH === '/') BASE_PATH = '';
 if (BASE_PATH && BASE_PATH.charAt(0) !== '/') BASE_PATH = '/' + BASE_PATH;
 BASE_PATH = BASE_PATH.replace(/\/+$/, '');
