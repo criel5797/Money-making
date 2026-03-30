@@ -291,7 +291,7 @@ function injectToolContentSeo(content, options) {
     buildToolStructuredDataScripts(toolId, toolData, toolType, pagePath, lang) +
     buildGoogleAnalyticsTags();
 
-  if (lang === 'en' && TOOL_SEO_GUIDES[toolId]) {
+  if (lang === 'en' && getToolSeoGuide(toolId, toolData, toolType)) {
     content = injectBeforeClosingTag(content, '</head>', buildToolGuideStyles());
     content = injectBeforeClosingTag(content, '</body>', buildToolGuideSection(toolId, toolData, toolType, lang));
   }
@@ -634,7 +634,7 @@ function findCatalogItemById(id) {
 
 function buildToolFaqItems(toolId, toolData, toolType, lang) {
   if ((lang || 'en') !== 'en') return [];
-  var guide = TOOL_SEO_GUIDES[toolId];
+  var guide = getToolSeoGuide(toolId, toolData, toolType);
   if (guide && Array.isArray(guide.faqs)) return guide.faqs;
   return [];
 }
@@ -653,6 +653,137 @@ function buildToolGuideStyles() {
       '.insta-seo-card a:hover{text-decoration:underline}' +
       '@media (max-width:700px){.insta-seo-content{padding:0 14px}.insta-seo-card{padding:20px}}' +
     '</style>';
+}
+
+function inferToolGuideFamily(toolId, toolData, toolType) {
+  var haystack = [
+    toolId || '',
+    safeText(toolData && toolData.title && toolData.title.en, ''),
+    safeText(toolData && toolData.desc && toolData.desc.en, '')
+  ].join(' ').toLowerCase();
+  if (/(generator|password|qr code|uuid|slug|name|lorem|meta tag)/.test(haystack)) return 'generator';
+  if (/(converter|base64|binary|hex|encode|decode|timestamp|unit|image)/.test(haystack)) return 'converter';
+  if (/(formatter|minifier|beautify|format)/.test(haystack)) return 'formatter';
+  if (/(counter|analyzer|count)/.test(haystack)) return 'counter';
+  if (/(calculator|bmi|age|gpa|percent|loan|tip|d-day|dday)/.test(haystack)) return 'calculator';
+  if (/(tester|test|checker|decoder|preview|scanner|lookup|info|validator|quiz)/.test(haystack)) return 'inspector';
+  if (/(timer|stopwatch|clock|pomodoro|countdown|metronome)/.test(haystack)) return 'timer';
+  if (/(tracker|manager|planner|organizer|watchlist|list|journal|log|notepad|notes|board)/.test(haystack)) return 'organizer';
+  if (/(picker|roller|flip|draw|random|wheel|dice|coin)/.test(haystack)) return 'picker';
+  return toolType === 'webTool' ? 'utility' : 'daily';
+}
+
+function normalizeToolPurposePhrase(toolData) {
+  var text = safeText(toolData && toolData.desc && toolData.desc.en, 'handle quick browser tasks').replace(/[.]+$/g, '');
+  if (!text) return { mode: 'topic', text: 'quick browser tasks' };
+  var lowered = text.charAt(0).toLowerCase() + text.slice(1);
+  if (/^(generate|create|convert|format|count|check|calculate|test|decode|encode|compare|look up|lookup|preview|track|manage|plan|pick|roll|flip|scan|minify|parse|measure|solve|inspect|clean|build|organize)\b/i.test(text)) {
+    return { mode: 'action', text: lowered };
+  }
+  return { mode: 'topic', text: lowered };
+}
+
+function buildFallbackToolGuide(toolId, toolData, toolType) {
+  var keyword = safeText(toolData && toolData.title && toolData.title.en, toolId);
+  var purpose = normalizeToolPurposePhrase(toolData);
+  var family = inferToolGuideFamily(toolId, toolData, toolType);
+  var overviewByFamily = {
+    generator: keyword + ' is a browser-based tool for creating fresh output quickly when you need repeatable results without opening extra software.',
+    converter: keyword + ' is a browser-based tool for moving values between formats quickly so you can reuse the result in docs, code, or support workflows.',
+    formatter: keyword + ' is a browser-based cleanup tool that makes messy input easier to read, review, and reuse.',
+    counter: keyword + ' is a browser-based measurement tool for checking size, length, or text-related metrics in a few seconds.',
+    calculator: keyword + ' is a browser-based calculator for quick estimates and exact value checks without spreadsheet setup.',
+    inspector: keyword + ' is a browser-based inspection tool for checking data, output, or patterns quickly during review and debugging work.',
+    timer: keyword + ' is a browser-based timing tool that helps you stay on schedule with simple start-and-check workflows.',
+    organizer: keyword + ' is a lightweight browser-based organizer for quick planning, tracking, and list management tasks.',
+    picker: keyword + ' is a fast browser-based picker for random choices, simple selection flows, and lightweight decision tasks.',
+    utility: keyword + ' is a browser-based utility that helps you finish a small task quickly without switching away from your current workflow.',
+    daily: keyword + ' is a lightweight browser tool for quick everyday tasks, small calculations, and repeatable utility work.'
+  };
+  var usageLine = purpose.mode === 'action'
+    ? 'It is useful when you need to ' + purpose.text + ' quickly in one tab.'
+    : 'It is useful for ' + purpose.text + ' in a quick browser workflow.';
+  var contentByFamily = {
+    generator: {
+      steps: ['Choose the options or fields you want to use.', 'Generate a new result and review the output.', 'Copy or export the final value into your workflow.'],
+      useCases: ['Creating fresh output for docs, product work, or quick setup tasks.', 'Producing repeatable values without writing one-off scripts.', 'Generating a result that can be copied directly into another tool or form.'],
+      tips: ['Double-check the final output before sharing it publicly.', 'Regenerate a few times if you need a different style or pattern.', 'Keep the output close to the workflow where you plan to use it.'],
+      faqs: [{ q: 'Why use this generator in the browser?', a: 'It gives you fast output without extra software or setup.' }, { q: 'Can I generate multiple results?', a: 'Yes. Browser generators are useful because you can repeat the action until the result fits your task.' }, { q: 'When is a generator useful?', a: 'It is useful when you need quick, repeatable output for a task, form, or workflow.' }]
+    },
+    converter: {
+      steps: ['Enter or paste the source value.', 'Choose the target format or output style.', 'Copy the converted result and use it where needed.'],
+      useCases: ['Switching values between formats during development or QA.', 'Preparing data for docs, tickets, or handoff notes.', 'Checking conversion output quickly before using it elsewhere.'],
+      tips: ['Confirm the source and target formats before converting.', 'Test a small sample first when the input looks unusual.', 'Keep one verified example for future reference.'],
+      faqs: [{ q: 'Why use an online converter?', a: 'It lets you switch formats quickly without opening another application.' }, { q: 'What should I verify after conversion?', a: 'Check that the source input and final output are in the formats you expected.' }, { q: 'Who uses converters most often?', a: 'Developers, writers, QA teams, and operations teams often use them for quick data changes.' }]
+    },
+    formatter: {
+      steps: ['Paste the raw input into the tool.', 'Run formatting or cleanup to improve readability.', 'Review and copy the cleaned result back into your editor or ticket.'],
+      useCases: ['Cleaning up copied input before review.', 'Making output easier to scan in docs and issue reports.', 'Improving readability before sharing examples with teammates.'],
+      tips: ['Keep the original input nearby when formatting important content.', 'Use formatting before asking for review so others can scan faster.', 'Check edge cases such as long lines or nested structures after cleanup.'],
+      faqs: [{ q: 'Why format content before review?', a: 'Readable structure makes it easier to spot mistakes and discuss changes.' }, { q: 'Does formatting change the underlying meaning?', a: 'Formatting is mainly for readability, but you should still verify the final output before reuse.' }, { q: 'When is an online formatter useful?', a: 'It is useful when you need a quick cleanup step without opening a heavier editor.' }]
+    },
+    counter: {
+      steps: ['Paste or type the content you want to measure.', 'Review the count metrics the page shows.', 'Edit the input until it fits the limit or target you need.'],
+      useCases: ['Checking copy length for forms, content, and social posts.', 'Comparing drafts by size before publishing.', 'Validating limits quickly during editing or QA.'],
+      tips: ['Watch multiple metrics if your target platform has more than one limit.', 'Trim repeated filler phrases before cutting essential details.', 'Keep a target range in mind before rewriting the text.'],
+      faqs: [{ q: 'What does this tool count?', a: 'It measures the text or value metrics shown in the interface so you can review size quickly.' }, { q: 'Why count content before publishing?', a: 'Length limits and readability targets often matter before a draft is ready to ship.' }, { q: 'Can this help with editing?', a: 'Yes. It gives quick feedback while you shorten or expand a draft.' }]
+    },
+    calculator: {
+      steps: ['Enter the values the calculation requires.', 'Adjust units or options if the tool provides them.', 'Review the result and compare it with your target or estimate.'],
+      useCases: ['Running a quick estimate without opening a spreadsheet.', 'Checking values before sharing them with someone else.', 'Saving time on repetitive everyday calculations.'],
+      tips: ['Double-check input units before trusting the result.', 'Use recent and accurate values for better estimates.', 'Keep a note of assumptions if you share the result with others.'],
+      faqs: [{ q: 'Why use this calculator online?', a: 'It gives a fast answer without spreadsheet setup or manual formula work.' }, { q: 'What should I verify before using the result?', a: 'Check that the inputs and units match your real scenario.' }, { q: 'When is a browser calculator useful?', a: 'It is useful for quick checks, rough planning, and repeated small calculations.' }]
+    },
+    inspector: {
+      steps: ['Paste or enter the value you want to inspect.', 'Run the check and review the fields, matches, or results.', 'Copy the important output into your notes or workflow.'],
+      useCases: ['Debugging a value, pattern, or response quickly.', 'Checking data before you reuse it in another step.', 'Explaining results during review, QA, or support work.'],
+      tips: ['Start with a small sample when the input is noisy.', 'Check the most important fields first so you can decide quickly.', 'Keep one working example for future debugging.'],
+      faqs: [{ q: 'Why use this tool during debugging?', a: 'It lets you inspect output quickly without writing a throwaway script.' }, { q: 'Can I use sample data first?', a: 'Yes. Testing with a smaller example often makes the result easier to understand.' }, { q: 'What makes inspection tools useful?', a: 'They reduce the time needed to understand what a value or pattern is doing.' }]
+    },
+    timer: {
+      steps: ['Set the duration or mode you want to use.', 'Start the timer and keep the page open while it runs.', 'Pause, reset, or restart the session when your task changes.'],
+      useCases: ['Running short focus sessions in one browser tab.', 'Tracking breaks, study blocks, or simple routines.', 'Keeping timing visible without opening a separate app.'],
+      tips: ['Use realistic session lengths you can repeat consistently.', 'Keep the tab visible or pinned if the timer matters to your workflow.', 'Reset between sessions so your timing stays easy to read.'],
+      faqs: [{ q: 'Why use a browser timer?', a: 'It is quick to open and easy to keep alongside your main task.' }, { q: 'What workflows benefit from a timer?', a: 'Focus sessions, breaks, practice drills, and simple routines all benefit from visible timing.' }, { q: 'Does a timer help with consistency?', a: 'Yes. Repeating the same session length often makes routines easier to keep.' }]
+    },
+    organizer: {
+      steps: ['Add the items, notes, or values you want to track.', 'Update the list or records as your task changes.', 'Review the final set and keep or export the information you need.'],
+      useCases: ['Managing a lightweight list without installing another app.', 'Tracking small workflows during planning or review.', 'Keeping one simple page open for repeated reference.'],
+      tips: ['Keep entries short so the list stays easy to scan.', 'Update items as soon as something changes.', 'Review the final list before sharing it with other people.'],
+      faqs: [{ q: 'Why use a simple browser organizer?', a: 'It is useful for lightweight planning without the setup cost of a bigger system.' }, { q: 'What kinds of tasks fit this type of tool?', a: 'Lists, checklists, simple tracking, and personal workflow notes fit well.' }, { q: 'When is a lightweight organizer better than full software?', a: 'It is better when the task is small, temporary, or needs a quick shared reference.' }]
+    },
+    picker: {
+      steps: ['Enter the options or values you want to choose from.', 'Run the selection or randomization action.', 'Accept the result or repeat the process if you need another outcome.'],
+      useCases: ['Making simple random choices during games, planning, or group tasks.', 'Breaking ties quickly without manual selection.', 'Generating one fast answer in a lightweight workflow.'],
+      tips: ['Check the option list before you run the picker.', 'Rerun the tool only when your process allows another random result.', 'Keep the input list simple so the outcome stays easy to review.'],
+      faqs: [{ q: 'Why use an online picker?', a: 'It is a fast way to choose between options without doing the selection manually.' }, { q: 'Can I rerun the result?', a: 'Yes, but you should decide in advance whether rerunning is fair for your use case.' }, { q: 'When is a picker useful?', a: 'It is useful for quick decisions, random choices, and light group activities.' }]
+    },
+    utility: {
+      steps: ['Open the tool and enter the input it needs.', 'Run the main action the page provides.', 'Review the output and copy it into your workflow.'],
+      useCases: ['Solving a small browser task without another app.', 'Cleaning up or checking data during day-to-day work.', 'Reducing context switching in a repeatable workflow.'],
+      tips: ['Test with a small sample first if the input is unfamiliar.', 'Verify the output before using it in an important workflow.', 'Keep the page bookmarked if you return to the same task often.'],
+      faqs: [{ q: 'Why use a browser utility?', a: 'It is fast to open and usually removes the need for extra setup.' }, { q: 'Who benefits from simple online tools?', a: 'Developers, writers, marketers, students, and support teams all benefit from quick utilities.' }, { q: 'What is the main advantage of this type of tool?', a: 'The main advantage is speed. You can complete a small task without leaving the browser.' }]
+    },
+    daily: {
+      steps: ['Open the page and add the values or options it needs.', 'Run the main action and review the result.', 'Keep or repeat the result depending on your task.'],
+      useCases: ['Handling a small personal or everyday task quickly.', 'Checking a value or result without manual math.', 'Using one simple page for repeatable lightweight workflows.'],
+      tips: ['Keep the input simple the first time you use the tool.', 'Repeat the workflow a few times until the result looks consistent.', 'Use the page as a lightweight helper, not a replacement for deeper systems.'],
+      faqs: [{ q: 'Why use a small browser tool for daily tasks?', a: 'It helps you finish a small task quickly without setup friction.' }, { q: 'Can I use this kind of tool on mobile?', a: 'Most lightweight browser tools are convenient on both desktop and mobile.' }, { q: 'When is a simple utility page enough?', a: 'It is enough when you need a quick result, not a complex long-term workflow.' }]
+    }
+  };
+  var pack = contentByFamily[family] || contentByFamily.utility;
+  return {
+    overview: overviewByFamily[family] + ' ' + usageLine,
+    steps: pack.steps,
+    useCases: pack.useCases,
+    tips: pack.tips,
+    faqs: pack.faqs,
+    related: []
+  };
+}
+
+function getToolSeoGuide(toolId, toolData, toolType) {
+  return TOOL_SEO_GUIDES[toolId] || buildFallbackToolGuide(toolId, toolData, toolType);
 }
 
 TOOL_SEO_GUIDES['password-generator'] = {
@@ -1032,18 +1163,27 @@ TOOL_SEO_GUIDES['bmi-calculator'] = {
 
 function buildToolGuideSection(toolId, toolData, toolType, lang) {
   if ((lang || 'en') !== 'en') return '';
-  var guide = TOOL_SEO_GUIDES[toolId];
+  var guide = getToolSeoGuide(toolId, toolData, toolType);
   if (!guide) return '';
   var keyword = safeText(toolData && toolData.title && toolData.title.en, toolId);
   var purpose = safeText(toolData && toolData.desc && toolData.desc.en, 'browser-based utility');
   var sectionHub = toolType === 'webTool' ? getStaticPagePath('/dev-tools/', 'en') : getStaticPagePath('/utilities/', 'en');
   var relatedLinks = '';
+  var relatedPool = toolType === 'webTool' ? webTools : consumerTools;
+  var relatedPathPrefix = toolType === 'webTool' ? '/tools/web/' : '/tools/fun/';
   var relatedIds = Array.isArray(guide.related) ? guide.related : [];
-  for (var i = 0; i < relatedIds.length; i++) {
-    var item = findCatalogItemById(relatedIds[i]);
-    if (!item) continue;
-    var itemPath = (webTools.some(function(tool) { return tool.id === item.id; }) ? '/tools/web/' : '/tools/fun/') + item.id + '/';
-    relatedLinks += '<li><a href="' + href(itemPath) + '">' + escapeHtml(item.title.en || item.id) + '</a></li>';
+  if (relatedIds.length) {
+    for (var i = 0; i < relatedIds.length; i++) {
+      var item = findCatalogItemById(relatedIds[i]);
+      if (!item) continue;
+      var itemPath = (webTools.some(function(tool) { return tool.id === item.id; }) ? '/tools/web/' : '/tools/fun/') + item.id + '/';
+      relatedLinks += '<li><a href="' + href(itemPath) + '">' + escapeHtml(item.title.en || item.id) + '</a></li>';
+    }
+  } else {
+    var fallbackRelated = getRelatedTools(toolId, relatedPool, relatedPathPrefix, 3);
+    for (var r = 0; r < fallbackRelated.length; r++) {
+      relatedLinks += '<li><a href="' + fallbackRelated[r].href + '">' + escapeHtml(fallbackRelated[r].label) + '</a></li>';
+    }
   }
   var faqHtml = '';
   var faqItems = buildToolFaqItems(toolId, toolData, toolType, lang);
