@@ -1,238 +1,636 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Palette - Free Online Color Palette Tool</title>
-  <meta name="description" content="Use Color Palette online for free. Generate color palettes. No install, no signup, and optimized for desktop and mobile. Category: Developer Tools.">
-  <meta name="keywords" content="Color Palette, free online tool, developer tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/web/color-palette/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Developer Tools","item":"https://instaidea.org/dev-tools/"},{"@type":"ListItem","position":3,"name":"Color Palette","item":"https://instaidea.org/tools/web/color-palette/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Color Palette","url":"https://instaidea.org/tools/web/color-palette/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Color Palette online for free. Generate color palettes. No install, no signup, and optimized for desktop and mobile. Category: Developer Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Color Palette?","acceptedAnswer":{"@type":"Answer","text":"Color Palette is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/web/color-palette/"><meta property="og:url" content="https://instaidea.org/tools/web/color-palette/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/web/color-palette/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/web/color-palette/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/web/color-palette/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/web/color-palette/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컬러 팔레트 생성기 - 무료 색상 조합 도구</title>
+    <meta name="description" content="무료 컬러 팔레트 생성기. 아름다운 색상 조합을 즉시 만드세요. 조화로운 보색, 유사색 컬러 팔레트를 디자인 프로젝트에 사용하세요.">
+    <meta name="keywords" content="컬러 팔레트, 색상 조합, 색상 생성기, 컬러 피커, 디자인 색상, 팔레트 생성기">
 
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
+    <meta property="og:title" content="컬러 팔레트 생성기 - 무료 색상 조합 도구">
+    <meta property="og:description" content="아름다운 색상 조합을 즉시 만드세요. 무료 온라인 도구.">
+    <meta property="og:type" content="website">
 
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 30px 0; position: relative; }
 
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
-</head>
+        .lang-switch {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .lang-switch a {
+            color: #888;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .lang-switch a:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #888; font-size: 1.1rem; }
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: #666;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+        }
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .control-group label { color: #888; font-size: 14px; }
+        select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e4e4e4;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+        select option { background: #1a1a2e; }
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        input[type="color"] {
+            width: 45px;
+            height: 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+
+        .palette-container {
+            display: flex;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin: 30px 0;
+            min-height: 350px;
+        }
+        .color-strip {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            cursor: pointer;
+            transition: flex 0.3s;
+            position: relative;
+        }
+        .color-strip:hover { flex: 1.2; }
+        .color-strip.locked::after {
+            content: '🔒';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+        }
+        .color-info {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .color-hex {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-family: monospace;
+        }
+        .color-rgb { font-size: 12px; opacity: 0.8; }
+        .color-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .color-action-btn {
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 11px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .color-action-btn:hover { background: rgba(255,255,255,0.3); }
+
+        .export-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        .export-section h3 { color: #667eea; margin-bottom: 20px; }
+        .export-formats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .export-card {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .export-card h4 { color: #aaa; font-size: 13px; margin-bottom: 10px; }
+        .export-code {
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .export-code:hover { background: rgba(0,0,0,0.5); }
+
+        .keyboard-hint {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        .keyboard-hint kbd {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin: 0 3px;
+        }
+
+        .saved-palettes { margin-top: 40px; }
+        .saved-palettes h3 { color: #667eea; margin-bottom: 20px; }
+        .saved-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .saved-palette {
+            display: flex;
+            height: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .saved-palette:hover { transform: scale(1.02); }
+        .saved-color { flex: 1; }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .feature {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .feature-icon { font-size: 2rem; margin-bottom: 15px; }
+        .feature h3 { color: #667eea; margin-bottom: 10px; font-size: 16px; }
+        .feature p { color: #888; font-size: 14px; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        footer { text-align: center; padding: 40px 20px; color: #666; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .palette-container {
+                flex-direction: column;
+                min-height: auto;
+            }
+            .color-strip {
+                min-height: 100px;
+            }
+            .color-strip:hover { flex: 1; }
+            .lang-switch { position: static; margin-bottom: 20px; }
+            header { padding-top: 20px; }
+        }
+    </style>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"컬러 팔레트","en":"Color Palette","ja":"カラーパレット"},"desc":{"ko":"색상 조합 생성","en":"Generate Colors","ja":"配色生成"}},"header":{"title":{"ko":"컬러 팔레트","en":"Color Palette","ja":"カラーパレット"},"subtitle":{"ko":"아름다운 색상 조합","en":"Beautiful Schemes","ja":"美しい配色"}},"controls":{"scheme":{"ko":"조합 방식","en":"Scheme","ja":"配色パターン"},"base":{"ko":"기준 색상","en":"Base Color","ja":"基準色"},"gen":{"ko":"생성 (Space)","en":"Generate (Space)","ja":"生成 (Space)"},"save":{"ko":"저장","en":"Save","ja":"保存"}},"export":{"title":{"ko":"내보내기","en":"Export","ja":"エクスポート"}},"saved":{"title":{"ko":"저장된 팔레트","en":"Saved Palettes","ja":"保存されたパレット"}},"features":{"multi":{"ko":"다양한 조합","en":"Multiple Schemes","ja":"多様なパターン"},"lock":{"ko":"색상 잠금","en":"Lock Colors","ja":"色をロック"},"exp":{"ko":"쉬운 내보내기","en":"Easy Export","ja":"簡単エクスポート"},"save":{"ko":"저장 기능","en":"Save Feature","ja":"保存機能"}}};</script></head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/web/" class="home-link">📚 <span>Developer Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <header>
+            <div class="lang-switch">
+                <a href="index.html">English</a>
+            </div>
+            <h1>컬러 팔레트 생성기</h1>
+            <p class="subtitle">프로젝트를 위한 아름다운 색상 조합 만들기</p>
+        </header>
+
+        <div class="ad-banner">광고</div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>색상 조합:</label>
+                <select id="schemeType" onchange="generatePalette()">
+                    <option value="random">랜덤</option>
+                    <option value="monochromatic">단색 조화</option>
+                    <option value="analogous">유사색</option>
+                    <option value="complementary">보색</option>
+                    <option value="triadic">삼원색</option>
+                    <option value="tetradic">사원색</option>
+                    <option value="warm">따뜻한 색</option>
+                    <option value="cool">차가운 색</option>
+                    <option value="pastel">파스텔</option>
+                </select>
+            </div>
+            <div class="control-group color-picker-wrapper">
+                <label>기준 색상:</label>
+                <input type="color" id="baseColor" value="#667eea" onchange="generatePalette()">
+            </div>
+            <button class="btn btn-primary" onclick="generatePalette()">생성 (스페이스바)</button>
+            <button class="btn btn-secondary" onclick="savePalette()">저장</button>
+        </div>
+
+        <div class="palette-container" id="paletteContainer"></div>
+
+        <div class="keyboard-hint">
+            <kbd>Space</kbd> 새 팔레트 생성 &nbsp;&nbsp;
+            <kbd>클릭</kbd> 색상 복사 &nbsp;&nbsp;
+            <kbd>더블클릭</kbd> 색상 잠금
+        </div>
+
+        <div class="export-section">
+            <h3>내보내기</h3>
+            <div class="export-formats">
+                <div class="export-card">
+                    <h4>CSS 변수</h4>
+                    <div class="export-code" id="exportCSS" onclick="copyExport('css')"></div>
+                </div>
+                <div class="export-card">
+                    <h4>Tailwind 설정</h4>
+                    <div class="export-code" id="exportTailwind" onclick="copyExport('tailwind')"></div>
+                </div>
+                <div class="export-card">
+                    <h4>SCSS 변수</h4>
+                    <div class="export-code" id="exportSCSS" onclick="copyExport('scss')"></div>
+                </div>
+                <div class="export-card">
+                    <h4>배열</h4>
+                    <div class="export-code" id="exportArray" onclick="copyExport('array')"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="saved-palettes" id="savedSection" style="display:none;">
+            <h3>저장된 팔레트</h3>
+            <div class="saved-grid" id="savedGrid"></div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">&#127912;</div>
+                <h3>다양한 조합</h3>
+                <p>조화로운 보색, 유사색 등 다양한 방식</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128274;</div>
+                <h3>색상 잠금</h3>
+                <p>좋아하는 색상을 유지하며 새로 생성</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128190;</div>
+                <h3>쉬운 내보내기</h3>
+                <p>CSS, SCSS, Tailwind 등으로 내보내기</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128173;</div>
+                <h3>팔레트 저장</h3>
+                <p>좋아하는 팔레트를 로컬에 저장</p>
+            </div>
+        </div>
+
+        <div class="ad-banner">광고</div>
+
+        <footer>
+            <p>무료 컬러 팔레트 생성기 | 스페이스바를 눌러 새 색상 생성</p>
+        </footer>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/dev-tools/">Developer Tools</a> / <span>Color Palette</span>
-      </nav>
-      <h1>Color Palette</h1>
-      <p>Use Color Palette online for free. Generate color palettes. No install, no signup, and optimized for desktop and mobile. Category: Developer Tools.</p>
-    </section>
+    <div class="toast" id="toast">복사됨!</div>
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Color Palette"></iframe>
+    <script>
+        let palette = [];
+        let lockedIndices = new Set();
+        const NUM_COLORS = 5;
 
-    <article class="seo-block">
-      <h2>What is Color Palette?</h2>
-      <p>Color Palette is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        function hexToHSL(hex) {
+            let r = parseInt(hex.slice(1, 3), 16) / 255;
+            let g = parseInt(hex.slice(3, 5), 16) / 255;
+            let b = parseInt(hex.slice(5, 7), 16) / 255;
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+            if (max === min) {
+                h = s = 0;
+            } else {
+                let d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                    case g: h = ((b - r) / d + 2) / 6; break;
+                    case b: h = ((r - g) / d + 4) / 6; break;
+                }
+            }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+            return { h: h * 360, s: s * 100, l: l * 100 };
+        }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+        function hslToHex(h, s, l) {
+            s /= 100;
+            l /= 100;
+            const a = s * Math.min(l, 1 - l);
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`;
+        }
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+        function hexToRGB(hex) {
+            return {
+                r: parseInt(hex.slice(1, 3), 16),
+                g: parseInt(hex.slice(3, 5), 16),
+                b: parseInt(hex.slice(5, 7), 16)
+            };
+        }
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+        function getContrastColor(hex) {
+            const rgb = hexToRGB(hex);
+            const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+            return luminance > 0.5 ? '#000000' : '#ffffff';
+        }
 
-      <h2>More Tools</h2><ul><li><a href="/tools/web/password-generator/">Password Generator</a></li><li><a href="/tools/web/qr-generator/">QR Code Generator</a></li><li><a href="/tools/web/json-formatter/">JSON Formatter</a></li><li><a href="/tools/web/uuid-generator/">UUID Generator</a></li><li><a href="/tools/web/base64-tool/">Base64 Encoder</a></li><li><a href="/tools/web/color-converter/">Color Converter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+        function randomHex() {
+            return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+        }
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+        function generatePalette() {
+            const scheme = document.getElementById('schemeType').value;
+            const baseHex = document.getElementById('baseColor').value;
+            const baseHSL = hexToHSL(baseHex);
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+            for (let i = 0; i < NUM_COLORS; i++) {
+                if (lockedIndices.has(i)) continue;
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+                let color;
+                switch (scheme) {
+                    case 'monochromatic':
+                        color = hslToHex(baseHSL.h, baseHSL.s, 20 + (i * 15));
+                        break;
+                    case 'analogous':
+                        color = hslToHex((baseHSL.h + (i - 2) * 30 + 360) % 360, baseHSL.s, 50 + Math.random() * 20);
+                        break;
+                    case 'complementary':
+                        color = hslToHex((baseHSL.h + (i % 2) * 180) % 360, baseHSL.s, 30 + i * 10);
+                        break;
+                    case 'triadic':
+                        color = hslToHex((baseHSL.h + (i % 3) * 120) % 360, baseHSL.s, 40 + i * 8);
+                        break;
+                    case 'tetradic':
+                        color = hslToHex((baseHSL.h + i * 90) % 360, baseHSL.s, 40 + i * 8);
+                        break;
+                    case 'warm':
+                        color = hslToHex(Math.random() * 60, 70 + Math.random() * 30, 50 + Math.random() * 30);
+                        break;
+                    case 'cool':
+                        color = hslToHex(180 + Math.random() * 120, 50 + Math.random() * 40, 40 + Math.random() * 30);
+                        break;
+                    case 'pastel':
+                        color = hslToHex(Math.random() * 360, 40 + Math.random() * 30, 75 + Math.random() * 15);
+                        break;
+                    default:
+                        color = randomHex();
+                }
+                palette[i] = color;
+            }
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+            renderPalette();
+            updateExports();
+        }
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+        function renderPalette() {
+            const container = document.getElementById('paletteContainer');
+            container.innerHTML = palette.map((color, i) => {
+                const rgb = hexToRGB(color);
+                const textColor = getContrastColor(color);
+                const isLocked = lockedIndices.has(i);
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+                return `
+                    <div class="color-strip ${isLocked ? 'locked' : ''}"
+                         style="background: ${color}; color: ${textColor}"
+                         onclick="copyColor(${i})"
+                         ondblclick="toggleLock(${i})">
+                        <div class="color-info">
+                            <div class="color-hex">${color.toUpperCase()}</div>
+                            <div class="color-rgb">rgb(${rgb.r}, ${rgb.g}, ${rgb.b})</div>
+                            <div class="color-actions">
+                                <button class="color-action-btn" onclick="event.stopPropagation(); copyColor(${i})">복사</button>
+                                <button class="color-action-btn" onclick="event.stopPropagation(); toggleLock(${i})">${isLocked ? '잠금해제' : '잠금'}</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
+        function copyColor(index) {
+            navigator.clipboard.writeText(palette[index]).then(() => {
+                showToast(`복사됨: ${palette[index]}`);
+            });
+        }
 
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
+        function toggleLock(index) {
+            if (lockedIndices.has(index)) {
+                lockedIndices.delete(index);
+            } else {
+                lockedIndices.add(index);
+            }
+            renderPalette();
+        }
 
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
+        function updateExports() {
+            const colors = palette;
 
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
-</body>
+            const css = colors.map((c, i) => `--color-${i + 1}: ${c};`).join(' ');
+            document.getElementById('exportCSS').textContent = css;
+
+            const tailwind = colors.map((c, i) => `'${i + 1}': '${c}'`).join(', ');
+            document.getElementById('exportTailwind').textContent = `{ ${tailwind} }`;
+
+            const scss = colors.map((c, i) => `$color-${i + 1}: ${c};`).join(' ');
+            document.getElementById('exportSCSS').textContent = scss;
+
+            const array = JSON.stringify(colors);
+            document.getElementById('exportArray').textContent = array;
+        }
+
+        function copyExport(type) {
+            let text;
+            switch (type) {
+                case 'css':
+                    text = document.getElementById('exportCSS').textContent;
+                    break;
+                case 'tailwind':
+                    text = document.getElementById('exportTailwind').textContent;
+                    break;
+                case 'scss':
+                    text = document.getElementById('exportSCSS').textContent;
+                    break;
+                case 'array':
+                    text = document.getElementById('exportArray').textContent;
+                    break;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('클립보드에 복사됨!');
+            });
+        }
+
+        function savePalette() {
+            let saved = JSON.parse(localStorage.getItem('savedPalettes') || '[]');
+            saved.unshift([...palette]);
+            if (saved.length > 10) saved = saved.slice(0, 10);
+            localStorage.setItem('savedPalettes', JSON.stringify(saved));
+            renderSavedPalettes();
+            showToast('팔레트 저장됨!');
+        }
+
+        function renderSavedPalettes() {
+            const saved = JSON.parse(localStorage.getItem('savedPalettes') || '[]');
+            const section = document.getElementById('savedSection');
+            const grid = document.getElementById('savedGrid');
+
+            if (saved.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            grid.innerHTML = saved.map((colors, i) => `
+                <div class="saved-palette" onclick="loadPalette(${i})">
+                    ${colors.map(c => `<div class="saved-color" style="background: ${c}"></div>`).join('')}
+                </div>
+            `).join('');
+        }
+
+        function loadPalette(index) {
+            const saved = JSON.parse(localStorage.getItem('savedPalettes') || '[]');
+            if (saved[index]) {
+                palette = [...saved[index]];
+                lockedIndices.clear();
+                renderPalette();
+                updateExports();
+                showToast('팔레트 로드됨!');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+                e.preventDefault();
+                generatePalette();
+            }
+        });
+
+        palette = Array(NUM_COLORS).fill(null);
+        generatePalette();
+        renderSavedPalettes();
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
 </html>

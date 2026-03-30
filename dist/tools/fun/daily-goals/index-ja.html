@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/daily-goals/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/daily-goals/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/daily-goals/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/daily-goals/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/daily-goals/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/daily-goals/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>毎日の目標</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #5f72bd, #9b23ea); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .date-display { font-size: 1rem; opacity: .8; }
+        .goals-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .progress-card { background: rgba(0,0,0,.2); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .progress-ring { width: 120px; height: 120px; margin: 0 auto 15px; }
+        .progress-text { font-size: 2rem; font-weight: 700; }
+        .progress-label { font-size: .9rem; opacity: .7; }
+        .add-form { display: flex; gap: 10px; margin-bottom: 20px; }
+        .add-form input { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { padding: 12px 20px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; cursor: pointer; font-weight: 600; }
+        .goals-list { max-height: 300px; overflow-y: auto; }
+        .goal-item { display: flex; align-items: center; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 10px; }
+        .goal-item.completed { opacity: .6; }
+        .goal-checkbox { width: 24px; height: 24px; border: 2px solid #fff; border-radius: 50%; margin-right: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .goal-item.completed .goal-checkbox { background: #38ef7d; border-color: #38ef7d; }
+        .goal-text { flex: 1; font-size: 1rem; }
+        .goal-item.completed .goal-text { text-decoration: line-through; }
+        .goal-delete { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 1.2rem; padding: 5px; }
+        .motivate { margin-top: 20px; padding: 15px; background: rgba(255,255,255,.1); border-radius: 10px; text-align: center; font-style: italic; }
+        .streak { margin-top: 15px; text-align: center; font-size: .9rem; opacity: .8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎯 毎日の目標</h1>
+            <div class="date-display" id="dateDisplay"></div>
+        </header>
+        <div class="goals-section">
+            <div class="progress-card">
+                <svg class="progress-ring" viewBox="0 0 36 36">
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="3"/>
+                    <path id="progressPath" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#38ef7d" stroke-width="3" stroke-dasharray="0, 100"/>
+                </svg>
+                <div class="progress-text" id="progressText">0%</div>
+                <div class="progress-label">今日の達成率</div>
+            </div>
+            <div class="add-form">
+                <input type="text" id="goalInput" placeholder="新しい目標を追加..." onkeypress="if(event.key==='Enter')addGoal()">
+                <button class="add-btn" onclick="addGoal()">追加</button>
+            </div>
+            <div class="goals-list" id="goalsList"></div>
+            <div class="streak" id="streak"></div>
+            <div class="motivate" id="motivate">今日も頑張ろう！</div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var today = new Date().toDateString();
+        var key = 'goals_' + today;
+        var goals = JSON.parse(localStorage.getItem(key) || '[]');
+        var streakData = JSON.parse(localStorage.getItem('goal_streak') || '{"count":0,"lastDate":""}');
+        var quotes = ['小さな進歩も進歩です！', '諦めないで続けよう！', '今日やるべきことは今日！', 'あなたならできる！', '一歩ずつ目標に向かって！'];
+        document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+        function save() { localStorage.setItem(key, JSON.stringify(goals)); }
+        function addGoal() {
+            var text = document.getElementById('goalInput').value.trim();
+            if (!text) return;
+            goals.push({ id: Date.now().toString(), text: text, completed: false });
+            save();
+            document.getElementById('goalInput').value = '';
+            render();
+        }
+        function toggleGoal(id) {
+            var goal = goals.find(function(g) { return g.id === id; });
+            if (goal) { goal.completed = !goal.completed; save(); render(); updateStreak(); }
+        }
+        function deleteGoal(id) {
+            goals = goals.filter(function(g) { return g.id !== id; });
+            save();
+            render();
+        }
+        function updateStreak() {
+            var allCompleted = goals.length > 0 && goals.every(function(g) { return g.completed; });
+            if (allCompleted) {
+                if (streakData.lastDate !== today) {
+                    var yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    if (streakData.lastDate === yesterday.toDateString()) {
+                        streakData.count++;
+                    } else {
+                        streakData.count = 1;
+                    }
+                    streakData.lastDate = today;
+                    localStorage.setItem('goal_streak', JSON.stringify(streakData));
+                }
+            }
+            renderStreak();
+        }
+        function renderStreak() {
+            var streak = document.getElementById('streak');
+            if (streakData.count > 0) {
+                streak.textContent = '🔥 ' + streakData.count + '日連続達成中！';
+            } else {
+                streak.textContent = '';
+            }
+        }
+        function render() {
+            var completed = goals.filter(function(g) { return g.completed; }).length;
+            var total = goals.length;
+            var percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+            document.getElementById('progressText').textContent = percent + '%';
+            document.getElementById('progressPath').setAttribute('stroke-dasharray', percent + ', 100');
+            var list = document.getElementById('goalsList');
+            list.innerHTML = '';
+            goals.forEach(function(g) {
+                var div = document.createElement('div');
+                div.className = 'goal-item' + (g.completed ? ' completed' : '');
+                div.innerHTML = '<div class="goal-checkbox" onclick="toggleGoal(\'' + g.id + '\')">' + (g.completed ? '✓' : '') + '</div><span class="goal-text">' + g.text + '</span><button class="goal-delete" onclick="deleteGoal(\'' + g.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+            document.getElementById('motivate').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+        }
+        renderStreak();
+        render();
+    </script>
+</body>
+</html>

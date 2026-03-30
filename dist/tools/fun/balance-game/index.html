@@ -1,238 +1,283 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Balance Game - Free Online Balance Game Tool</title>
-  <meta name="description" content="Use Balance Game online for free. Difficult choice game. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Balance Game, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/balance-game/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Balance Game","item":"https://instaidea.org/tools/fun/balance-game/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Balance Game","url":"https://instaidea.org/tools/fun/balance-game/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Balance Game online for free. Difficult choice game. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Balance Game?","acceptedAnswer":{"@type":"Answer","text":"Balance Game is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/balance-game/"><meta property="og:url" content="https://instaidea.org/tools/fun/balance-game/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/balance-game/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/balance-game/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/balance-game/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/balance-game/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>밸런스 게임</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #8b5cf6, #7c3aed); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-section { margin-bottom: 20px; }
+        .category-label { font-size: .9rem; opacity: .7; margin-bottom: 10px; display: block; text-align: center; }
+        .category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .category-btn { padding: 12px 8px; border: 2px solid rgba(255,255,255,.3); border-radius: 10px; background: rgba(255,255,255,.1); color: #fff; font-size: .85rem; cursor: pointer; text-align: center; transition: all .3s; }
+        .category-btn.active { background: rgba(255,255,255,.3); border-color: #fff; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .question-section { display: none; }
+        .question-number { text-align: center; font-size: .9rem; opacity: .7; margin-bottom: 15px; }
+        .vs-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .choice-btn { padding: 30px 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 16px; background: rgba(255,255,255,.1); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; text-align: center; transition: all .3s; line-height: 1.4; }
+        .choice-btn:hover { background: rgba(255,255,255,.2); transform: scale(1.02); }
+        .choice-btn.selected { border-color: #22c55e; background: rgba(34,197,94,.3); }
+        .vs-divider { text-align: center; font-size: 1.5rem; font-weight: 700; color: #fbbf24; }
+        .result-bar { display: none; margin-top: 15px; }
+        .bar-container { height: 40px; background: rgba(255,255,255,.1); border-radius: 20px; overflow: hidden; display: flex; }
+        .bar-left { background: linear-gradient(90deg, #3b82f6, #2563eb); display: flex; align-items: center; justify-content: center; font-weight: 600; transition: width 0.5s; }
+        .bar-right { background: linear-gradient(90deg, #ec4899, #db2777); display: flex; align-items: center; justify-content: center; font-weight: 600; transition: width 0.5s; }
+        .navigation { display: flex; gap: 12px; margin-top: 20px; }
+        .nav-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        .nav-btn.secondary { background: rgba(255,255,255,.2); color: #fff; }
+        .nav-btn.primary { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-top: 20px; text-align: center; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: center; gap: 20px; font-size: .9rem; }
+        .complete-section { display: none; text-align: center; }
+        .complete-icon { font-size: 5rem; margin-bottom: 20px; }
+        .complete-text { font-size: 1.5rem; font-weight: 700; margin-bottom: 25px; }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>⚖️ 밸런스 게임</h1>
+            <p class="subtitle">어려운 선택, 당신의 답은?</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="category-section">
+                    <span class="category-label">카테고리 선택</span>
+                    <div class="category-grid">
+                        <button class="category-btn active" onclick="selectCategory(0)">일상</button>
+                        <button class="category-btn" onclick="selectCategory(1)">연애</button>
+                        <button class="category-btn" onclick="selectCategory(2)">음식</button>
+                        <button class="category-btn" onclick="selectCategory(3)">돈</button>
+                        <button class="category-btn" onclick="selectCategory(4)">능력</button>
+                        <button class="category-btn" onclick="selectCategory(5)">랜덤</button>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 게임 시작!</button>
+            </div>
+            <div class="question-section" id="questionSection">
+                <div class="question-number" id="questionNumber">질문 1 / 10</div>
+                <div class="vs-container">
+                    <button class="choice-btn" id="choiceA" onclick="selectChoice('A')">선택 A</button>
+                    <div class="vs-divider">VS</div>
+                    <button class="choice-btn" id="choiceB" onclick="selectChoice('B')">선택 B</button>
+                </div>
+                <div class="result-bar" id="resultBar">
+                    <div class="bar-container">
+                        <div class="bar-left" id="barLeft">50%</div>
+                        <div class="bar-right" id="barRight">50%</div>
+                    </div>
+                </div>
+                <div class="navigation" id="navigation" style="display:none">
+                    <button class="nav-btn primary" onclick="nextQuestion()">다음 질문 ➡️</button>
+                </div>
+                <div class="stats">
+                    <div class="stats-title">현재 진행</div>
+                    <div class="stats-row">
+                        <span>A 선택: <span id="countA">0</span></span>
+                        <span>B 선택: <span id="countB">0</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="complete-section" id="completeSection">
+                <div class="complete-icon">🎉</div>
+                <div class="complete-text">게임 완료!</div>
+                <div class="stats">
+                    <div class="stats-row">
+                        <span>A 선택: <span id="finalA">0</span></span>
+                        <span>B 선택: <span id="finalB">0</span></span>
+                    </div>
+                </div>
+                <button class="start-btn" style="margin-top:20px" onclick="resetGame()">🔄 다시 하기</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var questions = {
+            0: [ // 일상
+                ['평생 여름만 사는 것', '평생 겨울만 사는 것'],
+                ['손가락 하나 없는 것', '발가락 두 개 없는 것'],
+                ['하루 2시간만 자도 피곤 안 한 것', '하루 12시간 자야 피곤 안 한 것'],
+                ['항상 10분 늦는 것', '항상 2시간 일찍 도착하는 것'],
+                ['영원히 TV 없이 사는 것', '영원히 휴대폰 없이 사는 것'],
+                ['땀이 안 나는 것', '방귀가 안 나오는 것'],
+                ['평생 대중교통만 이용', '평생 걸어서만 이동'],
+                ['100살까지 건강하게 사는 것', '50살까지 부자로 사는 것'],
+                ['집에서만 일하기', '사무실에서만 일하기'],
+                ['기억력 2배', '체력 2배']
+            ],
+            1: [ // 연애
+                ['첫사랑과 결혼하기', '마지막 사랑과 결혼하기'],
+                ['외모만 완벽한 연인', '성격만 완벽한 연인'],
+                ['바람피우는 부자 연인', '충실한 가난한 연인'],
+                ['매일 싸우지만 화해하는 관계', '아예 싸우지 않는 무미건조한 관계'],
+                ['연인이 내 모든 비밀번호 아는 것', '내가 연인 비밀번호 하나도 모르는 것'],
+                ['연하 10살', '연상 10살'],
+                ['공개 연애', '비밀 연애'],
+                ['서로 다른 취미', '모든 취미가 같은 것'],
+                ['장거리 연애 3년', '동거 3개월 후 결혼'],
+                ['부모님이 반대하는 결혼', '친구들이 반대하는 결혼']
+            ],
+            2: [ // 음식
+                ['평생 단 음식만', '평생 짠 음식만'],
+                ['평생 차가운 음식만', '평생 뜨거운 음식만'],
+                ['맛없지만 건강한 음식', '맛있지만 건강에 나쁜 음식'],
+                ['평생 밥만', '평생 빵만'],
+                ['평생 한식만', '평생 양식만'],
+                ['혼자 맛집', '여럿이 평범한 집'],
+                ['무료 음식 매일 같은 메뉴', '비싸지만 원하는 음식'],
+                ['소고기 평생 못 먹기', '해산물 평생 못 먹기'],
+                ['컵라면만', '편의점 도시락만'],
+                ['커피 평생 못 마시기', '술 평생 못 마시기']
+            ],
+            3: [ // 돈
+                ['10억 받고 3년 감옥', '1억 받고 자유'],
+                ['월급 300만원 평생 직장', '불안정하지만 월 1000만원 가능한 사업'],
+                ['돈 많지만 시간 없는 삶', '돈 적지만 시간 많은 삶'],
+                ['로또 1등 당첨', '10년 후 재산 10배'],
+                ['부자지만 친구 없는 것', '가난하지만 친구 많은 것'],
+                ['돈 많은 시골 생활', '돈 없는 도시 생활'],
+                ['지금 1억', '10년 후 10억'],
+                ['모든 쇼핑 50% 할인', '모든 음식 무료'],
+                ['월세 0원 10평', '월세 50만원 30평'],
+                ['평생 고정 연봉 5000만원', '성과에 따라 0~2억 연봉']
+            ],
+            4: [ // 능력
+                ['날 수 있는 능력', '순간이동 능력'],
+                ['마음을 읽는 능력', '미래를 보는 능력'],
+                ['투명해지는 능력', '시간을 멈추는 능력'],
+                ['모든 언어 할 줄 아는 것', '모든 악기 할 줄 아는 것'],
+                ['천재적 두뇌', '완벽한 외모'],
+                ['안 자도 되는 것', '안 먹어도 되는 것'],
+                ['과거로 가는 능력', '미래로 가는 능력'],
+                ['동물과 대화하는 능력', '식물을 조종하는 능력'],
+                ['완벽한 기억력', '감정 조절 능력'],
+                ['늙지 않는 것', '아프지 않는 것']
+            ]
+        };
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Balance Game</span>
-      </nav>
-      <h1>Balance Game</h1>
-      <p>Use Balance Game online for free. Difficult choice game. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        var selectedCategory = 0;
+        var currentQuestions = [];
+        var currentIndex = 0;
+        var countA = 0;
+        var countB = 0;
+        var hasSelected = false;
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Balance Game"></iframe>
+        function selectCategory(index) {
+            selectedCategory = index;
+            var btns = document.querySelectorAll('.category-btn');
+            btns.forEach(function(btn, i) {
+                btn.classList.toggle('active', i === index);
+            });
+        }
 
-    <article class="seo-block">
-      <h2>What is Balance Game?</h2>
-      <p>Balance Game is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        function shuffleArray(array) {
+            var arr = array.slice();
+            for (var i = arr.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            return arr;
+        }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        function startGame() {
+            if (selectedCategory === 5) {
+                var allQuestions = [];
+                for (var i = 0; i < 5; i++) {
+                    allQuestions = allQuestions.concat(questions[i]);
+                }
+                currentQuestions = shuffleArray(allQuestions).slice(0, 10);
+            } else {
+                currentQuestions = shuffleArray(questions[selectedCategory]).slice(0, 10);
+            }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+            currentIndex = 0;
+            countA = 0;
+            countB = 0;
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('questionSection').style.display = 'block';
+            document.getElementById('completeSection').style.display = 'none';
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+            showQuestion();
+        }
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+        function showQuestion() {
+            hasSelected = false;
+            var q = currentQuestions[currentIndex];
+            document.getElementById('questionNumber').textContent = '질문 ' + (currentIndex + 1) + ' / ' + currentQuestions.length;
+            document.getElementById('choiceA').textContent = q[0];
+            document.getElementById('choiceB').textContent = q[1];
+            document.getElementById('choiceA').classList.remove('selected');
+            document.getElementById('choiceB').classList.remove('selected');
+            document.getElementById('resultBar').style.display = 'none';
+            document.getElementById('navigation').style.display = 'none';
+            updateStats();
+        }
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+        function selectChoice(choice) {
+            if (hasSelected) return;
+            hasSelected = true;
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+            if (choice === 'A') {
+                countA++;
+                document.getElementById('choiceA').classList.add('selected');
+            } else {
+                countB++;
+                document.getElementById('choiceB').classList.add('selected');
+            }
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+            var percentA = Math.floor(Math.random() * 40) + 30;
+            var percentB = 100 - percentA;
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+            document.getElementById('barLeft').style.width = percentA + '%';
+            document.getElementById('barLeft').textContent = percentA + '%';
+            document.getElementById('barRight').style.width = percentB + '%';
+            document.getElementById('barRight').textContent = percentB + '%';
+            document.getElementById('resultBar').style.display = 'block';
+            document.getElementById('navigation').style.display = 'flex';
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+            updateStats();
+        }
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+        function updateStats() {
+            document.getElementById('countA').textContent = countA;
+            document.getElementById('countB').textContent = countB;
+        }
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex >= currentQuestions.length) {
+                endGame();
+            } else {
+                showQuestion();
+            }
+        }
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+        function endGame() {
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('completeSection').style.display = 'block';
+            document.getElementById('finalA').textContent = countA;
+            document.getElementById('finalB').textContent = countB;
+        }
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('completeSection').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

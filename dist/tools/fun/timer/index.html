@@ -1,238 +1,342 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timer - Free Online Timer Tool</title>
-  <meta name="description" content="Use Timer online for free. Countdown timer. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Timer, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/timer/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Timer","item":"https://instaidea.org/tools/fun/timer/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Timer","url":"https://instaidea.org/tools/fun/timer/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Timer online for free. Countdown timer. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Timer?","acceptedAnswer":{"@type":"Answer","text":"Timer is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/timer/"><meta property="og:url" content="https://instaidea.org/tools/fun/timer/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/timer/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/timer/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/timer/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/timer/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타이머 - 무료 온라인 타이머</title>
+    <meta name="description" content="무료 온라인 타이머. 원하는 시간을 설정하고 카운트다운하세요.">
+    <meta name="keywords" content="타이머, 온라인 타이머, 카운트다운, 알람">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .timer-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .time-display {
+            font-size: 4rem;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin: 30px 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .time-display.warning { color: #f1c40f; }
+        .time-display.danger { color: #e74c3c; animation: pulse 0.5s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .time-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .time-input-group {
+            text-align: center;
+        }
+        .time-input-group label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            color: rgba(255,255,255,0.7);
+        }
+        .time-input-group input {
+            width: 70px;
+            padding: 12px;
+            font-size: 1.3rem;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-weight: bold;
+        }
+        .time-input-group input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.6);
+        }
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .preset-btn {
+            padding: 10px 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .preset-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+        }
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .control-btn {
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .start-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+        .pause-btn {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+        .reset-btn {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin-top: 25px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        .sound-toggle {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .sound-toggle input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>⏱️ 타이머</h1>
+            <p class="subtitle">시간을 설정하고 카운트다운하세요</p>
+        </header>
+        <div class="timer-section">
+            <div class="time-inputs" id="timeInputs">
+                <div class="time-input-group">
+                    <label>시간</label>
+                    <input type="number" id="hoursInput" min="0" max="99" value="0">
+                </div>
+                <div class="time-input-group">
+                    <label>분</label>
+                    <input type="number" id="minutesInput" min="0" max="59" value="5">
+                </div>
+                <div class="time-input-group">
+                    <label>초</label>
+                    <input type="number" id="secondsInput" min="0" max="59" value="0">
+                </div>
+            </div>
+            <div class="preset-buttons">
+                <button class="preset-btn" onclick="setPreset(1)">1분</button>
+                <button class="preset-btn" onclick="setPreset(3)">3분</button>
+                <button class="preset-btn" onclick="setPreset(5)">5분</button>
+                <button class="preset-btn" onclick="setPreset(10)">10분</button>
+                <button class="preset-btn" onclick="setPreset(15)">15분</button>
+                <button class="preset-btn" onclick="setPreset(30)">30분</button>
+            </div>
+            <div class="time-display" id="timeDisplay">05:00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 100%"></div>
+            </div>
+            <div class="control-buttons">
+                <button class="control-btn start-btn" id="startBtn" onclick="startTimer()">시작</button>
+                <button class="control-btn pause-btn" id="pauseBtn" onclick="pauseTimer()" style="display:none">일시정지</button>
+                <button class="control-btn reset-btn" id="resetBtn" onclick="resetTimer()">초기화</button>
+            </div>
+            <div class="sound-toggle">
+                <input type="checkbox" id="soundToggle" checked>
+                <label for="soundToggle">알람 소리</label>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var timerInterval = null;
+        var totalSeconds = 300;
+        var remainingSeconds = 300;
+        var isRunning = false;
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Timer</span>
-      </nav>
-      <h1>Timer</h1>
-      <p>Use Timer online for free. Countdown timer. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        function updateDisplay() {
+            var hours = Math.floor(remainingSeconds / 3600);
+            var minutes = Math.floor((remainingSeconds % 3600) / 60);
+            var seconds = remainingSeconds % 60;
+            var display = document.getElementById('timeDisplay');
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Timer"></iframe>
+            if (hours > 0) {
+                display.textContent = pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+            } else {
+                display.textContent = pad(minutes) + ':' + pad(seconds);
+            }
 
-    <article class="seo-block">
-      <h2>What is Timer?</h2>
-      <p>Timer is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+            display.className = 'time-display';
+            if (remainingSeconds <= 10 && remainingSeconds > 0) {
+                display.classList.add('danger');
+            } else if (remainingSeconds <= 30) {
+                display.classList.add('warning');
+            }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+            var progress = (remainingSeconds / totalSeconds) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function pad(num) {
+            return num.toString().padStart(2, '0');
+        }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+        function getInputSeconds() {
+            var hours = parseInt(document.getElementById('hoursInput').value) || 0;
+            var minutes = parseInt(document.getElementById('minutesInput').value) || 0;
+            var seconds = parseInt(document.getElementById('secondsInput').value) || 0;
+            return hours * 3600 + minutes * 60 + seconds;
+        }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+        function setPreset(minutes) {
+            document.getElementById('hoursInput').value = 0;
+            document.getElementById('minutesInput').value = minutes;
+            document.getElementById('secondsInput').value = 0;
+            totalSeconds = minutes * 60;
+            remainingSeconds = totalSeconds;
+            updateDisplay();
+        }
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+        function startTimer() {
+            if (!isRunning) {
+                if (remainingSeconds === 0 || remainingSeconds === totalSeconds) {
+                    totalSeconds = getInputSeconds();
+                    remainingSeconds = totalSeconds;
+                }
+                if (remainingSeconds <= 0) return;
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+                isRunning = true;
+                document.getElementById('timeInputs').style.opacity = '0.5';
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('pauseBtn').style.display = 'inline-block';
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+                timerInterval = setInterval(function() {
+                    remainingSeconds--;
+                    updateDisplay();
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+                    if (remainingSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        playAlarm();
+                        document.getElementById('startBtn').style.display = 'inline-block';
+                        document.getElementById('pauseBtn').style.display = 'none';
+                        document.getElementById('timeInputs').style.opacity = '1';
+                    }
+                }, 1000);
+            }
+        }
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+        function pauseTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                document.getElementById('startBtn').style.display = 'inline-block';
+                document.getElementById('pauseBtn').style.display = 'none';
+                document.getElementById('startBtn').textContent = '계속';
+            }
+        }
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            totalSeconds = getInputSeconds();
+            remainingSeconds = totalSeconds;
+            updateDisplay();
+            document.getElementById('timeInputs').style.opacity = '1';
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+            document.getElementById('startBtn').textContent = '시작';
+        }
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+        function playAlarm() {
+            if (!document.getElementById('soundToggle').checked) return;
+            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            for (var i = 0; i < 3; i++) {
+                setTimeout(function() {
+                    var oscillator = audioContext.createOscillator();
+                    var gainNode = audioContext.createGain();
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    oscillator.frequency.value = 880;
+                    oscillator.type = 'sine';
+                    gainNode.gain.value = 0.3;
+                    oscillator.start();
+                    setTimeout(function() { oscillator.stop(); }, 200);
+                }, i * 400);
+            }
+        }
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+        document.querySelectorAll('.time-input-group input').forEach(function(input) {
+            input.addEventListener('change', function() {
+                if (!isRunning) {
+                    totalSeconds = getInputSeconds();
+                    remainingSeconds = totalSeconds;
+                    updateDisplay();
+                }
+            });
+        });
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
-
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+        updateDisplay();
+    </script>
 </body>
 </html>

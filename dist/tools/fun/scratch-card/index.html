@@ -1,238 +1,265 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scratch Card - Free Online Scratch Card Tool</title>
-  <meta name="description" content="Use Scratch Card online for free. Scratch card game. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Scratch Card, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/scratch-card/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Scratch Card","item":"https://instaidea.org/tools/fun/scratch-card/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Scratch Card","url":"https://instaidea.org/tools/fun/scratch-card/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Scratch Card online for free. Scratch card game. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Scratch Card?","acceptedAnswer":{"@type":"Answer","text":"Scratch Card is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/scratch-card/"><meta property="og:url" content="https://instaidea.org/tools/fun/scratch-card/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/scratch-card/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/scratch-card/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/scratch-card/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/scratch-card/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스크래치 카드</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .card-container { margin-bottom: 20px; }
+        .scratch-card { position: relative; width: 100%; height: 200px; border-radius: 16px; overflow: hidden; cursor: crosshair; touch-action: none; }
+        .card-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+        .prize { font-size: 3rem; font-weight: 700; color: #1a1a2e; text-align: center; }
+        .prize-text { font-size: 1rem; }
+        .scratch-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .result { text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; min-height: 50px; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .result.win { color: #fbbf24; }
+        .new-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: transform .2s; }
+        .new-btn:hover { transform: scale(1.02); }
+        .new-btn:active { transform: scale(0.98); }
+        .progress { margin-top: 15px; }
+        .progress-label { font-size: .8rem; opacity: .7; margin-bottom: 8px; }
+        .progress-bar { height: 8px; background: rgba(255,255,255,.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); width: 0%; transition: width .3s; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .65rem; opacity: .7; }
+        .history { margin-top: 15px; }
+        .history-label { font-size: .8rem; opacity: .7; margin-bottom: 10px; }
+        .history-items { display: flex; gap: 8px; flex-wrap: wrap; }
+        .history-item { padding: 8px 12px; background: rgba(255,255,255,.1); border-radius: 8px; font-size: .85rem; }
+        .history-item.win { background: rgba(251,191,36,.2); color: #fbbf24; }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🎫 스크래치 카드</h1>
+        </header>
+        <div class="game-section">
+            <div class="card-container">
+                <div class="scratch-card" id="scratchCard">
+                    <div class="card-content">
+                        <div class="prize">
+                            <div id="prizeAmount">?</div>
+                            <div class="prize-text" id="prizeText">긁어서 확인하세요!</div>
+                        </div>
+                    </div>
+                    <canvas class="scratch-layer" id="scratchCanvas"></canvas>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-label">긁은 영역: <span id="progressPercent">0</span>%</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <div class="result" id="result">카드를 긁어보세요!</div>
+            <button class="new-btn" onclick="newCard()">🎫 새 카드</button>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="cards">0</div>
+                    <div class="stat-label">총 카드</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="wins">0</div>
+                    <div class="stat-label">당첨</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalWin">0</div>
+                    <div class="stat-label">총 상금</div>
+                </div>
+            </div>
+            <div class="history">
+                <div class="history-label">기록</div>
+                <div class="history-items" id="history"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var prizes = [
+            { amount: 0, text: '꽝!', weight: 50 },
+            { amount: 100, text: '100원!', weight: 25 },
+            { amount: 500, text: '500원!', weight: 15 },
+            { amount: 1000, text: '1,000원!', weight: 7 },
+            { amount: 5000, text: '5,000원!', weight: 2 },
+            { amount: 10000, text: '10,000원!', weight: 1 }
+        ];
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Scratch Card</span>
-      </nav>
-      <h1>Scratch Card</h1>
-      <p>Use Scratch Card online for free. Scratch card game. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        var canvas, ctx;
+        var isDrawing = false;
+        var currentPrize = null;
+        var revealed = false;
+        var stats = JSON.parse(localStorage.getItem('scratch_ko') || '{"cards":0,"wins":0,"totalWin":0,"history":[]}');
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Scratch Card"></iframe>
+        function init() {
+            canvas = document.getElementById('scratchCanvas');
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            setupEvents();
+            newCard();
+            updateDisplay();
+        }
 
-    <article class="seo-block">
-      <h2>What is Scratch Card?</h2>
-      <p>Scratch Card is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        function resizeCanvas() {
+            var rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            if (currentPrize !== null && !revealed) {
+                fillScratchLayer();
+            }
+        }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        function fillScratchLayer() {
+            ctx.fillStyle = '#6b7280';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#9ca3af';
+            ctx.font = 'bold 20px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('여기를 긁어주세요', canvas.width / 2, canvas.height / 2);
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function setupEvents() {
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', endDraw);
+            canvas.addEventListener('mouseleave', endDraw);
+            canvas.addEventListener('touchstart', startDraw);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', endDraw);
+        }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+        function getPos(e) {
+            var rect = canvas.getBoundingClientRect();
+            var x, y;
+            if (e.touches) {
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+            } else {
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            }
+            return { x: x, y: y };
+        }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+        function startDraw(e) {
+            if (revealed) return;
+            e.preventDefault();
+            isDrawing = true;
+            draw(e);
+        }
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+        function draw(e) {
+            if (!isDrawing || revealed) return;
+            e.preventDefault();
+            var pos = getPos(e);
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2);
+            ctx.fill();
+            checkProgress();
+        }
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+        function endDraw() {
+            isDrawing = false;
+        }
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+        function checkProgress() {
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var pixels = imageData.data;
+            var transparent = 0;
+            var total = pixels.length / 4;
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+            for (var i = 3; i < pixels.length; i += 4) {
+                if (pixels[i] === 0) transparent++;
+            }
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+            var percent = Math.round((transparent / total) * 100);
+            document.getElementById('progressPercent').textContent = percent;
+            document.getElementById('progressFill').style.width = percent + '%';
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+            if (percent >= 60 && !revealed) {
+                revealPrize();
+            }
+        }
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+        function revealPrize() {
+            revealed = true;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+            var resultEl = document.getElementById('result');
+            if (currentPrize.amount > 0) {
+                resultEl.textContent = '축하합니다! ' + currentPrize.text;
+                resultEl.classList.add('win');
+                stats.wins++;
+                stats.totalWin += currentPrize.amount;
+                stats.history.unshift('당첨: ' + currentPrize.text);
+            } else {
+                resultEl.textContent = '아쉽네요! 다음 기회에!';
+                resultEl.classList.remove('win');
+                stats.history.unshift('꽝');
+            }
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+            if (stats.history.length > 10) stats.history.pop();
+            localStorage.setItem('scratch_ko', JSON.stringify(stats));
+            updateDisplay();
+        }
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
+        function selectPrize() {
+            var totalWeight = prizes.reduce(function(sum, p) { return sum + p.weight; }, 0);
+            var random = Math.random() * totalWeight;
+            var cumulative = 0;
 
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
+            for (var i = 0; i < prizes.length; i++) {
+                cumulative += prizes[i].weight;
+                if (random < cumulative) return prizes[i];
+            }
+            return prizes[0];
+        }
 
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
+        function newCard() {
+            revealed = false;
+            currentPrize = selectPrize();
+            stats.cards++;
+            localStorage.setItem('scratch_ko', JSON.stringify(stats));
 
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+            document.getElementById('prizeAmount').textContent = currentPrize.amount > 0 ? currentPrize.text : '꽝!';
+            document.getElementById('prizeText').textContent = currentPrize.amount > 0 ? '당첨!' : '다음 기회에!';
+            document.getElementById('result').textContent = '카드를 긁어보세요!';
+            document.getElementById('result').classList.remove('win');
+            document.getElementById('progressPercent').textContent = '0';
+            document.getElementById('progressFill').style.width = '0%';
+
+            fillScratchLayer();
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('cards').textContent = stats.cards;
+            document.getElementById('wins').textContent = stats.wins;
+            document.getElementById('totalWin').textContent = stats.totalWin.toLocaleString();
+
+            var historyEl = document.getElementById('history');
+            historyEl.innerHTML = '';
+            stats.history.slice(0, 5).forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'history-item' + (item.indexOf('당첨') >= 0 ? ' win' : '');
+                div.textContent = item;
+                historyEl.appendChild(div);
+            });
+        }
+
+        init();
+    </script>
 </body>
 </html>

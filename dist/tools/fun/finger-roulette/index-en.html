@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/finger-roulette/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/finger-roulette/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/finger-roulette/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/finger-roulette/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/finger-roulette/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/finger-roulette/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finger Roulette</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { font-size: .9rem; opacity: .7; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .touch-area { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; overflow: hidden; touch-action: none; }
+        .touch-area-inner { width: 80%; height: 80%; background: rgba(255,255,255,.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .touch-instruction { font-size: 1.2rem; text-align: center; line-height: 1.6; }
+        .finger { position: absolute; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; transition: transform .3s, background .3s; pointer-events: none; }
+        .finger.selected { transform: scale(1.3); animation: pulse 0.5s ease infinite; }
+        @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,.5); } 50% { box-shadow: 0 0 0 20px rgba(255,255,255,0); } }
+        .result-text { text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; min-height: 40px; }
+        .mode-btns { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { flex: 1; padding: 12px; border: 2px solid rgba(255,255,255,.3); border-radius: 10px; background: rgba(255,255,255,.1); color: #fff; font-size: .9rem; cursor: pointer; }
+        .mode-btn.active { background: rgba(255,255,255,.3); border-color: #fff; }
+        .reset-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: rgba(255,255,255,.2); color: #fff; font-size: 1rem; cursor: pointer; }
+        .stats { margin-top: 15px; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>👆 Finger Roulette</h1>
+            <p class="subtitle">Place your fingers on the screen and wait!</p>
+        </header>
+        <div class="game-section">
+            <div class="mode-btns">
+                <button class="mode-btn active" onclick="setMode('random')">Random Pick</button>
+                <button class="mode-btn" onclick="setMode('eliminate')">Elimination</button>
+            </div>
+            <div class="result-text" id="resultText">Touch the screen!</div>
+            <div class="touch-area" id="touchArea">
+                <div class="touch-area-inner">
+                    <div class="touch-instruction" id="instruction">👆<br>Touch here!</div>
+                </div>
+            </div>
+            <button class="reset-btn" onclick="reset()">🔄 Reset</button>
+            <div class="stats">
+                <div class="stats-title">📊 Stats</div>
+                <div class="stats-row"><span>Total Games</span><span id="totalGames">0</span></div>
+                <div class="stats-row"><span>Max Players</span><span id="maxPlayers">0</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var touchArea = document.getElementById('touchArea');
+        var fingers = {};
+        var colors = ['#ef4444', '#f59e0b', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
+        var mode = 'random';
+        var isSelecting = false;
+        var selectionTimeout = null;
+        var stats = JSON.parse(localStorage.getItem('finger_en') || '{"games":0,"max":0}');
+
+        function setMode(m) {
+            mode = m;
+            document.querySelectorAll('.mode-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(m === 'random' ? 'random' : 'elimin'));
+            });
+            reset();
+        }
+
+        function getFingerColor(index) {
+            return colors[index % colors.length];
+        }
+
+        function updateInstruction() {
+            var count = Object.keys(fingers).length;
+            var instruction = document.getElementById('instruction');
+            if (count === 0) {
+                instruction.innerHTML = '👆<br>Touch here!';
+            } else if (count === 1) {
+                instruction.innerHTML = 'Players: 1<br>Add more!';
+            } else {
+                instruction.innerHTML = 'Players: ' + count + '<br>Selecting soon...';
+            }
+        }
+
+        function startSelection() {
+            if (isSelecting) return;
+            var fingerIds = Object.keys(fingers);
+            if (fingerIds.length < 2) return;
+
+            isSelecting = true;
+            document.getElementById('resultText').textContent = 'Selecting...';
+
+            var flashCount = 0;
+            var flashInterval = setInterval(function() {
+                fingerIds.forEach(function(id) {
+                    fingers[id].element.style.opacity = Math.random() > 0.5 ? '1' : '0.3';
+                });
+                flashCount++;
+                if (flashCount > 10) {
+                    clearInterval(flashInterval);
+                    selectWinner();
+                }
+            }, 150);
+        }
+
+        function selectWinner() {
+            var fingerIds = Object.keys(fingers);
+            if (fingerIds.length < 2) {
+                reset();
+                return;
+            }
+
+            var winnerId = fingerIds[Math.floor(Math.random() * fingerIds.length)];
+
+            fingerIds.forEach(function(id) {
+                fingers[id].element.style.opacity = '1';
+                if (id === winnerId) {
+                    fingers[id].element.classList.add('selected');
+                    fingers[id].element.style.background = '#22c55e';
+                } else {
+                    fingers[id].element.style.opacity = '0.3';
+                }
+            });
+
+            var winnerNum = fingers[winnerId].element.textContent;
+            document.getElementById('resultText').textContent = '🎉 Player ' + winnerNum + ' wins!';
+
+            stats.games++;
+            if (fingerIds.length > stats.max) stats.max = fingerIds.length;
+            localStorage.setItem('finger_en', JSON.stringify(stats));
+            updateStats();
+
+            isSelecting = false;
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            for (var i = 0; i < e.changedTouches.length; i++) {
+                var touch = e.changedTouches[i];
+                var id = touch.identifier;
+                var rect = touchArea.getBoundingClientRect();
+                var x = touch.clientX - rect.left;
+                var y = touch.clientY - rect.top;
+
+                var fingerEl = document.createElement('div');
+                fingerEl.className = 'finger';
+                fingerEl.style.left = (x - 30) + 'px';
+                fingerEl.style.top = (y - 30) + 'px';
+                fingerEl.style.background = getFingerColor(Object.keys(fingers).length);
+                fingerEl.textContent = Object.keys(fingers).length + 1;
+                touchArea.appendChild(fingerEl);
+
+                fingers[id] = { element: fingerEl, x: x, y: y };
+            }
+            updateInstruction();
+
+            if (Object.keys(fingers).length >= 2) {
+                clearTimeout(selectionTimeout);
+                selectionTimeout = setTimeout(startSelection, 2000);
+            }
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            for (var i = 0; i < e.changedTouches.length; i++) {
+                var touch = e.changedTouches[i];
+                var id = touch.identifier;
+                if (fingers[id]) {
+                    var rect = touchArea.getBoundingClientRect();
+                    var x = touch.clientX - rect.left;
+                    var y = touch.clientY - rect.top;
+                    fingers[id].element.style.left = (x - 30) + 'px';
+                    fingers[id].element.style.top = (y - 30) + 'px';
+                }
+            }
+        }
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            for (var i = 0; i < e.changedTouches.length; i++) {
+                var touch = e.changedTouches[i];
+                var id = touch.identifier;
+                if (fingers[id]) {
+                    fingers[id].element.remove();
+                    delete fingers[id];
+                }
+            }
+            updateInstruction();
+
+            if (Object.keys(fingers).length < 2) {
+                clearTimeout(selectionTimeout);
+            }
+        }
+
+        function reset() {
+            clearTimeout(selectionTimeout);
+            isSelecting = false;
+            Object.keys(fingers).forEach(function(id) {
+                fingers[id].element.remove();
+            });
+            fingers = {};
+            document.getElementById('resultText').textContent = 'Touch the screen!';
+            updateInstruction();
+        }
+
+        function updateStats() {
+            document.getElementById('totalGames').textContent = stats.games;
+            document.getElementById('maxPlayers').textContent = stats.max;
+        }
+
+        touchArea.addEventListener('touchstart', handleTouchStart, { passive: false });
+        touchArea.addEventListener('touchmove', handleTouchMove, { passive: false });
+        touchArea.addEventListener('touchend', handleTouchEnd, { passive: false });
+        touchArea.addEventListener('touchcancel', handleTouchEnd, { passive: false });
+
+        updateStats();
+    </script>
+</body>
+</html>

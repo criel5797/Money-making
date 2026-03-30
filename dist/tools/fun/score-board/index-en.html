@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/score-board/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/score-board/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/score-board/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/score-board/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/score-board/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/score-board/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Board</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1e3c72, #2a5298); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .score-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .teams { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .team { background: rgba(0,0,0,.3); border-radius: 16px; padding: 20px; text-align: center; }
+        .team.a { border: 3px solid #ff6b6b; }
+        .team.b { border: 3px solid #4ecdc4; }
+        .team-name { font-size: 1.1rem; margin-bottom: 15px; }
+        .team-name input { background: transparent; border: none; color: #fff; text-align: center; font-size: 1.1rem; width: 100%; font-weight: 600; }
+        .team-score { font-size: 4rem; font-weight: 700; margin-bottom: 15px; }
+        .team.a .team-score { color: #ff6b6b; }
+        .team.b .team-score { color: #4ecdc4; }
+        .score-btns { display: flex; gap: 8px; justify-content: center; }
+        .score-btn { width: 50px; height: 50px; border: none; border-radius: 12px; font-size: 1.5rem; cursor: pointer; font-weight: 700; }
+        .score-btn.plus { background: rgba(255,255,255,.2); color: #fff; }
+        .score-btn.minus { background: rgba(255,255,255,.1); color: #fff; }
+        .score-btn:hover { opacity: .8; }
+        .timer-section { background: rgba(0,0,0,.2); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .timer-display { font-size: 3rem; font-weight: 700; font-family: monospace; margin-bottom: 15px; }
+        .timer-btns { display: flex; gap: 10px; justify-content: center; }
+        .timer-btn { padding: 10px 20px; border: none; border-radius: 8px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; font-size: .9rem; }
+        .timer-btn.active { background: #38ef7d; color: #000; }
+        .actions { display: flex; gap: 10px; }
+        .action-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .action-btn.secondary { background: rgba(255,255,255,.2); }
+        .history { margin-top: 20px; }
+        .history-title { font-size: .9rem; opacity: .8; margin-bottom: 10px; }
+        .history-list { max-height: 120px; overflow-y: auto; }
+        .history-item { padding: 8px 12px; background: rgba(255,255,255,.1); border-radius: 8px; margin-bottom: 5px; font-size: .85rem; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🏆 Score Board</h1>
+        </header>
+        <div class="score-section">
+            <div class="teams">
+                <div class="team a">
+                    <div class="team-name">
+                        <input type="text" id="teamAName" value="Team A" onchange="saveGame()">
+                    </div>
+                    <div class="team-score" id="scoreA">0</div>
+                    <div class="score-btns">
+                        <button class="score-btn minus" onclick="changeScore('A', -1)">−</button>
+                        <button class="score-btn plus" onclick="changeScore('A', 1)">+</button>
+                    </div>
+                </div>
+                <div class="team b">
+                    <div class="team-name">
+                        <input type="text" id="teamBName" value="Team B" onchange="saveGame()">
+                    </div>
+                    <div class="team-score" id="scoreB">0</div>
+                    <div class="score-btns">
+                        <button class="score-btn minus" onclick="changeScore('B', -1)">−</button>
+                        <button class="score-btn plus" onclick="changeScore('B', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timer-section">
+                <div class="timer-display" id="timerDisplay">00:00</div>
+                <div class="timer-btns">
+                    <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">Start</button>
+                    <button class="timer-btn" onclick="resetTimer()">Reset</button>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="action-btn secondary" onclick="resetGame()">New Game</button>
+                <button class="action-btn" onclick="saveToHistory()">Save Record</button>
+            </div>
+            <div class="history">
+                <div class="history-title">Recent Games</div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var scoreA = 0, scoreB = 0;
+        var timerSeconds = 0;
+        var timerInterval = null;
+        var isRunning = false;
+        var history = JSON.parse(localStorage.getItem('score_board_en') || '[]');
+        function changeScore(team, delta) {
+            if (team === 'A') {
+                scoreA = Math.max(0, scoreA + delta);
+                document.getElementById('scoreA').textContent = scoreA;
+            } else {
+                scoreB = Math.max(0, scoreB + delta);
+                document.getElementById('scoreB').textContent = scoreB;
+            }
+            saveGame();
+        }
+        function formatTime(seconds) {
+            var m = Math.floor(seconds / 60);
+            var s = seconds % 60;
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
+        function toggleTimer() {
+            var btn = document.getElementById('timerBtn');
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                btn.textContent = 'Resume';
+                btn.classList.remove('active');
+            } else {
+                isRunning = true;
+                btn.textContent = 'Pause';
+                btn.classList.add('active');
+                timerInterval = setInterval(function() {
+                    timerSeconds++;
+                    document.getElementById('timerDisplay').textContent = formatTime(timerSeconds);
+                }, 1000);
+            }
+        }
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timerSeconds = 0;
+            document.getElementById('timerDisplay').textContent = '00:00';
+            document.getElementById('timerBtn').textContent = 'Start';
+            document.getElementById('timerBtn').classList.remove('active');
+        }
+        function resetGame() {
+            scoreA = 0;
+            scoreB = 0;
+            document.getElementById('scoreA').textContent = '0';
+            document.getElementById('scoreB').textContent = '0';
+            resetTimer();
+            saveGame();
+        }
+        function saveGame() {
+            localStorage.setItem('current_game_en', JSON.stringify({
+                teamA: document.getElementById('teamAName').value,
+                teamB: document.getElementById('teamBName').value,
+                scoreA: scoreA,
+                scoreB: scoreB
+            }));
+        }
+        function loadGame() {
+            var saved = JSON.parse(localStorage.getItem('current_game_en') || 'null');
+            if (saved) {
+                document.getElementById('teamAName').value = saved.teamA || 'Team A';
+                document.getElementById('teamBName').value = saved.teamB || 'Team B';
+                scoreA = saved.scoreA || 0;
+                scoreB = saved.scoreB || 0;
+                document.getElementById('scoreA').textContent = scoreA;
+                document.getElementById('scoreB').textContent = scoreB;
+            }
+        }
+        function saveToHistory() {
+            var teamA = document.getElementById('teamAName').value;
+            var teamB = document.getElementById('teamBName').value;
+            history.unshift({
+                date: new Date().toLocaleString('en-US'),
+                match: teamA + ' ' + scoreA + ' : ' + scoreB + ' ' + teamB,
+                time: formatTime(timerSeconds)
+            });
+            localStorage.setItem('score_board_en', JSON.stringify(history.slice(0, 20)));
+            renderHistory();
+            alert('Record saved!');
+        }
+        function renderHistory() {
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            history.slice(0, 10).forEach(function(h) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<span>' + h.match + '</span><span>' + h.time + '</span>';
+                list.appendChild(div);
+            });
+        }
+        loadGame();
+        renderHistory();
+    </script>
+</body>
+</html>

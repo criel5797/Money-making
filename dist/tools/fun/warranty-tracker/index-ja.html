@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/warranty-tracker/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/warranty-tracker/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/warranty-tracker/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/warranty-tracker/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/warranty-tracker/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/warranty-tracker/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保証管理</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #2193b0, #6dd5ed); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .warranty-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .add-form { margin-bottom: 20px; }
+        .form-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .form-row input { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .form-row label { font-size: .85rem; margin-bottom: 5px; display: block; opacity: .8; }
+        .add-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .warranty-list { max-height: 350px; overflow-y: auto; }
+        .warranty-item { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 10px; }
+        .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .item-name { font-weight: 600; font-size: 1rem; }
+        .delete-btn { background: #ff6b6b; border: none; color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: .8rem; }
+        .item-detail { font-size: .85rem; opacity: .9; margin-bottom: 3px; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 15px; font-size: .75rem; font-weight: 600; }
+        .status-active { background: #38ef7d; color: #000; }
+        .status-expiring { background: #ffd93d; color: #000; }
+        .status-expired { background: #ff6b6b; color: #fff; }
+        .days-left { font-size: .8rem; opacity: .8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🛡️ 保証管理</h1>
+        </header>
+        <div class="warranty-section">
+            <div class="add-form">
+                <div class="form-row">
+                    <input type="text" id="productInput" placeholder="製品名">
+                </div>
+                <div class="form-row">
+                    <input type="date" id="purchaseDateInput">
+                    <input type="date" id="expiryDateInput">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="storeInput" placeholder="購入店 (任意)">
+                </div>
+                <button class="add-btn" onclick="addWarranty()">保証を追加</button>
+            </div>
+            <div class="warranty-list" id="warrantyList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var warranties = JSON.parse(localStorage.getItem('warranties') || '[]');
+        function save() { localStorage.setItem('warranties', JSON.stringify(warranties)); }
+        function addWarranty() {
+            var product = document.getElementById('productInput').value.trim();
+            var purchaseDate = document.getElementById('purchaseDateInput').value;
+            var expiryDate = document.getElementById('expiryDateInput').value;
+            var store = document.getElementById('storeInput').value.trim();
+            if (product && purchaseDate && expiryDate) {
+                warranties.push({ id: Date.now().toString(), product: product, purchaseDate: purchaseDate, expiryDate: expiryDate, store: store });
+                save();
+                render();
+                document.getElementById('productInput').value = '';
+                document.getElementById('storeInput').value = '';
+            }
+        }
+        function deleteWarranty(id) {
+            warranties = warranties.filter(function(w) { return w.id !== id; });
+            save();
+            render();
+        }
+        function getDaysLeft(expiryDate) {
+            var today = new Date();
+            var expiry = new Date(expiryDate);
+            var diff = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+            return diff;
+        }
+        function getStatus(days) {
+            if (days < 0) return { text: '期限切れ', class: 'status-expired' };
+            if (days <= 30) return { text: 'まもなく期限', class: 'status-expiring' };
+            return { text: '有効', class: 'status-active' };
+        }
+        function render() {
+            var list = document.getElementById('warrantyList');
+            list.innerHTML = '';
+            warranties.sort(function(a, b) { return new Date(a.expiryDate) - new Date(b.expiryDate); });
+            warranties.forEach(function(w) {
+                var days = getDaysLeft(w.expiryDate);
+                var status = getStatus(days);
+                var div = document.createElement('div');
+                div.className = 'warranty-item';
+                var daysText = days >= 0 ? '残り' + days + '日' : Math.abs(days) + '日前に期限切れ';
+                div.innerHTML = '<div class="item-header"><span class="item-name">' + w.product + '</span><button class="delete-btn" onclick="deleteWarranty(\'' + w.id + '\')">削除</button></div><div class="item-detail">購入日: ' + w.purchaseDate + '</div><div class="item-detail">期限: ' + w.expiryDate + '</div>' + (w.store ? '<div class="item-detail">購入店: ' + w.store + '</div>' : '') + '<span class="status-badge ' + status.class + '">' + status.text + '</span> <span class="days-left">' + daysText + '</span>';
+                list.appendChild(div);
+            });
+        }
+        var today = new Date();
+        document.getElementById('purchaseDateInput').valueAsDate = today;
+        var nextYear = new Date(today);
+        nextYear.setFullYear(nextYear.getFullYear() + 1);
+        document.getElementById('expiryDateInput').valueAsDate = nextYear;
+        render();
+    </script>
+</body>
+</html>

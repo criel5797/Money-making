@@ -1,238 +1,172 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Speed Test - Free Online Speed Test Tool</title>
-  <meta name="description" content="Use Speed Test online for free. Internet speed test. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Speed Test, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/speed-test/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Speed Test","item":"https://instaidea.org/tools/fun/speed-test/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Speed Test","url":"https://instaidea.org/tools/fun/speed-test/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Speed Test online for free. Internet speed test. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Speed Test?","acceptedAnswer":{"@type":"Answer","text":"Speed Test is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/speed-test/"><meta property="og:url" content="https://instaidea.org/tools/fun/speed-test/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/speed-test/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/speed-test/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/speed-test/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/speed-test/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인터넷 속도 테스트</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .speed-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .speedometer { position: relative; width: 250px; height: 125px; margin: 0 auto 30px; overflow: hidden; }
+        .speedometer-bg { position: absolute; width: 250px; height: 250px; border-radius: 50%; background: conic-gradient(from 180deg, #ff416c 0deg, #ff4b2b 60deg, #f7b733 120deg, #38ef7d 180deg); clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); }
+        .speedometer-inner { position: absolute; top: 20px; left: 20px; width: 210px; height: 210px; border-radius: 50%; background: linear-gradient(135deg, #0f0c29, #302b63); clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); }
+        .needle { position: absolute; bottom: 0; left: 50%; width: 4px; height: 100px; background: linear-gradient(to top, #fff, transparent); transform-origin: bottom center; transform: translateX(-50%) rotate(-90deg); transition: transform 1s ease-out; border-radius: 2px; }
+        .speed-value { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); text-align: center; }
+        .speed-number { font-size: 2.5rem; font-weight: 700; }
+        .speed-unit { font-size: .9rem; opacity: .7; }
+        .results { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .result-card { background: rgba(255,255,255,.1); border-radius: 12px; padding: 15px; text-align: center; }
+        .result-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .result-label { font-size: .8rem; opacity: .7; margin-bottom: 5px; }
+        .result-value { font-size: 1.2rem; font-weight: 600; }
+        .test-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; cursor: pointer; font-weight: 600; margin-bottom: 15px; }
+        .test-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .progress-bar { height: 6px; background: rgba(255,255,255,.2); border-radius: 3px; overflow: hidden; margin-bottom: 15px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width .3s; }
+        .status { text-align: center; font-size: .9rem; opacity: .8; }
+        .history { margin-top: 20px; }
+        .history-title { font-size: .9rem; opacity: .8; margin-bottom: 10px; }
+        .history-list { max-height: 150px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,.05); border-radius: 8px; margin-bottom: 5px; font-size: .85rem; }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🚀 인터넷 속도 테스트</h1>
+        </header>
+        <div class="speed-section">
+            <div class="speedometer">
+                <div class="speedometer-bg"></div>
+                <div class="speedometer-inner"></div>
+                <div class="needle" id="needle"></div>
+                <div class="speed-value">
+                    <div class="speed-number" id="speedNumber">0</div>
+                    <div class="speed-unit">Mbps</div>
+                </div>
+            </div>
+            <div class="results">
+                <div class="result-card">
+                    <div class="result-icon">⬇️</div>
+                    <div class="result-label">다운로드</div>
+                    <div class="result-value" id="downloadSpeed">- Mbps</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">⬆️</div>
+                    <div class="result-label">업로드</div>
+                    <div class="result-value" id="uploadSpeed">- Mbps</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">📶</div>
+                    <div class="result-label">핑</div>
+                    <div class="result-value" id="pingValue">- ms</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">📊</div>
+                    <div class="result-label">지터</div>
+                    <div class="result-value" id="jitterValue">- ms</div>
+                </div>
+            </div>
+            <button class="test-btn" id="testBtn" onclick="startTest()">테스트 시작</button>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="status" id="status">시작 버튼을 눌러 속도를 측정하세요</div>
+            <div class="history">
+                <div class="history-title">최근 기록</div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
-
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Speed Test</span>
-      </nav>
-      <h1>Speed Test</h1>
-      <p>Use Speed Test online for free. Internet speed test. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
-
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Speed Test"></iframe>
-
-    <article class="seo-block">
-      <h2>What is Speed Test?</h2>
-      <p>Speed Test is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
-
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
-
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
-
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
-
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
-
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
-
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
-
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
-
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
-
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
-
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
-
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
-
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
-
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
-
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+    <script>
+        var history = JSON.parse(localStorage.getItem('speed_test_ko') || '[]');
+        var isTesting = false;
+        function renderHistory() {
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            history.slice(0, 10).forEach(function(h) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<span>' + h.date + '</span><span>⬇️' + h.download + ' ⬆️' + h.upload + '</span>';
+                list.appendChild(div);
+            });
+        }
+        function setNeedle(speed) {
+            var maxSpeed = 100;
+            var angle = Math.min(speed / maxSpeed, 1) * 180 - 90;
+            document.getElementById('needle').style.transform = 'translateX(-50%) rotate(' + angle + 'deg)';
+            document.getElementById('speedNumber').textContent = Math.round(speed);
+        }
+        function setProgress(percent) {
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+        function simulateSpeed(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+        function startTest() {
+            if (isTesting) return;
+            isTesting = true;
+            var btn = document.getElementById('testBtn');
+            btn.disabled = true;
+            btn.textContent = '측정 중...';
+            document.getElementById('status').textContent = '핑 테스트 중...';
+            setProgress(0);
+            setNeedle(0);
+            var ping = simulateSpeed(5, 50);
+            var jitter = simulateSpeed(1, 10);
+            setTimeout(function() {
+                document.getElementById('pingValue').textContent = Math.round(ping) + ' ms';
+                document.getElementById('jitterValue').textContent = Math.round(jitter) + ' ms';
+                setProgress(20);
+                document.getElementById('status').textContent = '다운로드 속도 측정 중...';
+                var downloadProgress = 0;
+                var downloadSpeed = simulateSpeed(30, 100);
+                var downloadInterval = setInterval(function() {
+                    downloadProgress += 5;
+                    var current = (downloadProgress / 100) * downloadSpeed;
+                    setNeedle(current);
+                    setProgress(20 + downloadProgress * 0.4);
+                    if (downloadProgress >= 100) {
+                        clearInterval(downloadInterval);
+                        document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(1) + ' Mbps';
+                        document.getElementById('status').textContent = '업로드 속도 측정 중...';
+                        var uploadProgress = 0;
+                        var uploadSpeed = simulateSpeed(10, 50);
+                        var uploadInterval = setInterval(function() {
+                            uploadProgress += 5;
+                            var current = (uploadProgress / 100) * uploadSpeed;
+                            setNeedle(current);
+                            setProgress(60 + uploadProgress * 0.4);
+                            if (uploadProgress >= 100) {
+                                clearInterval(uploadInterval);
+                                document.getElementById('uploadSpeed').textContent = uploadSpeed.toFixed(1) + ' Mbps';
+                                document.getElementById('status').textContent = '테스트 완료!';
+                                setNeedle(downloadSpeed);
+                                setProgress(100);
+                                history.unshift({
+                                    date: new Date().toLocaleString('ko-KR'),
+                                    download: downloadSpeed.toFixed(1),
+                                    upload: uploadSpeed.toFixed(1)
+                                });
+                                localStorage.setItem('speed_test_ko', JSON.stringify(history.slice(0, 20)));
+                                renderHistory();
+                                btn.disabled = false;
+                                btn.textContent = '다시 테스트';
+                                isTesting = false;
+                            }
+                        }, 100);
+                    }
+                }, 100);
+            }, 1000);
+        }
+        renderHistory();
+    </script>
 </body>
 </html>

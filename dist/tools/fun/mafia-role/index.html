@@ -1,238 +1,257 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mafia Role Assigner - Free Online Mafia Role Assigner Tool</title>
-  <meta name="description" content="Use Mafia Role Assigner online for free. Mafia game role assignment. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Mafia Role Assigner, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/mafia-role/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Mafia Role Assigner","item":"https://instaidea.org/tools/fun/mafia-role/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Mafia Role Assigner","url":"https://instaidea.org/tools/fun/mafia-role/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Mafia Role Assigner online for free. Mafia game role assignment. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Mafia Role Assigner?","acceptedAnswer":{"@type":"Answer","text":"Mafia Role Assigner is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/mafia-role/"><meta property="og:url" content="https://instaidea.org/tools/fun/mafia-role/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/mafia-role/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/mafia-role/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/mafia-role/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/mafia-role/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마피아 역할 배정</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1e293b, #0f172a); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .setup-section { margin-bottom: 20px; }
+        .setting-group { margin-bottom: 20px; }
+        .setting-label { font-size: .9rem; opacity: .7; margin-bottom: 10px; display: block; }
+        .counter { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .counter-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .counter-value { font-size: 2rem; font-weight: 700; min-width: 60px; text-align: center; }
+        .role-config { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .role-item { background: rgba(255,255,255,.1); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; }
+        .role-info { display: flex; align-items: center; gap: 8px; }
+        .role-emoji { font-size: 1.3rem; }
+        .role-name { font-size: .85rem; }
+        .role-count { display: flex; align-items: center; gap: 8px; }
+        .role-btn { width: 28px; height: 28px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1rem; cursor: pointer; }
+        .role-num { font-size: 1rem; font-weight: 600; min-width: 20px; text-align: center; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .play-section { display: none; }
+        .player-info { text-align: center; margin-bottom: 20px; }
+        .player-number { font-size: 1.2rem; opacity: .7; }
+        .player-label { font-size: 2rem; font-weight: 700; margin-top: 10px; }
+        .role-card { background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 20px; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.3s; }
+        .role-card:hover { transform: scale(1.02); }
+        .role-hidden { font-size: 1.2rem; opacity: .7; }
+        .role-revealed { display: none; }
+        .role-icon { font-size: 5rem; margin-bottom: 15px; }
+        .role-title { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+        .role-desc { font-size: .9rem; opacity: .8; }
+        .mafia { color: #ef4444; }
+        .citizen { color: #22c55e; }
+        .doctor { color: #3b82f6; }
+        .police { color: #f59e0b; }
+        .controls { display: flex; gap: 12px; }
+        .control-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        .hide-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .next-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .complete-section { display: none; text-align: center; }
+        .complete-icon { font-size: 5rem; margin-bottom: 20px; }
+        .complete-text { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+        .complete-desc { font-size: 1rem; opacity: .8; margin-bottom: 25px; }
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🎭 마피아 역할 배정</h1>
+            <p class="subtitle">비밀리에 역할을 확인하세요!</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="setting-group">
+                    <span class="setting-label">플레이어 수</span>
+                    <div class="counter">
+                        <button class="counter-btn" onclick="changePlayer(-1)">-</button>
+                        <div class="counter-value" id="playerCount">6</div>
+                        <button class="counter-btn" onclick="changePlayer(1)">+</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <span class="setting-label">역할 설정</span>
+                    <div class="role-config">
+                        <div class="role-item">
+                            <div class="role-info"><span class="role-emoji">🔪</span><span class="role-name">마피아</span></div>
+                            <div class="role-count">
+                                <button class="role-btn" onclick="changeRole('mafia',-1)">-</button>
+                                <span class="role-num" id="mafiaCount">1</span>
+                                <button class="role-btn" onclick="changeRole('mafia',1)">+</button>
+                            </div>
+                        </div>
+                        <div class="role-item">
+                            <div class="role-info"><span class="role-emoji">👤</span><span class="role-name">시민</span></div>
+                            <div class="role-count">
+                                <span class="role-num" id="citizenCount">3</span>
+                            </div>
+                        </div>
+                        <div class="role-item">
+                            <div class="role-info"><span class="role-emoji">💉</span><span class="role-name">의사</span></div>
+                            <div class="role-count">
+                                <button class="role-btn" onclick="changeRole('doctor',-1)">-</button>
+                                <span class="role-num" id="doctorCount">1</span>
+                                <button class="role-btn" onclick="changeRole('doctor',1)">+</button>
+                            </div>
+                        </div>
+                        <div class="role-item">
+                            <div class="role-info"><span class="role-emoji">🔍</span><span class="role-name">경찰</span></div>
+                            <div class="role-count">
+                                <button class="role-btn" onclick="changeRole('police',-1)">-</button>
+                                <span class="role-num" id="policeCount">1</span>
+                                <button class="role-btn" onclick="changeRole('police',1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 게임 시작!</button>
+            </div>
+            <div class="play-section" id="playSection">
+                <div class="player-info">
+                    <div class="player-number">플레이어 <span id="currentPlayer">1</span> / <span id="totalPlayers">6</span></div>
+                    <div class="player-label">당신의 역할은?</div>
+                </div>
+                <div class="role-card" id="roleCard" onclick="revealRole()">
+                    <div class="role-hidden" id="roleHidden">탭하여 역할 확인</div>
+                    <div class="role-revealed" id="roleRevealed">
+                        <div class="role-icon" id="roleIcon">🔪</div>
+                        <div class="role-title" id="roleTitle">마피아</div>
+                        <div class="role-desc" id="roleDesc">밤에 시민을 제거하세요</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="control-btn hide-btn" onclick="hideRole()">🙈 숨기기</button>
+                    <button class="control-btn next-btn" onclick="nextPlayer()">다음 플레이어 ➡️</button>
+                </div>
+            </div>
+            <div class="complete-section" id="completeSection">
+                <div class="complete-icon">✅</div>
+                <div class="complete-text">역할 배정 완료!</div>
+                <div class="complete-desc">모든 플레이어가 역할을 확인했습니다.<br>게임을 시작하세요!</div>
+                <button class="start-btn" onclick="resetGame()">🔄 다시 배정하기</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var playerCount = 6;
+        var mafiaCount = 1;
+        var doctorCount = 1;
+        var policeCount = 1;
+        var roles = [];
+        var currentPlayerIndex = 0;
+        var isRevealed = false;
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Mafia Role Assigner</span>
-      </nav>
-      <h1>Mafia Role Assigner</h1>
-      <p>Use Mafia Role Assigner online for free. Mafia game role assignment. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        var roleData = {
+            mafia: { icon: '🔪', title: '마피아', desc: '밤에 시민을 제거하세요', class: 'mafia' },
+            citizen: { icon: '👤', title: '시민', desc: '마피아를 찾아내세요', class: 'citizen' },
+            doctor: { icon: '💉', title: '의사', desc: '밤에 한 명을 살릴 수 있습니다', class: 'doctor' },
+            police: { icon: '🔍', title: '경찰', desc: '밤에 한 명을 조사할 수 있습니다', class: 'police' }
+        };
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Mafia Role Assigner"></iframe>
+        function changePlayer(delta) {
+            playerCount = Math.max(4, Math.min(15, playerCount + delta));
+            document.getElementById('playerCount').textContent = playerCount;
+            updateCitizenCount();
+        }
 
-    <article class="seo-block">
-      <h2>What is Mafia Role Assigner?</h2>
-      <p>Mafia Role Assigner is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        function changeRole(role, delta) {
+            if (role === 'mafia') {
+                mafiaCount = Math.max(1, Math.min(5, mafiaCount + delta));
+                document.getElementById('mafiaCount').textContent = mafiaCount;
+            } else if (role === 'doctor') {
+                doctorCount = Math.max(0, Math.min(2, doctorCount + delta));
+                document.getElementById('doctorCount').textContent = doctorCount;
+            } else if (role === 'police') {
+                policeCount = Math.max(0, Math.min(2, policeCount + delta));
+                document.getElementById('policeCount').textContent = policeCount;
+            }
+            updateCitizenCount();
+        }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        function updateCitizenCount() {
+            var special = mafiaCount + doctorCount + policeCount;
+            var citizens = Math.max(0, playerCount - special);
+            document.getElementById('citizenCount').textContent = citizens;
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array;
+        }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+        function startGame() {
+            var special = mafiaCount + doctorCount + policeCount;
+            if (special > playerCount) {
+                alert('특수 역할이 플레이어 수보다 많습니다!');
+                return;
+            }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+            roles = [];
+            for (var i = 0; i < mafiaCount; i++) roles.push('mafia');
+            for (var i = 0; i < doctorCount; i++) roles.push('doctor');
+            for (var i = 0; i < policeCount; i++) roles.push('police');
+            var citizens = playerCount - special;
+            for (var i = 0; i < citizens; i++) roles.push('citizen');
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+            shuffleArray(roles);
+            currentPlayerIndex = 0;
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('playSection').style.display = 'block';
+            document.getElementById('completeSection').style.display = 'none';
+            document.getElementById('totalPlayers').textContent = playerCount;
+            updatePlayerDisplay();
+        }
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+        function updatePlayerDisplay() {
+            document.getElementById('currentPlayer').textContent = currentPlayerIndex + 1;
+            hideRole();
+        }
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+        function revealRole() {
+            if (isRevealed) return;
+            isRevealed = true;
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+            var role = roles[currentPlayerIndex];
+            var data = roleData[role];
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+            document.getElementById('roleHidden').style.display = 'none';
+            document.getElementById('roleRevealed').style.display = 'block';
+            document.getElementById('roleIcon').textContent = data.icon;
+            document.getElementById('roleTitle').textContent = data.title;
+            document.getElementById('roleTitle').className = 'role-title ' + data.class;
+            document.getElementById('roleDesc').textContent = data.desc;
+        }
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+        function hideRole() {
+            isRevealed = false;
+            document.getElementById('roleHidden').style.display = 'block';
+            document.getElementById('roleRevealed').style.display = 'none';
+        }
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+        function nextPlayer() {
+            currentPlayerIndex++;
+            if (currentPlayerIndex >= playerCount) {
+                document.getElementById('playSection').style.display = 'none';
+                document.getElementById('completeSection').style.display = 'block';
+            } else {
+                updatePlayerDisplay();
+            }
+        }
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
-
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('completeSection').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

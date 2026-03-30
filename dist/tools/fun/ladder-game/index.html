@@ -1,238 +1,636 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ladder Game - Free Online Ladder Game Tool</title>
-  <meta name="description" content="Use Ladder Game online for free. Online ladder game. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Ladder Game, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/ladder-game/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Ladder Game","item":"https://instaidea.org/tools/fun/ladder-game/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Ladder Game","url":"https://instaidea.org/tools/fun/ladder-game/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Ladder Game online for free. Online ladder game. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Ladder Game?","acceptedAnswer":{"@type":"Answer","text":"Ladder Game is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/ladder-game/"><meta property="og:url" content="https://instaidea.org/tools/fun/ladder-game/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/ladder-game/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/ladder-game/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/ladder-game/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/ladder-game/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사다리 타기 - 공정한 사다리 게임</title>
+    <meta name="description" content="사다리 타기로 순서를 정하거나 당첨자를 뽑으세요. 팀 나누기, 역할 배정에 유용합니다.">
+    <meta name="keywords" content="사다리 타기, 사다리 게임, 제비뽑기, 순서 정하기, 팀 나누기">
+    <meta property="og:title" content="사다리 타기 - 공정한 사다리 게임">
+    <meta property="og:description" content="사다리 타기로 공정하게 결과를 정하세요.">
+    <meta property="og:type" content="website">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
 
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
 
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
-</head>
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95rem;
+        }
+
+        .setup-section {
+            background: rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #fff;
+            background: rgba(255,255,255,0.15);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .create-btn {
+            width: 100%;
+            padding: 16px;
+            background: #fff;
+            border: none;
+            border-radius: 12px;
+            color: #f5576c;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .game-section {
+            display: none;
+            background: rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .participants {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+        }
+
+        .participant {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            padding: 10px;
+        }
+
+        .participant:hover {
+            transform: scale(1.05);
+        }
+
+        .participant.selected {
+            transform: scale(1.1);
+        }
+
+        .participant-name {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            min-width: 60px;
+        }
+
+        .participant.selected .participant-name {
+            background: #fff;
+            color: #f5576c;
+        }
+
+        .participant-indicator {
+            font-size: 1.5rem;
+        }
+
+        .ladder-container {
+            position: relative;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .ladder-canvas {
+            width: 100%;
+            display: block;
+        }
+
+        .results {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+
+        .result-item {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .result-box {
+            background: rgba(0,0,0,0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .result-box.revealed {
+            background: #fff;
+            color: #f5576c;
+            animation: reveal 0.5s ease;
+        }
+
+        @keyframes reveal {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-box.hidden {
+            color: transparent;
+            user-select: none;
+        }
+
+        .game-message {
+            text-align: center;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.8);
+            margin: 15px 0;
+        }
+
+        .final-result {
+            text-align: center;
+            background: rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .final-result h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .match-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .match-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .match-arrow {
+            font-size: 1.2rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .reset-btn,
+        .share-btn,
+        .reveal-all-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover,
+        .share-btn:hover,
+        .reveal-all-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+        }
+    </style>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"사다리 게임","en":"Ladder Game","ja":"はしごゲーム"},"desc":{"ko":"사다리 타기","en":"Ladder climbing game","ja":"はしごゲーム"}},"header":{"title":{"ko":"사다리 게임","en":"Ladder Game","ja":"はしごゲーム"},"subtitle":{"ko":"공정한 추첨을 위한 사다리 타기","en":"Fair lottery with ladder game","ja":"公平な抽選のためのはしごゲーム"}},"input":{"participants":{"ko":"참가자","en":"Participants","ja":"参加者"},"results":{"ko":"결과","en":"Results","ja":"結果"}},"buttons":{"generate":{"ko":"사다리 생성","en":"Generate","ja":"はしご生成"},"start":{"ko":"시작","en":"Start","ja":"開始"},"reset":{"ko":"리셋","en":"Reset","ja":"リセット"}}};</script></head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+
+        <header>
+            <h1>🪜 사다리 타기</h1>
+            <p class="subtitle">이름을 클릭해서 사다리를 타세요!</p>
+        </header>
+
+        <div class="setup-section" id="setupSection">
+            <div class="input-row">
+                <div class="input-group">
+                    <label>참가자 (줄바꿈으로 구분)</label>
+                    <textarea id="participants" placeholder="홍길동
+김철수
+이영희
+박민수"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>결과 (줄바꿈으로 구분)</label>
+                    <textarea id="results" placeholder="당첨
+꽝
+커피 쏘기
+면제"></textarea>
+                </div>
+            </div>
+            <button class="create-btn" onclick="createLadder()">🎮 사다리 만들기</button>
+        </div>
+
+        <div class="game-section" id="gameSection">
+            <div class="participants" id="participantsDisplay"></div>
+
+            <div class="ladder-container">
+                <canvas id="ladderCanvas" class="ladder-canvas"></canvas>
+            </div>
+
+            <div class="results" id="resultsDisplay"></div>
+
+            <p class="game-message" id="gameMessage">참가자 이름을 클릭하세요!</p>
+
+            <div class="final-result" id="finalResult" style="display: none;">
+                <h3>🎯 최종 결과</h3>
+                <div class="match-list" id="matchList"></div>
+            </div>
+
+            <div class="btn-group">
+                <button class="reveal-all-btn" onclick="revealAll()">
+                    <span>👀</span> 전체 공개
+                </button>
+                <button class="reset-btn" onclick="resetGame()">
+                    <span>🔄</span> 다시하기
+                </button>
+                <button class="share-btn" onclick="shareResult()">
+                    <span>📤</span> 공유
+                </button>
+            </div>
+        </div>
+
+        <div class="ad-banner" style="margin-top: 20px;">Advertisement</div>
+
+        <footer>
+            <p>© 2024 사다리 타기</p>
+        </footer>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Ladder Game</span>
-      </nav>
-      <h1>Ladder Game</h1>
-      <p>Use Ladder Game online for free. Online ladder game. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+    <script>
+        let participantsList = [];
+        let resultsList = [];
+        let ladderData = [];
+        let revealed = [];
+        let matches = {};
+        let canvas, ctx;
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Ladder Game"></iframe>
+        function createLadder() {
+            const participantsInput = document.getElementById('participants').value.trim();
+            const resultsInput = document.getElementById('results').value.trim();
 
-    <article class="seo-block">
-      <h2>What is Ladder Game?</h2>
-      <p>Ladder Game is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+            participantsList = participantsInput.split('\n').map(p => p.trim()).filter(p => p);
+            resultsList = resultsInput.split('\n').map(r => r.trim()).filter(r => r);
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+            if (participantsList.length < 2) {
+                alert('참가자를 2명 이상 입력해주세요.');
+                return;
+            }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+            if (resultsList.length !== participantsList.length) {
+                alert(`참가자 수(${participantsList.length})와 결과 수(${resultsList.length})가 같아야 합니다.`);
+                return;
+            }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+            // 결과 셔플
+            const shuffledResults = [...resultsList];
+            for (let i = shuffledResults.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledResults[i], shuffledResults[j]] = [shuffledResults[j], shuffledResults[i]];
+            }
+            resultsList = shuffledResults;
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+            // 사다리 가로줄 생성
+            generateLadder();
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+            // UI 표시
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('gameSection').classList.add('show');
+            document.getElementById('finalResult').style.display = 'none';
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+            revealed = new Array(participantsList.length).fill(false);
+            matches = {};
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+            renderParticipants();
+            renderResults();
+            drawLadder();
+        }
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+        function generateLadder() {
+            const n = participantsList.length;
+            const rows = 10;
+            ladderData = [];
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+            for (let row = 0; row < rows; row++) {
+                const rowData = [];
+                for (let col = 0; col < n - 1; col++) {
+                    // 가로줄 생성 (랜덤, 연속되지 않게)
+                    if (col > 0 && rowData[col - 1]) {
+                        rowData.push(false);
+                    } else {
+                        rowData.push(Math.random() < 0.4);
+                    }
+                }
+                ladderData.push(rowData);
+            }
+        }
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+        function renderParticipants() {
+            const container = document.getElementById('participantsDisplay');
+            container.innerHTML = participantsList.map((name, idx) => `
+                <div class="participant" onclick="climbLadder(${idx})" id="participant-${idx}">
+                    <div class="participant-name">${name}</div>
+                    <div class="participant-indicator">👇</div>
+                </div>
+            `).join('');
+        }
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+        function renderResults() {
+            const container = document.getElementById('resultsDisplay');
+            container.innerHTML = resultsList.map((result, idx) => `
+                <div class="result-item">
+                    <div class="result-box hidden" id="result-${idx}">${result}</div>
+                </div>
+            `).join('');
+        }
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+        function drawLadder() {
+            canvas = document.getElementById('ladderCanvas');
+            ctx = canvas.getContext('2d');
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+            const n = participantsList.length;
+            const padding = 40;
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = 300;
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
+            const colWidth = (canvas.width - padding * 2) / (n - 1);
+            const rowHeight = canvas.height / (ladderData.length + 1);
 
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
+            ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+            ctx.lineWidth = 3;
 
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
+            // 세로줄
+            for (let i = 0; i < n; i++) {
+                const x = padding + i * colWidth;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
 
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
-</body>
+            // 가로줄
+            for (let row = 0; row < ladderData.length; row++) {
+                const y = (row + 1) * rowHeight;
+                for (let col = 0; col < ladderData[row].length; col++) {
+                    if (ladderData[row][col]) {
+                        const x1 = padding + col * colWidth;
+                        const x2 = padding + (col + 1) * colWidth;
+                        ctx.beginPath();
+                        ctx.moveTo(x1, y);
+                        ctx.lineTo(x2, y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function climbLadder(startIdx) {
+            if (revealed[startIdx]) {
+                document.getElementById('gameMessage').textContent = '이미 결과를 확인했습니다!';
+                return;
+            }
+
+            // 선택 표시
+            document.querySelectorAll('.participant').forEach(p => p.classList.remove('selected'));
+            document.getElementById(`participant-${startIdx}`).classList.add('selected');
+
+            const n = participantsList.length;
+            const padding = 40;
+            const colWidth = (canvas.width - padding * 2) / (n - 1);
+            const rowHeight = canvas.height / (ladderData.length + 1);
+
+            let currentCol = startIdx;
+            const path = [{x: padding + currentCol * colWidth, y: 0}];
+
+            // 사다리 타기 로직
+            for (let row = 0; row < ladderData.length; row++) {
+                const y = (row + 1) * rowHeight;
+
+                // 왼쪽 가로줄 체크
+                if (currentCol > 0 && ladderData[row][currentCol - 1]) {
+                    path.push({x: padding + currentCol * colWidth, y: y});
+                    currentCol--;
+                    path.push({x: padding + currentCol * colWidth, y: y});
+                }
+                // 오른쪽 가로줄 체크
+                else if (currentCol < n - 1 && ladderData[row][currentCol]) {
+                    path.push({x: padding + currentCol * colWidth, y: y});
+                    currentCol++;
+                    path.push({x: padding + currentCol * colWidth, y: y});
+                }
+            }
+
+            path.push({x: padding + currentCol * colWidth, y: canvas.height});
+
+            // 경로 애니메이션
+            animatePath(path, startIdx, currentCol);
+        }
+
+        function animatePath(path, startIdx, endIdx) {
+            let i = 0;
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+
+            const animate = () => {
+                if (i < path.length - 1) {
+                    ctx.beginPath();
+                    ctx.moveTo(path[i].x, path[i].y);
+                    ctx.lineTo(path[i + 1].x, path[i + 1].y);
+                    ctx.stroke();
+                    i++;
+                    setTimeout(animate, 50);
+                } else {
+                    // 결과 공개
+                    revealed[startIdx] = true;
+                    matches[participantsList[startIdx]] = resultsList[endIdx];
+
+                    const resultBox = document.getElementById(`result-${endIdx}`);
+                    resultBox.classList.remove('hidden');
+                    resultBox.classList.add('revealed');
+
+                    document.getElementById('gameMessage').textContent =
+                        `${participantsList[startIdx]} → ${resultsList[endIdx]}!`;
+
+                    checkAllRevealed();
+                }
+            };
+
+            animate();
+        }
+
+        function checkAllRevealed() {
+            if (revealed.every(r => r)) {
+                showFinalResult();
+            }
+        }
+
+        function revealAll() {
+            participantsList.forEach((_, idx) => {
+                if (!revealed[idx]) {
+                    climbLadder(idx);
+                }
+            });
+        }
+
+        function showFinalResult() {
+            const finalResult = document.getElementById('finalResult');
+            const matchList = document.getElementById('matchList');
+
+            matchList.innerHTML = Object.entries(matches).map(([name, result]) => `
+                <div class="match-item">
+                    <span>${name}</span>
+                    <span class="match-arrow">→</span>
+                    <span><strong>${result}</strong></span>
+                </div>
+            `).join('');
+
+            finalResult.style.display = 'block';
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('gameSection').classList.remove('show');
+        }
+
+        function shareResult() {
+            if (Object.keys(matches).length === 0) {
+                alert('먼저 사다리를 타주세요!');
+                return;
+            }
+
+            const matchText = Object.entries(matches)
+                .map(([name, result]) => `${name}님의 운명은...\n🎯 ${result}!`)
+                .join('\n\n');
+
+            const text = `🪜 사다리 게임 결과
+
+${matchText}
+
+🎲 너도 사다리 타볼래?`;
+
+            window.shareWithModal('사다리 게임 결과', text);
+        }
+
+        // 윈도우 리사이즈 시 사다리 다시 그리기
+        window.addEventListener('resize', () => {
+            if (document.getElementById('gameSection').classList.contains('show')) {
+                drawLadder();
+            }
+        });
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
 </html>

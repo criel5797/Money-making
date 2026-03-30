@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/team-picker/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/team-picker/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/team-picker/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/team-picker/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/team-picker/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/team-picker/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チーム分け</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #2563eb, #1d4ed8); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .input-section { margin-bottom: 20px; }
+        .input-label { font-size: .9rem; opacity: .7; margin-bottom: 10px; display: block; }
+        .name-input-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .name-input { flex: 1; padding: 12px 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 10px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; }
+        .name-input::placeholder { color: rgba(255,255,255,.5); }
+        .add-btn { padding: 12px 20px; border: none; border-radius: 10px; background: #22c55e; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        .players-list { background: rgba(255,255,255,.1); border-radius: 12px; padding: 15px; margin-bottom: 20px; min-height: 100px; }
+        .players-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .players-title { font-size: .9rem; opacity: .7; }
+        .players-count { font-size: .85rem; background: rgba(255,255,255,.2); padding: 4px 10px; border-radius: 20px; }
+        .player-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .player-tag { background: rgba(255,255,255,.2); padding: 8px 12px; border-radius: 20px; font-size: .9rem; display: flex; align-items: center; gap: 8px; }
+        .remove-player { background: none; border: none; color: #fff; opacity: .7; cursor: pointer; font-size: 1rem; }
+        .team-setting { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .team-btn { width: 40px; height: 40px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.3rem; cursor: pointer; }
+        .team-value { font-size: 1.5rem; font-weight: 700; min-width: 40px; text-align: center; }
+        .team-label { font-size: .9rem; opacity: .7; }
+        .divide-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .results-section { display: none; margin-top: 20px; }
+        .team-result { background: rgba(255,255,255,.15); border-radius: 12px; padding: 15px; margin-bottom: 12px; }
+        .team-header { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .team-members { display: flex; flex-wrap: wrap; gap: 8px; }
+        .member-tag { background: rgba(255,255,255,.2); padding: 6px 12px; border-radius: 15px; font-size: .9rem; }
+        .reset-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.2); color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 15px; }
+        .empty-message { text-align: center; opacity: .5; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>👥 チーム分け</h1>
+            <p class="subtitle">ランダムで公平にチームを分けよう！</p>
+        </header>
+        <div class="game-section">
+            <div class="input-section">
+                <span class="input-label">参加者の名前を入力</span>
+                <div class="name-input-row">
+                    <input type="text" class="name-input" id="nameInput" placeholder="名前を入力して追加" onkeypress="handleKeyPress(event)">
+                    <button class="add-btn" onclick="addPlayer()">追加</button>
+                </div>
+            </div>
+            <div class="players-list" id="playersList">
+                <div class="players-header">
+                    <span class="players-title">参加者リスト</span>
+                    <span class="players-count" id="playersCount">0人</span>
+                </div>
+                <div class="player-tags" id="playerTags">
+                    <div class="empty-message" id="emptyMessage">参加者を追加してください</div>
+                </div>
+            </div>
+            <div class="input-section">
+                <span class="input-label" style="text-align:center;display:block">チーム数</span>
+                <div class="team-setting">
+                    <button class="team-btn" onclick="changeTeam(-1)">-</button>
+                    <div class="team-value" id="teamCount">2</div>
+                    <span class="team-label">チーム</span>
+                    <button class="team-btn" onclick="changeTeam(1)">+</button>
+                </div>
+            </div>
+            <button class="divide-btn" onclick="divideTeams()">🎲 チーム分け！</button>
+            <div class="results-section" id="resultsSection">
+                <div id="teamsContainer"></div>
+                <button class="reset-btn" onclick="resetResults()">🔄 もう一度分ける</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var players = [];
+        var teamCount = 2;
+        var teamColors = ['#ef4444', '#22c55e', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
+        var teamNames = ['Aチーム', 'Bチーム', 'Cチーム', 'Dチーム', 'Eチーム', 'Fチーム', 'Gチーム', 'Hチーム'];
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') addPlayer();
+        }
+
+        function addPlayer() {
+            var input = document.getElementById('nameInput');
+            var name = input.value.trim();
+            if (name && !players.includes(name)) {
+                players.push(name);
+                updatePlayersList();
+                input.value = '';
+            }
+            input.focus();
+        }
+
+        function removePlayer(name) {
+            players = players.filter(function(p) { return p !== name; });
+            updatePlayersList();
+        }
+
+        function updatePlayersList() {
+            var container = document.getElementById('playerTags');
+            document.getElementById('playersCount').textContent = players.length + '人';
+
+            if (players.length === 0) {
+                container.innerHTML = '<div class="empty-message" id="emptyMessage">参加者を追加してください</div>';
+                return;
+            }
+
+            var html = '';
+            players.forEach(function(player) {
+                html += '<div class="player-tag">' + player + '<button class="remove-player" onclick="removePlayer(\'' + player + '\')">×</button></div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function changeTeam(delta) {
+            teamCount = Math.max(2, Math.min(8, teamCount + delta));
+            document.getElementById('teamCount').textContent = teamCount;
+        }
+
+        function shuffleArray(array) {
+            var arr = array.slice();
+            for (var i = arr.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            return arr;
+        }
+
+        function divideTeams() {
+            if (players.length < teamCount) {
+                alert('参加者がチーム数より少ないです！');
+                return;
+            }
+
+            var shuffled = shuffleArray(players);
+            var teams = [];
+            for (var i = 0; i < teamCount; i++) {
+                teams.push([]);
+            }
+
+            shuffled.forEach(function(player, index) {
+                teams[index % teamCount].push(player);
+            });
+
+            displayTeams(teams);
+        }
+
+        function displayTeams(teams) {
+            var container = document.getElementById('teamsContainer');
+            var html = '';
+
+            teams.forEach(function(team, index) {
+                html += '<div class="team-result">';
+                html += '<div class="team-header"><span style="color:' + teamColors[index] + '">' + teamNames[index] + '</span> (' + team.length + '人)</div>';
+                html += '<div class="team-members">';
+                team.forEach(function(member) {
+                    html += '<span class="member-tag">' + member + '</span>';
+                });
+                html += '</div></div>';
+            });
+
+            container.innerHTML = html;
+            document.getElementById('resultsSection').style.display = 'block';
+        }
+
+        function resetResults() {
+            document.getElementById('resultsSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

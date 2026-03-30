@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/password-strength/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/password-strength/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/password-strength/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/password-strength/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/password-strength/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/password-strength/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker - Security Check</title>
+    <meta name="description" content="Free password strength checker. Check your password security level and learn how to improve it.">
+    <meta name="keywords" content="password checker, security check, password strength, password analysis">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .checker-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .password-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .password-input {
+            width: 100%;
+            padding: 18px 50px 18px 18px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1.1rem;
+            font-family: monospace;
+        }
+        .password-input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.5);
+        }
+        .toggle-visibility {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        .strength-meter {
+            margin-bottom: 25px;
+        }
+        .meter-bar {
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .meter-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .strength-label {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .strength-very-weak { background: #e74c3c; }
+        .strength-weak { background: #e67e22; }
+        .strength-fair { background: #f1c40f; }
+        .strength-strong { background: #27ae60; }
+        .strength-very-strong { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+        .criteria-list {
+            margin-top: 25px;
+        }
+        .criteria-list h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .criteria-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+        .criteria-item.passed {
+            background: rgba(39, 174, 96, 0.2);
+        }
+        .criteria-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.1);
+        }
+        .criteria-item.passed .criteria-icon {
+            background: #27ae60;
+        }
+        .criteria-text {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        .stats {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .stats h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        .tips {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(52, 152, 219, 0.2);
+            border-radius: 12px;
+        }
+        .tips h3 {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+        .tips ul {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            padding-left: 20px;
+        }
+        .tips li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Ad Area</div>
+        <header>
+            <h1>🔒 Password Strength Checker</h1>
+            <p class="subtitle">Check your password security level</p>
+        </header>
+        <div class="checker-section">
+            <div class="password-input-wrapper">
+                <input type="password" class="password-input" id="passwordInput" placeholder="Enter your password" oninput="checkPassword()">
+                <button class="toggle-visibility" onclick="toggleVisibility()">👁</button>
+            </div>
+
+            <div class="strength-meter">
+                <div class="meter-bar">
+                    <div class="meter-fill" id="meterFill"></div>
+                </div>
+                <div class="strength-label" id="strengthLabel">Enter a password</div>
+            </div>
+
+            <div class="criteria-list">
+                <h3>✅ Security Criteria</h3>
+                <div class="criteria-item" id="length">
+                    <span class="criteria-icon">-</span>
+                    <span class="criteria-text">At least 8 characters</span>
+                </div>
+                <div class="criteria-item" id="uppercase">
+                    <span class="criteria-icon">-</span>
+                    <span class="criteria-text">Contains uppercase (A-Z)</span>
+                </div>
+                <div class="criteria-item" id="lowercase">
+                    <span class="criteria-icon">-</span>
+                    <span class="criteria-text">Contains lowercase (a-z)</span>
+                </div>
+                <div class="criteria-item" id="numbers">
+                    <span class="criteria-icon">-</span>
+                    <span class="criteria-text">Contains numbers (0-9)</span>
+                </div>
+                <div class="criteria-item" id="special">
+                    <span class="criteria-icon">-</span>
+                    <span class="criteria-text">Contains special chars (!@#$%^&*)</span>
+                </div>
+                <div class="criteria-item" id="noCommon">
+                    <span class="criteria-icon">-</span>
+                    <span class="criteria-text">No common patterns</span>
+                </div>
+            </div>
+
+            <div class="stats">
+                <h3>📊 Password Analysis</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="charCount">0</div>
+                        <div class="stat-label">Characters</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="entropy">0</div>
+                        <div class="stat-label">Entropy (bits)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="uniqueChars">0</div>
+                        <div class="stat-label">Unique Chars</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="crackTime">-</div>
+                        <div class="stat-label">Est. Crack Time</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips">
+                <h3>💡 Strong Password Tips</h3>
+                <ul>
+                    <li>Use at least 12 characters</li>
+                    <li>Mix uppercase, lowercase, numbers, and symbols</li>
+                    <li>Avoid personal info (birthday, name)</li>
+                    <li>Use different passwords for each site</li>
+                </ul>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Ad Area</div>
+    </div>
+    <script>
+        var commonPatterns = ['123456', 'password', 'qwerty', '111111', '123123', 'abc123', 'password1', '1234567890'];
+
+        function checkPassword() {
+            var password = document.getElementById('passwordInput').value;
+
+            var criteria = {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                numbers: /[0-9]/.test(password),
+                special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
+                noCommon: !commonPatterns.some(function(p) { return password.toLowerCase().includes(p); })
+            };
+
+            Object.keys(criteria).forEach(function(key) {
+                var el = document.getElementById(key);
+                if (criteria[key]) {
+                    el.classList.add('passed');
+                    el.querySelector('.criteria-icon').textContent = '✓';
+                } else {
+                    el.classList.remove('passed');
+                    el.querySelector('.criteria-icon').textContent = '-';
+                }
+            });
+
+            var score = Object.values(criteria).filter(Boolean).length;
+            if (password.length >= 12) score++;
+            if (password.length >= 16) score++;
+
+            var fill = document.getElementById('meterFill');
+            var label = document.getElementById('strengthLabel');
+            fill.className = 'meter-fill';
+
+            if (password.length === 0) {
+                fill.style.width = '0%';
+                label.textContent = 'Enter a password';
+            } else if (score <= 2) {
+                fill.style.width = '20%';
+                fill.classList.add('strength-very-weak');
+                label.textContent = 'Very Weak 😰';
+            } else if (score <= 3) {
+                fill.style.width = '40%';
+                fill.classList.add('strength-weak');
+                label.textContent = 'Weak 😟';
+            } else if (score <= 5) {
+                fill.style.width = '60%';
+                fill.classList.add('strength-fair');
+                label.textContent = 'Fair 😐';
+            } else if (score <= 6) {
+                fill.style.width = '80%';
+                fill.classList.add('strength-strong');
+                label.textContent = 'Strong 😊';
+            } else {
+                fill.style.width = '100%';
+                fill.classList.add('strength-very-strong');
+                label.textContent = 'Very Strong 💪';
+            }
+
+            document.getElementById('charCount').textContent = password.length;
+            document.getElementById('uniqueChars').textContent = new Set(password).size;
+
+            var charsetSize = 0;
+            if (/[a-z]/.test(password)) charsetSize += 26;
+            if (/[A-Z]/.test(password)) charsetSize += 26;
+            if (/[0-9]/.test(password)) charsetSize += 10;
+            if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) charsetSize += 32;
+
+            var entropy = password.length > 0 ? Math.round(password.length * Math.log2(charsetSize || 1)) : 0;
+            document.getElementById('entropy').textContent = entropy;
+
+            var crackTime = estimateCrackTime(entropy);
+            document.getElementById('crackTime').textContent = crackTime;
+        }
+
+        function estimateCrackTime(entropy) {
+            if (entropy === 0) return '-';
+            var seconds = Math.pow(2, entropy) / 1e10;
+            if (seconds < 1) return 'Instant';
+            if (seconds < 60) return Math.round(seconds) + 's';
+            if (seconds < 3600) return Math.round(seconds/60) + 'm';
+            if (seconds < 86400) return Math.round(seconds/3600) + 'h';
+            if (seconds < 31536000) return Math.round(seconds/86400) + 'd';
+            if (seconds < 31536000 * 100) return Math.round(seconds/31536000) + 'y';
+            return '100y+';
+        }
+
+        function toggleVisibility() {
+            var input = document.getElementById('passwordInput');
+            var btn = document.querySelector('.toggle-visibility');
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁';
+            }
+        }
+    </script>
+</body>
+</html>

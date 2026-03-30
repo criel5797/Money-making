@@ -1,238 +1,355 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Notepad - Free Online Online Notepad Tool</title>
-  <meta name="description" content="Use Online Notepad online for free. Browser notepad. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Online Notepad, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/notepad/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Online Notepad","item":"https://instaidea.org/tools/fun/notepad/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Online Notepad","url":"https://instaidea.org/tools/fun/notepad/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Online Notepad online for free. Browser notepad. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Online Notepad?","acceptedAnswer":{"@type":"Answer","text":"Online Notepad is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/notepad/"><meta property="og:url" content="https://instaidea.org/tools/fun/notepad/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/notepad/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/notepad/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/notepad/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/notepad/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>온라인 메모장 - 빠른 텍스트 메모</title>
+    <meta name="description" content="무료 온라인 메모장. 브라우저에서 바로 메모하고 자동 저장됩니다.">
+    <meta name="keywords" content="메모장, 온라인 메모, 텍스트 에디터, 노트패드">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 700px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .notepad-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .tool-btn {
+            padding: 10px 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tool-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .tool-btn.active {
+            background: rgba(116, 185, 255, 0.5);
+            border-color: #74b9ff;
+        }
+        .textarea-wrapper {
+            position: relative;
+        }
+        #notepad {
+            width: 100%;
+            height: 400px;
+            padding: 20px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        #notepad:focus {
+            outline: 3px solid rgba(116, 185, 255, 0.5);
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        .saved-notes {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .saved-notes h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .note-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .note-item:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .note-title {
+            font-weight: 600;
+            flex: 1;
+        }
+        .note-date {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-left: 10px;
+        }
+        .delete-btn {
+            background: rgba(255,107,107,0.3);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+        }
+        .new-btn {
+            background: linear-gradient(135deg, #fdcb6e, #f39c12);
+            color: white;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+        }
+        .action-btn:hover {
+            transform: scale(1.02);
+        }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>📝 온라인 메모장</h1>
+            <p class="subtitle">브라우저에서 바로 메모하고 저장하세요</p>
+        </header>
+        <div class="notepad-section">
+            <div class="toolbar">
+                <button class="tool-btn" onclick="setFontSize(14)">작게</button>
+                <button class="tool-btn active" onclick="setFontSize(16)">보통</button>
+                <button class="tool-btn" onclick="setFontSize(20)">크게</button>
+                <button class="tool-btn" onclick="toggleFont()">폰트 변경</button>
+            </div>
+            <div class="textarea-wrapper">
+                <textarea id="notepad" placeholder="여기에 메모를 입력하세요..." oninput="updateStatus()"></textarea>
+            </div>
+            <div class="status-bar">
+                <span id="charCount">0 글자</span>
+                <span id="wordCount">0 단어</span>
+                <span id="lastSaved">자동 저장됨</span>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn save-btn" onclick="saveNote()">💾 저장</button>
+                <button class="action-btn new-btn" onclick="newNote()">📄 새 메모</button>
+                <button class="action-btn download-btn" onclick="downloadNote()">⬇️ 다운로드</button>
+            </div>
+            <div class="saved-notes">
+                <h3>📚 저장된 메모</h3>
+                <div class="notes-list" id="notesList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var notepad = document.getElementById('notepad');
+        var currentNoteId = null;
+        var fonts = ['sans-serif', 'serif', 'monospace', 'cursive'];
+        var currentFontIndex = 0;
+        var autoSaveTimer = null;
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Online Notepad</span>
-      </nav>
-      <h1>Online Notepad</h1>
-      <p>Use Online Notepad online for free. Browser notepad. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        function loadNotes() {
+            return JSON.parse(localStorage.getItem('notes') || '[]');
+        }
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Online Notepad"></iframe>
+        function saveNotes(notes) {
+            localStorage.setItem('notes', JSON.stringify(notes));
+        }
 
-    <article class="seo-block">
-      <h2>What is Online Notepad?</h2>
-      <p>Online Notepad is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        function updateStatus() {
+            var text = notepad.value;
+            document.getElementById('charCount').textContent = text.length + ' 글자';
+            var words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            document.getElementById('wordCount').textContent = words + ' 단어';
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(function() {
+                autoSave();
+            }, 2000);
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function autoSave() {
+            if (notepad.value.trim() && currentNoteId) {
+                var notes = loadNotes();
+                var index = notes.findIndex(function(n) { return n.id === currentNoteId; });
+                if (index > -1) {
+                    notes[index].content = notepad.value;
+                    notes[index].date = new Date().toISOString();
+                    saveNotes(notes);
+                    document.getElementById('lastSaved').textContent = '자동 저장됨';
+                }
+            }
+        }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+        function saveNote() {
+            var text = notepad.value.trim();
+            if (!text) {
+                alert('메모 내용을 입력하세요');
+                return;
+            }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+            var notes = loadNotes();
+            var title = text.substring(0, 30) + (text.length > 30 ? '...' : '');
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+            if (currentNoteId) {
+                var index = notes.findIndex(function(n) { return n.id === currentNoteId; });
+                if (index > -1) {
+                    notes[index].content = text;
+                    notes[index].title = title;
+                    notes[index].date = new Date().toISOString();
+                }
+            } else {
+                var note = {
+                    id: Date.now(),
+                    title: title,
+                    content: text,
+                    date: new Date().toISOString()
+                };
+                notes.unshift(note);
+                currentNoteId = note.id;
+            }
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+            saveNotes(notes);
+            renderNotes();
+            document.getElementById('lastSaved').textContent = '저장됨!';
+        }
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+        function newNote() {
+            notepad.value = '';
+            currentNoteId = null;
+            updateStatus();
+            notepad.focus();
+        }
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+        function loadNote(id) {
+            var notes = loadNotes();
+            var note = notes.find(function(n) { return n.id === id; });
+            if (note) {
+                notepad.value = note.content;
+                currentNoteId = id;
+                updateStatus();
+            }
+        }
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+        function deleteNote(id) {
+            if (!confirm('이 메모를 삭제하시겠습니까?')) return;
+            var notes = loadNotes();
+            notes = notes.filter(function(n) { return n.id !== id; });
+            saveNotes(notes);
+            if (currentNoteId === id) {
+                newNote();
+            }
+            renderNotes();
+        }
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+        function renderNotes() {
+            var notes = loadNotes();
+            var list = document.getElementById('notesList');
+            list.innerHTML = '';
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+            if (notes.length === 0) {
+                list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px">저장된 메모가 없습니다</div>';
+                return;
+            }
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+            notes.forEach(function(note) {
+                var div = document.createElement('div');
+                div.className = 'note-item';
+                div.innerHTML = '<span class="note-title">' + note.title + '</span>' +
+                    '<span class="note-date">' + new Date(note.date).toLocaleDateString() + '</span>' +
+                    '<button class="delete-btn" onclick="event.stopPropagation();deleteNote(' + note.id + ')">삭제</button>';
+                div.onclick = function() { loadNote(note.id); };
+                list.appendChild(div);
+            });
+        }
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+        function setFontSize(size) {
+            notepad.style.fontSize = size + 'px';
+            document.querySelectorAll('.tool-btn').forEach(function(btn, i) {
+                if (i < 3) btn.classList.remove('active');
+            });
+            var sizes = [14, 16, 20];
+            var index = sizes.indexOf(size);
+            if (index > -1) document.querySelectorAll('.tool-btn')[index].classList.add('active');
+        }
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
+        function toggleFont() {
+            currentFontIndex = (currentFontIndex + 1) % fonts.length;
+            notepad.style.fontFamily = fonts[currentFontIndex];
+        }
 
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
+        function downloadNote() {
+            var text = notepad.value;
+            if (!text.trim()) {
+                alert('다운로드할 내용이 없습니다');
+                return;
+            }
+            var blob = new Blob([text], {type: 'text/plain'});
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'memo_' + new Date().toISOString().split('T')[0] + '.txt';
+            a.click();
+        }
 
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+        // 자동 저장된 내용 불러오기
+        var lastNote = loadNotes()[0];
+        if (lastNote) {
+            notepad.value = lastNote.content;
+            currentNoteId = lastNote.id;
+            updateStatus();
+        }
+        renderNotes();
+    </script>
 </body>
 </html>

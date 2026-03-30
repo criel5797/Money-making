@@ -1,238 +1,268 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Number to Korean - Free Online Number to Korean Tool</title>
-  <meta name="description" content="Use Number to Korean online for free. Convert numbers to Korean. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Number to Korean, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/number-to-korean/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Number to Korean","item":"https://instaidea.org/tools/fun/number-to-korean/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Number to Korean","url":"https://instaidea.org/tools/fun/number-to-korean/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Number to Korean online for free. Convert numbers to Korean. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Number to Korean?","acceptedAnswer":{"@type":"Answer","text":"Number to Korean is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/number-to-korean/"><meta property="og:url" content="https://instaidea.org/tools/fun/number-to-korean/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/number-to-korean/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/number-to-korean/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/number-to-korean/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/number-to-korean/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 한글 변환기 - 금액 한글 표기</title>
+    <meta name="description" content="숫자를 한글로 변환해주는 도구입니다. 금액 표기, 수표 작성, 공문서 작성 시 유용합니다.">
+    <meta name="keywords" content="숫자 한글 변환, 금액 한글, 수표 금액, 한글 숫자, 숫자 읽기">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .input-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .input-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1.2rem;
+            text-align: right;
+        }
+        input:focus {
+            outline: none;
+            border-color: #fff;
+            background: rgba(255,255,255,0.15);
+        }
+        input::placeholder { color: rgba(255,255,255,0.5); }
+        .result-box {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            min-height: 60px;
+        }
+        .result-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 8px;
+        }
+        .result-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            word-break: keep-all;
+            line-height: 1.5;
+        }
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-copy { background: #27ae60; color: white; }
+        .btn-clear { background: rgba(255,255,255,0.2); color: white; }
+        button:hover { transform: translateY(-2px); opacity: 0.9; }
+        .options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .option-btn {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option-btn.active {
+            background: rgba(255,255,255,0.3);
+            border-color: #fff;
+        }
+        .examples {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .examples h3 { margin-bottom: 15px; font-size: 1rem; }
+        .example-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+        .example-item:last-child { border: none; }
+        .copied {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            padding: 15px 30px;
+            border-radius: 10px;
+            z-index: 100;
+            animation: fadeInOut 1.5s ease;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            20%, 80% { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>🔢 숫자 한글 변환기</h1>
+            <p class="subtitle">숫자를 한글로 변환해드립니다</p>
+        </header>
+        <div class="input-section">
+            <div class="options">
+                <button class="option-btn active" data-type="money">금액 (원)</button>
+                <button class="option-btn" data-type="number">일반 숫자</button>
+            </div>
+            <div class="input-group">
+                <label>숫자를 입력하세요</label>
+                <input type="text" id="numberInput" placeholder="예: 1234567890" inputmode="numeric">
+            </div>
+            <div class="result-box">
+                <div class="result-label">한글 표기</div>
+                <div class="result-text" id="koreanResult">-</div>
+            </div>
+            <div class="result-box">
+                <div class="result-label">읽기</div>
+                <div class="result-text" id="readingResult">-</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn-copy" onclick="copyResult()">복사하기</button>
+                <button class="btn-clear" onclick="clearInput()">지우기</button>
+            </div>
+        </div>
+        <div class="examples">
+            <h3>📝 변환 예시</h3>
+            <div class="example-item"><span>1,234</span><span>일천이백삼십사</span></div>
+            <div class="example-item"><span>10,000</span><span>일만</span></div>
+            <div class="example-item"><span>1,000,000</span><span>일백만</span></div>
+            <div class="example-item"><span>100,000,000</span><span>일억</span></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var type = 'money';
+        var digits = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+        var units = ['', '십', '백', '천'];
+        var bigUnits = ['', '만', '억', '조', '경'];
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Number to Korean</span>
-      </nav>
-      <h1>Number to Korean</h1>
-      <p>Use Number to Korean online for free. Convert numbers to Korean. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        document.querySelectorAll('.option-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.option-btn').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                type = this.dataset.type;
+                convert();
+            });
+        });
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Number to Korean"></iframe>
+        document.getElementById('numberInput').addEventListener('input', function(e) {
+            var value = e.target.value.replace(/[^0-9]/g, '');
+            if (value.length > 16) value = value.slice(0, 16);
+            e.target.value = formatNumber(value);
+            convert();
+        });
 
-    <article class="seo-block">
-      <h2>What is Number to Korean?</h2>
-      <p>Number to Korean is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        function formatNumber(num) {
+            return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        function convert() {
+            var input = document.getElementById('numberInput').value.replace(/,/g, '');
+            if (!input || input === '0') {
+                document.getElementById('koreanResult').textContent = input === '0' ? '영' : '-';
+                document.getElementById('readingResult').textContent = input === '0' ? '영' : '-';
+                return;
+            }
+            var korean = numberToKorean(input);
+            var suffix = type === 'money' ? '원' : '';
+            document.getElementById('koreanResult').textContent = korean + suffix;
+            document.getElementById('readingResult').textContent = korean.replace(/일([천백십만억조경])/g, '$1') + suffix;
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function numberToKorean(num) {
+            if (num === '0') return '영';
+            var result = '';
+            var groups = [];
+            while (num.length > 0) {
+                groups.push(num.slice(-4));
+                num = num.slice(0, -4);
+            }
+            for (var i = groups.length - 1; i >= 0; i--) {
+                var group = groups[i];
+                var groupKorean = '';
+                for (var j = 0; j < group.length; j++) {
+                    var digit = parseInt(group[group.length - 1 - j]);
+                    if (digit !== 0) {
+                        groupKorean = digits[digit] + units[j] + groupKorean;
+                    }
+                }
+                if (groupKorean) {
+                    result += groupKorean + bigUnits[i];
+                }
+            }
+            return result || '영';
+        }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+        function copyResult() {
+            var text = document.getElementById('koreanResult').textContent;
+            if (text && text !== '-') {
+                navigator.clipboard.writeText(text).then(function() {
+                    showCopied();
+                });
+            }
+        }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+        function clearInput() {
+            document.getElementById('numberInput').value = '';
+            document.getElementById('koreanResult').textContent = '-';
+            document.getElementById('readingResult').textContent = '-';
+        }
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
-
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
-
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
-
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
-
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
-
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
-
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
-
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
-
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
-
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+        function showCopied() {
+            var div = document.createElement('div');
+            div.className = 'copied';
+            div.textContent = '복사되었습니다!';
+            document.body.appendChild(div);
+            setTimeout(function() { div.remove(); }, 1500);
+        }
+    </script>
 </body>
 </html>

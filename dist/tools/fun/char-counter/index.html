@@ -1,238 +1,565 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Character Counter - Free Online Character Counter Tool</title>
-  <meta name="description" content="Use Character Counter online for free. Count characters. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Character Counter, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/char-counter/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Character Counter","item":"https://instaidea.org/tools/fun/char-counter/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Character Counter","url":"https://instaidea.org/tools/fun/char-counter/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Character Counter online for free. Count characters. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Character Counter?","acceptedAnswer":{"@type":"Answer","text":"Character Counter is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/char-counter/"><meta property="og:url" content="https://instaidea.org/tools/fun/char-counter/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/char-counter/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/char-counter/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/char-counter/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/char-counter/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글자수 세기 - 무료 온라인 글자수 카운터 | 바이트 계산기</title>
+    <meta name="description" content="무료 글자수 세기 도구. 공백 포함/제외, 바이트 수, 단어 수, 문장 수를 한 번에 확인하세요. 자기소개서, 이력서, SNS 글자수 체크에 최적화.">
+    <meta name="keywords" content="글자수 세기, 글자수 계산, 바이트 계산, 문자수 세기, 글자수 카운터, 자소서 글자수">
+    
 
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
+    <meta property="og:title" content="글자수 세기 - 무료 온라인 글자수 카운터">
+    <meta property="og:description" content="공백 포함/제외, 바이트 수까지 한 번에 확인">
+    <meta property="og:type" content="website">
 
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
 
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
-</head>
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #f8f9ff, #fff);
+            border: 1px solid #eef2ff;
+            padding: 20px 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-box.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+        }
+
+        .stat-box.primary .stat-value,
+        .stat-box.primary .stat-label {
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .limit-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .limit-container label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .limit-input {
+            width: 100px;
+            padding: 10px 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .limit-input:focus {
+            border-color: #667eea;
+        }
+
+        .limit-indicator {
+            flex: 1;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            min-width: 200px;
+        }
+
+        .limit-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        .limit-fill.warning {
+            background: linear-gradient(135deg, #ffa500, #ff6b6b);
+        }
+
+        .limit-fill.danger {
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+        }
+
+        .limit-text {
+            font-size: 14px;
+            color: #888;
+            white-space: nowrap;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 20px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 16px;
+            line-height: 1.8;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            border-color: #667eea;
+        }
+
+        textarea::placeholder {
+            color: #bbb;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #eee;
+        }
+
+        .presets {
+            margin-top: 30px;
+        }
+
+        .presets h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .preset-item {
+            background: #f8f9ff;
+            border: 1px solid #eef2ff;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .preset-item:hover {
+            background: #eef2ff;
+            transform: translateY(-2px);
+        }
+
+        .preset-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .preset-limit {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .detail-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+        }
+
+        .detail-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        .detail-item .label {
+            color: #666;
+        }
+
+        .detail-item .value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .card { padding: 20px; }
+            .stat-value { font-size: 24px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"글자수 세기","en":"Character Counter","ja":"文字数カウント"},"desc":{"ko":"글자수 계산","en":"Count characters","ja":"文字数計算"}},"header":{"title":{"ko":"글자수 세기","en":"Character Counter","ja":"文字数カウント"},"subtitle":{"ko":"텍스트의 글자수 확인","en":"Check text length","ja":"テキストの文字数確認"}},"stats":{"chars":{"ko":"글자 (공백 포함)","en":"Characters (with spaces)","ja":"文字（空白含む）"},"charsNoSpace":{"ko":"글자 (공백 제외)","en":"Characters (no spaces)","ja":"文字（空白除く）"},"words":{"ko":"단어","en":"Words","ja":"単語"},"sentences":{"ko":"문장","en":"Sentences","ja":"文"},"paragraphs":{"ko":"문단","en":"Paragraphs","ja":"段落"},"bytes":{"ko":"바이트","en":"Bytes","ja":"バイト"}},"buttons":{"clear":{"ko":"지우기","en":"Clear","ja":"クリア"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}}};</script></head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <header>
+            <h1>글자수 세기</h1>
+            <p class="subtitle">공백 포함/제외, 바이트까지 한 번에!</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="card">
+            <div class="stats-grid">
+                <div class="stat-box primary">
+                    <span class="stat-value" id="charWithSpace">0</span>
+                    <span class="stat-label">공백 포함</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="charWithoutSpace">0</span>
+                    <span class="stat-label">공백 제외</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="wordCount">0</span>
+                    <span class="stat-label">단어 수</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="sentenceCount">0</span>
+                    <span class="stat-label">문장 수</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="byteCount">0</span>
+                    <span class="stat-label">바이트</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="lineCount">0</span>
+                    <span class="stat-label">줄 수</span>
+                </div>
+            </div>
+
+            <div class="limit-container">
+                <label>글자수 제한:</label>
+                <input type="number" class="limit-input" id="limitInput" value="500" min="0">
+                <div class="limit-indicator">
+                    <div class="limit-fill" id="limitFill"></div>
+                </div>
+                <span class="limit-text" id="limitText">0 / 500</span>
+            </div>
+
+            <textarea id="textInput" placeholder="여기에 텍스트를 입력하세요..."></textarea>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="copyText()">복사</button>
+                <button class="btn btn-secondary" onclick="clearText()">지우기</button>
+                <button class="btn btn-secondary" onclick="removeSpaces()">공백 제거</button>
+                <button class="btn btn-secondary" onclick="removeLineBreaks()">줄바꿈 제거</button>
+            </div>
+
+            <div class="presets">
+                <h3>자주 사용하는 글자수 제한</h3>
+                <div class="preset-grid">
+                    <div class="preset-item" onclick="setLimit(500)">
+                        <div class="preset-name">자기소개서 (일반)</div>
+                        <div class="preset-limit">500자</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(1000)">
+                        <div class="preset-name">자기소개서 (상세)</div>
+                        <div class="preset-limit">1,000자</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(280)">
+                        <div class="preset-name">트위터 (X)</div>
+                        <div class="preset-limit">280자</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(2200)">
+                        <div class="preset-name">인스타그램</div>
+                        <div class="preset-limit">2,200자</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(150)">
+                        <div class="preset-name">메타 설명</div>
+                        <div class="preset-limit">150자</div>
+                    </div>
+                    <div class="preset-item" onclick="setLimit(60)">
+                        <div class="preset-name">SEO 제목</div>
+                        <div class="preset-limit">60자</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h3>상세 분석</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">한글 수</span>
+                        <span class="value" id="koreanCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">영문 수</span>
+                        <span class="value" id="englishCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">숫자 수</span>
+                        <span class="value" id="numberCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">특수문자 수</span>
+                        <span class="value" id="specialCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">UTF-8 바이트</span>
+                        <span class="value" id="utf8Bytes">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">EUC-KR 바이트</span>
+                        <span class="value" id="euckrBytes">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>무료 글자수 세기 도구 | 모든 데이터는 브라우저에서 처리됩니다</p>
+        </footer>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Character Counter</span>
-      </nav>
-      <h1>Character Counter</h1>
-      <p>Use Character Counter online for free. Count characters. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+    <div class="toast" id="toast">복사되었습니다!</div>
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Character Counter"></iframe>
+    <script>
+        const textInput = document.getElementById('textInput');
+        const limitInput = document.getElementById('limitInput');
 
-    <article class="seo-block">
-      <h2>What is Character Counter?</h2>
-      <p>Character Counter is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        textInput.addEventListener('input', updateStats);
+        limitInput.addEventListener('input', updateStats);
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        function updateStats() {
+            const text = textInput.value;
+            const limit = parseInt(limitInput.value) || 0;
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+            // 기본 통계
+            const charWithSpace = text.length;
+            const charWithoutSpace = text.replace(/\s/g, '').length;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const sentences = text.split(/[.!?。！？]+/).filter(s => s.trim()).length;
+            const lines = text ? text.split('\n').length : 0;
+            const bytes = new Blob([text]).size;
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+            document.getElementById('charWithSpace').textContent = charWithSpace.toLocaleString();
+            document.getElementById('charWithoutSpace').textContent = charWithoutSpace.toLocaleString();
+            document.getElementById('wordCount').textContent = words.toLocaleString();
+            document.getElementById('sentenceCount').textContent = sentences.toLocaleString();
+            document.getElementById('lineCount').textContent = lines.toLocaleString();
+            document.getElementById('byteCount').textContent = bytes.toLocaleString();
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+            // 글자수 제한 표시
+            const percent = limit > 0 ? Math.min((charWithSpace / limit) * 100, 100) : 0;
+            const limitFill = document.getElementById('limitFill');
+            limitFill.style.width = percent + '%';
+            limitFill.className = 'limit-fill';
+            if (percent >= 100) {
+                limitFill.classList.add('danger');
+            } else if (percent >= 80) {
+                limitFill.classList.add('warning');
+            }
+            document.getElementById('limitText').textContent = `${charWithSpace.toLocaleString()} / ${limit.toLocaleString()}`;
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+            // 상세 분석
+            const korean = (text.match(/[가-힣]/g) || []).length;
+            const english = (text.match(/[a-zA-Z]/g) || []).length;
+            const numbers = (text.match(/[0-9]/g) || []).length;
+            const special = (text.match(/[^\w\s가-힣]/g) || []).length;
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+            document.getElementById('koreanCount').textContent = korean.toLocaleString();
+            document.getElementById('englishCount').textContent = english.toLocaleString();
+            document.getElementById('numberCount').textContent = numbers.toLocaleString();
+            document.getElementById('specialCount').textContent = special.toLocaleString();
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/bmi-calculator/">BMI Calculator</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+            // 바이트 계산
+            document.getElementById('utf8Bytes').textContent = bytes.toLocaleString();
+            // EUC-KR: 한글 2바이트, 영문 1바이트
+            const euckrBytes = korean * 2 + (charWithoutSpace - korean);
+            document.getElementById('euckrBytes').textContent = euckrBytes.toLocaleString();
+        }
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+        function setLimit(value) {
+            limitInput.value = value;
+            updateStats();
+            showToast(`글자수 제한: ${value}자`);
+        }
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+        function copyText() {
+            if (!textInput.value) {
+                showToast('복사할 텍스트가 없습니다');
+                return;
+            }
+            navigator.clipboard.writeText(textInput.value).then(() => {
+                showToast('복사되었습니다!');
+            });
+        }
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+        function clearText() {
+            textInput.value = '';
+            updateStats();
+            textInput.focus();
+        }
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+        function removeSpaces() {
+            textInput.value = textInput.value.replace(/\s/g, '');
+            updateStats();
+            showToast('공백이 제거되었습니다');
+        }
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+        function removeLineBreaks() {
+            textInput.value = textInput.value.replace(/\n/g, ' ').replace(/\s+/g, ' ');
+            updateStats();
+            showToast('줄바꿈이 제거되었습니다');
+        }
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
-</body>
+        // 초기화
+        updateStats();
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
 </html>

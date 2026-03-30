@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/insta-caption/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/insta-caption/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/insta-caption/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/insta-caption/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/insta-caption/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/insta-caption/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIインスタキャプション生成器 - 感性的な文章、ハッシュタグ自動生成</title>
+    <meta name="description" content="インスタグラムのキャプションに悩んだ時!AIが感性的な文章とハッシュタグを自動生成します。旅行、カフェ、日常、OOTD など状況別カスタムキャプション。">
+    <meta name="keywords" content="インスタキャプション, インスタグラム文章, 感性的キャプション, ハッシュタグ生成, インスタ文章, SNS文章">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --bg-card: rgba(255,255,255,0.95);
+            --text-primary: #262626;
+            --text-secondary: #666666;
+            --accent: #e1306c;
+            --accent2: #833ab4;
+            --accent3: #fd1d1d;
+            --purple: #833ab4;
+            --pink: #e1306c;
+            --orange: #f77737;
+            --yellow: #fcaf45;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 25px;
+            color: white;
+        }
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .ad-banner {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin: 15px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .main-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .category-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .category-scroll::-webkit-scrollbar { height: 0; }
+
+        .category-chip {
+            flex-shrink: 0;
+            padding: 12px 20px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .category-chip:hover {
+            background: #eee;
+        }
+        .category-chip.selected {
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            color: white;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 400px) {
+            .mood-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .mood-btn {
+            padding: 12px 8px;
+            background: #f5f5f5;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        .mood-btn:hover { background: #eee; }
+        .mood-btn.selected {
+            border-color: var(--accent);
+            background: #fef2f5;
+        }
+        .mood-emoji { font-size: 1.3rem; margin-bottom: 4px; }
+
+        .input-group { margin-bottom: 20px; }
+        .input-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #eee;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: none;
+            min-height: 80px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        textarea::placeholder { color: #aaa; }
+
+        .generate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, var(--purple), var(--pink), var(--orange));
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(225, 48, 108, 0.4);
+        }
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .results-section.show { display: block; }
+
+        .result-card {
+            background: #fafafa;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .result-caption {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+        }
+        .result-hashtags {
+            color: #00376b;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+        .result-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .more-btn {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .more-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tips-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .tips-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--purple);
+        }
+        .tips-list {
+            list-style: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .tips-list li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .tips-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        footer a { color: white; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 25px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            font-size: 0.95rem;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+<script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"인스타 캡션","en":"Insta Caption","ja":"インスタキャプション"},"desc":{"ko":"인스타그램 캡션 생성","en":"Generate Instagram captions","ja":"インスタグラムキャプション生成"}},"header":{"title":{"ko":"인스타 캡션","en":"Insta Caption","ja":"インスタキャプション"},"subtitle":{"ko":"멋진 캡션을 생성하세요","en":"Generate awesome captions","ja":"素敵なキャプションを生成"}},"categories":{"travel":{"ko":"여행","en":"Travel","ja":"旅行"},"food":{"ko":"음식","en":"Food","ja":"食べ物"},"selfie":{"ko":"셀카","en":"Selfie","ja":"セルフィー"},"nature":{"ko":"자연","en":"Nature","ja":"自然"},"mood":{"ko":"감성","en":"Mood","ja":"感性"}},"buttons":{"generate":{"ko":"생성","en":"Generate","ja":"生成"},"copy":{"ko":"복사","en":"Copy","ja":"コピー"}}};</script></head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">📸</div>
+            <h1>AIインスタキャプション</h1>
+            <p class="subtitle">完璧な感性的文章 + ハッシュタグ自動生成</p>
+        </header>
+
+        <div class="ad-banner">広告スペース</div>
+
+        <div class="main-card">
+            <div class="section-title">📌 どんな写真ですか?</div>
+            <div class="category-scroll" id="categoryScroll">
+                <button class="category-chip selected" onclick="selectCategory(this)" data-cat="daily">日常</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="cafe">カフェ</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="travel">旅行</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="food">グルメ</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="ootd">OOTD</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="selfie">自撮り</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="nature">自然/風景</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="pet">ペット</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="fitness">運動</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="couple">カップル</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="friend">友達</button>
+                <button class="category-chip" onclick="selectCategory(this)" data-cat="work">仕事/勉強</button>
+            </div>
+
+            <div class="section-title">💭 どんな雰囲気?</div>
+            <div class="mood-grid" id="moodGrid">
+                <button class="mood-btn selected" onclick="selectMood(this)" data-mood="emotional">
+                    <div class="mood-emoji">🌙</div>
+                    <div>感性的</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="happy">
+                    <div class="mood-emoji">✨</div>
+                    <div>幸せ</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="funny">
+                    <div class="mood-emoji">😆</div>
+                    <div>ユーモア</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="chill">
+                    <div class="mood-emoji">☕</div>
+                    <div>のんびり</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="aesthetic">
+                    <div class="mood-emoji">🎨</div>
+                    <div>おしゃれ</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="minimal">
+                    <div class="mood-emoji">🤍</div>
+                    <div>シンプル</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="motivation">
+                    <div class="mood-emoji">💪</div>
+                    <div>モチベーション</div>
+                </button>
+                <button class="mood-btn" onclick="selectMood(this)" data-mood="love">
+                    <div class="mood-emoji">💕</div>
+                    <div>愛</div>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">✍️ 追加情報 (任意)</label>
+                <textarea id="additionalInfo" placeholder="例:済州島の城山日出峰、友達と旅行、天気が良い"></textarea>
+            </div>
+
+            <button class="generate-btn" id="generateBtn" onclick="generate()">
+                ✨ キャプション生成
+            </button>
+
+            <div class="results-section" id="resultsSection">
+                <div id="resultsContainer"></div>
+                <button class="more-btn" onclick="generate()">🔄 別のキャプションを見る</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">広告スペース</div>
+
+        <div class="tips-card">
+            <div class="tips-title">💡 インスタ攻略法</div>
+            <ul class="tips-list">
+                <li>ハッシュタグは20〜30個が適切です</li>
+                <li>最初の行が最も重要!好奇心を刺激しましょう</li>
+                <li>絵文字を適度に使うと目立ちます</li>
+                <li>投稿時間:昼(12時)、夕方(7-9時)が最適!</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>インスタの感性、ここで完成 📸</p>
+            <p style="margin-top: 8px;"><a href="/">ホーム</a> · <a href="#privacy">プライバシーポリシー</a></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let selectedCategory = 'daily';
+        let selectedMood = 'emotional';
+
+        const captionTemplates = {
+            daily: {
+                emotional: [
+                    "今日も自分らしく ✨\n小さなことにも感謝する一日に",
+                    "平凡な日が特別になる瞬間 🌙\nこんな日々が人生を作るんだろう",
+                    "日常が旅になる瞬間\n毎日新しい発見 ☁️",
+                    "今のこの瞬間が明日の思い出になるから\n今日も一生懸命生きる 💫"
+                ],
+                happy: [
+                    "今日の気分最高 💛\n理由なく幸せな日!",
+                    "ささやかだけど確かな幸せ ✨\nこんな日が好き",
+                    "幸せは遠くにない\nちょうどここ、今この瞬間に 💕"
+                ],
+                funny: [
+                    "今日のTMI:何もしてないのに疲れた 😴",
+                    "月曜日嫌い(毎日月曜日みたい)\nでも生きなきゃね笑",
+                    "一生懸命生きています\n(寝転がって)"
+                ],
+                minimal: [
+                    "today.",
+                    "✨",
+                    "ただ、今日"
+                ]
+            },
+            cafe: {
+                emotional: [
+                    "コーヒー一杯のゆとり ☕\nこんな時間が私を生かす",
+                    "甘くほろ苦い午後\nカフェインと感性チャージ完了 ✨",
+                    "窓の外を眺めながら思いにふける時間\nこんなゆとりが好き 🌙"
+                ],
+                chill: [
+                    "コーヒー一杯いかが? ☕️\nゆったりした午後の幸せ",
+                    "カフェで過ごす自分だけの時間\nこれが本当の癒し ✨",
+                    "アメリカーノ一杯あれば\n世界を手に入れた気分 💫"
+                ],
+                aesthetic: [
+                    "light & coffee ☕\n",
+                    "mood: cafe vibes ✨",
+                    "coffee o'clock ⏰☕"
+                ]
+            },
+            travel: {
+                emotional: [
+                    "旅行は別の自分に会う時間 ✈️\n見知らぬ場所で見つけた馴染みの幸せ",
+                    "出かけないとわからないことがある\nこの瞬間を永遠に記憶する 🌏",
+                    "日常を抜け出して出会った新しい世界\nここで私は自由 ✨"
+                ],
+                happy: [
+                    "旅行中はカロリーゼロ 🍽️\n食べてまた食べて!",
+                    "ここ本当にすごい 🤯\n写真では1%も表現できない",
+                    "完璧なショット撮れた 📸\n旅行の度に感じる幸せ ✨"
+                ],
+                aesthetic: [
+                    "somewhere new ✈️",
+                    "wanderlust 🌍",
+                    "lost in the moment ✨"
+                ]
+            },
+            food: {
+                emotional: [
+                    "美味しい料理の前ではすべての悩みが消える 🍽️\n今日も幸せチャージ完了",
+                    "この味をどう表現すればいいか\nただ...幸せそのもの ✨"
+                ],
+                happy: [
+                    "美味しければカロリーゼロ 🍕\n今日も幸せに食べました",
+                    "これ本当に名店 😋\nまた来ます店主さん!",
+                    "食べることが残ること 🍜\n人生は短く名店は多い"
+                ],
+                funny: [
+                    "ダイエットは明日から(毎日明日)",
+                    "これくらいならグルメYouTuberできるんじゃ?\nチャンネル登録お願いします 🔔",
+                    "お腹は満腹だけど心はまだお腹すいた"
+                ]
+            },
+            ootd: {
+                emotional: [
+                    "今日の私、今日の服 👗\nスタイルは私を表現する言語",
+                    "クローゼットで見つけた今日の気分 ✨",
+                    "自分らしいのが一番かっこいい 💫"
+                ],
+                aesthetic: [
+                    "today's fit ✨",
+                    "details 👀",
+                    "simple but not boring"
+                ],
+                minimal: [
+                    "ootd.",
+                    "🖤",
+                    "daily look"
+                ]
+            },
+            selfie: {
+                emotional: [
+                    "鏡の中の私と目が合った 👀\n今日もお疲れ様、私",
+                    "ありのままの私が好き ✨\n今日も自分らしく"
+                ],
+                happy: [
+                    "今日のコンディション最高 📸\nこんな時自撮りしなきゃ",
+                    "鏡よ鏡、世界で誰が一番綺麗?\n私。 🪞✨"
+                ],
+                funny: [
+                    "100枚撮って選んだ1枚\n努力の結晶です 📸",
+                    "実物の方が綺麗です(嘘)\nただの写真映え笑",
+                    "前髪決まった日 = 最高の写真"
+                ]
+            },
+            nature: {
+                emotional: [
+                    "自然の前で私は小さくなり\n心は広くなる気分 🌿",
+                    "こんな景色の前では言葉は要らない\nただ眺めるだけで十分 ✨",
+                    "自然がくれる慰めがある\n複雑な心が整理される時間 🍃"
+                ],
+                chill: [
+                    "自然の中で見つけた平和 🌲\nこんな時間が必要だった",
+                    "都市を離れて出会った癒し 💚\n息ができる気分"
+                ]
+            },
+            pet: {
+                emotional: [
+                    "あなたと一緒で幸せ 🐾\n毎日がプレゼントみたい",
+                    "言わなくても通じ合う私たち 💕\n世界で一番大切な存在"
+                ],
+                happy: [
+                    "今日も可愛さ爆発 💣💕\n心臓頑張れ",
+                    "このかわいこちゃんが私の 🥹\n毎日見てるのに毎日新鮮"
+                ],
+                love: [
+                    "愛してるよ我が子 💕\nあなたは私の人生最高のプレゼント",
+                    "あなただけ見ると幸せになる魔法 ✨\n一生一緒にいよう 🐾"
+                ]
+            },
+            couple: {
+                emotional: [
+                    "あなたと一緒だから輝く今日 💑\n毎瞬間が特別",
+                    "愛は一緒に歩くこと\n今日も並んで ✨"
+                ],
+                love: [
+                    "世界で一番好きな人 💕\n今日も明日も永遠に",
+                    "あなたで良かった 💑\n毎日ありがとう、愛してる"
+                ],
+                happy: [
+                    "私たち今日もラブスタグラム 📸💕\n幸せなら自慢してもいいよね?",
+                    "最高のデート 💑\nまた会おう(毎日会う人)"
+                ]
+            },
+            friend: {
+                emotional: [
+                    "一緒だからもっと輝く瞬間 ✨\nありがとう友達",
+                    "時が経っても変わらない私たち\n一生の友 💫"
+                ],
+                happy: [
+                    "親友と過ごす時間 💛\nこんな日が好き!",
+                    "私たちが会うと = 笑い爆発 😂\n今日もやっぱり"
+                ],
+                funny: [
+                    "友達 = 一緒にバカやってくれる人\n今日も一生懸命バカやり中 🤪",
+                    "この組み合わせ最高 👯‍♀️\nこれからもよろしく笑"
+                ]
+            },
+            fitness: {
+                motivation: [
+                    "今日も限界を超えて 💪\n昨日の自分より強くなる",
+                    "汗は裏切らないって知ってる\n今日も最善を尽くした 🏋️",
+                    "諦めたい時が成長する時\nもう少し頑張ろう 🔥"
+                ],
+                happy: [
+                    "運動後の達成感 😤💪\nこの味で運動するんだ",
+                    "運動完了! 🏋️‍♀️\n今日も一生懸命生きた"
+                ]
+            },
+            work: {
+                emotional: [
+                    "今日も一生懸命走る 💼\n夢に向かって一歩ずつ",
+                    "今の努力が未来の私を作る\nファイト 🌟"
+                ],
+                motivation: [
+                    "できる、できる、できる 💪\n今日もファイト!",
+                    "成長は不快なこと\nでも前に進み続ける 🚀"
+                ],
+                funny: [
+                    "給料泥棒になりたいけど\n一生懸命働いてます 💼",
+                    "退勤いつ? (出勤直後)\nでもファイト... 🥲"
+                ]
+            }
+        };
+
+        const hashtagSets = {
+            daily: ['#日常', '#デイリー', '#日常記録', '#instadaily', '#photooftheday', '#今日', '#生活', '#日々', '#暮らし', '#毎日'],
+            cafe: ['#カフェ', '#カフェ巡り', '#コーヒー', '#カフェ好き', '#カフェタイム', '#cafe', '#coffee', '#coffeetime', '#カフェスタグラム', '#☕'],
+            travel: ['#旅行', '#旅', '#travel', '#travelphotography', '#旅行記録', '#旅好き', '#trip', '#traveling', '#instatravel', '#風景', '#景色'],
+            food: ['#グルメ', '#食べスタグラム', '#美味しい', '#フードスタグラム', '#food', '#foodstagram', '#instafood', '#foodie', '#ランチ', '#ディナー'],
+            ootd: ['#ootd', '#コーデ', '#ファッション', '#今日のコーデ', '#outfit', '#fashion', '#style', '#おしゃれ', '#デイリーコーデ', '#服'],
+            selfie: ['#自撮り', '#セルフィー', '#selfie', '#selca', '#自撮りグラム', '#me', '#今日の私', '#ポートレート'],
+            nature: ['#自然', '#風景', '#癒し', '#landscape', '#nature', '#naturephotography', '#景色', '#空', '#sky', '#自然好き'],
+            pet: ['#ペット', '#ペットスタグラム', '#犬', '#猫', '#pet', '#dogstagram', '#catstagram', '#愛犬', '#愛猫', '#可愛い', '#🐾'],
+            fitness: ['#運動', '#フィットネス', '#fitness', '#workout', '#gym', '#トレーニング', '#筋トレ', '#ジム', '#健康', '#ダイエット', '#💪'],
+            couple: ['#カップル', '#ラブスタグラム', '#couple', '#デート', '#恋人', '#愛', '#love', '#カップルフォト', '#二人', '#💕'],
+            friend: ['#友達', '#友情', '#friends', '#friendship', '#親友', '#仲良し', '#思い出', '#大切', '#一緒', '#💛'],
+            work: ['#仕事', '#会社', '#オフィス', '#働く', '#work', '#office', '#ビジネス', '#頑張る', '#勉強', '#成長']
+        };
+
+        function selectCategory(el) {
+            document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedCategory = el.dataset.cat;
+        }
+
+        function selectMood(el) {
+            document.querySelectorAll('.mood-btn').forEach(m => m.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedMood = el.dataset.mood;
+        }
+
+        function generate() {
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> 生成中...';
+
+            setTimeout(() => {
+                const captions = generateCaptions();
+                displayResults(captions);
+                btn.disabled = false;
+                btn.innerHTML = '✨ キャプション生成';
+            }, 1200);
+        }
+
+        function generateCaptions() {
+            const templates = captionTemplates[selectedCategory]?.[selectedMood] ||
+                             captionTemplates[selectedCategory]?.emotional ||
+                             captionTemplates.daily.emotional;
+
+            const hashtags = hashtagSets[selectedCategory] || hashtagSets.daily;
+            const additionalInfo = document.getElementById('additionalInfo').value;
+
+            // Shuffle and pick 3
+            const shuffled = [...templates].sort(() => Math.random() - 0.5);
+            const selectedCaptions = shuffled.slice(0, 3);
+
+            return selectedCaptions.map(caption => {
+                // Add additional info if provided
+                let finalCaption = caption;
+                if (additionalInfo) {
+                    finalCaption = caption + '\n\n📍 ' + additionalInfo;
+                }
+
+                // Generate hashtags
+                const shuffledTags = [...hashtags].sort(() => Math.random() - 0.5);
+                const selectedTags = shuffledTags.slice(0, 12);
+
+                return {
+                    caption: finalCaption,
+                    hashtags: selectedTags.join(' ')
+                };
+            });
+        }
+
+        function displayResults(captions) {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = captions.map((item, i) => `
+                <div class="result-card">
+                    <div class="result-caption">${item.caption}</div>
+                    <div class="result-hashtags">${item.hashtags}</div>
+                    <div class="result-actions">
+                        <button class="action-btn" onclick="copyCaption(${i})">📋 キャプションのみコピー</button>
+                        <button class="action-btn" onclick="copyAll(${i})">📎 全体コピー</button>
+                    </div>
+                </div>
+            `).join('');
+
+            window.generatedCaptions = captions;
+            document.getElementById('resultsSection').classList.add('show');
+            showToast('キャプションが生成されました! ✨');
+        }
+
+        function copyCaption(index) {
+            const caption = window.generatedCaptions[index].caption;
+            navigator.clipboard.writeText(caption);
+            showToast('キャプションをコピーしました!');
+        }
+
+        function copyAll(index) {
+            const item = window.generatedCaptions[index];
+            const text = item.caption + '\n\n' + item.hashtags;
+            navigator.clipboard.writeText(text);
+            showToast('キャプション+ハッシュタグをコピーしました!');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
+</html>

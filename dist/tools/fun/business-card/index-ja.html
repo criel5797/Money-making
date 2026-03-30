@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/business-card/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/business-card/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/business-card/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/business-card/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/business-card/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/business-card/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デジタル名刺</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .card-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .card-preview { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 16px; padding: 25px; margin-bottom: 20px; min-height: 180px; }
+        .card-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; }
+        .card-title { font-size: .9rem; opacity: .9; margin-bottom: 15px; }
+        .card-info { font-size: .85rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .card-info span { opacity: .9; }
+        .form-row { margin-bottom: 12px; }
+        .form-row input { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .form-label { font-size: .8rem; margin-bottom: 5px; display: block; opacity: .7; }
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        .save-btn { flex: 1; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .share-btn { flex: 1; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>💼 デジタル名刺</h1>
+        </header>
+        <div class="card-section">
+            <div class="card-preview" id="cardPreview">
+                <div class="card-name" id="previewName">山田太郎</div>
+                <div class="card-title" id="previewTitle">ソフトウェアエンジニア</div>
+                <div class="card-info"><span>📱</span><span id="previewPhone">090-1234-5678</span></div>
+                <div class="card-info"><span>📧</span><span id="previewEmail">yamada@example.com</span></div>
+                <div class="card-info"><span>🏢</span><span id="previewCompany">ABC株式会社</span></div>
+            </div>
+            <div class="form-row">
+                <label class="form-label">名前</label>
+                <input type="text" id="nameInput" placeholder="名前" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">肩書き</label>
+                <input type="text" id="titleInput" placeholder="肩書き/役職" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">電話番号</label>
+                <input type="tel" id="phoneInput" placeholder="電話番号" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">メール</label>
+                <input type="email" id="emailInput" placeholder="メールアドレス" oninput="updatePreview()">
+            </div>
+            <div class="form-row">
+                <label class="form-label">会社/所属</label>
+                <input type="text" id="companyInput" placeholder="会社名" oninput="updatePreview()">
+            </div>
+            <div class="btn-group">
+                <button class="save-btn" onclick="saveCard()">保存</button>
+                <button class="share-btn" onclick="shareCard()">共有</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var cardData = JSON.parse(localStorage.getItem('business_card_ja') || '{}');
+        function loadCard() {
+            if (cardData.name) document.getElementById('nameInput').value = cardData.name;
+            if (cardData.title) document.getElementById('titleInput').value = cardData.title;
+            if (cardData.phone) document.getElementById('phoneInput').value = cardData.phone;
+            if (cardData.email) document.getElementById('emailInput').value = cardData.email;
+            if (cardData.company) document.getElementById('companyInput').value = cardData.company;
+            updatePreview();
+        }
+        function updatePreview() {
+            document.getElementById('previewName').textContent = document.getElementById('nameInput').value || '名前';
+            document.getElementById('previewTitle').textContent = document.getElementById('titleInput').value || '肩書き';
+            document.getElementById('previewPhone').textContent = document.getElementById('phoneInput').value || '電話番号';
+            document.getElementById('previewEmail').textContent = document.getElementById('emailInput').value || 'メール';
+            document.getElementById('previewCompany').textContent = document.getElementById('companyInput').value || '会社';
+        }
+        function saveCard() {
+            cardData = {
+                name: document.getElementById('nameInput').value,
+                title: document.getElementById('titleInput').value,
+                phone: document.getElementById('phoneInput').value,
+                email: document.getElementById('emailInput').value,
+                company: document.getElementById('companyInput').value
+            };
+            localStorage.setItem('business_card_ja', JSON.stringify(cardData));
+            alert('名刺を保存しました！');
+        }
+        function shareCard() {
+            var text = document.getElementById('nameInput').value + '\n' + document.getElementById('titleInput').value + '\n' + document.getElementById('companyInput').value + '\n📱 ' + document.getElementById('phoneInput').value + '\n📧 ' + document.getElementById('emailInput').value;
+            if (navigator.share) {
+                navigator.share({ title: '名刺', text: text });
+            } else {
+                navigator.clipboard.writeText(text).then(function() { alert('名刺情報をコピーしました！'); });
+            }
+        }
+        loadCard();
+    </script>
+</body>
+</html>

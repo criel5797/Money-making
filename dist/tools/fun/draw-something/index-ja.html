@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/draw-something/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/draw-something/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/draw-something/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/draw-something/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/draw-something/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/draw-something/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お絵かきゲーム</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #8b5cf6, #7c3aed); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .word-display { background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; }
+        .word-label { font-size: .9rem; opacity: .7; margin-bottom: 8px; }
+        .word-text { font-size: 1.8rem; font-weight: 700; }
+        .timer { font-size: .9rem; opacity: .8; margin-top: 8px; }
+        .timer.warning { color: #fbbf24; }
+        .canvas-container { background: #fff; border-radius: 12px; overflow: hidden; margin-bottom: 15px; touch-action: none; }
+        canvas { display: block; width: 100%; cursor: crosshair; }
+        .tools { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .color-btn { width: 35px; height: 35px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; cursor: pointer; }
+        .color-btn.active { border-color: #fff; transform: scale(1.1); }
+        .tool-btn { padding: 10px 15px; border: none; border-radius: 8px; background: rgba(255,255,255,.2); color: #fff; font-size: .9rem; cursor: pointer; }
+        .tool-btn.active { background: #fff; color: #7c3aed; }
+        .size-slider { flex: 1; min-width: 100px; }
+        .controls { display: flex; gap: 12px; margin-bottom: 15px; }
+        .control-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        .clear-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .new-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .correct-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎨 お絵かきゲーム</h1>
+        </header>
+        <div class="game-section">
+            <div class="word-display">
+                <div class="word-label">描くお題</div>
+                <div class="word-text" id="wordText">新しい単語を押してね</div>
+                <div class="timer" id="timer"></div>
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvas" width="450" height="350"></canvas>
+            </div>
+            <div class="tools">
+                <button class="color-btn active" style="background:#000" onclick="setColor('#000')"></button>
+                <button class="color-btn" style="background:#ef4444" onclick="setColor('#ef4444')"></button>
+                <button class="color-btn" style="background:#f97316" onclick="setColor('#f97316')"></button>
+                <button class="color-btn" style="background:#eab308" onclick="setColor('#eab308')"></button>
+                <button class="color-btn" style="background:#22c55e" onclick="setColor('#22c55e')"></button>
+                <button class="color-btn" style="background:#3b82f6" onclick="setColor('#3b82f6')"></button>
+                <button class="color-btn" style="background:#8b5cf6" onclick="setColor('#8b5cf6')"></button>
+                <button class="tool-btn" onclick="setEraser()">消しゴム</button>
+                <input type="range" class="size-slider" min="2" max="20" value="5" onchange="setSize(this.value)">
+            </div>
+            <div class="controls">
+                <button class="control-btn clear-btn" onclick="clearCanvas()">🗑️ クリア</button>
+                <button class="control-btn correct-btn" onclick="correctAnswer()">✅ 正解！</button>
+                <button class="control-btn new-btn" onclick="newWord()">🎲 新しい単語</button>
+            </div>
+            <div class="stats">
+                <div class="stats-row"><span>正解数</span><span id="correctCount">0</span></div>
+                <div class="stats-row"><span>ラウンド数</span><span id="totalRounds">0</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var words = [
+            "りんご", "バナナ", "車", "家", "木", "花", "太陽", "月", "星", "雲",
+            "雨", "傘", "猫", "犬", "鳥", "魚", "うさぎ", "ゾウ", "ライオン", "トラ",
+            "ピザ", "ハンバーガー", "アイス", "ケーキ", "コップ", "本", "鉛筆", "ハサミ", "時計", "メガネ",
+            "帽子", "靴", "カバン", "飛行機", "船", "自転車", "電車", "バス", "サッカーボール", "バスケットボール",
+            "ギター", "ピアノ", "ドラム", "マイク", "カメラ", "テレビ", "パソコン", "スマホ", "冷蔵庫", "椅子"
+        ];
+
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var isDrawing = false;
+        var currentColor = '#000';
+        var currentSize = 5;
+        var isEraser = false;
+        var correctCount = 0;
+        var totalRounds = 0;
+        var timeLeft = 60;
+        var timer = null;
+
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 350;
+
+        function getPos(e) {
+            var rect = canvas.getBoundingClientRect();
+            var x, y;
+            if (e.touches) {
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+            } else {
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            }
+            return { x: x * (canvas.width / rect.width), y: y * (canvas.height / rect.height) };
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            var pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            e.preventDefault();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            var pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = isEraser ? '#fff' : currentColor;
+            ctx.lineWidth = currentSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            e.preventDefault();
+        }
+
+        function stopDraw() {
+            isDrawing = false;
+        }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('mouseleave', stopDraw);
+        canvas.addEventListener('touchstart', startDraw);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDraw);
+
+        function setColor(color) {
+            currentColor = color;
+            isEraser = false;
+            document.querySelectorAll('.color-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function setEraser() {
+            isEraser = true;
+            document.querySelectorAll('.color-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+        }
+
+        function setSize(size) {
+            currentSize = parseInt(size);
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function newWord() {
+            clearInterval(timer);
+            clearCanvas();
+            var word = words[Math.floor(Math.random() * words.length)];
+            document.getElementById('wordText').textContent = word;
+            totalRounds++;
+            document.getElementById('totalRounds').textContent = totalRounds;
+            timeLeft = 60;
+            updateTimer();
+            timer = setInterval(function() {
+                timeLeft--;
+                updateTimer();
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    document.getElementById('timer').textContent = '時間切れ！';
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            var timerEl = document.getElementById('timer');
+            timerEl.textContent = timeLeft + '秒残り';
+            timerEl.classList.toggle('warning', timeLeft <= 10);
+        }
+
+        function correctAnswer() {
+            correctCount++;
+            document.getElementById('correctCount').textContent = correctCount;
+            saveStats();
+            newWord();
+        }
+
+        function saveStats() {
+            var stats = JSON.parse(localStorage.getItem('drawsomething_ja') || '{"correct":0,"total":0}');
+            stats.correct = correctCount;
+            stats.total = totalRounds;
+            localStorage.setItem('drawsomething_ja', JSON.stringify(stats));
+        }
+
+        clearCanvas();
+    </script>
+</body>
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/face-reading/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/face-reading/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/face-reading/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/face-reading/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/face-reading/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/face-reading/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI人相占い - 無料人相診断 | 顔で見る運勢</title>
+    <meta name="description" content="無料AI人相診断!顔の特徴で分かるあなたの性格、恋愛運、財運。額、目、鼻、口の人相で運命を確認しましょう!">
+    <meta name="keywords" content="人相、人相占い、無料人相、顔占い、人相分析、人相運勢、顔分析">
+    
+    <meta property="og:title" content="AI人相占い - 無料人相診断">
+    <meta property="og:description" content="顔の特徴で分かるあなたの運勢!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/2c1810/ffd700?text=AI+人相占い">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c2a 50%, #1a0a0a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            background: linear-gradient(135deg, #ffd700, #ffb347, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #c9a86c; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .step-dot.active { background: #ffd700; width: 30px; border-radius: 5px; }
+        .step-dot.done { background: #90EE90; }
+
+        .feature-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .feature-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title .emoji { font-size: 50px; display: block; margin-bottom: 10px; }
+        .section-title h2 { color: #ffd700; font-size: 1.3rem; }
+        .section-title p { color: #c9a86c; font-size: 14px; margin-top: 5px; }
+
+        .feature-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .feature-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .feature-option:hover {
+            border-color: rgba(255, 215, 0, 0.5);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .feature-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .feature-option .icon { font-size: 28px; margin-bottom: 8px; display: block; }
+        .feature-option .label { color: #e4e4e4; font-size: 14px; font-weight: 500; }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .nav-btn.prev {
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+        }
+
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .nav-btn:hover:not(:disabled) { transform: translateY(-2px); }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-face {
+            font-size: 80px;
+            animation: analyzing 2s infinite;
+        }
+
+        @keyframes analyzing {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(-5deg); }
+            50% { transform: scale(1) rotate(0deg); }
+            75% { transform: scale(1.05) rotate(5deg); }
+        }
+
+        .loading p { color: #c9a86c; margin-top: 20px; }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-face { font-size: 70px; margin-bottom: 15px; }
+
+        .fortune-grade {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #d4c4a8;
+            line-height: 1.8;
+        }
+
+        .fortune-meters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .fortune-meter {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .fortune-meter .label { color: #c9a86c; font-size: 13px; margin-bottom: 8px; }
+        .fortune-meter .score {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .fortune-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .fortune-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        .feature-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .feature-tag {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 6px 14px;
+            border-radius: 15px;
+            color: #ffd700;
+            font-size: 13px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .feature-options { grid-template-columns: 1fr; }
+            .fortune-meters { grid-template-columns: 1fr; }
+        }
+    </style>
+<script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"관상 분석","en":"Face Reading","ja":"人相占い"},"desc":{"ko":"AI 관상 풀이","en":"AI Face Analysis","ja":"AI人相分析"}},"header":{"title":{"ko":"관상 분석","en":"Face Reading","ja":"人相占い"},"subtitle":{"ko":"얼굴로 알아보는 운세","en":"Fortune through face features","ja":"顔で知る運勢"}},"features":{"forehead":{"ko":"이마","en":"Forehead","ja":"額"},"eyes":{"ko":"눈","en":"Eyes","ja":"目"},"nose":{"ko":"코","en":"Nose","ja":"鼻"},"mouth":{"ko":"입","en":"Mouth","ja":"口"},"ears":{"ko":"귀","en":"Ears","ja":"耳"}},"buttons":{"analyze":{"ko":"👤 관상 분석하기","en":"👤 Analyze Face","ja":"👤 人相分析"},"share":{"ko":"공유하기","en":"Share","ja":"共有"},"retry":{"ko":"다시 하기","en":"Try Again","ja":"もう一度"}},"disclaimer":{"ko":"재미로 즐기는 관상 분석입니다.","en":"This is for entertainment.","ja":"娯楽用の人相分析です。"}};</script></head>
+<body>
+    <div class="toast" id="toast"></div>
+    <div class="container">
+        <header>
+            <h1>AI人相占い</h1>
+            <p class="subtitle">顔の特徴で見るあなたの運命</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            楽しみのための人相診断です。結果は娯楽目的でのみご参考ください!
+        </div>
+
+        <div class="card">
+            <div class="step-indicator" id="stepIndicator">
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+            </div>
+
+            <!-- 額の選択 -->
+            <div class="feature-section active" id="step0">
+                <div class="section-title">
+                    <span class="emoji">👤</span>
+                    <h2>額の形を選んでください</h2>
+                    <p>鏡を見て最も近いものを選んでください</p>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="wide" onclick="selectFeature(0, this)">
+                        <span class="icon">▭</span>
+                        <span class="label">広くて平ら</span>
+                    </div>
+                    <div class="feature-option" data-value="narrow" onclick="selectFeature(0, this)">
+                        <span class="icon">▯</span>
+                        <span class="label">狭い</span>
+                    </div>
+                    <div class="feature-option" data-value="round" onclick="selectFeature(0, this)">
+                        <span class="icon">◠</span>
+                        <span class="label">丸くて凸</span>
+                    </div>
+                    <div class="feature-option" data-value="high" onclick="selectFeature(0, this)">
+                        <span class="icon">△</span>
+                        <span class="label">高くて広い</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" disabled>前へ</button>
+                    <button class="nav-btn next" id="next0" onclick="nextStep(0)" disabled>次へ</button>
+                </div>
+            </div>
+
+            <!-- 目の選択 -->
+            <div class="feature-section" id="step1">
+                <div class="section-title">
+                    <span class="emoji">👁️</span>
+                    <h2>目の形を選んでください</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="big" onclick="selectFeature(1, this)">
+                        <span class="icon">◉</span>
+                        <span class="label">大きくて丸い目</span>
+                    </div>
+                    <div class="feature-option" data-value="long" onclick="selectFeature(1, this)">
+                        <span class="icon">━</span>
+                        <span class="label">長くて鋭い目</span>
+                    </div>
+                    <div class="feature-option" data-value="single" onclick="selectFeature(1, this)">
+                        <span class="icon">─</span>
+                        <span class="label">一重/奥二重</span>
+                    </div>
+                    <div class="feature-option" data-value="double" onclick="selectFeature(1, this)">
+                        <span class="icon">☰</span>
+                        <span class="label">二重まぶた</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(1)">前へ</button>
+                    <button class="nav-btn next" id="next1" onclick="nextStep(1)" disabled>次へ</button>
+                </div>
+            </div>
+
+            <!-- 鼻の選択 -->
+            <div class="feature-section" id="step2">
+                <div class="section-title">
+                    <span class="emoji">👃</span>
+                    <h2>鼻の形を選んでください</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="high" onclick="selectFeature(2, this)">
+                        <span class="icon">🔺</span>
+                        <span class="label">高くて鼻筋が通る</span>
+                    </div>
+                    <div class="feature-option" data-value="flat" onclick="selectFeature(2, this)">
+                        <span class="icon">▬</span>
+                        <span class="label">低くて横に広い</span>
+                    </div>
+                    <div class="feature-option" data-value="straight" onclick="selectFeature(2, this)">
+                        <span class="icon">│</span>
+                        <span class="label">まっすぐで整っている</span>
+                    </div>
+                    <div class="feature-option" data-value="round" onclick="selectFeature(2, this)">
+                        <span class="icon">◯</span>
+                        <span class="label">丸くてかわいい</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(2)">前へ</button>
+                    <button class="nav-btn next" id="next2" onclick="nextStep(2)" disabled>次へ</button>
+                </div>
+            </div>
+
+            <!-- 口の選択 -->
+            <div class="feature-section" id="step3">
+                <div class="section-title">
+                    <span class="emoji">👄</span>
+                    <h2>口の形を選んでください</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="big" onclick="selectFeature(3, this)">
+                        <span class="icon">━━</span>
+                        <span class="label">大きくて広い口</span>
+                    </div>
+                    <div class="feature-option" data-value="small" onclick="selectFeature(3, this)">
+                        <span class="icon">─</span>
+                        <span class="label">小さくてかわいい口</span>
+                    </div>
+                    <div class="feature-option" data-value="thick" onclick="selectFeature(3, this)">
+                        <span class="icon">▄▄</span>
+                        <span class="label">厚い唇</span>
+                    </div>
+                    <div class="feature-option" data-value="thin" onclick="selectFeature(3, this)">
+                        <span class="icon">──</span>
+                        <span class="label">薄い唇</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(3)">前へ</button>
+                    <button class="nav-btn next" id="next3" onclick="nextStep(3)" disabled>次へ</button>
+                </div>
+            </div>
+
+            <!-- 顔型の選択 -->
+            <div class="feature-section" id="step4">
+                <div class="section-title">
+                    <span class="emoji">🥚</span>
+                    <h2>顔の形を選んでください</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="oval" onclick="selectFeature(4, this)">
+                        <span class="icon">⬭</span>
+                        <span class="label">卵型</span>
+                    </div>
+                    <div class="feature-option" data-value="round" onclick="selectFeature(4, this)">
+                        <span class="icon">⬤</span>
+                        <span class="label">丸顔</span>
+                    </div>
+                    <div class="feature-option" data-value="square" onclick="selectFeature(4, this)">
+                        <span class="icon">▣</span>
+                        <span class="label">角ばった顔</span>
+                    </div>
+                    <div class="feature-option" data-value="long" onclick="selectFeature(4, this)">
+                        <span class="icon">▯</span>
+                        <span class="label">面長</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(4)">前へ</button>
+                    <button class="nav-btn next" id="next4" onclick="analyzeResult()" disabled>人相を診断</button>
+                </div>
+            </div>
+
+            <!-- ローディング -->
+            <div class="loading" id="loading">
+                <div class="loading-face">🔮</div>
+                <p>人相を分析しています...</p>
+                <p style="font-size: 13px; color: #888; margin-top: 10px;">顔のエネルギーを読み取っています...</p>
+            </div>
+
+            <!-- 結果 -->
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="result-face">🧑</div>
+                    <div class="fortune-grade" id="fortuneGrade">吉相</div>
+                </div>
+
+                <div class="fortune-meters" id="fortuneMeters"></div>
+
+                <div class="result-card">
+                    <h3>👤 総合評価</h3>
+                    <p id="overallReading"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 性格分析</h3>
+                    <p id="personalityReading"></p>
+                    <div class="feature-summary" id="featureSummary"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💰 財運</h3>
+                    <p id="wealthReading"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>❤️ 恋愛運</h3>
+                    <p id="loveReading"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💼 仕事運</h3>
+                    <p id="careerReading"></p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">結果を共有</button>
+                    <button class="share-btn secondary" onclick="resetTest()">もう一度</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>この人相診断は娯楽のためのものです。<br>実際の人相学とは異なる場合があります。</p>
+        </footer>
+    </div>
+
+    <script>
+        const selections = [null, null, null, null, null];
+        let currentStep = 0;
+
+        const meanings = {
+            forehead: {
+                wide: { trait: "広い額", meaning: "知的で理性的", fortune: "学業運上昇" },
+                narrow: { trait: "狭い額", meaning: "集中力が強い", fortune: "専門分野での成功" },
+                round: { trait: "丸い額", meaning: "穏やかで優しい", fortune: "対人関係良好" },
+                high: { trait: "高い額", meaning: "野心とリーダーシップ", fortune: "社会的成功" }
+            },
+            eyes: {
+                big: { trait: "大きい目", meaning: "純粋で正直", fortune: "人気運上昇" },
+                long: { trait: "長い目", meaning: "鋭くて洞察力がある", fortune: "事業運良好" },
+                single: { trait: "一重目", meaning: "内向的だが根気がある", fortune: "遅咲きの花" },
+                double: { trait: "二重まぶた", meaning: "表現力が豊か", fortune: "芸術的才能" }
+            },
+            nose: {
+                high: { trait: "高い鼻", meaning: "プライドが強い", fortune: "名誉運上昇" },
+                flat: { trait: "低い鼻", meaning: "謙虚で親しみやすい", fortune: "協調運良好" },
+                straight: { trait: "まっすぐな鼻", meaning: "正直で原則的", fortune: "信頼を得る" },
+                round: { trait: "丸い鼻", meaning: "福が多く人徳がある", fortune: "財運上昇" }
+            },
+            mouth: {
+                big: { trait: "大きい口", meaning: "積極的で社交的", fortune: "食福と財福" },
+                small: { trait: "小さい口", meaning: "繊細で慎重", fortune: "内助の功" },
+                thick: { trait: "厚い唇", meaning: "情熱的で感性的", fortune: "恋愛運上昇" },
+                thin: { trait: "薄い唇", meaning: "理性的で冷静", fortune: "決断力がある" }
+            },
+            face: {
+                oval: { trait: "卵型", meaning: "バランスの取れた性格", fortune: "全般的に幸運" },
+                round: { trait: "丸顔", meaning: "楽天的で福徳がある", fortune: "財運良好" },
+                square: { trait: "角ばった顔", meaning: "意志が強く頑固", fortune: "自力で成功" },
+                long: { trait: "面長", meaning: "芸術的感性", fortune: "創造力で成功" }
+            }
+        };
+
+        function selectFeature(step, element) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.feature-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            selections[step] = element.dataset.value;
+            document.getElementById(`next${step}`).disabled = false;
+        }
+
+        function nextStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step + 1}`).classList.add('active');
+            currentStep = step + 1;
+            updateStepIndicator();
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step - 1}`).classList.add('active');
+            currentStep = step - 1;
+            updateStepIndicator();
+        }
+
+        function updateStepIndicator() {
+            document.querySelectorAll('.step-dot').forEach((dot, i) => {
+                dot.classList.remove('active', 'done');
+                if (i < currentStep) dot.classList.add('done');
+                else if (i === currentStep) dot.classList.add('active');
+            });
+        }
+
+        function analyzeResult() {
+            document.getElementById(`step4`).classList.remove('active');
+            document.getElementById('loading').classList.add('show');
+
+            setTimeout(() => {
+                document.getElementById('loading').classList.remove('show');
+                generateResult();
+            }, 2500);
+        }
+
+        let resultData = {};
+
+        function generateResult() {
+            const features = [
+                meanings.forehead[selections[0]],
+                meanings.eyes[selections[1]],
+                meanings.nose[selections[2]],
+                meanings.mouth[selections[3]],
+                meanings.face[selections[4]]
+            ];
+
+            // スコア計算
+            const baseScore = 65;
+            const scores = {
+                love: baseScore + Math.floor(Math.random() * 25),
+                wealth: baseScore + Math.floor(Math.random() * 25),
+                career: baseScore + Math.floor(Math.random() * 25),
+                health: baseScore + Math.floor(Math.random() * 25)
+            };
+
+            // 特定の組み合わせにボーナス
+            if (selections[2] === 'round') scores.wealth += 10;
+            if (selections[3] === 'thick') scores.love += 10;
+            if (selections[0] === 'high') scores.career += 10;
+
+            // 最大100に制限
+            Object.keys(scores).forEach(k => scores[k] = Math.min(100, scores[k]));
+
+            const avgScore = Math.round((scores.love + scores.wealth + scores.career + scores.health) / 4);
+
+            let grade = '平相';
+            if (avgScore >= 85) grade = '大吉相';
+            else if (avgScore >= 75) grade = '吉相';
+            else if (avgScore >= 65) grade = '小吉相';
+
+            resultData = {
+                grade,
+                scores,
+                features,
+                traits: features.map(f => f.trait)
+            };
+
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('resultSection').classList.add('show');
+            document.getElementById('fortuneGrade').textContent = resultData.grade;
+
+            // 運勢メーター
+            const labels = { love: '❤️ 恋愛運', wealth: '💰 財運', career: '💼 仕事運', health: '💪 健康運' };
+            let metersHtml = '';
+            Object.entries(resultData.scores).forEach(([key, value]) => {
+                metersHtml += `
+                    <div class="fortune-meter">
+                        <div class="label">${labels[key]}</div>
+                        <div class="score">${value}点</div>
+                        <div class="fortune-bar">
+                            <div class="fortune-bar-fill" style="width: ${value}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('fortuneMeters').innerHTML = metersHtml;
+
+            // 特徴タグ
+            document.getElementById('featureSummary').innerHTML = resultData.traits.map(t =>
+                `<span class="feature-tag">${t}</span>`
+            ).join('');
+
+            // 分析テキスト
+            document.getElementById('overallReading').textContent =
+                `あなたの人相は${resultData.grade}です。全体的に${resultData.features[4].meaning}気質が感じられ、` +
+                `${resultData.features[0].fortune}の運が伴っています。人生のバランスがよく取れており、大きな困難なく安定した人生を送ることができます。`;
+
+            document.getElementById('personalityReading').textContent =
+                `${resultData.features[0].trait}から${resultData.features[0].meaning}性格が見られ、` +
+                `${resultData.features[1].trait}は${resultData.features[1].meaning}ことを示しています。` +
+                `${resultData.features[3].trait}からは${resultData.features[3].meaning}特性がうかがえます。`;
+
+            document.getElementById('wealthReading').textContent =
+                `${resultData.features[2].trait}から${resultData.features[2].fortune}の気運が見られます。` +
+                (resultData.scores.wealth >= 80 ?
+                    '財運が非常に良く、経済的に豊かな人生が期待できます。' :
+                    '着実に努力すれば安定した財政状態を維持できます。');
+
+            document.getElementById('loveReading').textContent =
+                `${resultData.features[1].trait}と${resultData.features[3].trait}から恋愛運が見られます。` +
+                (resultData.scores.love >= 80 ?
+                    '魅力にあふれ、異性に人気があります。良い縁に出会う確率が高いです。' :
+                    '真心を持って接すれば、良い縁に出会うことができます。');
+
+            document.getElementById('careerReading').textContent =
+                `${resultData.features[0].fortune}の気運と${resultData.features[4].meaning}傾向が結合し、` +
+                (resultData.scores.career >= 80 ?
+                    '社会的に認められ成功する可能性が高いです。' :
+                    '自分の強みを活かせば職場で認められることができます。');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const avgScore = Math.round((resultData.scores.love + resultData.scores.wealth + resultData.scores.career + resultData.scores.health) / 4);
+            const text = `👁️ AI人相診断結果
+
+【${resultData.grade}】
+📊 総合 ${avgScore}点
+
+❤️ 恋愛運: ${resultData.scores.love}点
+💰 財運: ${resultData.scores.wealth}点
+💼 仕事運: ${resultData.scores.career}点
+💪 健康運: ${resultData.scores.health}点
+
+人相で見るあなたの性格と運勢!
+✨ あなたも人相診断を受けてみませんか?`;
+
+            window.shareWithModal('AI人相診断', text);
+        }
+
+        function resetTest() {
+            selections.fill(null);
+            currentStep = 0;
+            document.getElementById('resultSection').classList.remove('show');
+            document.querySelectorAll('.feature-section').forEach((s, i) => {
+                s.classList.toggle('active', i === 0);
+            });
+            document.querySelectorAll('.feature-option').forEach(o => o.classList.remove('selected'));
+            document.querySelectorAll('.nav-btn.next').forEach(b => b.disabled = true);
+            updateStepIndicator();
+        }
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/lucky-number/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/lucky-number/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/lucky-number/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/lucky-number/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/lucky-number/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/lucky-number/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Number</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #f093fb, #f5576c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .lucky-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .number-display { background: rgba(0,0,0,.3); border-radius: 16px; padding: 40px; margin-bottom: 25px; text-align: center; }
+        .lucky-number { font-size: 5rem; font-weight: 700; text-shadow: 0 4px 15px rgba(0,0,0,.3); transition: all .3s; }
+        .lucky-number.spinning { animation: spin 0.1s linear infinite; }
+        @keyframes spin { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .number-meaning { font-size: .9rem; opacity: .8; margin-top: 15px; min-height: 40px; }
+        .range-section { margin-bottom: 20px; }
+        .range-label { font-size: .9rem; margin-bottom: 10px; }
+        .range-inputs { display: flex; gap: 10px; align-items: center; }
+        .range-inputs input { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; text-align: center; }
+        .range-inputs span { opacity: .7; }
+        .generate-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.2rem; cursor: pointer; font-weight: 600; margin-bottom: 15px; }
+        .options { display: flex; gap: 10px; margin-bottom: 20px; }
+        .option-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; font-weight: 600; }
+        .option-btn.active { background: rgba(255,255,255,.4); }
+        .history { margin-top: 20px; }
+        .history-title { font-size: .9rem; opacity: .8; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .clear-btn { background: none; border: none; color: #fff; opacity: .6; cursor: pointer; font-size: .85rem; }
+        .history-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .history-item { padding: 8px 15px; background: rgba(255,255,255,.15); border-radius: 20px; font-size: .9rem; }
+        .special-numbers { margin-top: 20px; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .special-title { font-size: .85rem; opacity: .8; margin-bottom: 10px; }
+        .special-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .special-item { padding: 10px; background: rgba(255,255,255,.15); border-radius: 8px; text-align: center; cursor: pointer; }
+        .special-item:hover { background: rgba(255,255,255,.25); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🍀 Lucky Number</h1>
+        </header>
+        <div class="lucky-section">
+            <div class="number-display">
+                <div class="lucky-number" id="luckyNumber">?</div>
+                <div class="number-meaning" id="numberMeaning">Generate your lucky number!</div>
+            </div>
+            <div class="range-section">
+                <div class="range-label">Set Range</div>
+                <div class="range-inputs">
+                    <input type="number" id="minNum" value="1" min="0" max="9999">
+                    <span>to</span>
+                    <input type="number" id="maxNum" value="100" min="0" max="9999">
+                </div>
+            </div>
+            <div class="options">
+                <button class="option-btn active" onclick="setCount(1)">1 num</button>
+                <button class="option-btn" onclick="setCount(3)">3 nums</button>
+                <button class="option-btn" onclick="setCount(6)">6 nums</button>
+            </div>
+            <button class="generate-btn" onclick="generateNumber()">🎲 Get Lucky Number</button>
+            <div class="special-numbers">
+                <div class="special-title">Quick Select</div>
+                <div class="special-grid">
+                    <div class="special-item" onclick="quickSelect(1,10)">1~10</div>
+                    <div class="special-item" onclick="quickSelect(1,45)">Lotto</div>
+                    <div class="special-item" onclick="quickSelect(1,100)">1~100</div>
+                    <div class="special-item" onclick="quickSelect(0,9)">0~9</div>
+                    <div class="special-item" onclick="quickSelect(1,12)">Month</div>
+                    <div class="special-item" onclick="quickSelect(1,31)">Day</div>
+                </div>
+            </div>
+            <div class="history">
+                <div class="history-title">
+                    <span>Recent Numbers</span>
+                    <button class="clear-btn" onclick="clearHistory()">Clear</button>
+                </div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var history = JSON.parse(localStorage.getItem('lucky_number_en') || '[]');
+        var count = 1;
+        var meanings = {
+            1: 'New beginnings, Leadership',
+            2: 'Harmony, Partnership',
+            3: 'Creativity, Expression',
+            4: 'Stability, Foundation',
+            5: 'Change, Freedom',
+            6: 'Love, Family',
+            7: 'Spirituality, Wisdom',
+            8: 'Abundance, Success',
+            9: 'Completion, Humanitarianism',
+            10: 'Wholeness, New cycle',
+            11: 'Intuition, Inspiration',
+            22: 'Master Builder',
+            33: 'Master Teacher',
+            77: 'Lucky number',
+            88: 'Prosperity'
+        };
+        function setCount(c) {
+            count = c;
+            document.querySelectorAll('.option-btn').forEach(function(btn, i) {
+                btn.classList.toggle('active', (i === 0 && c === 1) || (i === 1 && c === 3) || (i === 2 && c === 6));
+            });
+        }
+        function quickSelect(min, max) {
+            document.getElementById('minNum').value = min;
+            document.getElementById('maxNum').value = max;
+        }
+        function generateNumber() {
+            var min = parseInt(document.getElementById('minNum').value) || 0;
+            var max = parseInt(document.getElementById('maxNum').value) || 100;
+            if (min > max) { var temp = min; min = max; max = temp; }
+            var display = document.getElementById('luckyNumber');
+            display.classList.add('spinning');
+            var spins = 0;
+            var spinInterval = setInterval(function() {
+                var nums = [];
+                for (var i = 0; i < count; i++) {
+                    nums.push(Math.floor(Math.random() * (max - min + 1)) + min);
+                }
+                display.textContent = nums.join(', ');
+                spins++;
+                if (spins >= 20) {
+                    clearInterval(spinInterval);
+                    display.classList.remove('spinning');
+                    var finalNums = [];
+                    while (finalNums.length < count) {
+                        var num = Math.floor(Math.random() * (max - min + 1)) + min;
+                        if (count <= (max - min + 1) && finalNums.indexOf(num) === -1) {
+                            finalNums.push(num);
+                        } else if (count > (max - min + 1)) {
+                            finalNums.push(num);
+                        }
+                    }
+                    finalNums.sort(function(a, b) { return a - b; });
+                    display.textContent = finalNums.join(', ');
+                    var meaning = '';
+                    if (count === 1 && meanings[finalNums[0]]) {
+                        meaning = meanings[finalNums[0]];
+                    } else {
+                        meaning = 'Your lucky numbers for today!';
+                    }
+                    document.getElementById('numberMeaning').textContent = meaning;
+                    history.unshift({ date: new Date().toLocaleDateString('en-US'), numbers: finalNums.join(', ') });
+                    localStorage.setItem('lucky_number_en', JSON.stringify(history.slice(0, 20)));
+                    renderHistory();
+                }
+            }, 50);
+        }
+        function renderHistory() {
+            var list = document.getElementById('historyList');
+            list.innerHTML = '';
+            history.slice(0, 10).forEach(function(h) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.textContent = h.numbers;
+                list.appendChild(div);
+            });
+        }
+        function clearHistory() {
+            history = [];
+            localStorage.removeItem('lucky_number_en');
+            renderHistory();
+        }
+        renderHistory();
+    </script>
+</body>
+</html>

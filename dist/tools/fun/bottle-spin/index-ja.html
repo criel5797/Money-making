@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/bottle-spin/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/bottle-spin/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/bottle-spin/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/bottle-spin/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/bottle-spin/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/bottle-spin/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ボトル回し</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .spin-area { position: relative; width: 100%; aspect-ratio: 1; margin-bottom: 20px; }
+        .circle { width: 100%; height: 100%; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+        .player-slots { position: absolute; width: 100%; height: 100%; }
+        .player-slot { position: absolute; width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all .3s; }
+        .player-slot.active { background: #22c55e; transform: scale(1.2); }
+        .player-slot.highlighted { animation: glow 0.5s ease infinite; }
+        @keyframes glow { 0%,100% { box-shadow: 0 0 10px #fff; } 50% { box-shadow: 0 0 30px #fff; } }
+        .bottle { position: absolute; left: 50%; top: 50%; width: 20px; height: 120px; transform-origin: center bottom; transform: translate(-50%, -100%); transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+        .bottle-body { width: 100%; height: 100%; background: linear-gradient(to right, #22c55e, #16a34a); border-radius: 10px 10px 5px 5px; position: relative; }
+        .bottle-neck { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 10px; height: 20px; background: linear-gradient(to right, #22c55e, #16a34a); border-radius: 3px 3px 0 0; }
+        .bottle-cap { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 14px; height: 8px; background: #dc2626; border-radius: 2px; }
+        .spin-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-bottom: 15px; }
+        .spin-btn:hover { transform: scale(1.02); }
+        .spin-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .player-count { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .count-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .count-display { font-size: 1.5rem; font-weight: 700; min-width: 80px; text-align: center; }
+        .result-text { text-align: center; font-size: 1.3rem; margin-bottom: 15px; min-height: 35px; }
+        .stats { margin-top: 15px; padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🍾 ボトル回し</h1>
+        </header>
+        <div class="game-section">
+            <div class="player-count">
+                <button class="count-btn" onclick="changeCount(-1)">-</button>
+                <div class="count-display" id="countDisplay">4人</div>
+                <button class="count-btn" onclick="changeCount(1)">+</button>
+            </div>
+            <div class="result-text" id="resultText">ボタンを押して回してね！</div>
+            <div class="spin-area">
+                <div class="circle">
+                    <div class="player-slots" id="playerSlots"></div>
+                    <div class="bottle" id="bottle">
+                        <div class="bottle-cap"></div>
+                        <div class="bottle-neck"></div>
+                        <div class="bottle-body"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="spin-btn" id="spinBtn" onclick="spin()">🎯 回す！</button>
+            <div class="stats">
+                <div class="stats-title">📊 統計</div>
+                <div class="stats-row"><span>総ゲーム数</span><span id="totalGames">0</span></div>
+                <div id="playerStats"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var playerCount = 4;
+        var isSpinning = false;
+        var currentRotation = 0;
+        var stats = JSON.parse(localStorage.getItem('bottle_ja') || '{"games":0,"picks":{}}');
+
+        function changeCount(delta) {
+            playerCount = Math.max(2, Math.min(12, playerCount + delta));
+            document.getElementById('countDisplay').textContent = playerCount + '人';
+            renderPlayers();
+        }
+
+        function renderPlayers() {
+            var slots = document.getElementById('playerSlots');
+            slots.innerHTML = '';
+            for (var i = 0; i < playerCount; i++) {
+                var angle = (360 / playerCount) * i - 90;
+                var radian = angle * Math.PI / 180;
+                var radius = 42;
+                var x = 50 + radius * Math.cos(radian);
+                var y = 50 + radius * Math.sin(radian);
+                var slot = document.createElement('div');
+                slot.className = 'player-slot';
+                slot.style.left = x + '%';
+                slot.style.top = y + '%';
+                slot.style.transform = 'translate(-50%, -50%)';
+                slot.textContent = i + 1;
+                slot.dataset.index = i;
+                slots.appendChild(slot);
+            }
+        }
+
+        function spin() {
+            if (isSpinning) return;
+            isSpinning = true;
+            document.getElementById('spinBtn').disabled = true;
+            document.getElementById('resultText').textContent = '回転中...';
+
+            document.querySelectorAll('.player-slot').forEach(function(slot) {
+                slot.classList.remove('active', 'highlighted');
+            });
+
+            var spins = 5 + Math.random() * 5;
+            var extraDegrees = Math.random() * 360;
+            var totalRotation = currentRotation + (spins * 360) + extraDegrees;
+
+            document.getElementById('bottle').style.transform = 'translate(-50%, -100%) rotate(' + totalRotation + 'deg)';
+            currentRotation = totalRotation;
+
+            setTimeout(function() {
+                var finalAngle = totalRotation % 360;
+                var segmentSize = 360 / playerCount;
+                var selectedIndex = Math.floor(((360 - finalAngle + 90 + segmentSize / 2) % 360) / segmentSize) % playerCount;
+
+                document.querySelectorAll('.player-slot').forEach(function(slot, i) {
+                    if (i === selectedIndex) {
+                        slot.classList.add('active', 'highlighted');
+                    }
+                });
+
+                document.getElementById('resultText').textContent = '🎉 ' + (selectedIndex + 1) + '番が当選！';
+
+                stats.games++;
+                if (!stats.picks[selectedIndex + 1]) stats.picks[selectedIndex + 1] = 0;
+                stats.picks[selectedIndex + 1]++;
+                localStorage.setItem('bottle_ja', JSON.stringify(stats));
+                updateStats();
+
+                isSpinning = false;
+                document.getElementById('spinBtn').disabled = false;
+            }, 3000);
+        }
+
+        function updateStats() {
+            document.getElementById('totalGames').textContent = stats.games;
+            var statsHtml = '';
+            for (var i = 1; i <= 12; i++) {
+                if (stats.picks[i]) {
+                    statsHtml += '<div class="stats-row"><span>' + i + '番</span><span>' + stats.picks[i] + '回</span></div>';
+                }
+            }
+            document.getElementById('playerStats').innerHTML = statsHtml;
+        }
+
+        renderPlayers();
+        updateStats();
+    </script>
+</body>
+</html>

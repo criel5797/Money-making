@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/hangman/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/hangman/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/hangman/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/hangman/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/hangman/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/hangman/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ハングマン</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #2c3e50, #3498db); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .hangman-display { background: rgba(0,0,0,.2); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .hangman-figure { font-size: 1rem; line-height: 1.2; font-family: monospace; white-space: pre; margin-bottom: 15px; }
+        .lives { font-size: .9rem; opacity: .8; }
+        .word-display { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
+        .letter-box { width: 35px; height: 45px; border-bottom: 3px solid #fff; display: flex; align-items: flex-end; justify-content: center; font-size: 1.5rem; font-weight: 700; text-transform: uppercase; }
+        .category { text-align: center; font-size: .9rem; opacity: .7; margin-bottom: 15px; }
+        .keyboard { margin-bottom: 20px; }
+        .keyboard-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; }
+        .key-btn { width: 32px; height: 40px; border: none; border-radius: 8px; background: rgba(255,255,255,.2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; text-transform: uppercase; }
+        .key-btn:hover:not(:disabled) { background: rgba(255,255,255,.35); }
+        .key-btn:disabled { opacity: .3; cursor: not-allowed; }
+        .key-btn.correct { background: #27ae60; }
+        .key-btn.wrong { background: #c0392b; }
+        .result { text-align: center; padding: 20px; border-radius: 12px; margin-bottom: 20px; font-size: 1.2rem; font-weight: 600; display: none; }
+        .result.win { display: block; background: rgba(46,204,113,.3); }
+        .result.lose { display: block; background: rgba(231,76,60,.3); }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+        .new-game-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🎯 ハングマン</h1>
+        </header>
+        <div class="game-section">
+            <div class="hangman-display">
+                <div class="hangman-figure" id="hangman"></div>
+                <div class="lives">残りライフ: <span id="livesCount">6</span></div>
+            </div>
+            <div class="category" id="category">カテゴリ: 動物</div>
+            <div class="word-display" id="wordDisplay"></div>
+            <div class="result" id="result"></div>
+            <div class="keyboard" id="keyboard"></div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="gamesPlayed">0</div>
+                    <div class="stat-label">ゲーム数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="gamesWon">0</div>
+                    <div class="stat-label">勝利</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="streak">0</div>
+                    <div class="stat-label">連勝</div>
+                </div>
+            </div>
+            <button class="new-game-btn" onclick="newGame()">🎮 新しいゲーム</button>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var words = {
+            '動物': ['elephant', 'giraffe', 'penguin', 'dolphin', 'tiger', 'monkey', 'rabbit', 'turtle', 'parrot', 'zebra'],
+            '果物': ['apple', 'banana', 'orange', 'strawberry', 'watermelon', 'pineapple', 'mango', 'grape', 'cherry', 'lemon'],
+            '国': ['australia', 'brazil', 'canada', 'france', 'germany', 'japan', 'mexico', 'spain', 'sweden', 'italy'],
+            '食べ物': ['pizza', 'burger', 'pasta', 'sushi', 'taco', 'sandwich', 'salad', 'steak', 'curry', 'soup']
+        };
+        var categories = Object.keys(words);
+        var hangmanStages = [
+            '  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n=========',
+            '  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n========='
+        ];
+        var currentWord;
+        var currentCategory;
+        var guessedLetters;
+        var wrongGuesses;
+        var gameOver;
+        var stats = JSON.parse(localStorage.getItem('hangman_ja') || '{"played":0,"won":0,"streak":0}');
+
+        function getRandomWord() {
+            currentCategory = categories[Math.floor(Math.random() * categories.length)];
+            var categoryWords = words[currentCategory];
+            return categoryWords[Math.floor(Math.random() * categoryWords.length)];
+        }
+
+        function newGame() {
+            currentWord = getRandomWord();
+            guessedLetters = [];
+            wrongGuesses = 0;
+            gameOver = false;
+            document.getElementById('category').textContent = 'カテゴリ: ' + currentCategory;
+            document.getElementById('result').className = 'result';
+            updateDisplay();
+            createKeyboard();
+            updateStats();
+        }
+
+        function updateDisplay() {
+            document.getElementById('hangman').textContent = hangmanStages[wrongGuesses];
+            document.getElementById('livesCount').textContent = 6 - wrongGuesses;
+
+            var wordDisplay = document.getElementById('wordDisplay');
+            wordDisplay.innerHTML = '';
+            for (var i = 0; i < currentWord.length; i++) {
+                var box = document.createElement('div');
+                box.className = 'letter-box';
+                box.textContent = guessedLetters.indexOf(currentWord[i].toLowerCase()) !== -1 ? currentWord[i] : '';
+                wordDisplay.appendChild(box);
+            }
+        }
+
+        function createKeyboard() {
+            var keyboard = document.getElementById('keyboard');
+            keyboard.innerHTML = '';
+            var rows = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+
+            rows.forEach(function(row) {
+                var rowDiv = document.createElement('div');
+                rowDiv.className = 'keyboard-row';
+                for (var i = 0; i < row.length; i++) {
+                    var btn = document.createElement('button');
+                    btn.className = 'key-btn';
+                    btn.textContent = row[i];
+                    btn.onclick = (function(letter) {
+                        return function() { guessLetter(letter); };
+                    })(row[i]);
+                    rowDiv.appendChild(btn);
+                }
+                keyboard.appendChild(rowDiv);
+            });
+        }
+
+        function guessLetter(letter) {
+            if (gameOver || guessedLetters.indexOf(letter) !== -1) return;
+            guessedLetters.push(letter);
+
+            var btn = Array.from(document.querySelectorAll('.key-btn')).find(function(b) { return b.textContent === letter; });
+
+            if (currentWord.toLowerCase().indexOf(letter) !== -1) {
+                btn.classList.add('correct');
+            } else {
+                btn.classList.add('wrong');
+                wrongGuesses++;
+            }
+            btn.disabled = true;
+
+            updateDisplay();
+            checkWinLose();
+        }
+
+        function checkWinLose() {
+            var won = true;
+            for (var i = 0; i < currentWord.length; i++) {
+                if (guessedLetters.indexOf(currentWord[i].toLowerCase()) === -1) {
+                    won = false;
+                    break;
+                }
+            }
+
+            if (won) {
+                gameOver = true;
+                document.getElementById('result').className = 'result win';
+                document.getElementById('result').textContent = '🎉 正解！「' + currentWord + '」';
+                stats.played++;
+                stats.won++;
+                stats.streak++;
+                localStorage.setItem('hangman_ja', JSON.stringify(stats));
+                disableAllKeys();
+            } else if (wrongGuesses >= 6) {
+                gameOver = true;
+                document.getElementById('result').className = 'result lose';
+                document.getElementById('result').textContent = '😢 ゲームオーバー！答え: ' + currentWord;
+                stats.played++;
+                stats.streak = 0;
+                localStorage.setItem('hangman_ja', JSON.stringify(stats));
+                disableAllKeys();
+            }
+            updateStats();
+        }
+
+        function disableAllKeys() {
+            document.querySelectorAll('.key-btn').forEach(function(btn) { btn.disabled = true; });
+        }
+
+        function updateStats() {
+            document.getElementById('gamesPlayed').textContent = stats.played;
+            document.getElementById('gamesWon').textContent = stats.won;
+            document.getElementById('streak').textContent = stats.streak;
+        }
+
+        newGame();
+    </script>
+</body>
+</html>

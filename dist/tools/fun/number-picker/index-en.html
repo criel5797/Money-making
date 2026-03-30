@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/number-picker/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/number-picker/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/number-picker/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/number-picker/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/number-picker/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/number-picker/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Picker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .number-display { text-align: center; margin-bottom: 20px; }
+        .picked-numbers { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; min-height: 60px; margin-bottom: 15px; }
+        .picked-number { width: 50px; height: 50px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 700; animation: pop 0.3s ease; }
+        @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        .current-number { font-size: 4rem; font-weight: 700; color: #fbbf24; text-shadow: 0 0 20px rgba(251,191,36,.5); margin-bottom: 15px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        .current-number.rolling { animation: roll 0.1s linear infinite; }
+        @keyframes roll { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .range-section { margin-bottom: 20px; }
+        .range-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .range-label { width: 60px; font-size: .9rem; }
+        .range-input { flex: 1; padding: 12px; border: none; border-radius: 8px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; text-align: center; }
+        .count-section { margin-bottom: 20px; }
+        .count-label { font-size: .9rem; margin-bottom: 10px; }
+        .count-btns { display: flex; gap: 8px; }
+        .count-btn { flex: 1; padding: 12px; border: none; border-radius: 8px; background: rgba(255,255,255,.2); color: #fff; font-size: 1rem; cursor: pointer; }
+        .count-btn.active { background: #3b82f6; }
+        .pick-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: transform .2s; margin-bottom: 10px; }
+        .pick-btn:hover { transform: scale(1.02); }
+        .pick-btn:active { transform: scale(0.98); }
+        .reset-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; }
+        .options { display: flex; gap: 10px; margin-bottom: 15px; }
+        .option-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; background: rgba(255,255,255,.1); color: #fff; font-size: .85rem; cursor: pointer; }
+        .option-btn.active { background: #6366f1; }
+        .history { margin-top: 15px; }
+        .history-label { font-size: .8rem; opacity: .7; margin-bottom: 10px; }
+        .history-items { display: flex; flex-wrap: wrap; gap: 8px; }
+        .history-item { padding: 8px 12px; background: rgba(255,255,255,.1); border-radius: 8px; font-size: .85rem; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🔢 Number Picker</h1>
+        </header>
+        <div class="game-section">
+            <div class="number-display">
+                <div class="picked-numbers" id="pickedNumbers"></div>
+                <div class="current-number" id="currentNumber">?</div>
+            </div>
+            <div class="range-section">
+                <div class="range-row">
+                    <span class="range-label">Min:</span>
+                    <input type="number" class="range-input" id="minNum" value="1" min="0" max="999">
+                </div>
+                <div class="range-row">
+                    <span class="range-label">Max:</span>
+                    <input type="number" class="range-input" id="maxNum" value="45" min="1" max="1000">
+                </div>
+            </div>
+            <div class="count-section">
+                <div class="count-label">How many:</div>
+                <div class="count-btns">
+                    <button class="count-btn" onclick="setCount(1)">1</button>
+                    <button class="count-btn" onclick="setCount(3)">3</button>
+                    <button class="count-btn active" onclick="setCount(6)">6</button>
+                    <button class="count-btn" onclick="setCount(10)">10</button>
+                </div>
+            </div>
+            <div class="options">
+                <button class="option-btn active" id="uniqueBtn" onclick="toggleUnique()">No Duplicates</button>
+                <button class="option-btn" id="sortBtn" onclick="toggleSort()">Sort</button>
+            </div>
+            <button class="pick-btn" onclick="pickNumbers()">🔢 Pick</button>
+            <button class="reset-btn" onclick="resetPick()">Reset</button>
+            <div class="history">
+                <div class="history-label">History</div>
+                <div class="history-items" id="history"></div>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="picks">0</div>
+                    <div class="stat-label">Total Picks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalNums">0</div>
+                    <div class="stat-label">Total Numbers</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var pickCount = 6;
+        var uniqueMode = true;
+        var sortMode = false;
+        var stats = JSON.parse(localStorage.getItem('numpick_en') || '{"picks":0,"totalNums":0,"history":[]}');
+        var isPicking = false;
+
+        function setCount(count) {
+            pickCount = count;
+            document.querySelectorAll('.count-btn').forEach(function(btn) {
+                btn.classList.toggle('active', parseInt(btn.textContent) === count);
+            });
+        }
+
+        function toggleUnique() {
+            uniqueMode = !uniqueMode;
+            document.getElementById('uniqueBtn').classList.toggle('active', uniqueMode);
+        }
+
+        function toggleSort() {
+            sortMode = !sortMode;
+            document.getElementById('sortBtn').classList.toggle('active', sortMode);
+        }
+
+        function pickNumbers() {
+            if (isPicking) return;
+
+            var min = parseInt(document.getElementById('minNum').value) || 1;
+            var max = parseInt(document.getElementById('maxNum').value) || 45;
+
+            if (min >= max) {
+                alert('Max must be greater than min.');
+                return;
+            }
+
+            if (uniqueMode && (max - min + 1) < pickCount) {
+                alert('Range too small. Increase range or reduce count.');
+                return;
+            }
+
+            isPicking = true;
+            var pickedEl = document.getElementById('pickedNumbers');
+            var currentEl = document.getElementById('currentNumber');
+            pickedEl.innerHTML = '';
+            currentEl.textContent = '?';
+            currentEl.classList.add('rolling');
+
+            var numbers = [];
+            var delay = 0;
+
+            for (var i = 0; i < pickCount; i++) {
+                (function(index) {
+                    setTimeout(function() {
+                        var num;
+                        if (uniqueMode) {
+                            do {
+                                num = Math.floor(Math.random() * (max - min + 1)) + min;
+                            } while (numbers.indexOf(num) !== -1);
+                        } else {
+                            num = Math.floor(Math.random() * (max - min + 1)) + min;
+                        }
+                        numbers.push(num);
+                        currentEl.textContent = num;
+
+                        var div = document.createElement('div');
+                        div.className = 'picked-number';
+                        div.textContent = num;
+                        pickedEl.appendChild(div);
+
+                        if (index === pickCount - 1) {
+                            currentEl.classList.remove('rolling');
+                            if (sortMode) {
+                                numbers.sort(function(a, b) { return a - b; });
+                                pickedEl.innerHTML = '';
+                                numbers.forEach(function(n) {
+                                    var d = document.createElement('div');
+                                    d.className = 'picked-number';
+                                    d.textContent = n;
+                                    pickedEl.appendChild(d);
+                                });
+                            }
+
+                            stats.picks++;
+                            stats.totalNums += pickCount;
+                            stats.history.unshift(numbers.join(', '));
+                            if (stats.history.length > 10) stats.history.pop();
+                            localStorage.setItem('numpick_en', JSON.stringify(stats));
+                            updateDisplay();
+                            isPicking = false;
+                        }
+                    }, delay);
+                })(i);
+                delay += 300;
+            }
+        }
+
+        function resetPick() {
+            document.getElementById('pickedNumbers').innerHTML = '';
+            document.getElementById('currentNumber').textContent = '?';
+        }
+
+        function updateDisplay() {
+            document.getElementById('picks').textContent = stats.picks;
+            document.getElementById('totalNums').textContent = stats.totalNums;
+
+            var historyEl = document.getElementById('history');
+            historyEl.innerHTML = '';
+            stats.history.slice(0, 5).forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.textContent = item;
+                historyEl.appendChild(div);
+            });
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>

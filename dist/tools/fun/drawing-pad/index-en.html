@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/drawing-pad/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/drawing-pad/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/drawing-pad/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/drawing-pad/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/drawing-pad/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/drawing-pad/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Drawing Pad</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #a8edea, #fed6e3); min-height: 100vh; color: #333; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(0,0,0,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; color: #666; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; color: #333; }
+        .draw-section { background: rgba(255,255,255,.8); border-radius: 16px; padding: 20px; }
+        .canvas-container { background: #fff; border-radius: 12px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,.1); }
+        canvas { display: block; width: 100%; touch-action: none; cursor: crosshair; }
+        .tools { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .tool-btn { padding: 10px 15px; border: none; border-radius: 10px; background: rgba(0,0,0,.1); cursor: pointer; font-size: .9rem; }
+        .tool-btn.active { background: #667eea; color: #fff; }
+        .colors { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .color-btn { width: 35px; height: 35px; border: 3px solid transparent; border-radius: 50%; cursor: pointer; }
+        .color-btn.active { border-color: #333; }
+        .size-section { margin-bottom: 15px; }
+        .size-label { font-size: .85rem; margin-bottom: 8px; }
+        .size-slider { width: 100%; -webkit-appearance: none; height: 8px; border-radius: 4px; background: rgba(0,0,0,.1); outline: none; }
+        .size-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #667eea; cursor: pointer; }
+        .actions { display: flex; gap: 10px; }
+        .action-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .action-btn.secondary { background: rgba(0,0,0,.1); color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🎨 Drawing Pad</h1>
+        </header>
+        <div class="draw-section">
+            <div class="canvas-container">
+                <canvas id="canvas" width="410" height="350"></canvas>
+            </div>
+            <div class="tools">
+                <button class="tool-btn active" onclick="setTool('pen')">✏️ Pen</button>
+                <button class="tool-btn" onclick="setTool('eraser')">🧹 Eraser</button>
+                <button class="tool-btn" onclick="setTool('fill')">🪣 Fill</button>
+            </div>
+            <div class="colors" id="colorPalette"></div>
+            <div class="size-section">
+                <div class="size-label">Brush Size: <span id="sizeValue">5</span>px</div>
+                <input type="range" class="size-slider" id="sizeSlider" min="1" max="50" value="5" oninput="setSize(this.value)">
+            </div>
+            <div class="actions">
+                <button class="action-btn secondary" onclick="clearCanvas()">↻ Clear</button>
+                <button class="action-btn" onclick="saveImage()">💾 Save</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var isDrawing = false;
+        var currentTool = 'pen';
+        var currentColor = '#000000';
+        var brushSize = 5;
+        var colors = ['#000000', '#ffffff', '#ff0000', '#ff9900', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#9900ff', '#ff00ff', '#8b4513', '#808080'];
+        function initCanvas() {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+        }
+        function createColorPalette() {
+            var palette = document.getElementById('colorPalette');
+            colors.forEach(function(color, i) {
+                var btn = document.createElement('button');
+                btn.className = 'color-btn' + (i === 0 ? ' active' : '');
+                btn.style.background = color;
+                btn.onclick = function() { setColor(color, this); };
+                palette.appendChild(btn);
+            });
+        }
+        function setTool(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.tool-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(tool.substring(0, 3)));
+            });
+        }
+        function setColor(color, btn) {
+            currentColor = color;
+            document.querySelectorAll('.color-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+        }
+        function setSize(size) {
+            brushSize = parseInt(size);
+            document.getElementById('sizeValue').textContent = size;
+        }
+        function getPos(e) {
+            var rect = canvas.getBoundingClientRect();
+            var scaleX = canvas.width / rect.width;
+            var scaleY = canvas.height / rect.height;
+            if (e.touches) {
+                return {
+                    x: (e.touches[0].clientX - rect.left) * scaleX,
+                    y: (e.touches[0].clientY - rect.top) * scaleY
+                };
+            }
+            return {
+                x: (e.clientX - rect.left) * scaleX,
+                y: (e.clientY - rect.top) * scaleY
+            };
+        }
+        function startDraw(e) {
+            e.preventDefault();
+            if (currentTool === 'fill') {
+                var pos = getPos(e);
+                floodFill(Math.floor(pos.x), Math.floor(pos.y), currentColor);
+                return;
+            }
+            isDrawing = true;
+            var pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            var pos = getPos(e);
+            ctx.lineWidth = brushSize;
+            ctx.strokeStyle = currentTool === 'eraser' ? '#ffffff' : currentColor;
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+        function endDraw() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+        function floodFill(x, y, fillColor) {
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            var targetColor = getPixel(data, x, y);
+            var fill = hexToRgb(fillColor);
+            if (targetColor[0] === fill.r && targetColor[1] === fill.g && targetColor[2] === fill.b) return;
+            var stack = [[x, y]];
+            while (stack.length > 0) {
+                var pt = stack.pop();
+                var px = pt[0], py = pt[1];
+                if (px < 0 || px >= canvas.width || py < 0 || py >= canvas.height) continue;
+                var idx = (py * canvas.width + px) * 4;
+                if (data[idx] !== targetColor[0] || data[idx + 1] !== targetColor[1] || data[idx + 2] !== targetColor[2]) continue;
+                data[idx] = fill.r;
+                data[idx + 1] = fill.g;
+                data[idx + 2] = fill.b;
+                stack.push([px + 1, py], [px - 1, py], [px, py + 1], [px, py - 1]);
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+        function getPixel(data, x, y) {
+            var idx = (y * canvas.width + x) * 4;
+            return [data[idx], data[idx + 1], data[idx + 2]];
+        }
+        function hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) };
+        }
+        function clearCanvas() {
+            initCanvas();
+        }
+        function saveImage() {
+            var link = document.createElement('a');
+            link.download = 'drawing.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', endDraw);
+        canvas.addEventListener('mouseleave', endDraw);
+        canvas.addEventListener('touchstart', startDraw);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', endDraw);
+        initCanvas();
+        createColorPalette();
+    </script>
+</body>
+</html>

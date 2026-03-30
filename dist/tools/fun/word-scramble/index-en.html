@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/word-scramble/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/word-scramble/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/word-scramble/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/word-scramble/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/word-scramble/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/word-scramble/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #f093fb, #f5576c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: .75rem; opacity: .7; }
+        .scrambled { background: rgba(0,0,0,.3); border-radius: 12px; padding: 25px; margin-bottom: 20px; text-align: center; }
+        .scrambled-word { font-size: 2.5rem; font-weight: 700; letter-spacing: 5px; margin-bottom: 10px; }
+        .hint { font-size: .9rem; opacity: .7; }
+        .input-section { margin-bottom: 20px; }
+        .input-section input { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1.2rem; text-align: center; text-transform: uppercase; letter-spacing: 3px; }
+        .input-section input:focus { outline: 2px solid #667eea; }
+        .actions { display: flex; gap: 10px; margin-bottom: 15px; }
+        .action-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .action-btn.secondary { background: rgba(255,255,255,.2); }
+        .action-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .message { text-align: center; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: none; }
+        .message.correct { display: block; background: rgba(56,239,125,.3); }
+        .message.wrong { display: block; background: rgba(255,107,107,.3); }
+        .category { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .cat-btn { padding: 8px 15px; border: none; border-radius: 20px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; font-size: .85rem; }
+        .cat-btn.active { background: rgba(255,255,255,.4); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🔤 Word Scramble</h1>
+        </header>
+        <div class="game-section">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="streak">0</div>
+                    <div class="stat-label">Streak</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="hints">3</div>
+                    <div class="stat-label">Hints</div>
+                </div>
+            </div>
+            <div class="scrambled">
+                <div class="scrambled-word" id="scrambledWord">???</div>
+                <div class="hint" id="hintText"></div>
+            </div>
+            <div class="message" id="message"></div>
+            <div class="input-section">
+                <input type="text" id="answerInput" placeholder="Type your answer" maxlength="20" onkeypress="if(event.key==='Enter')checkAnswer()">
+            </div>
+            <div class="actions">
+                <button class="action-btn" onclick="checkAnswer()">Check</button>
+                <button class="action-btn secondary" onclick="useHint()" id="hintBtn">💡 Hint</button>
+                <button class="action-btn secondary" onclick="skipWord()">⏭️ Skip</button>
+            </div>
+            <div class="category">
+                <button class="cat-btn active" onclick="setCategory('all')">All</button>
+                <button class="cat-btn" onclick="setCategory('animal')">Animals</button>
+                <button class="cat-btn" onclick="setCategory('fruit')">Fruits</button>
+                <button class="cat-btn" onclick="setCategory('country')">Countries</button>
+                <button class="cat-btn" onclick="setCategory('food')">Food</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var words = {
+            animal: [
+                { word: 'ELEPHANT', hint: 'Has a long trunk' },
+                { word: 'GIRAFFE', hint: 'Tallest animal' },
+                { word: 'DOLPHIN', hint: 'Smart sea mammal' },
+                { word: 'PENGUIN', hint: 'Bird that cannot fly' },
+                { word: 'MONKEY', hint: 'Loves bananas' }
+            ],
+            fruit: [
+                { word: 'APPLE', hint: 'Red or green fruit' },
+                { word: 'BANANA', hint: 'Yellow curved fruit' },
+                { word: 'ORANGE', hint: 'Citrus fruit' },
+                { word: 'STRAWBERRY', hint: 'Small red berry' },
+                { word: 'WATERMELON', hint: 'Large summer fruit' }
+            ],
+            country: [
+                { word: 'FRANCE', hint: 'Eiffel Tower' },
+                { word: 'JAPAN', hint: 'Land of rising sun' },
+                { word: 'BRAZIL', hint: 'Famous for soccer' },
+                { word: 'CANADA', hint: 'Maple leaf country' },
+                { word: 'EGYPT', hint: 'Land of pyramids' }
+            ],
+            food: [
+                { word: 'PIZZA', hint: 'Italian dish' },
+                { word: 'BURGER', hint: 'Fast food classic' },
+                { word: 'SUSHI', hint: 'Japanese rice dish' },
+                { word: 'PASTA', hint: 'Italian noodles' },
+                { word: 'TACO', hint: 'Mexican food' }
+            ]
+        };
+        var currentWord = null;
+        var score = 0;
+        var streak = 0;
+        var hintsLeft = 3;
+        var category = 'all';
+        var revealedHint = 0;
+        function shuffle(str) {
+            var arr = str.split('');
+            for (var i = arr.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            return arr.join('');
+        }
+        function getAllWords() {
+            var all = [];
+            for (var cat in words) {
+                all = all.concat(words[cat]);
+            }
+            return all;
+        }
+        function setCategory(cat) {
+            category = cat;
+            document.querySelectorAll('.cat-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(cat === 'all' ? 'all' : cat.substring(0, 4)));
+            });
+            newWord();
+        }
+        function newWord() {
+            var pool = category === 'all' ? getAllWords() : words[category];
+            currentWord = pool[Math.floor(Math.random() * pool.length)];
+            revealedHint = 0;
+            var scrambled = shuffle(currentWord.word);
+            while (scrambled === currentWord.word && currentWord.word.length > 1) {
+                scrambled = shuffle(currentWord.word);
+            }
+            document.getElementById('scrambledWord').textContent = scrambled;
+            document.getElementById('hintText').textContent = '';
+            document.getElementById('answerInput').value = '';
+            document.getElementById('message').className = 'message';
+            document.getElementById('answerInput').focus();
+        }
+        function checkAnswer() {
+            var input = document.getElementById('answerInput').value.trim().toUpperCase();
+            var msg = document.getElementById('message');
+            if (input === currentWord.word) {
+                msg.textContent = 'Correct! 🎉';
+                msg.className = 'message correct';
+                score += 10 + streak * 2;
+                streak++;
+                document.getElementById('score').textContent = score;
+                document.getElementById('streak').textContent = streak;
+                setTimeout(newWord, 1000);
+            } else {
+                msg.textContent = 'Wrong! Try again!';
+                msg.className = 'message wrong';
+                streak = 0;
+                document.getElementById('streak').textContent = streak;
+            }
+        }
+        function useHint() {
+            if (hintsLeft <= 0) return;
+            revealedHint++;
+            if (revealedHint === 1) {
+                document.getElementById('hintText').textContent = 'Hint: ' + currentWord.hint;
+            } else if (revealedHint === 2) {
+                document.getElementById('hintText').textContent = 'First letter: ' + currentWord.word[0];
+            }
+            hintsLeft--;
+            document.getElementById('hints').textContent = hintsLeft;
+            if (hintsLeft <= 0) {
+                document.getElementById('hintBtn').disabled = true;
+            }
+        }
+        function skipWord() {
+            document.getElementById('message').textContent = 'Answer: ' + currentWord.word;
+            document.getElementById('message').className = 'message wrong';
+            streak = 0;
+            document.getElementById('streak').textContent = streak;
+            setTimeout(newWord, 1500);
+        }
+        newWord();
+    </script>
+</body>
+</html>

@@ -1,238 +1,244 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2048 Game - Free Online 2048 Game Tool</title>
-  <meta name="description" content="Use 2048 Game online for free. Number puzzle game. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="2048 Game, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/2048-game/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"2048 Game","item":"https://instaidea.org/tools/fun/2048-game/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"2048 Game","url":"https://instaidea.org/tools/fun/2048-game/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use 2048 Game online for free. Number puzzle game. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is 2048 Game?","acceptedAnswer":{"@type":"Answer","text":"2048 Game is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/2048-game/"><meta property="og:url" content="https://instaidea.org/tools/fun/2048-game/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/2048-game/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/2048-game/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/2048-game/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/2048-game/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 게임</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #fad0c4, #ffd1ff); min-height: 100vh; color: #333; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(0,0,0,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; color: #666; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.9); border-radius: 16px; padding: 20px; }
+        .score-bar { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .score-box { background: #bbada0; border-radius: 8px; padding: 10px 20px; text-align: center; }
+        .score-label { font-size: .7rem; color: #eee4da; text-transform: uppercase; }
+        .score-value { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .game-board { background: #bbada0; border-radius: 8px; padding: 8px; margin-bottom: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .tile { aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.5rem; background: rgba(238,228,218,.35); color: #776e65; transition: all .1s; }
+        .tile-2 { background: #eee4da; }
+        .tile-4 { background: #ede0c8; }
+        .tile-8 { background: #f2b179; color: #f9f6f2; }
+        .tile-16 { background: #f59563; color: #f9f6f2; }
+        .tile-32 { background: #f67c5f; color: #f9f6f2; }
+        .tile-64 { background: #f65e3b; color: #f9f6f2; }
+        .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 1.3rem; }
+        .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 1.3rem; }
+        .tile-512 { background: #edc850; color: #f9f6f2; font-size: 1.3rem; }
+        .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 1.1rem; }
+        .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 1.1rem; }
+        .tile-super { background: #3c3a32; color: #f9f6f2; font-size: 1rem; }
+        .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 180px; margin: 0 auto 15px; }
+        .ctrl-btn { padding: 12px; border: none; border-radius: 8px; background: #8f7a66; color: #fff; font-size: 1.2rem; cursor: pointer; }
+        .ctrl-btn:active { background: #776e65; }
+        .ctrl-empty { visibility: hidden; }
+        .action-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: #8f7a66; color: #fff; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .game-over { text-align: center; padding: 20px; background: rgba(238,228,218,.73); border-radius: 12px; margin-bottom: 15px; display: none; }
+        .game-over h2 { font-size: 1.5rem; margin-bottom: 10px; color: #776e65; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-card { background: #bbada0; border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; color: #fff; }
+        .stat-label { font-size: .7rem; color: #eee4da; }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>🎮 2048</h1>
+        </header>
+        <div class="game-section">
+            <div class="score-bar">
+                <div class="score-box">
+                    <div class="score-label">점수</div>
+                    <div class="score-value" id="score">0</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">최고기록</div>
+                    <div class="score-value" id="bestScore">0</div>
+                </div>
+            </div>
+            <div class="game-board">
+                <div class="grid" id="grid"></div>
+            </div>
+            <div id="gameOver" class="game-over">
+                <h2 id="endMessage">게임 오버!</h2>
+                <p>최종 점수: <span id="finalScore">0</span></p>
+            </div>
+            <div class="controls">
+                <div class="ctrl-empty"></div>
+                <button class="ctrl-btn" onclick="move('up')">⬆️</button>
+                <div class="ctrl-empty"></div>
+                <button class="ctrl-btn" onclick="move('left')">⬅️</button>
+                <button class="ctrl-btn" onclick="move('down')">⬇️</button>
+                <button class="ctrl-btn" onclick="move('right')">➡️</button>
+            </div>
+            <button class="action-btn" onclick="newGame()">🔄 새 게임</button>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalGames">0</div>
+                    <div class="stat-label">게임 수</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="maxTile">0</div>
+                    <div class="stat-label">최고 타일</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var grid = [];
+        var score = 0;
+        var isGameOver = false;
+        var stats = JSON.parse(localStorage.getItem('2048_ko') || '{"games":0,"best":0,"maxTile":0}');
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>2048 Game</span>
-      </nav>
-      <h1>2048 Game</h1>
-      <p>Use 2048 Game online for free. Number puzzle game. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        function initGrid() {
+            grid = [];
+            for (var i = 0; i < 4; i++) {
+                grid.push([0, 0, 0, 0]);
+            }
+        }
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="2048 Game"></iframe>
+        function addTile() {
+            var empty = [];
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    if (grid[i][j] === 0) empty.push({r: i, c: j});
+                }
+            }
+            if (empty.length > 0) {
+                var cell = empty[Math.floor(Math.random() * empty.length)];
+                grid[cell.r][cell.c] = Math.random() < 0.9 ? 2 : 4;
+            }
+        }
 
-    <article class="seo-block">
-      <h2>What is 2048 Game?</h2>
-      <p>2048 Game is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        function renderGrid() {
+            var container = document.getElementById('grid');
+            container.innerHTML = '';
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    var tile = document.createElement('div');
+                    var val = grid[i][j];
+                    tile.className = 'tile' + (val > 0 ? ' tile-' + (val > 2048 ? 'super' : val) : '');
+                    tile.textContent = val > 0 ? val : '';
+                    container.appendChild(tile);
+                }
+            }
+            document.getElementById('score').textContent = score;
+        }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        function slide(row) {
+            var arr = row.filter(function(v) { return v !== 0; });
+            for (var i = 0; i < arr.length - 1; i++) {
+                if (arr[i] === arr[i + 1]) {
+                    arr[i] *= 2;
+                    score += arr[i];
+                    arr.splice(i + 1, 1);
+                }
+            }
+            while (arr.length < 4) arr.push(0);
+            return arr;
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function move(dir) {
+            if (isGameOver) return;
+            var moved = false;
+            var oldGrid = JSON.stringify(grid);
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+            if (dir === 'left') {
+                for (var i = 0; i < 4; i++) grid[i] = slide(grid[i]);
+            } else if (dir === 'right') {
+                for (var i = 0; i < 4; i++) grid[i] = slide(grid[i].reverse()).reverse();
+            } else if (dir === 'up') {
+                for (var j = 0; j < 4; j++) {
+                    var col = [grid[0][j], grid[1][j], grid[2][j], grid[3][j]];
+                    col = slide(col);
+                    for (var i = 0; i < 4; i++) grid[i][j] = col[i];
+                }
+            } else if (dir === 'down') {
+                for (var j = 0; j < 4; j++) {
+                    var col = [grid[3][j], grid[2][j], grid[1][j], grid[0][j]];
+                    col = slide(col);
+                    for (var i = 0; i < 4; i++) grid[3 - i][j] = col[i];
+                }
+            }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+            if (JSON.stringify(grid) !== oldGrid) {
+                addTile();
+                renderGrid();
+                checkGameOver();
+            }
+        }
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+        function checkGameOver() {
+            var maxTile = 0;
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    if (grid[i][j] > maxTile) maxTile = grid[i][j];
+                    if (grid[i][j] === 0) return;
+                    if (j < 3 && grid[i][j] === grid[i][j + 1]) return;
+                    if (i < 3 && grid[i][j] === grid[i + 1][j]) return;
+                }
+            }
+            isGameOver = true;
+            document.getElementById('gameOver').style.display = 'block';
+            document.getElementById('endMessage').textContent = maxTile >= 2048 ? '축하합니다! 🎉' : '게임 오버!';
+            document.getElementById('finalScore').textContent = score;
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+            stats.games++;
+            if (score > stats.best) stats.best = score;
+            if (maxTile > stats.maxTile) stats.maxTile = maxTile;
+            localStorage.setItem('2048_ko', JSON.stringify(stats));
+            updateStats();
+        }
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+        function newGame() {
+            score = 0;
+            isGameOver = false;
+            document.getElementById('gameOver').style.display = 'none';
+            initGrid();
+            addTile();
+            addTile();
+            renderGrid();
+        }
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+        function updateStats() {
+            document.getElementById('bestScore').textContent = stats.best;
+            document.getElementById('totalGames').textContent = stats.games;
+            document.getElementById('maxTile').textContent = stats.maxTile;
+        }
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowUp') { e.preventDefault(); move('up'); }
+            else if (e.key === 'ArrowDown') { e.preventDefault(); move('down'); }
+            else if (e.key === 'ArrowLeft') { e.preventDefault(); move('left'); }
+            else if (e.key === 'ArrowRight') { e.preventDefault(); move('right'); }
+        });
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+        var touchStartX, touchStartY;
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+        document.addEventListener('touchend', function(e) {
+            if (!touchStartX || !touchStartY) return;
+            var dx = e.changedTouches[0].clientX - touchStartX;
+            var dy = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(dx) > Math.abs(dy)) {
+                move(dx > 0 ? 'right' : 'left');
+            } else {
+                move(dy > 0 ? 'down' : 'up');
+            }
+            touchStartX = null;
+            touchStartY = null;
+        });
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
-
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
-
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
-
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+        updateStats();
+        newGame();
+    </script>
 </body>
 </html>

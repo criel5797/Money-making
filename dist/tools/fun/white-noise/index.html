@@ -1,238 +1,400 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>White Noise - Free Online White Noise Tool</title>
-  <meta name="description" content="Use White Noise online for free. Focus enhancement sounds. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="White Noise, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/white-noise/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"White Noise","item":"https://instaidea.org/tools/fun/white-noise/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"White Noise","url":"https://instaidea.org/tools/fun/white-noise/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use White Noise online for free. Focus enhancement sounds. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is White Noise?","acceptedAnswer":{"@type":"Answer","text":"White Noise is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/white-noise/"><meta property="og:url" content="https://instaidea.org/tools/fun/white-noise/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/white-noise/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/white-noise/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/white-noise/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/white-noise/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>백색 소음 - 집중력 향상 사운드</title>
+    <meta name="description" content="무료 백색 소음 생성기. 집중력 향상과 수면에 도움이 되는 다양한 소리를 들어보세요.">
+    <meta name="keywords" content="백색 소음, 화이트 노이즈, 집중력, 수면, ASMR">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.3);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+        .noise-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .sound-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .sound-btn {
+            aspect-ratio: 1;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .sound-btn span {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+        .sound-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+        }
+        .sound-btn.active {
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+        .volume-control {
+            margin: 20px 0;
+        }
+        .volume-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        .volume-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+            -webkit-appearance: none;
+        }
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+        .master-control {
+            text-align: center;
+            margin-top: 25px;
+        }
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+        }
+        .play-btn:hover {
+            transform: scale(1.05);
+        }
+        .play-btn.playing {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.6); }
+        }
+        .timer-section {
+            margin-top: 25px;
+            text-align: center;
+        }
+        .timer-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+        .timer-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .timer-btn {
+            padding: 8px 16px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            background: transparent;
+            color: white;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .timer-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .timer-btn.active {
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        .timer-display {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>🎧 백색 소음</h1>
+            <p class="subtitle">집중력 향상과 편안한 수면을 위한 소리</p>
+        </header>
+        <div class="noise-section">
+            <div class="sound-grid">
+                <button class="sound-btn" data-sound="white" onclick="toggleSound('white')">
+                    📻<span>화이트</span>
+                </button>
+                <button class="sound-btn" data-sound="pink" onclick="toggleSound('pink')">
+                    🌸<span>핑크</span>
+                </button>
+                <button class="sound-btn" data-sound="brown" onclick="toggleSound('brown')">
+                    🍂<span>브라운</span>
+                </button>
+                <button class="sound-btn" data-sound="rain" onclick="toggleSound('rain')">
+                    🌧️<span>빗소리</span>
+                </button>
+                <button class="sound-btn" data-sound="ocean" onclick="toggleSound('ocean')">
+                    🌊<span>파도</span>
+                </button>
+                <button class="sound-btn" data-sound="fire" onclick="toggleSound('fire')">
+                    🔥<span>모닥불</span>
+                </button>
+                <button class="sound-btn" data-sound="forest" onclick="toggleSound('forest')">
+                    🌲<span>숲</span>
+                </button>
+                <button class="sound-btn" data-sound="wind" onclick="toggleSound('wind')">
+                    💨<span>바람</span>
+                </button>
+                <button class="sound-btn" data-sound="thunder" onclick="toggleSound('thunder')">
+                    ⛈️<span>천둥</span>
+                </button>
+            </div>
+            <div class="volume-control">
+                <div class="volume-label">
+                    <span>🔈 볼륨</span>
+                    <span id="volumeValue">50%</span>
+                </div>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50" oninput="setVolume(this.value)">
+            </div>
+            <div class="master-control">
+                <button class="play-btn" id="playBtn" onclick="toggleMaster()">▶</button>
+            </div>
+            <div class="timer-section">
+                <div class="timer-label">⏰ 자동 종료 타이머</div>
+                <div class="timer-buttons">
+                    <button class="timer-btn" onclick="setTimer(0)">없음</button>
+                    <button class="timer-btn" onclick="setTimer(15)">15분</button>
+                    <button class="timer-btn" onclick="setTimer(30)">30분</button>
+                    <button class="timer-btn" onclick="setTimer(60)">1시간</button>
+                    <button class="timer-btn" onclick="setTimer(120)">2시간</button>
+                </div>
+                <div class="timer-display" id="timerDisplay"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var audioContext = null;
+        var activeSounds = {};
+        var isPlaying = false;
+        var masterVolume = 0.5;
+        var timerMinutes = 0;
+        var timerInterval = null;
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>White Noise</span>
-      </nav>
-      <h1>White Noise</h1>
-      <p>Use White Noise online for free. Focus enhancement sounds. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        function getAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioContext;
+        }
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="White Noise"></iframe>
+        function createNoise(type) {
+            var ctx = getAudioContext();
+            var bufferSize = 2 * ctx.sampleRate;
+            var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            var data = buffer.getChannelData(0);
 
-    <article class="seo-block">
-      <h2>What is White Noise?</h2>
-      <p>White Noise is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+            if (type === 'white') {
+                for (var i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+            } else if (type === 'pink') {
+                var b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+                for (var i = 0; i < bufferSize; i++) {
+                    var white = Math.random() * 2 - 1;
+                    b0 = 0.99886 * b0 + white * 0.0555179;
+                    b1 = 0.99332 * b1 + white * 0.0750759;
+                    b2 = 0.96900 * b2 + white * 0.1538520;
+                    b3 = 0.86650 * b3 + white * 0.3104856;
+                    b4 = 0.55000 * b4 + white * 0.5329522;
+                    b5 = -0.7616 * b5 - white * 0.0168980;
+                    data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+                    b6 = white * 0.115926;
+                }
+            } else if (type === 'brown') {
+                var lastOut = 0;
+                for (var i = 0; i < bufferSize; i++) {
+                    var white = Math.random() * 2 - 1;
+                    data[i] = (lastOut + (0.02 * white)) / 1.02;
+                    lastOut = data[i];
+                    data[i] *= 3.5;
+                }
+            } else {
+                for (var i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+            }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+            return buffer;
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function createNatureSound(type) {
+            var ctx = getAudioContext();
+            var bufferSize = 4 * ctx.sampleRate;
+            var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            var data = buffer.getChannelData(0);
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+            for (var i = 0; i < bufferSize; i++) {
+                var t = i / ctx.sampleRate;
+                var noise = Math.random() * 2 - 1;
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+                if (type === 'rain') {
+                    data[i] = noise * 0.3 * (1 + 0.3 * Math.sin(t * 0.5));
+                } else if (type === 'ocean') {
+                    data[i] = noise * 0.4 * (0.5 + 0.5 * Math.sin(t * 0.1));
+                } else if (type === 'fire') {
+                    data[i] = noise * 0.2 * (1 + 0.5 * Math.random());
+                } else if (type === 'forest') {
+                    data[i] = noise * 0.15 * (1 + 0.2 * Math.sin(t * 2));
+                } else if (type === 'wind') {
+                    data[i] = noise * 0.25 * (0.7 + 0.3 * Math.sin(t * 0.3));
+                } else if (type === 'thunder') {
+                    data[i] = noise * 0.35 * (0.6 + 0.4 * Math.sin(t * 0.05));
+                } else {
+                    data[i] = noise * 0.3;
+                }
+            }
+            return buffer;
+        }
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+        function toggleSound(type) {
+            var btn = document.querySelector('[data-sound="' + type + '"]');
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+            if (activeSounds[type]) {
+                activeSounds[type].source.stop();
+                delete activeSounds[type];
+                btn.classList.remove('active');
+            } else {
+                var ctx = getAudioContext();
+                var buffer = (type === 'white' || type === 'pink' || type === 'brown')
+                    ? createNoise(type) : createNatureSound(type);
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+                var source = ctx.createBufferSource();
+                source.buffer = buffer;
+                source.loop = true;
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+                var gainNode = ctx.createGain();
+                gainNode.gain.value = masterVolume;
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+                source.connect(gainNode);
+                gainNode.connect(ctx.destination);
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+                if (isPlaying) source.start();
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+                activeSounds[type] = { source: source, gain: gainNode };
+                btn.classList.add('active');
+            }
+        }
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+        function toggleMaster() {
+            var btn = document.getElementById('playBtn');
+            var ctx = getAudioContext();
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+            if (isPlaying) {
+                Object.keys(activeSounds).forEach(function(key) {
+                    activeSounds[key].source.stop();
+                    var newSource = ctx.createBufferSource();
+                    newSource.buffer = activeSounds[key].source.buffer;
+                    newSource.loop = true;
+                    newSource.connect(activeSounds[key].gain);
+                    activeSounds[key].source = newSource;
+                });
+                isPlaying = false;
+                btn.textContent = '▶';
+                btn.classList.remove('playing');
+            } else {
+                Object.keys(activeSounds).forEach(function(key) {
+                    activeSounds[key].source.start();
+                });
+                isPlaying = true;
+                btn.textContent = '■';
+                btn.classList.add('playing');
+            }
+        }
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
+        function setVolume(value) {
+            masterVolume = value / 100;
+            document.getElementById('volumeValue').textContent = value + '%';
+            Object.keys(activeSounds).forEach(function(key) {
+                activeSounds[key].gain.gain.value = masterVolume;
+            });
+        }
 
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
+        function setTimer(minutes) {
+            document.querySelectorAll('.timer-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
 
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
+            if (timerInterval) clearInterval(timerInterval);
 
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+            if (minutes === 0) {
+                document.getElementById('timerDisplay').textContent = '';
+                return;
+            }
+
+            timerMinutes = minutes;
+            var seconds = minutes * 60;
+
+            timerInterval = setInterval(function() {
+                seconds--;
+                var m = Math.floor(seconds / 60);
+                var s = seconds % 60;
+                document.getElementById('timerDisplay').textContent =
+                    m + ':' + (s < 10 ? '0' : '') + s + ' 남음';
+
+                if (seconds <= 0) {
+                    clearInterval(timerInterval);
+                    if (isPlaying) toggleMaster();
+                    document.getElementById('timerDisplay').textContent = '종료됨';
+                }
+            }, 1000);
+        }
+    </script>
 </body>
 </html>

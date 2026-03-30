@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/speed-quiz/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/speed-quiz/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/speed-quiz/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/speed-quiz/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/speed-quiz/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/speed-quiz/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スピードクイズ</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #0891b2, #0e7490); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .category-btn { padding: 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; text-align: center; transition: all .3s; }
+        .category-btn.active { background: rgba(255,255,255,.3); border-color: #fff; }
+        .category-emoji { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        .timer-setting { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .timer-btn { width: 45px; height: 45px; border: none; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .timer-value { font-size: 1.5rem; font-weight: 700; min-width: 80px; text-align: center; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .play-section { display: none; }
+        .timer-bar { height: 8px; background: rgba(255,255,255,.2); border-radius: 4px; overflow: hidden; margin-bottom: 15px; }
+        .timer-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #fbbf24, #ef4444); transition: width 0.1s; }
+        .score-display { text-align: center; font-size: 1.2rem; margin-bottom: 15px; }
+        .score-value { font-size: 2.5rem; font-weight: 700; color: #fbbf24; }
+        .word-card { background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,255,255,.9)); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 20px; min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .hint-label { font-size: .9rem; color: #64748b; margin-bottom: 10px; }
+        .word-text { font-size: 2rem; font-weight: 700; color: #1e293b; }
+        .controls { display: flex; gap: 12px; }
+        .control-btn { flex: 1; padding: 20px; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 600; cursor: pointer; }
+        .skip-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .correct-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .result-section { display: none; text-align: center; }
+        .result-icon { font-size: 5rem; margin-bottom: 20px; }
+        .result-score { font-size: 4rem; font-weight: 700; margin-bottom: 10px; }
+        .result-label { font-size: 1.2rem; opacity: .8; margin-bottom: 25px; }
+        .result-list { background: rgba(255,255,255,.1); border-radius: 12px; padding: 15px; margin-bottom: 20px; max-height: 200px; overflow-y: auto; text-align: left; }
+        .result-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.1); display: flex; justify-content: space-between; }
+        .result-item:last-child { border-bottom: none; }
+        .correct { color: #22c55e; }
+        .skipped { color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>⚡ スピードクイズ</h1>
+            <p class="subtitle">ヒントを見て素早く当てよう！</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="category-grid">
+                    <button class="category-btn active" onclick="selectCategory(0)"><span class="category-emoji">🎬</span>キャラクター</button>
+                    <button class="category-btn" onclick="selectCategory(1)"><span class="category-emoji">🏢</span>場所</button>
+                    <button class="category-btn" onclick="selectCategory(2)"><span class="category-emoji">🎵</span>音楽</button>
+                    <button class="category-btn" onclick="selectCategory(3)"><span class="category-emoji">📦</span>物</button>
+                </div>
+                <div class="timer-setting">
+                    <button class="timer-btn" onclick="changeTime(-10)">-</button>
+                    <div class="timer-value" id="timerSetting">60秒</div>
+                    <button class="timer-btn" onclick="changeTime(10)">+</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 ゲーム開始！</button>
+            </div>
+            <div class="play-section" id="playSection">
+                <div class="timer-bar">
+                    <div class="timer-fill" id="timerFill"></div>
+                </div>
+                <div class="score-display">
+                    スコア: <span class="score-value" id="scoreValue">0</span>
+                </div>
+                <div class="word-card">
+                    <div class="hint-label" id="hintLabel">ヒント</div>
+                    <div class="word-text" id="wordText">言葉</div>
+                </div>
+                <div class="controls">
+                    <button class="control-btn skip-btn" onclick="skipWord()">⏭️ パス</button>
+                    <button class="control-btn correct-btn" onclick="correctWord()">✅ 正解</button>
+                </div>
+            </div>
+            <div class="result-section" id="resultSection">
+                <div class="result-icon">🏆</div>
+                <div class="result-score" id="resultScore">0</div>
+                <div class="result-label">正解数</div>
+                <div class="result-list" id="resultList"></div>
+                <button class="start-btn" onclick="resetGame()">🔄 もう一度</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var quizData = {
+            0: [ // キャラクター
+                { hint: '黄色いスポンジ', answer: 'スポンジボブ' },
+                { hint: '赤いマント', answer: 'スーパーマン' },
+                { hint: '魔法使いの少年', answer: 'ハリーポッター' },
+                { hint: '緑の怪物ヒーロー', answer: 'ハルク' },
+                { hint: '料理するネズミ', answer: 'レミー' },
+                { hint: '黄色い小さな生き物', answer: 'ミニオン' },
+                { hint: '氷の女王', answer: 'エルサ' },
+                { hint: 'コウモリヒーロー', answer: 'バットマン' },
+                { hint: '糸を出すヒーロー', answer: 'スパイダーマン' },
+                { hint: '赤い鎧のヒーロー', answer: 'アイアンマン' },
+                { hint: '猫型ロボット', answer: 'ドラえもん' },
+                { hint: '忍者の少年', answer: 'ナルト' },
+                { hint: '海賊王を目指す', answer: 'ルフィ' },
+                { hint: 'ガラスの靴', answer: 'シンデレラ' },
+                { hint: 'りんごで眠る', answer: '白雪姫' }
+            ],
+            1: [ // 場所
+                { hint: 'パリのタワー', answer: 'エッフェル塔' },
+                { hint: '中国の長い壁', answer: '万里の長城' },
+                { hint: 'エジプトの三角', answer: 'ピラミッド' },
+                { hint: 'ニューヨークの女神', answer: '自由の女神' },
+                { hint: 'ローマの円形競技場', answer: 'コロッセオ' },
+                { hint: 'ビッグベンの街', answer: 'ロンドン' },
+                { hint: 'インドの白い墓', answer: 'タージマハル' },
+                { hint: 'シドニーの貝殻', answer: 'オペラハウス' },
+                { hint: 'イタリアの傾いた塔', answer: 'ピサの斜塔' },
+                { hint: 'ミッキーの公園', answer: 'ディズニーランド' },
+                { hint: '東京のタワー', answer: '東京タワー' },
+                { hint: '京都の金閣', answer: '金閣寺' },
+                { hint: '奈良の大仏', answer: '東大寺' },
+                { hint: '富士の山', answer: '富士山' },
+                { hint: '大阪の城', answer: '大阪城' }
+            ],
+            2: [ // 音楽
+                { hint: '誕生日の歌', answer: 'ハッピーバースデー' },
+                { hint: 'きらきら光る', answer: '星' },
+                { hint: 'ジングルベル', answer: 'クリスマス' },
+                { hint: '犬のおまわりさん', answer: '童謡' },
+                { hint: 'チューリップの歌', answer: 'チューリップ' },
+                { hint: 'どんぐりころころ', answer: 'どんぐり' },
+                { hint: '大きな栗の木', answer: '栗の木' },
+                { hint: 'かえるの歌', answer: 'かえる' },
+                { hint: 'ぶんぶんぶん', answer: '蜂' },
+                { hint: '雪やこんこ', answer: '雪' },
+                { hint: 'サメの家族', answer: 'ベイビーシャーク' },
+                { hint: 'レットイットゴー', answer: 'アナ雪' },
+                { hint: '蛍の光', answer: '卒業' },
+                { hint: '君が代', answer: '国歌' },
+                { hint: 'さくらさくら', answer: 'さくら' }
+            ],
+            3: [ // 物
+                { hint: '冷たい保存箱', answer: '冷蔵庫' },
+                { hint: '時間を教える', answer: '時計' },
+                { hint: '書く道具', answer: '鉛筆' },
+                { hint: '雨の時使う', answer: '傘' },
+                { hint: '髪を洗う液体', answer: 'シャンプー' },
+                { hint: '歯を磨く道具', answer: '歯ブラシ' },
+                { hint: '足に履く', answer: '靴' },
+                { hint: '切る道具', answer: '包丁' },
+                { hint: '火を消す道具', answer: '消火器' },
+                { hint: '写真を撮る機械', answer: 'カメラ' },
+                { hint: '爪を切る道具', answer: '爪切り' },
+                { hint: '紙を切る道具', answer: 'はさみ' },
+                { hint: 'ドアを開ける', answer: '鍵' },
+                { hint: '洗濯する機械', answer: '洗濯機' },
+                { hint: '髪を乾かす機械', answer: 'ドライヤー' }
+            ]
+        };
+
+        var selectedCategory = 0;
+        var gameDuration = 60;
+        var timeLeft = 60;
+        var timer = null;
+        var score = 0;
+        var currentQuiz = [];
+        var quizIndex = 0;
+        var results = [];
+
+        function selectCategory(index) {
+            selectedCategory = index;
+            var btns = document.querySelectorAll('.category-btn');
+            btns.forEach(function(btn, i) {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function changeTime(delta) {
+            gameDuration = Math.max(30, Math.min(120, gameDuration + delta));
+            document.getElementById('timerSetting').textContent = gameDuration + '秒';
+        }
+
+        function shuffleArray(arr) {
+            var a = arr.slice();
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var t = a[i]; a[i] = a[j]; a[j] = t;
+            }
+            return a;
+        }
+
+        function startGame() {
+            currentQuiz = shuffleArray(quizData[selectedCategory]);
+            quizIndex = 0;
+            score = 0;
+            results = [];
+            timeLeft = gameDuration;
+
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('playSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+
+            showQuiz();
+            startTimer();
+        }
+
+        function showQuiz() {
+            if (quizIndex >= currentQuiz.length) {
+                currentQuiz = shuffleArray(quizData[selectedCategory]);
+                quizIndex = 0;
+            }
+            var q = currentQuiz[quizIndex];
+            document.getElementById('hintLabel').textContent = 'ヒント';
+            document.getElementById('wordText').textContent = q.hint;
+            document.getElementById('scoreValue').textContent = score;
+        }
+
+        function startTimer() {
+            var startTime = gameDuration;
+            document.getElementById('timerFill').style.width = '100%';
+
+            timer = setInterval(function() {
+                timeLeft--;
+                var percent = (timeLeft / startTime) * 100;
+                document.getElementById('timerFill').style.width = percent + '%';
+
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function correctWord() {
+            results.push({ word: currentQuiz[quizIndex].answer, correct: true });
+            score++;
+            quizIndex++;
+            showQuiz();
+        }
+
+        function skipWord() {
+            results.push({ word: currentQuiz[quizIndex].answer, correct: false });
+            quizIndex++;
+            showQuiz();
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultScore').textContent = score;
+
+            var listHtml = '';
+            results.forEach(function(r) {
+                var cls = r.correct ? 'correct' : 'skipped';
+                var icon = r.correct ? '✅' : '⏭️';
+                listHtml += '<div class="result-item"><span>' + r.word + '</span><span class="' + cls + '">' + icon + '</span></div>';
+            });
+            document.getElementById('resultList').innerHTML = listHtml;
+
+            var stats = JSON.parse(localStorage.getItem('speedquiz_ja') || '{"best":0}');
+            if (score > stats.best) stats.best = score;
+            localStorage.setItem('speedquiz_ja', JSON.stringify(stats));
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

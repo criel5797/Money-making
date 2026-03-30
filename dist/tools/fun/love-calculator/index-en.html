@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/love-calculator/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/love-calculator/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/love-calculator/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/love-calculator/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/love-calculator/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/love-calculator/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Calculator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .input-group { margin-bottom: 15px; }
+        .input-label { font-size: .9rem; opacity: .7; margin-bottom: 8px; display: block; }
+        .name-input { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1.1rem; text-align: center; }
+        .name-input::placeholder { color: rgba(255,255,255,.5); }
+        .heart-divider { text-align: center; font-size: 2rem; margin: 15px 0; animation: pulse 1s ease infinite; }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        .result-area { display: none; margin-bottom: 20px; }
+        .result-area.show { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .result-card { background: linear-gradient(135deg, #ec4899, #be185d); border-radius: 16px; padding: 25px; text-align: center; }
+        .result-hearts { font-size: 3rem; margin-bottom: 15px; }
+        .result-score { font-size: 4rem; font-weight: 700; margin-bottom: 10px; }
+        .result-text { font-size: 1.1rem; margin-bottom: 15px; }
+        .result-bar { height: 12px; background: rgba(255,255,255,.2); border-radius: 6px; overflow: hidden; }
+        .result-fill { height: 100%; background: #fff; border-radius: 6px; transition: width 1s ease; }
+        .calc-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #ec4899, #be185d); color: #fff; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: transform .2s; margin-bottom: 10px; }
+        .calc-btn:hover { transform: scale(1.02); }
+        .calc-btn:active { transform: scale(0.98); }
+        .reset-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; }
+        .history { margin-top: 15px; }
+        .history-label { font-size: .8rem; opacity: .7; margin-bottom: 10px; }
+        .history-items { display: flex; flex-direction: column; gap: 8px; }
+        .history-item { padding: 10px 12px; background: rgba(255,255,255,.1); border-radius: 8px; font-size: .85rem; display: flex; justify-content: space-between; }
+        .history-score { color: #f472b6; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>Love Calculator</h1>
+        </header>
+        <div class="game-section">
+            <div class="input-group">
+                <label class="input-label">First Name</label>
+                <input type="text" class="name-input" id="name1" placeholder="Enter name">
+            </div>
+            <div class="heart-divider">&#9829;</div>
+            <div class="input-group">
+                <label class="input-label">Second Name</label>
+                <input type="text" class="name-input" id="name2" placeholder="Enter name">
+            </div>
+            <div class="result-area" id="resultArea">
+                <div class="result-card">
+                    <div class="result-hearts" id="resultHearts">&#9829;</div>
+                    <div class="result-score" id="resultScore">0%</div>
+                    <div class="result-text" id="resultText">Calculate your compatibility!</div>
+                    <div class="result-bar">
+                        <div class="result-fill" id="resultFill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="calc-btn" onclick="calculate()">Calculate Love</button>
+            <button class="reset-btn" onclick="reset()">Try Again</button>
+            <div class="history">
+                <div class="history-label">History</div>
+                <div class="history-items" id="history"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var messages = [
+            { min: 0, max: 20, text: 'Needs some work...', hearts: '\u2665' },
+            { min: 21, max: 40, text: 'Start as friends!', hearts: '\u2665' },
+            { min: 41, max: 60, text: 'There is potential!', hearts: '\u2665' },
+            { min: 61, max: 80, text: 'Great compatibility!', hearts: '\u2665' },
+            { min: 81, max: 95, text: 'Perfect match!', hearts: '\u2665 \u2665' },
+            { min: 96, max: 100, text: 'Soulmates!', hearts: '\u2665 \u2665 \u2665' }
+        ];
+
+        var stats = JSON.parse(localStorage.getItem('love_en') || '{"history":[]}');
+
+        function calculate() {
+            var name1 = document.getElementById('name1').value.trim();
+            var name2 = document.getElementById('name2').value.trim();
+
+            if (!name1 || !name2) {
+                alert('Please enter both names!');
+                return;
+            }
+
+            var combined = (name1 + name2).toLowerCase();
+            var hash = 0;
+            for (var i = 0; i < combined.length; i++) {
+                hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+                hash = hash & hash;
+            }
+            var score = Math.abs(hash % 101);
+
+            var message = messages.find(function(m) {
+                return score >= m.min && score <= m.max;
+            });
+
+            document.getElementById('resultArea').classList.add('show');
+            document.getElementById('resultScore').textContent = score + '%';
+            document.getElementById('resultText').textContent = message.text;
+            document.getElementById('resultHearts').textContent = message.hearts;
+            setTimeout(function() {
+                document.getElementById('resultFill').style.width = score + '%';
+            }, 100);
+
+            stats.history.unshift({ names: name1 + ' & ' + name2, score: score });
+            if (stats.history.length > 10) stats.history.pop();
+            localStorage.setItem('love_en', JSON.stringify(stats));
+            updateHistory();
+        }
+
+        function reset() {
+            document.getElementById('name1').value = '';
+            document.getElementById('name2').value = '';
+            document.getElementById('resultArea').classList.remove('show');
+            document.getElementById('resultFill').style.width = '0%';
+        }
+
+        function updateHistory() {
+            var historyEl = document.getElementById('history');
+            historyEl.innerHTML = '';
+            stats.history.slice(0, 5).forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = '<span>' + item.names + '</span><span class="history-score">' + item.score + '%</span>';
+                historyEl.appendChild(div);
+            });
+        }
+
+        updateHistory();
+    </script>
+</body>
+</html>

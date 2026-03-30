@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/world-clock/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/world-clock/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/world-clock/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/world-clock/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/world-clock/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/world-clock/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界時計 - 世界の時間を確認</title>
+    <meta name="description" content="無料世界時計。世界の主要都市の現在時刻を一目で確認できます。">
+    <meta name="keywords" content="世界時計, タイムゾーン, 国際時間, グローバル時計">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 600px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .clock-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .local-time {
+            text-align: center;
+            padding: 25px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+        .local-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+        .local-clock {
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        .local-date {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        .add-city {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .city-select {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        .city-select option {
+            background: #1e3799;
+        }
+        .add-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .add-btn:hover {
+            transform: scale(1.02);
+        }
+        .city-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .city-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .city-card:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .city-info {
+            flex: 1;
+        }
+        .city-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .city-timezone {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        .city-time {
+            text-align: right;
+        }
+        .city-clock {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        .city-date {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .city-diff {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+        .remove-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(231, 76, 60, 0.3);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        .remove-btn:hover {
+            background: rgba(231, 76, 60, 0.5);
+        }
+        .day-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+        .day-same { background: rgba(46, 204, 113, 0.3); }
+        .day-prev { background: rgba(241, 196, 15, 0.3); }
+        .day-next { background: rgba(52, 152, 219, 0.3); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告エリア</div>
+        <header>
+            <h1>🌍 世界時計</h1>
+            <p class="subtitle">世界の主要都市の時刻を確認</p>
+        </header>
+        <div class="clock-section">
+            <div class="local-time">
+                <div class="local-label">📍 現在地の時刻</div>
+                <div class="local-clock" id="localClock">00:00:00</div>
+                <div class="local-date" id="localDate"></div>
+            </div>
+
+            <div class="add-city">
+                <select class="city-select" id="citySelect">
+                    <option value="">都市を選択...</option>
+                    <option value="America/New_York">🇺🇸 ニューヨーク</option>
+                    <option value="America/Los_Angeles">🇺🇸 ロサンゼルス</option>
+                    <option value="Europe/London">🇬🇧 ロンドン</option>
+                    <option value="Europe/Paris">🇫🇷 パリ</option>
+                    <option value="Europe/Berlin">🇩🇪 ベルリン</option>
+                    <option value="Asia/Tokyo">🇯🇵 東京</option>
+                    <option value="Asia/Shanghai">🇨🇳 上海</option>
+                    <option value="Asia/Hong_Kong">🇭🇰 香港</option>
+                    <option value="Asia/Singapore">🇸🇬 シンガポール</option>
+                    <option value="Asia/Dubai">🇦🇪 ドバイ</option>
+                    <option value="Australia/Sydney">🇦🇺 シドニー</option>
+                    <option value="Pacific/Auckland">🇳🇿 オークランド</option>
+                    <option value="America/Sao_Paulo">🇧🇷 サンパウロ</option>
+                    <option value="Africa/Cairo">🇪🇬 カイロ</option>
+                    <option value="Europe/Moscow">🇷🇺 モスクワ</option>
+                    <option value="Asia/Bangkok">🇹🇭 バンコク</option>
+                    <option value="Asia/Jakarta">🇮🇩 ジャカルタ</option>
+                    <option value="Asia/Mumbai">🇮🇳 ムンバイ</option>
+                    <option value="Asia/Seoul">🇰🇷 ソウル</option>
+                </select>
+                <button class="add-btn" onclick="addCity()">+ 追加</button>
+            </div>
+
+            <div class="city-list" id="cityList"></div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告エリア</div>
+    </div>
+    <script>
+        var cities = JSON.parse(localStorage.getItem('worldClockCities') || '[]');
+        var cityNames = {
+            'America/New_York': { name: '🇺🇸 ニューヨーク', short: 'EST/EDT' },
+            'America/Los_Angeles': { name: '🇺🇸 ロサンゼルス', short: 'PST/PDT' },
+            'Europe/London': { name: '🇬🇧 ロンドン', short: 'GMT/BST' },
+            'Europe/Paris': { name: '🇫🇷 パリ', short: 'CET/CEST' },
+            'Europe/Berlin': { name: '🇩🇪 ベルリン', short: 'CET/CEST' },
+            'Asia/Tokyo': { name: '🇯🇵 東京', short: 'JST' },
+            'Asia/Shanghai': { name: '🇨🇳 上海', short: 'CST' },
+            'Asia/Hong_Kong': { name: '🇭🇰 香港', short: 'HKT' },
+            'Asia/Singapore': { name: '🇸🇬 シンガポール', short: 'SGT' },
+            'Asia/Dubai': { name: '🇦🇪 ドバイ', short: 'GST' },
+            'Australia/Sydney': { name: '🇦🇺 シドニー', short: 'AEST/AEDT' },
+            'Pacific/Auckland': { name: '🇳🇿 オークランド', short: 'NZST/NZDT' },
+            'America/Sao_Paulo': { name: '🇧🇷 サンパウロ', short: 'BRT' },
+            'Africa/Cairo': { name: '🇪🇬 カイロ', short: 'EET' },
+            'Europe/Moscow': { name: '🇷🇺 モスクワ', short: 'MSK' },
+            'Asia/Bangkok': { name: '🇹🇭 バンコク', short: 'ICT' },
+            'Asia/Jakarta': { name: '🇮🇩 ジャカルタ', short: 'WIB' },
+            'Asia/Mumbai': { name: '🇮🇳 ムンバイ', short: 'IST' },
+            'Asia/Seoul': { name: '🇰🇷 ソウル', short: 'KST' }
+        };
+
+        function updateClocks() {
+            var now = new Date();
+
+            document.getElementById('localClock').textContent =
+                now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('localDate').textContent =
+                now.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+
+            cities.forEach(function(tz, i) {
+                var cityTime = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+                var clockEl = document.getElementById('clock-' + i);
+                var dateEl = document.getElementById('date-' + i);
+                var diffEl = document.getElementById('diff-' + i);
+
+                if (clockEl) {
+                    clockEl.textContent = cityTime.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+                    var localDay = now.getDate();
+                    var cityDay = cityTime.getDate();
+                    var dayIndicator = '';
+
+                    if (cityDay < localDay) {
+                        dayIndicator = '<span class="day-indicator day-prev">昨日</span>';
+                    } else if (cityDay > localDay) {
+                        dayIndicator = '<span class="day-indicator day-next">明日</span>';
+                    }
+                    dateEl.innerHTML = cityTime.toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' }) + dayIndicator;
+
+                    var diff = (cityTime.getTime() - now.getTime()) / (1000 * 60 * 60);
+                    var diffText = diff >= 0 ? '+' + diff.toFixed(1) : diff.toFixed(1);
+                    diffEl.textContent = 'UTC' + diffText + '時間';
+                }
+            });
+        }
+
+        function addCity() {
+            var select = document.getElementById('citySelect');
+            var tz = select.value;
+            if (!tz || cities.includes(tz)) return;
+
+            cities.push(tz);
+            localStorage.setItem('worldClockCities', JSON.stringify(cities));
+            renderCities();
+            select.value = '';
+        }
+
+        function removeCity(index) {
+            cities.splice(index, 1);
+            localStorage.setItem('worldClockCities', JSON.stringify(cities));
+            renderCities();
+        }
+
+        function renderCities() {
+            var list = document.getElementById('cityList');
+            list.innerHTML = '';
+
+            cities.forEach(function(tz, i) {
+                var info = cityNames[tz] || { name: tz, short: '' };
+                var div = document.createElement('div');
+                div.className = 'city-card';
+                div.innerHTML = '<div class="city-info">' +
+                    '<div class="city-name">' + info.name + '</div>' +
+                    '<div class="city-timezone">' + info.short + '</div></div>' +
+                    '<div class="city-time">' +
+                    '<div class="city-clock" id="clock-' + i + '">--:--:--</div>' +
+                    '<div class="city-date" id="date-' + i + '"></div>' +
+                    '<div class="city-diff" id="diff-' + i + '"></div></div>' +
+                    '<button class="remove-btn" onclick="removeCity(' + i + ')">×</button>';
+                list.appendChild(div);
+            });
+
+            updateClocks();
+        }
+
+        if (cities.length === 0) {
+            cities = ['America/New_York', 'Europe/London', 'Asia/Seoul'];
+            localStorage.setItem('worldClockCities', JSON.stringify(cities));
+        }
+
+        renderCities();
+        setInterval(updateClocks, 1000);
+    </script>
+</body>
+</html>

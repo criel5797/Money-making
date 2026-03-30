@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/whisper-challenge/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/whisper-challenge/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/whisper-challenge/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/whisper-challenge/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/whisper-challenge/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/whisper-challenge/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ささやきチャレンジ</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #14b8a6, #0d9488); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .9rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .category-btn { padding: 15px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: 1rem; cursor: pointer; text-align: center; transition: all .3s; }
+        .category-btn.active { background: rgba(255,255,255,.3); border-color: #fff; }
+        .category-emoji { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        .start-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+        .play-section { display: none; }
+        .round-info { text-align: center; font-size: 1rem; opacity: .8; margin-bottom: 15px; }
+        .phrase-card { background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,255,255,.9)); border-radius: 20px; padding: 40px 25px; text-align: center; margin-bottom: 20px; min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .phrase-label { font-size: .9rem; color: #64748b; margin-bottom: 15px; }
+        .phrase-text { font-size: 1.8rem; font-weight: 700; color: #1e293b; line-height: 1.4; }
+        .role-badge { display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 1rem; font-weight: 600; margin-bottom: 15px; }
+        .role-speaker { background: #3b82f6; }
+        .controls { display: flex; gap: 12px; margin-bottom: 20px; }
+        .control-btn { flex: 1; padding: 18px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        .reveal-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .next-btn { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .score-section { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; text-align: center; }
+        .score-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .score-row { display: flex; justify-content: center; gap: 30px; font-size: 1.1rem; }
+        .score-value { font-size: 1.5rem; font-weight: 700; color: #fbbf24; }
+        .result-section { display: none; text-align: center; }
+        .result-icon { font-size: 5rem; margin-bottom: 20px; }
+        .result-text { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+        .result-score { font-size: 2rem; color: #fbbf24; margin-bottom: 25px; }
+        .instruction { background: rgba(255,255,255,.1); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; font-size: .9rem; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>🤫 ささやきチャレンジ</h1>
+            <p class="subtitle">ヘッドホンをして口の動きを読もう！</p>
+        </header>
+        <div class="game-section">
+            <div class="setup-section" id="setupSection">
+                <div class="instruction">一人はヘッドホンで大音量の音楽を聴き、<br>もう一人の口の動きを読み取ります！</div>
+                <div class="category-grid">
+                    <button class="category-btn active" onclick="selectCategory(0)"><span class="category-emoji">🍔</span>食べ物</button>
+                    <button class="category-btn" onclick="selectCategory(1)"><span class="category-emoji">🎬</span>映画</button>
+                    <button class="category-btn" onclick="selectCategory(2)"><span class="category-emoji">🏠</span>日常</button>
+                    <button class="category-btn" onclick="selectCategory(3)"><span class="category-emoji">😂</span>おもしろ</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🎮 ゲーム開始！</button>
+            </div>
+            <div class="play-section" id="playSection">
+                <div class="round-info" id="roundInfo">ラウンド 1 / 10</div>
+                <div class="phrase-card">
+                    <span class="role-badge role-speaker" id="roleBadge">話す人</span>
+                    <div class="phrase-label" id="phraseLabel">このフレーズを口パクで言ってください</div>
+                    <div class="phrase-text" id="phraseText">お昼ご飯何食べる？</div>
+                </div>
+                <div class="controls">
+                    <button class="control-btn reveal-btn" id="revealBtn" onclick="toggleReveal()">👁️ 答えを見る</button>
+                    <button class="control-btn next-btn" onclick="nextRound()">次へ ➡️</button>
+                </div>
+                <div class="score-section">
+                    <div class="score-title">スコア</div>
+                    <div class="score-row">
+                        <span>正解: <span class="score-value" id="correctScore">0</span></span>
+                        <span>不正解: <span class="score-value" id="wrongScore">0</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="result-section" id="resultSection">
+                <div class="result-icon">🏆</div>
+                <div class="result-text">ゲーム完了！</div>
+                <div class="result-score"><span id="finalScore">0</span> / 10 正解</div>
+                <button class="start-btn" onclick="resetGame()">🔄 もう一度</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var phrases = {
+            0: [ // 食べ物
+                'お昼ご飯何食べる？', 'ラーメン食べたい', 'お腹すいた',
+                '美味しいもの食べよう', 'コーヒー飲む？', 'アイス食べたい',
+                'ピザ頼もう', 'おにぎり作って', 'チョコちょうだい',
+                'ご飯食べた？', 'おやつ食べたい', '水ください',
+                'お腹いっぱい', 'デザートは別腹', '辛すぎて無理'
+            ],
+            1: [ // 映画
+                'この映画面白い？', 'ポップコーン買った', '怖い映画見よう',
+                '恋愛映画見る？', '主人公かっこいい', '結末が衝撃的',
+                '泣きそう', 'アクション映画がいい', 'チケット買うね',
+                '予約した？', '字幕なしで見れる？', '音が大きい',
+                '監督誰？', '続編出たって', '評価いくつ？'
+            ],
+            2: [ // 日常
+                '今日天気いいね', '週末何する？', '家に帰りたい',
+                '疲れた', '眠れない', '運動しよう',
+                '買い物行こう', '誕生日おめでとう', '今忙しい',
+                '明日会おう', '電話して', 'メッセージ送った',
+                '今日月曜日', '週末早く来て', '休み何時？'
+            ],
+            3: [ // おもしろ
+                '今おならした', '鼻毛出てる', '口に何かついてる',
+                'チャック開いてる', '靴下違う', '頭に何かある',
+                '変顔して', 'お腹痛い笑', 'めっちゃ面白い',
+                'なんで笑ってるの', '今失敗した', '顔赤くなった',
+                '恥ずかしい', 'お母さんに怒られた', 'トイレ急ぐ'
+            ]
+        };
+
+        var selectedCategory = 0;
+        var currentPhrases = [];
+        var roundIndex = 0;
+        var correctCount = 0;
+        var wrongCount = 0;
+        var isRevealed = false;
+
+        function selectCategory(index) {
+            selectedCategory = index;
+            var btns = document.querySelectorAll('.category-btn');
+            btns.forEach(function(btn, i) {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function shuffleArray(arr) {
+            var a = arr.slice();
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var t = a[i]; a[i] = a[j]; a[j] = t;
+            }
+            return a;
+        }
+
+        function startGame() {
+            currentPhrases = shuffleArray(phrases[selectedCategory]).slice(0, 10);
+            roundIndex = 0;
+            correctCount = 0;
+            wrongCount = 0;
+
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('playSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+
+            showRound();
+        }
+
+        function showRound() {
+            isRevealed = false;
+            document.getElementById('roundInfo').textContent = 'ラウンド ' + (roundIndex + 1) + ' / ' + currentPhrases.length;
+            document.getElementById('phraseText').textContent = currentPhrases[roundIndex];
+            document.getElementById('revealBtn').textContent = '👁️ 答えを見る';
+            document.getElementById('correctScore').textContent = correctCount;
+            document.getElementById('wrongScore').textContent = wrongCount;
+        }
+
+        function toggleReveal() {
+            isRevealed = !isRevealed;
+            if (isRevealed) {
+                document.getElementById('revealBtn').textContent = '🙈 隠す';
+            } else {
+                document.getElementById('revealBtn').textContent = '👁️ 答えを見る';
+            }
+        }
+
+        function nextRound() {
+            var result = confirm('正解しましたか？');
+            if (result) {
+                correctCount++;
+            } else {
+                wrongCount++;
+            }
+
+            roundIndex++;
+            if (roundIndex >= currentPhrases.length) {
+                endGame();
+            } else {
+                showRound();
+            }
+        }
+
+        function endGame() {
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('finalScore').textContent = correctCount;
+
+            var stats = JSON.parse(localStorage.getItem('whisper_ja') || '{"best":0}');
+            if (correctCount > stats.best) stats.best = correctCount;
+            localStorage.setItem('whisper_ja', JSON.stringify(stats));
+        }
+
+        function resetGame() {
+            document.getElementById('setupSection').style.display = 'block';
+            document.getElementById('playSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

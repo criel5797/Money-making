@@ -1,238 +1,700 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Past Life Couple - Free Online Past Life Couple Tool</title>
-  <meta name="description" content="Use Past Life Couple online for free. Past life couple relationship. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Past Life Couple, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/past-life-couple/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Past Life Couple","item":"https://instaidea.org/tools/fun/past-life-couple/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Past Life Couple","url":"https://instaidea.org/tools/fun/past-life-couple/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Past Life Couple online for free. Past life couple relationship. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Past Life Couple?","acceptedAnswer":{"@type":"Answer","text":"Past Life Couple is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/past-life-couple/"><meta property="og:url" content="https://instaidea.org/tools/fun/past-life-couple/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/past-life-couple/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/past-life-couple/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/past-life-couple/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/past-life-couple/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전생의 인연 테스트 - 우리는 전생에 무슨 사이? | 커플 전생 테스트</title>
+    <meta name="description" content="우리는 전생에 무슨 사이였을까? 커플 전생 테스트로 두 사람의 전생 인연을 알아보세요. 무료 전생 궁합 테스트!">
+    <meta name="keywords" content="전생인연, 커플테스트, 전생궁합, 전생관계, 윤회, 인연테스트">
+    
+    <meta property="og:title" content="전생의 인연 테스트 - 우리는 전생에 무슨 사이?">
+    <meta property="og:description" content="커플 전생 인연을 알아보세요!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/4a1c6b/ffd700?text=전생의+인연">
 
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #4a1c6b 50%, #1a0a2e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
 
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
+        .mystical-particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
 
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
-</head>
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: particleFloat 8s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { transform: translateY(-100px) translateX(50px); opacity: 0.8; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ffd700, #ff69b4, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #c8a8e8; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-section h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .couple-inputs {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .person-input {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .person-input.person1 { border-color: rgba(255, 105, 180, 0.3); }
+        .person-input.person2 { border-color: rgba(100, 149, 237, 0.3); }
+
+        .person-label {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .heart-divider {
+            font-size: 30px;
+            color: #ff69b4;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #c8a8e8;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: #e4e4e4;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ffd700;
+        }
+
+        .birth-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        .birth-row select { flex: 1; padding: 10px 5px; font-size: 12px; }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(196, 77, 255, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-animation {
+            font-size: 60px;
+            animation: heartPulse 1.5s infinite;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .loading p { color: #c8a8e8; margin-top: 20px; }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .names-display {
+            font-size: 1.3rem;
+            color: #e4e4e4;
+            margin-bottom: 15px;
+        }
+
+        .names-display .name1 { color: #ff69b4; }
+        .names-display .name2 { color: #6495ed; }
+
+        .era-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #c44dff);
+            color: #1a0a2e;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .relation-title {
+            font-size: 2rem;
+            color: #ffd700;
+            margin: 15px 0;
+        }
+
+        .relation-emoji {
+            font-size: 70px;
+            display: block;
+            margin: 15px 0;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #d8c8e8;
+            line-height: 1.8;
+        }
+
+        .karma-meter {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .karma-item {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            padding: 15px 10px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .karma-item .label { color: #c8a8e8; font-size: 12px; margin-bottom: 5px; }
+        .karma-item .value {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ff69b4, #c44dff);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.7rem; }
+            .couple-inputs { grid-template-columns: 1fr; }
+            .heart-divider { padding: 10px 0; }
+            .relation-title { font-size: 1.5rem; }
+            .karma-meter { flex-wrap: wrap; }
+            .karma-item { flex: 1 1 45%; }
+        }
+    </style>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"전생의 인연","en":"Past Life Connection","ja":"前世の縁"},"desc":{"ko":"두 사람의 전생 인연","en":"Past life connection of two","ja":"二人の前世の縁"}},"header":{"title":{"ko":"전생의 인연","en":"Past Life Connection","ja":"前世の縁"},"subtitle":{"ko":"두 사람은 전생에 어떤 관계였을까?","en":"What was your connection in past life?","ja":"二人は前世でどんな関係だった？"}},"input":{"name1":{"ko":"첫 번째 사람","en":"First Person","ja":"一人目"},"name2":{"ko":"두 번째 사람","en":"Second Person","ja":"二人目"}},"buttons":{"check":{"ko":"전생 인연 확인","en":"Check Connection","ja":"前世の縁を確認"},"share":{"ko":"공유하기","en":"Share","ja":"共有"},"retry":{"ko":"다시 하기","en":"Try Again","ja":"もう一度"}},"disclaimer":{"ko":"재미로 즐기는 테스트입니다.","en":"This is for entertainment.","ja":"娯楽用のテストです。"}};</script></head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="mystical-particles" id="particles"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>전생의 인연 테스트</h1>
+            <p class="subtitle">우리는 전생에 무슨 사이였을까?</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            재미로 즐기는 전생 인연 테스트입니다!
+        </div>
+
+        <div class="card">
+            <div class="input-section" id="inputSection">
+                <h2>두 사람의 정보를 입력하세요</h2>
+
+                <div class="couple-inputs">
+                    <div class="person-input person1">
+                        <div class="person-label">💗 첫 번째 사람</div>
+                        <div class="input-group">
+                            <label>이름</label>
+                            <input type="text" id="name1" placeholder="이름">
+                        </div>
+                        <div class="input-group">
+                            <label>생년월일</label>
+                            <div class="birth-row">
+                                <select id="year1"></select>
+                                <select id="month1"></select>
+                                <select id="day1"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="heart-divider">💕</div>
+
+                    <div class="person-input person2">
+                        <div class="person-label">💙 두 번째 사람</div>
+                        <div class="input-group">
+                            <label>이름</label>
+                            <input type="text" id="name2" placeholder="이름">
+                        </div>
+                        <div class="input-group">
+                            <label>생년월일</label>
+                            <div class="birth-row">
+                                <select id="year2"></select>
+                                <select id="month2"></select>
+                                <select id="day2"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="startTest()">전생 인연 알아보기</button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-animation">💫</div>
+                <p>시간을 거슬러 전생을 찾고 있습니다...</p>
+                <p style="font-size: 13px; color: #888; margin-top: 10px;">두 영혼의 인연을 추적하는 중...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="names-display">
+                        <span class="name1" id="displayName1">홍길동</span>
+                        &
+                        <span class="name2" id="displayName2">김철수</span>
+                    </div>
+                    <div class="era-badge" id="resultEra">조선시대</div>
+                    <span class="relation-emoji" id="resultEmoji">👑💕👸</span>
+                    <div class="relation-title" id="resultRelation">운명의 연인</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📜 전생의 이야기</h3>
+                    <p id="resultStory"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>🔮 인연의 의미</h3>
+                    <p id="resultMeaning"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 현생에서의 조언</h3>
+                    <p id="resultAdvice"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>✨ 카르마 분석</h3>
+                    <div class="karma-meter" id="karmaMeter"></div>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
+                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>이 테스트는 재미를 위한 것입니다.<br>실제 전생과는 관련이 없습니다.</p>
+        </footer>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Past Life Couple</span>
-      </nav>
-      <h1>Past Life Couple</h1>
-      <p>Use Past Life Couple online for free. Past life couple relationship. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+    <script>
+        // 파티클 생성
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Past Life Couple"></iframe>
+        // 날짜 선택 초기화
+        function initDateSelects() {
+            const currentYear = new Date().getFullYear();
+            ['year1', 'year2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">년</option>';
+                for (let y = currentYear; y >= 1950; y--) {
+                    select.innerHTML += `<option value="${y}">${y}</option>`;
+                }
+            });
+            ['month1', 'month2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">월</option>';
+                for (let m = 1; m <= 12; m++) {
+                    select.innerHTML += `<option value="${m}">${m}</option>`;
+                }
+            });
+            ['day1', 'day2'].forEach(id => {
+                const select = document.getElementById(id);
+                select.innerHTML = '<option value="">일</option>';
+                for (let d = 1; d <= 31; d++) {
+                    select.innerHTML += `<option value="${d}">${d}</option>`;
+                }
+            });
+        }
+        initDateSelects();
 
-    <article class="seo-block">
-      <h2>What is Past Life Couple?</h2>
-      <p>Past Life Couple is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        const relations = [
+            {
+                era: "고대 이집트",
+                relation: "파라오와 신관",
+                emoji: "👑✨🔮",
+                story: "두 분은 고대 이집트에서 파라오와 그를 보좌하던 최고 신관이었습니다. 함께 피라미드를 설계하고, 별을 읽으며 왕국의 번영을 이끌었죠. 깊은 신뢰와 지적인 교감으로 연결된 사이였습니다.",
+                meaning: "이 인연은 서로를 높이 평가하고 존중하는 관계입니다. 전생에서 함께 큰 일을 이뤄낸 만큼, 현생에서도 함께하면 시너지가 폭발할 수 있어요.",
+                advice: "서로의 지혜를 존중하세요. 함께 목표를 세우고 달성해 나가면 놀라운 결과를 만들 수 있습니다.",
+                karma: { trust: 95, passion: 70, destiny: 88, harmony: 82 }
+            },
+            {
+                era: "조선시대",
+                relation: "운명적 연인",
+                emoji: "👨‍🎓💕👩‍🎓",
+                story: "두 분은 조선시대 양반가의 자녀로, 서로 다른 집안이었지만 운명처럼 만났습니다. 신분의 벽을 넘어 서로를 사랑했고, 그 마음은 이생까지 이어졌습니다.",
+                meaning: "이 인연은 어떤 장애물도 뛰어넘을 수 있는 강력한 끌림입니다. 전생에서 이루지 못한 사랑을 현생에서 완성하기 위해 다시 만났을 수 있어요.",
+                advice: "서로에 대한 믿음을 잃지 마세요. 어려움이 와도 함께라면 극복할 수 있습니다.",
+                karma: { trust: 85, passion: 98, destiny: 95, harmony: 75 }
+            },
+            {
+                era: "중세 유럽",
+                relation: "기사와 공주",
+                emoji: "⚔️❤️👸",
+                story: "한 분은 용감한 기사였고, 다른 분은 왕국의 공주였습니다. 기사는 공주를 지키기 위해 목숨을 걸었고, 그 헌신은 영원한 인연으로 남았습니다.",
+                meaning: "이 인연은 보호와 헌신의 관계입니다. 한쪽이 다른 쪽을 지키려는 본능이 있고, 서로에게 깊은 책임감을 느낍니다.",
+                advice: "지키려는 마음도 좋지만, 때로는 상대가 스스로 성장할 수 있게 해주세요. 동등한 파트너로서 함께 걸어가세요.",
+                karma: { trust: 90, passion: 85, destiny: 80, harmony: 78 }
+            },
+            {
+                era: "당나라 시대",
+                relation: "시인과 뮤즈",
+                emoji: "📜💫🎭",
+                story: "한 분은 당나라의 유명한 시인이었고, 다른 분은 그에게 영감을 주던 뮤즈였습니다. 수많은 시가 상대를 위해 쓰여졌고, 그 작품들은 천년이 지나도 회자됩니다.",
+                meaning: "이 인연은 예술적이고 영감을 주고받는 관계입니다. 함께 있으면 창의력이 샘솟고, 서로에게 영감이 됩니다.",
+                advice: "서로의 재능을 격려해주세요. 함께 창조적인 활동을 하면 더 깊은 유대를 느낄 수 있습니다.",
+                karma: { trust: 75, passion: 88, destiny: 82, harmony: 92 }
+            },
+            {
+                era: "르네상스 시대",
+                relation: "동반자적 친구",
+                emoji: "🎨🤝📚",
+                story: "두 분은 르네상스 시대 피렌체에서 함께 예술과 학문을 탐구하던 동료였습니다. 밤새 토론하고, 서로의 작품을 비평하며 성장했죠.",
+                meaning: "이 인연은 깊은 우정과 지적 교감을 바탕으로 합니다. 연인 이전에 최고의 친구이자 동반자입니다.",
+                advice: "친구로서의 관계를 소중히 여기세요. 깊은 대화와 공감이 관계를 더욱 단단하게 만들어줍니다.",
+                karma: { trust: 92, passion: 65, destiny: 78, harmony: 95 }
+            },
+            {
+                era: "일본 에도시대",
+                relation: "숙명의 라이벌",
+                emoji: "⚔️🔥⚔️",
+                story: "두 분은 에도시대 유명한 검객이었습니다. 서로를 라이벌로 여기며 경쟁했지만, 그 안에는 깊은 존경이 있었습니다. 서로가 있어 더 강해질 수 있었죠.",
+                meaning: "이 인연은 서로를 성장시키는 관계입니다. 경쟁심이 있을 수 있지만, 그것이 오히려 서로를 발전시킵니다.",
+                advice: "건강한 경쟁은 좋지만, 상대를 이기려 하기보다 함께 성장한다고 생각하세요.",
+                karma: { trust: 70, passion: 90, destiny: 75, harmony: 68 }
+            },
+            {
+                era: "고대 그리스",
+                relation: "영혼의 반쪽",
+                emoji: "⚡💕☀️",
+                story: "플라톤이 말한 '영혼의 반쪽'처럼, 두 분은 원래 하나였던 영혼이 둘로 나뉜 존재입니다. 수천 년을 떨어져 있다가 드디어 현생에서 재회했습니다.",
+                meaning: "이 인연은 가장 강력한 영혼의 연결입니다. 만나자마자 오래 알았던 것 같은 느낌, 그것이 전생의 기억입니다.",
+                advice: "이미 연결되어 있음을 믿으세요. 서로를 찾았으니 이제는 함께 완전해지는 여정을 즐기세요.",
+                karma: { trust: 95, passion: 95, destiny: 99, harmony: 90 }
+            },
+            {
+                era: "빅토리아 시대",
+                relation: "선생과 제자",
+                emoji: "📖💡🎓",
+                story: "한 분은 빅토리아 시대의 학자였고, 다른 분은 그의 가장 뛰어난 제자였습니다. 지식을 나누며 서로에게 깊은 인상을 남겼습니다.",
+                meaning: "이 인연은 가르침과 배움의 관계입니다. 서로에게 배울 것이 있고, 함께 성장해 나갑니다.",
+                advice: "때로는 가르치고, 때로는 배우세요. 역할을 고정하지 말고 유연하게 주고받으세요.",
+                karma: { trust: 85, passion: 60, destiny: 72, harmony: 88 }
+            }
+        ];
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        let resultData = {};
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function startTest() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+            if (!name1 || !name2) {
+                showToast('⚠️ 두 사람의 이름을 모두 입력해주세요!');
+                return;
+            }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+            setTimeout(() => {
+                calculateResult(name1, name2);
+            }, 2500);
+        }
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+        function calculateResult(name1, name2) {
+            // 이름 기반 시드 생성
+            let seed = 0;
+            for (let i = 0; i < name1.length; i++) {
+                seed += name1.charCodeAt(i) * (i + 1);
+            }
+            for (let i = 0; i < name2.length; i++) {
+                seed += name2.charCodeAt(i) * (i + 2);
+            }
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+            // 관계 선택
+            const relationIndex = seed % relations.length;
+            const selectedRelation = relations[relationIndex];
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+            resultData = {
+                name1,
+                name2,
+                ...selectedRelation
+            };
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+            displayResult();
+        }
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+        function displayResult() {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+            document.getElementById('displayName1').textContent = resultData.name1;
+            document.getElementById('displayName2').textContent = resultData.name2;
+            document.getElementById('resultEra').textContent = resultData.era;
+            document.getElementById('resultEmoji').textContent = resultData.emoji;
+            document.getElementById('resultRelation').textContent = resultData.relation;
+            document.getElementById('resultStory').textContent = resultData.story;
+            document.getElementById('resultMeaning').textContent = resultData.meaning;
+            document.getElementById('resultAdvice').textContent = resultData.advice;
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+            const karmaLabels = {
+                trust: '신뢰',
+                passion: '열정',
+                destiny: '운명',
+                harmony: '조화'
+            };
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+            document.getElementById('karmaMeter').innerHTML = Object.entries(resultData.karma).map(([key, value]) => `
+                <div class="karma-item">
+                    <div class="label">${karmaLabels[key]}</div>
+                    <div class="value">${value}%</div>
+                </div>
+            `).join('');
+        }
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
 
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
+        function shareResult() {
+            const text = `💫 전생의 인연 테스트
 
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
+${resultData.name1} & ${resultData.name2}의 전생 인연
+${resultData.emoji} ${resultData.relation}
+【${resultData.era}】
 
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
-</body>
+✨ 신뢰 ${resultData.karma.trust}% | 열정 ${resultData.karma.passion}%
+🌟 운명 ${resultData.karma.destiny}% | 조화 ${resultData.karma.harmony}%
+
+🌙 너희도 전생의 인연을 확인해볼래?`;
+
+            window.shareWithModal('전생의 인연 테스트', text);
+        }
+
+        function resetTest() {
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('name1').value = '';
+            document.getElementById('name2').value = '';
+            ['year1', 'month1', 'day1', 'year2', 'month2', 'day2'].forEach(id => {
+                document.getElementById(id).selectedIndex = 0;
+            });
+        }
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
 </html>

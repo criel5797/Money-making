@@ -1,238 +1,175 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lucky Draw - Free Online Lucky Draw Tool</title>
-  <meta name="description" content="Use Lucky Draw online for free. Lucky box draw. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Lucky Draw, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/lucky-draw/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Lucky Draw","item":"https://instaidea.org/tools/fun/lucky-draw/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Lucky Draw","url":"https://instaidea.org/tools/fun/lucky-draw/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Lucky Draw online for free. Lucky box draw. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Lucky Draw?","acceptedAnswer":{"@type":"Answer","text":"Lucky Draw is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/lucky-draw/"><meta property="og:url" content="https://instaidea.org/tools/fun/lucky-draw/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/lucky-draw/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/lucky-draw/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/lucky-draw/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/lucky-draw/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>럭키 드로우</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .boxes-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .box { aspect-ratio: 1; background: linear-gradient(135deg, #7c3aed, #5b21b6); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 3rem; cursor: pointer; transition: all .3s; box-shadow: 0 4px 15px rgba(0,0,0,.3); position: relative; overflow: hidden; }
+        .box:hover { transform: scale(1.05); }
+        .box:active { transform: scale(0.95); }
+        .box.opened { background: linear-gradient(135deg, #fbbf24, #f59e0b); cursor: default; animation: open 0.5s ease; }
+        .box.opened:hover { transform: none; }
+        @keyframes open { 0% { transform: rotateY(0); } 50% { transform: rotateY(90deg); } 100% { transform: rotateY(0); } }
+        .box-content { display: none; flex-direction: column; align-items: center; }
+        .box.opened .box-content { display: flex; }
+        .box.opened .box-icon { display: none; }
+        .box-icon { font-size: 2.5rem; }
+        .prize-emoji { font-size: 2.5rem; }
+        .prize-text { font-size: .8rem; color: #1a1a2e; font-weight: 700; margin-top: 5px; }
+        .result { text-align: center; padding: 20px; background: rgba(255,255,255,.1); border-radius: 12px; margin-bottom: 15px; min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .result-emoji { font-size: 3rem; margin-bottom: 10px; }
+        .result-text { font-size: 1.2rem; font-weight: 700; }
+        .result.win { background: rgba(251,191,36,.2); color: #fbbf24; }
+        .reset-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: transform .2s; }
+        .reset-btn:hover { transform: scale(1.02); }
+        .reset-btn:active { transform: scale(0.98); }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-label { font-size: .65rem; opacity: .7; }
+        .history { margin-top: 15px; }
+        .history-label { font-size: .8rem; opacity: .7; margin-bottom: 10px; }
+        .history-items { display: flex; gap: 8px; flex-wrap: wrap; }
+        .history-item { padding: 8px 12px; background: rgba(255,255,255,.1); border-radius: 8px; font-size: .8rem; }
+        .history-item.win { background: rgba(251,191,36,.2); color: #fbbf24; }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고</div>
+        <header>
+            <h1>럭키 드로우</h1>
+        </header>
+        <div class="game-section">
+            <div class="boxes-container" id="boxes"></div>
+            <div class="result" id="result">
+                <div class="result-text">상자를 골라보세요!</div>
+            </div>
+            <button class="reset-btn" onclick="resetGame()">다시 하기</button>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="plays">0</div>
+                    <div class="stat-label">게임 수</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="wins">0</div>
+                    <div class="stat-label">승리 수</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="winRate">0%</div>
+                    <div class="stat-label">승률</div>
+                </div>
+            </div>
+            <div class="history">
+                <div class="history-label">기록</div>
+                <div class="history-items" id="history"></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var prizes = [
+            { emoji: '\uD83D\uDC8E', text: 'Diamond', win: true },
+            { emoji: '\uD83C\uDFC6', text: 'Trophy', win: true },
+            { emoji: '\u2B50', text: 'Star', win: true },
+            { emoji: '\uD83C\uDF89', text: 'Party', win: true },
+            { emoji: '\uD83D\uDCB0', text: 'Money', win: true },
+            { emoji: '\uD83D\uDE10', text: 'Nothing', win: false },
+            { emoji: '\uD83C\uDF2C', text: 'Wind', win: false },
+            { emoji: '\uD83C\uDF27', text: 'Rain', win: false },
+            { emoji: '\uD83D\uDC7B', text: 'Ghost', win: false }
+        ];
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Lucky Draw</span>
-      </nav>
-      <h1>Lucky Draw</h1>
-      <p>Use Lucky Draw online for free. Lucky box draw. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        var gameEnded = false;
+        var stats = JSON.parse(localStorage.getItem('lucky_ko') || '{"plays":0,"wins":0,"history":[]}');
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Lucky Draw"></iframe>
+        function createBoxes() {
+            var container = document.getElementById('boxes');
+            container.innerHTML = '';
 
-    <article class="seo-block">
-      <h2>What is Lucky Draw?</h2>
-      <p>Lucky Draw is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+            var shuffled = prizes.slice().sort(function() { return Math.random() - 0.5; });
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+            for (var i = 0; i < 9; i++) {
+                var box = document.createElement('div');
+                box.className = 'box';
+                box.dataset.index = i;
+                box.dataset.prize = JSON.stringify(shuffled[i]);
+                box.innerHTML = '<span class="box-icon">&#127873;</span>' +
+                    '<div class="box-content">' +
+                    '<span class="prize-emoji">' + shuffled[i].emoji + '</span>' +
+                    '<span class="prize-text">' + shuffled[i].text + '</span>' +
+                    '</div>';
+                box.onclick = function() { openBox(this); };
+                container.appendChild(box);
+            }
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function openBox(boxEl) {
+            if (gameEnded || boxEl.classList.contains('opened')) return;
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+            boxEl.classList.add('opened');
+            var prize = JSON.parse(boxEl.dataset.prize);
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+            var resultEl = document.getElementById('result');
+            resultEl.innerHTML = '<div class="result-emoji">' + prize.emoji + '</div>' +
+                '<div class="result-text">' + (prize.win ? '축하합니다! ' + prize.text + '!' : '아쉽네요... ' + prize.text) + '</div>';
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+            if (prize.win) {
+                resultEl.classList.add('win');
+                stats.wins++;
+            } else {
+                resultEl.classList.remove('win');
+            }
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+            stats.plays++;
+            stats.history.unshift({ text: prize.emoji + ' ' + prize.text, win: prize.win });
+            if (stats.history.length > 10) stats.history.pop();
+            localStorage.setItem('lucky_ko', JSON.stringify(stats));
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+            gameEnded = true;
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+            setTimeout(function() {
+                document.querySelectorAll('.box:not(.opened)').forEach(function(box) {
+                    box.classList.add('opened');
+                });
+            }, 500);
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+            updateDisplay();
+        }
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+        function resetGame() {
+            gameEnded = false;
+            document.getElementById('result').innerHTML = '<div class="result-text">상자를 골라보세요!</div>';
+            document.getElementById('result').classList.remove('win');
+            createBoxes();
+        }
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+        function updateDisplay() {
+            document.getElementById('plays').textContent = stats.plays;
+            document.getElementById('wins').textContent = stats.wins;
+            document.getElementById('winRate').textContent = stats.plays > 0 ? Math.round((stats.wins / stats.plays) * 100) + '%' : '0%';
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+            var historyEl = document.getElementById('history');
+            historyEl.innerHTML = '';
+            stats.history.slice(0, 5).forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'history-item' + (item.indexOf('Nothing') < 0 && item.indexOf('Wind') < 0 && item.indexOf('Rain') < 0 && item.indexOf('Ghost') < 0 ? ' win' : '');
+                div.textContent = item;
+                historyEl.appendChild(div);
+            });
+        }
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
-
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+        createBoxes();
+        updateDisplay();
+    </script>
 </body>
 </html>

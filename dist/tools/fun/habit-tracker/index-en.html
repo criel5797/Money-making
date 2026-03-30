@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/habit-tracker/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/habit-tracker/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/habit-tracker/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/habit-tracker/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/habit-tracker/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/habit-tracker/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .habit-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .add-habit { display: flex; gap: 10px; margin-bottom: 20px; }
+        .add-habit input { flex: 1; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1rem; }
+        .add-btn { padding: 15px 20px; border: none; border-radius: 12px; background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; font-size: 1rem; cursor: pointer; }
+        .habit-list { display: flex; flex-direction: column; gap: 12px; }
+        .habit-item { background: rgba(255,255,255,.15); padding: 18px; border-radius: 12px; display: flex; align-items: center; gap: 15px; }
+        .habit-check { width: 28px; height: 28px; border: 2px solid rgba(255,255,255,.5); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+        .habit-check.done { background: #38ef7d; border-color: #38ef7d; }
+        .habit-name { flex: 1; font-size: 1rem; }
+        .habit-streak { font-size: .85rem; opacity: .8; }
+        .del-btn { background: rgba(231,76,60,.5); border: none; color: #fff; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: .8rem; }
+        .stats { margin-top: 20px; padding: 20px; background: rgba(0,0,0,.2); border-radius: 12px; text-align: center; }
+        .stats-title { font-size: .9rem; opacity: .7; margin-bottom: 10px; }
+        .stats-value { font-size: 2rem; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header><h1>✅ Habit Tracker</h1></header>
+        <div class="habit-section">
+            <div class="add-habit">
+                <input type="text" id="habitInput" placeholder="Add new habit">
+                <button class="add-btn" onclick="addHabit()">Add</button>
+            </div>
+            <div class="habit-list" id="habitList"></div>
+            <div class="stats">
+                <div class="stats-title">Today's completion</div>
+                <div class="stats-value" id="completion">0%</div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var habits = JSON.parse(localStorage.getItem('habits') || '[]');
+        var today = new Date().toDateString();
+        function addHabit() {
+            var name = document.getElementById('habitInput').value.trim();
+            if (!name) return;
+            habits.push({ name: name, streak: 0, lastDone: null });
+            localStorage.setItem('habits', JSON.stringify(habits));
+            document.getElementById('habitInput').value = '';
+            render();
+        }
+        function toggle(i) {
+            var h = habits[i];
+            if (h.lastDone === today) {
+                h.lastDone = null;
+                h.streak = Math.max(0, h.streak - 1);
+            } else {
+                h.lastDone = today;
+                h.streak++;
+            }
+            localStorage.setItem('habits', JSON.stringify(habits));
+            render();
+        }
+        function delHabit(i) {
+            habits.splice(i, 1);
+            localStorage.setItem('habits', JSON.stringify(habits));
+            render();
+        }
+        function render() {
+            var list = document.getElementById('habitList');
+            list.innerHTML = '';
+            var done = 0;
+            habits.forEach(function(h, i) {
+                var isDone = h.lastDone === today;
+                if (isDone) done++;
+                var div = document.createElement('div');
+                div.className = 'habit-item';
+                div.innerHTML = '<div class="habit-check ' + (isDone ? 'done' : '') + '" onclick="toggle(' + i + ')">' + (isDone ? '✓' : '') + '</div>' +
+                    '<span class="habit-name">' + h.name + '</span>' +
+                    '<span class="habit-streak">' + h.streak + ' day streak</span>' +
+                    '<button class="del-btn" onclick="delHabit(' + i + ')">Delete</button>';
+                list.appendChild(div);
+            });
+            var pct = habits.length > 0 ? Math.round((done / habits.length) * 100) : 0;
+            document.getElementById('completion').textContent = pct + '%';
+        }
+        render();
+    </script>
+</body>
+</html>

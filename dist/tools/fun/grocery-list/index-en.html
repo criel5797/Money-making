@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/grocery-list/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/grocery-list/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/grocery-list/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/grocery-list/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/grocery-list/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/grocery-list/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery List</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #56ab2f, #a8e063); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .grocery-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .add-form { display: flex; gap: 10px; margin-bottom: 20px; }
+        .add-form input { flex: 1; padding: 14px; border: none; border-radius: 10px; background: rgba(255,255,255,.9); color: #333; }
+        .add-btn { padding: 14px 20px; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-weight: 600; cursor: pointer; }
+        .category-tabs { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; }
+        .cat-tab { padding: 8px 15px; border: none; border-radius: 20px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; white-space: nowrap; font-size: .85rem; }
+        .cat-tab.active { background: rgba(255,255,255,.4); }
+        .grocery-list { max-height: 350px; overflow-y: auto; }
+        .grocery-item { display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(255,255,255,.1); border-radius: 10px; margin-bottom: 8px; }
+        .grocery-item.checked { opacity: .5; }
+        .grocery-item.checked .item-name { text-decoration: line-through; }
+        .item-check { width: 24px; height: 24px; border: 2px solid #fff; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .item-check.done { background: #38ef7d; border-color: #38ef7d; }
+        .item-name { flex: 1; font-size: 1rem; }
+        .item-qty { font-size: .85rem; opacity: .8; }
+        .delete-btn { background: none; border: none; color: #ff6b6b; font-size: 1.2rem; cursor: pointer; }
+        .summary { display: flex; justify-content: space-between; margin-top: 15px; padding: 15px; background: rgba(0,0,0,.2); border-radius: 10px; }
+        .summary span { font-size: .9rem; }
+        .clear-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; background: rgba(255,255,255,.2); color: #fff; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🛒 Grocery List</h1>
+        </header>
+        <div class="grocery-section">
+            <div class="add-form">
+                <input type="text" id="itemInput" placeholder="Add item" onkeypress="if(event.key==='Enter')addItem()">
+                <button class="add-btn" onclick="addItem()">Add</button>
+            </div>
+            <div class="category-tabs">
+                <button class="cat-tab active" onclick="filterCategory('all')">All</button>
+                <button class="cat-tab" onclick="filterCategory('Produce')">🥬 Produce</button>
+                <button class="cat-tab" onclick="filterCategory('Fruits')">🍎 Fruits</button>
+                <button class="cat-tab" onclick="filterCategory('Meat')">🥩 Meat</button>
+                <button class="cat-tab" onclick="filterCategory('Dairy')">🥛 Dairy</button>
+                <button class="cat-tab" onclick="filterCategory('Other')">📦 Other</button>
+            </div>
+            <div class="grocery-list" id="groceryList"></div>
+            <div class="summary">
+                <span id="totalItems">Total: 0</span>
+                <span id="checkedItems">Done: 0</span>
+            </div>
+            <button class="clear-btn" onclick="clearChecked()">Clear Completed</button>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var items = JSON.parse(localStorage.getItem('grocery_list_en') || '[]');
+        var currentFilter = 'all';
+        function save() { localStorage.setItem('grocery_list_en', JSON.stringify(items)); }
+        function detectCategory(name) {
+            name = name.toLowerCase();
+            var produce = ['lettuce', 'carrot', 'potato', 'onion', 'garlic', 'broccoli', 'spinach', 'tomato', 'pepper', 'celery'];
+            var fruits = ['apple', 'banana', 'orange', 'grape', 'strawberry', 'watermelon', 'mango', 'pear', 'peach', 'lemon'];
+            var meats = ['beef', 'chicken', 'pork', 'steak', 'bacon', 'sausage', 'turkey', 'lamb'];
+            var dairy = ['milk', 'cheese', 'yogurt', 'butter', 'cream', 'eggs', 'egg'];
+            if (produce.some(function(v) { return name.includes(v); })) return 'Produce';
+            if (fruits.some(function(f) { return name.includes(f); })) return 'Fruits';
+            if (meats.some(function(m) { return name.includes(m); })) return 'Meat';
+            if (dairy.some(function(d) { return name.includes(d); })) return 'Dairy';
+            return 'Other';
+        }
+        function addItem() {
+            var name = document.getElementById('itemInput').value.trim();
+            if (name) {
+                items.push({ id: Date.now().toString(), name: name, category: detectCategory(name), checked: false });
+                save();
+                render();
+                document.getElementById('itemInput').value = '';
+            }
+        }
+        function toggleItem(id) {
+            var item = items.find(function(i) { return i.id === id; });
+            if (item) item.checked = !item.checked;
+            save();
+            render();
+        }
+        function deleteItem(id) {
+            items = items.filter(function(i) { return i.id !== id; });
+            save();
+            render();
+        }
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-tab').forEach(function(t, i) {
+                t.classList.toggle('active', (i === 0 && cat === 'all') || t.textContent.includes(cat));
+            });
+            render();
+        }
+        function clearChecked() {
+            items = items.filter(function(i) { return !i.checked; });
+            save();
+            render();
+        }
+        function render() {
+            var filtered = currentFilter === 'all' ? items : items.filter(function(i) { return i.category === currentFilter; });
+            var list = document.getElementById('groceryList');
+            list.innerHTML = '';
+            filtered.forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'grocery-item' + (item.checked ? ' checked' : '');
+                div.innerHTML = '<div class="item-check' + (item.checked ? ' done' : '') + '" onclick="toggleItem(\'' + item.id + '\')">' + (item.checked ? '✓' : '') + '</div><span class="item-name">' + item.name + '</span><button class="delete-btn" onclick="deleteItem(\'' + item.id + '\')">×</button>';
+                list.appendChild(div);
+            });
+            document.getElementById('totalItems').textContent = 'Total: ' + items.length;
+            document.getElementById('checkedItems').textContent = 'Done: ' + items.filter(function(i) { return i.checked; }).length;
+        }
+        render();
+    </script>
+</body>
+</html>

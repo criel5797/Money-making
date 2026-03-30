@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/hot-seat/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/hot-seat/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/hot-seat/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/hot-seat/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/hot-seat/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/hot-seat/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot Seat</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #dc2626, #b91c1c); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { opacity: .8; font-size: .95rem; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .intensity-section { margin-bottom: 20px; }
+        .intensity-title { font-size: .9rem; opacity: .7; margin-bottom: 12px; }
+        .intensity-btns { display: flex; gap: 8px; }
+        .intensity-btn { flex: 1; padding: 12px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; background: rgba(255,255,255,.1); color: #fff; font-size: .9rem; cursor: pointer; transition: all .3s; }
+        .intensity-btn.active { background: #fff; color: #dc2626; border-color: #fff; }
+        .question-card { background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.1)); border-radius: 20px; padding: 40px 25px; text-align: center; margin-bottom: 20px; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .question-emoji { font-size: 3rem; margin-bottom: 15px; }
+        .question-text { font-size: 1.3rem; font-weight: 600; line-height: 1.6; }
+        .actions { display: flex; gap: 12px; margin-bottom: 20px; }
+        .action-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all .3s; }
+        .next-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .skip-btn { background: rgba(255,255,255,.2); color: #fff; }
+        .stats { padding: 15px; background: rgba(255,255,255,.1); border-radius: 12px; }
+        .stats-title { font-size: .85rem; opacity: .7; margin-bottom: 10px; }
+        .stats-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header>
+            <h1>🔥 Hot Seat</h1>
+            <p class="subtitle">Answer the burning questions!</p>
+        </header>
+        <div class="game-section">
+            <div class="intensity-section">
+                <div class="intensity-title">Select Intensity</div>
+                <div class="intensity-btns">
+                    <button class="intensity-btn active" onclick="setIntensity('mild')">🌶️</button>
+                    <button class="intensity-btn" onclick="setIntensity('medium')">🌶️🌶️</button>
+                    <button class="intensity-btn" onclick="setIntensity('spicy')">🌶️🌶️🌶️</button>
+                </div>
+            </div>
+            <div class="question-card" id="questionCard">
+                <div class="question-emoji" id="questionEmoji">🔥</div>
+                <div class="question-text" id="questionText">Press the button to get a question!</div>
+            </div>
+            <div class="actions">
+                <button class="action-btn skip-btn" onclick="skipQuestion()">⏭️ Skip</button>
+                <button class="action-btn next-btn" onclick="nextQuestion()">🔥 Next Question</button>
+            </div>
+            <div class="stats">
+                <div class="stats-title">📊 Stats</div>
+                <div class="stats-row"><span>Answered</span><span id="answeredCount">0</span></div>
+                <div class="stats-row"><span>Skipped</span><span id="skippedCount">0</span></div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var questions = {
+            mild: [
+                { emoji: "😅", text: "What's your most embarrassing moment?" },
+                { emoji: "💭", text: "What have you been thinking about the most lately?" },
+                { emoji: "🎵", text: "What song do you sing in the shower?" },
+                { emoji: "📱", text: "What app do you use the most on your phone?" },
+                { emoji: "🍔", text: "If you could only bring one thing to a deserted island?" },
+                { emoji: "😴", text: "What's the weirdest dream you've had?" },
+                { emoji: "🎬", text: "What movie have you watched more than 10 times?" },
+                { emoji: "🗣️", text: "Do you have a catchphrase?" },
+                { emoji: "🏠", text: "What do you do when you're home alone?" },
+                { emoji: "🎁", text: "What's the worst gift you've received?" },
+                { emoji: "🤔", text: "What's the lie you tell most often?" },
+                { emoji: "😤", text: "What's the angriest you've ever been?" },
+                { emoji: "🎯", text: "What's one thing on your bucket list?" },
+                { emoji: "👻", text: "What's your scariest experience?" },
+                { emoji: "🍕", text: "What food has made you cry while eating?" }
+            ],
+            medium: [
+                { emoji: "💔", text: "What's your biggest heartbreak story?" },
+                { emoji: "🤫", text: "What secret have you never told anyone?" },
+                { emoji: "😳", text: "Have you ever stalked someone online?" },
+                { emoji: "💸", text: "What's the biggest waste of money you've spent?" },
+                { emoji: "🎭", text: "Have you ever faked being sick?" },
+                { emoji: "📞", text: "Whose calls do you avoid?" },
+                { emoji: "😈", text: "What's the worst thing you've done?" },
+                { emoji: "💑", text: "What's your #1 requirement in a partner?" },
+                { emoji: "🙈", text: "What embarrassing post did you delete from social media?" },
+                { emoji: "💪", text: "What's your best quality and worst flaw?" },
+                { emoji: "🔮", text: "What's your biggest worry about the future?" },
+                { emoji: "👀", text: "What have you secretly looked at that wasn't yours?" },
+                { emoji: "😢", text: "Why did you cry recently?" },
+                { emoji: "🚫", text: "What can you never forgive?" },
+                { emoji: "💋", text: "Tell us about your first kiss" }
+            ],
+            spicy: [
+                { emoji: "🔥", text: "What's your wildest experience?" },
+                { emoji: "💣", text: "What secret would ruin your life if exposed?" },
+                { emoji: "😏", text: "What's the boldest thing you've ever done?" },
+                { emoji: "🍷", text: "What's the craziest thing you've done while drunk?" },
+                { emoji: "💔", text: "Have you ever cheated on someone?" },
+                { emoji: "🤯", text: "What adult content shocked you?" },
+                { emoji: "😈", text: "Have you ever taken revenge on someone?" },
+                { emoji: "💰", text: "What's the worst thing you'd do for money?" },
+                { emoji: "🔞", text: "What secret would shock your parents?" },
+                { emoji: "👀", text: "Whose secret do you want to know?" },
+                { emoji: "💕", text: "Have you ever had a forbidden love?" },
+                { emoji: "🎰", text: "What's the biggest gamble you've ever taken?" },
+                { emoji: "😱", text: "What's the biggest mess you've created with a lie?" },
+                { emoji: "🌙", text: "Tell us about a one-night stand experience" },
+                { emoji: "🔥", text: "What's your biggest regret in your romantic life?" }
+            ]
+        };
+
+        var currentIntensity = 'mild';
+        var deck = [];
+        var answeredCount = 0;
+        var skippedCount = 0;
+
+        function setIntensity(level) {
+            currentIntensity = level;
+            document.querySelectorAll('.intensity-btn').forEach(function(btn, i) {
+                var levels = ['mild', 'medium', 'spicy'];
+                btn.classList.toggle('active', levels[i] === level);
+            });
+            resetDeck();
+        }
+
+        function resetDeck() {
+            deck = questions[currentIntensity].slice();
+            shuffleDeck();
+        }
+
+        function shuffleDeck() {
+            for (var i = deck.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = deck[i];
+                deck[i] = deck[j];
+                deck[j] = temp;
+            }
+        }
+
+        function nextQuestion() {
+            if (deck.length === 0) {
+                resetDeck();
+            }
+            var q = deck.pop();
+            document.getElementById('questionEmoji').textContent = q.emoji;
+            document.getElementById('questionText').textContent = q.text;
+            answeredCount++;
+            updateStats();
+            animateCard();
+        }
+
+        function skipQuestion() {
+            if (deck.length === 0) {
+                resetDeck();
+            }
+            var q = deck.pop();
+            document.getElementById('questionEmoji').textContent = q.emoji;
+            document.getElementById('questionText').textContent = q.text;
+            skippedCount++;
+            updateStats();
+            animateCard();
+        }
+
+        function animateCard() {
+            var card = document.getElementById('questionCard');
+            card.style.transform = 'scale(0.95)';
+            setTimeout(function() {
+                card.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        function updateStats() {
+            document.getElementById('answeredCount').textContent = answeredCount;
+            document.getElementById('skippedCount').textContent = skippedCount;
+            saveStats();
+        }
+
+        function saveStats() {
+            var stats = JSON.parse(localStorage.getItem('hotseat_en') || '{"total":0}');
+            stats.total = answeredCount + skippedCount;
+            localStorage.setItem('hotseat_en', JSON.stringify(stats));
+        }
+
+        resetDeck();
+    </script>
+</body>
+</html>

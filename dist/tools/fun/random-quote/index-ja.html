@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/random-quote/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/random-quote/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/random-quote/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/random-quote/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/random-quote/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/random-quote/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランダム名言</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #434343, #000000); min-height: 100vh; color: #fff; padding: 20px; display: flex; align-items: center; justify-content: center; }
+        .container { max-width: 600px; width: 100%; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .quote-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 40px 30px; text-align: center; }
+        .quote-icon { font-size: 3rem; margin-bottom: 20px; opacity: .5; }
+        .quote-text { font-size: 1.4rem; line-height: 1.8; margin-bottom: 25px; font-style: italic; }
+        .quote-author { font-size: 1rem; opacity: .7; margin-bottom: 30px; }
+        .new-btn { padding: 18px 40px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        .category-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 25px; }
+        .cat-btn { padding: 10px 16px; border: 1px solid rgba(255,255,255,.3); border-radius: 20px; background: transparent; color: #fff; cursor: pointer; font-size: .9rem; }
+        .cat-btn.active { background: rgba(255,255,255,.2); border-color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header><h1>💬 ランダム名言</h1></header>
+        <div class="quote-section">
+            <div class="category-btns">
+                <button class="cat-btn active" onclick="setCat('all')">すべて</button>
+                <button class="cat-btn" onclick="setCat('motivation')">やる気</button>
+                <button class="cat-btn" onclick="setCat('love')">愛</button>
+                <button class="cat-btn" onclick="setCat('success')">成功</button>
+                <button class="cat-btn" onclick="setCat('life')">人生</button>
+            </div>
+            <div class="quote-icon">❝</div>
+            <div class="quote-text" id="quoteText">新しい名言を読み込みます</div>
+            <div class="quote-author" id="quoteAuthor">- クリックしてください -</div>
+            <button class="new-btn" onclick="newQuote()">新しい名言</button>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var quotes = {
+            motivation: [
+                { text: "成功は偶然ではない。努力、忍耐、学習、研究、犠牲、そして最も重要なのは自分のしていることを愛することだ。", author: "ペレ" },
+                { text: "失敗は成功の母である。", author: "トーマス・エジソン" },
+                { text: "今日できることを明日に延ばすな。", author: "ベンジャミン・フランクリン" },
+                { text: "大きな夢を持て。それがあなたを動かす。", author: "作者不明" }
+            ],
+            love: [
+                { text: "最も美しいものは目に見えない。心で感じるものだ。", author: "ヘレン・ケラー" },
+                { text: "恋に落ちるのは自然なこと。それを守るのは選択だ。", author: "作者不明" },
+                { text: "真の愛は永遠に終わらない。", author: "シェイクスピア" }
+            ],
+            success: [
+                { text: "成功の秘訣は始めることだ。", author: "マーク・トウェイン" },
+                { text: "偉大なことは小さなことの積み重ねでできている。", author: "フィンセント・ファン・ゴッホ" },
+                { text: "チャンスは準備された心に訪れる。", author: "ルイ・パスツール" }
+            ],
+            life: [
+                { text: "人生は短い。だから美しい。", author: "作者不明" },
+                { text: "今日はあなたの残りの人生の最初の日だ。", author: "チャールズ・デデリッヒ" },
+                { text: "人生がレモンをくれたら、レモネードを作れ。", author: "デール・カーネギー" }
+            ]
+        };
+        var category = 'all';
+        function setCat(c) {
+            category = c;
+            document.querySelectorAll('.cat-btn').forEach(function(b) { b.classList.remove('active'); });
+            event.target.classList.add('active');
+            newQuote();
+        }
+        function newQuote() {
+            var pool = [];
+            if (category === 'all') {
+                Object.keys(quotes).forEach(function(k) { pool = pool.concat(quotes[k]); });
+            } else {
+                pool = quotes[category] || [];
+            }
+            var q = pool[Math.floor(Math.random() * pool.length)];
+            document.getElementById('quoteText').textContent = q.text;
+            document.getElementById('quoteAuthor').textContent = '- ' + q.author + ' -';
+        }
+        newQuote();
+    </script>
+</body>
+</html>

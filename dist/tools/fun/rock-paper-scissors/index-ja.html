@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/rock-paper-scissors/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/rock-paper-scissors/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/rock-paper-scissors/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/rock-paper-scissors/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/rock-paper-scissors/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/rock-paper-scissors/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>じゃんけん</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .game-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+        .arena { display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px; padding: 20px 0; }
+        .player { text-align: center; }
+        .choice-display { font-size: 4rem; height: 80px; display: flex; align-items: center; justify-content: center; }
+        .player-label { font-size: .9rem; opacity: .7; margin-top: 5px; }
+        .vs { font-size: 1.5rem; font-weight: 700; opacity: .5; }
+        .result { text-align: center; font-size: 1.5rem; font-weight: 700; padding: 15px; margin-bottom: 20px; border-radius: 12px; background: rgba(255,255,255,.1); }
+        .result.win { background: rgba(74,222,128,.2); color: #4ade80; }
+        .result.lose { background: rgba(239,68,68,.2); color: #ef4444; }
+        .result.draw { background: rgba(251,191,36,.2); color: #fbbf24; }
+        .choices { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .choice-btn { width: 80px; height: 80px; border: none; border-radius: 16px; background: rgba(255,255,255,.2); font-size: 2.5rem; cursor: pointer; transition: all .2s; }
+        .choice-btn:hover { transform: scale(1.1); background: rgba(255,255,255,.3); }
+        .choice-btn:active { transform: scale(0.95); }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .stat-card { background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px; text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: .7rem; opacity: .7; }
+        .stat-card.win .stat-value { color: #4ade80; }
+        .stat-card.lose .stat-value { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">広告</div>
+        <header>
+            <h1>✊✌️✋ じゃんけん</h1>
+        </header>
+        <div class="game-section">
+            <div class="arena">
+                <div class="player">
+                    <div class="choice-display" id="playerChoice">❓</div>
+                    <div class="player-label">あなた</div>
+                </div>
+                <div class="vs">VS</div>
+                <div class="player">
+                    <div class="choice-display" id="cpuChoice">❓</div>
+                    <div class="player-label">コンピュータ</div>
+                </div>
+            </div>
+            <div class="result" id="result">選んでください！</div>
+            <div class="choices">
+                <button class="choice-btn" onclick="play('rock')">✊</button>
+                <button class="choice-btn" onclick="play('scissors')">✌️</button>
+                <button class="choice-btn" onclick="play('paper')">✋</button>
+            </div>
+            <div class="stats">
+                <div class="stat-card win">
+                    <div class="stat-value" id="wins">0</div>
+                    <div class="stat-label">勝ち</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="draws">0</div>
+                    <div class="stat-label">あいこ</div>
+                </div>
+                <div class="stat-card lose">
+                    <div class="stat-value" id="losses">0</div>
+                    <div class="stat-label">負け</div>
+                </div>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">広告</div>
+    </div>
+    <script>
+        var choices = ['rock', 'scissors', 'paper'];
+        var emojis = { rock: '✊', scissors: '✌️', paper: '✋' };
+        var stats = JSON.parse(localStorage.getItem('rps_ja') || '{"wins":0,"draws":0,"losses":0}');
+
+        function play(playerChoice) {
+            var cpuChoice = choices[Math.floor(Math.random() * 3)];
+
+            document.getElementById('playerChoice').textContent = emojis[playerChoice];
+            document.getElementById('cpuChoice').textContent = emojis[cpuChoice];
+
+            var result = getResult(playerChoice, cpuChoice);
+            var resultEl = document.getElementById('result');
+
+            resultEl.classList.remove('win', 'lose', 'draw');
+
+            if (result === 'win') {
+                resultEl.textContent = '勝ち！🎉';
+                resultEl.classList.add('win');
+                stats.wins++;
+            } else if (result === 'lose') {
+                resultEl.textContent = '負け... 😢';
+                resultEl.classList.add('lose');
+                stats.losses++;
+            } else {
+                resultEl.textContent = 'あいこ！🤝';
+                resultEl.classList.add('draw');
+                stats.draws++;
+            }
+
+            localStorage.setItem('rps_ja', JSON.stringify(stats));
+            updateStats();
+        }
+
+        function getResult(player, cpu) {
+            if (player === cpu) return 'draw';
+            if (
+                (player === 'rock' && cpu === 'scissors') ||
+                (player === 'scissors' && cpu === 'paper') ||
+                (player === 'paper' && cpu === 'rock')
+            ) {
+                return 'win';
+            }
+            return 'lose';
+        }
+
+        function updateStats() {
+            document.getElementById('wins').textContent = stats.wins;
+            document.getElementById('draws').textContent = stats.draws;
+            document.getElementById('losses').textContent = stats.losses;
+        }
+
+        updateStats();
+    </script>
+</body>
+</html>

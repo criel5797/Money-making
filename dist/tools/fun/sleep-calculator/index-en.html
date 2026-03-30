@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/sleep-calculator/index-en.html"><meta property="og:url" content="https://instaidea.org/tools/fun/sleep-calculator/index-en.html"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/sleep-calculator/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/sleep-calculator/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/sleep-calculator/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/sleep-calculator/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Calculator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner { background: rgba(255,255,255,.1); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .sleep-section { background: rgba(255,255,255,.1); border-radius: 16px; padding: 25px; }
+        .mode-btns { display: flex; gap: 10px; margin-bottom: 25px; }
+        .mode-btn { flex: 1; padding: 15px; border: 1px solid rgba(255,255,255,.3); border-radius: 10px; background: transparent; color: #fff; cursor: pointer; }
+        .mode-btn.active { background: rgba(255,255,255,.2); border-color: #fff; }
+        .input-group { margin-bottom: 20px; }
+        .input-label { font-size: .9rem; margin-bottom: 10px; opacity: .8; }
+        input[type=time] { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,.9); color: #333; font-size: 1.2rem; }
+        .calc-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 1.1rem; cursor: pointer; margin-bottom: 25px; }
+        .results { background: rgba(0,0,0,.3); border-radius: 12px; padding: 20px; }
+        .results-title { font-size: 1rem; margin-bottom: 15px; opacity: .8; }
+        .time-slots { display: flex; flex-direction: column; gap: 12px; }
+        .time-slot { background: rgba(255,255,255,.1); padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .time-slot.recommended { background: rgba(102,126,234,.4); border: 1px solid rgba(102,126,234,.8); }
+        .slot-time { font-size: 1.2rem; font-weight: 600; }
+        .slot-cycles { font-size: .85rem; opacity: .8; }
+        .slot-badge { background: #667eea; padding: 3px 8px; border-radius: 10px; font-size: .75rem; }
+        .info { margin-top: 20px; font-size: .85rem; opacity: .7; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ad-banner">Advertisement</div>
+        <header><h1>😴 Sleep Calculator</h1></header>
+        <div class="sleep-section">
+            <div class="mode-btns">
+                <button class="mode-btn active" onclick="setMode('wake')">Wake Up Time</button>
+                <button class="mode-btn" onclick="setMode('sleep')">Bedtime</button>
+            </div>
+            <div class="input-group">
+                <div class="input-label" id="inputLabel">Bedtime</div>
+                <input type="time" id="timeInput" value="23:00">
+            </div>
+            <button class="calc-btn" onclick="calculate()">Calculate</button>
+            <div class="results">
+                <div class="results-title" id="resultsTitle">Recommended Wake Times</div>
+                <div class="time-slots" id="timeSlots"></div>
+            </div>
+            <div class="info">Sleep cycles last about 90 minutes. Waking at the end of a cycle helps you feel refreshed.</div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">Advertisement</div>
+    </div>
+    <script>
+        var mode = 'wake';
+        var cycleMin = 90;
+        var fallAsleepMin = 15;
+        function setMode(m) {
+            mode = m;
+            document.querySelectorAll('.mode-btn').forEach(function(b, i) {
+                b.classList.toggle('active', (m === 'wake' && i === 0) || (m === 'sleep' && i === 1));
+            });
+            document.getElementById('inputLabel').textContent = m === 'wake' ? 'Bedtime' : 'Wake Time';
+            document.getElementById('resultsTitle').textContent = m === 'wake' ? 'Recommended Wake Times' : 'Recommended Bedtimes';
+            document.getElementById('timeSlots').innerHTML = '';
+        }
+        function calculate() {
+            var time = document.getElementById('timeInput').value;
+            var parts = time.split(':');
+            var h = parseInt(parts[0]);
+            var m = parseInt(parts[1]);
+            var base = new Date();
+            base.setHours(h, m, 0, 0);
+            var slots = document.getElementById('timeSlots');
+            slots.innerHTML = '';
+            for (var i = 6; i >= 3; i--) {
+                var mins = i * cycleMin;
+                var target = new Date(base.getTime());
+                if (mode === 'wake') {
+                    target.setMinutes(target.getMinutes() + fallAsleepMin + mins);
+                } else {
+                    target.setMinutes(target.getMinutes() - fallAsleepMin - mins);
+                }
+                var div = document.createElement('div');
+                div.className = 'time-slot' + (i === 6 || i === 5 ? ' recommended' : '');
+                var timeStr = target.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                var hours = (mins / 60).toFixed(1);
+                div.innerHTML = '<div><div class="slot-time">' + timeStr + '</div><div class="slot-cycles">' + i + ' cycles (' + hours + ' hours)</div></div>' + (i >= 5 ? '<span class="slot-badge">Recommended</span>' : '');
+                slots.appendChild(div);
+            }
+        }
+        calculate();
+    </script>
+</body>
+</html>

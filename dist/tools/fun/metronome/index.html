@@ -1,238 +1,356 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Metronome - Free Online Metronome Tool</title>
-  <meta name="description" content="Use Metronome online for free. Online metronome. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Metronome, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/metronome/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Metronome","item":"https://instaidea.org/tools/fun/metronome/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Metronome","url":"https://instaidea.org/tools/fun/metronome/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Metronome online for free. Online metronome. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Metronome?","acceptedAnswer":{"@type":"Answer","text":"Metronome is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/metronome/"><meta property="og:url" content="https://instaidea.org/tools/fun/metronome/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/metronome/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/metronome/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/metronome/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/metronome/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메트로놈 - 무료 온라인 메트로놈</title>
+    <meta name="description" content="무료 온라인 메트로놈. BPM을 설정하고 정확한 박자를 연습하세요.">
+    <meta name="keywords" content="메트로놈, 온라인 메트로놈, BPM, 박자, 음악 연습">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .metronome-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .bpm-display {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: transform 0.1s;
+        }
+        .bpm-display.beat {
+            transform: scale(1.1);
+        }
+        .bpm-label {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 20px;
+        }
+        .tempo-name {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .bpm-slider {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.2);
+            -webkit-appearance: none;
+            margin-bottom: 20px;
+        }
+        .bpm-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .bpm-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .bpm-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .bpm-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .preset-tempos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        .tempo-btn {
+            padding: 8px 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tempo-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .beat-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .beat-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.1s;
+        }
+        .beat-dot.active {
+            background: #2ecc71;
+            box-shadow: 0 0 15px rgba(46,204,113,0.6);
+            transform: scale(1.2);
+        }
+        .beat-dot.accent {
+            background: #e74c3c;
+            box-shadow: 0 0 15px rgba(231,76,60,0.6);
+        }
+        .time-signature {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .time-btn {
+            padding: 10px 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .time-btn.active {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.6);
+        }
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(39,174,96,0.4);
+        }
+        .play-btn:hover {
+            transform: scale(1.05);
+        }
+        .play-btn.playing {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 4px 20px rgba(231,76,60,0.4);
+        }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>🎵 메트로놈</h1>
+            <p class="subtitle">정확한 박자로 연습하세요</p>
+        </header>
+        <div class="metronome-section">
+            <div class="bpm-display" id="bpmDisplay">120</div>
+            <div class="bpm-label">BPM</div>
+            <div class="tempo-name" id="tempoName">Allegro</div>
+            <input type="range" class="bpm-slider" id="bpmSlider" min="30" max="240" value="120">
+            <div class="bpm-buttons">
+                <button class="bpm-btn" onclick="adjustBpm(-10)">-10</button>
+                <button class="bpm-btn" onclick="adjustBpm(-1)">-1</button>
+                <button class="bpm-btn" onclick="adjustBpm(1)">+1</button>
+                <button class="bpm-btn" onclick="adjustBpm(10)">+10</button>
+            </div>
+            <div class="preset-tempos">
+                <button class="tempo-btn" onclick="setBpm(60)">Largo (60)</button>
+                <button class="tempo-btn" onclick="setBpm(80)">Adagio (80)</button>
+                <button class="tempo-btn" onclick="setBpm(100)">Andante (100)</button>
+                <button class="tempo-btn" onclick="setBpm(120)">Allegro (120)</button>
+                <button class="tempo-btn" onclick="setBpm(140)">Vivace (140)</button>
+                <button class="tempo-btn" onclick="setBpm(180)">Presto (180)</button>
+            </div>
+            <div class="time-signature">
+                <button class="time-btn active" onclick="setBeats(4)">4/4</button>
+                <button class="time-btn" onclick="setBeats(3)">3/4</button>
+                <button class="time-btn" onclick="setBeats(2)">2/4</button>
+                <button class="time-btn" onclick="setBeats(6)">6/8</button>
+            </div>
+            <div class="beat-indicator" id="beatIndicator">
+                <div class="beat-dot"></div>
+                <div class="beat-dot"></div>
+                <div class="beat-dot"></div>
+                <div class="beat-dot"></div>
+            </div>
+            <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var bpm = 120;
+        var beats = 4;
+        var currentBeat = 0;
+        var isPlaying = false;
+        var intervalId = null;
+        var audioContext = null;
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Metronome</span>
-      </nav>
-      <h1>Metronome</h1>
-      <p>Use Metronome online for free. Online metronome. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        function getTempoName(bpm) {
+            if (bpm < 40) return 'Grave';
+            if (bpm < 60) return 'Largo';
+            if (bpm < 66) return 'Larghetto';
+            if (bpm < 76) return 'Adagio';
+            if (bpm < 108) return 'Andante';
+            if (bpm < 120) return 'Moderato';
+            if (bpm < 156) return 'Allegro';
+            if (bpm < 176) return 'Vivace';
+            return 'Presto';
+        }
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Metronome"></iframe>
+        function updateDisplay() {
+            document.getElementById('bpmDisplay').textContent = bpm;
+            document.getElementById('bpmSlider').value = bpm;
+            document.getElementById('tempoName').textContent = getTempoName(bpm);
+        }
 
-    <article class="seo-block">
-      <h2>What is Metronome?</h2>
-      <p>Metronome is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        function adjustBpm(delta) {
+            bpm = Math.max(30, Math.min(240, bpm + delta));
+            updateDisplay();
+            if (isPlaying) {
+                restartMetronome();
+            }
+        }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        function setBpm(value) {
+            bpm = value;
+            updateDisplay();
+            if (isPlaying) {
+                restartMetronome();
+            }
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function setBeats(num) {
+            beats = num;
+            currentBeat = 0;
+            document.querySelectorAll('.time-btn').forEach(function(btn, i) {
+                btn.classList.remove('active');
+                if ((num === 4 && i === 0) || (num === 3 && i === 1) ||
+                    (num === 2 && i === 2) || (num === 6 && i === 3)) {
+                    btn.classList.add('active');
+                }
+            });
+            updateBeatIndicator();
+        }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+        function updateBeatIndicator() {
+            var container = document.getElementById('beatIndicator');
+            container.innerHTML = '';
+            for (var i = 0; i < beats; i++) {
+                var dot = document.createElement('div');
+                dot.className = 'beat-dot';
+                container.appendChild(dot);
+            }
+        }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+        function playClick(isAccent) {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            var oscillator = audioContext.createOscillator();
+            var gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.frequency.value = isAccent ? 1000 : 800;
+            oscillator.type = 'sine';
+            gainNode.gain.value = isAccent ? 0.4 : 0.3;
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+        function tick() {
+            var dots = document.querySelectorAll('.beat-dot');
+            dots.forEach(function(dot) { dot.classList.remove('active', 'accent'); });
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+            var isAccent = currentBeat === 0;
+            dots[currentBeat].classList.add('active');
+            if (isAccent) dots[currentBeat].classList.add('accent');
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+            playClick(isAccent);
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+            var display = document.getElementById('bpmDisplay');
+            display.classList.add('beat');
+            setTimeout(function() { display.classList.remove('beat'); }, 100);
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+            currentBeat = (currentBeat + 1) % beats;
+        }
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+        function restartMetronome() {
+            if (intervalId) clearInterval(intervalId);
+            var interval = (60 / bpm) * 1000;
+            intervalId = setInterval(tick, interval);
+        }
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+        function togglePlay() {
+            var btn = document.getElementById('playBtn');
+            if (isPlaying) {
+                clearInterval(intervalId);
+                isPlaying = false;
+                btn.textContent = '▶';
+                btn.classList.remove('playing');
+                document.querySelectorAll('.beat-dot').forEach(function(dot) {
+                    dot.classList.remove('active', 'accent');
+                });
+            } else {
+                isPlaying = true;
+                btn.textContent = '■';
+                btn.classList.add('playing');
+                currentBeat = 0;
+                tick();
+                restartMetronome();
+            }
+        }
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+        document.getElementById('bpmSlider').addEventListener('input', function(e) {
+            bpm = parseInt(e.target.value);
+            updateDisplay();
+        });
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+        document.getElementById('bpmSlider').addEventListener('change', function() {
+            if (isPlaying) restartMetronome();
+        });
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+        updateDisplay();
+        updateBeatIndicator();
+    </script>
 </body>
 </html>

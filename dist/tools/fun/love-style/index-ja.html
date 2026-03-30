@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/love-style/index-ja.html"><meta property="og:url" content="https://instaidea.org/tools/fun/love-style/index-ja.html"><meta property="og:locale" content="ja_JP"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/love-style/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/love-style/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/love-style/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/love-style/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恋愛性向テスト - 私の恋愛タイプは？ | 無料恋愛テスト</title>
+    <meta name="description" content="あなたの恋愛性向を調べてみよう！無料恋愛タイプテストで私はどんなスタイルで愛するのか確認してみてください。執着型？自由型？今すぐ！">
+    <meta name="keywords" content="恋愛テスト,恋愛性向,恋愛タイプ,愛のテスト,恋愛スタイル,恋愛心理テスト">
+    
+    <meta property="og:title" content="恋愛性向テスト - 私の恋愛タイプは？">
+    <meta property="og:description" content="私はどんなスタイルで愛するのかな？">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff6b9d/ffffff?text=恋愛性向テスト">
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44dff 50%, #6b5ce7 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .hearts-float {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            animation: heartFloat 12s infinite ease-in-out;
+            opacity: 0.5;
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        }
+
+        .subtitle { color: rgba(255,255,255,0.9); font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .intro-section {
+            text-align: center;
+        }
+
+        .intro-emoji { font-size: 60px; margin-bottom: 20px; }
+
+        .intro-section h2 {
+            color: #c44dff;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .intro-section p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(196, 77, 255, 0.4);
+        }
+
+        .question-section {
+            display: none;
+        }
+
+        .question-section.active { display: block; }
+
+        .progress-container { margin-bottom: 25px; }
+
+        .progress-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d, #c44dff);
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .question-card {
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .question-emoji { font-size: 50px; text-align: center; margin-bottom: 20px; }
+
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 16px 20px;
+            background: #f8f8ff;
+            border: 2px solid #eee;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #555;
+            font-size: 15px;
+        }
+
+        .option:hover {
+            border-color: #c44dff;
+            background: #fdf8ff;
+        }
+
+        .option.selected {
+            border-color: #c44dff;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(196, 77, 255, 0.1));
+            color: #c44dff;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-header p { color: #888; font-size: 14px; }
+
+        .type-emoji { font-size: 80px; display: block; margin: 15px 0; }
+
+        .type-name {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .type-title {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .result-card {
+            background: #f8f8ff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #c44dff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .keyword-tag {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(196, 77, 255, 0.15));
+            border: 1px solid rgba(196, 77, 255, 0.3);
+            padding: 6px 14px;
+            border-radius: 15px;
+            color: #c44dff;
+            font-size: 13px;
+        }
+
+        .match-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .match-item {
+            background: white;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .match-item.good { border-color: #90EE90; background: #f8fff8; }
+        .match-item.bad { border-color: #ffb6c1; background: #fff8f8; }
+
+        .match-item .label { font-size: 12px; color: #888; margin-bottom: 5px; }
+        .match-item .type { font-weight: 700; color: #333; }
+
+        .percentage-section {
+            margin-top: 15px;
+        }
+
+        .percentage-item {
+            margin-bottom: 12px;
+        }
+
+        .percentage-item .label-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .percentage-item .label { color: #666; }
+        .percentage-item .value { color: #c44dff; font-weight: 600; }
+
+        .percentage-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .percentage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d, #c44dff);
+            border-radius: 4px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ff6b9d, #c44dff);
+            color: white;
+        }
+
+        .share-btn.secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.7rem; }
+            .type-name { font-size: 1.5rem; }
+            .match-section { grid-template-columns: 1fr; }
+        }
+    </style>
+<script>window.currentLang="ja";window.toolI18n={"meta":{"title":{"ko":"연애 성향 테스트","en":"Love Style Test","ja":"恋愛スタイルテスト"},"desc":{"ko":"나의 연애 스타일 알아보기","en":"Discover your love style","ja":"私の恋愛スタイルを知る"}},"header":{"title":{"ko":"연애 성향 테스트","en":"Love Style Test","ja":"恋愛スタイルテスト"},"subtitle":{"ko":"나는 어떤 연애 스타일일까?","en":"What is your love style?","ja":"あなたの恋愛スタイルは？"}},"buttons":{"start":{"ko":"시작하기","en":"Start","ja":"開始"},"next":{"ko":"다음","en":"Next","ja":"次へ"},"result":{"ko":"결과 보기","en":"View Result","ja":"結果を見る"},"share":{"ko":"공유하기","en":"Share","ja":"共有"},"retry":{"ko":"다시 하기","en":"Try Again","ja":"もう一度"}},"result":{"yourType":{"ko":"당신의 연애 스타일:","en":"Your Love Style:","ja":"あなたの恋愛スタイル:"}},"disclaimer":{"ko":"재미로 즐기는 테스트입니다.","en":"This is for entertainment.","ja":"娯楽用のテストです。"}};</script></head>
+<body>
+    <div class="hearts-float" id="heartsFloat"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <header>
+            <h1>恋愛性向テスト</h1>
+            <p class="subtitle">私はどんなスタイルで愛するのかな？</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="card">
+            <div class="intro-section" id="introSection">
+                <div class="intro-emoji">💕</div>
+                <h2>あなたの恋愛タイプをお教えします</h2>
+                <p>
+                    人それぞれ愛し方が違います。<br>
+                    10個の質問であなたの恋愛性向を<br>
+                    正確に分析します！<br><br>
+                    正直に答えてください 💝
+                </p>
+                <button class="start-btn" onclick="startTest()">テストを始める</button>
+            </div>
+
+            <div class="question-section" id="questionSection">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">1 / 10</div>
+                </div>
+                <div class="question-card" id="questionCard"></div>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <p>あなたの恋愛タイプは...</p>
+                    <span class="type-emoji" id="typeEmoji">💗</span>
+                    <div class="type-name" id="typeName">献身型恋人</div>
+                    <div class="type-title" id="typeTitle">"あなたのためなら何でも"</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 恋愛スタイル</h3>
+                    <p id="typeDescription"></p>
+                    <div class="keyword-tags" id="keywordTags"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📊 性向分析</h3>
+                    <div class="percentage-section" id="percentageSection"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>✨ 長所</h3>
+                    <p id="typeStrength"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>⚠️ 注意点</h3>
+                    <p id="typeWeakness"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💑 相性</h3>
+                    <div class="match-section" id="matchSection"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💡 恋愛アドバイス</h3>
+                    <p id="typeAdvice"></p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">結果をシェア</button>
+                    <button class="share-btn secondary" onclick="resetTest()">やり直す</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>このテストはお遊びです。</p>
+        </footer>
+    </div>
+
+    <script>
+        // ハート背景
+        function createHearts() {
+            const container = document.getElementById('heartsFloat');
+            const hearts = ['💕', '💗', '💖', '💝', '❤️'];
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 12 + 's';
+                heart.style.animationDuration = (10 + Math.random() * 5) + 's';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        const questions = [
+            {
+                emoji: "📱",
+                text: "恋人から連絡が来ない時、私は？",
+                options: [
+                    { text: "ずっと確認して不安になる", type: "clingy" },
+                    { text: "忙しいんだろうと待つ", type: "stable" },
+                    { text: "私も自分のことをする", type: "independent" },
+                    { text: "何してるか気になって先に連絡する", type: "active" }
+                ]
+            },
+            {
+                emoji: "💕",
+                text: "愛を表現する自分なりの方法は？",
+                options: [
+                    { text: "言葉と行動で積極的に表現", type: "active" },
+                    { text: "プレゼントやサプライズイベント", type: "romantic" },
+                    { text: "一緒にいる時間を大切にする", type: "stable" },
+                    { text: "必要な時に助ける", type: "caring" }
+                ]
+            },
+            {
+                emoji: "😤",
+                text: "恋人と喧嘩した時、私は？",
+                options: [
+                    { text: "すぐに仲直りしようと努力", type: "clingy" },
+                    { text: "時間をおいて考えを整理", type: "stable" },
+                    { text: "自分の立場をはっきり伝える", type: "independent" },
+                    { text: "雰囲気を変えようと冗談を言う", type: "playful" }
+                ]
+            },
+            {
+                emoji: "🏠",
+                text: "理想的なデートは？",
+                options: [
+                    { text: "家で一緒に過ごす", type: "stable" },
+                    { text: "新しい場所を探検", type: "playful" },
+                    { text: "ロマンチックな雰囲気のレストラン", type: "romantic" },
+                    { text: "それぞれしたいことをして会う", type: "independent" }
+                ]
+            },
+            {
+                emoji: "🤔",
+                text: "恋人の異性の友達、どう思う？",
+                options: [
+                    { text: "正直あまり良くない", type: "clingy" },
+                    { text: "信頼してるから大丈夫", type: "stable" },
+                    { text: "私にも異性の友達いるからOK", type: "independent" },
+                    { text: "一緒に遊べばもっと良い", type: "playful" }
+                ]
+            },
+            {
+                emoji: "💭",
+                text: "恋愛中の一人の時間は？",
+                options: [
+                    { text: "なくても大丈夫、一緒が良い", type: "clingy" },
+                    { text: "たまには必要", type: "stable" },
+                    { text: "必ず必要、ないと辛い", type: "independent" },
+                    { text: "友達と遊ぶ時間で代わりにする", type: "playful" }
+                ]
+            },
+            {
+                emoji: "🎁",
+                text: "記念日についての考えは？",
+                options: [
+                    { text: "すべての記念日が大事！", type: "romantic" },
+                    { text: "大きな記念日だけ祝う", type: "stable" },
+                    { text: "記念日より普段が大事", type: "independent" },
+                    { text: "サプライズイベントの方が良い", type: "playful" }
+                ]
+            },
+            {
+                emoji: "😢",
+                text: "恋人が辛い時、私は？",
+                options: [
+                    { text: "最後まで一緒にいる", type: "caring" },
+                    { text: "解決策を探してあげる", type: "active" },
+                    { text: "空間を与えて待つ", type: "stable" },
+                    { text: "気分転換させてあげる", type: "playful" }
+                ]
+            },
+            {
+                emoji: "💑",
+                text: "恋愛で一番大切なことは？",
+                options: [
+                    { text: "一緒にいる時間", type: "clingy" },
+                    { text: "お互いへの信頼", type: "stable" },
+                    { text: "お互いの成長", type: "independent" },
+                    { text: "ドキドキと楽しさ", type: "playful" }
+                ]
+            },
+            {
+                emoji: "💍",
+                text: "恋愛の未来について？",
+                options: [
+                    { text: "結婚まで考える", type: "caring" },
+                    { text: "自然に流れるように", type: "stable" },
+                    { text: "今に集中する", type: "playful" },
+                    { text: "お互いに合えばその時考える", type: "independent" }
+                ]
+            }
+        ];
+
+        const loveTypes = {
+            clingy: {
+                emoji: "🥺",
+                name: "オールイン型恋人",
+                title: "\"あなたなしでは生きられない\"",
+                description: "恋に落ちると心を全て捧げるタイプです。恋人と一緒にいる時間が一番幸せで、離れていると会いたくてたまりません。愛に真剣なあなた、その情熱が魅力です！",
+                keywords: ["真剣", "情熱的", "愛情表現", "一緒", "密着型"],
+                strength: "真心のこもった愛で相手を感動させることができます。一緒にいる時、相手を世界で一番特別に感じさせます。",
+                weakness: "執着しすぎると相手が負担に感じることがあります。時には余裕を持ってお互いの空間を尊重してみてください。",
+                goodMatch: "安定型恋人",
+                badMatch: "自由型恋人",
+                traits: { passion: 95, independence: 35, romance: 80, stability: 50 },
+                advice: "愛はマラソンです。ゆっくりと、でも着実に愛してください。相手もあなたと同じくらいあなたを愛せるよう時間をあげてください。"
+            },
+            stable: {
+                emoji: "🤝",
+                name: "安定型恋人",
+                title: "\"一緒にいると楽\"",
+                description: "信頼を基盤に関係を築いていくタイプです。華やかなものより日常の幸せを大切にし、長続きする愛を求めます。頼りになる支えのような存在！",
+                keywords: ["信頼", "安心", "日常", "安定感", "長期恋愛"],
+                strength: "変わらない愛で相手に安定感を与えます。どんな状況でも揺るがない頼もしい存在です。",
+                weakness: "時には淡白に見えることがあります。たまにはドキドキさせるイベントもしてみてください！",
+                goodMatch: "オールイン型恋人",
+                badMatch: "ときめき型恋人",
+                traits: { passion: 60, independence: 65, romance: 55, stability: 95 },
+                advice: "安定感も良いですが、時には新しい試みもしてみてください。小さな変化が関係に活力を与えることができます。"
+            },
+            independent: {
+                emoji: "🦅",
+                name: "自由型恋人",
+                title: "\"お互いの人生を尊重\"",
+                description: "愛も大切ですが、個人の人生も大切にするタイプです。お互いの領域を尊重しながら健全な関係を維持します。成熟していて独立的な愛をします！",
+                keywords: ["独立的", "尊重", "自主的", "成熟", "バランス"],
+                strength: "健全な関係を維持できます。お互いを束縛しないので長く一緒にいられます。",
+                weakness: "相手が寂しく感じることがあります。時には先に連絡して愛情表現をしてみてください。",
+                goodMatch: "自由型恋人",
+                badMatch: "オールイン型恋人",
+                traits: { passion: 50, independence: 95, romance: 45, stability: 70 },
+                advice: "独立的なのも良いですが、恋人にはもう少し心を開いても大丈夫です。頼ることも愛です。"
+            },
+            romantic: {
+                emoji: "🌹",
+                name: "ロマンチック恋人",
+                title: "\"毎日が特別だといいな\"",
+                description: "恋愛においてロマンスを大切にするタイプです。記念日、サプライズイベント、甘い言葉... 愛する人に特別な瞬間をプレゼントしたいです！",
+                keywords: ["ロマンチック", "イベント", "感性的", "記念日", "ドキドキ"],
+                strength: "恋人を特別に感じさせます。一緒にいる全ての瞬間を美しくします。",
+                weakness: "期待が大きいと失望も大きくなります。平凡な日常も大切だということを覚えておいてください。",
+                goodMatch: "献身型恋人",
+                badMatch: "自由型恋人",
+                traits: { passion: 85, independence: 50, romance: 95, stability: 55 },
+                advice: "ロマンスも良いですが、日常の小さな幸せも大切です。特別な日でなくても愛は十分美しいです。"
+            },
+            playful: {
+                emoji: "🎉",
+                name: "ときめき型恋人",
+                title: "\"恋愛は楽しくなきゃ！\"",
+                description: "恋愛も楽しく！冗談を言って笑って騒いで楽しい恋愛を求めます。重くて真剣なものより軽くて明るい関係が好きです。一緒にいると笑いが絶えません！",
+                keywords: ["楽しさ", "冗談", "愉快", "軽さ", "笑い"],
+                strength: "一緒にいると楽しいです。難しい状況もユーモアで乗り越える力があります。",
+                weakness: "真剣な時も冗談を言うと誤解されることがあります。TPOを守ってください。",
+                goodMatch: "ときめき型恋人",
+                badMatch: "安定型恋人",
+                traits: { passion: 70, independence: 75, romance: 65, stability: 45 },
+                advice: "楽しさも良いですが、時には真剣な会話も必要です。深い関係のために心を分かち合ってみてください。"
+            },
+            caring: {
+                emoji: "🤗",
+                name: "献身型恋人",
+                title: "\"君のためなら\"",
+                description: "愛する人のために何でもしてあげたいタイプです。相手の幸せが私の幸せ！世話をすることにやりがいを感じます。温かい愛をくれる人！",
+                keywords: ["献身", "配慮", "温かさ", "世話", "犠牲"],
+                strength: "無条件に愛することができます。相手が心から愛されていると感じさせます。",
+                weakness: "自分を犠牲にしすぎると疲れることがあります。自分のための時間も持ってください。",
+                goodMatch: "ロマンチック恋人",
+                badMatch: "ときめき型恋人",
+                traits: { passion: 80, independence: 40, romance: 75, stability: 80 },
+                advice: "与えるだけでなく、受け取ることも学んでみてください。健全な関係は与え合いのバランスです。"
+            },
+            active: {
+                emoji: "🔥",
+                name: "主導型恋人",
+                title: "\"私がリードするよ\"",
+                description: "恋愛で主導的な役割をするタイプです。デートプランから告白まで、積極的にリードします。言葉より行動で愛を証明するスタイル！",
+                keywords: ["主導的", "積極的", "リーダーシップ", "行動派", "決断力"],
+                strength: "駆け引きなしに確実な愛をします。相手が混乱しません。",
+                weakness: "相手の意見も聞いてみてください。一緒に決めることも大切です。",
+                goodMatch: "安定型恋人",
+                badMatch: "主導型恋人",
+                traits: { passion: 90, independence: 70, romance: 70, stability: 65 },
+                advice: "リードするのも良いですが、時には任せてみてください。相手もあなたを導きたいかもしれません。"
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+        let resultData = {};
+
+        function startTest() {
+            document.getElementById('introSection').style.display = 'none';
+            document.getElementById('questionSection').classList.add('active');
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            const q = questions[index];
+            const container = document.getElementById('questionCard');
+
+            let optionsHtml = q.options.map((opt, i) =>
+                `<div class="option" onclick="selectOption(${i}, '${opt.type}')">${opt.text}</div>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="question-emoji">${q.emoji}</div>
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+            `;
+
+            document.getElementById('progressFill').style.width = ((index + 1) / questions.length * 100) + '%';
+            document.getElementById('progressText').textContent = `${index + 1} / ${questions.length}`;
+        }
+
+        function selectOption(optionIndex, type) {
+            answers.push(type);
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                } else {
+                    calculateResult();
+                }
+            }, 400);
+        }
+
+        function calculateResult() {
+            const counts = {};
+            answers.forEach(type => {
+                counts[type] = (counts[type] || 0) + 1;
+            });
+
+            // 最も多いタイプを探す
+            let maxType = 'stable';
+            let maxCount = 0;
+            Object.entries(counts).forEach(([type, count]) => {
+                if (count > maxCount) {
+                    maxCount = count;
+                    maxType = type;
+                }
+            });
+
+            resultData = loveTypes[maxType];
+            displayResult();
+        }
+
+        function displayResult() {
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('resultSection').classList.add('show');
+
+            document.getElementById('typeEmoji').textContent = resultData.emoji;
+            document.getElementById('typeName').textContent = resultData.name;
+            document.getElementById('typeTitle').textContent = resultData.title;
+            document.getElementById('typeDescription').textContent = resultData.description;
+            document.getElementById('typeStrength').textContent = resultData.strength;
+            document.getElementById('typeWeakness').textContent = resultData.weakness;
+            document.getElementById('typeAdvice').textContent = resultData.advice;
+
+            document.getElementById('keywordTags').innerHTML = resultData.keywords.map(k =>
+                `<span class="keyword-tag">#${k}</span>`
+            ).join('');
+
+            const traitLabels = {
+                passion: '情熱度',
+                independence: '独立性',
+                romance: 'ロマンス',
+                stability: '安定感'
+            };
+
+            document.getElementById('percentageSection').innerHTML = Object.entries(resultData.traits).map(([key, value]) => `
+                <div class="percentage-item">
+                    <div class="label-row">
+                        <span class="label">${traitLabels[key]}</span>
+                        <span class="value">${value}%</span>
+                    </div>
+                    <div class="percentage-bar">
+                        <div class="percentage-fill" style="width: ${value}%"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('matchSection').innerHTML = `
+                <div class="match-item good">
+                    <div class="label">相性の良いタイプ</div>
+                    <div class="type">💚 ${resultData.goodMatch}</div>
+                </div>
+                <div class="match-item bad">
+                    <div class="label">注意するタイプ</div>
+                    <div class="type">💔 ${resultData.badMatch}</div>
+                </div>
+            `;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const text = `💗 恋愛性向テスト結果
+
+私の恋愛タイプ: ${resultData.emoji} ${resultData.name}
+${resultData.title}
+
+${resultData.description}
+
+💚 相性の良いタイプ: ${resultData.goodMatch}
+💔 注意するタイプ: ${resultData.badMatch}
+
+💘 あなたの恋愛スタイルも調べてみませんか？`;
+
+            window.shareWithModal('恋愛性向テスト結果', text);
+        }
+
+        function resetTest() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('introSection').style.display = 'block';
+        }
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
+</html>

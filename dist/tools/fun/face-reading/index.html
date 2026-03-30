@@ -1,238 +1,802 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Face Reading - Free Online Face Reading Tool</title>
-  <meta name="description" content="Use Face Reading online for free. AI face reading fortune. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Face Reading, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/face-reading/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Face Reading","item":"https://instaidea.org/tools/fun/face-reading/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Face Reading","url":"https://instaidea.org/tools/fun/face-reading/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Face Reading online for free. AI face reading fortune. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Face Reading?","acceptedAnswer":{"@type":"Answer","text":"Face Reading is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/face-reading/"><meta property="og:url" content="https://instaidea.org/tools/fun/face-reading/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/face-reading/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/face-reading/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/face-reading/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/face-reading/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 관상 분석 - 무료 관상 보기 | 얼굴로 보는 운세</title>
+    <meta name="description" content="무료 AI 관상 분석! 얼굴 특징으로 알아보는 나의 성격, 연애운, 재물운. 이마, 눈, 코, 입 관상으로 운명을 확인하세요!">
+    <meta name="keywords" content="관상, 관상보기, 무료관상, 얼굴관상, 관상분석, 관상운세, 얼굴분석">
+    
+    <meta property="og:title" content="AI 관상 분석 - 무료 관상 보기">
+    <meta property="og:description" content="얼굴 특징으로 알아보는 나의 운세!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/2c1810/ffd700?text=AI+관상+분석">
 
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c2a 50%, #1a0a0a 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+        }
 
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
-</head>
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            background: linear-gradient(135deg, #ffd700, #ffb347, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: #c9a86c; font-size: 1rem; }
+
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .disclaimer {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .step-dot.active { background: #ffd700; width: 30px; border-radius: 5px; }
+        .step-dot.done { background: #90EE90; }
+
+        .feature-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .feature-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title .emoji { font-size: 50px; display: block; margin-bottom: 10px; }
+        .section-title h2 { color: #ffd700; font-size: 1.3rem; }
+        .section-title p { color: #c9a86c; font-size: 14px; margin-top: 5px; }
+
+        .feature-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .feature-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .feature-option:hover {
+            border-color: rgba(255, 215, 0, 0.5);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .feature-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .feature-option .icon { font-size: 28px; margin-bottom: 8px; display: block; }
+        .feature-option .label { color: #e4e4e4; font-size: 14px; font-weight: 500; }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .nav-btn.prev {
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+        }
+
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .nav-btn:hover:not(:disabled) { transform: translateY(-2px); }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .loading.show { display: block; }
+
+        .loading-face {
+            font-size: 80px;
+            animation: analyzing 2s infinite;
+        }
+
+        @keyframes analyzing {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(-5deg); }
+            50% { transform: scale(1) rotate(0deg); }
+            75% { transform: scale(1.05) rotate(5deg); }
+        }
+
+        .loading p { color: #c9a86c; margin-top: 20px; }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-section.show { display: block; }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-face { font-size: 70px; margin-bottom: 15px; }
+
+        .fortune-grade {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-card p {
+            color: #d4c4a8;
+            line-height: 1.8;
+        }
+
+        .fortune-meters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .fortune-meter {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .fortune-meter .label { color: #c9a86c; font-size: 13px; margin-bottom: 8px; }
+        .fortune-meter .score {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .fortune-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .fortune-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        .feature-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .feature-tag {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 6px 14px;
+            border-radius: 15px;
+            color: #ffd700;
+            font-size: 13px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn.primary {
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1810;
+        }
+
+        .share-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e4e4e4;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .feature-options { grid-template-columns: 1fr; }
+            .fortune-meters { grid-template-columns: 1fr; }
+        }
+    </style>
+<script>window.currentLang="ko";window.toolI18n={"meta":{"title":{"ko":"관상 분석","en":"Face Reading","ja":"人相占い"},"desc":{"ko":"AI 관상 풀이","en":"AI Face Analysis","ja":"AI人相分析"}},"header":{"title":{"ko":"관상 분석","en":"Face Reading","ja":"人相占い"},"subtitle":{"ko":"얼굴로 알아보는 운세","en":"Fortune through face features","ja":"顔で知る運勢"}},"features":{"forehead":{"ko":"이마","en":"Forehead","ja":"額"},"eyes":{"ko":"눈","en":"Eyes","ja":"目"},"nose":{"ko":"코","en":"Nose","ja":"鼻"},"mouth":{"ko":"입","en":"Mouth","ja":"口"},"ears":{"ko":"귀","en":"Ears","ja":"耳"}},"buttons":{"analyze":{"ko":"👤 관상 분석하기","en":"👤 Analyze Face","ja":"👤 人相分析"},"share":{"ko":"공유하기","en":"Share","ja":"共有"},"retry":{"ko":"다시 하기","en":"Try Again","ja":"もう一度"}},"disclaimer":{"ko":"재미로 즐기는 관상 분석입니다.","en":"This is for entertainment.","ja":"娯楽用の人相分析です。"}};</script></head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="toast" id="toast"></div>
+    <div class="container">
+        <header>
+            <h1>AI 관상 분석</h1>
+            <p class="subtitle">얼굴 특징으로 보는 나의 운명</p>
+        </header>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <div class="disclaimer">
+            재미로 즐기는 관상 분석입니다. 결과는 오락 목적으로만 참고하세요!
+        </div>
+
+        <div class="card">
+            <div class="step-indicator" id="stepIndicator">
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+            </div>
+
+            <!-- 이마 선택 -->
+            <div class="feature-section active" id="step0">
+                <div class="section-title">
+                    <span class="emoji">👤</span>
+                    <h2>이마 모양을 선택하세요</h2>
+                    <p>거울을 보며 가장 비슷한 것을 선택해주세요</p>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="wide" onclick="selectFeature(0, this)">
+                        <span class="icon">▭</span>
+                        <span class="label">넓고 평평함</span>
+                    </div>
+                    <div class="feature-option" data-value="narrow" onclick="selectFeature(0, this)">
+                        <span class="icon">▯</span>
+                        <span class="label">좁은 편</span>
+                    </div>
+                    <div class="feature-option" data-value="round" onclick="selectFeature(0, this)">
+                        <span class="icon">◠</span>
+                        <span class="label">둥글고 볼록함</span>
+                    </div>
+                    <div class="feature-option" data-value="high" onclick="selectFeature(0, this)">
+                        <span class="icon">△</span>
+                        <span class="label">높고 넓음</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" disabled>이전</button>
+                    <button class="nav-btn next" id="next0" onclick="nextStep(0)" disabled>다음</button>
+                </div>
+            </div>
+
+            <!-- 눈 선택 -->
+            <div class="feature-section" id="step1">
+                <div class="section-title">
+                    <span class="emoji">👁️</span>
+                    <h2>눈 모양을 선택하세요</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="big" onclick="selectFeature(1, this)">
+                        <span class="icon">◉</span>
+                        <span class="label">크고 동그란 눈</span>
+                    </div>
+                    <div class="feature-option" data-value="long" onclick="selectFeature(1, this)">
+                        <span class="icon">━</span>
+                        <span class="label">길고 날카로운 눈</span>
+                    </div>
+                    <div class="feature-option" data-value="single" onclick="selectFeature(1, this)">
+                        <span class="icon">─</span>
+                        <span class="label">무쌍/속쌍 눈</span>
+                    </div>
+                    <div class="feature-option" data-value="double" onclick="selectFeature(1, this)">
+                        <span class="icon">☰</span>
+                        <span class="label">쌍꺼풀 있는 눈</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(1)">이전</button>
+                    <button class="nav-btn next" id="next1" onclick="nextStep(1)" disabled>다음</button>
+                </div>
+            </div>
+
+            <!-- 코 선택 -->
+            <div class="feature-section" id="step2">
+                <div class="section-title">
+                    <span class="emoji">👃</span>
+                    <h2>코 모양을 선택하세요</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="high" onclick="selectFeature(2, this)">
+                        <span class="icon">🔺</span>
+                        <span class="label">높고 오똑함</span>
+                    </div>
+                    <div class="feature-option" data-value="flat" onclick="selectFeature(2, this)">
+                        <span class="icon">▬</span>
+                        <span class="label">낮고 퍼진 편</span>
+                    </div>
+                    <div class="feature-option" data-value="straight" onclick="selectFeature(2, this)">
+                        <span class="icon">│</span>
+                        <span class="label">곧고 단정함</span>
+                    </div>
+                    <div class="feature-option" data-value="round" onclick="selectFeature(2, this)">
+                        <span class="icon">◯</span>
+                        <span class="label">둥글고 귀여움</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(2)">이전</button>
+                    <button class="nav-btn next" id="next2" onclick="nextStep(2)" disabled>다음</button>
+                </div>
+            </div>
+
+            <!-- 입 선택 -->
+            <div class="feature-section" id="step3">
+                <div class="section-title">
+                    <span class="emoji">👄</span>
+                    <h2>입 모양을 선택하세요</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="big" onclick="selectFeature(3, this)">
+                        <span class="icon">━━</span>
+                        <span class="label">크고 넓은 입</span>
+                    </div>
+                    <div class="feature-option" data-value="small" onclick="selectFeature(3, this)">
+                        <span class="icon">─</span>
+                        <span class="label">작고 앙증맞은 입</span>
+                    </div>
+                    <div class="feature-option" data-value="thick" onclick="selectFeature(3, this)">
+                        <span class="icon">▄▄</span>
+                        <span class="label">두툼한 입술</span>
+                    </div>
+                    <div class="feature-option" data-value="thin" onclick="selectFeature(3, this)">
+                        <span class="icon">──</span>
+                        <span class="label">얇은 입술</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(3)">이전</button>
+                    <button class="nav-btn next" id="next3" onclick="nextStep(3)" disabled>다음</button>
+                </div>
+            </div>
+
+            <!-- 얼굴형 선택 -->
+            <div class="feature-section" id="step4">
+                <div class="section-title">
+                    <span class="emoji">🥚</span>
+                    <h2>얼굴형을 선택하세요</h2>
+                </div>
+                <div class="feature-options">
+                    <div class="feature-option" data-value="oval" onclick="selectFeature(4, this)">
+                        <span class="icon">⬭</span>
+                        <span class="label">계란형</span>
+                    </div>
+                    <div class="feature-option" data-value="round" onclick="selectFeature(4, this)">
+                        <span class="icon">⬤</span>
+                        <span class="label">둥근 얼굴</span>
+                    </div>
+                    <div class="feature-option" data-value="square" onclick="selectFeature(4, this)">
+                        <span class="icon">▣</span>
+                        <span class="label">각진 얼굴</span>
+                    </div>
+                    <div class="feature-option" data-value="long" onclick="selectFeature(4, this)">
+                        <span class="icon">▯</span>
+                        <span class="label">긴 얼굴</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep(4)">이전</button>
+                    <button class="nav-btn next" id="next4" onclick="analyzeResult()" disabled>관상 분석하기</button>
+                </div>
+            </div>
+
+            <!-- 로딩 -->
+            <div class="loading" id="loading">
+                <div class="loading-face">🔮</div>
+                <p>관상을 분석하고 있습니다...</p>
+                <p style="font-size: 13px; color: #888; margin-top: 10px;">얼굴의 기운을 읽는 중...</p>
+            </div>
+
+            <!-- 결과 -->
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="result-face">🧑</div>
+                    <div class="fortune-grade" id="fortuneGrade">길상 (吉相)</div>
+                </div>
+
+                <div class="fortune-meters" id="fortuneMeters"></div>
+
+                <div class="result-card">
+                    <h3>👤 총평</h3>
+                    <p id="overallReading"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💝 성격 분석</h3>
+                    <p id="personalityReading"></p>
+                    <div class="feature-summary" id="featureSummary"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3>💰 재물운</h3>
+                    <p id="wealthReading"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>❤️ 연애운</h3>
+                    <p id="loveReading"></p>
+                </div>
+
+                <div class="result-card">
+                    <h3>💼 직업운</h3>
+                    <p id="careerReading"></p>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn primary" onclick="shareResult()">결과 공유하기</button>
+                    <button class="share-btn secondary" onclick="resetTest()">다시 하기</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">Advertisement</div>
+
+        <footer>
+            <p>이 관상 분석은 재미를 위한 것입니다.<br>실제 관상학과는 다를 수 있습니다.</p>
+        </footer>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Face Reading</span>
-      </nav>
-      <h1>Face Reading</h1>
-      <p>Use Face Reading online for free. AI face reading fortune. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+    <script>
+        const selections = [null, null, null, null, null];
+        let currentStep = 0;
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Face Reading"></iframe>
+        const meanings = {
+            forehead: {
+                wide: { trait: "넓은 이마", meaning: "지혜롭고 이성적", fortune: "학문운 상승" },
+                narrow: { trait: "좁은 이마", meaning: "집중력이 강함", fortune: "전문 분야에서 성공" },
+                round: { trait: "둥근 이마", meaning: "온화하고 인자함", fortune: "대인관계 좋음" },
+                high: { trait: "높은 이마", meaning: "야망과 리더십", fortune: "사회적 성공 가능" }
+            },
+            eyes: {
+                big: { trait: "큰 눈", meaning: "순수하고 정직함", fortune: "인기운 상승" },
+                long: { trait: "긴 눈", meaning: "날카롭고 통찰력 있음", fortune: "사업운 좋음" },
+                single: { trait: "무쌍 눈", meaning: "내성적이지만 끈기 있음", fortune: "늦게 피는 꽃" },
+                double: { trait: "쌍꺼풀 눈", meaning: "표현력이 풍부함", fortune: "예술적 재능" }
+            },
+            nose: {
+                high: { trait: "높은 코", meaning: "자존심이 강함", fortune: "명예운 상승" },
+                flat: { trait: "낮은 코", meaning: "겸손하고 친근함", fortune: "협동 운 좋음" },
+                straight: { trait: "곧은 코", meaning: "정직하고 원칙적", fortune: "신뢰를 얻음" },
+                round: { trait: "둥근 코", meaning: "복 많고 인복 좋음", fortune: "재물운 상승" }
+            },
+            mouth: {
+                big: { trait: "큰 입", meaning: "적극적이고 사교적", fortune: "식복과 재복" },
+                small: { trait: "작은 입", meaning: "섬세하고 신중함", fortune: "내조의 여왕/왕" },
+                thick: { trait: "두꺼운 입술", meaning: "정열적이고 감성적", fortune: "연애운 상승" },
+                thin: { trait: "얇은 입술", meaning: "이성적이고 냉철함", fortune: "결단력 있음" }
+            },
+            face: {
+                oval: { trait: "계란형", meaning: "균형 잡힌 성격", fortune: "전반적 행운" },
+                round: { trait: "둥근 얼굴", meaning: "낙천적이고 복스러움", fortune: "재물복 좋음" },
+                square: { trait: "각진 얼굴", meaning: "의지가 강하고 고집", fortune: "자수성가" },
+                long: { trait: "긴 얼굴", meaning: "예술적 감성", fortune: "창의력으로 성공" }
+            }
+        };
 
-    <article class="seo-block">
-      <h2>What is Face Reading?</h2>
-      <p>Face Reading is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+        function selectFeature(step, element) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.feature-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            selections[step] = element.dataset.value;
+            document.getElementById(`next${step}`).disabled = false;
+        }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        function nextStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step + 1}`).classList.add('active');
+            currentStep = step + 1;
+            updateStepIndicator();
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function prevStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step - 1}`).classList.add('active');
+            currentStep = step - 1;
+            updateStepIndicator();
+        }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+        function updateStepIndicator() {
+            document.querySelectorAll('.step-dot').forEach((dot, i) => {
+                dot.classList.remove('active', 'done');
+                if (i < currentStep) dot.classList.add('done');
+                else if (i === currentStep) dot.classList.add('active');
+            });
+        }
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
+        function analyzeResult() {
+            document.getElementById(`step4`).classList.remove('active');
+            document.getElementById('loading').classList.add('show');
 
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
+            setTimeout(() => {
+                document.getElementById('loading').classList.remove('show');
+                generateResult();
+            }, 2500);
+        }
 
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
+        let resultData = {};
 
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
+        function generateResult() {
+            const features = [
+                meanings.forehead[selections[0]],
+                meanings.eyes[selections[1]],
+                meanings.nose[selections[2]],
+                meanings.mouth[selections[3]],
+                meanings.face[selections[4]]
+            ];
 
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
+            // 점수 계산
+            const baseScore = 65;
+            const scores = {
+                love: baseScore + Math.floor(Math.random() * 25),
+                wealth: baseScore + Math.floor(Math.random() * 25),
+                career: baseScore + Math.floor(Math.random() * 25),
+                health: baseScore + Math.floor(Math.random() * 25)
+            };
 
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
+            // 특정 조합 보너스
+            if (selections[2] === 'round') scores.wealth += 10;
+            if (selections[3] === 'thick') scores.love += 10;
+            if (selections[0] === 'high') scores.career += 10;
 
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+            // 최대 100으로 제한
+            Object.keys(scores).forEach(k => scores[k] = Math.min(100, scores[k]));
 
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
+            const avgScore = Math.round((scores.love + scores.wealth + scores.career + scores.health) / 4);
 
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
+            let grade = '평상 (平相)';
+            if (avgScore >= 85) grade = '대길상 (大吉相)';
+            else if (avgScore >= 75) grade = '길상 (吉相)';
+            else if (avgScore >= 65) grade = '소길상 (小吉相)';
 
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
+            resultData = {
+                grade,
+                scores,
+                features,
+                traits: features.map(f => f.trait)
+            };
 
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
+            displayResult();
+        }
 
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
+        function displayResult() {
+            document.getElementById('resultSection').classList.add('show');
+            document.getElementById('fortuneGrade').textContent = resultData.grade;
 
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
+            // 운세 미터
+            const labels = { love: '❤️ 연애운', wealth: '💰 재물운', career: '💼 직업운', health: '💪 건강운' };
+            let metersHtml = '';
+            Object.entries(resultData.scores).forEach(([key, value]) => {
+                metersHtml += `
+                    <div class="fortune-meter">
+                        <div class="label">${labels[key]}</div>
+                        <div class="score">${value}점</div>
+                        <div class="fortune-bar">
+                            <div class="fortune-bar-fill" style="width: ${value}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('fortuneMeters').innerHTML = metersHtml;
 
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
-</body>
+            // 특징 태그
+            document.getElementById('featureSummary').innerHTML = resultData.traits.map(t =>
+                `<span class="feature-tag">${t}</span>`
+            ).join('');
+
+            // 분석 텍스트
+            document.getElementById('overallReading').textContent =
+                `당신의 관상은 ${resultData.grade}입니다. 전체적으로 ${resultData.features[4].meaning}한 기운이 느껴지며, ` +
+                `${resultData.features[0].fortune}의 운이 함께합니다. 삶의 균형이 잘 잡혀 있어 큰 어려움 없이 안정적인 삶을 살 수 있습니다.`;
+
+            document.getElementById('personalityReading').textContent =
+                `${resultData.features[0].trait}에서 ${resultData.features[0].meaning}한 성격이 보이고, ` +
+                `${resultData.features[1].trait}은 ${resultData.features[1].meaning}을 나타냅니다. ` +
+                `${resultData.features[3].trait}에서는 ${resultData.features[3].meaning}한 특성이 엿보입니다.`;
+
+            document.getElementById('wealthReading').textContent =
+                `${resultData.features[2].trait}에서 ${resultData.features[2].fortune}의 기운이 보입니다. ` +
+                (resultData.scores.wealth >= 80 ?
+                    '재물운이 상당히 좋아 경제적으로 풍요로운 삶이 예상됩니다.' :
+                    '꾸준히 노력하면 안정적인 재정 상태를 유지할 수 있습니다.');
+
+            document.getElementById('loveReading').textContent =
+                `${resultData.features[1].trait}과 ${resultData.features[3].trait}에서 연애운이 보입니다. ` +
+                (resultData.scores.love >= 80 ?
+                    '매력이 넘쳐 이성에게 인기가 많을 상입니다. 좋은 인연을 만날 확률이 높습니다.' :
+                    '진심을 다해 다가가면 좋은 인연을 만날 수 있습니다.');
+
+            document.getElementById('careerReading').textContent =
+                `${resultData.features[0].fortune}의 기운과 ${resultData.features[4].meaning}한 성향이 결합되어, ` +
+                (resultData.scores.career >= 80 ?
+                    '사회적으로 인정받고 성공할 가능성이 높습니다.' :
+                    '본인의 강점을 살리면 직장에서 인정받을 수 있습니다.');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult() {
+            const avgScore = Math.round((resultData.scores.love + resultData.scores.wealth + resultData.scores.career + resultData.scores.health) / 4);
+            const text = `👁️ AI 관상 분석 결과
+
+【${resultData.grade}】
+📊 종합 ${avgScore}점
+
+❤️ 연애운: ${resultData.scores.love}점
+💰 재물운: ${resultData.scores.wealth}점
+💼 직업운: ${resultData.scores.career}점
+💪 건강운: ${resultData.scores.health}점
+
+관상으로 본 나의 성격과 운세!
+✨ 너도 관상 분석 받아볼래?`;
+
+            window.shareWithModal('AI 관상 분석', text);
+        }
+
+        function resetTest() {
+            selections.fill(null);
+            currentStep = 0;
+            document.getElementById('resultSection').classList.remove('show');
+            document.querySelectorAll('.feature-section').forEach((s, i) => {
+                s.classList.toggle('active', i === 0);
+            });
+            document.querySelectorAll('.feature-option').forEach(o => o.classList.remove('selected'));
+            document.querySelectorAll('.nav-btn.next').forEach(b => b.disabled = true);
+            updateStepIndicator();
+        }
+    </script>
+<script src="/common/share-modal.js"></script><script src="/common/tool-i18n-handler.js"></script></body>
 </html>

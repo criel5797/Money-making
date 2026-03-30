@@ -1,238 +1,286 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flip Clock - Free Online Flip Clock Tool</title>
-  <meta name="description" content="Use Flip Clock online for free. Retro digital clock. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.">
-  <meta name="keywords" content="Flip Clock, free online tool, utility tool">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://instaidea.org/tools/fun/flip-clock/">
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://instaidea.org/"},{"@type":"ListItem","position":2,"name":"Utilities & Fun Tools","item":"https://instaidea.org/utilities/"},{"@type":"ListItem","position":3,"name":"Flip Clock","item":"https://instaidea.org/tools/fun/flip-clock/"}]},{"@context":"https://schema.org","@type":"WebApplication","name":"Flip Clock","url":"https://instaidea.org/tools/fun/flip-clock/","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Use Flip Clock online for free. Retro digital clock. No install, no signup, and optimized for desktop and mobile. Category: Utilities & Fun Tools."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Flip Clock?","acceptedAnswer":{"@type":"Answer","text":"Flip Clock is a browser-based tool for fast, repeatable tasks with no installation."}},{"@type":"Question","name":"How do I use this tool?","acceptedAnswer":{"@type":"Answer","text":"Open the interface, paste input, run the action, then copy or export the result."}},{"@type":"Question","name":"Is this tool free and mobile-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free to use and supports modern desktop and mobile browsers."}}]}]</script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.65;
-    }
-    .tool-header {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      padding: 12px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .tool-nav { display: flex; gap: 12px; align-items: center; }
-    .home-link {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-link:hover { background: rgba(255,255,255,0.32); }
-    .lang-switcher { display: flex; gap: 8px; }
-    .lang-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .lang-btn:hover { background: rgba(255,255,255,0.3); }
-    .lang-btn.active { background: rgba(255,255,255,0.42); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+<head><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://instaidea.org/tools/fun/flip-clock/"><meta property="og:url" content="https://instaidea.org/tools/fun/flip-clock/"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="ja_JP"><link rel="alternate" hreflang="ko" href="https://instaidea.org/tools/fun/flip-clock/"><link rel="alternate" hreflang="en" href="https://instaidea.org/tools/fun/flip-clock/index-en.html"><link rel="alternate" hreflang="ja" href="https://instaidea.org/tools/fun/flip-clock/index-ja.html"><link rel="alternate" hreflang="x-default" href="https://instaidea.org/tools/fun/flip-clock/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>플립 시계 - 복고풍 디지털 시계</title>
+    <meta name="description" content="아름다운 플립 시계. 복고풍 스타일의 디지털 시계를 즐겨보세요.">
+    <meta name="keywords" content="플립 시계, 디지털 시계, 복고풍 시계, 온라인 시계">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container { max-width: 700px; width: 100%; margin: 0 auto; }
+        .ad-banner {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.3);
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+        .clock-section {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .flip-clock {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .flip-group {
+            display: flex;
+            gap: 5px;
+        }
+        .flip-card {
+            position: relative;
+            width: 70px;
+            height: 100px;
+            perspective: 300px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+            backface-visibility: hidden;
+        }
+        .flip-card-front {
+            top: 0;
+            background: linear-gradient(180deg, #333 0%, #222 100%);
+            border-radius: 10px 10px 0 0;
+            border-bottom: 2px solid #111;
+        }
+        .flip-card-back {
+            bottom: 0;
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-radius: 0 0 10px 10px;
+        }
+        .flip-card-front span, .flip-card-back span {
+            display: block;
+            font-size: 4rem;
+            font-weight: 700;
+            color: #f1c40f;
+            font-family: 'Courier New', monospace;
+            line-height: 100px;
+        }
+        .flip-card-front span {
+            transform: translateY(0);
+        }
+        .flip-card-back span {
+            transform: translateY(-50%);
+        }
+        .separator {
+            font-size: 4rem;
+            color: #f1c40f;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .date-display {
+            margin-top: 30px;
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .day-display {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 10px;
+        }
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .theme-btn {
+            padding: 12px 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .theme-btn.active {
+            background: rgba(241, 196, 15, 0.3);
+            border-color: #f1c40f;
+        }
+        .fullscreen-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .fullscreen-btn:hover {
+            transform: scale(1.05);
+        }
 
-    .wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .hero {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 8px; color: #0f172a; }
-    .hero p { color: #4b5563; font-size: 1rem; }
-    .breadcrumb { margin-bottom: 8px; font-size: 13px; color: #6b7280; }
-    .breadcrumb a { color: #2563eb; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
+        /* Color Themes */
+        .theme-gold .flip-card-front span, .theme-gold .flip-card-back span, .theme-gold .separator { color: #f1c40f; }
+        .theme-green .flip-card-front span, .theme-green .flip-card-back span, .theme-green .separator { color: #2ecc71; }
+        .theme-blue .flip-card-front span, .theme-blue .flip-card-back span, .theme-blue .separator { color: #3498db; }
+        .theme-red .flip-card-front span, .theme-red .flip-card-back span, .theme-red .separator { color: #e74c3c; }
+        .theme-white .flip-card-front span, .theme-white .flip-card-back span, .theme-white .separator { color: #ecf0f1; }
 
-    .tool-iframe {
-      width: 100%;
-      height: min(980px, calc(100vh - 220px));
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      display: block;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    .seo-block {
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 24px;
-    }
-    .seo-block h2 { margin: 14px 0 8px; font-size: 1.25rem; color: #111827; }
-    .seo-block p, .seo-block li { color: #374151; }
-    .seo-block ul, .seo-block ol { margin: 8px 0 14px 20px; }
-    .seo-block pre {
-      margin: 10px 0 16px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      overflow: auto;
-    }
-    .seo-block a { color: #1d4ed8; text-decoration: none; }
-    .seo-block a:hover { text-decoration: underline; }
-
-    @media (max-width: 700px) {
-      .tool-header { padding: 10px 15px; }
-      .home-link, .lang-btn { padding: 6px 12px; font-size: 12px; }
-      .wrapper { padding: 14px; }
-      .hero, .seo-block { padding: 16px; }
-      .tool-iframe { height: min(760px, calc(100vh - 250px)); }
-    }
-  </style>
+        @media (max-width: 500px) {
+            .flip-card { width: 50px; height: 70px; }
+            .flip-card-front span, .flip-card-back span { font-size: 2.5rem; line-height: 70px; }
+            .separator { font-size: 2.5rem; }
+        }
+    </style>
 </head>
 <body>
-  <div class="tool-header">
-    <div class="tool-nav">
-      <a href="/" class="home-link">🏠 <span>홈</span></a>
-      <a href="/tools/fun/" class="home-link">📚 <span>Utilities &amp; Fun Tools</span></a>
-      <a href="/all-pages/" class="home-link">🗂 <span>Directory</span></a>
+    <div class="container">
+        <div class="ad-banner">광고 영역</div>
+        <header>
+            <h1>🕐 플립 시계</h1>
+            <p class="subtitle">복고풍 스타일의 아름다운 시계</p>
+        </header>
+        <div class="clock-section theme-gold" id="clockSection">
+            <div class="flip-clock">
+                <div class="flip-group">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front"><span id="hour1">0</span></div>
+                            <div class="flip-card-back"><span id="hour1b">0</span></div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front"><span id="hour2">0</span></div>
+                            <div class="flip-card-back"><span id="hour2b">0</span></div>
+                        </div>
+                    </div>
+                </div>
+                <span class="separator">:</span>
+                <div class="flip-group">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front"><span id="min1">0</span></div>
+                            <div class="flip-card-back"><span id="min1b">0</span></div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front"><span id="min2">0</span></div>
+                            <div class="flip-card-back"><span id="min2b">0</span></div>
+                        </div>
+                    </div>
+                </div>
+                <span class="separator">:</span>
+                <div class="flip-group">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front"><span id="sec1">0</span></div>
+                            <div class="flip-card-back"><span id="sec1b">0</span></div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front"><span id="sec2">0</span></div>
+                            <div class="flip-card-back"><span id="sec2b">0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="date-display" id="dateDisplay"></div>
+            <div class="day-display" id="dayDisplay"></div>
+            <div class="controls">
+                <button class="theme-btn active" data-theme="gold" onclick="setTheme('gold')">🌟 골드</button>
+                <button class="theme-btn" data-theme="green" onclick="setTheme('green')">💚 그린</button>
+                <button class="theme-btn" data-theme="blue" onclick="setTheme('blue')">💙 블루</button>
+                <button class="theme-btn" data-theme="red" onclick="setTheme('red')">❤️ 레드</button>
+                <button class="theme-btn" data-theme="white" onclick="setTheme('white')">🤍 화이트</button>
+                <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ 전체화면</button>
+            </div>
+        </div>
+        <div class="ad-banner" style="margin-top:20px">광고 영역</div>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="ko">한국어</button><button class="lang-btn" data-lang="en">English</button><button class="lang-btn" data-lang="ja">日本語</button>
-    </div>
-  </div>
+    <script>
+        var days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
 
-  <main class="wrapper">
-    <section class="hero">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a> / <a href="/utilities/">Utilities &amp; Fun Tools</a> / <span>Flip Clock</span>
-      </nav>
-      <h1>Flip Clock</h1>
-      <p>Use Flip Clock online for free. Retro digital clock. No install, no signup, and optimized for desktop and mobile. Category: Utilities &amp; Fun Tools.</p>
-    </section>
+        function updateClock() {
+            var now = new Date();
+            var hours = String(now.getHours()).padStart(2, '0');
+            var mins = String(now.getMinutes()).padStart(2, '0');
+            var secs = String(now.getSeconds()).padStart(2, '0');
 
-    <iframe id="toolFrame" class="tool-iframe" src="content-ko.html" title="Flip Clock"></iframe>
+            document.getElementById('hour1').textContent = hours[0];
+            document.getElementById('hour1b').textContent = hours[0];
+            document.getElementById('hour2').textContent = hours[1];
+            document.getElementById('hour2b').textContent = hours[1];
+            document.getElementById('min1').textContent = mins[0];
+            document.getElementById('min1b').textContent = mins[0];
+            document.getElementById('min2').textContent = mins[1];
+            document.getElementById('min2b').textContent = mins[1];
+            document.getElementById('sec1').textContent = secs[0];
+            document.getElementById('sec1b').textContent = secs[0];
+            document.getElementById('sec2').textContent = secs[1];
+            document.getElementById('sec2b').textContent = secs[1];
 
-    <article class="seo-block">
-      <h2>What is Flip Clock?</h2>
-      <p>Flip Clock is a browser-based utility you can use instantly. This page includes readable HTML text so search engines can understand the tool topic, intent, and usage scenarios beyond JavaScript UI rendering.</p>
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1;
+            var date = now.getDate();
+            document.getElementById('dateDisplay').textContent = year + '년 ' + month + '월 ' + date + '일';
+            document.getElementById('dayDisplay').textContent = days[now.getDay()];
+        }
 
-      <h2>How to use</h2>
-      <ol>
-        <li>Open the tool interface above.</li>
-        <li>Paste or enter your input data.</li>
-        <li>Run the main action and review the output.</li>
-        <li>Copy results or export them to your workflow.</li>
-      </ol>
+        function setTheme(theme) {
+            var section = document.getElementById('clockSection');
+            section.className = 'clock-section theme-' + theme;
+            document.querySelectorAll('.theme-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            document.querySelector('[data-theme="' + theme + '"]').classList.add('active');
+            localStorage.setItem('flipClockTheme', theme);
+        }
 
-      <h2>Why this tool helps</h2>
-      <p>Quick online tools reduce context switching when you need to solve a small task fast. Instead of opening desktop software or writing one-off scripts, you can complete the task in one tab and move on. This is especially useful for debugging, content editing, and repetitive conversions.</p>
-      <p>Teams also use these pages as lightweight references. The same URL can be shared in onboarding docs, runbooks, and issue comments so everyone uses the same workflow. This reduces confusion, keeps output formats consistent, and helps new users complete tasks without extra setup.</p>
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
 
-      <h2>Common use cases</h2>
-      <ul>
-        <li>Quick data cleanup before commit or deploy.</li>
-        <li>Validation checks while debugging API responses.</li>
-        <li>Generating formatted output for docs and tickets.</li>
-        <li>Fast conversions during QA, support, or review tasks.</li>
-      </ul>
+        // Load saved theme
+        var savedTheme = localStorage.getItem('flipClockTheme');
+        if (savedTheme) setTheme(savedTheme);
 
-      <h2>Performance and privacy notes</h2>
-      <p>Most tasks run directly in the browser, which keeps turnaround time low for small and medium inputs. For sensitive data, avoid sharing raw secrets in any external environment and prefer local-safe workflows. Use this tool as a fast utility layer, then validate final output in your primary production pipeline.</p>
-
-      <h2>Example</h2><pre><code>Input example\nOutput example</code></pre>
-
-      <h2>FAQ</h2>
-      <p><strong>Is this tool free?</strong> Yes. It runs directly in the browser with no account required.</p>
-      <p><strong>Does it work on mobile?</strong> Yes. The interface supports both desktop and mobile browsers.</p>
-      <p><strong>Can I share this page?</strong> Yes. Use the URL in your docs, notes, or team chat.</p>
-
-      <h2>More Tools</h2><ul><li><a href="/tools/fun/daily-fortune/">Daily Fortune</a></li><li><a href="/tools/fun/mbti-test/">MBTI Test</a></li><li><a href="/tools/fun/dream-interpreter/">Dream Interpreter</a></li><li><a href="/tools/fun/compatibility-test/">Compatibility Test</a></li><li><a href="/tools/fun/ai-tarot/">AI Tarot</a></li><li><a href="/tools/fun/char-counter/">Character Counter</a></li></ul>
-      <h2>Browse Sections</h2><ul><li><a href="/games/">Brain Training Games</a></li><li><a href="/tools/web/">All Web Developer Tools</a></li><li><a href="/tools/fun/">All Utility Tools</a></li><li><a href="/dev-tools/">Developer Tools</a></li><li><a href="/utilities/">Utilities &amp; Fun Tools</a></li><li><a href="/all-pages/">Full Site Directory</a></li></ul>
-    </article>
-  </main>
-
-  <script>
-    var currentLang = 'ko';
-    var availableLangs = {"ko":true,"en":true,"ja":true};
-
-    function switchToolLanguage(lang) {
-      if (!availableLangs[lang]) {
-        lang = availableLangs.ko ? 'ko' : (availableLangs.en ? 'en' : 'ja');
-      }
-
-      currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
-
-      var iframe = document.getElementById('toolFrame');
-      var newSrc = 'content-' + lang + '.html';
-      if (iframe.src.indexOf(newSrc) === -1) {
-        iframe.src = newSrc;
-      }
-
-      document.querySelectorAll('.lang-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-      });
-
-      var homeTexts = { ko: '홈', en: 'Home', ja: 'ホーム' };
-      document.querySelector('.home-link span').textContent = homeTexts[lang] || 'Home';
-    }
-
-    function hideIframeLanguageSwitcher() {
-      try {
-        var iframeDoc = document.getElementById('toolFrame').contentDocument ||
-                        document.getElementById('toolFrame').contentWindow.document;
-        var style = iframeDoc.createElement('style');
-        style.textContent = [
-          '.lang-switch,',
-          '.lang-switcher,',
-          '[class*="lang-btn"],',
-          '[class*="language"],',
-          'a[href*="index-ko.html"],',
-          'a[href*="index-en.html"],',
-          'a[href*="index-ja.html"],',
-          'a[href*="index.html"][hreflang]{display:none!important;}'
-        ].join('');
-        iframeDoc.head.appendChild(style);
-      } catch (e) {}
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        switchToolLanguage(this.getAttribute('data-lang'));
-      });
-    });
-
-    document.getElementById('toolFrame').addEventListener('load', hideIframeLanguageSwitcher);
-
-    window.addEventListener('load', function() {
-      var savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang && availableLangs[savedLang]) switchToolLanguage(savedLang);
-      else switchToolLanguage(currentLang);
-    });
-  </script>
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
 </body>
 </html>

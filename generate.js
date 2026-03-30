@@ -89,17 +89,90 @@ function escapeHtml(v){
     .replace(/'/g, '&#39;');
 }
 
-function injectToolContentSeo(content, canonicalPath) {
+function pickDefaultToolLanguage(availableLanguages) {
+  if (availableLanguages.ko) return 'ko';
+  if (availableLanguages.en) return 'en';
+  if (availableLanguages.ja) return 'ja';
+  return 'en';
+}
+
+function getToolLocaleFilename(lang, defaultLang) {
+  return lang === defaultLang ? 'index.html' : 'index-' + lang + '.html';
+}
+
+function getToolLocalePath(canonicalPath, lang, defaultLang) {
+  return canonicalPath + (lang === defaultLang ? '' : ('index-' + lang + '.html'));
+}
+
+function getLocaleOpenGraphValue(lang) {
+  if (lang === 'ko') return 'ko_KR';
+  if (lang === 'ja') return 'ja_JP';
+  return 'en_US';
+}
+
+function ensureHtmlLang(content, lang) {
+  var text = String(content || '');
+  if (/<html\b[^>]*\blang=["'][^"']*["']/i.test(text)) {
+    return text.replace(/(<html\b[^>]*\blang=["'])[^"']*(["'][^>]*>)/i, '$1' + lang + '$2');
+  }
+  if (/<html\b/i.test(text)) {
+    return text.replace(/<html\b([^>]*)>/i, '<html lang="' + lang + '"$1>');
+  }
+  return text;
+}
+
+function buildAlternateHreflangTags(canonicalPath, availableLanguages, defaultLang) {
+  var tags = [];
+  ['ko', 'en', 'ja'].forEach(function(lang) {
+    if (!availableLanguages[lang]) return;
+    tags.push(
+      '<link rel="alternate" hreflang="' + lang + '" href="' +
+      escapeHtml(absUrl(getToolLocalePath(canonicalPath, lang, defaultLang))) +
+      '">'
+    );
+  });
+
+  tags.push(
+    '<link rel="alternate" hreflang="x-default" href="' +
+    escapeHtml(absUrl(getToolLocalePath(canonicalPath, defaultLang, defaultLang))) +
+    '">'
+  );
+
+  return tags.join('');
+}
+
+function injectToolContentSeo(content, options) {
+  options = options || {};
+  var canonicalPath = options.canonicalPath || '/';
+  var lang = options.lang || 'en';
+  var availableLanguages = options.availableLanguages || {};
+  var defaultLang = options.defaultLang || pickDefaultToolLanguage(availableLanguages);
+  var pagePath = getToolLocalePath(canonicalPath, lang, defaultLang);
+  var canonical = escapeHtml(absUrl(pagePath));
+  var altTags = buildAlternateHreflangTags(canonicalPath, availableLanguages, defaultLang);
+  var ogLocale = getLocaleOpenGraphValue(lang);
+  var ogAlternateTags = ['ko', 'en', 'ja'].filter(function(locale) {
+    return availableLanguages[locale] && locale !== lang;
+  }).map(function(locale) {
+    return '<meta property="og:locale:alternate" content="' + getLocaleOpenGraphValue(locale) + '">';
+  }).join('');
+
+  content = ensureHtmlLang(content, lang);
   content = String(content || '')
     .replace(/<meta[^>]+name=["']robots["'][^>]*>/ig, '')
     .replace(/<meta[^>]+name=["']googlebot["'][^>]*>/ig, '')
-    .replace(/<link[^>]+rel=["']canonical["'][^>]*>/ig, '');
+    .replace(/<link[^>]+rel=["']canonical["'][^>]*>/ig, '')
+    .replace(/<link[^>]+rel=["']alternate["'][^>]*hreflang=["'][^"']+["'][^>]*>/ig, '')
+    .replace(/<meta[^>]+property=["']og:url["'][^>]*>/ig, '')
+    .replace(/<meta[^>]+property=["']og:locale(?::alternate)?["'][^>]*>/ig, '');
 
-  var canonical = escapeHtml(absUrl(canonicalPath));
   var seoTags = '' +
-    '<meta name="robots" content="noindex,follow">' +
-    '<meta name="googlebot" content="noindex">' +
-    '<link rel="canonical" href="' + canonical + '">';
+    '<meta name="robots" content="index,follow,max-image-preview:large">' +
+    '<link rel="canonical" href="' + canonical + '">' +
+    '<meta property="og:url" content="' + canonical + '">' +
+    '<meta property="og:locale" content="' + ogLocale + '">' +
+    ogAlternateTags +
+    altTags;
 
   if (/<head[^>]*>/i.test(content)) {
     return content.replace(/<head[^>]*>/i, function(match) {
@@ -107,7 +180,7 @@ function injectToolContentSeo(content, canonicalPath) {
     });
   }
 
-  return '<!doctype html><html><head>' + seoTags + '</head><body>' + content + '</body></html>';
+  return '<!doctype html><html lang="' + lang + '"><head>' + seoTags + '</head><body>' + content + '</body></html>';
 }
 
 function injectBeforeClosingTag(content, closingTag, injection) {
@@ -153,18 +226,18 @@ function readToolSourceContent(srcFile, logLabel) {
   return content;
 }
 
-function buildLegacyToolLinkMap(sourceFileByLang, availableLanguages, hasIndexHtml) {
+function buildLegacyToolLinkMap(sourceFileByLang, availableLanguages, hasIndexHtml, defaultLang) {
   var linkMap = {};
   Object.keys(sourceFileByLang).forEach(function(lang) {
     if (sourceFileByLang[lang]) {
-      linkMap[sourceFileByLang[lang]] = 'content-' + lang + '.html';
+      linkMap[sourceFileByLang[lang]] = getToolLocaleFilename(lang, defaultLang);
     }
   });
 
   if (hasIndexHtml && !linkMap['index.html']) {
-    if (availableLanguages.en) linkMap['index.html'] = 'content-en.html';
-    else if (availableLanguages.ko) linkMap['index.html'] = 'content-ko.html';
-    else if (availableLanguages.ja) linkMap['index.html'] = 'content-ja.html';
+    if (availableLanguages.ko) linkMap['index.html'] = getToolLocaleFilename('ko', defaultLang);
+    else if (availableLanguages.en) linkMap['index.html'] = getToolLocaleFilename('en', defaultLang);
+    else if (availableLanguages.ja) linkMap['index.html'] = getToolLocaleFilename('ja', defaultLang);
   }
 
   return linkMap;
@@ -198,6 +271,19 @@ function buildToolSeoDescription(tool, categoryLabel) {
   var keyword = safeText(tool && tool.title && tool.title.en, 'online tool');
   var purpose = safeText(tool && tool.desc && tool.desc.en, 'fast browser-based utility');
   return 'Use ' + keyword + ' online for free. ' + purpose + '. No install, no signup, and optimized for desktop and mobile. Category: ' + categoryLabel + '.';
+}
+
+function buildLocalizedToolSitemapEntries(canonicalPath, availableLanguages, defaultLang, priority) {
+  var entries = [];
+  ['ko', 'en', 'ja'].forEach(function(lang) {
+    if (!availableLanguages[lang]) return;
+    entries.push({
+      url: getToolLocalePath(canonicalPath, lang, defaultLang),
+      priority: priority,
+      changefreq: 'monthly'
+    });
+  });
+  return entries;
 }
 
 function buildGameAverageGuide(gameId, category) {
@@ -1428,42 +1514,42 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
       }
     });
 
-    var localizedLinkMap = buildLegacyToolLinkMap(sourceFileByLang, availableLanguages, fs.existsSync(path.join(srcPath, 'index.html')));
+    if (!(availableLanguages.ko || availableLanguages.en || availableLanguages.ja)) {
+      return null;
+    }
+
+    var defaultLang = pickDefaultToolLanguage(availableLanguages);
+    var localizedLinkMap = buildLegacyToolLinkMap(sourceFileByLang, availableLanguages, fs.existsSync(path.join(srcPath, 'index.html')), defaultLang);
 
     localizedSources.forEach(function(entry) {
       var content = rewriteLegacyToolLinks(entry.content, localizedLinkMap);
-      content = injectToolContentSeo(content, canonicalPath);
+      content = injectToolContentSeo(content, {
+        canonicalPath: canonicalPath,
+        lang: entry.lang,
+        availableLanguages: availableLanguages,
+        defaultLang: defaultLang
+      });
       var contentWithHandler = injectBeforeClosingTag(content, '</body>', handlerScript);
       var injection = '<script>window.currentLang="' + entry.lang + '";window.toolI18n=' + JSON.stringify(i18nData) + ';</script>';
       var finalContent = injectBeforeClosingTag(contentWithHandler, '</head>', injection);
-      fs.writeFileSync(path.join(destPath, 'content-' + entry.lang + '.html'), finalContent);
+      fs.writeFileSync(path.join(destPath, getToolLocaleFilename(entry.lang, defaultLang)), finalContent);
     });
 
-    // At least one language must be available
-    if (availableLanguages.ko || availableLanguages.en || availableLanguages.ja) {
-      // Create wrapper
-      var toolTitle = toolData.title.en || toolData.title.ko || toolId;
-      var wrapperHtml = createToolWrapper(
-        toolId,
-        toolTitle,
-        toolType || 'tool',
-        availableLanguages,
-        buildToolWrapperOptions(toolId, toolData, toolType)
-      );
-      fs.writeFileSync(path.join(destPath, 'index.html'), wrapperHtml);
+    // Copy other assets
+    var localizedFiles = fs.readdirSync(srcPath);
+    localizedFiles.forEach(function(file) {
+      if (!file.match(/^index.*\.html$/)) {
+        var s = path.join(srcPath, file);
+        var d = path.join(destPath, file);
+        if (fs.statSync(s).isDirectory()) copyDir(s, d);
+        else fs.copyFileSync(s, d);
+      }
+    });
 
-      // Copy other assets
-      var files = fs.readdirSync(srcPath);
-      files.forEach(function(file) {
-        if (!file.match(/^index.*\.html$/)) {
-          var s = path.join(srcPath, file);
-          var d = path.join(destPath, file);
-          if (fs.statSync(s).isDirectory()) copyDir(s, d);
-          else fs.copyFileSync(s, d);
-        }
-      });
-      return; // Done
-    }
+    return {
+      availableLanguages: availableLanguages,
+      defaultLang: defaultLang
+    };
   }
 
   // Fallback to legacy logic (copying individual files)
@@ -1514,12 +1600,23 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
     }
   });
 
-  var legacyLinkMap = buildLegacyToolLinkMap(sourceFileByLang, availableLanguages, !!languageFiles.default);
+  if (!(availableLanguages.ko || availableLanguages.en || availableLanguages.ja)) {
+    console.warn('[build] Skipping tool with no valid localized content: ' + toolType + ':' + toolId);
+    return null;
+  }
+
+  var defaultLang = pickDefaultToolLanguage(availableLanguages);
+  var legacyLinkMap = buildLegacyToolLinkMap(sourceFileByLang, availableLanguages, !!languageFiles.default, defaultLang);
 
   legacySources.forEach(function(entry) {
-    var destFile = path.join(destPath, 'content-' + entry.lang + '.html');
+    var destFile = path.join(destPath, getToolLocaleFilename(entry.lang, defaultLang));
     var legacyContent = rewriteLegacyToolLinks(entry.content, legacyLinkMap);
-    fs.writeFileSync(destFile, injectToolContentSeo(legacyContent, canonicalPath));
+    fs.writeFileSync(destFile, injectToolContentSeo(legacyContent, {
+      canonicalPath: canonicalPath,
+      lang: entry.lang,
+      availableLanguages: availableLanguages,
+      defaultLang: defaultLang
+    }));
   });
 
   // Copy other files (not index*.html)
@@ -1536,23 +1633,10 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
     }
   });
 
-  if (!(availableLanguages.ko || availableLanguages.en || availableLanguages.ja)) {
-    console.warn('[build] Skipping tool with no valid localized content: ' + toolType + ':' + toolId);
-    return;
-  }
-
-  // Get tool title from toolData
-  var toolTitle = toolData.title.en || toolData.title.ko || toolId;
-
-  // Create wrapper index.html
-  var wrapperHtml = createToolWrapper(
-    toolId,
-    toolTitle,
-    toolType || 'tool',
-    availableLanguages,
-    buildToolWrapperOptions(toolId, toolData, toolType)
-  );
-  fs.writeFileSync(path.join(destPath, 'index.html'), wrapperHtml);
+  return {
+    availableLanguages: availableLanguages,
+    defaultLang: defaultLang
+  };
 }
 
 function build(){
@@ -1591,6 +1675,7 @@ function build(){
 
   // Process Web Tools with language switching
   var webToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'web');
+  var webToolEntries = [];
   
   // Copy common JS files (tool-i18n-handler.js, share-modal.js)
   var commonDest = path.join(OUT, 'common');
@@ -1609,20 +1694,31 @@ function build(){
       var srcPath = path.join(webToolsSrc, tool.id);
       var destPath = path.join(OUT, 'tools', 'web', tool.id);
       if (fs.existsSync(srcPath)) {
-        processToolDirectory(srcPath, destPath, tool.id, tool, 'webTool');
+        var webToolBuild = processToolDirectory(srcPath, destPath, tool.id, tool, 'webTool');
+        if (webToolBuild) {
+          webToolEntries = webToolEntries.concat(
+            buildLocalizedToolSitemapEntries('/tools/web/' + tool.id + '/', webToolBuild.availableLanguages, webToolBuild.defaultLang, '0.7')
+          );
+        }
       }
     }
   }
 
   // Process Consumer Tools with language switching
   var consumerToolsSrc = path.join(process.cwd(), 'src', 'external-tools', 'fun');
+  var funToolEntries = [];
   if (fs.existsSync(consumerToolsSrc)) {
     for (var i = 0; i < consumerTools.length; i++) {
       var tool = consumerTools[i];
       var srcPath = path.join(consumerToolsSrc, tool.id);
       var destPath = path.join(OUT, 'tools', 'fun', tool.id);
       if (fs.existsSync(srcPath)) {
-        processToolDirectory(srcPath, destPath, tool.id, tool, 'funTool');
+        var funToolBuild = processToolDirectory(srcPath, destPath, tool.id, tool, 'funTool');
+        if (funToolBuild) {
+          funToolEntries = funToolEntries.concat(
+            buildLocalizedToolSitemapEntries('/tools/fun/' + tool.id + '/', funToolBuild.availableLanguages, funToolBuild.defaultLang, '0.6')
+          );
+        }
       }
     }
   }
@@ -1643,13 +1739,6 @@ function build(){
   var gameEntries = games.map(function(game) {
     return { url: '/games/' + game.id + '/', priority: '0.8', changefreq: 'monthly' };
   });
-  var webToolEntries = webTools.map(function(tool) {
-    return { url: '/tools/web/' + tool.id + '/', priority: '0.7', changefreq: 'monthly' };
-  });
-  var funToolEntries = consumerTools.map(function(tool) {
-    return { url: '/tools/fun/' + tool.id + '/', priority: '0.6', changefreq: 'monthly' };
-  });
-
   var buildUrlSetXml = function(entries) {
     var xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
     for (var i = 0; i < entries.length; i++) {
