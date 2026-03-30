@@ -244,8 +244,14 @@ function injectToolContentSeo(content, options) {
   var lang = options.lang || 'en';
   var availableLanguages = options.availableLanguages || {};
   var defaultLang = options.defaultLang || pickDefaultToolLanguage(availableLanguages);
+  var toolId = options.toolId || '';
+  var toolData = options.toolData || null;
+  var toolType = options.toolType || 'webTool';
+  var categoryLabel = toolType === 'webTool' ? 'Developer Tools' : 'Utilities & Fun Tools';
   var pagePath = getToolLocalePath(canonicalPath, lang, defaultLang);
   var canonical = escapeHtml(absUrl(pagePath));
+  var metaTitle = escapeHtml(buildToolSeoTitle(toolId, toolData, toolType, lang));
+  var metaDescription = escapeHtml(buildToolSeoDescription(toolId, toolData, toolType, lang, categoryLabel));
   var altTags = buildAlternateHreflangTags(canonicalPath, availableLanguages, defaultLang);
   var ogLocale = getLocaleOpenGraphValue(lang);
   var ogAlternateTags = ['ko', 'en', 'ja'].filter(function(locale) {
@@ -256,21 +262,39 @@ function injectToolContentSeo(content, options) {
 
   content = ensureHtmlLang(content, lang);
   content = String(content || '')
+    .replace(/<title>[\s\S]*?<\/title>/ig, '')
+    .replace(/<meta[^>]+name=["']description["'][^>]*>/ig, '')
+    .replace(/<meta[^>]+name=["']keywords["'][^>]*>/ig, '')
     .replace(/<meta[^>]+name=["']robots["'][^>]*>/ig, '')
     .replace(/<meta[^>]+name=["']googlebot["'][^>]*>/ig, '')
     .replace(/<link[^>]+rel=["']canonical["'][^>]*>/ig, '')
     .replace(/<link[^>]+rel=["']alternate["'][^>]*hreflang=["'][^"']+["'][^>]*>/ig, '')
+    .replace(/<meta[^>]+property=["']og:title["'][^>]*>/ig, '')
+    .replace(/<meta[^>]+property=["']og:description["'][^>]*>/ig, '')
+    .replace(/<meta[^>]+property=["']og:type["'][^>]*>/ig, '')
     .replace(/<meta[^>]+property=["']og:url["'][^>]*>/ig, '')
-    .replace(/<meta[^>]+property=["']og:locale(?::alternate)?["'][^>]*>/ig, '');
+    .replace(/<meta[^>]+property=["']og:locale(?::alternate)?["'][^>]*>/ig, '')
+    .replace(/<script[^>]+type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/ig, '');
 
   var seoTags = '' +
+    '<title>' + metaTitle + '</title>' +
+    '<meta name="description" content="' + metaDescription + '">' +
     '<meta name="robots" content="index,follow,max-image-preview:large">' +
     '<link rel="canonical" href="' + canonical + '">' +
+    '<meta property="og:title" content="' + metaTitle + '">' +
+    '<meta property="og:description" content="' + metaDescription + '">' +
+    '<meta property="og:type" content="website">' +
     '<meta property="og:url" content="' + canonical + '">' +
     '<meta property="og:locale" content="' + ogLocale + '">' +
     ogAlternateTags +
     altTags +
+    buildToolStructuredDataScripts(toolId, toolData, toolType, pagePath, lang) +
     buildGoogleAnalyticsTags();
+
+  if (lang === 'en' && TOOL_SEO_GUIDES[toolId]) {
+    content = injectBeforeClosingTag(content, '</head>', buildToolGuideStyles());
+    content = injectBeforeClosingTag(content, '</body>', buildToolGuideSection(toolId, toolData, toolType, lang));
+  }
 
   if (/<head[^>]*>/i.test(content)) {
     return content.replace(/<head[^>]*>/i, function(match) {
@@ -359,28 +383,722 @@ function rewriteLegacyToolLinks(content, linkMap) {
 
 function buildGameSeoTitle(game, lang) {
   var locale = lang || 'en';
+  var gameMeta = {
+    'reaction-time': {
+      title: 'Reaction Time Test - Measure Reflex Speed Online',
+      description: 'Measure reaction time in milliseconds with a fast browser-based reflex test. Retry instantly, compare scores, and practice online for free.'
+    },
+    'typing-speed': {
+      title: 'Typing Speed Test - Free WPM Keyboard Test Online',
+      description: 'Check typing speed, WPM, and accuracy with a free online keyboard test. Practice short rounds and track improvement over time.'
+    },
+    'click-speed': {
+      title: 'Click Speed Test - Free CPS Test Online',
+      description: 'Test click speed online and measure CPS in a short browser challenge. Compare your score and practice for a faster click rhythm.'
+    },
+    'memory-number': {
+      title: 'Number Memory Test - Remember Longer Digits Online',
+      description: 'Train number recall with a free online memory test. Repeat longer digit sequences, compare your score, and improve short-term memory.'
+    },
+    'sequence-memory': {
+      title: 'Sequence Memory Game - Test Recall Order Online',
+      description: 'Play a free online sequence memory game and repeat the correct order under pressure. Track progress and improve recall accuracy.'
+    },
+    'visual-memory': {
+      title: 'Visual Memory Test - Remember Flashing Tiles Online',
+      description: 'Test visual recall with a free browser memory game. Remember tile positions, retry quickly, and improve pattern recognition.'
+    },
+    'verbal-memory': {
+      title: 'Verbal Memory Test - Check Word Recall Online',
+      description: 'Train verbal memory with a free online word recall test. Spot seen versus new words and build a better long-term memory score.'
+    },
+    'chimp-test': {
+      title: 'Chimp Test - Memory and Number Order Challenge',
+      description: 'Play the chimp test online and click numbers in the correct order after they disappear. Compare your score and sharpen working memory.'
+    },
+    'aim-trainer': {
+      title: 'Aim Trainer - Free Mouse Accuracy Test Online',
+      description: 'Improve mouse accuracy and speed with a free online aim trainer. Hit targets quickly, repeat rounds, and build better control.'
+    },
+    'stroop-test': {
+      title: 'Stroop Test - Free Attention and Focus Test Online',
+      description: 'Take a free Stroop test online to challenge attention, focus, and response control. Compare scores and repeat short focus drills.'
+    },
+    'number-speed': {
+      title: 'Number Speed Test - Compare Numbers Faster Online',
+      description: 'Train number recognition and decision speed with a free online test. Pick larger numbers quickly and track accuracy over time.'
+    },
+    'math-quiz': {
+      title: 'Math Quiz Game - Solve Arithmetic Faster Online',
+      description: 'Practice arithmetic speed with a free online math quiz. Solve mental math problems quickly and improve accuracy through short rounds.'
+    },
+    'pattern-memory': {
+      title: 'Pattern Memory Game - Repeat Visual Patterns Online',
+      description: 'Test pattern memory with a free online brain game. Watch the pattern, repeat it correctly, and improve recall through repetition.'
+    },
+    'color-match': {
+      title: 'Color Match Game - Focus and Color Response Test',
+      description: 'Challenge focus and processing speed with a free online color match game. Respond to color cues quickly and compare each round.'
+    },
+    'color-blind-test': {
+      title: 'Color Blind Test - Spot Different Colors Online',
+      description: 'Check color perception with a free online color blind test. Find the different shade quickly and compare results across rounds.'
+    },
+    'hearing-test': {
+      title: 'Hearing Test - Check High Frequency Range Online',
+      description: 'Test the highest frequency you can hear with a free browser hearing test. Run a quick audio check online with no install.'
+    },
+    'target-tracker': {
+      title: 'Target Tracker - Moving Target Accuracy Game Online',
+      description: 'Track a moving target and click precisely in a free online reaction game. Practice fast visual tracking and control.'
+    },
+    'word-puzzle': {
+      title: 'Word Puzzle Game - Make Words from Letters Online',
+      description: 'Play a free online word puzzle game and build words from shuffled letters. Improve vocabulary speed and spelling under time pressure.'
+    }
+  };
+  if (locale === 'en' && gameMeta[game && game.id] && gameMeta[game.id].title) {
+    return gameMeta[game.id].title;
+  }
   var keyword = getLocalizedCatalogValue(game && game.title, locale, 'en') || 'Brain Training Game';
   if (locale === 'ko') return keyword + ' - 무료 온라인 게임';
   if (locale === 'ja') return keyword + ' - 無料オンラインゲーム';
-  return keyword + ' - Check Your Score Free Online';
+  return keyword + ' - Free Online Game';
 }
 
 function buildGameSeoDescription(game, lang) {
   var locale = lang || 'en';
+  var gameMeta = {
+    'reaction-time': 'Measure reaction time in milliseconds with a fast browser-based reflex test. Retry instantly, compare scores, and practice online for free.',
+    'typing-speed': 'Check typing speed, WPM, and accuracy with a free online keyboard test. Practice short rounds and track improvement over time.',
+    'click-speed': 'Test click speed online and measure CPS in a short browser challenge. Compare your score and practice for a faster click rhythm.',
+    'memory-number': 'Train number recall with a free online memory test. Repeat longer digit sequences, compare your score, and improve short-term memory.',
+    'sequence-memory': 'Play a free online sequence memory game and repeat the correct order under pressure. Track progress and improve recall accuracy.',
+    'visual-memory': 'Test visual recall with a free browser memory game. Remember tile positions, retry quickly, and improve pattern recognition.',
+    'verbal-memory': 'Train verbal memory with a free online word recall test. Spot seen versus new words and build a better long-term memory score.',
+    'chimp-test': 'Play the chimp test online and click numbers in the correct order after they disappear. Compare your score and sharpen working memory.',
+    'aim-trainer': 'Improve mouse accuracy and speed with a free online aim trainer. Hit targets quickly, repeat rounds, and build better control.',
+    'stroop-test': 'Take a free Stroop test online to challenge attention, focus, and response control. Compare scores and repeat short focus drills.',
+    'number-speed': 'Train number recognition and decision speed with a free online test. Pick larger numbers quickly and track accuracy over time.',
+    'math-quiz': 'Practice arithmetic speed with a free online math quiz. Solve mental math problems quickly and improve accuracy through short rounds.',
+    'pattern-memory': 'Test pattern memory with a free online brain game. Watch the pattern, repeat it correctly, and improve recall through repetition.',
+    'color-match': 'Challenge focus and processing speed with a free online color match game. Respond to color cues quickly and compare each round.',
+    'color-blind-test': 'Check color perception with a free online color blind test. Find the different shade quickly and compare results across rounds.',
+    'hearing-test': 'Test the highest frequency you can hear with a free browser hearing test. Run a quick audio check online with no install.',
+    'target-tracker': 'Track a moving target and click precisely in a free online reaction game. Practice fast visual tracking and control.',
+    'word-puzzle': 'Play a free online word puzzle game and build words from shuffled letters. Improve vocabulary speed and spelling under time pressure.'
+  };
+  if (locale === 'en' && gameMeta[game && game.id]) {
+    return gameMeta[game.id];
+  }
   var keyword = getLocalizedCatalogValue(game && game.title, locale, 'en') || 'Brain Training Game';
   var teaser = getLocalizedCatalogValue(game && game.description, locale, 'en') || 'Train your brain with this free online game.';
   return keyword + ' - ' + teaser + ' Play free online, track your best score, and improve with practical tips.';
 }
 
-function buildToolSeoTitle(tool) {
-  var keyword = safeText(tool && tool.title && tool.title.en, 'Online Tool');
-  return keyword + ' - Free Online ' + keyword + ' Tool';
+var TOOL_META_OVERRIDES = {
+  'password-generator': {
+    title: 'Password Generator Online | Create Strong Random Passwords',
+    description: 'Generate strong random passwords with length, symbol, and character set controls. Create secure passwords instantly in your browser.'
+  },
+  'qr-generator': {
+    title: 'QR Code Generator | Create QR Codes Online Free',
+    description: 'Create QR codes online for URLs, Wi-Fi, text, and contact details. Generate and download clean QR images in your browser.'
+  },
+  'json-formatter': {
+    title: 'JSON Formatter & Validator | Format JSON Online',
+    description: 'Format, validate, and beautify JSON online. Fix messy payloads, inspect API responses, and copy clean JSON in one step.'
+  },
+  'uuid-generator': {
+    title: 'UUID Generator | Create UUID v4 Online',
+    description: 'Generate UUIDs online for databases, APIs, and application records. Create random identifiers instantly with no install.'
+  },
+  'base64-tool': {
+    title: 'Base64 Encoder and Decoder | Convert Text Online',
+    description: 'Encode and decode Base64 online for text, tokens, and small payloads. Convert values quickly in your browser.'
+  },
+  'diff-checker': {
+    title: 'Diff Checker Online | Compare Text Side by Side',
+    description: 'Compare two text blocks or code snippets online and highlight added, removed, and changed lines instantly.'
+  },
+  'regex-tester': {
+    title: 'Regex Tester | Test Regular Expressions Online',
+    description: 'Test regular expressions online with instant matches, flags, and sample text. Debug regex patterns faster in your browser.'
+  },
+  'word-counter': {
+    title: 'Word Counter | Count Words, Characters, and Lines',
+    description: 'Count words, characters, spaces, and lines online. Check text length quickly for writing, SEO, and content editing.'
+  },
+  'timestamp-converter': {
+    title: 'Unix Timestamp Converter | Epoch to Date Online',
+    description: 'Convert Unix timestamps to human-readable dates and back online. Check epoch time values quickly in your browser.'
+  },
+  'jwt-decoder': {
+    title: 'JWT Decoder | Decode JSON Web Tokens Online',
+    description: 'Decode JWT tokens online and inspect header, payload, and expiry details without installing extra tools.'
+  },
+  'json-to-typescript': {
+    title: 'JSON to TypeScript | Generate Types Online',
+    description: 'Convert JSON into TypeScript interfaces online. Generate starter types for APIs, mocks, and frontend models fast.'
+  },
+  'markdown-to-html': {
+    title: 'Markdown to HTML Converter | Preview and Export',
+    description: 'Convert Markdown to HTML online with instant preview. Clean up docs, copy HTML output, and speed up content workflows.'
+  },
+  'sql-formatter': {
+    title: 'SQL Formatter | Format SQL Queries Online',
+    description: 'Format SQL queries online for better readability. Clean up long statements and review complex SQL faster.'
+  },
+  'html-minifier': {
+    title: 'HTML Minifier | Compress HTML Online',
+    description: 'Minify HTML online to reduce file size and remove extra whitespace. Clean up markup quickly before deploy.'
+  },
+  'css-minifier': {
+    title: 'CSS Minifier | Compress CSS Online',
+    description: 'Minify CSS online and shrink stylesheets fast. Remove extra whitespace and optimize browser-ready CSS in one step.'
+  },
+  'slug-generator': {
+    title: 'Slug Generator | Create SEO-Friendly URL Slugs',
+    description: 'Generate clean URL slugs online for blog posts, product pages, and SEO workflows. Convert text into readable slugs fast.'
+  },
+  'text-case-converter': {
+    title: 'Text Case Converter | Uppercase, Lowercase, Title Case',
+    description: 'Convert text case online with uppercase, lowercase, sentence case, and title case options. Clean up copy instantly.'
+  },
+  'binary-hex': {
+    title: 'Binary Hex Converter | Binary, Decimal, and Hex Online',
+    description: 'Convert binary, decimal, and hexadecimal values online. Switch between bases quickly for debugging and study tasks.'
+  },
+  'meta-tag-generator': {
+    title: 'Meta Tag Generator | Build SEO Meta Tags Online',
+    description: 'Generate SEO meta tags online for titles, descriptions, Open Graph, and social previews without manual markup.'
+  },
+  'image-to-base64': {
+    title: 'Image to Base64 Converter | Encode Images Online',
+    description: 'Convert images to Base64 online for quick embeds, previews, and development workflows. Encode image files in the browser.'
+  },
+  'char-counter': {
+    title: 'Character Counter | Count Characters, Words, and Spaces',
+    description: 'Count characters, words, lines, and spaces online. Check text length for social posts, forms, and writing tasks.'
+  },
+  'age-calculator': {
+    title: 'Age Calculator | Calculate Exact Age from Birth Date',
+    description: 'Calculate exact age online from a birth date. Check years, months, and days quickly with a simple browser calculator.'
+  },
+  'bmi-calculator': {
+    title: 'BMI Calculator | Calculate Body Mass Index Online',
+    description: 'Calculate BMI online from height and weight. Check body mass index quickly with a simple browser-based calculator.'
+  },
+  'percent-calculator': {
+    title: 'Percentage Calculator | Find Percent Change Online',
+    description: 'Calculate percentage, increase, decrease, and ratios online. Solve common percent math problems quickly.'
+  },
+  'unit-converter': {
+    title: 'Unit Converter | Convert Length, Weight, and Temperature',
+    description: 'Convert common units online for length, weight, temperature, and more. Switch values quickly in your browser.'
+  }
+};
+
+function buildToolSeoTitle(toolId, tool, toolType, lang) {
+  var locale = lang || 'en';
+  var keyword = getLocalizedCatalogValue(tool && tool.title, locale, 'en') || safeText(tool && tool.title && tool.title.en, 'Online Tool');
+  var metaOverride = TOOL_META_OVERRIDES[toolId];
+  if (locale === 'en' && metaOverride && metaOverride.title) return metaOverride.title;
+  if (locale === 'ko') return keyword + ' - 무료 온라인 ' + (toolType === 'webTool' ? '도구' : '유틸리티');
+  if (locale === 'ja') return keyword + ' - 無料オンライン' + (toolType === 'webTool' ? 'ツール' : 'ユーティリティ');
+  return keyword + ' - Free Online Tool';
 }
 
-function buildToolSeoDescription(tool, categoryLabel) {
-  var keyword = safeText(tool && tool.title && tool.title.en, 'online tool');
-  var purpose = safeText(tool && tool.desc && tool.desc.en, 'fast browser-based utility');
+function buildToolSeoDescription(toolId, tool, toolType, lang, categoryLabel) {
+  var locale = lang || 'en';
+  var metaOverride = TOOL_META_OVERRIDES[toolId];
+  if (locale === 'en' && metaOverride && metaOverride.description) return metaOverride.description;
+  var keyword = getLocalizedCatalogValue(tool && tool.title, locale, 'en') || safeText(tool && tool.title && tool.title.en, 'online tool');
+  var purpose = getLocalizedCatalogValue(tool && tool.desc, locale, 'en') || safeText(tool && tool.desc && tool.desc.en, 'fast browser-based utility');
+  if (locale === 'ko') return keyword + ' 온라인 도구입니다. ' + purpose + '. 설치 없이 브라우저에서 바로 사용할 수 있습니다.';
+  if (locale === 'ja') return keyword + 'をオンラインで使えます。' + purpose + '。インストール不要でブラウザですぐに使えます。';
   return 'Use ' + keyword + ' online for free. ' + purpose + '. No install, no signup, and optimized for desktop and mobile. Category: ' + categoryLabel + '.';
+}
+
+var TOOL_SEO_GUIDES = {};
+
+function findCatalogItemById(id) {
+  var catalogs = [webTools, consumerTools];
+  for (var c = 0; c < catalogs.length; c++) {
+    for (var i = 0; i < catalogs[c].length; i++) {
+      if (catalogs[c][i].id === id) return catalogs[c][i];
+    }
+  }
+  return null;
+}
+
+function buildToolFaqItems(toolId, toolData, toolType, lang) {
+  if ((lang || 'en') !== 'en') return [];
+  var guide = TOOL_SEO_GUIDES[toolId];
+  if (guide && Array.isArray(guide.faqs)) return guide.faqs;
+  return [];
+}
+
+function buildToolGuideStyles() {
+  return '' +
+    '<style id="insta-seo-tool-style">' +
+      '.insta-seo-content{max-width:1100px;margin:40px auto 28px;padding:0 20px}' +
+      '.insta-seo-card{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:28px;color:#0f172a;box-shadow:0 20px 60px rgba(15,23,42,0.08)}' +
+      '.insta-seo-card h2{margin:0 0 12px;font-size:1.4rem;color:#0f172a}' +
+      '.insta-seo-card h3{margin:18px 0 8px;font-size:1.05rem;color:#0f172a}' +
+      '.insta-seo-card p,.insta-seo-card li{color:#334155;line-height:1.75}' +
+      '.insta-seo-card ul,.insta-seo-card ol{margin:0 0 18px 22px}' +
+      '.insta-seo-card pre{margin:0 0 18px;padding:16px;border-radius:14px;background:#0f172a;color:#e2e8f0;overflow:auto}' +
+      '.insta-seo-card a{color:#1d4ed8;text-decoration:none}' +
+      '.insta-seo-card a:hover{text-decoration:underline}' +
+      '@media (max-width:700px){.insta-seo-content{padding:0 14px}.insta-seo-card{padding:20px}}' +
+    '</style>';
+}
+
+TOOL_SEO_GUIDES['password-generator'] = {
+  overview: 'A password generator helps you create unique credentials for work accounts, personal logins, and shared team tools without reusing weak passwords.',
+  steps: [
+    'Choose password length and the character groups you want to include.',
+    'Generate a new password until the mix matches your security policy.',
+    'Copy the result and save it in a password manager instead of a plain text note.'
+  ],
+  useCases: [
+    'Creating strong passwords for new SaaS accounts and admin users.',
+    'Rotating credentials after a security review or team handoff.',
+    'Generating unique one-off passwords for client or vendor access.'
+  ],
+  tips: [
+    'Use 16 or more characters for important accounts whenever allowed.',
+    'Avoid reusing one password across email, banking, and work systems.',
+    'Pair strong passwords with a password manager and MFA.'
+  ],
+  faqs: [
+    { q: 'Does this password generator run locally?', a: 'Yes. Password creation happens in the browser so you can generate values without a separate desktop tool.' },
+    { q: 'What makes a strong password?', a: 'Length matters most. A longer password with mixed character types is usually more resistant to guessing and reuse risk.' },
+    { q: 'Should I memorize generated passwords?', a: 'For most accounts, storing them in a reputable password manager is a better workflow than trying to memorize many long random strings.' }
+  ],
+  related: ['hash-generator', 'jwt-decoder', 'qr-generator']
+};
+
+TOOL_SEO_GUIDES['qr-generator'] = {
+  overview: 'A QR code generator lets you turn links, text, Wi-Fi credentials, or contact details into a scan-ready code that works on phones and tablets.',
+  steps: [
+    'Select the content type such as URL, text, Wi-Fi, or contact details.',
+    'Enter the exact value you want users to scan.',
+    'Generate the QR code, test it with a phone, and download the image.'
+  ],
+  useCases: [
+    'Adding scan links to posters, menus, packaging, or event materials.',
+    'Sharing Wi-Fi credentials in offices, cafes, or temporary venues.',
+    'Creating fast mobile entry points for landing pages or app downloads.'
+  ],
+  tips: [
+    'Test the code on more than one phone camera before publishing it.',
+    'Keep the destination short and stable when possible.',
+    'Use enough contrast between the QR code and its background.'
+  ],
+  faqs: [
+    { q: 'Can I generate a QR code for a website link?', a: 'Yes. URL QR codes are one of the most common use cases because they send mobile users directly to a page.' },
+    { q: 'Will the QR code still work after I download it?', a: 'Yes, as long as the encoded destination remains valid. The image simply stores the scan pattern.' },
+    { q: 'What should I test before printing a QR code?', a: 'Check scan distance, contrast, and the final destination URL so users do not hit a broken or incorrect page.' }
+  ],
+  related: ['url-encoder', 'slug-generator', 'meta-tag-generator']
+};
+
+TOOL_SEO_GUIDES['json-formatter'] = {
+  overview: 'A JSON formatter is useful when API responses, logs, or copied payloads arrive as one long line and you need to read or validate them quickly.',
+  steps: [
+    'Paste the JSON payload into the editor.',
+    'Format or validate the content to reveal structure and syntax issues.',
+    'Copy the cleaned result back into docs, tickets, or your editor.'
+  ],
+  useCases: [
+    'Inspecting API responses during frontend or backend debugging.',
+    'Cleaning copied payloads before adding examples to docs.',
+    'Checking whether a JSON snippet is valid before commit or deploy.'
+  ],
+  tips: [
+    'Validate before reusing a payload in tests or fixtures.',
+    'Watch for trailing commas and missing quotes when pasted from chat or docs.',
+    'Keep a formatted copy in tickets when teammates need to review the same payload.'
+  ],
+  faqs: [
+    { q: 'What does a JSON formatter help with?', a: 'It turns compact or messy JSON into readable indentation so nested objects, arrays, and syntax mistakes are easier to spot.' },
+    { q: 'Can I use it to validate JSON?', a: 'Yes. Formatting and validation usually go together because invalid syntax prevents reliable parsing.' },
+    { q: 'Who typically uses a JSON formatter?', a: 'Developers, QA engineers, support teams, and technical writers all use it when they need readable payloads fast.' }
+  ],
+  related: ['json-to-typescript', 'diff-checker', 'regex-tester']
+};
+
+TOOL_SEO_GUIDES['uuid-generator'] = {
+  overview: 'A UUID generator creates unique identifiers for records, uploads, database rows, and test data without depending on a custom script.',
+  steps: [
+    'Choose the UUID version or output style if the tool offers options.',
+    'Generate one or more identifiers.',
+    'Copy the values into your app, database seed, or test fixture.'
+  ],
+  useCases: [
+    'Creating IDs for mock API responses and frontend states.',
+    'Preparing sample database rows or import files.',
+    'Generating stable-looking test values during QA and debugging.'
+  ],
+  tips: [
+    'Confirm which UUID version your application expects before generation.',
+    'Use batch generation when you need many sample records at once.',
+    'Keep generated IDs separate from production identifiers in shared docs.'
+  ],
+  faqs: [
+    { q: 'Why use a UUID generator in the browser?', a: 'It removes the need for a separate script when you only need a few identifiers quickly.' },
+    { q: 'Are UUIDs useful for test data?', a: 'Yes. They are commonly used in mocks, fixtures, and sample imports because they look realistic and avoid collisions.' },
+    { q: 'Should I use the same UUID twice?', a: 'Usually no. The point of a UUID is to create a fresh identifier for a distinct object or record.' }
+  ],
+  related: ['json-formatter', 'jwt-decoder', 'hash-generator']
+};
+
+TOOL_SEO_GUIDES['diff-checker'] = {
+  overview: 'A diff checker compares two text blocks and highlights inserted, removed, or changed lines so edits are easier to review than with a manual scan.',
+  steps: [
+    'Paste the original version into the first panel.',
+    'Paste the updated version into the second panel.',
+    'Run the comparison and review changed lines side by side.'
+  ],
+  useCases: [
+    'Reviewing copy edits before publishing updated content.',
+    'Comparing API payloads, config files, or SQL statements during debugging.',
+    'Checking what changed between two drafts without opening Git.'
+  ],
+  tips: [
+    'Normalize line endings before comparing copied content from different systems.',
+    'Compare smaller sections when a file is large and noisy.',
+    'Use the tool for quick inspection, then confirm important changes in source control.'
+  ],
+  faqs: [
+    { q: 'What is a diff checker used for?', a: 'It helps you compare old and new text quickly by surfacing only the lines that changed.' },
+    { q: 'Can I compare code as well as plain text?', a: 'Yes. Diff tools are often used for both prose and code snippets when you need a fast browser comparison.' },
+    { q: 'When is an online diff checker useful?', a: 'It is useful when you need a quick review in one tab and do not want to open desktop comparison software.' }
+  ],
+  related: ['json-formatter', 'sql-formatter', 'regex-tester']
+};
+
+TOOL_SEO_GUIDES['regex-tester'] = {
+  overview: 'A regex tester helps you validate regular expressions against sample text so you can debug patterns faster and avoid trial-and-error in production code.',
+  steps: [
+    'Paste your regex pattern and sample text into the tool.',
+    'Toggle the flags you need such as global, multiline, or case-insensitive mode.',
+    'Review matches, groups, and misses until the pattern behaves as expected.'
+  ],
+  useCases: [
+    'Debugging validation rules for forms and API inputs.',
+    'Testing search-and-replace patterns before using them in an editor.',
+    'Teaching or documenting how a regex behaves with real sample data.'
+  ],
+  tips: [
+    'Start with a narrow sample string, then test noisy real-world input.',
+    'Check edge cases such as empty values, spacing, and punctuation.',
+    'Document the final pattern together with example matches.'
+  ],
+  faqs: [
+    { q: 'Why use a regex tester?', a: 'It gives instant feedback on matches so you can adjust a pattern before it ships to code or content workflows.' },
+    { q: 'Should I test regex with real sample data?', a: 'Yes. Synthetic samples help at first, but real inputs reveal spacing, casing, and punctuation issues much faster.' },
+    { q: 'What usually breaks a regex pattern?', a: 'Flags, anchors, greedy groups, and unescaped special characters are common sources of unexpected matches.' }
+  ],
+  related: ['diff-checker', 'json-formatter', 'text-case-converter']
+};
+
+TOOL_SEO_GUIDES['word-counter'] = {
+  overview: 'A word counter gives you fast length checks for articles, scripts, prompts, emails, and social copy when every character or word limit matters.',
+  steps: [
+    'Paste or type your text into the editor.',
+    'Review word, character, line, and space counts.',
+    'Trim or expand the copy until it fits your target channel.'
+  ],
+  useCases: [
+    'Checking article length before publishing or pitching content.',
+    'Staying inside character limits for forms, ads, and social posts.',
+    'Reviewing prompt or script length during editing.'
+  ],
+  tips: [
+    'Check both word count and characters when a platform has multiple limits.',
+    'Remove repeated filler phrases before cutting important details.',
+    'Keep a rough target range in mind before you start writing.'
+  ],
+  faqs: [
+    { q: 'Who uses a word counter?', a: 'Writers, marketers, students, developers, and support teams all use it when content length affects delivery.' },
+    { q: 'Why check character count as well as words?', a: 'Many platforms enforce hard character limits even when your draft looks short enough by word count.' },
+    { q: 'Can a word counter help with editing?', a: 'Yes. It gives immediate feedback when you are trimming or expanding text to hit a target size.' }
+  ],
+  related: ['text-case-converter', 'slug-generator', 'markdown-to-html']
+};
+
+TOOL_SEO_GUIDES['timestamp-converter'] = {
+  overview: 'A timestamp converter is useful when logs, API payloads, or database fields show epoch values and you need to read the real date immediately.',
+  steps: [
+    'Paste a Unix timestamp or enter a calendar date.',
+    'Convert the value in the direction you need.',
+    'Copy the result into logs, tickets, or debugging notes.'
+  ],
+  useCases: [
+    'Reading event times in logs and audit trails.',
+    'Converting API values while debugging backend integrations.',
+    'Preparing exact time values for tests, scripts, or support responses.'
+  ],
+  tips: [
+    'Double-check whether the value is in seconds or milliseconds.',
+    'Note the timezone when you share converted times with other people.',
+    'Keep both formats in a ticket when engineers and non-engineers are collaborating.'
+  ],
+  faqs: [
+    { q: 'Why are timestamps useful in systems?', a: 'They are compact and easy for software to compare, sort, and store across services.' },
+    { q: 'What is the common source of timestamp mistakes?', a: 'Seconds versus milliseconds is the mistake that causes the biggest visible offset.' },
+    { q: 'When should I convert timestamps manually?', a: 'Manual conversion is useful when you are reading logs, validating API behavior, or preparing reproducible bug reports.' }
+  ],
+  related: ['json-formatter', 'uuid-generator', 'jwt-decoder']
+};
+
+TOOL_SEO_GUIDES['jwt-decoder'] = {
+  overview: 'A JWT decoder helps you inspect token headers and payload claims quickly when authentication issues are blocking a login or API call.',
+  steps: [
+    'Paste the token into the decoder input.',
+    'Review the decoded header and payload claims.',
+    'Check fields such as issuer, audience, subject, and expiry.'
+  ],
+  useCases: [
+    'Checking whether a token expired before an API request.',
+    'Inspecting claims during auth integration debugging.',
+    'Reviewing test tokens shared between frontend and backend teams.'
+  ],
+  tips: [
+    'Never treat decoding as full signature verification on its own.',
+    'Avoid pasting production secrets or highly sensitive tokens into shared environments.',
+    'Check exp, iat, and aud values first when auth behavior looks wrong.'
+  ],
+  faqs: [
+    { q: 'Does decoding a JWT verify the signature?', a: 'No. Decoding reveals readable claims, but signature verification still requires the correct signing context.' },
+    { q: 'What claims should I inspect first?', a: 'exp, iat, iss, aud, and sub usually explain most login and authorization failures.' },
+    { q: 'Why use an online JWT decoder?', a: 'It speeds up debugging when you need a quick look at claims without opening a REPL or writing a script.' }
+  ],
+  related: ['json-formatter', 'timestamp-converter', 'password-generator']
+};
+
+TOOL_SEO_GUIDES['json-to-typescript'] = {
+  overview: 'A JSON to TypeScript converter helps you turn sample payloads into starter interfaces so frontend work can move faster with fewer manual type definitions.',
+  steps: [
+    'Paste a representative JSON sample into the converter.',
+    'Generate TypeScript interfaces or types from the payload shape.',
+    'Review optional fields, nested arrays, and naming before copying the output.'
+  ],
+  useCases: [
+    'Creating starter types for frontend API integration work.',
+    'Generating quick mocks and fixtures for component development.',
+    'Documenting data contracts during backend and frontend handoff.'
+  ],
+  tips: [
+    'Use a realistic sample payload with optional fields when possible.',
+    'Review inferred array and null types before shipping generated code.',
+    'Treat the output as a strong starting point, not the final source of truth.'
+  ],
+  faqs: [
+    { q: 'Why convert JSON to TypeScript?', a: 'It saves time when you need fast starter interfaces from an existing payload.' },
+    { q: 'Should I edit the generated type definitions?', a: 'Yes. Generated output is best used as a draft you refine for naming, optionals, and shared models.' },
+    { q: 'What makes a good sample payload?', a: 'A realistic payload that includes nested objects, arrays, and optional fields creates better starter types.' }
+  ],
+  related: ['json-formatter', 'markdown-to-html', 'uuid-generator']
+};
+
+TOOL_SEO_GUIDES['markdown-to-html'] = {
+  overview: 'A Markdown to HTML converter is useful when docs, release notes, or content drafts need clean HTML for publishing systems and custom templates.',
+  steps: [
+    'Paste the Markdown source into the editor.',
+    'Preview the rendered HTML and check headings, lists, and links.',
+    'Copy the HTML output into your CMS, docs system, or email template.'
+  ],
+  useCases: [
+    'Turning release notes or README content into publish-ready HTML.',
+    'Preparing help-center articles and email blocks from Markdown drafts.',
+    'Reviewing how Markdown syntax renders before deployment.'
+  ],
+  tips: [
+    'Check tables, code blocks, and nested lists in preview before exporting.',
+    'Keep original Markdown in version control even after converting to HTML.',
+    'Use the HTML output as a draft, then test it in the target CMS or email client.'
+  ],
+  faqs: [
+    { q: 'Why convert Markdown to HTML?', a: 'Many publishing systems accept HTML directly even when your drafting workflow starts in Markdown.' },
+    { q: 'What should I verify after conversion?', a: 'Check links, code blocks, table rendering, and any custom HTML elements before publishing.' },
+    { q: 'Who benefits from this converter?', a: 'Developers, technical writers, marketers, and support teams often use it during documentation workflows.' }
+  ],
+  related: ['html-minifier', 'slug-generator', 'word-counter']
+};
+
+TOOL_SEO_GUIDES['sql-formatter'] = {
+  overview: 'A SQL formatter makes long queries easier to read by adding structure, spacing, and line breaks before review, debugging, or documentation.',
+  steps: [
+    'Paste the SQL query into the formatter.',
+    'Format the statement so keywords, joins, and clauses are easier to scan.',
+    'Copy the cleaned query back into your editor, ticket, or docs.'
+  ],
+  useCases: [
+    'Reviewing large queries during debugging or peer review.',
+    'Cleaning SQL examples before sharing them in docs and tickets.',
+    'Making joins, filters, and nested conditions easier to inspect.'
+  ],
+  tips: [
+    'Format before asking for query review so teammates can scan logic faster.',
+    'Keep original indentation style consistent across your docs and snippets.',
+    'Use formatting together with query analysis, not as a replacement for it.'
+  ],
+  faqs: [
+    { q: 'Why format SQL before review?', a: 'Readable structure makes joins, conditions, and nested clauses much easier to inspect.' },
+    { q: 'Can formatting improve query performance?', a: 'Formatting itself does not change performance, but it helps people spot logic issues faster.' },
+    { q: 'When is an online SQL formatter useful?', a: 'It is useful for quick cleanup when you do not want to open a full editor or database client.' }
+  ],
+  related: ['diff-checker', 'json-formatter', 'html-minifier']
+};
+
+TOOL_SEO_GUIDES['char-counter'] = {
+  overview: 'A character counter is useful when you need to fit text into platform limits for bios, forms, ad copy, prompts, or short messages.',
+  steps: [
+    'Paste or type the text into the editor.',
+    'Review character, word, line, and space counts.',
+    'Trim or rewrite the text until it fits your target limit.'
+  ],
+  useCases: [
+    'Checking social captions, bios, and platform-specific limits.',
+    'Reviewing short UI copy before it goes into a product screen.',
+    'Validating form text for onboarding, support, or marketing flows.'
+  ],
+  tips: [
+    'Watch both raw character count and spaces when a platform is strict.',
+    'Shorten repeated phrasing before cutting important details.',
+    'Keep a target limit in mind before you start editing.'
+  ],
+  faqs: [
+    { q: 'What is the difference between a character counter and a word counter?', a: 'A character counter focuses on total characters and spacing, which matters for many strict platform limits.' },
+    { q: 'Who uses character counters most often?', a: 'Marketers, writers, product teams, and support teams often rely on them for UI and channel limits.' },
+    { q: 'Can a character counter help with social posts?', a: 'Yes. It is one of the fastest ways to check whether a draft will fit a platform before you publish.' }
+  ],
+  related: ['word-counter', 'text-case-converter', 'insta-caption']
+};
+
+TOOL_SEO_GUIDES['age-calculator'] = {
+  overview: 'An age calculator helps you measure exact age from a birth date without manual date math, which is useful for forms, planning, and quick checks.',
+  steps: [
+    'Enter the birth date you want to measure from.',
+    'Choose the target date if the tool supports age at a specific point in time.',
+    'Review the result in years, months, and days.'
+  ],
+  useCases: [
+    'Checking exact age for forms and eligibility steps.',
+    'Calculating age on a future event date.',
+    'Answering quick support or admin questions without manual math.'
+  ],
+  tips: [
+    'Double-check the target date when age matters for an event or deadline.',
+    'Use exact age rather than rough year math for official forms.',
+    'Keep timezone and date format consistent when sharing results.'
+  ],
+  faqs: [
+    { q: 'Why use an age calculator instead of manual subtraction?', a: 'It handles months, days, and leap year boundaries more accurately than rough year math.' },
+    { q: 'Can I calculate age on a future date?', a: 'Yes, many age workflows depend on a target date rather than only the current date.' },
+    { q: 'Where is exact age useful?', a: 'Forms, eligibility checks, planning, and scheduling often require more precision than a rough age estimate.' }
+  ],
+  related: ['dday-calculator', 'bmi-calculator', 'percent-calculator']
+};
+
+TOOL_SEO_GUIDES['bmi-calculator'] = {
+  overview: 'A BMI calculator gives a fast body mass index estimate from height and weight so you can check a simple health-related metric in one step.',
+  steps: [
+    'Enter your height and weight values.',
+    'Choose the correct unit system if the tool supports more than one.',
+    'Review the BMI result and category range.'
+  ],
+  useCases: [
+    'Checking a quick BMI estimate during personal health tracking.',
+    'Comparing changes over time as weight changes.',
+    'Preparing simple reference values before a health consultation.'
+  ],
+  tips: [
+    'Use accurate recent measurements for better estimates.',
+    'Treat BMI as a rough screening metric, not a full health assessment.',
+    'Track the trend over time instead of overreacting to one reading.'
+  ],
+  faqs: [
+    { q: 'What does BMI measure?', a: 'BMI estimates body mass index using height and weight to provide a simple screening value.' },
+    { q: 'Is BMI a full health diagnosis?', a: 'No. It is a simple estimate and should be interpreted with broader health context when needed.' },
+    { q: 'Why use an online BMI calculator?', a: 'It gives a fast, convenient estimate without manual formula work or spreadsheet setup.' }
+  ],
+  related: ['age-calculator', 'percent-calculator', 'unit-converter']
+};
+
+function buildToolGuideSection(toolId, toolData, toolType, lang) {
+  if ((lang || 'en') !== 'en') return '';
+  var guide = TOOL_SEO_GUIDES[toolId];
+  if (!guide) return '';
+  var keyword = safeText(toolData && toolData.title && toolData.title.en, toolId);
+  var purpose = safeText(toolData && toolData.desc && toolData.desc.en, 'browser-based utility');
+  var sectionHub = toolType === 'webTool' ? getStaticPagePath('/dev-tools/', 'en') : getStaticPagePath('/utilities/', 'en');
+  var relatedLinks = '';
+  var relatedIds = Array.isArray(guide.related) ? guide.related : [];
+  for (var i = 0; i < relatedIds.length; i++) {
+    var item = findCatalogItemById(relatedIds[i]);
+    if (!item) continue;
+    var itemPath = (webTools.some(function(tool) { return tool.id === item.id; }) ? '/tools/web/' : '/tools/fun/') + item.id + '/';
+    relatedLinks += '<li><a href="' + href(itemPath) + '">' + escapeHtml(item.title.en || item.id) + '</a></li>';
+  }
+  var faqHtml = '';
+  var faqItems = buildToolFaqItems(toolId, toolData, toolType, lang);
+  for (var j = 0; j < faqItems.length; j++) {
+    faqHtml += '<h3>' + escapeHtml(faqItems[j].q) + '</h3><p>' + escapeHtml(faqItems[j].a) + '</p>';
+  }
+  var stepsHtml = '';
+  for (var s = 0; s < guide.steps.length; s++) stepsHtml += '<li>' + escapeHtml(guide.steps[s]) + '</li>';
+  var useCasesHtml = '';
+  for (var u = 0; u < guide.useCases.length; u++) useCasesHtml += '<li>' + escapeHtml(guide.useCases[u]) + '</li>';
+  var tipsHtml = '';
+  for (var t = 0; t < guide.tips.length; t++) tipsHtml += '<li>' + escapeHtml(guide.tips[t]) + '</li>';
+  return '' +
+    '<section class="insta-seo-content" aria-label="Tool guide">' +
+      '<div class="insta-seo-card">' +
+        '<h2>What is ' + escapeHtml(keyword) + '?</h2>' +
+        '<p>' + escapeHtml(guide.overview) + '</p>' +
+        '<p>' + escapeHtml(keyword) + ' helps when you need ' + escapeHtml(purpose) + ' in one tab instead of switching to desktop software or a temporary script.</p>' +
+        '<h2>How to use this tool</h2>' +
+        '<ol>' + stepsHtml + '</ol>' +
+        '<h2>Common use cases</h2>' +
+        '<ul>' + useCasesHtml + '</ul>' +
+        '<h2>Tips for better results</h2>' +
+        '<ul>' + tipsHtml + '</ul>' +
+        '<h2>Example workflow</h2>' +
+        '<pre><code>' + escapeHtml(getToolExample(toolId)) + '</code></pre>' +
+        '<h2>FAQ</h2>' + faqHtml +
+        (relatedLinks ? '<h2>Related tools</h2><ul>' + relatedLinks + '</ul>' : '') +
+        '<h2>Browse more pages</h2>' +
+        '<ul>' +
+          '<li><a href="' + href(sectionHub) + '">Browse this topic hub</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/tools/', 'en')) + '">See all tools</a></li>' +
+          '<li><a href="' + href(getStaticPagePath('/all-pages/', 'en')) + '">Open the full site directory</a></li>' +
+        '</ul>' +
+      '</div>' +
+    '</section>';
+}
+
+function buildToolStructuredDataScripts(toolId, toolData, toolType, pagePath, lang) {
+  var locale = lang || 'en';
+  var sectionLabel = toolType === 'webTool' ? 'Developer Tools' : 'Utilities & Fun Tools';
+  var sectionPath = toolType === 'webTool' ? '/dev-tools/' : '/utilities/';
+  var schemas = [
+    buildBreadcrumbSchema([
+      { name: 'Home', url: absUrl(getStaticPagePath('/', locale)) },
+      { name: sectionLabel, url: absUrl(getStaticPagePath(sectionPath, locale)) },
+      { name: getLocalizedCatalogValue(toolData && toolData.title, locale, 'en') || toolId, url: absUrl(pagePath) }
+    ]),
+    buildToolSchema(toolData, pagePath, locale)
+  ];
+  var faqItems = buildToolFaqItems(toolId, toolData, toolType, locale);
+  if (faqItems.length) schemas.push(buildFAQSchema(faqItems));
+  return schemas.map(function(schema) {
+    return '<script type="application/ld+json">' + JSON.stringify(schema) + '</script>';
+  }).join('');
 }
 
 function buildLocalizedToolSitemapEntries(canonicalPath, availableLanguages, defaultLang, priority) {
@@ -508,6 +1226,12 @@ function getToolExample(toolId) {
   if (toolId === 'regex-tester') return 'Pattern: ^[a-z0-9_]{3,16}$\\nText: user_name_01';
   if (toolId === 'base64-tool') return 'input: Hello World\\noutput: SGVsbG8gV29ybGQ=';
   if (toolId === 'timestamp-converter') return '1700000000 -> 2023-11-14 22:13:20 UTC';
+  if (toolId === 'password-generator') return 'length: 20\\noptions: upper, lower, numbers, symbols\\nresult: uP7!xL92#qT8vN4@dK1s';
+  if (toolId === 'qr-generator') return 'type: URL\\nvalue: https://instaidea.org/tools/web/\\noutput: downloadable QR image';
+  if (toolId === 'diff-checker') return 'old: Hello world\\nnew: Hello brave world';
+  if (toolId === 'word-counter') return 'Draft length: 824 words\\nCharacters with spaces: 4,912';
+  if (toolId === 'jwt-decoder') return 'header.alg: HS256\\npayload.sub: user_123\\npayload.exp: 1700000000';
+  if (toolId === 'json-to-typescript') return '{\"id\":1,\"name\":\"Ada\"}\\n=> interface Example { id: number; name: string; }';
   return 'Input example\\nOutput example';
 }
 
@@ -635,11 +1359,12 @@ function buildGameSchema(game, pathname, lang) {
   };
 }
 
-function buildToolSchema(tool, pathname) {
+function buildToolSchema(tool, pathname, lang) {
+  var locale = lang || 'en';
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    'name': tool.title.en || tool.title.ko,
+    'name': getLocalizedCatalogValue(tool && tool.title, locale, 'en') || (tool.title.en || tool.title.ko),
     'alternateName': [tool.title.ko, tool.title.ja].filter(Boolean),
     'url': absUrl(pathname),
     'applicationCategory': 'Utility',
@@ -647,7 +1372,7 @@ function buildToolSchema(tool, pathname) {
     'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' },
     'inLanguage': ['ko', 'en', 'ja'],
     'browserRequirements': 'Requires JavaScript',
-    'description': tool.desc.en || tool.desc.ko
+    'description': getLocalizedCatalogValue(tool && tool.desc, locale, 'en') || tool.desc.en || tool.desc.ko
   };
 }
 
@@ -2056,8 +2781,8 @@ function buildToolWrapperOptions(toolId, toolData, toolType) {
   ];
 
   return {
-    seoTitle: buildToolSeoTitle(toolData),
-    seoDescription: buildToolSeoDescription(toolData, categoryLabel),
+    seoTitle: buildToolSeoTitle(toolId, toolData, toolType, 'en'),
+    seoDescription: buildToolSeoDescription(toolId, toolData, toolType, 'en', categoryLabel),
     canonicalPath: pathPrefix + toolId + '/',
     baseUrl: BASE_URL,
     basePath: BASE_PATH,
@@ -2140,7 +2865,10 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
         canonicalPath: canonicalPath,
         lang: entry.lang,
         availableLanguages: availableLanguages,
-        defaultLang: defaultLang
+        defaultLang: defaultLang,
+        toolId: toolId,
+        toolData: toolData,
+        toolType: toolType
       });
       var contentWithHandler = injectBeforeClosingTag(content, '</body>', handlerScript);
       var injection = '<script>window.currentLang="' + entry.lang + '";window.toolI18n=' + JSON.stringify(i18nData) + ';</script>';
@@ -2228,7 +2956,10 @@ function processToolDirectory(srcPath, destPath, toolId, toolData, toolType) {
       canonicalPath: canonicalPath,
       lang: entry.lang,
       availableLanguages: availableLanguages,
-      defaultLang: defaultLang
+      defaultLang: defaultLang,
+      toolId: toolId,
+      toolData: toolData,
+      toolType: toolType
     }));
   });
 
