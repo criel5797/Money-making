@@ -9,6 +9,7 @@ var i18n = {
     totalCount: '총 {count}개의 게임과 도구가 준비되어 있습니다',
     gameCount: '총 {count}개의 게임이 준비되어 있습니다',
     home: '🏠 홈',
+    newRecord: ' 🎉 신기록! 다시 도전해봐!',
     playBtn: '플레이하기 →',
     useBtn: '사용하기 →',
     footer: '전체 게임 보기',
@@ -320,7 +321,13 @@ var i18n = {
         belowNormal: '평균 이하',
         currentFreq: '현재 주파수',
         maxFreq: '최고 주파수',
-        note: '※ 헤드폰 사용을 권장합니다. 볼륨을 적당히 조절하세요.'
+        note: '※ 헤드폰 사용을 권장합니다. 볼륨을 적당히 조절하세요.',
+        earAgeLabel: '귀 나이',
+        earAge_teen: '10대',
+        earAge_20s: '20대',
+        earAge_30s: '30대',
+        earAge_40s: '40대',
+        earAge_50s: '50대 이상'
       },
       colorBlind: {
         desc: '다른 색깔의 타일을 찾아 클릭하세요!',
@@ -408,6 +415,7 @@ var i18n = {
     totalCount: '{count} games and tools ready to use',
     gameCount: '{count} games ready to play',
     home: '🏠 Home',
+    newRecord: ' 🎉 New record! Beat that!',
     playBtn: 'Play →',
     useBtn: 'Use →',
     footer: 'View All Games',
@@ -719,7 +727,13 @@ var i18n = {
         belowNormal: 'Below Normal',
         currentFreq: 'Current Frequency',
         maxFreq: 'Max Frequency',
-        note: '※ Headphones recommended. Adjust volume appropriately.'
+        note: '※ Headphones recommended. Adjust volume appropriately.',
+        earAgeLabel: 'Ear Age',
+        earAge_teen: 'Teens',
+        earAge_20s: '20s',
+        earAge_30s: '30s',
+        earAge_40s: '40s',
+        earAge_50s: '50s+'
       },
       colorBlind: {
         desc: 'Find and click the different colored tile!',
@@ -807,6 +821,7 @@ var i18n = {
     totalCount: '全{count}個のゲームとツールが用意されています',
     gameCount: '全{count}個のゲームが用意されています',
     home: '🏠 ホーム',
+    newRecord: ' 🎉 新記録！また挑戦しよう！',
     playBtn: 'プレイ →',
     useBtn: '使用する →',
     footer: '全ゲームを見る',
@@ -1118,7 +1133,13 @@ var i18n = {
         belowNormal: '平均以下',
         currentFreq: '現在の周波数',
         maxFreq: '最高周波数',
-        note: '※ ヘッドフォンの使用をお勧めします。音量を適切に調整してください。'
+        note: '※ ヘッドフォンの使用をお勧めします。音量を適切に調整してください。',
+        earAgeLabel: '耳年齢',
+        earAge_teen: '10代',
+        earAge_20s: '20代',
+        earAge_30s: '30代',
+        earAge_40s: '40代',
+        earAge_50s: '50代以上'
       },
       colorBlind: {
         desc: '違う色のタイルを見つけてクリックしてください！',

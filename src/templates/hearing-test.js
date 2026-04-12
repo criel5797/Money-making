@@ -90,9 +90,15 @@ module.exports = function(options) {
         else if(maxHeard>=12000)rating=txt.good||'좋음';
         else if(maxHeard>=8000)rating=txt.normal||'보통';
         else rating=txt.belowNormal||'평균 이하';
-        resultEl.innerHTML=txt.complete+' <strong>'+maxHeard+'Hz</strong> ('+rating+')';resultEl.style.color='#667eea';
+        var earAge='';
+        if(maxHeard>=18000)earAge=txt.earAge_teen||'10대';
+        else if(maxHeard>=15000)earAge=txt.earAge_20s||'20대';
+        else if(maxHeard>=12000)earAge=txt.earAge_30s||'30대';
+        else if(maxHeard>=8000)earAge=txt.earAge_40s||'40대';
+        else earAge=txt.earAge_50s||'50대 이상';
+        resultEl.innerHTML=txt.complete+' <strong>'+maxHeard+'Hz</strong> ('+rating+')<br><span style="font-size:22px;color:#f39c12;margin-top:6px;display:block">👂 '+(txt.earAgeLabel||'귀 나이')+': <strong>'+earAge+'</strong></span>';resultEl.style.color='#667eea';
         maxFreqEl.textContent=maxHeard+'Hz';
-        var hearIsNew=window.GameRecord.save('hearing-test','freq',maxHeard);if(historyVisible)renderHistory();if(hearIsNew)resultEl.innerHTML+=' <span style="color:#f39c12">'+(window.i18n[lang].newRecord||' 🎉 신기록!')+'</span>';var lang=window.currentLang||'ko';var freqK=(maxHeard/1000).toFixed(1);var shtxt=lang==='ko'?'👂 내 청력: '+freqK+'kHz까지 들려! 너는?':lang==='ja'?'👂 聴力テスト: '+freqK+'kHzまで聞こえた！あなたは？':'👂 I can hear up to '+freqK+'kHz! How about you?';window._shareResult={title:shtxt,text:shtxt,url:window.location.href};
+        var hearIsNew=window.GameRecord.save('hearing-test','freq',maxHeard);if(historyVisible)renderHistory();if(hearIsNew)resultEl.innerHTML+='<span style="color:#f39c12;font-size:16px">'+(window.i18n[lang].newRecord||' 🎉 신기록!')+'</span>';var freqK=(maxHeard/1000).toFixed(1);var shtxt=lang==='ko'?'👂 내 귀 나이는 '+earAge+'! 최고 주파수 '+freqK+'kHz — 너는?':lang==='ja'?'👂 耳年齢は'+earAge+'！'+freqK+'kHzまで聞こえた！あなたは？':'👂 My ear age is '+earAge+'! Heard up to '+freqK+'kHz — how about you?';window._shareResult={title:shtxt,text:shtxt,url:window.location.href};
       }
 
       startBtn.addEventListener('click',startTest);
