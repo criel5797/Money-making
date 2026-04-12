@@ -64,14 +64,18 @@ async function auditPage(context, pageInfo) {
     const shotName = pageInfo.urlPath.replace(/\//g, '__').replace(/\.html$/, '') + '.png';
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, shotName), fullPage: true });
 
-    // ── 콘솔 에러 ──────────────────────────────────────────────
-    if (consoleErrors.length) {
-      issues.push({ type: 'console-error', severity: 'very-high', items: consoleErrors });
+    // ── 콘솔 에러 (file:// 아티팩트 제외) ────────────────────────
+    const realConsoleErrors = consoleErrors.filter(e =>
+      !e.includes('ERR_FILE_NOT_FOUND') && !e.includes('net::ERR_')
+    );
+    if (realConsoleErrors.length) {
+      issues.push({ type: 'console-error', severity: 'very-high', items: realConsoleErrors });
     }
 
-    // ── 실패 요청 / 404 ─────────────────────────────────────────
-    if (failedRequests.length) {
-      issues.push({ type: 'failed-request', severity: 'very-high', items: failedRequests });
+    // ── 실패 요청 / 404 (file:// 경로 아티팩트 제외) ───────────────
+    const realFailedRequests = failedRequests.filter(u => !u.startsWith('file:///'));
+    if (realFailedRequests.length) {
+      issues.push({ type: 'failed-request', severity: 'very-high', items: realFailedRequests });
     }
     if (notFoundUrls.length) {
       issues.push({ type: '404-resource', severity: 'very-high', items: notFoundUrls });

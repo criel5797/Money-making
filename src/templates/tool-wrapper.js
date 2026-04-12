@@ -102,6 +102,16 @@ function createToolWrapper(toolId, toolName, category, availableLanguages, seoOp
   <meta name="description" content="${escapeHtml(seoDescription)}">
   ${keywords ? '<meta name=\"keywords\" content=\"' + escapeHtml(keywords) + '\">' : ''}
   <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${escapeHtml(seoTitle)}">
+  <meta property="og:description" content="${escapeHtml(seoDescription)}">
+  <meta property="og:image" content="${escapeHtml(baseUrl)}/og-image.svg">
+  <meta property="og:url" content="${escapeHtml(baseUrl)}${escapeHtml(canonicalPath)}">
+  <meta property="og:site_name" content="InstaIdea">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${escapeHtml(seoTitle)}">
+  <meta name="twitter:description" content="${escapeHtml(seoDescription)}">
+  <meta name="twitter:image" content="${escapeHtml(baseUrl)}/og-image.svg">
   <link rel="canonical" href="${escapeHtml(baseUrl)}${escapeHtml(canonicalPath)}">
   <script type="application/ld+json">${JSON.stringify(schemaData)}</script>
   <style>
