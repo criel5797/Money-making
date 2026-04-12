@@ -1432,8 +1432,20 @@ function buildGameSeoContent(game, faqs, lang) {
   }).join('');
 
   var faqHtml = '';
-  for (var i = 0; i < faqs.length; i++) {
-    faqHtml += '<h3>' + escapeHtml(faqs[i].q) + '</h3><p>' + escapeHtml(faqs[i].a) + '</p>';
+  if (locale === 'ko') {
+    faqHtml =
+      '<h3>이 게임은 무료인가요?</h3><p>네, 완전 무료입니다. 로그인이나 설치 없이 브라우저에서 바로 플레이할 수 있습니다.</p>' +
+      '<h3>모바일에서도 이용 가능한가요?</h3><p>네, 모바일과 데스크탑 모두 지원합니다. 터치와 마우스 조작 모두 가능합니다.</p>' +
+      '<h3>기록은 어디에 저장되나요?</h3><p>최고 기록은 브라우저 localStorage에 자동으로 저장됩니다. 계정 없이 기록 추적이 가능합니다.</p>';
+  } else if (locale === 'ja') {
+    faqHtml =
+      '<h3>このゲームは無料ですか？</h3><p>はい、完全無料です。ログインやインストール不要でブラウザからすぐプレイできます。</p>' +
+      '<h3>モバイルでも使えますか？</h3><p>はい、モバイルとデスクトップ両方対応しています。タッチとマウス操作が可能です。</p>' +
+      '<h3>記録はどこに保存されますか？</h3><p>最高記録はブラウザのlocalStorageに自動保存されます。アカウント不要で記録管理ができます。</p>';
+  } else {
+    for (var i = 0; i < faqs.length; i++) {
+      faqHtml += '<h3>' + escapeHtml(faqs[i].q) + '</h3><p>' + escapeHtml(faqs[i].a) + '</p>';
+    }
   }
 
   var t;
@@ -1860,26 +1872,70 @@ function buildHubPageBody(options) {
       '<p style=\"text-align:center;font-size:18px;margin:12px 0;opacity:0.95\">' + escapeHtml(subtitle) + '</p>' +
     '</div>' +
     '<section class=\"seo-content\">' +
-      '<h2>About This Section</h2>' +
-      '<p>' + escapeHtml(intro) + '</p>' +
-      '<p>Each page includes playable or usable functionality and a readable guide section. This structure improves crawlability, helps users compare options faster, and creates stronger topical clusters for search engines.</p>' +
-      '<p>Instead of isolated pages, this hub groups related tools and games under a clear topic. Search crawlers can follow category links, understand the domain focus, and connect detailed pages back to a central overview. That improves internal link equity distribution and makes indexing more consistent.</p>' +
-      '<h2>How to Use This Hub Effectively</h2>' +
-      '<ol>' +
-        '<li>Start with one target task and open 2-3 relevant pages in separate tabs.</li>' +
-        '<li>Use each page guide to compare use cases and pick the best fit.</li>' +
-        '<li>Save frequently used pages to your workflow docs or bookmarks.</li>' +
-        '<li>Return regularly to track newly added tools in the same category.</li>' +
-      '</ol>' +
-      '<h2>FAQ</h2>' +
-      '<p><strong>Are all pages free?</strong> Yes, each page is free to access in a web browser.</p>' +
-      '<p><strong>Do pages work on mobile?</strong> Yes, pages are responsive and support mobile and desktop.</p>' +
-      '<p><strong>How are pages organized?</strong> Pages are clustered by topic so both users and search engines can navigate the site structure more clearly.</p>' +
-      '<ul>' +
-        '<li><a href=\"' + relatedGamesHref + '\">Brain Training Games</a></li>' +
-        '<li><a href=\"' + relatedDevToolsHref + '\">Developer Tools</a></li>' +
-        '<li><a href=\"' + relatedUtilitiesHref + '\">Utilities & Fun Tools</a></li>' +
-      '</ul>' +
+      (lang === 'ko' ? (
+        '<h2>이 섹션 소개</h2>' +
+        '<p>' + escapeHtml(intro) + '</p>' +
+        '<p>각 페이지는 바로 사용할 수 있는 기능과 안내 가이드를 포함합니다. 이 구조는 크롤링 효율을 높이고, 사용자가 빠르게 원하는 것을 찾을 수 있게 도와줍니다.</p>' +
+        '<p>개별 페이지가 아닌 허브 구조로 연관 게임과 도구를 묶어 관리합니다. 검색 엔진이 카테고리 링크를 따라 이동하면서 사이트 구조를 파악하고 내부 링크 가치를 균등하게 분배합니다.</p>' +
+        '<h2>허브 활용 방법</h2>' +
+        '<ol>' +
+          '<li>원하는 목적에 맞는 페이지를 2-3개 탭으로 열어보세요.</li>' +
+          '<li>각 페이지 가이드를 비교해 가장 적합한 것을 선택하세요.</li>' +
+          '<li>자주 사용하는 페이지는 북마크해두세요.</li>' +
+          '<li>새로 추가된 게임과 도구를 확인하려면 정기적으로 방문하세요.</li>' +
+        '</ol>' +
+        '<h2>자주 묻는 질문</h2>' +
+        '<p><strong>모든 페이지는 무료인가요?</strong> 네, 모든 페이지는 브라우저에서 무료로 이용할 수 있습니다.</p>' +
+        '<p><strong>모바일에서도 사용 가능한가요?</strong> 네, 모바일과 데스크탑 모두 지원합니다.</p>' +
+        '<p><strong>페이지는 어떻게 분류되어 있나요?</strong> 주제별로 묶여 있어 사용자와 검색 엔진 모두 쉽게 탐색할 수 있습니다.</p>' +
+        '<ul>' +
+          '<li><a href=\"' + relatedGamesHref + '\">두뇌 훈련 게임</a></li>' +
+          '<li><a href=\"' + relatedDevToolsHref + '\">개발자 도구</a></li>' +
+          '<li><a href=\"' + relatedUtilitiesHref + '\">유틸리티 & 생활 도구</a></li>' +
+        '</ul>'
+      ) : lang === 'ja' ? (
+        '<h2>このセクションについて</h2>' +
+        '<p>' + escapeHtml(intro) + '</p>' +
+        '<p>各ページには、すぐに使える機能と詳しいガイドが含まれています。このハブ構造により、クロール効率が向上し、ユーザーが目的のコンテンツを素早く見つけられます。</p>' +
+        '<p>個別ページではなく、関連するゲームやツールをまとめたハブとして提供しています。検索エンジンがカテゴリリンクを辿り、サイト全体の構造を把握できます。</p>' +
+        '<h2>ハブの活用方法</h2>' +
+        '<ol>' +
+          '<li>目的に合うページを2〜3つタブで開いてみましょう。</li>' +
+          '<li>各ページのガイドを比較して最適なものを選んでください。</li>' +
+          '<li>よく使うページはブックマークしておきましょう。</li>' +
+          '<li>新しく追加されたコンテンツを確認するため定期的に訪問してください。</li>' +
+        '</ol>' +
+        '<h2>よくある質問</h2>' +
+        '<p><strong>すべてのページは無料ですか？</strong> はい、ブラウザで無料でご利用いただけます。</p>' +
+        '<p><strong>モバイルでも使えますか？</strong> はい、モバイルとデスクトップ両方対応しています。</p>' +
+        '<p><strong>ページはどのように分類されていますか？</strong> トピック別にグループ化されており、ユーザーと検索エンジン双方がナビゲートしやすい構造です。</p>' +
+        '<ul>' +
+          '<li><a href=\"' + relatedGamesHref + '\">脳トレゲーム</a></li>' +
+          '<li><a href=\"' + relatedDevToolsHref + '\">開発者ツール</a></li>' +
+          '<li><a href=\"' + relatedUtilitiesHref + '\">ユーティリティ＆便利ツール</a></li>' +
+        '</ul>'
+      ) : (
+        '<h2>About This Section</h2>' +
+        '<p>' + escapeHtml(intro) + '</p>' +
+        '<p>Each page includes playable or usable functionality and a readable guide section. This structure improves crawlability, helps users compare options faster, and creates stronger topical clusters for search engines.</p>' +
+        '<p>Instead of isolated pages, this hub groups related tools and games under a clear topic. Search crawlers can follow category links, understand the domain focus, and connect detailed pages back to a central overview. That improves internal link equity distribution and makes indexing more consistent.</p>' +
+        '<h2>How to Use This Hub Effectively</h2>' +
+        '<ol>' +
+          '<li>Start with one target task and open 2-3 relevant pages in separate tabs.</li>' +
+          '<li>Use each page guide to compare use cases and pick the best fit.</li>' +
+          '<li>Save frequently used pages to your workflow docs or bookmarks.</li>' +
+          '<li>Return regularly to track newly added tools in the same category.</li>' +
+        '</ol>' +
+        '<h2>FAQ</h2>' +
+        '<p><strong>Are all pages free?</strong> Yes, each page is free to access in a web browser.</p>' +
+        '<p><strong>Do pages work on mobile?</strong> Yes, pages are responsive and support mobile and desktop.</p>' +
+        '<p><strong>How are pages organized?</strong> Pages are clustered by topic so both users and search engines can navigate the site structure more clearly.</p>' +
+        '<ul>' +
+          '<li><a href=\"' + relatedGamesHref + '\">Brain Training Games</a></li>' +
+          '<li><a href=\"' + relatedDevToolsHref + '\">Developer Tools</a></li>' +
+          '<li><a href=\"' + relatedUtilitiesHref + '\">Utilities & Fun Tools</a></li>' +
+        '</ul>'
+      )) +
     '</section>' +
     '<div class=\"grid\">' + cards + '</div>';
 }
@@ -2024,10 +2080,10 @@ function buildRelatedSection(currentId, allItems, type, count, lang) {
       '</a>';
   }
 
-  var sectionTitle = type === 'game' ? 'More Brain Tests' : 'More Useful Tools';
-
+  var relHeadingsKo = type === 'game' ? '다른 게임도 해보기' : '다른 도구도 사용해보기';
   var relHeadingsEn = type === 'game' ? 'More Brain Tests' : 'More Useful Tools';
-  var relHeadingsJa = type === 'game' ? 'もっと試す' : 'もっと便利なツール';
+  var relHeadingsJa = type === 'game' ? 'もっと脳トレを試す' : 'もっと便利なツール';
+  var sectionTitle = relHeadingsEn;
   return '<section class="related-section">' +
     '<h2 data-i18n-related-heading>' + sectionTitle + '</h2>' +
     '<div class="related-grid">' + cards + '</div>' +
@@ -2043,7 +2099,7 @@ function buildRelatedSection(currentId, allItems, type, count, lang) {
     '});' +
     'var h=document.querySelector("[data-i18n-related-heading]");' +
     'if(h){' +
-    'var headings={ko:"' + sectionTitle + '",en:"' + relHeadingsEn + '",ja:"' + relHeadingsJa + '"};' +
+    'var headings={ko:"' + relHeadingsKo + '",en:"' + relHeadingsEn + '",ja:"' + relHeadingsJa + '"};' +
     'h.textContent=headings[lang]||headings.en;' +
     '}' +
     '})(window.currentLang||"ko");' +
@@ -2215,13 +2271,17 @@ function wrapGame(gameId, generateFn, koTitle, description, lang) {
 
   var body = gameHTML + shareSection + quickNextSection + seoContent;
   var related = buildRelatedSection(gameId, games, 'game', 6, locale);
+  var browseCatHeading = locale === 'ko' ? '더 많은 카테고리 보기' : locale === 'ja' ? 'もっとカテゴリを見る' : 'Browse More Categories';
+  var browseCatGames = locale === 'ko' ? ['두뇌 훈련 게임', '반응속도, 기억력, 집중력 게임 모음'] : locale === 'ja' ? ['脳トレゲーム', '反射神経・記憶力・集中力ゲーム集'] : ['Brain Training Games', 'All reaction, memory, speed, and focus tests'];
+  var browseCatDev = locale === 'ko' ? ['개발자 도구', '포매터, 컨버터, 밸리데이터 도구'] : locale === 'ja' ? ['開発者ツール', 'フォーマッター・コンバーター・バリデーター'] : ['Developer Tools', 'Formatter, converter, validator, and builder tools'];
+  var browseCatUtil = locale === 'ko' ? ['유틸리티 & 생활 도구', '일상 도구, 계산기, 실용 유틸리티'] : locale === 'ja' ? ['ユーティリティ＆便利ツール', '日常ツール・計算機・実用ユーティリティ'] : ['Utilities & Fun', 'Daily tools, calculators, and practical helpers'];
   related += '' +
     '<section class=\"related-section\">' +
-      '<h2>Browse More Categories</h2>' +
+      '<h2>' + browseCatHeading + '</h2>' +
       '<div class=\"related-grid\">' +
-        '<a href=\"' + href(getStaticPagePath('/games/', locale)) + '\" class=\"related-card\"><div class=\"related-emoji\">Games</div><div class=\"related-title\">Brain Training Games</div><div class=\"related-desc\">All reaction, memory, speed, and focus tests</div></a>' +
-        '<a href=\"' + href(getStaticPagePath('/dev-tools/', locale)) + '\" class=\"related-card\"><div class=\"related-emoji\">Dev</div><div class=\"related-title\">Developer Tools</div><div class=\"related-desc\">Formatter, converter, validator, and builder tools</div></a>' +
-        '<a href=\"' + href(getStaticPagePath('/utilities/', locale)) + '\" class=\"related-card\"><div class=\"related-emoji\">Util</div><div class=\"related-title\">Utilities & Fun</div><div class=\"related-desc\">Daily tools, calculators, and practical helpers</div></a>' +
+        '<a href=\"' + href(getStaticPagePath('/games/', locale)) + '\" class=\"related-card\"><div class=\"related-emoji\">🎮</div><div class=\"related-title\">' + browseCatGames[0] + '</div><div class=\"related-desc\">' + browseCatGames[1] + '</div></a>' +
+        '<a href=\"' + href(getStaticPagePath('/dev-tools/', locale)) + '\" class=\"related-card\"><div class=\"related-emoji\">⚙️</div><div class=\"related-title\">' + browseCatDev[0] + '</div><div class=\"related-desc\">' + browseCatDev[1] + '</div></a>' +
+        '<a href=\"' + href(getStaticPagePath('/utilities/', locale)) + '\" class=\"related-card\"><div class=\"related-emoji\">🛠️</div><div class=\"related-title\">' + browseCatUtil[0] + '</div><div class=\"related-desc\">' + browseCatUtil[1] + '</div></a>' +
       '</div>' +
     '</section>';
 
