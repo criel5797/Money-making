@@ -94,7 +94,7 @@ module.exports = function(options) {
           if(strikes>=maxStrikes){
             var finalLevel=getCompletedLevel();
             chimpResult.textContent=txt.gameOver+' '+txt.finalLevel+finalLevel;chimpResult.style.color='#e74c3c';
-            window.GameRecord.save('chimp-test','level',finalLevel);if(historyVisible)renderHistory();
+            window.GameRecord.save('chimp-test','level',finalLevel);if(historyVisible)renderHistory();var lang=window.currentLang||'ko';var shareMsg=lang==='ko'?'🧠 침팬지 테스트 레벨 '+finalLevel+' 달성! 너도 해봐!':lang==='ja'?'🧠 チンパンジーテスト レベル'+finalLevel+'達成！あなたも挑戦！':'🧠 I reached level '+finalLevel+' on the chimp test! Can you beat me?';window._shareResult={title:shareMsg,text:shareMsg,url:window.location.href};
             chimpStart.style.display='inline-block';
           }else{
             chimpResult.textContent=txt.wrong+' ('+strikes+'/'+maxStrikes+')';chimpResult.style.color='#e74c3c';

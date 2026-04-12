@@ -1973,12 +1973,12 @@ function wrapGame(gameId, generateFn, koTitle, description, lang) {
   jsonLdArr.push(faqSchema);
 
   var seoContent = buildGameSeoContent(game, faqs, locale);
-  var shareLabels = { ko: '공유하기', en: 'Share', ja: 'シェア' };
+  var shareLabels = { ko: '⚡ 기록 공유', en: '⚡ Share Result', ja: '⚡ 記録をシェア' };
   var shareLabel = shareLabels[locale] || shareLabels.en;
   var shareSection = '<div style="text-align:center;margin:18px 0">' +
-    '<button onclick="window.openShareModal&&window.openShareModal({title:document.title,text:document.title,url:window.location.href})" ' +
+    '<button onclick="(function(){var r=window._shareResult||{title:document.title,text:document.title,url:window.location.href};window.openShareModal&&window.openShareModal(r);})()" ' +
     'style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:1rem;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(102,126,234,0.4)">' +
-    '🔗 ' + shareLabel + '</button></div>';
+    shareLabel + '</button></div>';
   var body = gameHTML + shareSection + seoContent;
   var related = buildRelatedSection(gameId, games, 'game', 6, locale);
   related += '' +
