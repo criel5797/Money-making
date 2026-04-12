@@ -83,8 +83,8 @@ module.exports = function(options) {
             var completedLevel=level;
             playing=false;
             level++;chimpLevelEl.textContent=level;
-            if(completedLevel>bestLevel){bestLevel=completedLevel;chimpBestEl.textContent=bestLevel;window.GameRecord.save('chimp-test','level',bestLevel);}
-            chimpResult.textContent=txt.correct;chimpResult.style.color='#27ae60';
+            var isNewBest=completedLevel>bestLevel;if(isNewBest){bestLevel=completedLevel;chimpBestEl.textContent=bestLevel;window.GameRecord.save('chimp-test','level',bestLevel);}
+            chimpResult.textContent=isNewBest?txt.correct+' 🎉 '+txt.newRecord:txt.correct;chimpResult.style.color='#27ae60';
             setTimeout(startRound,1000);
           }
         }else{
