@@ -280,7 +280,7 @@ function injectToolContentSeo(content, options) {
     .replace(/<meta[^>]+name=["']twitter:[^"']+["'][^>]*>/ig, '')
     .replace(/<script[^>]+type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/ig, '');
 
-  var ogImage = escapeHtml(BASE_URL + '/og-image.svg');
+  var ogImage = escapeHtml(BASE_URL + '/og-image.png');
   var mobileSafeCss = '<style>*,*:before,*:after{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}table{table-layout:fixed;max-width:100%;word-break:break-word}pre{overflow-x:auto;max-width:100%;white-space:pre-wrap;word-break:break-word}img,video,iframe{max-width:100%;height:auto}input,textarea,select,button{max-width:100%}.container,.wrapper,[class*="container"],[class*="wrapper"]{max-width:100%}</style>';
   var seoTags = '' +
     '<meta name="viewport" content="width=device-width,initial-scale=1">' +
@@ -1980,7 +1980,33 @@ function wrapGame(gameId, generateFn, koTitle, description, lang) {
     '<button onclick="(function(){var r=window._shareResult||{title:document.title,text:document.title,url:window.location.href};window.openShareModal&&window.openShareModal(r);})()" ' +
     'style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:1rem;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(102,126,234,0.4)">' +
     shareLabel + '</button></div>';
-  var body = gameHTML + shareSection + seoContent;
+
+  // Quick "try next" inline section — 3 related games right after the game card
+  var qNextHeadings = { ko: '🎮 다음 게임도 도전해봐!', en: '🎮 Try These Next!', ja: '🎮 次もチャレンジ！' };
+  var qNextHeading = qNextHeadings[locale] || qNextHeadings.en;
+  var qOthers = games.filter(function(g) { return g.id !== gameId; });
+  var qHash = 0;
+  for (var qci = 0; qci < gameId.length; qci++) qHash = ((qHash << 5) - qHash) + gameId.charCodeAt(qci);
+  qHash = Math.abs(qHash);
+  var qPicked = [];
+  for (var qni = 0; qni < 3 && qOthers.length > 0; qni++) {
+    var qIdx = (qHash + qni * 13) % qOthers.length;
+    qPicked.push(qOthers.splice(qIdx, 1)[0]);
+  }
+  var qCards = qPicked.map(function(qg) {
+    var qTitle = (qg.title && (qg.title[locale] || qg.title.en || qg.title.ko)) || qg.id;
+    var qHref = href(getToolLocalePath('/games/' + qg.id + '/', locale, 'ko'));
+    return '<a href="' + qHref + '" style="flex:1;min-width:80px;max-width:130px;text-decoration:none;background:#fff;border-radius:12px;padding:14px 10px;text-align:center;border:1px solid #e8edff;display:flex;flex-direction:column;align-items:center;gap:6px;transition:transform 0.15s" onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'\'">' +
+      '<span style="font-size:26px">' + qg.emoji + '</span>' +
+      '<span style="font-size:11px;font-weight:600;color:#333;line-height:1.3">' + qTitle + '</span>' +
+      '</a>';
+  }).join('');
+  var quickNextSection = '<div style="margin:0 0 24px 0;padding:18px 16px;background:linear-gradient(135deg,#f8f9ff,#eef1ff);border-radius:16px;border:1px solid #dde3ff">' +
+    '<p style="margin:0 0 12px 0;font-size:13px;font-weight:700;color:#667eea;text-align:center">' + qNextHeading + '</p>' +
+    '<div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">' + qCards + '</div>' +
+    '</div>';
+
+  var body = gameHTML + shareSection + quickNextSection + seoContent;
   var related = buildRelatedSection(gameId, games, 'game', 6, locale);
   related += '' +
     '<section class=\"related-section\">' +
@@ -1995,7 +2021,7 @@ function wrapGame(gameId, generateFn, koTitle, description, lang) {
   var pageTitle = game ? buildGameSeoTitle(game, locale) : (koTitle + ' - Free Online Game');
   var pageDescription = game ? buildGameSeoDescription(game, locale) : description;
 
-  var gameOgImage = BASE_URL + '/games/' + gameId + '/og-image.svg';
+  var gameOgImage = BASE_URL + '/games/' + gameId + '/og-image.png';
   return injectForcedPageLocale(
     layout(pageTitle, pathname, body, true, pageDescription, jsonLdArr, related, {
       locale: locale,
