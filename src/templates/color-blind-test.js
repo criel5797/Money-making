@@ -87,7 +87,7 @@ module.exports = function(options) {
       function endGame(){
         playing=false;clearInterval(timer);
         var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.colorBlind;
-        cbResult.textContent=txt.timeUp+' '+txt.finalScore+score;cbResult.style.color='#667eea';
+        var cbMsg=score>=20?txt.msg1:score>=15?txt.msg2:score>=10?txt.msg3:score>=7?txt.msg4:score>=4?txt.msg5:txt.msg6;cbResult.textContent=txt.timeUp+' '+txt.finalScore+score+cbMsg;cbResult.style.color='#667eea';
         if(score>bestScore){bestScore=score;cbBestEl.textContent=bestScore;}
         window.GameRecord.save('color-blind-test','score',score);if(historyVisible)renderHistory();var lang=window.currentLang||'ko';var shtxt=lang==='ko'?'👁️ 색맹 테스트 '+score+'점! 내 색각은?':lang==='ja'?'👁️ 色覚テスト'+score+'点！あなたも試して！':'👁️ Scored '+score+' on color vision test! How is yours?';window._shareResult={title:shtxt,text:shtxt,url:window.location.href};
         cbStart.style.display='inline-block';

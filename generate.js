@@ -1974,7 +1974,7 @@ function wrapGame(gameId, generateFn, koTitle, description, lang) {
   jsonLdArr.push(faqSchema);
 
   var seoContent = buildGameSeoContent(game, faqs, locale);
-  var shareLabels = { ko: '⚡ 기록 공유', en: '⚡ Share Result', ja: '⚡ 記録をシェア' };
+  var shareLabels = { ko: '🏆 내 기록 공유 — 너도 해봐!', en: '🏆 Share My Score — Beat It!', ja: '🏆 スコアをシェア — 挑戦して！' };
   var shareLabel = shareLabels[locale] || shareLabels.en;
   var shareSection = '<div style="text-align:center;margin:18px 0">' +
     '<button onclick="(function(){var r=window._shareResult||{title:document.title,text:document.title,url:window.location.href};window.openShareModal&&window.openShareModal(r);})()" ' +

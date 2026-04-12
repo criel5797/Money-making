@@ -331,7 +331,13 @@ var i18n = {
         finalScore: '최종 점수:',
         level: '레벨',
         score: '점수',
-        best: '최고점'
+        best: '최고점',
+        msg1: ' 🔥 색각 천재! 상위 1%!',
+        msg2: ' ⚡ 탁월합니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 👌 평균 수준',
+        msg6: ' 💪 계속 도전하세요!'
       },
       numberSpeed: {
         desc: '두 숫자 중 큰 숫자를 빠르게 선택하세요!',
@@ -724,7 +730,13 @@ var i18n = {
         finalScore: 'Final Score:',
         level: 'Level',
         score: 'Score',
-        best: 'Best'
+        best: 'Best',
+        msg1: ' 🔥 Color vision genius! Top 1%!',
+        msg2: ' ⚡ Outstanding! Top 5%!',
+        msg3: ' 👍 Great! Top 20%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 👌 Average range',
+        msg6: ' 💪 Keep practicing!'
       },
       numberSpeed: {
         desc: 'Pick the larger number quickly!',
@@ -1117,7 +1129,13 @@ var i18n = {
         finalScore: '最終スコア:',
         level: 'レベル',
         score: 'スコア',
-        best: '最高得点'
+        best: '最高得点',
+        msg1: ' 🔥 色覚の天才！上位1%！',
+        msg2: ' ⚡ 卓越！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 👌 平均レベル',
+        msg6: ' 💪 練習を続けましょう！'
       },
       numberSpeed: {
         desc: '大きい数字を素早く選んでください！',
