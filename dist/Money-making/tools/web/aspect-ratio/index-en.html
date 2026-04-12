@@ -607,7 +607,8 @@
 
         function updatePreview(width, height) {
             const preview = document.getElementById('previewBox');
-            const maxWidth = 300;
+            const containerW = preview.parentElement ? preview.parentElement.clientWidth - 32 : 300;
+            const maxWidth = Math.min(300, containerW);
             const maxHeight = 200;
 
             let previewWidth, previewHeight;
