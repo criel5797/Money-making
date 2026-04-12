@@ -98,7 +98,13 @@ var i18n = {
         score: '점수',
         streakLabel: '연속',
         bestScore: '최고점',
-        colors: {red: '빨강', blue: '파랑', green: '초록', yellow: '노랑', purple: '보라'}
+        colors: {red: '빨강', blue: '파랑', green: '초록', yellow: '노랑', purple: '보라'},
+        msg1: ' 🔥 색감 천재! 상위 1%!',
+        msg2: ' ⚡ 빠릅니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 👌 평균 수준',
+        msg6: ' 💪 계속 연습하세요!'
       },
       math: {
         desc: '수학 문제를 빠르게 풀어보세요!',
@@ -127,7 +133,12 @@ var i18n = {
         remember: '패턴을 기억하세요...',
         clickNow: '이제 클릭하세요!',
         currentLevel: '현재 단계',
-        bestLevel: '최고 단계'
+        bestLevel: '최고 단계',
+        msg1: ' 🔥 패턴 천재! 상위 1%!',
+        msg2: ' ⚡ 탁월합니다! 상위 5%!',
+        msg3: ' 👍 평균 이상! 보통 5단계',
+        msg4: ' 😊 평균 수준 (평균: 5단계)',
+        msg5: ' 💪 계속 도전하세요!'
       },
       clickSpeed: {
         desc: '10초 동안 최대한 많이 클릭하세요!',
@@ -169,7 +180,12 @@ var i18n = {
         remember: '순서를 기억하세요...',
         clickNow: '이제 순서대로 클릭하세요!',
         currentLevel: '현재 단계',
-        bestLevel: '최고 단계'
+        bestLevel: '최고 단계',
+        msg1: ' 🔥 기억력 천재! 상위 1%!',
+        msg2: ' ⚡ 탁월합니다! 상위 5%!',
+        msg3: ' 👍 평균 이상! 보통 5단계',
+        msg4: ' 😊 평균 수준',
+        msg5: ' 💪 계속 도전하세요!'
       },
       wordPuzzle: {
         desc: '주어진 글자들로 2글자 이상의 단어를 만드세요!',
@@ -190,6 +206,11 @@ var i18n = {
         wordCount: '단어 수',
         score: '점수',
         bestScore: '최고 점수',
+        msg1: ' 🔥 단어 천재! 상위 1%!',
+        msg2: ' ⚡ 탁월합니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 💪 계속 도전하세요!',
         wordData: [
           {letters:'가나다라마',words:['가나다','나라','다람','라마','가다','나다','다가','마라','나가','가마','다라','마나']},
           {letters:'사랑행복기',words:['사랑','행복','복사','사기','행사','복기','기사','랑기','사행']},
@@ -225,7 +246,12 @@ var i18n = {
         gameOver: '게임 오버!',
         finalLevel: '최종 단계:',
         currentLevel: '현재 단계',
-        bestLevel: '최고 단계'
+        bestLevel: '최고 단계',
+        msg1: ' 🔥 시각 천재! 상위 1%!',
+        msg2: ' ⚡ 탁월합니다! 상위 5%!',
+        msg3: ' 👍 평균 이상! 보통 5단계',
+        msg4: ' 😊 평균 수준',
+        msg5: ' 💪 계속 도전하세요!'
       },
       stroop: {
         desc: '글자의 색깔을 보고 빠르게 선택하세요!',
@@ -238,7 +264,13 @@ var i18n = {
         score: '점수',
         accuracy: '정확도',
         bestScore: '최고점',
-        colors: {red: '빨강', blue: '파랑', green: '초록', yellow: '노랑', purple: '보라', orange: '주황'}
+        colors: {red: '빨강', blue: '파랑', green: '초록', yellow: '노랑', purple: '보라', orange: '주황'},
+        msg1: ' 🔥 스트룹 고수! 상위 1%!',
+        msg2: ' ⚡ 빠릅니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 👌 평균 수준',
+        msg6: ' 💪 계속 연습하세요!'
       },
       verbalMemory: {
         desc: '단어를 보고 이전에 본 단어인지 새로운 단어인지 판단하세요!',
@@ -251,6 +283,11 @@ var i18n = {
         finalScore: '최종 점수:',
         score: '점수',
         bestScore: '최고점',
+        msg1: ' 🔥 기억력 고수! 상위 1%!',
+        msg2: ' ⚡ 탁월합니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 💪 계속 도전하세요!',
         words: ['사과','바나나','컴퓨터','책상','의자','창문','전화','시계','거울','우산','커피','음악','영화','여행','사진','행복','사랑','친구','가족','학교','회사','도시','바다','산','강','꽃','나무','하늘','구름','비','눈','태양','달','별','아침','저녁','밤','봄','여름','가을','겨울','빨강','파랑','노랑','초록','하양','검정','물','불','바람','땅']
       },
       chimp: {
@@ -303,9 +340,15 @@ var i18n = {
         wrong: '❌ 오답!',
         timeUp: '시간 종료!',
         finalScore: '최종 점수:',
-        correct: '정답',
+        correctLabel: '정답',
         avgTime: '평균 시간',
-        best: '최고점'
+        best: '최고점',
+        msg1: ' 🔥 천재급! 상위 1%!',
+        msg2: ' ⚡ 빠릅니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 👌 평균 수준',
+        msg6: ' 💪 계속 연습하세요!'
       },
       tracker: {
         desc: '움직이는 목표물을 따라가며 클릭하세요!',
@@ -316,7 +359,12 @@ var i18n = {
         hitsText: '개 명중',
         hits: '명중',
         accuracy: '정확도',
-        best: '최고점'
+        best: '최고점',
+        msg1: ' 🎯 전문가급! 상위 1%!',
+        msg2: ' 🔥 빠릅니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 💪 계속 도전하세요!'
       }
     },
     privacy: {
@@ -443,7 +491,13 @@ var i18n = {
         score: 'Score',
         streakLabel: 'Streak',
         bestScore: 'Best',
-        colors: {red: 'Red', blue: 'Blue', green: 'Green', yellow: 'Yellow', purple: 'Purple'}
+        colors: {red: 'Red', blue: 'Blue', green: 'Green', yellow: 'Yellow', purple: 'Purple'},
+        msg1: ' 🔥 Color genius! Top 1%!',
+        msg2: ' ⚡ Very fast! Top 5%!',
+        msg3: ' 👍 Great! Top 20%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 👌 Average range',
+        msg6: ' 💪 Keep practicing!'
       },
       math: {
         desc: 'Solve math problems quickly!',
@@ -472,7 +526,12 @@ var i18n = {
         remember: 'Remember the pattern...',
         clickNow: 'Click now!',
         currentLevel: 'Current Level',
-        bestLevel: 'Best Level'
+        bestLevel: 'Best Level',
+        msg1: ' 🔥 Pattern genius! Top 1%!',
+        msg2: ' ⚡ Outstanding! Top 5%!',
+        msg3: ' 👍 Above average! Typical is 5',
+        msg4: ' 😊 Average range (avg: 5)',
+        msg5: ' 💪 Keep practicing!'
       },
       clickSpeed: {
         desc: 'Click as many times as you can in 10 seconds!',
@@ -514,7 +573,12 @@ var i18n = {
         remember: 'Remember the sequence...',
         clickNow: 'Click in order!',
         currentLevel: 'Current Level',
-        bestLevel: 'Best Level'
+        bestLevel: 'Best Level',
+        msg1: ' 🔥 Memory genius! Top 1%!',
+        msg2: ' ⚡ Outstanding! Top 5%!',
+        msg3: ' 👍 Above average! Typical is 5',
+        msg4: ' 😊 Average range',
+        msg5: ' 💪 Keep practicing!'
       },
       wordPuzzle: {
         desc: 'Create words with 2 or more letters from the given letters!',
@@ -535,6 +599,11 @@ var i18n = {
         wordCount: 'Words',
         score: 'Score',
         bestScore: 'Best',
+        msg1: ' 🔥 Word genius! Top 1%!',
+        msg2: ' ⚡ Outstanding! Top 5%!',
+        msg3: ' 👍 Great! Top 20%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 💪 Keep practicing!',
         wordData: [
           {letters:'STREAM',words:['STREAM','STEAM','MASTER','SMART','STAR','TEAM','MEAT','RATE','TEAR','MARS','TRAM','ARMS','RATS','MAST','REST','EARS','SEAT','EATS','SAME','TARE']},
           {letters:'PLANET',words:['PLANET','PLANT','PLATE','PLAN','PANT','LEAN','LATE','PALE','TALE','LANE','PETAL','PANEL','TAPE','NEAT','LEAP','PLEA','ANTE','PLANE']},
@@ -570,7 +639,12 @@ var i18n = {
         gameOver: 'Game Over!',
         finalLevel: 'Final Level:',
         currentLevel: 'Current Level',
-        bestLevel: 'Best Level'
+        bestLevel: 'Best Level',
+        msg1: ' 🔥 Visual genius! Top 1%!',
+        msg2: ' ⚡ Outstanding! Top 5%!',
+        msg3: ' 👍 Above average! Typical is 5',
+        msg4: ' 😊 Average range',
+        msg5: ' 💪 Keep practicing!'
       },
       stroop: {
         desc: 'Select the color of the text quickly!',
@@ -583,7 +657,13 @@ var i18n = {
         score: 'Score',
         accuracy: 'Accuracy',
         bestScore: 'Best',
-        colors: {red: 'Red', blue: 'Blue', green: 'Green', yellow: 'Yellow', purple: 'Purple', orange: 'Orange'}
+        colors: {red: 'Red', blue: 'Blue', green: 'Green', yellow: 'Yellow', purple: 'Purple', orange: 'Orange'},
+        msg1: ' 🔥 Stroop master! Top 1%!',
+        msg2: ' ⚡ Very fast! Top 5%!',
+        msg3: ' 👍 Great! Top 20%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 👌 Average range',
+        msg6: ' 💪 Keep practicing!'
       },
       verbalMemory: {
         desc: 'Have you seen this word before or is it new?',
@@ -596,6 +676,11 @@ var i18n = {
         finalScore: 'Final Score:',
         score: 'Score',
         bestScore: 'Best',
+        msg1: ' 🔥 Memory master! Top 1%!',
+        msg2: ' ⚡ Outstanding! Top 5%!',
+        msg3: ' 👍 Great! Top 20%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 💪 Keep practicing!',
         words: ['apple','banana','computer','desk','chair','window','phone','clock','mirror','umbrella','coffee','music','movie','travel','photo','happy','love','friend','family','school','company','city','ocean','mountain','river','flower','tree','sky','cloud','rain','snow','sun','moon','star','morning','evening','night','spring','summer','fall','winter','red','blue','yellow','green','white','black','water','fire','wind','earth']
       },
       chimp: {
@@ -650,7 +735,13 @@ var i18n = {
         finalScore: 'Final Score:',
         correctLabel: 'Correct',
         avgTime: 'Avg Time',
-        best: 'Best'
+        best: 'Best',
+        msg1: ' 🔥 Genius! Top 1%!',
+        msg2: ' ⚡ Very fast! Top 5%!',
+        msg3: ' 👍 Great! Top 20%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 👌 Average range',
+        msg6: ' 💪 Keep practicing!'
       },
       tracker: {
         desc: 'Track and click the moving target!',
@@ -661,7 +752,12 @@ var i18n = {
         hitsText: ' hits',
         hits: 'Hits',
         accuracy: 'Accuracy',
-        best: 'Best'
+        best: 'Best',
+        msg1: ' 🎯 Pro level! Top 1%!',
+        msg2: ' 🔥 Fast! Top 5%!',
+        msg3: ' 👍 Great! Top 20%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 💪 Keep practicing!'
       }
     },
     privacy: {
@@ -788,7 +884,13 @@ var i18n = {
         score: 'スコア',
         streakLabel: '連続',
         bestScore: '最高得点',
-        colors: {red: '赤', blue: '青', green: '緑', yellow: '黄色', purple: '紫'}
+        colors: {red: '赤', blue: '青', green: '緑', yellow: '黄色', purple: '紫'},
+        msg1: ' 🔥 色彩の天才！上位1%！',
+        msg2: ' ⚡ とても速い！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 👌 平均レベル',
+        msg6: ' 💪 練習を続けましょう！'
       },
       math: {
         desc: '数学問題を素早く解いてください！',
@@ -817,7 +919,12 @@ var i18n = {
         remember: 'パターンを覚えてください...',
         clickNow: '今クリックしてください！',
         currentLevel: '現在のレベル',
-        bestLevel: '最高レベル'
+        bestLevel: '最高レベル',
+        msg1: ' 🔥 パターンの天才！上位1%！',
+        msg2: ' ⚡ 卓越！上位5%！',
+        msg3: ' 👍 平均以上！平均は5レベル',
+        msg4: ' 😊 平均レベル（平均：5レベル）',
+        msg5: ' 💪 練習を続けましょう！'
       },
       clickSpeed: {
         desc: '10秒間にできるだけ多くクリックしてください！',
@@ -859,7 +966,12 @@ var i18n = {
         remember: '順序を覚えてください...',
         clickNow: '今順番にクリックしてください！',
         currentLevel: '現在のレベル',
-        bestLevel: '最高レベル'
+        bestLevel: '最高レベル',
+        msg1: ' 🔥 記憶の天才！上位1%！',
+        msg2: ' ⚡ 卓越！上位5%！',
+        msg3: ' 👍 平均以上！平均は5レベル',
+        msg4: ' 😊 平均レベル',
+        msg5: ' 💪 練習を続けましょう！'
       },
       wordPuzzle: {
         desc: '与えられた文字で2文字以上の単語を作ってください！',
@@ -880,6 +992,11 @@ var i18n = {
         wordCount: '単語数',
         score: 'スコア',
         bestScore: '最高得点',
+        msg1: ' 🔥 単語の天才！上位1%！',
+        msg2: ' ⚡ 卓越！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 💪 練習を続けましょう！',
         wordData: [
           {letters:'あいうえお',words:['あい','いえ','うえ','おい','あお','いう','あう','えい','うお','おう']},
           {letters:'かきくけこ',words:['かき','きく','くけ','けこ','かく','きけ','くこ','けか','こき','かこ']},
@@ -915,7 +1032,12 @@ var i18n = {
         gameOver: 'ゲームオーバー！',
         finalLevel: '最終レベル:',
         currentLevel: '現在のレベル',
-        bestLevel: '最高レベル'
+        bestLevel: '最高レベル',
+        msg1: ' 🔥 視覚の天才！上位1%！',
+        msg2: ' ⚡ 卓越！上位5%！',
+        msg3: ' 👍 平均以上！平均は5レベル',
+        msg4: ' 😊 平均レベル',
+        msg5: ' 💪 練習を続けましょう！'
       },
       stroop: {
         desc: '文字の色を見て素早く選択してください！',
@@ -928,7 +1050,13 @@ var i18n = {
         score: 'スコア',
         accuracy: '正確度',
         bestScore: '最高得点',
-        colors: {red: '赤', blue: '青', green: '緑', yellow: '黄色', purple: '紫', orange: 'オレンジ'}
+        colors: {red: '赤', blue: '青', green: '緑', yellow: '黄色', purple: '紫', orange: 'オレンジ'},
+        msg1: ' 🔥 ストループ達人！上位1%！',
+        msg2: ' ⚡ とても速い！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 👌 平均レベル',
+        msg6: ' 💪 練習を続けましょう！'
       },
       verbalMemory: {
         desc: '単語を見て、以前見た単語か新しい単語か判断してください！',
@@ -941,6 +1069,11 @@ var i18n = {
         finalScore: '最終スコア:',
         score: 'スコア',
         bestScore: '最高得点',
+        msg1: ' 🔥 言語記憶の達人！上位1%！',
+        msg2: ' ⚡ 卓越！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 💪 練習を続けましょう！',
         words: ['りんご','バナナ','コンピュータ','机','椅子','窓','電話','時計','鏡','傘','コーヒー','音楽','映画','旅行','写真','幸せ','愛','友達','家族','学校','会社','都市','海','山','川','花','木','空','雲','雨','雪','太陽','月','星','朝','夕方','夜','春','夏','秋','冬','赤','青','黄色','緑','白','黒','水','火','風','地球']
       },
       chimp: {
@@ -995,7 +1128,13 @@ var i18n = {
         finalScore: '最終スコア:',
         correctLabel: '正解',
         avgTime: '平均時間',
-        best: '最高得点'
+        best: '最高得点',
+        msg1: ' 🔥 天才級！上位1%！',
+        msg2: ' ⚡ とても速い！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 👌 平均レベル',
+        msg6: ' 💪 練習を続けましょう！'
       },
       tracker: {
         desc: '動く目標を追跡してクリックしてください！',
@@ -1006,7 +1145,12 @@ var i18n = {
         hitsText: '個命中',
         hits: '命中',
         accuracy: '正確度',
-        best: '最高得点'
+        best: '最高得点',
+        msg1: ' 🎯 プロ級！上位1%！',
+        msg2: ' 🔥 速い！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 💪 練習を続けましょう！'
       }
     },
     privacy: {

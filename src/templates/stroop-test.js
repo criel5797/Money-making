@@ -83,7 +83,7 @@ module.exports = function(options) {
       function endGame(){
         playing=false;clearInterval(timer);
         var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.stroop;
-        stroopResult.textContent=txt.timeUp+' '+txt.finalScore+score;stroopResult.style.color='#667eea';
+        var stMsg=score>=200?txt.msg1:score>=150?txt.msg2:score>=100?txt.msg3:score>=70?txt.msg4:score>=50?txt.msg5:txt.msg6;stroopResult.textContent=txt.timeUp+' '+txt.finalScore+score+stMsg;stroopResult.style.color='#667eea';
         if(score>bestScore){bestScore=score;stroopBestEl.textContent=bestScore;}
         window.GameRecord.save('stroop-test','score',score);if(historyVisible)renderHistory();var stroopLang=lang||'ko';var stroopSharePerc=score>=200?' 상위 1%!':score>=150?' 상위 5%!':score>=100?' 상위 20%!':'';var stroopShareMsg=stroopLang==='ko'?'🧪 스트룹 테스트 '+score+'점 달성!'+stroopSharePerc+' 너도 해봐!':stroopLang==='ja'?'🧪 ストループテスト '+score+'点達成！'+(score>=100?' 上位20%！':'')+' あなたも挑戦！':'🧪 Stroop test score: '+score+'!'+(score>=150?' Top 5%!':'')+' Can you beat it?';window._shareResult={title:stroopShareMsg,text:stroopShareMsg,url:window.location.href};
         stroopStart.style.display='inline-block';stroopWord.textContent='';

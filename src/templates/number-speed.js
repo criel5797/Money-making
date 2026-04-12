@@ -18,7 +18,7 @@ module.exports = function(options) {
       <button id="ns-start" class="btn btn-primary" style="font-size:18px;padding:16px 48px" data-i18n-game="numberSpeed.start">시작하기</button>
       <div id="ns-result" style="margin:20px 0;font-size:18px;font-weight:bold;min-height:30px"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px">
-        <div class="stat-box"><div class="stat-label" data-i18n-game="numberSpeed.correct">정답</div><div id="ns-correct" class="stat-value">0</div></div>
+        <div class="stat-box"><div class="stat-label" data-i18n-game="numberSpeed.correctLabel">정답</div><div id="ns-correct" class="stat-value">0</div></div>
         <div class="stat-box"><div class="stat-label" data-i18n-game="numberSpeed.avgTime">평균 시간</div><div id="ns-avg" class="stat-value">--</div></div>
         <div class="stat-box"><div class="stat-label" data-i18n-game="numberSpeed.best">최고점</div><div id="ns-best" class="stat-value">0</div></div>
       </div>
@@ -80,7 +80,7 @@ module.exports = function(options) {
         playing=false;clearInterval(timer);timer=null;
         if(nextRoundTimeout){clearTimeout(nextRoundTimeout);nextRoundTimeout=null;}
         var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.numberSpeed;
-        nsResult.textContent=txt.timeUp+' '+txt.finalScore+correct;nsResult.style.color='#667eea';
+        var nsMsg=correct>=35?txt.msg1:correct>=28?txt.msg2:correct>=22?txt.msg3:correct>=16?txt.msg4:correct>=10?txt.msg5:txt.msg6;nsResult.textContent=txt.timeUp+' '+txt.finalScore+correct+nsMsg;nsResult.style.color='#667eea';
         if(correct>bestScore){bestScore=correct;nsBestEl.textContent=bestScore;}
         window.GameRecord.save('number-speed','score',correct);if(historyVisible)renderHistory();var lang=window.currentLang||'ko';var shtxt=lang==='ko'?'⚡ 숫자 비교 '+correct+'점 달성! 너도 해봐!':lang==='ja'?'⚡ 数字比較'+correct+'点達成！あなたも挑戦！':'⚡ Scored '+correct+' on number speed! Can you beat it?';window._shareResult={title:shtxt,text:shtxt,url:window.location.href};
         nsStart.style.display='inline-block';
