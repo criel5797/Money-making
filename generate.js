@@ -1938,7 +1938,8 @@ function layout(title, pathname, body, includeAdScript, description, jsonLd, rel
     defaultLang: options.defaultLang,
     alternateLocales: options.alternateLocales,
     localizedNavigation: options.localizedNavigation,
-    includeI18nScript: options.includeI18nScript
+    includeI18nScript: options.includeI18nScript,
+    ogImage: options.ogImage
   });
 }
 
@@ -1994,13 +1995,15 @@ function wrapGame(gameId, generateFn, koTitle, description, lang) {
   var pageTitle = game ? buildGameSeoTitle(game, locale) : (koTitle + ' - Free Online Game');
   var pageDescription = game ? buildGameSeoDescription(game, locale) : description;
 
+  var gameOgImage = BASE_URL + '/games/' + gameId + '/og-image.svg';
   return injectForcedPageLocale(
     layout(pageTitle, pathname, body, true, pageDescription, jsonLdArr, related, {
       locale: locale,
       defaultLang: 'ko',
       alternateLocales: alternateLocales,
       localizedNavigation: true,
-      includeI18nScript: true
+      includeI18nScript: true,
+      ogImage: gameOgImage
     }),
     locale
   );
@@ -2676,7 +2679,8 @@ function layout(title, pathname, body, includeAdScript, description, jsonLd, rel
     defaultLang: options.defaultLang,
     alternateLocales: options.alternateLocales,
     localizedNavigation: options.localizedNavigation,
-    includeI18nScript: options.includeI18nScript
+    includeI18nScript: options.includeI18nScript,
+    ogImage: options.ogImage
   });
 }
 
@@ -3602,6 +3606,47 @@ function build(){
      '<text x="600" y="560" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="20" font-family="Arial,sans-serif">' + escapeHtml(SITE_HOST) + '</text>' +
      '</svg>';
   write(path.join(OUT, 'og-image.svg'), ogSvg);
+
+  // ===== Per-game OG Images =====
+  var gameGradients = {
+    'reaction-time':  ['#f7971e', '#ffd200'],
+    'memory-number':  ['#4776E6', '#8E54E9'],
+    'typing-speed':   ['#f7971e', '#ffd200'],
+    'color-match':    ['#11998e', '#38ef7d'],
+    'math-quiz':      ['#0575E6', '#021B79'],
+    'pattern-memory': ['#4776E6', '#8E54E9'],
+    'click-speed':    ['#f093fb', '#f5576c'],
+    'aim-trainer':    ['#11998e', '#38ef7d'],
+    'sequence-memory':['#4776E6', '#8E54E9'],
+    'word-puzzle':    ['#f7971e', '#ffd200'],
+    'visual-memory':  ['#667eea', '#764ba2'],
+    'stroop-test':    ['#0575E6', '#021B79'],
+    'verbal-memory':  ['#4776E6', '#8E54E9'],
+    'chimp-test':     ['#11998e', '#38ef7d'],
+    'hearing-test':   ['#56ccf2', '#2f80ed'],
+    'color-blind-test':['#11998e', '#38ef7d'],
+    'number-speed':   ['#f093fb', '#f5576c'],
+    'target-tracker': ['#11998e', '#38ef7d']
+  };
+  games.forEach(function(game) {
+    var grads = gameGradients[game.id] || ['#667eea', '#764ba2'];
+    var enTitle = (game.title && game.title.en) ? escapeHtml(game.title.en) : escapeHtml(game.id);
+    var emoji = escapeHtml(game.emoji || '🎮');
+    var gameSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">' +
+      '<defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">' +
+      '<stop offset="0%" style="stop-color:' + grads[0] + '"/>' +
+      '<stop offset="100%" style="stop-color:' + grads[1] + '"/>' +
+      '</linearGradient></defs>' +
+      '<rect width="1200" height="630" fill="url(#bg)"/>' +
+      '<text x="600" y="230" text-anchor="middle" fill="white" font-size="160" font-family="Segoe UI Emoji,Apple Color Emoji,sans-serif">' + emoji + '</text>' +
+      '<text x="600" y="360" text-anchor="middle" fill="white" font-size="68" font-weight="bold" font-family="Arial,sans-serif">' + enTitle + '</text>' +
+      '<text x="600" y="440" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="32" font-family="Arial,sans-serif">Free Online Game</text>' +
+      '<text x="600" y="530" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="26" font-family="Arial,sans-serif">InstaIdea · ' + escapeHtml(SITE_HOST) + '</text>' +
+      '</svg>';
+    var gameOgDir = path.join(OUT, 'games', game.id);
+    if (!fs.existsSync(gameOgDir)) fs.mkdirSync(gameOgDir, { recursive: true });
+    write(path.join(gameOgDir, 'og-image.svg'), gameSvg);
+  });
 
   if (!BASE_PATH && LEGACY_REPO_PATH) {
     createLegacyRepoPathMirror();

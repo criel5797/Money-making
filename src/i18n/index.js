@@ -56,7 +56,12 @@ var i18n = {
         wrong: '❌ 틀렸습니다! 정답: ',
         currentLevel: '현재 단계',
         digits: '자릿수',
-        bestLevel: '최고 단계'
+        bestLevel: '최고 단계',
+        msg1: ' 🔥 천재적인 기억력! 상위 1%!',
+        msg2: ' ⭐ 뛰어납니다! 상위 5%!',
+        msg3: ' 👍 평균 이상! 보통 7자리',
+        msg4: ' 😊 평균 수준 (평균: 7자리)',
+        msg5: ' 💪 계속 연습해보세요!'
       },
       typing: {
         desc: '아래 문장을 빠르고 정확하게 타이핑하세요!',
@@ -118,7 +123,13 @@ var i18n = {
         complete: '완료! 다시 클릭해서 시작',
         clicks: '클릭 수',
         cps: 'CPS',
-        bestCps: '최고 CPS'
+        bestCps: '최고 CPS',
+        msg1: ' 🔥 놀라워요! 상위 1%!',
+        msg2: ' ⚡ 빠릅니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 👌 평균 수준',
+        msg6: ' 💪 연습하면 더 잘할 수 있어요!'
       },
       aim: {
         desc: '30초 동안 나타나는 원을 빠르게 클릭하세요!',
@@ -232,7 +243,12 @@ var i18n = {
         gameOver: '게임 오버!',
         finalLevel: '최종 숫자:',
         numbers: '숫자 개수',
-        bestLevel: '최고 기록'
+        bestLevel: '최고 기록',
+        msg1: ' 🏆 침팬지보다 뛰어남! 상위 1%!',
+        msg2: ' 🔥 탁월합니다! 상위 5%!',
+        msg3: ' 👍 평균 이상! 보통 4~5개',
+        msg4: ' 😊 평균 수준 (평균: 4~5개)',
+        msg5: ' 💪 계속 도전하세요!'
       },
       hearing: {
         desc: '소리가 들리면 버튼을 누르세요. 주파수가 점점 높아집니다!',
@@ -365,7 +381,12 @@ var i18n = {
         wrong: '❌ Wrong! Answer: ',
         currentLevel: 'Current Level',
         digits: 'Digits',
-        bestLevel: 'Best Level'
+        bestLevel: 'Best Level',
+        msg1: ' 🔥 Genius-level memory! Top 1%!',
+        msg2: ' ⭐ Outstanding! Top 5%!',
+        msg3: ' 👍 Above average! Typical is 7 digits',
+        msg4: ' 😊 Average range (avg: 7 digits)',
+        msg5: ' 💪 Keep practicing!'
       },
       typing: {
         desc: 'Type the text below as fast and accurately as you can!',
@@ -427,7 +448,13 @@ var i18n = {
         complete: 'Complete! Click to start again',
         clicks: 'Clicks',
         cps: 'CPS',
-        bestCps: 'Best CPS'
+        bestCps: 'Best CPS',
+        msg1: ' 🔥 Incredible! Top 1% globally!',
+        msg2: ' ⚡ Lightning fast! Top 5%!',
+        msg3: ' 👍 Great! Faster than 80%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 👌 Average range',
+        msg6: ' 💪 Keep practicing!'
       },
       aim: {
         desc: 'Click the appearing circles quickly for 30 seconds!',
@@ -541,7 +568,12 @@ var i18n = {
         gameOver: 'Game Over!',
         finalLevel: 'Final Numbers:',
         numbers: 'Numbers',
-        bestLevel: 'Best'
+        bestLevel: 'Best',
+        msg1: ' 🏆 Better than chimps! Top 1%!',
+        msg2: ' 🔥 Exceptional! Top 5%!',
+        msg3: ' 👍 Above average! Typical is 4-5',
+        msg4: ' 😊 Average range (avg: 4-5)',
+        msg5: ' 💪 Keep practicing!'
       },
       hearing: {
         desc: 'Press the button when you hear the sound. Frequency increases!',
@@ -674,7 +706,12 @@ var i18n = {
         wrong: '❌ 不正解！答え：',
         currentLevel: '現在のレベル',
         digits: '桁数',
-        bestLevel: '最高レベル'
+        bestLevel: '最高レベル',
+        msg1: ' 🔥 天才的な記憶力！上位1%！',
+        msg2: ' ⭐ 素晴らしい！上位5%！',
+        msg3: ' 👍 平均以上！平均は7桁',
+        msg4: ' 😊 平均レベル（平均：7桁）',
+        msg5: ' 💪 練習を続けましょう！'
       },
       typing: {
         desc: '下の文章を速く正確にタイピングしてください！',
@@ -736,7 +773,13 @@ var i18n = {
         complete: '完了！もう一度クリックして開始',
         clicks: 'クリック数',
         cps: 'CPS',
-        bestCps: '最高CPS'
+        bestCps: '最高CPS',
+        msg1: ' 🔥 驚異的！世界上位1%！',
+        msg2: ' ⚡ 超高速！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 👌 平均レベル',
+        msg6: ' 💪 練習すればもっと良くなる！'
       },
       aim: {
         desc: '30秒間に現れる円を素早くクリックしてください！',
@@ -850,7 +893,12 @@ var i18n = {
         gameOver: 'ゲームオーバー！',
         finalLevel: '最終数字:',
         numbers: '数字の数',
-        bestLevel: '最高記録'
+        bestLevel: '最高記録',
+        msg1: ' 🏆 チンパンジー超え！上位1%！',
+        msg2: ' 🔥 卓越！上位5%！',
+        msg3: ' 👍 平均以上！平均は4～5個',
+        msg4: ' 😊 平均レベル（平均：4～5個）',
+        msg5: ' 💪 練習を続けましょう！'
       },
       hearing: {
         desc: '音が聞こえたらボタンを押してください。周波数が上がっていきます！',

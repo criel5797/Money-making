@@ -93,8 +93,9 @@ module.exports = function(options) {
           strikes++;updateStrikes();
           if(strikes>=maxStrikes){
             var finalLevel=getCompletedLevel();
-            chimpResult.textContent=txt.gameOver+' '+txt.finalLevel+finalLevel;chimpResult.style.color='#e74c3c';
-            window.GameRecord.save('chimp-test','level',finalLevel);if(historyVisible)renderHistory();var lang=window.currentLang||'ko';var shareMsg=lang==='ko'?'🧠 침팬지 테스트 레벨 '+finalLevel+' 달성! 너도 해봐!':lang==='ja'?'🧠 チンパンジーテスト レベル'+finalLevel+'達成！あなたも挑戦！':'🧠 I reached level '+finalLevel+' on the chimp test! Can you beat me?';window._shareResult={title:shareMsg,text:shareMsg,url:window.location.href};
+            var chimpMsg=finalLevel>=9?txt.msg1:finalLevel>=7?txt.msg2:finalLevel>=5?txt.msg3:finalLevel>=4?txt.msg4:txt.msg5;
+            chimpResult.textContent=txt.gameOver+' '+txt.finalLevel+finalLevel+chimpMsg;chimpResult.style.color='#e74c3c';
+            window.GameRecord.save('chimp-test','level',finalLevel);if(historyVisible)renderHistory();var lang=window.currentLang||'ko';var sharePerc=finalLevel>=9?' 상위 1%!':finalLevel>=7?' 상위 5%!':finalLevel>=5?' 평균 이상!':'';var shareMsg=lang==='ko'?'🧠 침팬지 테스트 레벨 '+finalLevel+' 달성!'+sharePerc+' 너도 해봐!':lang==='ja'?'🧠 チンパンジーテスト レベル'+finalLevel+'達成！'+(finalLevel>=5?' 平均以上！':'')+' あなたも挑戦！':'🧠 Chimp test level '+finalLevel+'!'+(finalLevel>=9?' Top 1%!':finalLevel>=7?' Top 5%!':'')+' Can you beat me?';window._shareResult={title:shareMsg,text:shareMsg,url:window.location.href};
             chimpStart.style.display='inline-block';
           }else{
             chimpResult.textContent=txt.wrong+' ('+strikes+'/'+maxStrikes+')';chimpResult.style.color='#e74c3c';
