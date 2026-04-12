@@ -238,6 +238,70 @@ function buildAlternateHreflangTags(canonicalPath, availableLanguages, defaultLa
   return tags.join('');
 }
 
+// ── Material Symbols icon replacement ─────────────────────────────────────
+var MS_ICON_MAP = {
+  // emoji / HTML entities → material-symbols icon name
+  '\u26A1': 'bolt',       '&#9889;': 'bolt',
+  '\uD83D\uDD12': 'lock', '&#128274;': 'lock', '\uD83D\uDD10': 'lock',
+  '\uD83D\uDCBE': 'save', '&#128190;': 'save',
+  '\uD83D\uDCCB': 'content_paste', '&#128203;': 'content_paste',
+  '\uD83D\uDD27': 'build', '&#128295;': 'build',
+  '\uD83C\uDF10': 'language', '&#127760;': 'language',
+  '\uD83C\uDFA8': 'palette', '&#127912;': 'palette',
+  '\u2699': 'settings', '&#9881;': 'settings', '\u2699\uFE0F': 'settings', '&#9881;&#65039;': 'settings',
+  '\uD83D\uDCD0': 'aspect_ratio', '&#128208;': 'aspect_ratio',
+  '\uD83C\uDFAC': 'movie', '&#127916;': 'movie', '&#127909;': 'movie',
+  '\uD83D\uDCF1': 'smartphone', '&#128241;': 'smartphone',
+  '\uD83D\uDCAD': 'chat', '&#128173;': 'chat',
+  '\uD83D\uDE80': 'rocket_launch', '&#128640;': 'rocket_launch',
+  '\uD83D\uDCE1': 'cell_tower', '&#128225;': 'cell_tower',
+  '\uD83D\uDCE2': 'campaign', '&#128290;': 'campaign',
+  '\uD83D\uDCDD': 'edit_note', '&#128221;': 'edit_note',
+  '\uD83D\uDD17': 'link', '&#128279;': 'link',
+  '\uD83D\uDCBB': 'laptop', '&#128187;': 'laptop',
+  '\uD83D\uDC64': 'person', '&#128100;': 'person',
+  '\uD83D\uDC41': 'visibility', '&#128065;': 'visibility',
+  '\uD83D\uDCE6': 'inventory_2', '&#128230;': 'inventory_2',
+  '\uD83C\uDFAF': 'my_location', '&#127919;': 'my_location',
+  '\u2713': 'check_circle', '&#10003;': 'check_circle', '\u2714': 'check_circle',
+  '{ }': 'code',
+  '\uD83D\uDD25': 'local_fire_department',
+  '\uD83D\uDCA1': 'lightbulb',
+  '\uD83D\uDCCA': 'bar_chart',
+  '\uD83C\uDFB5': 'music_note',
+  '\uD83D\uDD0D': 'search', '&#128269;': 'search',
+};
+
+var MS_ICON_CSS = '<style>.ms-icon{width:1.75em;height:1.75em;fill:currentColor;display:block;margin:0 auto;overflow:visible;vertical-align:middle}</style>';
+
+// Load SVG icon data from src/common/icons/ at build time (inline = no CORS issues)
+var MS_ICON_SVG = (function() {
+  var iconsDir = path.join(process.cwd(), 'src', 'common', 'icons');
+  var svgs = {};
+  try {
+    fs.readdirSync(iconsDir).forEach(function(f) {
+      if (!f.endsWith('.svg')) return;
+      var name = f.replace('.svg', '');
+      var raw = fs.readFileSync(path.join(iconsDir, f), 'utf8');
+      var viewBox = (raw.match(/viewBox="([^"]+)"/) || ['', '0 0 24 24'])[1];
+      var inner = raw.replace(/<svg[^>]*>/, '').replace(/<\/svg>/, '').trim();
+      svgs[name] = '<svg class="ms-icon" viewBox="' + viewBox + '" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">' + inner + '</svg>';
+    });
+  } catch(e) { /* icons dir missing — skip */ }
+  return svgs;
+}());
+
+function replaceFeatureIcons(content) {
+  if (!Object.keys(MS_ICON_SVG).length) return content; // icons not loaded
+  return content.replace(/(<div[^>]+class="[^"]*feature-icon[^"]*"[^>]*>)([\s\S]*?)(<\/div>)/g, function(full, open, inner, close) {
+    var trimmed = inner.trim();
+    var iconName = MS_ICON_MAP[trimmed];
+    if (!iconName || !MS_ICON_SVG[iconName]) return full;
+    return open + MS_ICON_SVG[iconName] + close;
+  });
+}
+// ──────────────────────────────────────────────────────────────────────────
+
 function injectToolContentSeo(content, options) {
   options = options || {};
   var canonicalPath = options.canonicalPath || '/';
@@ -261,6 +325,7 @@ function injectToolContentSeo(content, options) {
   }).join('');
 
   content = ensureHtmlLang(content, lang);
+  content = replaceFeatureIcons(content);
   content = String(content || '')
     .replace(/<meta[^>]+name=["']viewport["'][^>]*>/ig, '')
     .replace(/<title>[\s\S]*?<\/title>/ig, '')
@@ -281,7 +346,7 @@ function injectToolContentSeo(content, options) {
     .replace(/<script[^>]+type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/ig, '');
 
   var ogImage = escapeHtml(BASE_URL + '/og-image.png');
-  var mobileSafeCss = '<style>*,*:before,*:after{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}table{table-layout:fixed;max-width:100%;word-break:break-word}pre{overflow-x:auto;max-width:100%;white-space:pre-wrap;word-break:break-word}img,video,iframe{max-width:100%;height:auto}input,textarea,select,button{max-width:100%}.container,.wrapper,[class*="container"],[class*="wrapper"]{max-width:100%}</style>';
+  var mobileSafeCss = '<style>*,*:before,*:after{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}table{table-layout:fixed;max-width:100%;word-break:break-word}pre{overflow-x:auto;max-width:100%;white-space:pre-wrap;word-break:break-word}img,video,iframe{max-width:100%;height:auto}input,textarea,select,button{max-width:100%}.container,.wrapper,[class*="container"],[class*="wrapper"]{max-width:100%}</style>' + MS_ICON_CSS;
   var seoTags = '' +
     '<meta name="viewport" content="width=device-width,initial-scale=1">' +
     '<title>' + metaTitle + '</title>' +
@@ -1309,7 +1374,28 @@ function buildLocalizedToolSitemapEntries(canonicalPath, availableLanguages, def
   return entries;
 }
 
-function buildGameAverageGuide(gameId, category) {
+function buildGameAverageGuide(gameId, category, locale) {
+  var loc = locale || 'en';
+  if (loc === 'ko') {
+    if (gameId === 'reaction-time') return '데스크탑 기준 대부분의 사람은 200~300ms 사이에 반응합니다. 200ms 미만이면 빠른 편입니다.';
+    if (gameId === 'click-speed') return '대부분의 플레이어는 5~8 CPS를 기록합니다. 연습하면 10 CPS 이상도 가능합니다.';
+    if (gameId === 'typing-speed') return '평균 타이핑 속도는 약 40 WPM입니다. 꾸준히 연습하면 60 WPM 이상을 목표로 할 수 있습니다.';
+    if (gameId === 'memory-number') return '처음에는 6~8자리 숫자 기억이 일반적입니다. 꾸준한 연습으로 더 늘릴 수 있습니다.';
+    if (category === 'memory') return '기억력 게임은 짧고 잦은 연습 세션으로 빠르게 향상됩니다.';
+    if (category === 'reaction') return '반응 속도 게임은 긴 세션보다 짧은 반복 시도가 더 효과적입니다.';
+    if (category === 'speed') return '속도 점수는 리듬 개선과 불필요한 동작 제거로 크게 오릅니다.';
+    return '성적은 기기, 화면 크기, 숙련도에 따라 달라집니다. 자신의 추세를 기준으로 삼으세요.';
+  }
+  if (loc === 'ja') {
+    if (gameId === 'reaction-time') return 'デスクトップでは200〜300msが一般的です。200ms未満は反応が速い部類です。';
+    if (gameId === 'click-speed') return '多くのプレイヤーは5〜8 CPSを記録します。練習すれば10 CPS以上も可能です。';
+    if (gameId === 'typing-speed') return '平均タイピング速度は約40 WPMです。継続練習で60 WPM以上を目指せます。';
+    if (gameId === 'memory-number') return '最初は6〜8桁の数字記憶が一般的です。継続練習でさらに伸ばせます。';
+    if (category === 'memory') return '記憶ゲームは短くて頻繁な練習セッションで速く向上します。';
+    if (category === 'reaction') return '反射系ゲームは長時間より短い繰り返しセッションが効果的です。';
+    if (category === 'speed') return 'スピードスコアはリズム改善と余分な動作の削減で大きく上がります。';
+    return 'スコアはデバイス、画面サイズ、経験値によって異なります。自分のトレンドを基準にしましょう。';
+  }
   if (gameId === 'reaction-time') return 'Most people score between 200 and 300 milliseconds on desktop. Under 200ms is considered fast.';
   if (gameId === 'click-speed') return 'Most players land around 5 to 8 CPS. Competitive players often reach 10+ CPS with good rhythm.';
   if (gameId === 'typing-speed') return 'Average typing speed is around 40 WPM. A practical target is 60+ WPM with consistent accuracy.';
@@ -1337,12 +1423,12 @@ function buildGameSeoContent(game, faqs, lang) {
   var locale = lang || 'en';
   var title = getLocalizedCatalogValue(game.title, locale, 'en') || game.id;
   var summary = getLocalizedCatalogValue(game.description, locale, 'en') || 'Free online brain training game.';
-  var averageGuide = buildGameAverageGuide(game.id, game.category);
+  var averageGuide = buildGameAverageGuide(game.id, game.category, locale);
   var relatedGames = getRecommendedGames(game, 6);
 
   var relatedList = relatedGames.map(function(item) {
     var label = getLocalizedCatalogValue(item.title, locale, 'en') || item.id;
-    return '<li><a href=\"' + href(getToolLocalePath('/games/' + item.id + '/', locale, 'ko')) + '\">' + escapeHtml(label) + '</a></li>';
+    return '<li><a href="' + href(getToolLocalePath('/games/' + item.id + '/', locale, 'ko')) + '">' + escapeHtml(label) + '</a></li>';
   }).join('');
 
   var faqHtml = '';
@@ -1350,43 +1436,123 @@ function buildGameSeoContent(game, faqs, lang) {
     faqHtml += '<h3>' + escapeHtml(faqs[i].q) + '</h3><p>' + escapeHtml(faqs[i].a) + '</p>';
   }
 
+  var t;
+  if (locale === 'ko') {
+    t = {
+      whatIs: escapeHtml(title) + '란?',
+      avgPerf: '평균 성적',
+      howImprove: '점수 향상 방법',
+      whyUseful: '이 테스트가 유용한 이유',
+      faq: '자주 묻는 질문',
+      moreGames: '다른 두뇌 훈련 게임',
+      byTopic: '주제별 탐색',
+      body1: escapeHtml(title) + '은(는) 브라우저에서 바로 즐길 수 있는 무료 두뇌 훈련 게임입니다. ' + escapeHtml(summary) + ' 짧은 세션을 반복하며 즉각적인 피드백으로 실력을 키울 수 있습니다.',
+      body2: '이 페이지는 게임 설명, 평균 성적, 훈련 전략, 자주 묻는 질문을 제공합니다. 플레이어와 검색 엔진 모두를 위한 콘텐츠입니다.',
+      body3: escapeHtml(averageGuide) + ' 기기 성능, 화면 지연, 브라우저 환경, 모바일/데스크탑 여부에 따라 결과가 달라질 수 있습니다. 먼저 자신의 기준점을 세우고 매 세션마다 최근 기록과 비교해보세요.',
+      body4: '꾸준한 향상이 단일 최고 기록보다 더 의미 있습니다. 매일 짧은 집중 세션으로 최소 일주일간 추세를 추적해보세요.',
+      body5: '반응속도와 집중력 게임은 학생, 게이머, 직장인 모두에게 짧은 휴식 중 집중력 훈련으로 활용됩니다. 설치 없이 브라우저에서 즉시 시작 가능합니다. 같은 조건에서 반복 측정해 습관과 컨디션에 따른 성과 변화를 파악하세요.',
+      li1: '3~5회 가볍게 워밍업 후 기록 도전',
+      li2: '안정적인 자세로 손 동작 최소화',
+      li3: '속도보다 정확도를 먼저',
+      li4: '주 1회 장시간보다 매일 짧은 세션',
+      li5: '단일 최고 기록이 아닌 평균 추세 추적',
+      link1: '두뇌 훈련 게임',
+      link2: '웹 개발자 도구',
+      link3: '일상 유틸리티 도구',
+      link4: '개발자 도구',
+      link5: '유틸리티 & 재미있는 도구',
+      link6: '전체 페이지 목록',
+    };
+  } else if (locale === 'ja') {
+    t = {
+      whatIs: escapeHtml(title) + 'とは？',
+      avgPerf: '平均的な成績',
+      howImprove: 'スコアを上げるコツ',
+      whyUseful: 'このテストが役立つ理由',
+      faq: 'よくある質問',
+      moreGames: 'もっと脳トレゲーム',
+      byTopic: 'カテゴリ別',
+      body1: escapeHtml(title) + 'はブラウザで無料ですぐ遊べる脳トレゲームです。' + escapeHtml(summary) + ' 短いセッションを繰り返すことで、即時フィードバックとともに実力を伸ばせます。',
+      body2: 'このページにはゲームの説明、平均的な成績、トレーニング戦略、よくある質問が含まれています。プレイヤーと検索エンジン双方を対象としています。',
+      body3: escapeHtml(averageGuide) + ' デバイスの性能、画面の遅延、ブラウザ、モバイル・デスクトップの違いによって結果が変わります。まず自分のベースラインを把握し、毎セッション最近のベストと比較しましょう。',
+      body4: '継続的な向上は、一度の最高記録より有意義です。毎日短い集中セッションで最低1週間トレンドを追ってみてください。',
+      body5: '反射速度や集中力ゲームは、学生・ゲーマー・オフィスワーカーが休憩中の集中力トレーニングとして活用できます。インストール不要でブラウザからすぐ始められます。同じ条件で繰り返し測定すれば、習慣やコンディションによる変化を把握しやすくなります。',
+      li1: '3〜5回のウォームアップから始める',
+      li2: '安定した姿勢で手の動きを最小限に',
+      li3: 'まず精度を上げてから速度を追う',
+      li4: '週1回長時間より毎日短いセッション',
+      li5: '単発の最高記録より平均スコアを追跡',
+      link1: '脳トレゲーム',
+      link2: 'Webデベロッパーツール',
+      link3: '日常ユーティリティ',
+      link4: '開発者ツール',
+      link5: 'ユーティリティ＆楽しいツール',
+      link6: 'サイトディレクトリ',
+    };
+  } else {
+    t = {
+      whatIs: 'What is ' + escapeHtml(title) + '?',
+      avgPerf: 'Average Human Performance',
+      howImprove: 'How to Improve Your Score',
+      whyUseful: 'Why This Test Is Useful',
+      faq: 'FAQ',
+      moreGames: 'More Brain Tests',
+      byTopic: 'Browse by Topic',
+      body1: escapeHtml(title) + ' is a free browser game designed for fast, repeatable practice. ' + escapeHtml(summary) + ' The goal is to give you instant feedback so you can improve over multiple short sessions instead of relying on one long attempt.',
+      body2: 'This page includes a playable test plus a complete guide section so both users and search engines can understand the purpose of the game. The content explains scoring, average performance ranges, training strategy, and common questions players ask before they start.',
+      body3: escapeHtml(averageGuide) + ' Results can change based on input device, screen latency, browser performance, and whether you are playing on mobile or desktop. Use your own baseline first, then compare each new session against your recent best and average.',
+      body4: 'Consistent improvement is usually more meaningful than one peak score. Track your trend for at least a week with short daily sessions. Most players see better consistency when they practice in focused blocks and avoid distractions between attempts.',
+      body5: 'Fast reaction and decision games are useful for anyone who wants to train focus, timing, and input control. Students, gamers, and office workers can all use these tests as short concentration drills during breaks. Because the game runs in the browser, there is no installation barrier and no account friction.',
+      li1: 'Warm up with 3 to 5 easy attempts before chasing a personal best.',
+      li2: 'Use a stable posture and keep your hand movement minimal.',
+      li3: 'Prioritize accuracy first, then increase speed gradually.',
+      li4: 'Play short sessions daily instead of one long weekly session.',
+      li5: 'Review your average score and not only your single best result.',
+      link1: 'Brain Training Games',
+      link2: 'Web Developer Tools',
+      link3: 'Daily Utility Tools',
+      link4: 'Developer Tools',
+      link5: 'Utilities & Fun Tools',
+      link6: 'Site Directory',
+    };
+  }
+
   return '' +
-    '<section class=\"seo-content\" aria-label=\"Game guide content\">' +
-      '<h2>What is ' + escapeHtml(title) + '?</h2>' +
-      '<p>' + escapeHtml(title) + ' is a free browser game designed for fast, repeatable practice. ' + escapeHtml(summary) + ' The goal is to give you instant feedback so you can improve over multiple short sessions instead of relying on one long attempt.</p>' +
-      '<p>This page includes a playable test plus a complete guide section so both users and search engines can understand the purpose of the game. The content explains scoring, average performance ranges, training strategy, and common questions players ask before they start.</p>' +
+    '<section class="seo-content" aria-label="Game guide content">' +
+      '<h2>' + t.whatIs + '</h2>' +
+      '<p>' + t.body1 + '</p>' +
+      '<p>' + t.body2 + '</p>' +
 
-      '<h2>Average Human Performance</h2>' +
-      '<p>' + escapeHtml(averageGuide) + ' Results can change based on input device, screen latency, browser performance, and whether you are playing on mobile or desktop. Use your own baseline first, then compare each new session against your recent best and average.</p>' +
-      '<p>Consistent improvement is usually more meaningful than one peak score. Track your trend for at least a week with short daily sessions. Most players see better consistency when they practice in focused blocks and avoid distractions between attempts.</p>' +
+      '<h2>' + t.avgPerf + '</h2>' +
+      '<p>' + t.body3 + '</p>' +
+      '<p>' + t.body4 + '</p>' +
 
-      '<h2>How to Improve Your Score</h2>' +
+      '<h2>' + t.howImprove + '</h2>' +
       '<ol>' +
-        '<li>Warm up with 3 to 5 easy attempts before chasing a personal best.</li>' +
-        '<li>Use a stable posture and keep your hand movement minimal.</li>' +
-        '<li>Prioritize accuracy first, then increase speed gradually.</li>' +
-        '<li>Play short sessions daily instead of one long weekly session.</li>' +
-        '<li>Review your average score and not only your single best result.</li>' +
+        '<li>' + t.li1 + '</li>' +
+        '<li>' + t.li2 + '</li>' +
+        '<li>' + t.li3 + '</li>' +
+        '<li>' + t.li4 + '</li>' +
+        '<li>' + t.li5 + '</li>' +
       '</ol>' +
 
-      '<h2>Why This Test Is Useful</h2>' +
-      '<p>Fast reaction and decision games are useful for anyone who wants to train focus, timing, and input control. Students, gamers, and office workers can all use these tests as short concentration drills during breaks. Because the game runs in the browser, there is no installation barrier and no account friction.</p>' +
-      '<p>Another benefit is repeatability. You can run the same test on different days and compare performance under similar conditions. This makes it easy to track progress and identify which habits lead to improvement.</p>' +
+      '<h2>' + t.whyUseful + '</h2>' +
+      '<p>' + t.body5 + '</p>' +
 
-      '<h2>FAQ</h2>' +
+      '<h2>' + t.faq + '</h2>' +
       faqHtml +
 
-      '<h2>More Brain Tests</h2>' +
+      '<h2>' + t.moreGames + '</h2>' +
       '<ul>' + relatedList + '</ul>' +
 
-      '<h2>Browse by Topic</h2>' +
+      '<h2>' + t.byTopic + '</h2>' +
       '<ul>' +
-        '<li><a href=\"' + href(getStaticPagePath('/games/', locale)) + '\">Brain Training Games</a></li>' +
-        '<li><a href=\"' + href('/tools/web/') + '\">Web Developer Tools</a></li>' +
-        '<li><a href=\"' + href('/tools/fun/') + '\">Daily Utility Tools</a></li>' +
-        '<li><a href=\"' + href(getStaticPagePath('/dev-tools/', locale)) + '\">Developer Tools</a></li>' +
-        '<li><a href=\"' + href(getStaticPagePath('/utilities/', locale)) + '\">Utilities & Fun Tools</a></li>' +
-        '<li><a href=\"' + href(getStaticPagePath('/all-pages/', locale)) + '\">Site Directory</a></li>' +
+        '<li><a href="' + href(getStaticPagePath('/games/', locale)) + '">' + t.link1 + '</a></li>' +
+        '<li><a href="' + href('/tools/web/') + '">' + t.link2 + '</a></li>' +
+        '<li><a href="' + href('/tools/fun/') + '">' + t.link3 + '</a></li>' +
+        '<li><a href="' + href(getStaticPagePath('/dev-tools/', locale)) + '">' + t.link4 + '</a></li>' +
+        '<li><a href="' + href(getStaticPagePath('/utilities/', locale)) + '">' + t.link5 + '</a></li>' +
+        '<li><a href="' + href(getStaticPagePath('/all-pages/', locale)) + '">' + t.link6 + '</a></li>' +
       '</ul>' +
     '</section>';
 }
