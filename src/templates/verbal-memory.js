@@ -72,7 +72,7 @@ module.exports = function(options) {
             playing=false;
             verbalResult.textContent=txt.gameOver+' '+txt.finalScore+score;
             if(score>bestScore){bestScore=score;verbalBestEl.textContent=bestScore;}
-            window.GameRecord.save('verbal-memory','score',score);if(historyVisible)renderHistory();
+            window.GameRecord.save('verbal-memory','score',score);if(historyVisible)renderHistory();var vLang=window.currentLang||'ko';var vSharePerc=score>=50?' 상위 1%!':score>=30?' 상위 5%!':score>=20?' 상위 20%!':'';var vShareMsg=vLang==='ko'?'💬 언어 기억력 '+score+'개 정답!'+vSharePerc+' 너도 도전해봐!':vLang==='ja'?'💬 言語記憶 '+score+'問正解！'+(score>=20?' 上位20%！':'')+' あなたも挑戦！':'💬 Verbal memory score: '+score+'!'+(score>=30?' Top 5%!':'')+' Can you beat it?';window._shareResult={title:vShareMsg,text:vShareMsg,url:window.location.href};
             verbalStart.style.display='inline-block';verbalSeen.style.display='none';verbalNew.style.display='none';
             return;
           }

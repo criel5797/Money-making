@@ -73,6 +73,12 @@ var i18n = {
         wpm: 'WPM',
         accuracyLabel: '정확도',
         bestWpm: '최고 WPM',
+        msg1: ' 🔥 전문가 수준! 상위 1%!',
+        msg2: ' ⚡ 빠릅니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상! (평균 40 WPM)',
+        msg5: ' 👌 평균 수준',
+        msg6: ' 💪 연습할수록 빨라져요!',
         texts: ['빠른 갈색 여우가 게으른 개를 뛰어넘는다','인생은 자전거를 타는 것과 같다','꿈을 이루는 비결은 시작하는 것이다','성공은 매일의 작은 노력이 쌓여 만들어진다','오늘 할 수 있는 일을 내일로 미루지 마라','천 리 길도 한 걸음부터 시작한다','실패는 성공의 어머니이다','시간은 금이다 낭비하지 말자','노력은 결코 배신하지 않는다','인내는 쓰지만 그 열매는 달다','최선을 다하면 후회가 없다','행복은 마음먹기에 달려있다','건강이 최고의 재산이다','웃는 얼굴에 침 못 뱉는다','백문이 불여일견이다','가는 말이 고와야 오는 말이 곱다','지금 이 순간을 소중히 여기자','배움에는 끝이 없다','긍정적인 생각이 긍정적인 결과를 만든다','하루하루 최선을 다하며 살자']
       },
       colorMatch: {
@@ -105,7 +111,13 @@ var i18n = {
         totalCorrect: '총 ',
         problems: '문제 맞춤!',
         correctLabel: '맞춘 문제',
-        bestLabel: '최고 기록'
+        bestLabel: '최고 기록',
+        msg1: ' 🔥 천재급! 상위 1%!',
+        msg2: ' ⚡ 놀랍습니다! 상위 5%!',
+        msg3: ' 👍 빠릅니다! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 👌 평균 수준',
+        msg6: ' 💪 연습하면 더 빨라져요!'
       },
       pattern: {
         desc: '깜빡이는 패턴을 기억하고 순서대로 클릭하세요!',
@@ -141,7 +153,13 @@ var i18n = {
         miss: 'Miss!',
         hitsLabel: '명중',
         accuracy: '정확도',
-        bestHits: '최고 점수'
+        bestHits: '최고 점수',
+        msg1: ' 🎯 프로급! 상위 1%!',
+        msg2: ' 🔥 빠릅니다! 상위 5%!',
+        msg3: ' 👍 훌륭해요! 상위 20%!',
+        msg4: ' 😊 평균 이상!',
+        msg5: ' 👌 평균 수준',
+        msg6: ' 💪 계속 도전하세요!'
       },
       sequence: {
         desc: '숫자가 나타나는 순서를 기억하고 순서대로 클릭하세요!',
@@ -400,6 +418,12 @@ var i18n = {
         wpm: 'WPM',
         accuracyLabel: 'Accuracy',
         bestWpm: 'Best WPM',
+        msg1: ' 🔥 Expert level! Top 1%!',
+        msg2: ' ⚡ Very fast! Top 5%!',
+        msg3: ' 👍 Great speed! Top 20%!',
+        msg4: ' 😊 Above average! (avg 40 WPM)',
+        msg5: ' 👌 Average range',
+        msg6: ' 💪 Practice makes perfect!',
         texts: ['The quick brown fox jumps over the lazy dog','Life is like riding a bicycle to keep balance you must keep moving','The secret to getting ahead is getting started','Success is the sum of small efforts repeated day in and day out','Do not put off until tomorrow what you can do today','A journey of a thousand miles begins with a single step','Failure is the mother of success','Time is money do not waste it','Hard work never betrays you','Patience is bitter but its fruit is sweet','If you do your best you will have no regrets','Happiness depends on your mindset','Health is the greatest wealth','A smile opens many doors','Seeing is believing','Kind words bring kind responses','Treasure every moment of your life','Learning never ends','Positive thinking leads to positive results','Live each day to the fullest']
       },
       colorMatch: {
@@ -432,7 +456,13 @@ var i18n = {
         totalCorrect: 'Total ',
         problems: ' correct!',
         correctLabel: 'Correct',
-        bestLabel: 'Best'
+        bestLabel: 'Best',
+        msg1: ' 🔥 Genius! Top 1%!',
+        msg2: ' ⚡ Amazing! Top 5%!',
+        msg3: ' 👍 Fast! Top 20%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 👌 Average range',
+        msg6: ' 💪 Keep practicing!'
       },
       pattern: {
         desc: 'Remember the flashing pattern and click in order!',
@@ -468,7 +498,13 @@ var i18n = {
         miss: 'Miss!',
         hitsLabel: 'Hits',
         accuracy: 'Accuracy',
-        bestHits: 'Best'
+        bestHits: 'Best',
+        msg1: ' 🎯 Pro level! Top 1%!',
+        msg2: ' 🔥 Fast! Top 5%!',
+        msg3: ' 👍 Great! Top 20%!',
+        msg4: ' 😊 Above average!',
+        msg5: ' 👌 Average range',
+        msg6: ' 💪 Keep practicing!'
       },
       sequence: {
         desc: 'Remember the number sequence and click in order!',
@@ -727,6 +763,12 @@ var i18n = {
         wpm: 'WPM',
         accuracyLabel: '正確度',
         bestWpm: '最高WPM',
+        msg1: ' 🔥 エキスパート！上位1%！',
+        msg2: ' ⚡ とても速い！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！（平均40 WPM）',
+        msg5: ' 👌 平均レベル',
+        msg6: ' 💪 練習すれば上達します！',
         texts: ['素早い茶色の狐が怠け者の犬を飛び越える','人生は自転車に乗るようなものだ','夢を叶える秘訣は始めることだ','成功は毎日の小さな努力の積み重ねだ','今日できることを明日に延ばすな','千里の道も一歩から始まる','失敗は成功の母である','時は金なり無駄にするな','努力は決して裏切らない','忍耐は苦いがその実は甘い','最善を尽くせば後悔はない','幸せは心の持ち方次第だ','健康が最高の財産である','笑顔は多くの扉を開く','百聞は一見にしかず','優しい言葉は優しい返事を生む','今この瞬間を大切にしよう','学びに終わりはない','前向きな考えが前向きな結果を生む','一日一日を全力で生きよう']
       },
       colorMatch: {
@@ -759,7 +801,13 @@ var i18n = {
         totalCorrect: '合計',
         problems: '問正解！',
         correctLabel: '正解数',
-        bestLabel: '最高記録'
+        bestLabel: '最高記録',
+        msg1: ' 🔥 天才級！上位1%！',
+        msg2: ' ⚡ 驚異的！上位5%！',
+        msg3: ' 👍 速い！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 👌 平均レベル',
+        msg6: ' 💪 練習すればもっと速くなる！'
       },
       pattern: {
         desc: '点滅するパターンを覚えて順番にクリックしてください！',
@@ -795,7 +843,13 @@ var i18n = {
         miss: 'ミス！',
         hitsLabel: '命中',
         accuracy: '正確度',
-        bestHits: '最高スコア'
+        bestHits: '最高スコア',
+        msg1: ' 🎯 プロ級！上位1%！',
+        msg2: ' 🔥 速い！上位5%！',
+        msg3: ' 👍 素晴らしい！上位20%！',
+        msg4: ' 😊 平均以上！',
+        msg5: ' 👌 平均レベル',
+        msg6: ' 💪 練習を続けましょう！'
       },
       sequence: {
         desc: '数字が現れる順序を覚えて順番にクリックしてください！',

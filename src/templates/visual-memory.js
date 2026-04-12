@@ -91,7 +91,7 @@ module.exports = function(options) {
           if(lives<=0){
             var finalLevel=getCompletedLevel();
             vmResult.textContent=txt.gameOver+' '+txt.finalLevel+finalLevel;vmResult.style.color='#e74c3c';
-            window.GameRecord.save('visual-memory','level',finalLevel);if(historyVisible)renderHistory();
+            window.GameRecord.save('visual-memory','level',finalLevel);if(historyVisible)renderHistory();var vmLang=window.currentLang||'ko';var vmSharePerc=finalLevel>=10?' 상위 1%!':finalLevel>=7?' 상위 5%!':finalLevel>=5?' 상위 20%!':'';var vmShareMsg=vmLang==='ko'?'👁️ 시각 기억력 레벨 '+finalLevel+' 달성!'+vmSharePerc+' 너도 도전해봐!':vmLang==='ja'?'👁️ 視覚メモリ レベル'+finalLevel+'達成！'+(finalLevel>=5?' 上位20%！':'')+' あなたも挑戦！':'👁️ Visual memory level '+finalLevel+'!'+(finalLevel>=7?' Top 5%!':'')+' Can you beat it?';window._shareResult={title:vmShareMsg,text:vmShareMsg,url:window.location.href};
             vmStart.style.display='inline-block';
           }else{
             vmResult.textContent=txt.wrong;vmResult.style.color='#e74c3c';
