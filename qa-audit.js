@@ -56,7 +56,7 @@ async function auditPage(context, pageInfo) {
 
   try {
     const fileUrl = 'file:///' + pageInfo.filePath.replace(/\\/g, '/');
-    await page.goto(fileUrl, { waitUntil: 'load', timeout: 15000 });
+    await page.goto(fileUrl, { waitUntil: 'domcontentloaded', timeout: 15000 });
     await page.waitForTimeout(800); // 애니메이션·동적 렌더링 + tool-i18n-handler 대기
 
     // 스크린샷 (1280px 데스크탑)

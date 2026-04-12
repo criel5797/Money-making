@@ -3037,13 +3037,31 @@ function renderIndex() {
         '<p style="text-align:center;font-size:16px;margin:8px 0;opacity:0.9">' + escapeHtml(localizedCount) + '</p>' +
       '</div>' +
       '<section class="seo-content">' +
-        '<h2>Explore by Directory</h2>' +
-        '<p>Use section directories to find tools faster and help crawlers understand topic clusters.</p>' +
-        '<ul>' +
-          '<li><a href="' + href(getStaticPagePath('/tools/web/', lang)) + '">Web Developer Tools Directory</a></li>' +
-          '<li><a href="' + href(getStaticPagePath('/tools/fun/', lang)) + '">Utility Tools Directory</a></li>' +
-          '<li><a href="' + href(getStaticPagePath('/all-pages/', lang)) + '">Full Site Directory</a></li>' +
-        '</ul>' +
+        (lang === 'ko' ?
+          '<h2>카테고리별 탐색</h2>' +
+          '<p>카테고리 디렉터리를 활용해 원하는 도구를 빠르게 찾고, 사이트 구조를 한눈에 파악하세요.</p>' +
+          '<ul>' +
+            '<li><a href="' + href(getStaticPagePath('/tools/web/', lang)) + '">웹 개발자 도구 전체 보기</a></li>' +
+            '<li><a href="' + href(getStaticPagePath('/tools/fun/', lang)) + '">생활 유틸리티 도구 전체 보기</a></li>' +
+            '<li><a href="' + href(getStaticPagePath('/all-pages/', lang)) + '">전체 페이지 목록</a></li>' +
+          '</ul>'
+        : lang === 'ja' ?
+          '<h2>カテゴリから探す</h2>' +
+          '<p>カテゴリディレクトリを使って目的のツールを素早く見つけ、サイト構造を把握できます。</p>' +
+          '<ul>' +
+            '<li><a href="' + href(getStaticPagePath('/tools/web/', lang)) + '">Web開発者ツール一覧</a></li>' +
+            '<li><a href="' + href(getStaticPagePath('/tools/fun/', lang)) + '">生活ユーティリティツール一覧</a></li>' +
+            '<li><a href="' + href(getStaticPagePath('/all-pages/', lang)) + '">全ページ一覧</a></li>' +
+          '</ul>'
+        :
+          '<h2>Explore by Directory</h2>' +
+          '<p>Use section directories to find tools faster and help crawlers understand topic clusters.</p>' +
+          '<ul>' +
+            '<li><a href="' + href(getStaticPagePath('/tools/web/', lang)) + '">Web Developer Tools Directory</a></li>' +
+            '<li><a href="' + href(getStaticPagePath('/tools/fun/', lang)) + '">Utility Tools Directory</a></li>' +
+            '<li><a href="' + href(getStaticPagePath('/all-pages/', lang)) + '">Full Site Directory</a></li>' +
+          '</ul>'
+        ) +
       '</section>' +
       '<div style="margin:40px 0 20px">' +
         '<h2 style="font-size:2rem;text-align:center;margin-bottom:10px">' + escapeHtml(localizedGamesTitle) + '</h2>' +
@@ -3962,17 +3980,31 @@ build();
     var games = fs.readdirSync(gamesDir).filter(function(f) {
       return fs.existsSync(path.join(gamesDir, f, 'og-image.svg'));
     });
+    var mirrorGamesDir = LEGACY_REPO_PATH ? path.join(OUT, LEGACY_REPO_PATH, 'games') : null;
     for (var i = 0; i < games.length; i++) {
       var g = games[i];
       var svgPath = path.join(gamesDir, g, 'og-image.svg');
       var pngPath = path.join(gamesDir, g, 'og-image.png');
       await page.goto('file:///' + svgPath.replace(/\\/g, '/'));
       await page.screenshot({ path: pngPath, clip: { x: 0, y: 0, width: 1200, height: 630 } });
+      // Also copy to legacy mirror path (dist/Money-making/games/)
+      if (mirrorGamesDir) {
+        var mirrorPngPath = path.join(mirrorGamesDir, g, 'og-image.png');
+        if (fs.existsSync(path.dirname(mirrorPngPath))) {
+          fs.copyFileSync(pngPath, mirrorPngPath);
+        }
+      }
     }
     var rootSvg = path.join(OUT, 'og-image.svg');
     if (fs.existsSync(rootSvg)) {
       await page.goto('file:///' + rootSvg.replace(/\\/g, '/'));
-      await page.screenshot({ path: path.join(OUT, 'og-image.png'), clip: { x: 0, y: 0, width: 1200, height: 630 } });
+      var rootPngPath = path.join(OUT, 'og-image.png');
+      await page.screenshot({ path: rootPngPath, clip: { x: 0, y: 0, width: 1200, height: 630 } });
+      // Also copy to legacy mirror
+      if (LEGACY_REPO_PATH) {
+        var mirrorRootPng = path.join(OUT, LEGACY_REPO_PATH, 'og-image.png');
+        if (fs.existsSync(path.dirname(mirrorRootPng))) fs.copyFileSync(rootPngPath, mirrorRootPng);
+      }
     }
     await browser.close();
     console.log('OG images: converted ' + games.length + ' SVGs to PNG');
