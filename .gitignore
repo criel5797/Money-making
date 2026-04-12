@@ -1,3 +1,6 @@
 node_modules/
 qa-report.json
 qa-screenshots/
+.pw-temp/
+.edge-temp/
+.edge-temp-2/
