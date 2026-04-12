@@ -92,7 +92,7 @@ module.exports = function(options) {
         else rating=txt.belowNormal||'평균 이하';
         resultEl.innerHTML=txt.complete+' <strong>'+maxHeard+'Hz</strong> ('+rating+')';resultEl.style.color='#667eea';
         maxFreqEl.textContent=maxHeard+'Hz';
-        window.GameRecord.save('hearing-test','freq',maxHeard);if(historyVisible)renderHistory();var lang=window.currentLang||'ko';var freqK=(maxHeard/1000).toFixed(1);var shtxt=lang==='ko'?'👂 내 청력: '+freqK+'kHz까지 들려! 너는?':lang==='ja'?'👂 聴力テスト: '+freqK+'kHzまで聞こえた！あなたは？':'👂 I can hear up to '+freqK+'kHz! How about you?';window._shareResult={title:shtxt,text:shtxt,url:window.location.href};
+        var hearIsNew=window.GameRecord.save('hearing-test','freq',maxHeard);if(historyVisible)renderHistory();if(hearIsNew)resultEl.innerHTML+=' <span style="color:#f39c12">'+(window.i18n[lang].newRecord||' 🎉 신기록!')+'</span>';var lang=window.currentLang||'ko';var freqK=(maxHeard/1000).toFixed(1);var shtxt=lang==='ko'?'👂 내 청력: '+freqK+'kHz까지 들려! 너는?':lang==='ja'?'👂 聴力テスト: '+freqK+'kHzまで聞こえた！あなたは？':'👂 I can hear up to '+freqK+'kHz! How about you?';window._shareResult={title:shtxt,text:shtxt,url:window.location.href};
       }
 
       startBtn.addEventListener('click',startTest);

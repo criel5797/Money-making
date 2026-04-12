@@ -92,7 +92,7 @@ module.exports = function(options) {
             var finalLevel=getCompletedLevel();
             var vmLang=window.currentLang||'ko';var vmTxt2=window.i18n[vmLang].games.visualMemory;var vmMsg=finalLevel>=10?vmTxt2.msg1:finalLevel>=7?vmTxt2.msg2:finalLevel>=5?vmTxt2.msg3:finalLevel>=3?vmTxt2.msg4:vmTxt2.msg5;
             vmResult.textContent=txt.gameOver+' '+txt.finalLevel+finalLevel+vmMsg;vmResult.style.color='#e74c3c';
-            window.GameRecord.save('visual-memory','level',finalLevel);if(historyVisible)renderHistory();var vmSharePerc=finalLevel>=10?' 상위 1%!':finalLevel>=7?' 상위 5%!':finalLevel>=5?' 상위 20%!':'';var vmShareMsg=vmLang==='ko'?'👁️ 시각 기억력 레벨 '+finalLevel+' 달성!'+vmSharePerc+' 너도 도전해봐!':vmLang==='ja'?'👁️ 視覚メモリ レベル'+finalLevel+'達成！'+(finalLevel>=5?' 上位20%！':'')+' あなたも挑戦！':'👁️ Visual memory level '+finalLevel+'!'+(finalLevel>=7?' Top 5%!':'')+' Can you beat it?';window._shareResult={title:vmShareMsg,text:vmShareMsg,url:window.location.href};
+            var vmIsNew=window.GameRecord.save('visual-memory','level',finalLevel);if(historyVisible)renderHistory();if(vmIsNew)vmResult.textContent+=(window.i18n[vmLang].newRecord||' 🎉 신기록!');var vmSharePerc=finalLevel>=10?' 상위 1%!':finalLevel>=7?' 상위 5%!':finalLevel>=5?' 상위 20%!':'';var vmShareMsg=vmLang==='ko'?'👁️ 시각 기억력 레벨 '+finalLevel+' 달성!'+vmSharePerc+' 너도 도전해봐!':vmLang==='ja'?'👁️ 視覚メモリ レベル'+finalLevel+'達成！'+(finalLevel>=5?' 上位20%！':'')+' あなたも挑戦！':'👁️ Visual memory level '+finalLevel+'!'+(finalLevel>=7?' Top 5%!':'')+' Can you beat it?';window._shareResult={title:vmShareMsg,text:vmShareMsg,url:window.location.href};
             vmStart.style.display='inline-block';
           }else{
             vmResult.textContent=txt.wrong;vmResult.style.color='#e74c3c';

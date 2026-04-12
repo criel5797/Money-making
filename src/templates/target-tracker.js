@@ -80,7 +80,7 @@ module.exports = function(options) {
         var acc=clicks>0?Math.round(hits/clicks*100):0;
         var tMsg=hits>=30?txt.msg1:hits>=20?txt.msg2:hits>=15?txt.msg3:hits>=10?txt.msg4:txt.msg5;trackerResult.textContent=txt.complete+' '+hits+txt.hitsText+' ('+acc+'%)'+tMsg;trackerResult.style.color='#667eea';
         if(hits>bestScore){bestScore=hits;trackerBestEl.textContent=bestScore;}
-        window.GameRecord.save('target-tracker','hits',hits);if(historyVisible)renderHistory();var tLang=lang||'ko';var tSharePerc=hits>=30?' 상위 1%!':hits>=20?' 상위 5%!':hits>=15?' 상위 20%!':'';var tShareMsg=tLang==='ko'?'🎯 타겟 트래커 '+hits+'회 명중! 정확도 '+acc+'%!'+tSharePerc+' 너도 해봐!':tLang==='ja'?'🎯 ターゲット'+hits+'回ヒット！精度'+acc+'%！'+(hits>=15?' 上位20%！':'')+' あなたも挑戦！':'🎯 Target tracker: '+hits+' hits! Accuracy '+acc+'%!'+(hits>=20?' Top 5%!':'')+' Can you beat it?';window._shareResult={title:tShareMsg,text:tShareMsg,url:window.location.href};
+        var tIsNew=window.GameRecord.save('target-tracker','hits',hits);if(historyVisible)renderHistory();if(tIsNew)trackerResult.textContent+=(window.i18n[lang].newRecord||' 🎉 신기록!');var tLang=lang||'ko';var tSharePerc=hits>=30?' 상위 1%!':hits>=20?' 상위 5%!':hits>=15?' 상위 20%!':'';var tShareMsg=tLang==='ko'?'🎯 타겟 트래커 '+hits+'회 명중! 정확도 '+acc+'%!'+tSharePerc+' 너도 해봐!':tLang==='ja'?'🎯 ターゲット'+hits+'回ヒット！精度'+acc+'%！'+(hits>=15?' 上位20%！':'')+' あなたも挑戦！':'🎯 Target tracker: '+hits+' hits! Accuracy '+acc+'%!'+(hits>=20?' Top 5%!':'')+' Can you beat it?';window._shareResult={title:tShareMsg,text:tShareMsg,url:window.location.href};
         trackerStart.style.display='inline-block';
       }
 

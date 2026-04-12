@@ -82,7 +82,7 @@ module.exports = function(options) {
         var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.numberSpeed;
         var nsMsg=correct>=35?txt.msg1:correct>=28?txt.msg2:correct>=22?txt.msg3:correct>=16?txt.msg4:correct>=10?txt.msg5:txt.msg6;nsResult.textContent=txt.timeUp+' '+txt.finalScore+correct+nsMsg;nsResult.style.color='#667eea';
         if(correct>bestScore){bestScore=correct;nsBestEl.textContent=bestScore;}
-        window.GameRecord.save('number-speed','score',correct);if(historyVisible)renderHistory();var lang=window.currentLang||'ko';var shtxt=lang==='ko'?'⚡ 숫자 비교 '+correct+'점 달성! 너도 해봐!':lang==='ja'?'⚡ 数字比較'+correct+'点達成！あなたも挑戦！':'⚡ Scored '+correct+' on number speed! Can you beat it?';window._shareResult={title:shtxt,text:shtxt,url:window.location.href};
+        var nsIsNew=window.GameRecord.save('number-speed','score',correct);if(historyVisible)renderHistory();if(nsIsNew)nsResult.textContent+=(window.i18n[lang].newRecord||' 🎉 신기록!');var lang=window.currentLang||'ko';var shtxt=lang==='ko'?'⚡ 숫자 비교 '+correct+'점 달성! 너도 해봐!':lang==='ja'?'⚡ 数字比較'+correct+'点達成！あなたも挑戦！':'⚡ Scored '+correct+' on number speed! Can you beat it?';window._shareResult={title:shtxt,text:shtxt,url:window.location.href};
         nsStart.style.display='inline-block';
         nsLeft.textContent='--';nsRight.textContent='--';
       }
