@@ -1,6 +1,3 @@
-self.options = {
-    "domain": "3nbf4.com",
-    "zoneId": 10652551
-}
-self.lary = ""
-// importScripts disabled to prevent Vignette overlay ads
+self.addEventListener("install", function(){ self.skipWaiting(); });
+self.addEventListener("activate", function(event){ event.waitUntil(self.clients.claim()); });
+self.addEventListener("fetch", function(){});
