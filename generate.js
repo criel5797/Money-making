@@ -3684,4 +3684,32 @@ function build(){
 
 build();
 
-
+// Convert og-image SVGs to PNG after build (requires playwright)
+(async function() {
+  try {
+    var playwright = require('playwright');
+    var browser = await playwright.chromium.launch();
+    var page = await browser.newPage();
+    await page.setViewportSize({ width: 1200, height: 630 });
+    var gamesDir = path.join(OUT, 'games');
+    var games = fs.readdirSync(gamesDir).filter(function(f) {
+      return fs.existsSync(path.join(gamesDir, f, 'og-image.svg'));
+    });
+    for (var i = 0; i < games.length; i++) {
+      var g = games[i];
+      var svgPath = path.join(gamesDir, g, 'og-image.svg');
+      var pngPath = path.join(gamesDir, g, 'og-image.png');
+      await page.goto('file:///' + svgPath.replace(/\\/g, '/'));
+      await page.screenshot({ path: pngPath, clip: { x: 0, y: 0, width: 1200, height: 630 } });
+    }
+    var rootSvg = path.join(OUT, 'og-image.svg');
+    if (fs.existsSync(rootSvg)) {
+      await page.goto('file:///' + rootSvg.replace(/\\/g, '/'));
+      await page.screenshot({ path: path.join(OUT, 'og-image.png'), clip: { x: 0, y: 0, width: 1200, height: 630 } });
+    }
+    await browser.close();
+    console.log('OG images: converted ' + games.length + ' SVGs to PNG');
+  } catch(e) {
+    // playwright not available or error — skip PNG conversion
+  }
+})();
