@@ -482,7 +482,7 @@ function buildGameSeoTitle(game, lang) {
 
 function buildGameSeoDescription(game, lang) {
   var locale = lang || 'en';
-  var gameMeta = {
+  var enMeta = {
     'reaction-time': 'Measure reaction time in milliseconds with a fast browser-based reflex test. Retry instantly, compare scores, and practice online for free.',
     'typing-speed': 'Check typing speed, WPM, and accuracy with a free online keyboard test. Practice short rounds and track improvement over time.',
     'click-speed': 'Test click speed online and measure CPS in a short browser challenge. Compare your score and practice for a faster click rhythm.',
@@ -498,16 +498,57 @@ function buildGameSeoDescription(game, lang) {
     'pattern-memory': 'Test pattern memory with a free online brain game. Watch the pattern, repeat it correctly, and improve recall through repetition.',
     'color-match': 'Challenge focus and processing speed with a free online color match game. Respond to color cues quickly and compare each round.',
     'color-blind-test': 'Check color perception with a free online color blind test. Find the different shade quickly and compare results across rounds.',
-    'hearing-test': 'Test the highest frequency you can hear with a free browser hearing test. Run a quick audio check online with no install.',
+    'hearing-test': 'Test the highest frequency you can hear with a free browser hearing test. Check your ear age online with no install required.',
     'target-tracker': 'Track a moving target and click precisely in a free online reaction game. Practice fast visual tracking and control.',
     'word-puzzle': 'Play a free online word puzzle game and build words from shuffled letters. Improve vocabulary speed and spelling under time pressure.'
   };
-  if (locale === 'en' && gameMeta[game && game.id]) {
-    return gameMeta[game.id];
-  }
+  var koMeta = {
+    'reaction-time': '반응속도 테스트 무료 온라인 게임. 초록불에 즉시 클릭해 순발력을 밀리초로 측정. 기록 비교, 두뇌 훈련, 무제한 재도전.',
+    'typing-speed': '타이핑 속도 테스트 무료 온라인 — WPM과 정확도를 동시 측정. 짧은 문장으로 반복 연습해 키보드 실력을 높이세요.',
+    'click-speed': '클릭 속도 테스트 무료 온라인 — 10초 동안 최대한 클릭해 CPS 측정. 손가락 반응 훈련, 기록 갱신 도전.',
+    'memory-number': '숫자 기억력 테스트 무료 온라인 — 점점 길어지는 숫자 시퀀스를 기억하고 입력. 단기 기억력 측정 두뇌 훈련.',
+    'sequence-memory': '순서 기억력 게임 무료 온라인 — 숫자가 사라지기 전 순서를 기억해 클릭. 집중력과 기억력을 동시에 테스트.',
+    'visual-memory': '시각 기억력 테스트 무료 온라인 — 깜빡이는 타일 위치를 기억하고 클릭. 공간 기억력 측정 두뇌 훈련 게임.',
+    'verbal-memory': '언어 기억력 테스트 무료 온라인 — 이전에 본 단어인지 즉시 판단. 장기 기억력 측정, 어휘 훈련, 기록 갱신.',
+    'chimp-test': '침팬지 테스트 무료 온라인 — 숫자를 순서대로 클릭하는 기억력 IQ 테스트. 작업 기억력 측정, 두뇌 훈련.',
+    'aim-trainer': '에임 트레이너 무료 온라인 — 나타나는 목표물을 빠르게 클릭해 마우스 정확도 측정. 반응���도 향상 두뇌 게임.',
+    'stroop-test': '스트룹 테스트 무료 온라인 — 글자 색깔을 빠르게 선택하는 집중력 주의력 측정 게임. 인지 속도 두뇌 훈련.',
+    'number-speed': '숫자 비교 게임 무료 온라인 — 두 숫자 중 큰 수를 빠르게 선택. 판단력과 인지 처리 속도를 측정 훈련.',
+    'math-quiz': '암산 게임 무료 온라인 — 60초 안에 수학 문제를 최대한 풀기. 사칙연산 두뇌 훈련, 기억력 집중력 향상.',
+    'pattern-memory': '패턴 기억력 게임 무료 온라인 — 깜빡이는 패턴을 기억하고 순서대로 클릭. 시각 기억력 집중력 측정 훈련.',
+    'color-match': '색깔 맞추기 게임 무료 온라인 — 글자 색과 의미가 일치하는지 빠르게 판단. 집중력 처리 속도 두뇌 훈련.',
+    'color-blind-test': '색맹 테스트 무료 온라인 — 다른 색깔 타일을 빠르게 찾아 색각 능력 자가 진단. 색각 이상 셀프 체크.',
+    'hearing-test': '청력 테스트 무료 온라인 — 들을 수 있는 최고 주파수로 귀 나이 측정. 헤드폰으로 청력 자가 진단 가능.',
+    'target-tracker': '타겟 트래커 무료 온라인 — 움직이는 목표물을 클릭하는 반응속도 게임. 시각 추적 능력 측정 두뇌 훈련.',
+    'word-puzzle': '단어 퍼즐 게임 무료 온라인 — 주어진 글자로 단어 만들기. 어휘력 집중력 향상 두뇌 훈련, 시간 제한 도전.'
+  };
+  var jaMeta = {
+    'reaction-time': '反応速度テスト無料オンライン — 緑になったら即クリック。ミリ秒単位で反射神経を測定、記録比較、脳トレ。',
+    'typing-speed': 'タイピング速度テスト無料オンライン — WPMと正確度を同時計測。短文で練習してキーボードの腕前を向上。',
+    'click-speed': 'クリック速度テスト無料オンライン — 10秒でCPS測定。指のスピードと反射神経を鍛える無料ブラウザゲーム。',
+    'memory-number': '数字記憶テスト無料オンライン — 長くなる数字列を記憶して入力。短期記憶力と集中力を鍛える脳トレゲーム。',
+    'sequence-memory': '順番記憶ゲーム無料オンライン — 数字の順序を覚えてクリック。集中力と記憶力を同時にテストする脳トレ。',
+    'visual-memory': '視覚記憶テスト無料オンライン — 点滅タイルの位置を記憶してクリック。空間記憶力の測定と脳トレゲーム。',
+    'verbal-memory': '言語記憶テスト無料オンライン — 見た単語か新しい単語かを即判断。長期記憶力の測定と語彙トレーニング。',
+    'chimp-test': 'チンパンジーテスト無料オンライン — 数字を順番にクリックする記憶力IQテスト。作業記憶の測定・脳トレ。',
+    'aim-trainer': 'エイムトレーナー無料オンライン — 現れる的を素早くクリックしてマウス精度を測定。反応速度向上トレーニング。',
+    'stroop-test': 'ストループテスト無料オンライン — 文字の色を素早く選ぶ集中力・注意力測定ゲーム。認知速度の脳トレ。',
+    'number-speed': '数字比較ゲーム無料オンライン — 2つの数字のうち大きい方を素早く選択。判断力と処理速度の測定トレーニング。',
+    'math-quiz': '暗算ゲーム無料オンライン — 60秒で数学問題を最大限解く。四則演算の脳トレ、集中力・記憶力アップ。',
+    'pattern-memory': 'パターン記憶ゲーム無料オンライン — 点滅パターンを覚えて順番にクリック。視覚記憶力・集中力の測定トレーニング。',
+    'color-match': '色合わせゲーム無料オンライン — 文字の色と意味が一致するか素早く判断。集中力と処理速度を鍛える脳トレ。',
+    'color-blind-test': '色盲テスト無料オンライン — 違う色のタイルを素早く見つけて色覚能力を自己診断。色覚異常のセルフチェック。',
+    'hearing-test': '聴力テスト無料オンライン — 聞こえる最高周波数で耳年齢を測定。ヘッドフォンで手軽に聴力セルフチェック。',
+    'target-tracker': 'ターゲットトラッカー無料オンライン — 動く的をクリックする反応速度ゲーム。視覚追跡能力の測定・脳トレ。',
+    'word-puzzle': '単語パズルゲーム無料オンライン — 与えられた文字で単語を作る語彙力ゲーム。集中力向上・時間制限チャレンジ。'
+  };
+  var id = game && game.id;
+  if (locale === 'en' && enMeta[id]) return enMeta[id];
+  if (locale === 'ko' && koMeta[id]) return koMeta[id];
+  if (locale === 'ja' && jaMeta[id]) return jaMeta[id];
   var keyword = getLocalizedCatalogValue(game && game.title, locale, 'en') || 'Brain Training Game';
   var teaser = getLocalizedCatalogValue(game && game.description, locale, 'en') || 'Train your brain with this free online game.';
-  return keyword + ' - ' + teaser + ' Play free online, track your best score, and improve with practical tips.';
+  return keyword + ' - ' + teaser;
 }
 
 var TOOL_META_OVERRIDES = {
