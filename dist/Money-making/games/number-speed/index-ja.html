@@ -103,7 +103,7 @@ footer{margin-top:32px;padding:28px;border-radius:var(--radius-xl);background:rg
         var lang=window.currentLang||'ko';var txt=window.i18n[lang].games.numberSpeed;
         nsResult.textContent=txt.timeUp+' '+txt.finalScore+correct;nsResult.style.color='#667eea';
         if(correct>bestScore){bestScore=correct;nsBestEl.textContent=bestScore;}
-        window.GameRecord.save('number-speed','score',correct);if(historyVisible)renderHistory();
+        window.GameRecord.save('number-speed','score',correct);if(historyVisible)renderHistory();var lang=window.currentLang||'ko';var shtxt=lang==='ko'?'⚡ 숫자 비교 '+correct+'점 달성! 너도 해봐!':lang==='ja'?'⚡ 数字比較'+correct+'点達成！あなたも挑戦！':'⚡ Scored '+correct+' on number speed! Can you beat it?';window._shareResult={title:shtxt,text:shtxt,url:window.location.href};
         nsStart.style.display='inline-block';
         nsLeft.textContent='--';nsRight.textContent='--';
       }
