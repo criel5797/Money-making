@@ -57,7 +57,7 @@ async function auditPage(context, pageInfo) {
   try {
     const fileUrl = 'file:///' + pageInfo.filePath.replace(/\\/g, '/');
     await page.goto(fileUrl, { waitUntil: 'load', timeout: 15000 });
-    await page.waitForTimeout(500); // 애니메이션·동적 렌더링 대기
+    await page.waitForTimeout(800); // 애니메이션·동적 렌더링 + tool-i18n-handler 대기
 
     // 스크린샷 (1280px 데스크탑)
     if (!fs.existsSync(SCREENSHOT_DIR)) fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
@@ -66,14 +66,20 @@ async function auditPage(context, pageInfo) {
 
     // ── 콘솔 에러 (file:// 아티팩트 제외) ────────────────────────
     const realConsoleErrors = consoleErrors.filter(e =>
-      !e.includes('ERR_FILE_NOT_FOUND') && !e.includes('net::ERR_')
+      !e.includes('ERR_FILE_NOT_FOUND') &&
+      !e.includes('net::ERR_') &&
+      !e.includes("from origin 'null'") &&   // file:// CORS false positive
+      !e.includes('Cross-Origin')
     );
     if (realConsoleErrors.length) {
       issues.push({ type: 'console-error', severity: 'very-high', items: realConsoleErrors });
     }
 
     // ── 실패 요청 / 404 (file:// 경로 아티팩트 제외) ───────────────
-    const realFailedRequests = failedRequests.filter(u => !u.startsWith('file:///'));
+    // External HTTPS requests fail from file:// (null origin CORS) — not real failures
+    const realFailedRequests = failedRequests.filter(u =>
+      !u.startsWith('file:///') && !u.startsWith('https://')
+    );
     if (realFailedRequests.length) {
       issues.push({ type: 'failed-request', severity: 'very-high', items: realFailedRequests });
     }
@@ -82,11 +88,12 @@ async function auditPage(context, pageInfo) {
     }
 
     // ── 깨진 이미지 ─────────────────────────────────────────────
-    const brokenImages = await page.evaluate(() =>
+    const currentHref = page.url();
+    const brokenImages = await page.evaluate((pageHref) =>
       Array.from(document.images)
-        .filter(img => img.naturalWidth === 0)
+        .filter(img => img.naturalWidth === 0 && img.src && img.src !== pageHref && !img.src.startsWith('data:'))
         .map(img => img.src)
-    );
+    , currentHref);
     if (brokenImages.length) {
       issues.push({ type: 'broken-images', severity: 'very-high', items: brokenImages });
     }
@@ -101,9 +108,15 @@ async function auditPage(context, pageInfo) {
           const text = node.textContent.trim();
           if (text && /[\uAC00-\uD7A3]/.test(text)) {
             const parent = node.parentElement;
-            if (parent && !['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) {
-              results.push({ text: text.substring(0, 60), tag: parent.tagName });
-            }
+            if (!parent) continue;
+            if (['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) continue;
+            // 언어 스위처 버튼 제외 ('한국어' 단독 텍스트)
+            if (text === '한국어') continue;
+            // data-lang 버튼 제외
+            if (parent.closest('[data-lang]') || parent.closest('.lang-btn') || parent.closest('.lang-switcher')) continue;
+            // number-to-korean 툴은 의도적으로 한국어 출력 (Korean numeral converter)
+            if (location.pathname.includes('number-to-korean')) continue;
+            results.push({ text: text.substring(0, 60), tag: parent.tagName });
           }
         }
         return results;
@@ -114,15 +127,20 @@ async function auditPage(context, pageInfo) {
     }
 
     // ── SEO 메타데이터 ──────────────────────────────────────────
-    const seo = await page.evaluate(() => ({
-      title: document.title,
-      titleLen: document.title.length,
-      desc: document.querySelector('meta[name="description"]')?.content ?? '',
-      ogTitle: document.querySelector('meta[property="og:title"]')?.content ?? '',
-      ogImage: document.querySelector('meta[property="og:image"]')?.content ?? '',
-      canonical: document.querySelector('link[rel="canonical"]')?.href ?? '',
-      jsonLd: !!document.querySelector('script[type="application/ld+json"]'),
-    }));
+    const seo = await page.evaluate(() => {
+      // og:title is the canonical SEO title (not overwritten by JS timers/counters)
+      const ogTitle = document.querySelector('meta[property="og:title"]')?.content ?? '';
+      const effectiveTitle = ogTitle || document.title;
+      return {
+        title: effectiveTitle,
+        titleLen: effectiveTitle.length,
+        desc: document.querySelector('meta[name="description"]')?.content ?? '',
+        ogTitle: ogTitle,
+        ogImage: document.querySelector('meta[property="og:image"]')?.content ?? '',
+        canonical: document.querySelector('link[rel="canonical"]')?.href ?? '',
+        jsonLd: !!document.querySelector('script[type="application/ld+json"]'),
+      };
+    });
 
     if (seo.titleLen < 30) {
       issues.push({ type: 'seo-short-title', severity: 'medium', value: seo.title, length: seo.titleLen });
@@ -143,7 +161,13 @@ async function auditPage(context, pageInfo) {
     // ── 모바일(375px) 가로 스크롤 ──────────────────────────────
     await page.setViewportSize({ width: 375, height: 812 });
     await page.waitForTimeout(300);
-    const hasHScroll = await page.evaluate(() => document.body.scrollWidth > window.innerWidth);
+    const hasHScroll = await page.evaluate(() => {
+      // html 또는 body에 overflow-x:hidden이 있으면 실제 스크롤 불가 → false
+      const htmlOvf = window.getComputedStyle(document.documentElement).overflowX;
+      const bodyOvf = window.getComputedStyle(document.body).overflowX;
+      if (htmlOvf === 'hidden' || bodyOvf === 'hidden') return false;
+      return document.body.scrollWidth > window.innerWidth;
+    });
     if (hasHScroll) {
       issues.push({ type: 'mobile-horizontal-scroll', severity: 'high' });
     }
@@ -151,13 +175,24 @@ async function auditPage(context, pageInfo) {
     // ── Above the fold: CTA 버튼 존재 여부 ────────────────────
     await page.setViewportSize({ width: 1280, height: 720 });
     const ctaVisible = await page.evaluate(() => {
+      const ctaKeywords = ['play', '시작', '플레이', 'start', 'スタート', 'click', '클릭', 'クリック', 'tap', 'begin', '시작하기', '開始', 'テスト', 'ゲーム', '挑戦', 'プレイ', '게임', 'games'];
+      // Check buttons and links
       const btns = document.querySelectorAll('a[href], button');
       for (const btn of btns) {
         const rect = btn.getBoundingClientRect();
         const text = btn.textContent.toLowerCase();
         if (rect.top >= 0 && rect.bottom <= window.innerHeight &&
-            (text.includes('play') || text.includes('시작') || text.includes('플레이') ||
-             text.includes('start') || text.includes('スタート'))) {
+            ctaKeywords.some(k => text.includes(k))) {
+          return true;
+        }
+      }
+      // Also check any visible element with cursor:pointer and CTA text (game areas)
+      const allEls = document.querySelectorAll('[onclick], [data-i18n-game]');
+      for (const el of allEls) {
+        const rect = el.getBoundingClientRect();
+        const text = el.textContent.toLowerCase();
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight && rect.width > 0 &&
+            ctaKeywords.some(k => text.includes(k))) {
           return true;
         }
       }

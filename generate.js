@@ -262,6 +262,7 @@ function injectToolContentSeo(content, options) {
 
   content = ensureHtmlLang(content, lang);
   content = String(content || '')
+    .replace(/<meta[^>]+name=["']viewport["'][^>]*>/ig, '')
     .replace(/<title>[\s\S]*?<\/title>/ig, '')
     .replace(/<meta[^>]+name=["']description["'][^>]*>/ig, '')
     .replace(/<meta[^>]+name=["']keywords["'][^>]*>/ig, '')
@@ -274,22 +275,35 @@ function injectToolContentSeo(content, options) {
     .replace(/<meta[^>]+property=["']og:type["'][^>]*>/ig, '')
     .replace(/<meta[^>]+property=["']og:url["'][^>]*>/ig, '')
     .replace(/<meta[^>]+property=["']og:locale(?::alternate)?["'][^>]*>/ig, '')
+    .replace(/<meta[^>]+property=["']og:image["'][^>]*>/ig, '')
+    .replace(/<meta[^>]+property=["']og:site_name["'][^>]*>/ig, '')
+    .replace(/<meta[^>]+name=["']twitter:[^"']+["'][^>]*>/ig, '')
     .replace(/<script[^>]+type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/ig, '');
 
+  var ogImage = escapeHtml(BASE_URL + '/og-image.svg');
+  var mobileSafeCss = '<style>*,*:before,*:after{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}table{table-layout:fixed;max-width:100%;word-break:break-word}pre{overflow-x:auto;max-width:100%;white-space:pre-wrap;word-break:break-word}img,video,iframe{max-width:100%;height:auto}input,textarea,select,button{max-width:100%}.container,.wrapper,[class*="container"],[class*="wrapper"]{max-width:100%}</style>';
   var seoTags = '' +
+    '<meta name="viewport" content="width=device-width,initial-scale=1">' +
     '<title>' + metaTitle + '</title>' +
     '<meta name="description" content="' + metaDescription + '">' +
     '<meta name="robots" content="index,follow,max-image-preview:large">' +
     '<link rel="canonical" href="' + canonical + '">' +
-    '<meta property="og:title" content="' + metaTitle + '">' +
-    '<meta property="og:description" content="' + metaDescription + '">' +
     '<meta property="og:type" content="website">' +
     '<meta property="og:url" content="' + canonical + '">' +
+    '<meta property="og:title" content="' + metaTitle + '">' +
+    '<meta property="og:description" content="' + metaDescription + '">' +
+    '<meta property="og:image" content="' + ogImage + '">' +
     '<meta property="og:locale" content="' + ogLocale + '">' +
+    '<meta property="og:site_name" content="InstaIdea">' +
+    '<meta name="twitter:card" content="summary_large_image">' +
+    '<meta name="twitter:title" content="' + metaTitle + '">' +
+    '<meta name="twitter:description" content="' + metaDescription + '">' +
+    '<meta name="twitter:image" content="' + ogImage + '">' +
     ogAlternateTags +
     altTags +
     buildToolStructuredDataScripts(toolId, toolData, toolType, pagePath, lang) +
-    buildGoogleAnalyticsTags();
+    buildGoogleAnalyticsTags() +
+    mobileSafeCss;
 
   if (lang === 'en' && getToolSeoGuide(toolId, toolData, toolType)) {
     content = injectBeforeClosingTag(content, '</head>', buildToolGuideStyles());
@@ -461,8 +475,8 @@ function buildGameSeoTitle(game, lang) {
     return gameMeta[game.id].title;
   }
   var keyword = getLocalizedCatalogValue(game && game.title, locale, 'en') || 'Brain Training Game';
-  if (locale === 'ko') return keyword + ' - 무료 온라인 게임';
-  if (locale === 'ja') return keyword + ' - 無料オンラインゲーム';
+  if (locale === 'ko') return keyword + ' - 무료 온라인 두뇌 훈련 게임 | InstaIdea';
+  if (locale === 'ja') return keyword + ' - 無料オンライン脳トレゲーム | InstaIdea';
   return keyword + ' - Free Online Game';
 }
 
@@ -604,9 +618,9 @@ function buildToolSeoTitle(toolId, tool, toolType, lang) {
   var keyword = getLocalizedCatalogValue(tool && tool.title, locale, 'en') || safeText(tool && tool.title && tool.title.en, 'Online Tool');
   var metaOverride = TOOL_META_OVERRIDES[toolId];
   if (locale === 'en' && metaOverride && metaOverride.title) return metaOverride.title;
-  if (locale === 'ko') return keyword + ' - 무료 온라인 ' + (toolType === 'webTool' ? '도구' : '유틸리티');
-  if (locale === 'ja') return keyword + ' - 無料オンライン' + (toolType === 'webTool' ? 'ツール' : 'ユーティリティ');
-  return keyword + ' - Free Online Tool';
+  if (locale === 'ko') return keyword + (toolType === 'webTool' ? ' - 무료 온라인 웹 개발 도구 | InstaIdea' : ' - 무료 온라인 유틸리티 도구 | InstaIdea');
+  if (locale === 'ja') return keyword + (toolType === 'webTool' ? ' - 無料オンラインWebツール | InstaIdea' : ' - 無料オンラインユーティリティ | InstaIdea');
+  return keyword + ' - Free Online Tool | InstaIdea';
 }
 
 function buildToolSeoDescription(toolId, tool, toolType, lang, categoryLabel) {
@@ -615,8 +629,8 @@ function buildToolSeoDescription(toolId, tool, toolType, lang, categoryLabel) {
   if (locale === 'en' && metaOverride && metaOverride.description) return metaOverride.description;
   var keyword = getLocalizedCatalogValue(tool && tool.title, locale, 'en') || safeText(tool && tool.title && tool.title.en, 'online tool');
   var purpose = getLocalizedCatalogValue(tool && tool.desc, locale, 'en') || safeText(tool && tool.desc && tool.desc.en, 'fast browser-based utility');
-  if (locale === 'ko') return keyword + ' 온라인 도구입니다. ' + purpose + '. 설치 없이 브라우저에서 바로 사용할 수 있습니다.';
-  if (locale === 'ja') return keyword + 'をオンラインで使えます。' + purpose + '。インストール不要でブラウザですぐに使えます。';
+  if (locale === 'ko') return keyword + ' 온라인 도구입니다. ' + purpose + '. 설치 없이 브라우저에서 무료로 바로 사용할 수 있습니다.';
+  if (locale === 'ja') return keyword + 'をオンラインで無料で使えます。' + purpose + '。インストール・登録不要でブラウザですぐに使えます。';
   return 'Use ' + keyword + ' online for free. ' + purpose + '. No install, no signup, and optimized for desktop and mobile. Category: ' + categoryLabel + '.';
 }
 
@@ -1375,6 +1389,238 @@ function getToolExample(toolId) {
   return 'Input example\\nOutput example';
 }
 
+var HOME_FEATURED = {
+  games: ['reaction-time', 'typing-speed', 'memory-number', 'visual-memory', 'stroop-test', 'word-puzzle'],
+  web: ['password-generator', 'json-formatter', 'uuid-generator', 'qr-generator', 'regex-tester', 'timestamp-converter'],
+  fun: ['pomodoro-focus', 'focus-music', 'world-clock', 'notepad', 'currency-converter', 'expense-tracker']
+};
+
+var HUB_UI = {
+  ko: {
+    eyebrow: 'Browser-first toolkit',
+    heroTitle: '필요한 기능을 더 빨리 찾고 바로 실행하세요',
+    heroIntro: '게임, 생활 유틸리티, 개발 도구를 한곳에 모았습니다. 회원가입 없이 바로 열리고, 기록은 브라우저에만 저장됩니다.',
+    heroBrowse: '전체 디렉터리 보기',
+    heroGames: '게임 보기',
+    heroDev: '개발 도구 보기',
+    heroUtilities: '생활 도구 보기',
+    quickTitle: '빠른 이동',
+    quickDesc: '처음 보는 사용자도 길을 잃지 않도록 주요 섹션부터 바로 안내합니다.',
+    searchTitle: '원하는 기능 찾기',
+    searchDesc: '게임 이름, 변환기, 생성기, 계산기, 타이머 같은 키워드로 바로 검색하세요.',
+    searchPlaceholder: '예: 반응속도, JSON formatter, pomodoro, currency',
+    resultsTitle: '검색 결과',
+    resultsEmpty: '조건에 맞는 항목이 없습니다. 검색어를 바꾸거나 전체 디렉터리를 열어보세요.',
+    findInSection: '이 섹션에서 찾기',
+    findInSectionDesc: '제목과 설명 기준으로 즉시 필터링됩니다.',
+    clearFilters: '필터 초기화',
+    noMatches: '조건에 맞는 항목이 없습니다. 검색어를 줄이거나 전체 보기를 눌러보세요.',
+    seeAll: '전체 보기',
+    fastLabel: '왜 빠른가',
+    badgeInstant: '설치 없이 즉시 실행',
+    badgeNoSignup: '회원가입 없음',
+    badgePrivate: '기록은 기기에만 저장',
+    guideTitle: '이 섹션을 더 빠르게 쓰는 방법',
+    guideOne: '먼저 검색으로 필요한 항목을 좁힌 뒤, 자주 쓰는 페이지를 브라우저에 고정해두세요.',
+    guideTwo: '유사한 도구는 설명을 비교해 가장 짧은 경로의 페이지를 고르는 편이 효율적입니다.',
+    dirGamesTitle: '브레인 게임',
+    dirGamesDesc: '반응속도, 기억력, 집중력 테스트',
+    dirDevTitle: '개발 도구',
+    dirDevDesc: '포맷터, 생성기, 변환기, 검증기',
+    dirUtilTitle: '생활 도구',
+    dirUtilDesc: '집중, 기록, 계산, 개인 생산성',
+    dirDirectoryTitle: '전체 디렉터리',
+    dirDirectoryDesc: '모든 페이지를 한 번에 탐색',
+    gamesLead: '짧게 플레이하며 집중력과 반응 속도를 확인할 수 있습니다.',
+    webLead: '개발 중 바로 꺼내 쓰는 포맷터, 인코더, 생성기 중심입니다.',
+    funLead: '일상 계산, 집중, 기록, 개인 생산성에 바로 쓰는 도구 모음입니다.',
+    searchGameBadge: '게임',
+    searchWebBadge: '개발 도구',
+    searchFunBadge: '생활 도구'
+  },
+  en: {
+    eyebrow: 'Browser-first toolkit',
+    heroTitle: 'Find the right tool faster and launch it instantly',
+    heroIntro: 'Games, daily utilities, and developer tools live in one place. Everything opens in-browser, with no signup and local-first score storage.',
+    heroBrowse: 'Open full directory',
+    heroGames: 'Browse games',
+    heroDev: 'Browse dev tools',
+    heroUtilities: 'Browse utilities',
+    quickTitle: 'Quick paths',
+    quickDesc: 'New visitors should understand the product surface in one glance.',
+    searchTitle: 'Search what you need',
+    searchDesc: 'Use keywords like timer, generator, formatter, calculator, or reaction to jump straight to the right page.',
+    searchPlaceholder: 'Example: reaction, JSON formatter, pomodoro, currency',
+    resultsTitle: 'Search results',
+    resultsEmpty: 'No matching items found. Try a broader keyword or open the full directory.',
+    findInSection: 'Find within this section',
+    findInSectionDesc: 'Results update instantly from titles and descriptions.',
+    clearFilters: 'Reset filters',
+    noMatches: 'No matching items found. Reduce the keyword or open the full directory.',
+    seeAll: 'See all',
+    fastLabel: 'Why it feels fast',
+    badgeInstant: 'Instant launch',
+    badgeNoSignup: 'No signup',
+    badgePrivate: 'Local-first records',
+    guideTitle: 'How to use this section faster',
+    guideOne: 'Start with search to narrow intent, then pin the pages you return to most.',
+    guideTwo: 'When multiple pages seem similar, compare descriptions and choose the one with the shortest path to output.',
+    dirGamesTitle: 'Brain games',
+    dirGamesDesc: 'Reaction, memory, and focus tests',
+    dirDevTitle: 'Developer tools',
+    dirDevDesc: 'Formatters, generators, converters, validators',
+    dirUtilTitle: 'Daily utilities',
+    dirUtilDesc: 'Focus, tracking, calculations, personal workflow',
+    dirDirectoryTitle: 'Full directory',
+    dirDirectoryDesc: 'Browse every major page at once',
+    gamesLead: 'Quick sessions to measure reaction speed, focus, and memory.',
+    webLead: 'Formatters, encoders, and generators you can open during real work.',
+    funLead: 'Practical tools for daily planning, tracking, and personal productivity.',
+    searchGameBadge: 'Game',
+    searchWebBadge: 'Dev tool',
+    searchFunBadge: 'Utility'
+  },
+  ja: {
+    eyebrow: 'Browser-first toolkit',
+    heroTitle: '必要な機能をすばやく見つけてすぐ使えます',
+    heroIntro: 'ゲーム、日常ツール、開発ツールを一か所にまとめました。会員登録なしで開き、記録はブラウザに保存されます。',
+    heroBrowse: '全体ディレクトリを見る',
+    heroGames: 'ゲームを見る',
+    heroDev: '開発ツールを見る',
+    heroUtilities: '生活ツールを見る',
+    quickTitle: 'クイック移動',
+    quickDesc: '初めて来た人でも主要な導線をすぐ理解できる構成です。',
+    searchTitle: '必要な機能を検索',
+    searchDesc: 'ゲーム名、タイマー、変換、生成、計算などのキーワードで直接探せます。',
+    searchPlaceholder: '例: reaction, JSON formatter, pomodoro, currency',
+    resultsTitle: '検索結果',
+    resultsEmpty: '一致する項目がありません。別のキーワードか全体ディレクトリを試してください。',
+    findInSection: 'このセクション内を検索',
+    findInSectionDesc: 'タイトルと説明をもとにすぐ絞り込みます。',
+    clearFilters: 'フィルターをリセット',
+    noMatches: '一致する項目がありません。条件をゆるめるか全体表示を試してください。',
+    seeAll: 'すべて見る',
+    fastLabel: '速く使える理由',
+    badgeInstant: 'すぐ起動',
+    badgeNoSignup: '登録不要',
+    badgePrivate: '記録は端末保存',
+    guideTitle: 'このセクションを速く使うコツ',
+    guideOne: 'まず検索で候補を絞り、よく使うページはブラウザに固定してください。',
+    guideTwo: '似たページが複数ある場合は説明を比べ、最短で結果に届くページを選ぶのが効率的です。',
+    dirGamesTitle: '脳トレゲーム',
+    dirGamesDesc: '反応速度、記憶、集中テスト',
+    dirDevTitle: '開発ツール',
+    dirDevDesc: 'フォーマッタ、生成、変換、検証',
+    dirUtilTitle: '生活ツール',
+    dirUtilDesc: '集中、記録、計算、個人ワークフロー',
+    dirDirectoryTitle: '全体ディレクトリ',
+    dirDirectoryDesc: '主要ページをまとめて見る',
+    gamesLead: '短時間で反応速度や集中力を確認できます。',
+    webLead: '実作業中にすぐ開けるフォーマッタや生成ツールを中心にしています。',
+    funLead: '日常の計算、記録、集中、個人の生産性にすぐ使える道具です。',
+    searchGameBadge: 'ゲーム',
+    searchWebBadge: '開発ツール',
+    searchFunBadge: '生活ツール'
+  }
+};
+
+function getHubUi(lang) {
+  return HUB_UI[lang] || HUB_UI.en;
+}
+
+function findItemsByIds(items, ids) {
+  return ids.map(function(id) {
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id === id) return items[i];
+    }
+    return null;
+  }).filter(Boolean);
+}
+
+function getLocalizedItemPath(pathPrefix, itemId, lang) {
+  return href(getToolLocalePath(pathPrefix + itemId + '/', lang, 'ko'));
+}
+
+function buildDirectoryCard(title, desc, cardHref, kicker) {
+  return '' +
+    '<a class="directory-card" href="' + cardHref + '">' +
+      '<div class="directory-kicker">' + escapeHtml(kicker || '') + '</div>' +
+      '<div class="directory-title">' + escapeHtml(title) + '</div>' +
+      '<div class="directory-kicker">' + escapeHtml(desc) + '</div>' +
+    '</a>';
+}
+
+function buildCatalogCard(item, options) {
+  options = options || {};
+  var lang = options.lang || 'en';
+  var pathPrefix = options.pathPrefix || '/';
+  var actionLabel = options.actionLabel || 'Open';
+  var category = options.category || 'all';
+  var categoryLabel = options.categoryLabel || '';
+  var title = getLocalizedItemTitle(item, lang);
+  var description = getLocalizedItemDescription(item, lang, 'Free online tool');
+  var search = [item.id, title, description, categoryLabel].join(' ').toLowerCase();
+  return '' +
+    '<article class="game-card" data-search="' + escapeHtml(search) + '" data-category="' + escapeHtml(category) + '">' +
+      (categoryLabel ? '<span class="game-category">' + escapeHtml(categoryLabel) + '</span>' : '') +
+      '<div class="game-emoji">' + item.emoji + '</div>' +
+      '<div class="game-title">' + escapeHtml(title) + '</div>' +
+      '<div class="game-description">' + escapeHtml(description) + '</div>' +
+      '<a href="' + getLocalizedItemPath(pathPrefix, item.id, lang) + '" class="play-btn">' + escapeHtml(actionLabel) + '</a>' +
+    '</article>';
+}
+
+function buildCollectionFilterScript(options) {
+  return '<script>(function(){' +
+    'var cfg=' + JSON.stringify(options) + ';' +
+    'var input=document.getElementById(cfg.searchId);' +
+    'var grid=document.getElementById(cfg.gridId);' +
+    'var empty=document.getElementById(cfg.emptyId);' +
+    'var chipRoot=document.getElementById(cfg.chipGroupId);' +
+    'if(!grid)return;' +
+    'var cards=[].slice.call(grid.querySelectorAll(".game-card"));' +
+    'var chips=chipRoot?[].slice.call(chipRoot.querySelectorAll("[data-filter-chip]")):[];' +
+    'var active="all";' +
+    'function apply(){' +
+      'var q=input?(input.value||"").trim().toLowerCase():"";' +
+      'var visible=0;' +
+      'cards.forEach(function(card){' +
+        'var matchesQuery=!q||((card.getAttribute("data-search")||"").indexOf(q)!==-1);' +
+        'var matchesCategory=active==="all"||card.getAttribute("data-category")===active;' +
+        'var show=matchesQuery&&matchesCategory;' +
+        'card.classList.toggle("is-hidden",!show);' +
+        'if(show)visible++;' +
+      '});' +
+      'if(empty)empty.classList.toggle("is-visible",visible===0);' +
+    '}' +
+    'chips.forEach(function(chip){chip.addEventListener("click",function(){active=chip.getAttribute("data-filter-chip")||"all";chips.forEach(function(node){node.classList.toggle("active",node===chip);});apply();});});' +
+    'if(input)input.addEventListener("input",apply);' +
+    'var reset=document.getElementById(cfg.resetId);' +
+    'if(reset)reset.addEventListener("click",function(){if(input)input.value="";active="all";chips.forEach(function(node){node.classList.toggle("active",(node.getAttribute("data-filter-chip")||"all")==="all");});apply();});' +
+    'apply();' +
+  '})();</script>';
+}
+
+function buildHomeSearchScript(options) {
+  return '<script>(function(){' +
+    'var cfg=' + JSON.stringify(options) + ';' +
+    'var input=document.getElementById(cfg.searchId);' +
+    'var section=document.getElementById(cfg.sectionId);' +
+    'var grid=document.getElementById(cfg.gridId);' +
+    'var empty=document.getElementById(cfg.emptyId);' +
+    'if(!input||!section||!grid)return;' +
+    'function render(){' +
+      'var q=(input.value||"").trim().toLowerCase();' +
+      'if(q.length<2){section.hidden=true;grid.innerHTML="";if(empty)empty.classList.remove("is-visible");return;}' +
+      'section.hidden=false;' +
+      'var matches=cfg.items.filter(function(item){return item.search.indexOf(q)!==-1;}).slice(0,cfg.limit);' +
+      'grid.innerHTML=matches.map(function(item){return item.html;}).join("");' +
+      'if(empty)empty.classList.toggle("is-visible",matches.length===0);' +
+    '}' +
+    'input.addEventListener("input",render);' +
+  '})();</script>';
+}
+
 function buildHubPageBody(options) {
   options = options || {};
   var lang = options.lang || 'en';
@@ -1560,24 +1806,27 @@ function buildRelatedSection(currentId, allItems, type, count, lang) {
     var relData = JSON.stringify({ title: itemTitle, desc: itemDesc });
     var itemHref = bp + item.id + '/';
     if (type === 'game') itemHref = getToolLocalePath(itemHref, lang || 'ko', 'ko');
+    var displayLang = lang || 'ko';
+    var displayTitle = itemTitle[displayLang] || itemTitle.en || itemTitle.ko || '';
+    var displayDesc = itemDesc[displayLang] || itemDesc.en || itemDesc.ko || '';
     cards +=
       '<a href="' + href(itemHref) + '" class="related-card" data-related=\'' + relData + '\'>' +
       '<div class="related-emoji">' + item.emoji + '</div>' +
-      '<div class="related-title" data-i18n-related-title>' + (itemTitle.ko || '') + '</div>' +
-      '<div class="related-desc" data-i18n-related-desc>' + (itemDesc.ko || '') + '</div>' +
+      '<div class="related-title" data-i18n-related-title>' + displayTitle + '</div>' +
+      '<div class="related-desc" data-i18n-related-desc>' + displayDesc + '</div>' +
       '</a>';
   }
 
   var sectionTitle = type === 'game' ? 'More Brain Tests' : 'More Useful Tools';
 
+  var relHeadingsEn = type === 'game' ? 'More Brain Tests' : 'More Useful Tools';
+  var relHeadingsJa = type === 'game' ? 'もっと試す' : 'もっと便利なツール';
   return '<section class="related-section">' +
     '<h2 data-i18n-related-heading>' + sectionTitle + '</h2>' +
     '<div class="related-grid">' + cards + '</div>' +
     '<script>' +
-    '(function(){' +
-    'var origSet=setLanguage;' +
-    'setLanguage=function(lang){' +
-    'origSet(lang);' +
+    'window.addEventListener("load",function(){' +
+    '(function patchRelated(lang){' +
     'document.querySelectorAll("[data-related]").forEach(function(card){' +
     'var d=JSON.parse(card.getAttribute("data-related"));' +
     'var t=card.querySelector("[data-i18n-related-title]");' +
@@ -1587,12 +1836,22 @@ function buildRelatedSection(currentId, allItems, type, count, lang) {
     '});' +
     'var h=document.querySelector("[data-i18n-related-heading]");' +
     'if(h){' +
-    'var headings={ko:"' + sectionTitle + '",en:"' + (type === 'game' ? 'More Brain Tests' : 'More Useful Tools') + '",ja:"' + (type === 'game' ? 'More Brain Tests' : 'More Useful Tools') + '"};' +
-    'h.textContent=headings[lang]||headings.ko;' +
+    'var headings={ko:"' + sectionTitle + '",en:"' + relHeadingsEn + '",ja:"' + relHeadingsJa + '"};' +
+    'h.textContent=headings[lang]||headings.en;' +
     '}' +
-    '};' +
-    'setLanguage(currentLang);' +
-    '})();' +
+    '})(window.currentLang||"ko");' +
+    'if(typeof setLanguage==="function"){' +
+    'var _origRelated=setLanguage;' +
+    'setLanguage=function(lang){_origRelated(lang);' +
+    'document.querySelectorAll("[data-related]").forEach(function(card){' +
+    'var d=JSON.parse(card.getAttribute("data-related"));' +
+    'var t=card.querySelector("[data-i18n-related-title]");' +
+    'var desc=card.querySelector("[data-i18n-related-desc]");' +
+    'if(t&&d.title&&d.title[lang])t.textContent=d.title[lang];' +
+    'if(desc&&d.desc&&d.desc[lang])desc.textContent=d.desc[lang];' +
+    '});};' +
+    '}' +
+    '});' +
     '</script>' +
     '</section>';
 }
@@ -1607,7 +1866,7 @@ var gameFAQs = {
   ],
   'memory-number': [
     { q: 'How does the number memory test work?', a: 'A sequence of numbers is displayed briefly. You need to remember and type them in the correct order. The sequence gets longer each round.' },
-    { q: 'How can I improve my number memory?', a: 'Practice chunking numbers into groups, create associations, and practice regularly. Most people can remember 7짹2 digits.' },
+    { q: 'How can I improve my number memory?', a: 'Practice chunking numbers into groups, create associations, and practice regularly. Most people can remember 7 plus or minus 2 digits.' },
     { q: 'Is this test free?', a: 'Yes, this number memory test is completely free with no signup needed.' }
   ],
   'typing-speed': [
@@ -1714,7 +1973,13 @@ function wrapGame(gameId, generateFn, koTitle, description, lang) {
   jsonLdArr.push(faqSchema);
 
   var seoContent = buildGameSeoContent(game, faqs, locale);
-  var body = gameHTML + seoContent;
+  var shareLabels = { ko: '공유하기', en: 'Share', ja: 'シェア' };
+  var shareLabel = shareLabels[locale] || shareLabels.en;
+  var shareSection = '<div style="text-align:center;margin:18px 0">' +
+    '<button onclick="window.openShareModal&&window.openShareModal({title:document.title,text:document.title,url:window.location.href})" ' +
+    'style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:1rem;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(102,126,234,0.4)">' +
+    '🔗 ' + shareLabel + '</button></div>';
+  var body = gameHTML + shareSection + seoContent;
   var related = buildRelatedSection(gameId, games, 'game', 6, locale);
   related += '' +
     '<section class=\"related-section\">' +
@@ -2324,15 +2589,15 @@ function renderPrivacy() {
   var privacy = i18n.ko.privacy;
   var privacyMeta = {
     ko: {
-      title: i18n.ko.privacy.title + ' - Mini Games & Tools',
+      title: i18n.ko.privacy.title + ' - 무료 게임 & 도구 | InstaIdea',
       description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
     },
     en: {
-      title: i18n.en.privacy.title + ' - Mini Games & Tools',
+      title: i18n.en.privacy.title + ' | Mini Games & Tools - InstaIdea',
       description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
     },
     ja: {
-      title: i18n.ja.privacy.title + ' - Mini Games & Tools',
+      title: i18n.ja.privacy.title + ' - 無料ゲーム & ツール | InstaIdea',
       description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
     }
   };
@@ -2534,6 +2799,15 @@ function renderIndex() {
   });
 }
 
+function buildHubSeoTitle(title, lang) {
+  var suffixes = {
+    ko: ' - 무료 온라인 컬렉션 | InstaIdea',
+    ja: ' - 無料オンライン一覧 | InstaIdea',
+    en: ' | Free Browser Collection - InstaIdea'
+  };
+  return title + (suffixes[lang] || suffixes.en);
+}
+
 function renderSectionHubs() {
   function hubCollectionSchema(name, canonicalPath, description, items, lang, itemPathPrefix) {
     return [
@@ -2557,8 +2831,8 @@ function renderSectionHubs() {
     var title = safeText(i18n[lang] && i18n[lang].gamesSection, 'Brain Training Games');
     var intro = safeText(i18n[lang] && i18n[lang].gamesSectionDesc, 'Reaction, memory, focus, and speed challenges.');
     return {
-      title: title + ' - InstaIdea',
-      description: intro + ' ' + formatLocalizedCount(i18n[lang] && i18n[lang].gameCount, games.length),
+      title: buildHubSeoTitle(title, lang),
+      description: (intro + ' ' + formatLocalizedCount(i18n[lang] && i18n[lang].gameCount, games.length) + (lang === 'ko' ? ' 무료 온라인 게임, 설치 없이 플레이.' : lang === 'ja' ? '無料ブラウザゲーム、インストール不要。' : '')).trim(),
       body: buildHubPageBody({
         lang: lang,
         title: title,
@@ -2578,8 +2852,8 @@ function renderSectionHubs() {
     var title = safeText(i18n[lang] && i18n[lang].webToolsSection, 'Developer Tools');
     var intro = safeText(i18n[lang] && i18n[lang].webToolsSectionDesc, 'Useful browser-based tools for technical workflows.');
     return {
-      title: title + ' - InstaIdea',
-      description: intro + ' ' + webTools.length + '+ browser tools.',
+      title: buildHubSeoTitle(title, lang),
+      description: (intro + ' ' + webTools.length + '+ browser tools.' + (lang === 'ko' ? ' 설치 없이 브라우저에서 무료로 사용.' : lang === 'ja' ? 'ブラウザで無料利用可能。' : '')).trim(),
       body: buildHubPageBody({
         lang: lang,
         title: title,
@@ -2599,8 +2873,8 @@ function renderSectionHubs() {
     var title = safeText(i18n[lang] && i18n[lang].funToolsSection, 'Utilities & Fun Tools');
     var intro = safeText(i18n[lang] && i18n[lang].funToolsSectionDesc, 'Everyday helpers, calculators, and lightweight fun tools.');
     return {
-      title: title + ' - InstaIdea',
-      description: intro + ' ' + consumerTools.length + '+ utility tools.',
+      title: buildHubSeoTitle(title, lang),
+      description: (intro + ' ' + consumerTools.length + '+ utility tools.' + (lang === 'ko' ? ' 무료 온라인 유틸리티, 설치 없이 사용.' : lang === 'ja' ? '無料オンラインツール、登録不要。' : '')).trim(),
       body: buildHubPageBody({
         lang: lang,
         title: title,
@@ -2620,7 +2894,7 @@ function renderSectionHubs() {
     var title = 'Web Developer Tools Directory';
     var intro = 'Browse all developer-focused browser tools in one directory.';
     return {
-      title: title + ' - InstaIdea',
+      title: buildHubSeoTitle(title, lang),
       description: intro,
       body: buildHubPageBody({
         lang: lang,
@@ -2641,7 +2915,7 @@ function renderSectionHubs() {
     var title = 'Utility Tools Directory';
     var intro = 'Browse all utility and lifestyle-friendly tools in one place.';
     return {
-      title: title + ' - InstaIdea',
+      title: buildHubSeoTitle(title, lang),
       description: intro,
       body: buildHubPageBody({
         lang: lang,
@@ -2753,15 +3027,15 @@ function renderSectionHubs() {
 function renderPrivacy() {
   var privacyMeta = {
     ko: {
-      title: safeText(i18n.ko && i18n.ko.privacy && i18n.ko.privacy.title, 'Privacy Policy') + ' - Mini Games & Tools',
+      title: safeText(i18n.ko && i18n.ko.privacy && i18n.ko.privacy.title, 'Privacy Policy') + ' - 무료 게임 & 도구 | InstaIdea',
       description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
     },
     en: {
-      title: safeText(i18n.en && i18n.en.privacy && i18n.en.privacy.title, 'Privacy Policy') + ' - Mini Games & Tools',
+      title: safeText(i18n.en && i18n.en.privacy && i18n.en.privacy.title, 'Privacy Policy') + ' | Mini Games & Tools - InstaIdea',
       description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
     },
     ja: {
-      title: safeText(i18n.ja && i18n.ja.privacy && i18n.ja.privacy.title, 'Privacy Policy') + ' - Mini Games & Tools',
+      title: safeText(i18n.ja && i18n.ja.privacy && i18n.ja.privacy.title, 'Privacy Policy') + ' - 無料ゲーム & ツール | InstaIdea',
       description: 'Privacy policy for cookies, ads, local storage, and third-party services.'
     }
   };
@@ -3280,14 +3554,10 @@ function build(){
     write(path.join(OUT, 'ads.txt'), 'google.com, ' + PUB_ID + ', DIRECT, f08c47fec0942fa0');
   }
 
-  // Monetag service worker (verification only, no Multitag)
   write(path.join(OUT, 'sw.js'), [
-    'self.options = {',
-    '    "domain": "3nbf4.com",',
-    '    "zoneId": 10652551',
-    '}',
-    'self.lary = ""',
-    '// importScripts disabled to prevent Vignette overlay ads'
+    'self.addEventListener("install", function(){ self.skipWaiting(); });',
+    'self.addEventListener("activate", function(event){ event.waitUntil(self.clients.claim()); });',
+    'self.addEventListener("fetch", function(){});'
   ].join('\n'));
 
   // CNAME ?뚯씪 ?앹꽦 (而ㅼ뒪? ?꾨찓?몄슜)

@@ -623,7 +623,7 @@ var i18n = {
   ja: {
     siteTitle: 'ミニゲーム＆ツールコレクション - 脳トレ、開発者ツール、ユーティリティ',
     mainTitle: '🎮 ミニゲーム＆ツールコレクション',
-    mainDesc: '楽しいゲームと便利なツールで日常を豊かに！',
+    mainDesc: '楽しいゲームと便利なツールで日常を豊かに！無料でブラウザから利用できます。',
     totalCount: '全{count}個のゲームとツールが用意されています',
     gameCount: '全{count}個のゲームが用意されています',
     home: '🏠 ホーム',
@@ -634,7 +634,7 @@ var i18n = {
     gamesSection: '🎮 脳トレゲーム',
     gamesSectionDesc: '反応速度、記憶力、集中力をテストしよう！',
     webToolsSection: '🛠️ 開発者ツール',
-    webToolsSectionDesc: '開発とデザインに便利なツール',
+    webToolsSectionDesc: '開発・デザインに役立つ無料ブラウザツール集',
     funToolsSection: '✨ 楽しい＆ユーティリティ',
     funToolsSectionDesc: '占い、計算機、テストなど様々なツール',
     categories: {
