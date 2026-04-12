@@ -4,5 +4,7 @@
   "scripts": {
     "build": "node generate.js"
   },
-  "dependencies": {}
+  "devDependencies": {
+    "playwright": "^1.59.1"
+  }
 }
