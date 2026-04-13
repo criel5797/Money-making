@@ -304,4 +304,7 @@ async function main() {
 main().catch(err => {
   console.error('❌ 감사 실패:', err.message);
   process.exit(1);
+}).finally(() => {
+  // Playwright 드라이버가 이벤트 루프를 붙잡아 좀비 프로세스로 남는 현상 방지
+  process.exit(0);
 });
