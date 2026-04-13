@@ -249,7 +249,10 @@ async function main() {
   const pages = collectPages();
   console.log(`   총 ${pages.length}개 페이지 발견\n`);
 
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    headless: true,
+    args: ['--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox'],
+  });
   const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
 
   const results = [];
