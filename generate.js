@@ -158,13 +158,14 @@ function buildLocalizedStaticEntries(entries, languages, defaultLang) {
   var localizedEntries = [];
   for (var i = 0; i < entries.length; i++) {
     var entry = entries[i];
-    for (var j = 0; j < languages.length; j++) {
-      localizedEntries.push({
-        url: getToolLocalePath(entry.url, languages[j], defaultLang),
-        priority: entry.priority,
-        changefreq: entry.changefreq
-      });
-    }
+    // Only submit canonical (default lang) URL to sitemap.
+    // en/ja alternates are discovered via hreflang — submitting them
+    // wastes crawl budget and inflates "not indexed" counts in GSC.
+    localizedEntries.push({
+      url: getToolLocalePath(entry.url, defaultLang, defaultLang),
+      priority: entry.priority,
+      changefreq: entry.changefreq
+    });
   }
   return localizedEntries;
 }
@@ -1363,14 +1364,16 @@ function buildToolStructuredDataScripts(toolId, toolData, toolType, pagePath, la
 
 function buildLocalizedToolSitemapEntries(canonicalPath, availableLanguages, defaultLang, priority) {
   var entries = [];
-  ['ko', 'en', 'ja'].forEach(function(lang) {
-    if (!availableLanguages[lang]) return;
+  // Only submit the canonical (default lang) URL.
+  // en/ja alternates are discovered via hreflang — submitting them
+  // wastes crawl budget and inflates "not indexed" counts in GSC.
+  if (availableLanguages[defaultLang]) {
     entries.push({
-      url: getToolLocalePath(canonicalPath, lang, defaultLang),
+      url: getToolLocalePath(canonicalPath, defaultLang, defaultLang),
       priority: priority,
       changefreq: 'monthly'
     });
-  });
+  }
   return entries;
 }
 

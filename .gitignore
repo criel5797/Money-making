@@ -4,3 +4,7 @@ qa-screenshots/
 .pw-temp/
 .edge-temp/
 .edge-temp-2/
+reports/
+scripts/
+.claude/
+bash.exe.stackdump
