@@ -24,10 +24,10 @@ jobs:
           node-version: 20
       - name: Compute BASE_URL automatically
         shell: bash
-        run: echo "BASE_URL=https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+        run: echo "BASE_URL=https://instaidea.org" >> $GITHUB_ENV
       - name: Build static site
         env:
-          BASE_URL: ${{ vars.BASE_URL }}
+          BASE_URL: ${{ env.BASE_URL }}
           MONETAG_SITE_ID: ${{ secrets.MONETAG_SITE_ID }} # 없으면 빈값으로 처리되어도 OK
         run: |
           npm ci --ignore-scripts --prefer-offline || true
