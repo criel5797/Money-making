@@ -52,9 +52,26 @@ if (BASE_PATH && BASE_PATH.charAt(0) !== '/') BASE_PATH = '/' + BASE_PATH;
 BASE_PATH = BASE_PATH.replace(/\/+$/, '');
 var BASE_URL = BASE_ORIGIN + BASE_PATH;
 
-var ADS_CLIENT = process.env.MONETAG_SITE_ID || '';
-var PUB_ID = ADS_CLIENT.replace('ca-pub-', '');
+var ADS_CLIENT = normalizeAdsClient(
+  process.env.GOOGLE_ADSENSE_CLIENT ||
+  process.env.ADSENSE_CLIENT ||
+  process.env.MONETAG_SITE_ID ||
+  'ca-pub-1467304800256412'
+);
+var PUB_ID = ADS_CLIENT.replace(/^ca-pub-/, '');
 var SITE_HOST = parsedBaseUrl.hostname;
+
+function normalizeAdsClient(value) {
+  var client = String(value || '').trim();
+  if (!client) return '';
+  if (/^\d+$/.test(client)) return 'ca-pub-' + client;
+  return client;
+}
+
+function buildGoogleAdSenseTags() {
+  if (!ADS_CLIENT) return '';
+  return '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADS_CLIENT + '" crossorigin="anonymous"></script>';
+}
 
 function dedupeById(items) {
   var seen = {};
@@ -344,6 +361,7 @@ function injectToolContentSeo(content, options) {
     .replace(/<meta[^>]+property=["']og:image["'][^>]*>/ig, '')
     .replace(/<meta[^>]+property=["']og:site_name["'][^>]*>/ig, '')
     .replace(/<meta[^>]+name=["']twitter:[^"']+["'][^>]*>/ig, '')
+    .replace(/<script[^>]+pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js[^>]*>\s*<\/script>/ig, '')
     .replace(/<script[^>]+type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/ig, '');
 
   var ogImage = escapeHtml(BASE_URL + '/og-image.png');
@@ -369,6 +387,7 @@ function injectToolContentSeo(content, options) {
     altTags +
     buildToolStructuredDataScripts(toolId, toolData, toolType, pagePath, lang) +
     buildGoogleAnalyticsTags() +
+    buildGoogleAdSenseTags() +
     mobileSafeCss;
 
   if (lang === 'en' && getToolSeoGuide(toolId, toolData, toolType)) {
@@ -3868,9 +3887,9 @@ function build(){
     ].join('\n')
   );
 
-  if(PUB_ID){
-    write(path.join(OUT, 'ads.txt'), 'google.com, ' + PUB_ID + ', DIRECT, f08c47fec0942fa0');
-  }
+  var adsPubId = PUB_ID || '1467304800256412';
+  console.log('[build] ads.txt PUB_ID=' + adsPubId + ' (raw ADS_CLIENT="' + ADS_CLIENT + '")');
+  write(path.join(OUT, 'ads.txt'), 'google.com, ' + adsPubId + ', DIRECT, f08c47fec0942fa0');
 
   write(path.join(OUT, 'sw.js'), [
     'self.addEventListener("install", function(){ self.skipWaiting(); });',
