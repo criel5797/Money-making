@@ -111,6 +111,16 @@ function escapeHtml(v){
     .replace(/'/g, '&#39;');
 }
 
+function addSaashubVerificationMeta(content) {
+  var tag = '<meta name="saashub-verification" content="71ek5hzzhryp">';
+  var text = String(content || '');
+  if (text.indexOf('name="saashub-verification"') !== -1) return text;
+  if (text.indexOf('<meta name="theme-color"') !== -1) {
+    return text.replace('<meta name="theme-color"', tag + '<meta name="theme-color"');
+  }
+  return text.replace(/<\/head>/i, tag + '</head>');
+}
+
 function pickDefaultToolLanguage(availableLanguages) {
   if (availableLanguages.ko) return 'ko';
   if (availableLanguages.en) return 'en';
@@ -195,24 +205,28 @@ function writeLocalizedStaticPages(outputDir, canonicalPath, renderPage, options
 
   languages.forEach(function(lang) {
     var page = renderPage(lang, alternateLocales) || {};
+    var content = layout(
+      page.title,
+      alternateLocales[lang],
+      page.body || '',
+      page.includeAdScript !== false,
+      page.description,
+      page.jsonLd,
+      page.relatedContent,
+      {
+        locale: lang,
+        defaultLang: defaultLang,
+        alternateLocales: alternateLocales,
+        localizedNavigation: true,
+        includeI18nScript: page.includeI18nScript === true
+      }
+    );
+    if (canonicalPath === '/') {
+      content = addSaashubVerificationMeta(content);
+    }
     write(
       path.join(outputDir, getToolLocaleFilename(lang, defaultLang)),
-      layout(
-        page.title,
-        alternateLocales[lang],
-        page.body || '',
-        page.includeAdScript !== false,
-        page.description,
-        page.jsonLd,
-        page.relatedContent,
-        {
-          locale: lang,
-          defaultLang: defaultLang,
-          alternateLocales: alternateLocales,
-          localizedNavigation: true,
-          includeI18nScript: page.includeI18nScript === true
-        }
-      )
+      content
     );
   });
 
