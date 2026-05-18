@@ -79,8 +79,9 @@ window.GameRecord={
 function getI18nScript(i18nData) {
   return getGameRecordScript() + `
 var i18nData=${JSON.stringify(i18nData)};
-var _urlLang=(function(){var f=location.pathname.split('/').pop();return f==='index-en.html'?'en':f==='index-ja.html'?'ja':null;})();
-var currentLang=_urlLang||localStorage.getItem("lang")||navigator.language.split("-")[0]||"ko";
+var _urlLang=(function(){var f=location.pathname.split('/').pop();return f==='index-ko.html'?'ko':f==='index-en.html'?'en':f==='index-ja.html'?'ja':null;})();
+var _docLang=(document.documentElement.lang||"").toLowerCase();
+var currentLang=_urlLang||(_docLang&&i18nData[_docLang]?_docLang:null)||localStorage.getItem("lang")||navigator.language.split("-")[0]||"ko";
 if(!i18nData[currentLang])currentLang="ko";
 window.i18n=i18nData;
 window.currentLang=currentLang;
@@ -389,6 +390,19 @@ function getGoogleAnalyticsTags() {
     '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "' + GOOGLE_ANALYTICS_ID + '");</script>';
 }
 
+function normalizeAdSenseClient(value) {
+  var client = String(value || '').trim();
+  if (!client) return '';
+  if (/^\d+$/.test(client)) return 'ca-pub-' + client;
+  return client;
+}
+
+function getGoogleAdSenseTags(client) {
+  client = normalizeAdSenseClient(client);
+  if (!client) return '';
+  return '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + client + '" crossorigin="anonymous"></script>';
+}
+
 function getLocalePathname(pathname, lang, defaultLang) {
   if (!pathname) return '/';
   return lang === defaultLang ? pathname : pathname + 'index-' + lang + '.html';
@@ -440,6 +454,8 @@ function createLayout(options) {
   var ogImage = options.ogImage || baseUrl + '/og-image.svg';
   var jsonLd = options.jsonLd || null;
   var relatedContent = options.relatedContent || '';
+  var includeAdScript = options.includeAdScript !== false;
+  var adSenseClient = options.googleAdSenseClient || options.adsenseClient || options.monetagSiteId || '';
   var locale = options.locale || 'ko';
   var defaultLang = options.defaultLang || 'ko';
   var alternateLocales = options.alternateLocales || null;
@@ -485,6 +501,7 @@ function createLayout(options) {
       '<link rel="manifest" href="' + basePath + '/manifest.json">' +
       (jsonLd ? '<script type="application/ld+json">' + JSON.stringify(jsonLd) + '</script>' : '') +
       getGoogleAnalyticsTags() +
+      (includeAdScript ? getGoogleAdSenseTags(adSenseClient) : '') +
       '<style>' + styles + '</style>' +
     '</head><body>' +
       '<a href="#main-content" class="skip-link">Skip to main content</a>' +
