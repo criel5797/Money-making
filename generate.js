@@ -122,8 +122,8 @@ function addSaashubVerificationMeta(content) {
 }
 
 function pickDefaultToolLanguage(availableLanguages) {
-  if (availableLanguages.ko) return 'ko';
   if (availableLanguages.en) return 'en';
+  if (availableLanguages.ko) return 'ko';
   if (availableLanguages.ja) return 'ja';
   return 'en';
 }
@@ -137,10 +137,15 @@ function getToolLocalePath(canonicalPath, lang, defaultLang) {
 }
 
 var STATIC_PAGE_LANGS = ['ko', 'en', 'ja'];
+var DEFAULT_SITE_LANG = 'en';
 var GOOGLE_ANALYTICS_ID = 'G-CGCL4G4YMY';
 
 function getStaticPagePath(canonicalPath, lang) {
-  return getToolLocalePath(canonicalPath, lang, 'ko');
+  return getToolLocalePath(canonicalPath, lang, DEFAULT_SITE_LANG);
+}
+
+function getLocalizedGamePath(gameId, lang) {
+  return getToolLocalePath('/games/' + gameId + '/', lang, DEFAULT_SITE_LANG);
 }
 
 function buildGoogleAnalyticsTags() {
@@ -200,7 +205,7 @@ function buildLocalizedStaticEntries(entries, languages, defaultLang) {
 function writeLocalizedStaticPages(outputDir, canonicalPath, renderPage, options) {
   options = options || {};
   var languages = options.languages || STATIC_PAGE_LANGS;
-  var defaultLang = options.defaultLang || 'ko';
+  var defaultLang = options.defaultLang || DEFAULT_SITE_LANG;
   var alternateLocales = buildLocalePathMap(canonicalPath, languages, defaultLang);
 
   languages.forEach(function(lang) {
@@ -1464,7 +1469,7 @@ function buildGameSeoContent(game, faqs, lang) {
 
   var relatedList = relatedGames.map(function(item) {
     var label = getLocalizedCatalogValue(item.title, locale, 'en') || item.id;
-    return '<li><a href="' + href(getToolLocalePath('/games/' + item.id + '/', locale, 'ko')) + '">' + escapeHtml(label) + '</a></li>';
+    return '<li><a href="' + href(getLocalizedGamePath(item.id, locale)) + '">' + escapeHtml(label) + '</a></li>';
   }).join('');
 
   var faqHtml = '';
@@ -1793,7 +1798,10 @@ function findItemsByIds(items, ids) {
 }
 
 function getLocalizedItemPath(pathPrefix, itemId, lang) {
-  return href(getToolLocalePath(pathPrefix + itemId + '/', lang, 'ko'));
+  if (pathPrefix === '/games/') {
+    return href(getLocalizedGamePath(itemId, lang));
+  }
+  return href(pathPrefix + itemId + '/');
 }
 
 function buildDirectoryCard(title, desc, cardHref, kicker) {
@@ -1892,7 +1900,7 @@ function buildHubPageBody(options) {
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
     var itemHref = pathPrefix + item.id + '/';
-    if (pathPrefix === '/games/') itemHref = getToolLocalePath(itemHref, lang, 'ko');
+    if (pathPrefix === '/games/') itemHref = getLocalizedGamePath(item.id, lang);
     cards += '' +
       '<div class=\"game-card\">' +
         '<div class=\"game-emoji\">' + item.emoji + '</div>' +
@@ -2104,7 +2112,7 @@ function buildRelatedSection(currentId, allItems, type, count, lang) {
     var itemDesc = item.description || item.desc || {};
     var relData = JSON.stringify({ title: itemTitle, desc: itemDesc });
     var itemHref = bp + item.id + '/';
-    if (type === 'game') itemHref = getToolLocalePath(itemHref, lang || 'ko', 'ko');
+    if (type === 'game') itemHref = getLocalizedGamePath(item.id, lang || DEFAULT_SITE_LANG);
     var displayLang = lang || 'ko';
     var displayTitle = itemTitle[displayLang] || itemTitle.en || itemTitle.ko || '';
     var displayDesc = itemDesc[displayLang] || itemDesc.en || itemDesc.ko || '';
@@ -2250,12 +2258,12 @@ var templateOptions = {
 
 // Generic game wrapper with JSON-LD, FAQ, and related content
 function wrapGame(gameId, generateFn, koTitle, description, lang) {
-  var locale = lang || 'ko';
+  var locale = lang || DEFAULT_SITE_LANG;
   var gameHTML = generateFn(templateOptions);
   var game = games.find(function(g) { return g.id === gameId; });
   var canonicalPath = '/games/' + gameId + '/';
-  var pathname = getToolLocalePath(canonicalPath, locale, 'ko');
-  var alternateLocales = buildLocalePathMap(canonicalPath, STATIC_PAGE_LANGS, 'ko');
+  var pathname = getLocalizedGamePath(gameId, locale);
+  var alternateLocales = buildLocalePathMap(canonicalPath, STATIC_PAGE_LANGS, DEFAULT_SITE_LANG);
   var localizedTitle = game ? (getLocalizedCatalogValue(game.title, locale, 'en') || koTitle) : koTitle;
 
   // Build JSON-LD array: BreadcrumbList + WebApplication + FAQPage
@@ -2294,7 +2302,7 @@ function wrapGame(gameId, generateFn, koTitle, description, lang) {
   }
   var qCards = qPicked.map(function(qg) {
     var qTitle = (qg.title && (qg.title[locale] || qg.title.en || qg.title.ko)) || qg.id;
-    var qHref = href(getToolLocalePath('/games/' + qg.id + '/', locale, 'ko'));
+    var qHref = href(getLocalizedGamePath(qg.id, locale));
     return '<a href="' + qHref + '" style="flex:1;min-width:80px;max-width:130px;text-decoration:none;background:#fff;border-radius:12px;padding:14px 10px;text-align:center;border:1px solid #e8edff;display:flex;flex-direction:column;align-items:center;gap:6px;transition:transform 0.15s" onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'\'">' +
       '<span style="font-size:26px">' + qg.emoji + '</span>' +
       '<span style="font-size:11px;font-weight:600;color:#333;line-height:1.3">' + qTitle + '</span>' +
@@ -2328,7 +2336,7 @@ function wrapGame(gameId, generateFn, koTitle, description, lang) {
   return injectForcedPageLocale(
     layout(pageTitle, pathname, body, true, pageDescription, jsonLdArr, related, {
       locale: locale,
-      defaultLang: 'ko',
+      defaultLang: DEFAULT_SITE_LANG,
       alternateLocales: alternateLocales,
       localizedNavigation: true,
       includeI18nScript: true,
@@ -2522,7 +2530,7 @@ function writeLocalizedGamePages(gameId, renderFn) {
   var gameDir = path.join(OUT, 'games', gameId);
   for (var i = 0; i < STATIC_PAGE_LANGS.length; i++) {
     var lang = STATIC_PAGE_LANGS[i];
-    write(path.join(gameDir, getToolLocaleFilename(lang, 'ko')), renderFn(lang));
+    write(path.join(gameDir, getToolLocaleFilename(lang, DEFAULT_SITE_LANG)), renderFn(lang));
   }
 }
 
@@ -3040,7 +3048,7 @@ function renderIndex() {
           '<span class="game-category">' + escapeHtml(safeText(i18n[lang] && i18n[lang].categories && i18n[lang].categories[g.category], g.category)) + '</span>' +
           '<div class="game-title">' + escapeHtml(getLocalizedCatalogValue(g.title, lang, 'en')) + '</div>' +
           '<div class="game-description">' + escapeHtml(getLocalizedCatalogValue(g.description, lang, 'en')) + '</div>' +
-          '<a href="' + href(getToolLocalePath('/games/' + g.id + '/', lang, 'ko')) + '" class="play-btn">' + escapeHtml(playLabel) + '</a>' +
+          '<a href="' + href(getLocalizedGamePath(g.id, lang)) + '" class="play-btn">' + escapeHtml(playLabel) + '</a>' +
         '</div>';
     }
 
@@ -3137,7 +3145,7 @@ function renderIndex() {
           { name: 'Full Site Directory', url: absUrl(getStaticPagePath('/all-pages/', lang)) }
         ], 'Site Hub Pages'),
         buildItemListSchema(games.map(function(g) {
-          return { name: getLocalizedCatalogValue(g.title, lang, 'en'), url: absUrl(getToolLocalePath('/games/' + g.id + '/', lang, 'ko')) };
+          return { name: getLocalizedCatalogValue(g.title, lang, 'en'), url: absUrl(getLocalizedGamePath(g.id, lang)) };
         }), localizedGamesTitle),
         buildItemListSchema(webTools.map(function(t) {
           return { name: getLocalizedItemTitle(t, lang), url: absUrl('/tools/web/' + t.id + '/') };
@@ -3169,7 +3177,7 @@ function renderSectionHubs() {
       buildCollectionPageSchema(name, getStaticPagePath(canonicalPath, lang), description),
       buildItemListSchema(items.map(function(item) {
         var itemUrl = itemPathPrefix + item.id + '/';
-        if (itemPathPrefix === '/games/') itemUrl = getToolLocalePath(itemUrl, lang, 'ko');
+        if (itemPathPrefix === '/games/') itemUrl = getLocalizedGamePath(item.id, lang);
         return {
           name: getLocalizedItemTitle(item, lang),
           url: absUrl(itemUrl)
@@ -3322,7 +3330,7 @@ function renderSectionHubs() {
       var html = '';
       for (var i = 0; i < items.length; i++) {
         var itemHref = pathPrefix + items[i].id + '/';
-        if (pathPrefix === '/games/') itemHref = getToolLocalePath(itemHref, lang, 'ko');
+        if (pathPrefix === '/games/') itemHref = getLocalizedGamePath(items[i].id, lang);
         html += '<li><a href="' + href(itemHref) + '">' + escapeHtml(getLocalizedItemTitle(items[i], lang)) + '</a></li>';
       }
       return html;
@@ -3353,7 +3361,7 @@ function renderSectionHubs() {
       '</section>';
 
     var allPageLinks = [{ name: 'Home', url: absUrl(getStaticPagePath('/', lang)) }]
-      .concat(games.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl(getToolLocalePath('/games/' + item.id + '/', lang, 'ko')) }; }))
+      .concat(games.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl(getLocalizedGamePath(item.id, lang)) }; }))
       .concat(webTools.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl('/tools/web/' + item.id + '/') }; }))
       .concat(consumerTools.map(function(item) { return { name: getLocalizedItemTitle(item, lang), url: absUrl('/tools/fun/' + item.id + '/') }; }));
 
@@ -3845,10 +3853,10 @@ function build(){
     { url: '/all-pages/', priority: '0.7', changefreq: 'weekly' },
     { url: '/privacy/', priority: '0.3', changefreq: 'yearly' }
   ];
-  var staticEntries = buildLocalizedStaticEntries(staticCanonicalEntries, STATIC_PAGE_LANGS, 'ko');
+  var staticEntries = buildLocalizedStaticEntries(staticCanonicalEntries, STATIC_PAGE_LANGS, DEFAULT_SITE_LANG);
   var gameEntries = buildLocalizedStaticEntries(games.map(function(game) {
     return { url: '/games/' + game.id + '/', priority: '0.8', changefreq: 'monthly' };
-  }), STATIC_PAGE_LANGS, 'ko');
+  }), STATIC_PAGE_LANGS, DEFAULT_SITE_LANG);
   var buildUrlSetXml = function(entries) {
     var xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
     for (var i = 0; i < entries.length; i++) {
@@ -3930,7 +3938,7 @@ function build(){
     display: 'standalone',
     background_color: '#667eea',
     theme_color: '#667eea',
-    lang: 'ko',
+    lang: DEFAULT_SITE_LANG,
     categories: ['games', 'utilities', 'entertainment'],
     icons: [
       { src: href('/og-image.svg'), sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }
