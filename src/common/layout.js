@@ -30,6 +30,10 @@ footer{margin-top:32px;padding:28px;border-radius:var(--radius-xl);background:rg
 @media(max-width:1120px){.hero-shell{grid-template-columns:1fr}}@media(max-width:900px){.container{padding:16px 16px 40px}.nav-toggle{display:inline-flex}.nav-panel{display:none;position:absolute;left:0;right:0;top:calc(100% + 10px);flex-direction:column;align-items:stretch;padding:16px;border:1px solid rgba(255,255,255,.7);border-radius:24px;background:rgba(255,255,255,.96);box-shadow:var(--shadow)}.nav-panel.is-open{display:flex}.nav-links{width:100%;flex-direction:column;align-items:stretch}.nav-link{width:100%;justify-content:flex-start}.nav-actions{width:100%;flex-direction:column;align-items:stretch}.lang-switcher{justify-content:space-between}}@media(max-width:720px){main{gap:20px;padding-top:22px}.header-section{padding-top:28px}.hero-copy,.hero-panel,.section-panel,.search-panel,.seo-content,.placeholder{padding:20px}.section-head{flex-direction:column;align-items:flex-start}.hub-toolbar{grid-template-columns:1fr}.play-btn,.btn{width:100%}.metric-grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.container{padding:12px 12px 32px}.site-nav{padding:14px}.brand-mark{width:40px;height:40px}.brand-tag{display:none}h1{font-size:clamp(2.2rem,10vw,3rem)}h2{font-size:1.55rem}.game-card{padding:18px}.metric-grid{grid-template-columns:1fr}footer{padding:22px}}@media(hover:none){.game-card:hover,.related-card:hover,.directory-card:hover,.play-btn:hover,.btn:hover{transform:none}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 `;
 
+styles += `
+.chain-defense-site-promo{margin:24px auto 28px;width:100%;display:flex;justify-content:center}.chain-defense-site-promo a{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(280px,.82fr);width:min(100%,1200px);overflow:hidden;border-radius:28px;border:1px solid rgba(15,118,110,.2);background:rgba(255,255,255,.94);box-shadow:0 24px 58px rgba(15,23,42,.14);color:var(--text)}.chain-defense-site-promo picture{min-height:100%}.chain-defense-site-promo img{display:block;width:100%;height:100%;object-fit:cover}.chain-defense-site-promo-copy{display:flex;min-height:250px;flex-direction:column;justify-content:center;padding:28px}.chain-defense-site-promo-kicker{margin:0;color:#0f766e;font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.chain-defense-site-promo-title{margin:10px 0 0;color:var(--heading);font-family:"Bahnschrift","Trebuchet MS","Aptos",sans-serif;font-size:clamp(1.45rem,2.2vw,2.25rem);line-height:1.08}.chain-defense-site-promo-body{margin:14px 0 0;color:var(--text-soft);font-size:.98rem;line-height:1.65}.chain-defense-site-promo-action{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:20px}.chain-defense-site-promo-cta{display:inline-flex;align-items:center;min-height:40px;padding:9px 16px;border-radius:999px;background:#10212b;color:#fff;font-weight:800;font-size:.9rem}.chain-defense-site-promo-meta{color:var(--text-muted);font-size:.78rem}.chain-defense-site-promo-bottom{margin-top:34px}.chain-defense-floating-promo{position:fixed;right:18px;top:118px;z-index:30;display:block;width:170px}.chain-defense-floating-promo a{display:block;overflow:hidden;border-radius:18px;border:1px solid rgba(15,118,110,.22);background:#fff;box-shadow:0 18px 44px rgba(15,23,42,.18);color:var(--text)}.chain-defense-floating-promo img{display:block;width:100%;height:auto}.chain-defense-floating-promo-copy{padding:10px 11px 12px}.chain-defense-floating-promo-title{margin:0;color:var(--heading);font-size:.86rem;font-weight:800;line-height:1.24}.chain-defense-floating-promo-cta{display:inline-flex;margin-top:8px;border-radius:999px;background:#10212b;color:#fff;padding:7px 10px;font-size:.72rem;font-weight:800}@media(max-width:1480px){.chain-defense-floating-promo{display:none}}@media(max-width:760px){.chain-defense-site-promo{margin:18px auto 22px}.chain-defense-site-promo a{grid-template-columns:1fr;border-radius:20px}.chain-defense-site-promo picture{height:186px}.chain-defense-site-promo-copy{min-height:0;padding:18px}.chain-defense-site-promo-title{font-size:1.4rem}}
+`;
+
 function getGameRecordScript() {
   return `
 window.formatDateTime=function(dateStr){
@@ -403,6 +407,69 @@ function getGoogleAdSenseTags(client) {
   return '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + client + '" crossorigin="anonymous"></script>';
 }
 
+var CHAIN_DEFENSE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.createdbyaicreator.chain_defense&pcampaignid=web_share';
+
+function getChainDefenseCopy(locale) {
+  var copy = {
+    ko: {
+      kicker: '개발자 노트',
+      title: '제가 만든 숲속 디펜스도 한 번 해봐주세요.',
+      body: '이 사이트처럼 혼자 오래 다듬은 모바일 게임입니다. 한 판만 해주셔도 다음 업데이트 방향을 잡는 데 진짜 도움이 됩니다.',
+      cta: '3분만 해보기',
+      meta: 'Google Play로 열림'
+    },
+    en: {
+      kicker: 'From the maker',
+      title: 'I made this forest defense game too. Give it one quick run?',
+      body: 'It is a small mobile game I have been polishing alongside this site. One play really helps me decide what to improve next.',
+      cta: 'Try a 3-minute run',
+      meta: 'Opens on Google Play'
+    },
+    ja: {
+      kicker: '開発者ノート',
+      title: '私が作った森の防衛ゲームも、少しだけ遊んでみてください。',
+      body: 'このサイトと一緒に磨いてきた小さなモバイルゲームです。1回遊んでもらえるだけで、次の改善に本当に役立ちます。',
+      cta: '3分だけ遊ぶ',
+      meta: 'Google Playで開く'
+    }
+  };
+  return copy[locale] || copy.en;
+}
+
+function getChainDefensePromoHtml(href, placement, locale) {
+  var copy = getChainDefenseCopy(locale);
+  var image = placement === 'bottom' ? 'chain-defense-promo-leaderboard.webp' : 'chain-defense-promo-large.webp';
+  return '' +
+    '<aside class="chain-defense-site-promo chain-defense-site-promo-' + placement + '" aria-label="' + copy.title + '">' +
+      '<a href="' + CHAIN_DEFENSE_PLAY_URL + '" target="_blank" rel="noopener noreferrer">' +
+        '<picture>' +
+          '<source media="(max-width:700px)" srcset="' + href('/assets/chain-defense-promo/chain-defense-promo-mobile.webp') + '">' +
+          '<img src="' + href('/assets/chain-defense-promo/' + image) + '" alt="" loading="lazy" decoding="async" aria-hidden="true">' +
+        '</picture>' +
+        '<span class="chain-defense-site-promo-copy">' +
+          '<span class="chain-defense-site-promo-kicker">' + copy.kicker + '</span>' +
+          '<strong class="chain-defense-site-promo-title">' + copy.title + '</strong>' +
+          '<span class="chain-defense-site-promo-body">' + copy.body + '</span>' +
+          '<span class="chain-defense-site-promo-action"><span class="chain-defense-site-promo-cta">' + copy.cta + '</span><span class="chain-defense-site-promo-meta">' + copy.meta + '</span></span>' +
+        '</span>' +
+      '</a>' +
+    '</aside>';
+}
+
+function getChainDefenseFloatingPromoHtml(href, locale) {
+  var copy = getChainDefenseCopy(locale);
+  return '' +
+    '<aside class="chain-defense-floating-promo" aria-label="' + copy.title + '">' +
+      '<a href="' + CHAIN_DEFENSE_PLAY_URL + '" target="_blank" rel="noopener noreferrer">' +
+        '<img src="' + href('/assets/chain-defense-promo/chain-defense-promo-sidebar.webp') + '" alt="" loading="lazy" decoding="async" aria-hidden="true">' +
+        '<span class="chain-defense-floating-promo-copy">' +
+          '<strong class="chain-defense-floating-promo-title">' + copy.title + '</strong>' +
+          '<span class="chain-defense-floating-promo-cta">' + copy.cta + '</span>' +
+        '</span>' +
+      '</a>' +
+    '</aside>';
+}
+
 function getLocalePathname(pathname, lang, defaultLang) {
   if (!pathname) return '/';
   return lang === defaultLang ? pathname : pathname + 'index-' + lang + '.html';
@@ -471,6 +538,9 @@ function createLayout(options) {
   var alternateHreflangTags = buildAlternateHreflangTags(baseUrl, alternateLocales, defaultLang);
   var ogAlternateTags = buildOgAlternateTags(locale, alternateLocales);
   var languageSwitcher = buildLanguageSwitcher(locale, alternateLocales, href);
+  var chainDefenseTopPromo = getChainDefensePromoHtml(href, 'top', locale);
+  var chainDefenseBottomPromo = getChainDefensePromoHtml(href, 'bottom', locale);
+  var chainDefenseFloatingPromo = getChainDefenseFloatingPromoHtml(href, locale);
 
   return (
     '<!doctype html><html lang="' + locale + '"><head>' +
@@ -526,7 +596,8 @@ function createLayout(options) {
             '</div>' +
           '</nav>' +
         '</header>' +
-        '<main id="main-content" role="main">' + body + '</main>' +
+        chainDefenseFloatingPromo +
+        '<main id="main-content" role="main">' + chainDefenseTopPromo + body + chainDefenseBottomPromo + '</main>' +
         relatedContent +
         '<footer role="contentinfo">' +
           '<p>&copy; ' + (new Date().getFullYear()) + ' ' + labels.siteName + '</p>' +

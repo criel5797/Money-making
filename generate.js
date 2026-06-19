@@ -3466,6 +3466,14 @@ function copyDir(src, dest) {
   }
 }
 
+function copyChainDefensePromoAssets() {
+  var src = path.join(process.cwd(), 'src', 'assets', 'chain-defense-promo');
+  var dest = path.join(OUT, 'assets', 'chain-defense-promo');
+  if (fs.existsSync(src)) {
+    copyDir(src, dest);
+  }
+}
+
 function createLegacyRepoPathMirror() {
   if (!LEGACY_REPO_PATH) return;
   var legacyDir = path.join(OUT, LEGACY_REPO_PATH);
@@ -3760,6 +3768,7 @@ function build(){
   validateCatalogs();
   if(fs.existsSync(OUT)) fs.rmSync(OUT, { recursive: true, force: true });
   ensureDir(OUT);
+  copyChainDefensePromoAssets();
 
   // 硫붿씤 ?섏씠吏 ?앹꽦
   renderIndex();
